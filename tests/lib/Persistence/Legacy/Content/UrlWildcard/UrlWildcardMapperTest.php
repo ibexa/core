@@ -117,7 +117,7 @@ class UrlWildcardMapperTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Persistence\Legacy\Content\UrlWildcard\Mapper
+     * @return Mapper
      */
     protected function getMapper()
     {

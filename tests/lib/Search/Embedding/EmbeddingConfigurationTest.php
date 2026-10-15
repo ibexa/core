@@ -11,6 +11,7 @@ namespace Ibexa\Tests\Core\Search\Embedding;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Search\Embedding\EmbeddingConfiguration;
 use InvalidArgumentException;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class EmbeddingConfigurationTest extends TestCase
@@ -21,7 +22,7 @@ final class EmbeddingConfigurationTest extends TestCase
         'text-embedding-ada-002' => ['name' => 'text-embedding-ada-002', 'dimensions' => 1536, 'field_suffix' => 'ada002', 'embedding_provider' => 'ibexa_openai'],
     ];
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ConfigResolverInterface&MockObject */
     private ConfigResolverInterface $configResolver;
 
     private EmbeddingConfiguration $config;

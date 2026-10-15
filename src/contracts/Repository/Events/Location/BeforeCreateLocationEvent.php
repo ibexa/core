@@ -22,8 +22,10 @@ final class BeforeCreateLocationEvent extends BeforeEvent
 
     private ?Location $location = null;
 
-    public function __construct(ContentInfo $contentInfo, LocationCreateStruct $locationCreateStruct)
-    {
+    public function __construct(
+        ContentInfo $contentInfo,
+        LocationCreateStruct $locationCreateStruct
+    ) {
         $this->contentInfo = $contentInfo;
         $this->locationCreateStruct = $locationCreateStruct;
     }

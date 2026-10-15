@@ -95,8 +95,10 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
     /**
      * @dataProvider getUntrashedLocationValues
      */
-    public function testUntrashLocationDefault($property, $value)
-    {
+    public function testUntrashLocationDefault(
+        $property,
+        $value
+    ) {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $handler = $this->getLocationGateway();
         $handler->trashLocation(71);
@@ -188,8 +190,10 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
     /**
      * @dataProvider getLoadTrashValues
      */
-    public function testLoadTrashByLocationId($field, $value)
-    {
+    public function testLoadTrashByLocationId(
+        $field,
+        $value
+    ) {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $handler = $this->getLocationGateway();
         $handler->trashLocation(71);
@@ -293,8 +297,10 @@ class DoctrineDatabaseTrashTest extends LanguageAwareTestCase
     /**
      * @dataProvider getTrashValues
      */
-    public function testListTrashItem($key, $value)
-    {
+    public function testListTrashItem(
+        $key,
+        $value
+    ) {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/full_example_tree.php');
         $handler = $this->getLocationGateway();
         $this->trashSubtree();

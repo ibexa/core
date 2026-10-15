@@ -11,12 +11,13 @@ namespace Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Typ
 use Doctrine\DBAL\Connection;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeId;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 
 /**
  * Content type ID Criterion visitor query builder.
  *
- * @see \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeId
+ * @see ContentTypeId
  *
  * @internal for internal use by Repository Filtering
  */
@@ -31,7 +32,7 @@ final class IdQueryBuilder extends BaseQueryBuilder
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
     ): ?string {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier $criterion */
+        /** @var ContentTypeIdentifier $criterion */
         parent::buildQueryConstraint($queryBuilder, $criterion);
 
         return $queryBuilder->expr()->in(

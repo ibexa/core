@@ -12,6 +12,8 @@ use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
@@ -37,8 +39,7 @@ final class DoctrineDatabase extends Gateway
         private readonly CriteriaConverter $criteriaConverter,
         private readonly SortClauseConverter $sortClauseConverter,
         private readonly LanguageHandler $languageHandler
-    ) {
-    }
+    ) {}
 
     public function find(
         CriterionInterface $criterion,
@@ -140,11 +141,13 @@ final class DoctrineDatabase extends Gateway
     /**
      * Returns total results count for $criterion and $sortClauses.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotImplementedException
+     * @throws NotFoundException
      */
-    private function getTotalCount(CriterionInterface $criterion, array $languageFilter): int
-    {
+    private function getTotalCount(
+        CriterionInterface $criterion,
+        array $languageFilter
+    ): int {
         $query = $this->connection->createQueryBuilder();
         $query
             ->select('COUNT(t.node_id)')
@@ -204,7 +207,7 @@ final class DoctrineDatabase extends Gateway
     /**
      * Generates a language mask from the given $languageFilter.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     private function getLanguageMask(array $languageFilter): int
     {

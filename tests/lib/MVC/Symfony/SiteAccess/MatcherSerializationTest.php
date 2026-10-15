@@ -20,8 +20,10 @@ class MatcherSerializationTest extends TestCase
     /**
      * @dataProvider matcherProvider
      */
-    public function testDeserialize(Matcher $matcher, ?Matcher $expected = null): void
-    {
+    public function testDeserialize(
+        Matcher $matcher,
+        ?Matcher $expected = null
+    ): void {
         $serializedMatcher = $this->serializeMatcher($matcher);
 
         $context = [];
@@ -42,8 +44,11 @@ class MatcherSerializationTest extends TestCase
     /**
      * @param array<string, mixed> $context
      */
-    private function deserializeMatcher(string $serializedMatcher, string $matcherFQCN, array $context): Matcher
-    {
+    private function deserializeMatcher(
+        string $serializedMatcher,
+        string $matcherFQCN,
+        array $context
+    ): Matcher {
         return $this->getSerializer()->deserialize(
             $serializedMatcher,
             $matcherFQCN,
@@ -53,7 +58,7 @@ class MatcherSerializationTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array{0: \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher, 1?: \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher}>
+     * @return iterable<string, array{0: Matcher, 1?: Matcher}>
      */
     public function matcherProvider(): iterable
     {
@@ -108,11 +113,11 @@ class MatcherSerializationTest extends TestCase
             ),
         ];
         yield 'URIElement' => [
-                new Matcher\URIElement(
-                    [
+            new Matcher\URIElement(
+                [
                     'elementNumber' => 2,
                 ]
-                ),
+            ),
         ];
         yield 'HostElement' => [
             new Matcher\HostElement(
@@ -135,7 +140,7 @@ class MatcherSerializationTest extends TestCase
     }
 
     /**
-     * @return array{\Ibexa\Core\MVC\Symfony\SiteAccess\Matcher, \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher}
+     * @return array{Matcher, Matcher}
      */
     private function getMapPortMatcherTestCase(): array
     {
@@ -149,7 +154,7 @@ class MatcherSerializationTest extends TestCase
     }
 
     /**
-     * @return array{\Ibexa\Core\MVC\Symfony\SiteAccess\Matcher, \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher}
+     * @return array{Matcher, Matcher}
      */
     private function getMapHostMatcherTestCase(): array
     {
@@ -163,7 +168,7 @@ class MatcherSerializationTest extends TestCase
     }
 
     /**
-     * @return array{\Ibexa\Core\MVC\Symfony\SiteAccess\Matcher, \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher}
+     * @return array{Matcher, Matcher}
      */
     private function getMapURIMatcherTestCase(): array
     {

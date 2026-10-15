@@ -40,7 +40,7 @@ class ArrayMap extends AbstractInMemoryCollection implements MapInterface
      *
      * @phpstan-param TValueFrom[] $items
      *
-     * @phpstan-return \Ibexa\Contracts\Core\Collection\ArrayMap<TKey,TValueFrom>
+     * @phpstan-return ArrayMap<TKey,TValueFrom>
      */
     protected function createFrom(array $items): self
     {

@@ -8,6 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Limitation;
 
+use Ibexa\Contracts\Core\FieldType\ValidationError;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
@@ -75,9 +78,9 @@ interface Type
      *
      * Makes sure LimitationValue object and ->limitationValues is of correct type.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected type/structure
+     * @throws InvalidArgumentException If the value does not match the expected type/structure
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
+     * @param APILimitationValue $limitationValue
      */
     public function acceptValue(APILimitationValue $limitationValue): void;
 
@@ -86,9 +89,9 @@ interface Type
      *
      * Make sure {@see Type::acceptValue()} is checked first.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitationValue
+     * @param APILimitationValue $limitationValue
      *
-     * @return array<int, \Ibexa\Contracts\Core\FieldType\ValidationError>
+     * @return array<int, ValidationError>
      */
     public function validate(APILimitationValue $limitationValue): array;
 
@@ -100,7 +103,7 @@ interface Type
      *
      * @param array<int, mixed> $limitationValues
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation
+     * @return APILimitationValue
      */
     public function buildValue(array $limitationValues): APILimitationValue;
 
@@ -112,20 +115,28 @@ interface Type
      *
      * @return bool|null Returns one of ACCESS_* constants, {@see Type::ACCESS_GRANTED}, {@see Type::ACCESS_ABSTAIN}, or {@see Type::ACCESS_DENIED}.
      */
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, object $object, ?array $targets = null): ?bool;
+    public function evaluate(
+        APILimitationValue $value,
+        APIUserReference $currentUser,
+        object $object,
+        ?array $targets = null
+    ): ?bool;
 
     /**
      * Returns Criterion for use in find() query.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException If the limitation does not support
+     * @throws NotImplementedException If the limitation does not support
      *         being used as a Criterion.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $value
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserReference $currentUser
+     * @param APILimitationValue $value
+     * @param APIUserReference $currentUser
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface
+     * @return CriterionInterface
      */
-    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser): CriterionInterface;
+    public function getCriterion(
+        APILimitationValue $value,
+        APIUserReference $currentUser
+    ): CriterionInterface;
 
     /**
      * Returns info on valid $limitationValues.
@@ -134,5 +145,5 @@ interface Type
      *                     of that option, in case of int on of VALUE_SCHEMA_* constants.
      *                     Note: The hash might be an instance of Traversable, and not a native php array.
      */
-    public function valueSchema(): array|int;
+    public function valueSchema(): array | int;
 }

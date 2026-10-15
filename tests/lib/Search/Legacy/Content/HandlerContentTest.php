@@ -19,6 +19,7 @@ use Ibexa\Core\Persistence\Legacy\Content\FieldHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Search\Legacy\Content;
+use Ibexa\Core\Search\Legacy\Content\Handler;
 use Ibexa\Core\Search\Legacy\Content\Location\Gateway as LocationGateway;
 
 /**
@@ -34,7 +35,7 @@ class HandlerContentTest extends AbstractTestCase
      *
      * @param array $fullTextSearchConfiguration
      *
-     * @return \Ibexa\Core\Search\Legacy\Content\Handler
+     * @return Handler
      */
     protected function getContentSearchHandler(array $fullTextSearchConfiguration = [])
     {
@@ -68,7 +69,7 @@ class HandlerContentTest extends AbstractTestCase
             $transformationProcessor
         );
 
-        return new Content\Handler(
+        return new Handler(
             new Content\Gateway\DoctrineDatabase(
                 $connection,
                 new Content\Common\Gateway\CriteriaConverter(
@@ -195,7 +196,7 @@ class HandlerContentTest extends AbstractTestCase
     /**
      * Returns a content mapper mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Mapper
+     * @return ContentMapper
      */
     protected function getContentMapperMock()
     {
@@ -237,7 +238,7 @@ class HandlerContentTest extends AbstractTestCase
     /**
      * Returns a content field handler mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\FieldHandler
+     * @return FieldHandler
      */
     protected function getContentFieldHandlerMock()
     {

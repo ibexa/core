@@ -19,14 +19,14 @@ class ExceptionConversion extends Gateway
     /**
      * The wrapped gateway.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\URL\Gateway
+     * @var Gateway
      */
     protected $innerGateway;
 
     /**
      * ExceptionConversion constructor.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\URL\Gateway $innerGateway
+     * @param Gateway $innerGateway
      */
     public function __construct(Gateway $innerGateway)
     {
@@ -42,8 +42,13 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    public function find(Criterion $criterion, $offset, $limit, array $sortClauses = [], $doCount = true)
-    {
+    public function find(
+        Criterion $criterion,
+        $offset,
+        $limit,
+        array $sortClauses = [],
+        $doCount = true
+    ) {
         try {
             return $this->innerGateway->find($criterion, $offset, $limit, $sortClauses, $doCount);
         } catch (DBALException|PDOException $e) {

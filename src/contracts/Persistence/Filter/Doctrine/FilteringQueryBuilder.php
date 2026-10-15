@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Persistence\Filter\Doctrine;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
@@ -17,6 +18,7 @@ use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
+
 use function sprintf;
 
 /**
@@ -24,7 +26,7 @@ use function sprintf;
  *
  * **NOTE:** To be used **only** with Repository Content/Location Filtering feature.
  *
- * @see \Doctrine\DBAL\Query\QueryBuilder
+ * @see QueryBuilder
  */
 final class FilteringQueryBuilder extends QueryBuilder
 {
@@ -33,7 +35,7 @@ final class FilteringQueryBuilder extends QueryBuilder
     /**
      * Create table JOIN, but only if it hasn't been already joined (determined based on $tableAlias).
      *
-     * @throws \Ibexa\Core\Base\Exceptions\DatabaseException if conditions of pre-existing same alias joins are different
+     * @throws DatabaseException if conditions of pre-existing same alias joins are different
      */
     public function joinOnce(
         string $fromAlias,
@@ -66,7 +68,7 @@ final class FilteringQueryBuilder extends QueryBuilder
     /**
      * Create table LEFT JOIN, but only if it hasn't been already joined (determined based on $tableAlias).
      *
-     * @throws \Ibexa\Core\Base\Exceptions\DatabaseException if conditions of pre-existing same alias joins are different
+     * @throws DatabaseException if conditions of pre-existing same alias joins are different
      */
     public function leftJoinOnce(
         string $fromAlias,
@@ -124,8 +126,10 @@ final class FilteringQueryBuilder extends QueryBuilder
      * @param string $sort
      * @param string|null $order
      */
-    public function addOrderBy($sort, $order = null): FilteringQueryBuilder
-    {
+    public function addOrderBy(
+        $sort,
+        $order = null
+    ): FilteringQueryBuilder {
         return parent::addOrderBy($sort, $this->mapLegacyOrderToDoctrine($order));
     }
 
@@ -166,7 +170,7 @@ final class FilteringQueryBuilder extends QueryBuilder
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function buildOperatorBasedCriterionConstraint(
         string $columnName,
@@ -180,7 +184,7 @@ final class FilteringQueryBuilder extends QueryBuilder
                     $this->createNamedParameter($criterionValue, Connection::PARAM_INT_ARRAY)
                 );
 
-            case Query\Criterion\Operator::BETWEEN:
+            case Operator::BETWEEN:
                 $databasePlatform = $this->getConnection()->getDatabasePlatform();
 
                 return $databasePlatform->getBetweenExpression(
@@ -189,11 +193,11 @@ final class FilteringQueryBuilder extends QueryBuilder
                     $this->createNamedParameter($criterionValue[1], ParameterType::INTEGER)
                 );
 
-            case Query\Criterion\Operator::EQ:
-            case Query\Criterion\Operator::GT:
-            case Query\Criterion\Operator::GTE:
-            case Query\Criterion\Operator::LT:
-            case Query\Criterion\Operator::LTE:
+            case Operator::EQ:
+            case Operator::GT:
+            case Operator::GTE:
+            case Operator::LT:
+            case Operator::LTE:
                 return $this->expr()->comparison(
                     $columnName,
                     $operator,

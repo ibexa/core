@@ -9,11 +9,12 @@ namespace Ibexa\Tests\Bundle\Core\Imagine\Cache\Resolver;
 
 use Ibexa\Bundle\Core\Imagine\Cache\Resolver\ProxyResolver;
 use Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ProxyResolverTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface */
+    /** @var MockObject|ResolverInterface */
     private $resolver;
 
     /** @var string */

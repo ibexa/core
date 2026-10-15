@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Bundle\Core;
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\ChainConfigResolver;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Exception\ParameterNotFoundException;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -17,7 +18,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ChainConfigResolverTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\ChainConfigResolver */
+    /** @var ChainConfigResolver */
     private $chainResolver;
 
     protected function setUp(): void
@@ -29,7 +30,7 @@ class ChainConfigResolverTest extends TestCase
     {
         self::assertEquals([], $this->chainResolver->getAllResolvers());
 
-        list($low, $high) = $this->createResolverMocks();
+        list($low, $high) = $this->createResolverStubs();
 
         $this->chainResolver->addResolver($low, 10);
         $this->chainResolver->addResolver($high, 100);
@@ -49,7 +50,7 @@ class ChainConfigResolverTest extends TestCase
      */
     public function testSortResolvers()
     {
-        list($low, $medium, $high) = $this->createResolverMocks();
+        list($low, $medium, $high) = $this->createResolverStubs();
         // We're using a mock here and not $this->chainResolver because we need to ensure that the sorting operation is done only once.
         $resolver = $this->buildMock(
             ChainConfigResolver::class,
@@ -79,29 +80,20 @@ class ChainConfigResolverTest extends TestCase
      */
     public function testReSortResolvers()
     {
-        list($low, $medium, $high) = $this->createResolverMocks();
+        list($low, $medium, $high) = $this->createResolverStubs();
         $highest = clone $high;
         // We're using a mock here and not $this->chainResolver because we need to ensure that the sorting operation is done only once.
         $resolver = $this->buildMock(
             ChainConfigResolver::class,
             ['sortResolvers']
         );
-        $resolver
-            ->expects(self::at(0))
-            ->method('sortResolvers')
-            ->will(
-                self::returnValue(
-                    [$high, $medium, $low]
-                )
-            );
         // The second time sortResolvers() is called, we're supposed to get the newly added router ($highest)
         $resolver
-            ->expects(self::at(1))
+            ->expects(self::exactly(2))
             ->method('sortResolvers')
-            ->will(
-                self::returnValue(
-                    [$highest, $high, $medium, $low]
-                )
+            ->willReturnOnConsecutiveCalls(
+                [$high, $medium, $low],
+                [$highest, $high, $medium, $low]
             );
 
         $resolver->addResolver($low, 10);
@@ -168,8 +160,12 @@ class ChainConfigResolverTest extends TestCase
      * @param string $scope
      * @param mixed $expectedValue
      */
-    public function testGetParameter($paramName, $namespace, $scope, $expectedValue)
-    {
+    public function testGetParameter(
+        $paramName,
+        $namespace,
+        $scope,
+        $expectedValue
+    ) {
         $resolver = $this->createMock(ConfigResolverInterface::class);
         $resolver
             ->expects(self::once())
@@ -240,7 +236,7 @@ class ChainConfigResolverTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject[]
+     * @return MockObject[]
      */
     private function createResolverMocks()
     {
@@ -251,8 +247,22 @@ class ChainConfigResolverTest extends TestCase
         ];
     }
 
-    private function buildMock($class, array $methods = [])
+    /**
+     * @return ConfigResolverInterface[]
+     */
+    private function createResolverStubs(): array
     {
+        return [
+            self::createStub(ConfigResolverInterface::class),
+            self::createStub(ConfigResolverInterface::class),
+            self::createStub(ConfigResolverInterface::class),
+        ];
+    }
+
+    private function buildMock(
+        $class,
+        array $methods = []
+    ) {
         return $this
             ->getMockBuilder($class)
             ->disableOriginalConstructor()

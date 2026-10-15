@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Repository\Values\Content;
 
 use ArrayIterator;
+use Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use IteratorAggregate;
 
@@ -20,7 +21,7 @@ class RelationList extends ValueObject implements IteratorAggregate
     public int $totalCount = 0;
 
     /**
-     * @var \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface[]
+     * @var RelationListItemInterface[]
      */
     public array $items = [];
 

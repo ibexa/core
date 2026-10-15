@@ -15,6 +15,10 @@ use Ibexa\Contracts\Core\Repository\Events\URLWildcard\CreateEvent;
 use Ibexa\Contracts\Core\Repository\Events\URLWildcard\RemoveEvent;
 use Ibexa\Contracts\Core\Repository\Events\URLWildcard\TranslateEvent;
 use Ibexa\Contracts\Core\Repository\Events\URLWildcard\UpdateEvent;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\URLWildcardService as URLWildcardServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardTranslationResult;
@@ -24,7 +28,7 @@ use Ibexa\Core\Event\URLWildcardService;
 class URLWildcardServiceTest extends AbstractServiceTestCase
 {
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws UnauthorizedException
      */
     public function testRemoveEvents()
     {
@@ -52,7 +56,7 @@ class URLWildcardServiceTest extends AbstractServiceTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws UnauthorizedException
      */
     public function testRemoveStopPropagationInBeforeEvents()
     {
@@ -87,10 +91,10 @@ class URLWildcardServiceTest extends AbstractServiceTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws BadStateException
+     * @throws ContentValidationException
+     * @throws InvalidArgumentException
+     * @throws UnauthorizedException
      */
     public function testUpdateEvents(): void
     {

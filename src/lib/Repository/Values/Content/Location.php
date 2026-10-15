@@ -25,7 +25,7 @@ class Location extends APILocation
     /**
      * Returns the content info of the location's content item.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo
+     * @return APIContentInfo
      */
     public function getContentInfo(): APIContentInfo
     {

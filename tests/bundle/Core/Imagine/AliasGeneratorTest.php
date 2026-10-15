@@ -11,13 +11,14 @@ namespace Ibexa\Tests\Bundle\Core\Imagine;
 use DateTime;
 use Ibexa\Bundle\Core\Imagine\AliasGenerator;
 use Ibexa\Bundle\Core\Imagine\Variation\ImagineAwareAliasGenerator;
-use Ibexa\Contracts\Core\FieldType\Value;
 use Ibexa\Contracts\Core\FieldType\Value as FieldTypeValue;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidVariationException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Variation\Values\ImageVariation;
 use Ibexa\Contracts\Core\Variation\VariationHandler;
 use Ibexa\Contracts\Core\Variation\VariationPathGenerator;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\Image\Value as ImageValue;
 use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
 use Ibexa\Core\IO\IOServiceInterface;
@@ -40,29 +41,29 @@ use Psr\Log\LoggerInterface;
 
 final class AliasGeneratorTest extends TestCase
 {
-    private MockObject&LoaderInterface $dataLoader;
+    private MockObject & LoaderInterface $dataLoader;
 
-    private MockObject&FilterManager $filterManager;
+    private MockObject & FilterManager $filterManager;
 
-    private MockObject&ResolverInterface $ioResolver;
+    private MockObject & ResolverInterface $ioResolver;
 
     private FilterConfiguration $filterConfiguration;
 
-    private MockObject&LoggerInterface $logger;
+    private MockObject & LoggerInterface $logger;
 
-    private MockObject&ImagineInterface $imagine;
+    private MockObject & ImagineInterface $imagine;
 
     private AliasGenerator $aliasGenerator;
 
     private VariationHandler $decoratedAliasGenerator;
 
-    private MockObject&BoxInterface $box;
+    private MockObject & BoxInterface $box;
 
-    private MockObject&ImageInterface $image;
+    private MockObject & ImageInterface $image;
 
-    private MockObject&IOServiceInterface $ioService;
+    private MockObject & IOServiceInterface $ioService;
 
-    private MockObject&VariationPathGenerator $variationPathGenerator;
+    private MockObject & VariationPathGenerator $variationPathGenerator;
 
     protected function setUp(): void
     {
@@ -98,8 +99,10 @@ final class AliasGeneratorTest extends TestCase
     /**
      * @dataProvider supportsValueProvider
      */
-    public function testSupportsValue(Value $value, bool $isSupported): void
-    {
+    public function testSupportsValue(
+        Value $value,
+        bool $isSupported
+    ): void {
         self::assertSame($isSupported, $this->aliasGenerator->supportsValue($value));
     }
 
@@ -115,10 +118,10 @@ final class AliasGeneratorTest extends TestCase
     public function supportsValueProvider(): array
     {
         return [
-            [$this->createMock(FieldTypeValue::class), false],
+            [self::createStub(FieldTypeValue::class), false],
             [new TextLineValue(), false],
             [new ImageValue(), true],
-            [$this->createMock(ImageValue::class), true],
+            [self::createStub(ImageValue::class), true],
         ];
     }
 
@@ -136,7 +139,7 @@ final class AliasGeneratorTest extends TestCase
     /**
      * Test obtaining Image Variation that hasn't been stored yet.
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
+     * @throws InvalidArgumentType
      */
     public function testGetVariationNotStored(): void
     {
@@ -158,7 +161,7 @@ final class AliasGeneratorTest extends TestCase
             ->expects(self::once())
             ->method('debug');
 
-        $binary = $this->createMock(BinaryInterface::class);
+        $binary = self::createStub(BinaryInterface::class);
         $this->dataLoader
             ->expects(self::once())
             ->method('find')
@@ -301,7 +304,7 @@ final class AliasGeneratorTest extends TestCase
     /**
      * Test obtaining Image Variation that hasn't been stored yet and has multiple references.
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
+     * @throws InvalidArgumentType
      */
     public function testGetVariationNotStoredHavingReferences(): void
     {
@@ -330,7 +333,7 @@ final class AliasGeneratorTest extends TestCase
             ->expects(self::once())
             ->method('debug');
 
-        $binary = $this->createMock(BinaryInterface::class);
+        $binary = self::createStub(BinaryInterface::class);
         $this->dataLoader
             ->expects(self::once())
             ->method('find')
@@ -372,7 +375,7 @@ final class AliasGeneratorTest extends TestCase
     /**
      * Test obtaining Image Variation that has been stored already.
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
+     * @throws InvalidArgumentType
      */
     public function testGetVariationAlreadyStored(): void
     {
@@ -472,7 +475,7 @@ final class AliasGeneratorTest extends TestCase
      * Prepare required Imagine-related mocks and assert that the Image Variation is as expected.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     protected function assertImageVariationIsCorrect(
         string $expectedUrl,

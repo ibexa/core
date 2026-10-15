@@ -27,7 +27,7 @@ final class IsPreviewTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array{\Ibexa\Core\MVC\Symfony\View\View, bool, bool}>
+     * @return iterable<string, array{View, bool, bool}>
      */
     public static function getDataForTestMatch(): iterable
     {
@@ -78,10 +78,13 @@ final class IsPreviewTest extends TestCase
     /**
      * @dataProvider getDataForTestMatch
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    public function testMatch(View $view, bool $matchConfig, bool $expectedIsPreview): void
-    {
+    public function testMatch(
+        View $view,
+        bool $matchConfig,
+        bool $expectedIsPreview
+    ): void {
         $this->isPreviewMatcher->setMatchingConfig($matchConfig);
 
         self::assertSame($expectedIsPreview, $this->isPreviewMatcher->match($view));

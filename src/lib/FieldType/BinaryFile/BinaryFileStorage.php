@@ -12,6 +12,4 @@ use Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage;
 /**
  * Description of BinaryFileStorage.
  */
-class BinaryFileStorage extends BinaryBaseStorage
-{
-}
+class BinaryFileStorage extends BinaryBaseStorage {}

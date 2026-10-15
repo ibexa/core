@@ -21,8 +21,10 @@ class TypeNotFound extends NotFoundException
      * @param string $typeIdentifier can be either a string representation of a numeric ID or a string identifier.
      * @param int $status
      */
-    public function __construct(string $typeIdentifier, int $status)
-    {
+    public function __construct(
+        string $typeIdentifier,
+        int $status
+    ) {
         parent::__construct(
             'Persistence content type',
             sprintf('ID: %s, Status: %d', $typeIdentifier, $status)

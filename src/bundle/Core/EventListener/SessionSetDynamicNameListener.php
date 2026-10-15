@@ -31,8 +31,7 @@ final readonly class SessionSetDynamicNameListener implements EventSubscriberInt
     public function __construct(
         private ConfigResolverInterface $configResolver,
         private SessionStorageFactoryInterface $sessionStorageFactory
-    ) {
-    }
+    ) {}
 
     public static function getSubscribedEvents(): array
     {
@@ -64,8 +63,10 @@ final readonly class SessionSetDynamicNameListener implements EventSubscriberInt
         $sessionStorage->setOptions($sessionOptions);
     }
 
-    private function getSessionName(string $sessionName, SiteAccess $siteAccess): string
-    {
+    private function getSessionName(
+        string $sessionName,
+        SiteAccess $siteAccess
+    ): string {
         // Add session prefix if needed.
         if (!str_starts_with($sessionName, self::SESSION_NAME_PREFIX)) {
             $sessionName = self::SESSION_NAME_PREFIX . '_' . $sessionName;

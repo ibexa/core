@@ -12,6 +12,7 @@ use Ibexa\Core\MVC\Symfony\Event\PostSiteAccessMatchEvent;
 use Ibexa\Core\MVC\Symfony\EventListener\SiteAccessRestoreListener;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,10 +26,10 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 final class SiteAccessRestoreListenerTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject&\Symfony\Component\HttpKernel\HttpKernelInterface */
+    /** @var MockObject&HttpKernelInterface */
     private HttpKernelInterface $kernel;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject&\Symfony\Component\EventDispatcher\EventDispatcherInterface */
+    /** @var MockObject&EventDispatcherInterface */
     private EventDispatcherInterface $eventDispatcher;
 
     private RequestStack $requestStack;
@@ -86,10 +87,12 @@ final class SiteAccessRestoreListenerTest extends TestCase
     /**
      * @dataProvider provideNoDispatchCases
      *
-     * @param \Symfony\Component\HttpFoundation\Request[] $requests
+     * @param Request[] $requests
      */
-    public function testNoDispatch(array $requests, int $requestType): void
-    {
+    public function testNoDispatch(
+        array $requests,
+        int $requestType
+    ): void {
         $finishingRequest = null;
         foreach ($requests as $request) {
             $this->requestStack->push($request);
@@ -105,7 +108,7 @@ final class SiteAccessRestoreListenerTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array{\Symfony\Component\HttpFoundation\Request[], int}>
+     * @return iterable<string, array{Request[], int}>
      */
     public static function provideNoDispatchCases(): iterable
     {

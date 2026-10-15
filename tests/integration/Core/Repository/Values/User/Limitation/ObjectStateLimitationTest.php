@@ -7,6 +7,8 @@
 
 namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\ObjectStateService;
@@ -33,9 +35,9 @@ class ObjectStateLimitationTest extends BaseLimitationTestCase
     public const EDITOR_ROLE_IDENTIFIER = 'Editor';
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testObjectStateLimitationAllow(): void
     {
@@ -56,9 +58,9 @@ class ObjectStateLimitationTest extends BaseLimitationTestCase
 
     /**
      * @throws \ErrorException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testObjectStateLimitationForbid(): void
     {
@@ -81,9 +83,9 @@ class ObjectStateLimitationTest extends BaseLimitationTestCase
      * Checks if the action is correctly forbidden when using ObjectStateLimitation
      * with limitation values from two different StateGroups.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testObjectStateLimitationForbidVariant(): void
     {
@@ -114,8 +116,8 @@ class ObjectStateLimitationTest extends BaseLimitationTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws InvalidArgumentException
+     * @throws UnauthorizedException
      */
     private function createObjectStateGroup(): ObjectStateGroup
     {
@@ -131,8 +133,8 @@ class ObjectStateLimitationTest extends BaseLimitationTestCase
     /**
      * Create new State and assign it to the $objectStateGroup.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws InvalidArgumentException
+     * @throws UnauthorizedException
      */
     private function createObjectState(ObjectStateGroup $objectStateGroup): ObjectState
     {
@@ -149,9 +151,9 @@ class ObjectStateLimitationTest extends BaseLimitationTestCase
      * Checks if the search results are correctly filtered when using ObjectStateLimitation
      * with limitation values from two different StateGroups.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testObjectStateLimitationSearch(): void
     {
@@ -199,9 +201,9 @@ class ObjectStateLimitationTest extends BaseLimitationTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testUserWithNotLockedLimitationCanEditNotLockedContent(): void
     {
@@ -239,9 +241,9 @@ class ObjectStateLimitationTest extends BaseLimitationTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     protected function createUserWithObjectStateLimitation(array $objectStateIDs): User
     {
@@ -271,9 +273,9 @@ class ObjectStateLimitationTest extends BaseLimitationTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     private function createUserWithObjectStateLimitationOnContentRead(array $values): User
     {

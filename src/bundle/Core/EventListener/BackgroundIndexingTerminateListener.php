@@ -26,20 +26,22 @@ class BackgroundIndexingTerminateListener implements BackgroundIndexerInterface,
 {
     use LoggerAwareTrait;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler */
+    /** @var PersistenceHandler */
     protected $persistenceHandler;
 
-    /** @var \Ibexa\Contracts\Core\Search\Handler */
+    /** @var SearchHandler */
     protected $searchHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\ContentInfo[] */
+    /** @var ContentInfo[] */
     protected $contentInfo = [];
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Location[] */
+    /** @var Location[] */
     protected $locations = [];
 
-    public function __construct(PersistenceHandler $persistenceHandler, SearchHandler $searchHandler)
-    {
+    public function __construct(
+        PersistenceHandler $persistenceHandler,
+        SearchHandler $searchHandler
+    ) {
         $this->persistenceHandler = $persistenceHandler;
         $this->searchHandler = $searchHandler;
     }

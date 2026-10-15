@@ -14,7 +14,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class SearchService extends SearchServiceDecorator
 {
-    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
+    /** @var EventDispatcherInterface */
     protected $eventDispatcher;
 
     public function __construct(

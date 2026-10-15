@@ -24,13 +24,13 @@ use Twig\TwigFunction;
  */
 class FieldRenderingExtension extends AbstractExtension
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Templating\FieldBlockRendererInterface */
+    /** @var FieldBlockRendererInterface */
     private $fieldBlockRenderer;
 
-    /** @var \Ibexa\Core\MVC\Symfony\FieldType\View\ParameterProviderRegistryInterface */
+    /** @var ParameterProviderRegistryInterface */
     private $parameterProviderRegistry;
 
-    /** @var \Ibexa\Core\Helper\TranslationHelper */
+    /** @var TranslationHelper */
     private $translationHelper;
 
     /**
@@ -52,7 +52,12 @@ class FieldRenderingExtension extends AbstractExtension
 
     public function getFunctions()
     {
-        $renderFieldCallable = function (Environment $environment, Content|ContentAwareInterface $data, $fieldIdentifier, array $params = []) {
+        $renderFieldCallable = function (
+            Environment $environment,
+            Content | ContentAwareInterface $data,
+            $fieldIdentifier,
+            array $params = []
+        ) {
             $this->fieldBlockRenderer->setTwig($environment);
 
             return $this->renderField($this->getContent($data), $fieldIdentifier, $params);
@@ -87,28 +92,33 @@ class FieldRenderingExtension extends AbstractExtension
      * Renders the HTML for the settings for the given field definition
      * $definition.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition
+     * @param FieldDefinition $fieldDefinition
      *
      * @return string
      */
-    public function renderFieldDefinitionSettings(FieldDefinition $fieldDefinition, array $params = [])
-    {
+    public function renderFieldDefinitionSettings(
+        FieldDefinition $fieldDefinition,
+        array $params = []
+    ) {
         return $this->fieldBlockRenderer->renderFieldDefinitionView($fieldDefinition, $params);
     }
 
     /**
      * Renders the HTML for a given field.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
+     * @param Content $content
      * @param string $fieldIdentifier Identifier for the field we want to render
      * @param array $params An array of parameters to pass to the field view
      *
      * @return string The HTML markup
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    public function renderField(Content $content, $fieldIdentifier, array $params = [])
-    {
+    public function renderField(
+        Content $content,
+        $fieldIdentifier,
+        array $params = []
+    ) {
         $field = $this->translationHelper->getTranslatedField($content, $fieldIdentifier, isset($params['lang']) ? $params['lang'] : null);
         if (!$field instanceof Field) {
             throw new InvalidArgumentException(
@@ -126,14 +136,17 @@ class FieldRenderingExtension extends AbstractExtension
     /**
      * Generates the array of parameter to pass to the field template.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field the Field to display
+     * @param Content $content
+     * @param Field $field the Field to display
      * @param array $params An array of parameters to pass to the field view
      *
      * @return array
      */
-    private function getRenderFieldBlockParameters(Content $content, Field $field, array $params = [])
-    {
+    private function getRenderFieldBlockParameters(
+        Content $content,
+        Field $field,
+        array $params = []
+    ) {
         // Merging passed parameters to default ones
         $params += [
             'parameters' => [], // parameters dedicated to template processing
@@ -175,13 +188,15 @@ class FieldRenderingExtension extends AbstractExtension
     /**
      * Returns the field type identifier for $field.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Content $content
+     * @param Field $field
      *
      * @return string
      */
-    private function getFieldTypeIdentifier(Content $content, Field $field)
-    {
+    private function getFieldTypeIdentifier(
+        Content $content,
+        Field $field
+    ) {
         $contentType = $content->getContentType();
         $key = $contentType->id . '  ' . $field->fieldDefIdentifier;
 
@@ -194,7 +209,7 @@ class FieldRenderingExtension extends AbstractExtension
         return $this->fieldTypeIdentifiers[$key];
     }
 
-    private function getContent(Content|ContentAwareInterface $content): Content
+    private function getContent(Content | ContentAwareInterface $content): Content
     {
         if ($content instanceof Content) {
             return $content;

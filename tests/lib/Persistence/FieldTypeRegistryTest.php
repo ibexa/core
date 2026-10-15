@@ -86,7 +86,7 @@ class FieldTypeRegistryTest extends TestCase
     /**
      * Returns a mock for persistence field type.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\FieldType
+     * @return SPIPersistenceFieldType
      */
     protected function getFieldTypeMock()
     {

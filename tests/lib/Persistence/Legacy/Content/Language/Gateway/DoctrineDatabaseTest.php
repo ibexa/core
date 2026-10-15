@@ -20,7 +20,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Database gateway to test.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase
+     * @var DoctrineDatabase
      */
     protected $databaseGateway;
 
@@ -61,7 +61,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Returns a Language fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Language
+     * @return Language
      */
     protected function getLanguageFixture()
     {

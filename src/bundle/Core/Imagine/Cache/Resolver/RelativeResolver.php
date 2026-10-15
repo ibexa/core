@@ -16,7 +16,7 @@ use Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface;
 class RelativeResolver extends ImagineProxyResolver
 {
     /**
-     * @param \Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface $resolver
+     * @param ResolverInterface $resolver
      */
     public function __construct(ResolverInterface $resolver)
     {

@@ -20,7 +20,7 @@ class AggregateFieldValueMapperPass implements CompilerPassInterface
     public const TAG = 'ibexa.search.common.field_value.mapper';
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
+     * @param ContainerBuilder $container
      */
     public function process(ContainerBuilder $container): void
     {

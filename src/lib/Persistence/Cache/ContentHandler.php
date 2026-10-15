@@ -53,7 +53,10 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
 
     protected function init(): void
     {
-        $this->getContentInfoTags = function (ContentInfo $info, array $tags = []) {
+        $this->getContentInfoTags = function (
+            ContentInfo $info,
+            array $tags = []
+        ) {
             $tags[] = $this->cacheIdentifierGenerator->generateTag(self::CONTENT_IDENTIFIER, [$info->id]);
 
             if ($info->mainLocationId) {
@@ -132,8 +135,11 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
     /**
      * {@inheritdoc}
      */
-    public function copy($contentId, $versionNo = null, $newOwnerId = null)
-    {
+    public function copy(
+        $contentId,
+        $versionNo = null,
+        $newOwnerId = null
+    ) {
         $this->logger->logCall(__METHOD__, [
             'content' => $contentId,
             'version' => $versionNo,
@@ -146,8 +152,11 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
     /**
      * {@inheritdoc}
      */
-    public function load($contentId, $versionNo = null, ?array $translations = null)
-    {
+    public function load(
+        $contentId,
+        $versionNo = null,
+        ?array $translations = null
+    ) {
         $keySuffix = $versionNo ? "-{$versionNo}-" : '-';
         $keySuffix .= empty($translations) ? self::ALL_TRANSLATIONS_KEY : implode('|', $translations);
 
@@ -173,8 +182,10 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
         );
     }
 
-    public function loadContentList(array $contentIds, ?array $translations = null): array
-    {
+    public function loadContentList(
+        array $contentIds,
+        ?array $translations = null
+    ): array {
         $keySuffix = '-' . (empty($translations) ? self::ALL_TRANSLATIONS_KEY : implode('|', $translations));
 
         return $this->getMultipleCacheValues(
@@ -253,8 +264,10 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
     /**
      * {@inheritdoc}
      */
-    public function loadVersionInfo($contentId, $versionNo = null)
-    {
+    public function loadVersionInfo(
+        $contentId,
+        $versionNo = null
+    ) {
         $keySuffix = $versionNo ? "-{$versionNo}" : '';
         $cacheItem = $this->cache->getItem(
             $this->cacheIdentifierGenerator->generateKey(
@@ -282,8 +295,10 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
     /**
      * @return int[]
      */
-    public function loadVersionNoArchivedWithin(int $contentId, int $seconds): array
-    {
+    public function loadVersionNoArchivedWithin(
+        int $contentId,
+        int $seconds
+    ): array {
         return $this->persistenceHandler->contentHandler()->loadVersionNoArchivedWithin($contentId, $seconds);
     }
 
@@ -304,8 +319,11 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
         return $this->persistenceHandler->contentHandler()->loadDraftsForUser($userId);
     }
 
-    public function loadDraftListForUser(int $userId, int $offset = 0, int $limit = -1): array
-    {
+    public function loadDraftListForUser(
+        int $userId,
+        int $offset = 0,
+        int $limit = -1
+    ): array {
         $this->logger->logCall(__METHOD__, ['user' => $userId, 'offset' => $offset, 'limit' => $limit]);
 
         return $this->persistenceHandler->contentHandler()->loadDraftListForUser($userId, $offset, $limit);
@@ -314,8 +332,11 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
     /**
      * {@inheritdoc}
      */
-    public function setStatus($contentId, $status, $versionNo)
-    {
+    public function setStatus(
+        $contentId,
+        $status,
+        $versionNo
+    ) {
         $this->logger->logCall(__METHOD__, ['content' => $contentId, 'status' => $status, 'version' => $versionNo]);
         $return = $this->persistenceHandler->contentHandler()->setStatus($contentId, $status, $versionNo);
 
@@ -338,8 +359,10 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
     /**
      * {@inheritdoc}
      */
-    public function updateMetadata($contentId, MetadataUpdateStruct $struct)
-    {
+    public function updateMetadata(
+        $contentId,
+        MetadataUpdateStruct $struct
+    ) {
         $this->logger->logCall(__METHOD__, ['content' => $contentId, 'struct' => $struct]);
         $contentInfo = $this->persistenceHandler->contentHandler()->updateMetadata($contentId, $struct);
         $this->cache->invalidateTags([
@@ -352,8 +375,11 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
     /**
      * {@inheritdoc}
      */
-    public function updateContent($contentId, $versionNo, UpdateStruct $struct)
-    {
+    public function updateContent(
+        $contentId,
+        $versionNo,
+        UpdateStruct $struct
+    ) {
         $this->logger->logCall(__METHOD__, ['content' => $contentId, 'version' => $versionNo, 'struct' => $struct]);
         $content = $this->persistenceHandler->contentHandler()->updateContent($contentId, $versionNo, $struct);
         $this->cache->invalidateTags([
@@ -401,8 +427,10 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
     /**
      * {@inheritdoc}
      */
-    public function deleteVersion($contentId, $versionNo)
-    {
+    public function deleteVersion(
+        $contentId,
+        $versionNo
+    ) {
         $this->logger->logCall(__METHOD__, ['content' => $contentId, 'version' => $versionNo]);
         $return = $this->persistenceHandler->contentHandler()->deleteVersion($contentId, $versionNo);
         $this->cache->invalidateTags([
@@ -418,8 +446,11 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
     /**
      * {@inheritdoc}
      */
-    public function listVersions($contentId, $status = null, $limit = -1)
-    {
+    public function listVersions(
+        $contentId,
+        $status = null,
+        $limit = -1
+    ) {
         // Don't cache non typical lookups to avoid filling up cache and tags.
         if ($status !== null || $limit !== -1) {
             $this->logger->logCall(__METHOD__, ['content' => $contentId, 'status' => $status]);
@@ -478,8 +509,11 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
     /**
      * {@inheritdoc}
      */
-    public function removeRelation($relationId, $type, ?int $destinationContentId = null): void
-    {
+    public function removeRelation(
+        $relationId,
+        $type,
+        ?int $destinationContentId = null
+    ): void {
         if (null === $destinationContentId) {
             @trigger_error('Expecting to pass $destinationContentId argument since version 4.1.5', E_USER_DEPRECATED);
         }
@@ -529,8 +563,11 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
         return $relation;
     }
 
-    public function countRelations(int $sourceContentId, ?int $sourceContentVersionNo = null, ?int $type = null): int
-    {
+    public function countRelations(
+        int $sourceContentId,
+        ?int $sourceContentVersionNo = null,
+        ?int $type = null
+    ): int {
         $cacheItem = $this->cache->getItem(
             $this->cacheIdentifierGenerator->generateKey(
                 self::CONTENT_RELATIONS_COUNT_WITH_VERSION_TYPE_IDENTIFIER,
@@ -623,8 +660,10 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
     /**
      * {@inheritdoc}
      */
-    public function countReverseRelations(int $destinationContentId, ?int $type = null): int
-    {
+    public function countReverseRelations(
+        int $destinationContentId,
+        ?int $type = null
+    ): int {
         $cacheItem = $this->cache->getItem(
             $this->cacheIdentifierGenerator->generateKey(
                 self::CONTENT_REVERSE_RELATIONS_COUNT_IDENTIFIER,
@@ -655,8 +694,10 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
     /**
      * {@inheritdoc}
      */
-    public function loadReverseRelations($destinationContentId, $type = null)
-    {
+    public function loadReverseRelations(
+        $destinationContentId,
+        $type = null
+    ) {
         $this->logger->logCall(__METHOD__, ['content' => $destinationContentId, 'type' => $type]);
 
         return $this->persistenceHandler->contentHandler()->loadReverseRelations($destinationContentId, $type);
@@ -689,8 +730,11 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
     /**
      * {@inheritdoc}
      */
-    public function publish($contentId, $versionNo, MetadataUpdateStruct $struct)
-    {
+    public function publish(
+        $contentId,
+        $versionNo,
+        MetadataUpdateStruct $struct
+    ) {
         $this->logger->logCall(__METHOD__, ['content' => $contentId, 'version' => $versionNo, 'struct' => $struct]);
         $content = $this->persistenceHandler->contentHandler()->publish($contentId, $versionNo, $struct);
         $this->cache->invalidateTags([
@@ -703,8 +747,10 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
     /**
      * {@inheritdoc}
      */
-    public function deleteTranslationFromContent($contentId, $languageCode)
-    {
+    public function deleteTranslationFromContent(
+        $contentId,
+        $languageCode
+    ) {
         $this->logger->logCall(
             __METHOD__,
             [
@@ -722,8 +768,11 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
     /**
      * {@inheritdoc}
      */
-    public function deleteTranslationFromDraft($contentId, $versionNo, $languageCode)
-    {
+    public function deleteTranslationFromDraft(
+        $contentId,
+        $versionNo,
+        $languageCode
+    ) {
         $this->logger->logCall(
             __METHOD__,
             ['content' => $contentId, 'version' => $versionNo, 'languageCode' => $languageCode]
@@ -748,8 +797,10 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
      *
      * @param array $tags Optional, can be used to specify other tags.
      */
-    private function getCacheTagsForVersion(VersionInfo $versionInfo, array $tags = []): array
-    {
+    private function getCacheTagsForVersion(
+        VersionInfo $versionInfo,
+        array $tags = []
+    ): array {
         $contentInfo = $versionInfo->contentInfo;
         $tags[] = $this->cacheIdentifierGenerator->generateTag(
             self::CONTENT_VERSION_IDENTIFIER,

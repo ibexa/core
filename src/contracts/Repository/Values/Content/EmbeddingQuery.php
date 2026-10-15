@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Embedding;
 use InvalidArgumentException;
@@ -37,7 +38,7 @@ final class EmbeddingQuery extends Query
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation[]
+     * @return Aggregation[]
      */
     public function getAggregations(): array
     {
@@ -45,7 +46,7 @@ final class EmbeddingQuery extends Query
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation[] $aggregations
+     * @param Aggregation[] $aggregations
      */
     public function setAggregations(array $aggregations): void
     {

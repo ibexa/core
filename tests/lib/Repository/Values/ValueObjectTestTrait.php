@@ -16,10 +16,12 @@ trait ValueObjectTestTrait
      * $mockedValueObject.
      *
      * @param mixed[] $expectedValues
-     * @param \Ibexa\Contracts\Core\Repository\Values\ValueObject $actualValueObject
+     * @param ValueObject $actualValueObject
      */
-    public function assertPropertiesCorrect(array $expectedValues, ValueObject $actualValueObject)
-    {
+    public function assertPropertiesCorrect(
+        array $expectedValues,
+        ValueObject $actualValueObject
+    ) {
         foreach ($expectedValues as $propertyName => $propertyValue) {
             self::assertSame(
                 $propertyValue,

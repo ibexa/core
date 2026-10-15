@@ -9,10 +9,11 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Repository\Events\UserPreference;
 
 use Ibexa\Contracts\Core\Repository\Event\BeforeEvent;
+use Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreferenceSetStruct;
 
 final class BeforeSetUserPreferenceEvent extends BeforeEvent
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreferenceSetStruct[] */
+    /** @var UserPreferenceSetStruct[] */
     private array $userPreferenceSetStructs;
 
     public function __construct(array $userPreferenceSetStructs)

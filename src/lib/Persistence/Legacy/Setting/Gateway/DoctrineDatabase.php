@@ -10,16 +10,17 @@ namespace Ibexa\Core\Persistence\Legacy\Setting\Gateway;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
+use Ibexa\Contracts\Core\Persistence\Setting\Handler;
 use Ibexa\Core\Persistence\Legacy\Setting\Gateway;
 
 /**
  * @internal Gateway implementation is considered internal. Use Persistence Setting Handler instead.
  *
- * @see \Ibexa\Contracts\Core\Persistence\Setting\Handler
+ * @see Handler
  */
 final class DoctrineDatabase extends Gateway
 {
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     private $connection;
 
     public function __construct(Connection $connection)
@@ -27,8 +28,11 @@ final class DoctrineDatabase extends Gateway
         $this->connection = $connection;
     }
 
-    public function insertSetting(string $group, string $identifier, string $serializedValue): int
-    {
+    public function insertSetting(
+        string $group,
+        string $identifier,
+        string $serializedValue
+    ): int {
         $query = $this->connection->createQueryBuilder();
         $query
             ->insert(self::SETTING_TABLE)
@@ -45,8 +49,11 @@ final class DoctrineDatabase extends Gateway
         return (int)$this->connection->lastInsertId(Gateway::SETTING_SEQ);
     }
 
-    public function updateSetting(string $group, string $identifier, string $serializedValue): void
-    {
+    public function updateSetting(
+        string $group,
+        string $identifier,
+        string $serializedValue
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $query
             ->update(self::SETTING_TABLE)
@@ -65,8 +72,10 @@ final class DoctrineDatabase extends Gateway
         $query->executeStatement();
     }
 
-    public function loadSetting(string $group, string $identifier): ?array
-    {
+    public function loadSetting(
+        string $group,
+        string $identifier
+    ): ?array {
         $query = $this->connection->createQueryBuilder();
         $query
             ->select(
@@ -123,8 +132,10 @@ final class DoctrineDatabase extends Gateway
         return $result;
     }
 
-    public function deleteSetting(string $group, string $identifier): void
-    {
+    public function deleteSetting(
+        string $group,
+        string $identifier
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $query
             ->delete(self::SETTING_TABLE)

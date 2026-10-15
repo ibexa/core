@@ -8,6 +8,4 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content;
 
-final class URLWildcardUpdateStruct extends URLWildcardStruct
-{
-}
+final class URLWildcardUpdateStruct extends URLWildcardStruct {}

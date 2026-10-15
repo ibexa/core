@@ -33,8 +33,10 @@ class RouterTest extends RouterBaseTestCase
     /**
      * @dataProvider matchProvider
      */
-    public function testMatch(SimplifiedRequest $request, $siteAccess)
-    {
+    public function testMatch(
+        SimplifiedRequest $request,
+        $siteAccess
+    ) {
         $router = $this->createRouter();
         $sa = $router->match($request);
         self::assertInstanceOf(SiteAccess::class, $sa);
@@ -308,7 +310,7 @@ class RouterTest extends RouterBaseTestCase
     }
 
     /**
-     * @return \Ibexa\Tests\Core\MVC\Symfony\SiteAccess\SiteAccessSetting[]
+     * @return SiteAccessSetting[]
      */
     public function getSiteAccessProviderSettings(): array
     {

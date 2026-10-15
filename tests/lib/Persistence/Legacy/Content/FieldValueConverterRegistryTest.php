@@ -12,7 +12,7 @@ use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Regist
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 
 /**
- * @covers \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
+ * @covers \Registry
  */
 class FieldValueConverterRegistryTest extends TestCase
 {
@@ -49,7 +49,7 @@ class FieldValueConverterRegistryTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter
+     * @return Converter
      */
     protected function getFieldValueConverterMock()
     {

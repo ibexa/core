@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Bundle\Core\EventListener;
 
 use Ibexa\Bundle\Core\EventListener\RejectExplicitFrontControllerRequestsListener;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -18,10 +19,10 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class RejectExplicitFrontControllerRequestsListenerTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\EventListener\RejectExplicitFrontControllerRequestsListener */
+    /** @var RejectExplicitFrontControllerRequestsListener */
     private $eventListener;
 
-    /** @var \Symfony\Component\HttpKernel\HttpKernelInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var HttpKernelInterface|MockObject */
     private $httpKernel;
 
     protected function setUp(): void

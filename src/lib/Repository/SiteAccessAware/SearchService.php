@@ -21,17 +21,17 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
  */
 class SearchService implements SearchServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\SearchService */
+    /** @var SearchServiceInterface */
     protected $service;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageResolver */
+    /** @var LanguageResolver */
     protected $languageResolver;
 
     /**
      * Construct service object from aggregated service and LanguageResolver.
      *
-     * @param \Ibexa\Contracts\Core\Repository\SearchService $service
-     * @param \Ibexa\Contracts\Core\Repository\LanguageResolver $languageResolver
+     * @param SearchServiceInterface $service
+     * @param LanguageResolver $languageResolver
      */
     public function __construct(
         SearchServiceInterface $service,
@@ -41,8 +41,11 @@ class SearchService implements SearchServiceInterface
         $this->languageResolver = $languageResolver;
     }
 
-    public function findContent(Query $query, array $languageFilter = [], bool $filterOnUserPermissions = true): SearchResult
-    {
+    public function findContent(
+        Query $query,
+        array $languageFilter = [],
+        bool $filterOnUserPermissions = true
+    ): SearchResult {
         $languageFilter['languages'] = $this->languageResolver->getPrioritizedLanguages(
             $languageFilter['languages'] ?? null
         );
@@ -54,8 +57,11 @@ class SearchService implements SearchServiceInterface
         return $this->service->findContent($query, $languageFilter, $filterOnUserPermissions);
     }
 
-    public function findContentInfo(Query $query, array $languageFilter = [], bool $filterOnUserPermissions = true): SearchResult
-    {
+    public function findContentInfo(
+        Query $query,
+        array $languageFilter = [],
+        bool $filterOnUserPermissions = true
+    ): SearchResult {
         $languageFilter['languages'] = $this->languageResolver->getPrioritizedLanguages(
             $languageFilter['languages'] ?? null
         );
@@ -67,8 +73,11 @@ class SearchService implements SearchServiceInterface
         return $this->service->findContentInfo($query, $languageFilter, $filterOnUserPermissions);
     }
 
-    public function findSingle(CriterionInterface $filter, array $languageFilter = [], bool $filterOnUserPermissions = true): Content
-    {
+    public function findSingle(
+        CriterionInterface $filter,
+        array $languageFilter = [],
+        bool $filterOnUserPermissions = true
+    ): Content {
         $languageFilter['languages'] = $this->languageResolver->getPrioritizedLanguages(
             $languageFilter['languages'] ?? null
         );
@@ -80,13 +89,20 @@ class SearchService implements SearchServiceInterface
         return $this->service->findSingle($filter, $languageFilter, $filterOnUserPermissions);
     }
 
-    public function suggest(string $prefix, array $fieldPaths = [], int $limit = 10, ?CriterionInterface $filter = null)
-    {
+    public function suggest(
+        string $prefix,
+        array $fieldPaths = [],
+        int $limit = 10,
+        ?CriterionInterface $filter = null
+    ) {
         return $this->service->suggest($prefix, $fieldPaths, $limit, $filter);
     }
 
-    public function findLocations(LocationQuery $query, array $languageFilter = [], bool $filterOnUserPermissions = true): SearchResult
-    {
+    public function findLocations(
+        LocationQuery $query,
+        array $languageFilter = [],
+        bool $filterOnUserPermissions = true
+    ): SearchResult {
         $languageFilter['languages'] = $this->languageResolver->getPrioritizedLanguages(
             $languageFilter['languages'] ?? null
         );

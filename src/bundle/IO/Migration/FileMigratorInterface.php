@@ -18,7 +18,7 @@ interface FileMigratorInterface extends MigrationHandlerInterface
     /**
      * Migrate a file.
      *
-     * @param \Ibexa\Contracts\Core\IO\BinaryFile $binaryFile Information about the file
+     * @param BinaryFile $binaryFile Information about the file
      *
      * @return bool Success or failure
      */

@@ -106,7 +106,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
     /**
      * Get initial field data for valid object creation.
      *
-     * @return \Ibexa\Core\FieldType\Author\Value
+     * @return AuthorValue
      */
     public function getValidCreationFieldData()
     {
@@ -139,7 +139,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
      * Asserts that the data provided by {@link getValidCreationFieldData()}
      * was stored and loaded correctly.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Field $field
      */
     public function assertFieldDataLoadedCorrect(Field $field)
     {
@@ -198,7 +198,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
     /**
      * Get update field externals data.
      *
-     * @return \Ibexa\Core\FieldType\Author\Value
+     * @return AuthorValue
      */
     public function getValidUpdateFieldData()
     {
@@ -259,7 +259,7 @@ class AuthorIntegrationTest extends SearchMultivaluedBaseIntegrationTestCase
      * Asserts that the data provided by {@link getValidCreationFieldData()}
      * was copied and loaded correctly.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Field $field
      */
     public function assertCopiedFieldDataLoadedCorrectly(Field $field)
     {

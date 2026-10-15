@@ -22,15 +22,22 @@ class GenericProviderTest extends TestCase
     /**
      * @dataProvider getPlaceholderDataProvider
      */
-    public function testGetPlaceholder(ImageValue $value, $expectedText, array $options = [])
-    {
+    public function testGetPlaceholder(
+        ImageValue $value,
+        $expectedText,
+        array $options = []
+    ) {
         $font = $this->createMock(AbstractFont::class);
 
         $imagine = $this->createMock(ImagineInterface::class);
         $imagine
             ->expects(self::atLeastOnce())
             ->method('font')
-            ->willReturnCallback(function ($fontpath, $fontsize, ColorInterface $foreground) use ($options, $font) {
+            ->willReturnCallback(function (
+                $fontpath,
+                $fontsize,
+                ColorInterface $foreground
+            ) use ($options, $font) {
                 $this->assertEquals($options['fontpath'], $fontpath);
                 $this->assertEquals($options['fontsize'], $fontsize);
                 $this->assertColorEquals($options['foreground'], $foreground);
@@ -48,7 +55,10 @@ class GenericProviderTest extends TestCase
         $imagine
             ->expects(self::atLeastOnce())
             ->method('create')
-            ->willReturnCallback(function (BoxInterface $size, ColorInterface $background) use ($value, $options, $image) {
+            ->willReturnCallback(function (
+                BoxInterface $size,
+                ColorInterface $background
+            ) use ($value, $options, $image) {
                 $this->assertSizeEquals([$value->width, $value->height], $size);
                 $this->assertColorEquals($options['background'], $background);
 
@@ -91,14 +101,18 @@ class GenericProviderTest extends TestCase
         ];
     }
 
-    private function assertSizeEquals(array $expected, BoxInterface $actual)
-    {
+    private function assertSizeEquals(
+        array $expected,
+        BoxInterface $actual
+    ) {
         self::assertEquals($expected[0], $actual->getWidth());
         self::assertEquals($expected[1], $actual->getHeight());
     }
 
-    private function assertColorEquals($expected, ColorInterface $actual)
-    {
+    private function assertColorEquals(
+        $expected,
+        ColorInterface $actual
+    ) {
         self::assertEquals(strtolower($expected), strtolower((string)$actual));
     }
 }

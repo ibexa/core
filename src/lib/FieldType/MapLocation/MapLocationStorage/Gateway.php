@@ -22,28 +22,37 @@ abstract class Gateway extends StorageGateway
      * Potentially rewrites data in $field and returns true, if the $field
      * needs to be updated in the database.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
+     * @param VersionInfo $versionInfo
+     * @param Field $field
      *
      * @return bool If restoring of the internal field data is required
      */
-    abstract public function storeFieldData(VersionInfo $versionInfo, Field $field);
+    abstract public function storeFieldData(
+        VersionInfo $versionInfo,
+        Field $field
+    );
 
     /**
      * Sets the loaded field data into $field->externalData.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
+     * @param VersionInfo $versionInfo
+     * @param Field $field
      *
      * @return array
      */
-    abstract public function getFieldData(VersionInfo $versionInfo, Field $field);
+    abstract public function getFieldData(
+        VersionInfo $versionInfo,
+        Field $field
+    );
 
     /**
      * Deletes the data for all given $fieldIds.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
+     * @param VersionInfo $versionInfo
      * @param array $fieldIds
      */
-    abstract public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds);
+    abstract public function deleteFieldData(
+        VersionInfo $versionInfo,
+        array $fieldIds
+    );
 }

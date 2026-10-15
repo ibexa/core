@@ -14,7 +14,7 @@ use Webmozart\Assert\Assert as Assertion;
 
 class ContentPreviewContext extends RawMinkContext
 {
-    /** @var \Ibexa\Bundle\Core\Features\Context\ContentContext */
+    /** @var ContentContext */
     private $contentContext;
 
     /** @BeforeScenario */

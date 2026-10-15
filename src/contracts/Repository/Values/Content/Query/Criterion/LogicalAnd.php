@@ -15,6 +15,4 @@ use Ibexa\Contracts\Core\Repository\Values\Trash\Query\Criterion as TrashCriteri
  * This criterion implements a logical AND criterion and will only match
  * if ALL of the given criteria match.
  */
-class LogicalAnd extends LogicalOperator implements TrashCriterion, FilteringCriterion
-{
-}
+class LogicalAnd extends LogicalOperator implements TrashCriterion, FilteringCriterion {}

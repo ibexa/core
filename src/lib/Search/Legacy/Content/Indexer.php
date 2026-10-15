@@ -32,8 +32,10 @@ class Indexer extends IncrementalIndexer
         return 'Ibexa Legacy (SQL) Search Engine';
     }
 
-    public function updateSearchIndex(array $contentIds, $commit)
-    {
+    public function updateSearchIndex(
+        array $contentIds,
+        $commit
+    ) {
         $contentHandler = $this->persistenceHandler->contentHandler();
         foreach ($contentIds as $contentId) {
             try {

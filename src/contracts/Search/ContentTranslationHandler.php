@@ -16,5 +16,8 @@ interface ContentTranslationHandler
     /**
      * Deletes a translation content object from the index.
      */
-    public function deleteTranslation(int $contentId, string $languageCode): void;
+    public function deleteTranslation(
+        int $contentId,
+        string $languageCode
+    ): void;
 }

@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
  */
 class UrlTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\UrlConverter */
+    /** @var UrlConverter */
     protected $converter;
 
     protected function setUp(): void

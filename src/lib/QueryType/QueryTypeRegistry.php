@@ -16,14 +16,17 @@ interface QueryTypeRegistry
      * Registers $queryType as $name.
      *
      * @param string $name
-     * @param \Ibexa\Core\QueryType\QueryType $queryType
+     * @param QueryType $queryType
      */
-    public function addQueryType($name, QueryType $queryType);
+    public function addQueryType(
+        $name,
+        QueryType $queryType
+    );
 
     /**
      * Registers QueryTypes from the $queryTypes array.
      *
-     * @param \Ibexa\Core\QueryType\QueryType[] $queryTypes An array of QueryTypes, with their name as the index
+     * @param QueryType[] $queryTypes An array of QueryTypes, with their name as the index
      */
     public function addQueryTypes(array $queryTypes);
 
@@ -32,7 +35,7 @@ interface QueryTypeRegistry
      *
      * @param string $name
      *
-     * @return \Ibexa\Core\QueryType\QueryType
+     * @return QueryType
      */
     public function getQueryType($name);
 }

@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\OwnerLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft;
 
 /**
  * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\OwnerLimitation
@@ -36,7 +37,7 @@ class OwnerLimitationTest extends BaseLimitationTestCase
         $role = $roleService->loadRoleByIdentifier('Editor');
         $roleDraft = $roleService->createRoleDraft($role);
         // Search for the new policy instance
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft $policy */
+        /** @var PolicyDraft $policy */
         $removePolicy = null;
         foreach ($roleDraft->getPolicies() as $policy) {
             if ('content' != $policy->module || 'remove' != $policy->function) {
@@ -103,7 +104,7 @@ class OwnerLimitationTest extends BaseLimitationTestCase
         $role = $roleService->loadRoleByIdentifier('Editor');
         $roleDraft = $roleService->createRoleDraft($role);
         // Search for the new policy instance
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft $policy */
+        /** @var PolicyDraft $policy */
         $removePolicy = null;
         foreach ($roleDraft->getPolicies() as $policy) {
             if ('content' != $policy->module || 'remove' != $policy->function) {

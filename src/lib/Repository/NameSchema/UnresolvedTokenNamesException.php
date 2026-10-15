@@ -10,6 +10,4 @@ namespace Ibexa\Core\Repository\NameSchema;
 
 use Ibexa\Contracts\Core\Exception\InvalidArgumentException;
 
-final class UnresolvedTokenNamesException extends InvalidArgumentException
-{
-}
+final class UnresolvedTokenNamesException extends InvalidArgumentException {}

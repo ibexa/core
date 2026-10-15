@@ -53,8 +53,10 @@ final class Embeddings extends AbstractParser
     /**
      * @param array<mixed> $config
      */
-    public function preMap(array $config, ContextualizerInterface $contextualizer): void
-    {
+    public function preMap(
+        array $config,
+        ContextualizerInterface $contextualizer
+    ): void {
         $contextualizer->mapConfigArray('embedding_models', $config);
         // Keep the default value in default settings only. Defining a scalar default on the semantic node would
         // materialize it into every siteaccess/group scope and block inheritance from `system.default` overrides.
@@ -64,8 +66,11 @@ final class Embeddings extends AbstractParser
     /**
      * @param array<mixed> $scopeSettings
      */
-    public function mapConfig(array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer): void
-    {
+    public function mapConfig(
+        array &$scopeSettings,
+        $currentScope,
+        ContextualizerInterface $contextualizer
+    ): void {
         // Nothing to do here.
     }
 }

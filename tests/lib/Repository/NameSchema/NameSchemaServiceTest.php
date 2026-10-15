@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Event\NameSchema\AbstractSchemaEvent;
 use Ibexa\Contracts\Core\Event\NameSchema\ResolveContentNameSchemaEvent;
 use Ibexa\Contracts\Core\Event\NameSchema\ResolveNameSchemaEvent;
 use Ibexa\Contracts\Core\Event\NameSchema\ResolveUrlAliasSchemaEvent;
+use Ibexa\Contracts\Core\FieldType\Value;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCollection as APIFieldDefinitionCollection;
 use Ibexa\Core\FieldType\TextLine\Type as TextLineFieldType;
@@ -65,7 +66,7 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
 
     /**
      * @return iterable<string, array{
-     *  0: array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>>,
+     *  0: array<int|string, array<string, Value>>,
      *  1: array<string, array<string, string>>,
      *  2: array<string>,
      *  3: array<int, array<string, string>>
@@ -136,7 +137,7 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
     /**
      * @dataProvider getDataForTestResolveNameSchema
      *
-     * @param array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>> $fieldMap
+     * @param array<int|string, array<string, Value>> $fieldMap
      * @param array<string, array<string, string>> $tokenValues
      * @param array<string> $languageCodes
      * @param array<int, array<string, string>> $expectedNames
@@ -188,7 +189,7 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
      * @return array<array{
      *  0: array<string, array<string>>,
      *  1: string,
-     *  2:  array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>>,
+     *  2:  array<int|string, array<string, Value>>,
      *  3: array<string, string>,
      *  4: array<string, array<string, string>>,
      *  5?: array{limit?: int, sequence?: string}
@@ -262,7 +263,7 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
      *
      * @param array<string, array<string>> $schemaIdentifiers
      * @param array<string> $languageFieldValues field value translations
-     * @param array<int|string, array<string, \Ibexa\Contracts\Core\FieldType\Value>> $fieldMap
+     * @param array<int|string, array<string, Value>> $fieldMap
      * @param array<string, array<string, string>> $fieldTitles [language => [field_identifier => title]]
      * @param array{limit?: int, sequence?: string} $settings NameSchemaService settings
      */
@@ -302,7 +303,7 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
     }
 
     /**
-     * @return \Traversable<\Ibexa\Contracts\Core\Repository\Values\Content\Field>
+     * @return Traversable<Field>
      */
     protected function getFields(): Traversable
     {

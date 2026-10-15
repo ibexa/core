@@ -18,6 +18,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Limitation\ObjectStateLimitationType;
 use Ibexa\Core\Repository\Values\Content\ContentCreateStruct;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test Case for LimitationType.
@@ -26,10 +27,10 @@ class ObjectStateLimitationTypeTest extends Base
 {
     public const int EXAMPLE_MAIN_LOCATION_ID = 879;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var SPIHandler|MockObject */
     private $objectStateHandlerMock;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group[] */
+    /** @var Group[] */
     private $allObjectStateGroups;
 
     /** @var array */
@@ -78,7 +79,7 @@ class ObjectStateLimitationTypeTest extends Base
     }
 
     /**
-     * @return \Ibexa\Core\Limitation\ObjectStateLimitationType
+     * @return ObjectStateLimitationType
      */
     public function testConstruct()
     {
@@ -240,7 +241,7 @@ class ObjectStateLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\ObjectStateLimitationType $limitationType
+     * @param ObjectStateLimitationType $limitationType
      */
     public function testGetCriterionInvalidValue(ObjectStateLimitationType $limitationType)
     {
@@ -255,7 +256,7 @@ class ObjectStateLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\ObjectStateLimitationType $limitationType
+     * @param ObjectStateLimitationType $limitationType
      */
     public function testGetCriterionSingleValue(ObjectStateLimitationType $limitationType)
     {

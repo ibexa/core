@@ -74,7 +74,7 @@ class Role extends ValueObject
     /**
      * Policies associated with the role.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\User\Policy[]
+     * @var Policy[]
      */
     public $policies = [];
 }

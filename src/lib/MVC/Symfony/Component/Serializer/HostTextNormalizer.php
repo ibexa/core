@@ -18,7 +18,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 final class HostTextNormalizer implements NormalizerInterface, DenormalizerInterface
 {
     /**
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\HostText  $data
+     * @param HostText  $data
      * @param array<string, mixed> $context
      *
      * @phpstan-return array{siteAccessesConfiguration: array{prefix?: string, suffix?: string}}
@@ -34,13 +34,20 @@ final class HostTextNormalizer implements NormalizerInterface, DenormalizerInter
         ];
     }
 
-    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
-    {
+    public function supportsNormalization(
+        mixed $data,
+        ?string $format = null,
+        array $context = []
+    ): bool {
         return $data instanceof HostText;
     }
 
-    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
-    {
+    public function denormalize(
+        mixed $data,
+        string $type,
+        ?string $format = null,
+        array $context = []
+    ): mixed {
         return new HostText($data['siteAccessesConfiguration'] ?? []);
     }
 

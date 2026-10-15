@@ -22,7 +22,7 @@ use Symfony\Component\Yaml\Yaml;
  */
 class YamlConfigurationContext implements Context
 {
-    /** @var \Symfony\Component\HttpKernel\KernelInterface */
+    /** @var KernelInterface */
     private $kernel;
 
     private static $platformConfigurationFilePath = 'config/packages/%env%/ezplatform.yaml';
@@ -70,8 +70,10 @@ class YamlConfigurationContext implements Context
         return 'prod' === $this->getEnvironment();
     }
 
-    private function addImportToPlatformYaml(string $importedFileName, string $env): void
-    {
+    private function addImportToPlatformYaml(
+        string $importedFileName,
+        string $env
+    ): void {
         $filePath = str_replace('%env%', $env, self::$platformConfigurationFilePath);
 
         if (!file_exists($filePath)) {

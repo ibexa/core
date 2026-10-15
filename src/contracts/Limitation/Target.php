@@ -8,13 +8,13 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Limitation;
 
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
+
 /**
  * Marker interface for PermissionResolver::canUser $targets objects.
  *
  * It's aimed to provide Limitations with information about intent (result of an action) to evaluate.
  *
- * @see \Ibexa\Contracts\Core\Repository\PermissionResolver::canUser
+ * @see PermissionResolver::canUser
  */
-interface Target
-{
-}
+interface Target {}

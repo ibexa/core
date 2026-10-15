@@ -25,7 +25,7 @@ class ContentTypeId extends CriterionHandler
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeId $criterion
+     * @param Criterion\ContentTypeId $criterion
      */
     public function handle(
         CriteriaConverter $converter,

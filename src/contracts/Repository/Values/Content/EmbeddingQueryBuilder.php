@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository\Values\Content;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Embedding;
 
@@ -21,14 +22,12 @@ final class EmbeddingQueryBuilder
 
     private ?Criterion $filter = null;
 
-    /** @var array<\Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation> */
+    /** @var array<Aggregation> */
     private array $aggregations = [];
 
     private bool $performCount = false;
 
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
     public static function create(): self
     {
@@ -64,7 +63,7 @@ final class EmbeddingQueryBuilder
     }
 
     /**
-     * @param array<\Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation> $aggregations
+     * @param array<Aggregation> $aggregations
      */
     public function setAggregations(array $aggregations): self
     {

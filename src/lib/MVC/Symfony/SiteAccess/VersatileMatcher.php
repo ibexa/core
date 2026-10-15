@@ -22,7 +22,7 @@ interface VersatileMatcher extends Matcher
      *
      * Note: VersatileMatcher objects always receive a request with cleaned-up pathInfo (i.e. no SiteAccess part inside).
      *
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess\VersatileMatcher|null Typically the current matcher, with an updated request.
+     * @return VersatileMatcher|null Typically the current matcher, with an updated request.
      */
     public function reverseMatch(string $siteAccessName): ?VersatileMatcher;
 

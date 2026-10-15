@@ -8,7 +8,9 @@
 namespace Ibexa\Core\FieldType\TextLine;
 
 use Ibexa\Contracts\Core\Exception\InvalidArgumentType;
+use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
+use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\FieldType\BaseTextType;
 use Ibexa\Core\FieldType\Validator\StringLengthValidator;
@@ -41,7 +43,7 @@ class Type extends BaseTextType implements TranslationContainerInterface
      *
      * @param array<string, mixed> $validatorConfiguration
      *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     * @return ValidationError[]
      */
     public function validateValidatorConfiguration($validatorConfiguration): array
     {
@@ -62,15 +64,17 @@ class Type extends BaseTextType implements TranslationContainerInterface
     /**
      * Validates a field based on the validators in the field definition.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition $fieldDefinition The field definition of the field
-     * @param \Ibexa\Core\FieldType\TextLine\Value $fieldValue The field value for which an action is performed
+     * @param FieldDefinition $fieldDefinition The field definition of the field
+     * @param Value $fieldValue The field value for which an action is performed
      *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     * @return ValidationError[]
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException
+     * @throws PropertyNotFoundException
      */
-    public function validate(FieldDefinition $fieldDefinition, SPIValue $fieldValue): array
-    {
+    public function validate(
+        FieldDefinition $fieldDefinition,
+        SPIValue $fieldValue
+    ): array {
         $validationErrors = [];
 
         if ($this->isEmptyValue($fieldValue)) {
@@ -91,7 +95,7 @@ class Type extends BaseTextType implements TranslationContainerInterface
     }
 
     /**
-     * @return \Ibexa\Core\FieldType\TextLine\Value
+     * @return Value
      */
     public function getEmptyValue(): Value
     {
@@ -99,9 +103,9 @@ class Type extends BaseTextType implements TranslationContainerInterface
     }
 
     /**
-     * @param string|\Ibexa\Core\FieldType\TextLine\Value $inputValue
+     * @param string|Value $inputValue
      *
-     * @return \Ibexa\Core\FieldType\TextLine\Value The potentially converted and structurally plausible value.
+     * @return Value The potentially converted and structurally plausible value.
      */
     protected function createValueFromInput($inputValue)
     {
@@ -122,7 +126,7 @@ class Type extends BaseTextType implements TranslationContainerInterface
     /**
      * Returns information for FieldValue->$sortKey relevant to the field type.
      *
-     * @param \Ibexa\Core\FieldType\TextLine\Value $value
+     * @param Value $value
      */
     protected function getSortInfo(BaseValue $value): string
     {
@@ -142,7 +146,7 @@ class Type extends BaseTextType implements TranslationContainerInterface
     }
 
     /**
-     * @return list<\JMS\TranslationBundle\Model\Message>
+     * @return list<Message>
      */
     public static function getTranslationMessages(): array
     {

@@ -10,6 +10,7 @@ namespace Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content\Sec
 
 use Doctrine\DBAL\Connection;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\SectionId;
 use Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
@@ -30,7 +31,7 @@ final class IdQueryBuilder implements CriterionQueryBuilder
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
     ): ?string {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentId $criterion */
+        /** @var ContentId $criterion */
         return $queryBuilder->expr()->in(
             'content.section_id',
             $queryBuilder->createNamedParameter(

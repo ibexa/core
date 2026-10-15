@@ -25,13 +25,13 @@ abstract class AbstractQueryType extends OptionsResolverBasedQueryType
 {
     public const DEFAULT_LIMIT = 25;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
+    /** @var Repository */
     protected $repository;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var ConfigResolverInterface */
     protected $configResolver;
 
-    /** @var \Ibexa\Core\QueryType\BuiltIn\SortClausesFactoryInterface */
+    /** @var SortClausesFactoryInterface */
     private $sortClausesFactory;
 
     public function __construct(
@@ -63,7 +63,10 @@ abstract class AbstractQueryType extends OptionsResolverBasedQueryType
             'sort' => [],
         ]);
 
-        $resolver->setNormalizer('sort', function (Options $options, $value) {
+        $resolver->setNormalizer('sort', function (
+            Options $options,
+            $value
+        ) {
             if (is_string($value)) {
                 $value = $this->sortClausesFactory->createFromSpecification($value);
             }

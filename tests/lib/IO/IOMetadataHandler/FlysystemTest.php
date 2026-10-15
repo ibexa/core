@@ -10,27 +10,31 @@ namespace Ibexa\Tests\Core\IO\IOMetadataHandler;
 use DateTime;
 use Ibexa\Contracts\Core\IO\BinaryFile as SPIBinaryFile;
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct as SPIBinaryFileCreateStruct;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
+use Ibexa\Core\IO\IOMetadataHandler;
 use Ibexa\Core\IO\IOMetadataHandler\Flysystem;
+use League\Flysystem\FilesystemOperator;
 use League\Flysystem\UnableToRetrieveMetadata;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class FlysystemTest extends TestCase
 {
-    /** @var \Ibexa\Core\IO\IOMetadataHandler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var IOMetadataHandler|MockObject */
     private $handler;
 
-    /** @var \League\Flysystem\FilesystemOperator|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var FilesystemOperator|MockObject */
     private $filesystem;
 
     protected function setUp(): void
     {
-        $this->filesystem = $this->createMock(\League\Flysystem\FilesystemOperator::class);
+        $this->filesystem = $this->createMock(FilesystemOperator::class);
         $this->handler = new Flysystem($this->filesystem);
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function testCreate(): void
     {
@@ -112,8 +116,10 @@ class FlysystemTest extends TestCase
     /**
      * @dataProvider getDataForFileExists
      */
-    public function testExists(string $filePath, bool $exists): void
-    {
+    public function testExists(
+        string $filePath,
+        bool $exists
+    ): void {
         $this->filesystem
             ->expects(self::once())
             ->method('fileExists')

@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Core\Repository\SiteAccessAware;
 
 use Closure;
 use Ibexa\Contracts\Core\Repository\LanguageResolver;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionMethod;
@@ -31,13 +32,13 @@ abstract class AbstractServiceTestCase extends TestCase
      */
     public const LANG_ARG = 0;
 
-    /** @var \object|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var object|MockObject */
     protected $innerApiServiceMock;
 
     /** @var object */
     protected $service;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LanguageResolver|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var LanguageResolver|MockObject */
     protected $languageResolverMock;
 
     abstract public function getAPIServiceClassName();
@@ -83,19 +84,22 @@ abstract class AbstractServiceTestCase extends TestCase
      * @param array $arguments
      * @param mixed $return
      */
-    final public function testForPassTrough($method, array $arguments, $return = true)
-    {
+    final public function testForPassTrough(
+        $method,
+        array $arguments,
+        $return = true
+    ) {
         if ($return) {
             $this->innerApiServiceMock
                 ->expects(self::once())
                 ->method($method)
-                ->with(...$arguments)
+                ->with(...array_values($arguments))
                 ->willReturn($return);
         } else {
             $this->innerApiServiceMock
                 ->expects(self::once())
                 ->method($method)
-                ->with(...$arguments);
+                ->with(...array_values($arguments));
         }
 
         $actualReturn = $this->service->$method(...$arguments);
@@ -120,8 +124,11 @@ abstract class AbstractServiceTestCase extends TestCase
      *
      * @return array
      */
-    protected function setLanguagesLookupExpectedArguments(array $arguments, $languageArgumentIndex, array $languages)
-    {
+    protected function setLanguagesLookupExpectedArguments(
+        array $arguments,
+        $languageArgumentIndex,
+        array $languages
+    ) {
         $arguments[$languageArgumentIndex] = $languages;
 
         return $arguments;
@@ -135,8 +142,10 @@ abstract class AbstractServiceTestCase extends TestCase
      *
      * @return array
      */
-    protected function setLanguagesLookupArguments(array $arguments, $languageArgumentIndex)
-    {
+    protected function setLanguagesLookupArguments(
+        array $arguments,
+        $languageArgumentIndex
+    ) {
         $arguments[$languageArgumentIndex] = [];
 
         return $arguments;
@@ -180,7 +189,7 @@ abstract class AbstractServiceTestCase extends TestCase
         $this->innerApiServiceMock
             ->expects(self::once())
             ->method($method)
-            ->with(...$expectedArguments)
+            ->with(...array_values($expectedArguments))
             ->willReturn($return);
 
         if ($callback instanceof Closure) {
@@ -203,8 +212,11 @@ abstract class AbstractServiceTestCase extends TestCase
      *
      * @return array
      */
-    protected function setLanguagesPassTroughArguments(array $arguments, $languageArgumentIndex, array $languages)
-    {
+    protected function setLanguagesPassTroughArguments(
+        array $arguments,
+        $languageArgumentIndex,
+        array $languages
+    ) {
         $arguments[$languageArgumentIndex] = $languages;
 
         return $arguments;
@@ -243,7 +255,7 @@ abstract class AbstractServiceTestCase extends TestCase
         $this->innerApiServiceMock
             ->expects(self::once())
             ->method($method)
-            ->with(...$arguments)
+            ->with(...array_values($arguments))
             ->willReturn($return);
 
         if ($callback instanceof Closure) {

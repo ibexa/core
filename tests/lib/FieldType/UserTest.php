@@ -206,7 +206,7 @@ class UserTest extends FieldTypeTestCase
      *
      * @dataProvider providerForTestValidate
      *
-     * @param \Ibexa\Core\FieldType\User\Value $userValue
+     * @param UserValue $userValue
      * @param array $expectedValidationErrors
      * @param callable|null $loadByLoginBehaviorCallback
      *
@@ -359,8 +359,10 @@ class UserTest extends FieldTypeTestCase
      *
      * @dataProvider providerForTestCreatePersistenceValue
      */
-    public function testCreatePersistenceValue(array $userValueDate, array $expectedFieldValueExternalData): void
-    {
+    public function testCreatePersistenceValue(
+        array $userValueDate,
+        array $expectedFieldValueExternalData
+    ): void {
         $passwordHashServiceMock = $this->createMock(PasswordHashService::class);
         $passwordHashServiceMock->method('getDefaultHashType')->willReturn(RepositoryUser::DEFAULT_PASSWORD_HASH);
         $userType = new UserType(

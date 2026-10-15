@@ -27,22 +27,22 @@ class DirectFragmentRenderer extends InlineFragmentRenderer implements FragmentR
 {
     public const NAME = 'direct';
 
-    /** @var \Symfony\Component\HttpKernel\KernelInterface */
+    /** @var KernelInterface */
     protected $kernel;
 
-    /** @var \Ibexa\Bundle\Core\EventListener\ViewControllerListener */
+    /** @var ViewControllerListener */
     protected $controllerListener;
 
-    /** @var \Symfony\Component\HttpKernel\Controller\ControllerResolverInterface */
+    /** @var ControllerResolverInterface */
     protected $controllerResolver;
 
-    /** @var \Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadataFactoryInterface */
+    /** @var ArgumentMetadataFactoryInterface */
     protected $argumentMetadataFactory;
 
-    /** @var \Symfony\Component\HttpKernel\Controller\ValueResolverInterface */
+    /** @var ValueResolverInterface */
     protected $argumentValueResolver;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\Renderer\TemplateRenderer */
+    /** @var TemplateRenderer */
     protected $viewTemplateRenderer;
 
     public function __construct(
@@ -84,8 +84,10 @@ class DirectFragmentRenderer extends InlineFragmentRenderer implements FragmentR
         return $this->controllerResolver->getController($event->getRequest());
     }
 
-    protected function getArguments(callable $controller, ControllerEvent $event): array
-    {
+    protected function getArguments(
+        callable $controller,
+        ControllerEvent $event
+    ): array {
         $argumentsMetadata = $this->argumentMetadataFactory->createArgumentMetadata($controller);
 
         $arguments = [];
@@ -115,9 +117,9 @@ class DirectFragmentRenderer extends InlineFragmentRenderer implements FragmentR
     }
 
     /**
-     * @param string|\Symfony\Component\HttpKernel\Controller\ControllerReference $uri
+     * @param string|ControllerReference $uri
      *
-     * @throws \Ibexa\Core\MVC\Symfony\Templating\Exception\InvalidResponseException
+     * @throws InvalidResponseException
      */
     public function render(
         $uri,

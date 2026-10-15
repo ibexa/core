@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Core\Repository\SiteAccessAware;
 
 use Ibexa\Contracts\Core\Repository\ContentService as APIService;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentDraftList;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
@@ -27,7 +28,7 @@ use Ibexa\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\Repository\Values\User\User;
 
 /**
- * @property \Ibexa\Contracts\Core\Repository\ContentService $service
+ * @property APIService $service
  */
 class ContentServiceTest extends AbstractServiceTestCase
 {
@@ -129,7 +130,7 @@ class ContentServiceTest extends AbstractServiceTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws BadStateException
      */
     public function providerForLanguagesLookupMethods(): array
     {

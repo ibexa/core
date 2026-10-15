@@ -8,6 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Bookmark\BookmarkList;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 
@@ -22,22 +25,22 @@ interface BookmarkService
     /**
      * Add location to bookmarks.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
+     * @param Location $location
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException When location is already bookmarked
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException If the current user user is not allowed to create bookmark
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws InvalidArgumentException When location is already bookmarked
+     * @throws UnauthorizedException If the current user user is not allowed to create bookmark
+     * @throws NotFoundException
      */
     public function createBookmark(Location $location): void;
 
     /**
      * Delete given location from bookmarks.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
+     * @param Location $location
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException When location is not bookmarked
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the current user user is not allowed to delete bookmark
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws InvalidArgumentException When location is not bookmarked
+     * @throws UnauthorizedException if the current user user is not allowed to delete bookmark
+     * @throws NotFoundException
      */
     public function deleteBookmark(Location $location): void;
 
@@ -47,16 +50,19 @@ interface BookmarkService
      * @param int $offset the start offset for paging
      * @param int $limit the number of bookmarked locations returned
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Bookmark\BookmarkList
+     * @return BookmarkList
      */
-    public function loadBookmarks(int $offset = 0, int $limit = 25): BookmarkList;
+    public function loadBookmarks(
+        int $offset = 0,
+        int $limit = 25
+    ): BookmarkList;
 
     /**
      * Return true if location is bookmarked.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
+     * @param Location $location
      *
      * @return bool
      */

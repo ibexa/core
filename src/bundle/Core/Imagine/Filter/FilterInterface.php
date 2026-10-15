@@ -17,7 +17,10 @@ interface FilterInterface extends BaseFilterInterface
      * @param string $optionName
      * @param mixed $value
      */
-    public function setOption($optionName, $value);
+    public function setOption(
+        $optionName,
+        $value
+    );
 
     /**
      * Returns value for $optionName.
@@ -28,7 +31,10 @@ interface FilterInterface extends BaseFilterInterface
      *
      * @return mixed
      */
-    public function getOption($optionName, $defaultValue = null);
+    public function getOption(
+        $optionName,
+        $defaultValue = null
+    );
 
     /**
      * Checks if $optionName exists and has a value.

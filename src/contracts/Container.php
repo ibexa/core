@@ -7,6 +7,8 @@
 
 namespace Ibexa\Contracts\Core;
 
+use Ibexa\Contracts\Core\Repository\Repository;
+
 /**
  * Container interface.
  *
@@ -19,7 +21,7 @@ interface Container
      *
      * Public API for
      *
-     * @return \Ibexa\Contracts\Core\Repository\Repository
+     * @return Repository
      */
     public function getRepository();
 }

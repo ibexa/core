@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft;
 
 /**
  * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation
@@ -39,7 +40,7 @@ class ContentTypeLimitationTest extends BaseLimitationTestCase
         $role = $roleService->loadRoleByIdentifier('Editor');
         $roleDraft = $roleService->createRoleDraft($role);
         $editPolicy = null;
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft $policy */
+        /** @var PolicyDraft $policy */
         foreach ($roleDraft->getPolicies() as $policy) {
             if ('content' != $policy->module || 'edit' != $policy->function) {
                 continue;
@@ -111,7 +112,7 @@ class ContentTypeLimitationTest extends BaseLimitationTestCase
         $role = $roleService->loadRoleByIdentifier('Editor');
         $roleDraft = $roleService->createRoleDraft($role);
         $editPolicy = null;
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft $policy */
+        /** @var PolicyDraft $policy */
         foreach ($roleDraft->getPolicies() as $policy) {
             if ('content' != $policy->module || 'edit' != $policy->function) {
                 continue;
@@ -170,7 +171,7 @@ class ContentTypeLimitationTest extends BaseLimitationTestCase
         $roleDraft = $roleService->createRoleDraft($role);
         // Search for the new policy instance
         $policy = null;
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft $policy */
+        /** @var PolicyDraft $policy */
         $editPolicy = null;
         foreach ($roleDraft->getPolicies() as $policy) {
             if ('content' != $policy->module || 'edit' != $policy->function) {

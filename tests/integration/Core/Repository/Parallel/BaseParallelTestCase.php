@@ -26,8 +26,10 @@ abstract class BaseParallelTestCase extends BaseTestCase
         }
     }
 
-    protected function addParallelProcess(ParallelProcessList $list, callable $callback): void
-    {
+    protected function addParallelProcess(
+        ParallelProcessList $list,
+        callable $callback
+    ): void {
         $connection = $this->getRawDatabaseConnection();
 
         $process = new Process(static function () use ($callback, $connection) {

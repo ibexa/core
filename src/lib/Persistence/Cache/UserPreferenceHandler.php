@@ -61,8 +61,10 @@ class UserPreferenceHandler extends AbstractInMemoryPersistenceHandler implement
      *
      * Needs to store NotFoundExceptions as UserPreference feature heavily uses this in valid lookups.
      */
-    public function getUserPreferenceByUserIdAndName(int $userId, string $name): UserPreference
-    {
+    public function getUserPreferenceByUserIdAndName(
+        int $userId,
+        string $name
+    ): UserPreference {
         $userPreference = $this->getCacheValue(
             $userId,
             $this->cacheIdentifierGenerator->generateKey(self::USER_PREFERENCE_IDENTIFIER, [], true) . '-',
@@ -101,8 +103,11 @@ class UserPreferenceHandler extends AbstractInMemoryPersistenceHandler implement
     /**
      * {@inheritdoc}
      */
-    public function loadUserPreferences(int $userId, int $offset, int $limit): array
-    {
+    public function loadUserPreferences(
+        int $userId,
+        int $offset,
+        int $limit
+    ): array {
         $this->logger->logCall(__METHOD__, [
             'userId' => $userId,
             'offset' => $offset,

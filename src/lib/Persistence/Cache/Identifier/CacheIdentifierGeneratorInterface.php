@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Cache\Identifier;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+
 /**
  * @internal
  */
@@ -18,16 +20,24 @@ interface CacheIdentifierGeneratorInterface
      * @param array $values containing scalars, mostly integers and strings
      * @param bool $withPrefix used mainly by keys, if set to true, tags will be prefixed with ibx-
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    public function generateTag(string $patternName, array $values = [], bool $withPrefix = false): string;
+    public function generateTag(
+        string $patternName,
+        array $values = [],
+        bool $withPrefix = false
+    ): string;
 
     /**
      * @param string $patternName patterns determining how the tag will look like, defined in ibexa.core.persistence.cache.key_patterns
      * @param array $values containing scalars, mostly integers and strings
      * @param bool $withPrefix used mainly by keys, if set to true, tags will be prefixed with ibx-
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    public function generateKey(string $patternName, array $values = [], bool $withPrefix = false): string;
+    public function generateKey(
+        string $patternName,
+        array $values = [],
+        bool $withPrefix = false
+    ): string;
 }

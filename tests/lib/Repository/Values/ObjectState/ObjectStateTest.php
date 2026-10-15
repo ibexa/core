@@ -46,7 +46,7 @@ class ObjectStateTest extends TestCase
     /**
      * Test a new class with unified multi language logic properties.
      *
-     * @return \Ibexa\Core\Repository\Values\ObjectState\ObjectState
+     * @return ObjectState
      */
     public function testNewClassWithMultiLanguageProperties()
     {

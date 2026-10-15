@@ -251,7 +251,7 @@ class ImageAssetTest extends FieldTypeTestCase
     /**
      * @dataProvider provideDataForTestValidateValidNonEmptyAssetValue
      *
-     * @param array<\Ibexa\Core\FieldType\ValidationError> $expectedValidationErrors
+     * @param array<ValidationError> $expectedValidationErrors
      */
     public function testValidateValidNonEmptyAssetValue(
         int $fileSize,
@@ -308,7 +308,7 @@ class ImageAssetTest extends FieldTypeTestCase
     /**
      * @return iterable<array{
      *     int,
-     *     array<\Ibexa\Core\FieldType\ValidationError>,
+     *     array<ValidationError>,
      * }>
      */
     public function provideDataForTestValidateValidNonEmptyAssetValue(): iterable
@@ -360,7 +360,7 @@ class ImageAssetTest extends FieldTypeTestCase
         array $fieldSettings = [],
         string $languageCode = 'en_GB'
     ): void {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition|\PHPUnit\Framework\MockObject\MockObject $fieldDefinitionMock */
+        /** @var FieldDefinition|MockObject $fieldDefinitionMock */
         $fieldDefinitionMock = $this->createMock(FieldDefinition::class);
         $fieldDefinitionMock->method('getFieldSettings')->willReturn($fieldSettings);
 

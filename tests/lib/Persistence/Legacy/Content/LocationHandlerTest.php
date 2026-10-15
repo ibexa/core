@@ -23,6 +23,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Handler as ObjectStateHandler;
 use Ibexa\Core\Persistence\Legacy\Content\TreeHandler;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @covers \Ibexa\Core\Persistence\Legacy\Content\Location\Handler
@@ -32,35 +33,35 @@ class LocationHandlerTest extends TestCase
     /**
      * Mocked location gateway instance.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Gateway
+     * @var Gateway
      */
     protected $locationGateway;
 
     /**
      * Mocked location mapper instance.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Mapper
+     * @var Mapper
      */
     protected $locationMapper;
 
     /**
      * Mocked content handler instance.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Handler
+     * @var ContentHandler
      */
     protected $contentHandler;
 
     /**
      * Mocked object state handler instance.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Handler|\PHPUnit\Framework\MockObject\MockObject
+     * @var ObjectStateHandler|MockObject
      */
     protected $objectStateHandler;
 
     /**
      * Mocked Tree handler instance.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\TreeHandler|\PHPUnit\Framework\MockObject\MockObject
+     * @var TreeHandler|MockObject
      */
     protected $treeHandler;
 
@@ -671,7 +672,7 @@ class LocationHandlerTest extends TestCase
      *
      * @param string[] $methods
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Location\Handler
+     * @return LocationHandler
      */
     protected function getPartlyMockedHandler(array $methods)
     {

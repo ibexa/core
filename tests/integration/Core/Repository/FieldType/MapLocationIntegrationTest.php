@@ -125,7 +125,7 @@ class MapLocationIntegrationTest extends BaseIntegrationTestCase
      * Asserts that the data provided by {@link getValidCreationFieldData()}
      * was stored and loaded correctly.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Field $field
      */
     public function assertFieldDataLoadedCorrect(Field $field)
     {
@@ -219,7 +219,7 @@ class MapLocationIntegrationTest extends BaseIntegrationTestCase
      * Asserts that the data provided by {@link getValidCreationFieldData()}
      * was copied and loaded correctly.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Field $field
      */
     public function assertCopiedFieldDataLoadedCorrectly(Field $field)
     {

@@ -12,19 +12,21 @@ use Ibexa\Core\MVC\Symfony\Event\PreContentViewEvent;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\View\ContentView;
 use Ibexa\Core\MVC\Symfony\View\Renderer\TemplateRenderer;
+use Ibexa\Core\MVC\Symfony\View\View;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Twig\Environment;
 
 class TemplateRendererTest extends TestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\View\Renderer\TemplateRenderer */
+    /** @var TemplateRenderer */
     private $renderer;
 
-    /** @var \Twig\Environment|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Environment|MockObject */
     private $templateEngineMock;
 
-    /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var EventDispatcherInterface|MockObject */
     private $eventDispatcherMock;
 
     protected function setUp(): void
@@ -69,7 +71,7 @@ class TemplateRendererTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\MVC\Symfony\View\View
+     * @return View
      */
     protected function createView()
     {

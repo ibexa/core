@@ -8,14 +8,16 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Persistence\UserPreference;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+
 interface Handler
 {
     /**
      * Store UserPreference ValueObject in persistent storage.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\UserPreference\UserPreferenceSetStruct $setStruct
+     * @param UserPreferenceSetStruct $setStruct
      *
-     * @return \Ibexa\Contracts\Core\Persistence\UserPreference\UserPreference
+     * @return UserPreference
      */
     public function setUserPreference(UserPreferenceSetStruct $setStruct): UserPreference;
 
@@ -25,20 +27,27 @@ interface Handler
      * @param int $userId
      * @param string $name
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If no value is found for given preference name.
+     * @throws NotFoundException If no value is found for given preference name.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\UserPreference\UserPreference
+     * @return UserPreference
      */
-    public function getUserPreferenceByUserIdAndName(int $userId, string $name): UserPreference;
+    public function getUserPreferenceByUserIdAndName(
+        int $userId,
+        string $name
+    ): UserPreference;
 
     /**
      * @param int $userId
      * @param int $offset
      * @param int $limit
      *
-     * @return \Ibexa\Contracts\Core\Persistence\UserPreference\UserPreference[]
+     * @return UserPreference[]
      */
-    public function loadUserPreferences(int $userId, int $offset, int $limit): array;
+    public function loadUserPreferences(
+        int $userId,
+        int $offset,
+        int $limit
+    ): array;
 
     /**
      * @param int $userId

@@ -120,8 +120,10 @@ abstract class BaseLimitationTestCase extends BaseTestCase
         return $wikiPageCreate;
     }
 
-    protected function addPolicyToRole(string $roleIdentifier, PolicyCreateStruct $policyCreateStruct): Role
-    {
+    protected function addPolicyToRole(
+        string $roleIdentifier,
+        PolicyCreateStruct $policyCreateStruct
+    ): Role {
         $roleService = $this->getRepository()->getRoleService();
 
         $role = $roleService->loadRoleByIdentifier($roleIdentifier);

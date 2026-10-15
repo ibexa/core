@@ -14,6 +14,7 @@ use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
 use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class ConfigScopeChangeAwareIOServiceTest extends TestCase
@@ -21,13 +22,13 @@ final class ConfigScopeChangeAwareIOServiceTest extends TestCase
     protected const PREFIX = 'test-prefix';
     protected const PREFIX_PARAMETER_NAME = 'param';
 
-    /** @var \Ibexa\Core\IO\ConfigScopeChangeAwareIOService */
+    /** @var ConfigScopeChangeAwareIOService */
     protected $ioService;
 
-    /** @var \Ibexa\Core\IO\ConfigScopeChangeAwareIOService|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ConfigScopeChangeAwareIOService|MockObject */
     protected $innerIOService;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ConfigResolverInterface|MockObject */
     protected $configResolver;
 
     protected function setUp(): void

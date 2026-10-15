@@ -34,8 +34,8 @@ final class ContentTypeDomainMapperTest extends TestCase
         $this->fieldTypeRegistry = $this->createMock(FieldTypeRegistry::class);
 
         $this->mapper = new ContentTypeDomainMapper(
-            $this->createMock(SPITypeHandler::class),
-            $this->createMock(SPILanguageHandler::class),
+            self::createStub(SPITypeHandler::class),
+            self::createStub(SPILanguageHandler::class),
             $this->fieldTypeRegistry,
         );
     }
@@ -114,8 +114,10 @@ final class ContentTypeDomainMapperTest extends TestCase
         ]);
     }
 
-    private function configureFieldTypeRegistry(TextLineValue $expectedInput, FieldValue $persistedValue): void
-    {
+    private function configureFieldTypeRegistry(
+        TextLineValue $expectedInput,
+        FieldValue $persistedValue
+    ): void {
         $fieldType = $this->createMock(FieldTypeInterface::class);
         $fieldType->method('validateValidatorConfiguration')->willReturn([]);
         $fieldType->method('validateFieldSettings')->willReturn([]);

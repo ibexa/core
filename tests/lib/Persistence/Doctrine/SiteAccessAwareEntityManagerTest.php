@@ -18,7 +18,7 @@ use stdClass;
 
 final class SiteAccessAwareEntityManagerTest extends TestCase
 {
-    private EntityManagerInterface&MockObject $wrappedEntityManager;
+    private EntityManagerInterface & MockObject $wrappedEntityManager;
 
     private SiteAccessAwareEntityManager $entityManager;
 

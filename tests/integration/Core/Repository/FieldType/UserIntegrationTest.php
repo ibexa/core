@@ -138,7 +138,7 @@ class UserIntegrationTest extends BaseIntegrationTestCase
     /**
      * Get initial field externals data.
      *
-     * @return \Ibexa\Core\FieldType\User\Value
+     * @return UserValue
      */
     public function getValidCreationFieldData(): UserValue
     {
@@ -166,7 +166,7 @@ class UserIntegrationTest extends BaseIntegrationTestCase
      * Asserts that the data provided by {@link getValidCreationFieldData()}
      * was stored and loaded correctly.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Field $field
      */
     public function assertFieldDataLoadedCorrect(Field $field)
     {
@@ -206,7 +206,7 @@ class UserIntegrationTest extends BaseIntegrationTestCase
     /**
      * Get update field externals data.
      *
-     * @return \Ibexa\Core\FieldType\User\Value
+     * @return UserValue
      */
     public function getValidUpdateFieldData()
     {
@@ -269,7 +269,7 @@ class UserIntegrationTest extends BaseIntegrationTestCase
      * Asserts that the data provided by {@link getValidCreationFieldData()};
      * was copied and loaded correctly.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Field $field
      */
     public function assertCopiedFieldDataLoadedCorrectly(Field $field)
     {
@@ -371,8 +371,10 @@ class UserIntegrationTest extends BaseIntegrationTestCase
      *
      * @param mixed $fieldData
      */
-    protected function createContent($fieldData, $contentType = null)
-    {
+    protected function createContent(
+        $fieldData,
+        $contentType = null
+    ) {
         if ($contentType === null) {
             $contentType = $this->testCreateContentType();
         }
@@ -514,9 +516,9 @@ class UserIntegrationTest extends BaseIntegrationTestCase
     /**
      * Finds ibexa_user field definition in given $contentType or mark test as failed if it doens't exists.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
+     * @param ContentType $contentType
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition
+     * @return FieldDefinition
      */
     private function getUserFieldDefinition(ContentType $contentType): FieldDefinition
     {

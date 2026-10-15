@@ -11,10 +11,11 @@ use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Depth as DepthMatcher;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class DepthTest extends BaseTestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Depth */
+    /** @var DepthMatcher */
     private $matcher;
 
     protected function setUp(): void
@@ -26,15 +27,18 @@ class DepthTest extends BaseTestCase
     /**
      * @dataProvider matchLocationProvider
      *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Depth::matchLocation
+     * @covers \DepthMatcher::matchLocation
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      *
      * @param int|int[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
+     * @param Location $location
      * @param bool $expectedResult
      */
-    public function testMatchLocation($matchingConfig, Location $location, $expectedResult)
-    {
+    public function testMatchLocation(
+        $matchingConfig,
+        Location $location,
+        $expectedResult
+    ) {
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame($expectedResult, $this->matcher->matchLocation($location));
     }
@@ -78,16 +82,19 @@ class DepthTest extends BaseTestCase
     /**
      * @dataProvider matchContentInfoProvider
      *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Depth::matchContentInfo
+     * @covers \DepthMatcher::matchContentInfo
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      * @covers \Ibexa\Core\MVC\RepositoryAware::setRepository
      *
      * @param int|int[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
+     * @param Repository $repository
      * @param bool $expectedResult
      */
-    public function testMatchContentInfo($matchingConfig, Repository $repository, $expectedResult)
-    {
+    public function testMatchContentInfo(
+        $matchingConfig,
+        Repository $repository,
+        $expectedResult
+    ) {
         $this->matcher->setRepository($repository);
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame(
@@ -127,7 +134,7 @@ class DepthTest extends BaseTestCase
      *
      * @param int $depth
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     private function generateRepositoryMockForDepth($depth)
     {

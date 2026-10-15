@@ -148,7 +148,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTestCase
      * Asserts that the data provided by {@link getValidCreationFieldData()}
      * was stored and loaded correctly.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Field $field
      */
     public function assertFieldDataLoadedCorrect(Field $field)
     {
@@ -158,7 +158,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTestCase
         );
 
         $expectedData = [
-            'value' => new \DateTime('@123456'),
+            'value' => new DateTime('@123456'),
         ];
         $this->assertPropertiesCorrect(
             $expectedData,
@@ -200,7 +200,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTestCase
         );
 
         $expectedData = [
-            'value' => new \DateTime('@12345678'),
+            'value' => new DateTime('@12345678'),
         ];
         $this->assertPropertiesCorrect(
             $expectedData,
@@ -221,8 +221,10 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @dataProvider provideInvalidUpdateFieldData
      */
-    public function testUpdateContentFails($failingValue, $expectedException)
-    {
+    public function testUpdateContentFails(
+        $failingValue,
+        $expectedException
+    ) {
         return [
             [
                 'Some unknown date format', InvalidArgumentException::class,
@@ -236,7 +238,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTestCase
      * Asserts that the data provided by {@link getValidCreationFieldData()}
      * was copied and loaded correctly.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Field $field
      */
     public function assertCopiedFieldDataLoadedCorrectly(Field $field)
     {
@@ -246,7 +248,7 @@ class DateAndTimeIntegrationTest extends SearchBaseIntegrationTestCase
         );
 
         $expectedData = [
-            'value' => new \DateTime('@123456'),
+            'value' => new DateTime('@123456'),
         ];
         $this->assertPropertiesCorrect(
             $expectedData,

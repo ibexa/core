@@ -18,6 +18,7 @@ use Ibexa\Core\Repository\ContentService;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Twig\Environment;
@@ -27,22 +28,22 @@ use Twig\Environment;
  */
 class ViewManagerTest extends TestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\View\Manager */
+    /** @var Manager */
     private $viewManager;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Twig\Environment */
+    /** @var MockObject|Environment */
     private $templateEngineMock;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Symfony\Component\EventDispatcher\EventDispatcherInterface */
+    /** @var MockObject|EventDispatcherInterface */
     private $eventDispatcherMock;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\Repository\Repository */
+    /** @var MockObject|Repository */
     private $repositoryMock;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var MockObject|ConfigResolverInterface */
     private $configResolverMock;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\Configurator|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Configurator|MockObject */
     private $viewConfigurator;
 
     private $viewBaseLayout = 'IbexaCoreBundle::viewbase.html.twig';

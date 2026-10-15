@@ -82,10 +82,12 @@ final class FloatStepRangesGeneratorTest extends TestCase
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Range<float>[] $expectedResult
+     * @param Range<float>[] $expectedResult
      */
-    private static function assertGeneratorResults(array $expectedResult, FloatStepRangesGenerator $generator): void
-    {
+    private static function assertGeneratorResults(
+        array $expectedResult,
+        FloatStepRangesGenerator $generator
+    ): void {
         self::assertEquals($expectedResult, $generator->generate());
     }
 }

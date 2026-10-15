@@ -7,6 +7,8 @@
 
 namespace Ibexa\Core\QueryType;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+
 /**
  * A QueryType is a pre-defined content or location query.
  *
@@ -19,7 +21,7 @@ interface QueryType
      *
      * @param array $parameters A hash of parameters that will be used to build the Query
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query
+     * @return Query
      */
     public function getQuery(array $parameters = []);
 

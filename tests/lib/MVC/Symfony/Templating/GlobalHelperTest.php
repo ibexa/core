@@ -14,6 +14,7 @@ use Ibexa\Core\Helper\TranslationHelper;
 use Ibexa\Core\MVC\Symfony\Routing\UrlAliasRouter;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\Templating\GlobalHelper;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,22 +23,22 @@ use Symfony\Component\Routing\RouterInterface;
 
 class GlobalHelperTest extends TestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Templating\GlobalHelper */
+    /** @var GlobalHelper */
     protected $helper;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     protected $container;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     protected $locationService;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     protected $configResolver;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     protected $router;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     protected $translationHelper;
 
     protected function setUp(): void

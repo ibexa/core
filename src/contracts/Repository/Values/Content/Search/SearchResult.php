@@ -27,7 +27,7 @@ class SearchResult extends ValueObject implements IteratorAggregate, Aggregation
     /**
      * The value objects found for the query.
      *
-     * @phpstan-var list<\Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit<TSearchHitValueObject>>
+     * @phpstan-var list<SearchHit<TSearchHitValueObject>>
      */
     public array $searchHits = [];
 

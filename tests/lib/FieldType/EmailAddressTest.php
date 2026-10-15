@@ -26,7 +26,10 @@ class EmailAddressTest extends FieldTypeTestCase
             ->method('transformByGroup')
             ->with(self::anything(), 'lowercase')
             ->willReturnCallback(
-                static function ($value, $group): string {
+                static function (
+                    $value,
+                    $group
+                ): string {
                     return strtolower($value);
                 }
             );

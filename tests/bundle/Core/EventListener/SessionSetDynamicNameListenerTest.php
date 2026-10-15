@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Event\PostSiteAccessMatchEvent;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -24,13 +25,13 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 final class SessionSetDynamicNameListenerTest extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ConfigResolverInterface&MockObject */
     private ConfigResolverInterface $configResolver;
 
-    /** @var \Symfony\Component\HttpFoundation\Session\Storage\SessionStorageFactoryInterface&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var SessionStorageFactoryInterface&MockObject */
     private SessionStorageFactoryInterface $sessionStorageFactory;
 
-    /** @var \Symfony\Component\HttpFoundation\Session\Storage\SessionStorageInterface&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var SessionStorageInterface&MockObject */
     private SessionStorageInterface $sessionStorage;
 
     protected function setUp(): void
@@ -100,8 +101,11 @@ final class SessionSetDynamicNameListenerTest extends TestCase
     /**
      * @dataProvider onSiteAccessMatchProvider
      */
-    public function testOnSiteAccessMatch(SiteAccess $siteAccess, $configuredSessionStorageOptions, array $expectedSessionStorageOptions): void
-    {
+    public function testOnSiteAccessMatch(
+        SiteAccess $siteAccess,
+        $configuredSessionStorageOptions,
+        array $expectedSessionStorageOptions
+    ): void {
         $request = new Request();
         $request->setSession(new Session(new MockArraySessionStorage()));
 
@@ -120,7 +124,7 @@ final class SessionSetDynamicNameListenerTest extends TestCase
     }
 
     /**
-     * @return array{array{\Ibexa\Core\MVC\Symfony\SiteAccess, array<string, string>, array<string, string>}}
+     * @return array{array{SiteAccess, array<string, string>, array<string, string>}}
      */
     public function onSiteAccessMatchProvider(): array
     {

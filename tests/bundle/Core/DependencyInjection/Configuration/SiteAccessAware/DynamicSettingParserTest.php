@@ -15,8 +15,10 @@ class DynamicSettingParserTest extends TestCase
     /**
      * @dataProvider isDynamicSettingProvider
      */
-    public function testIsDynamicSetting($setting, $expected)
-    {
+    public function testIsDynamicSetting(
+        $setting,
+        $expected
+    ) {
         $parser = new DynamicSettingParser();
         self::assertSame($expected, $parser->isDynamicSetting($setting));
     }
@@ -51,8 +53,10 @@ class DynamicSettingParserTest extends TestCase
     /**
      * @dataProvider parseDynamicSettingProvider
      */
-    public function testParseDynamicSetting($setting, array $expected)
-    {
+    public function testParseDynamicSetting(
+        $setting,
+        array $expected
+    ) {
         $parser = new DynamicSettingParser();
         self::assertSame($expected, $parser->parseDynamicSetting($setting));
     }

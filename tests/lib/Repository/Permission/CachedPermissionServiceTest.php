@@ -71,8 +71,11 @@ class CachedPermissionServiceTest extends TestCase
      * @param array $arguments
      * @param $expectedReturn
      */
-    public function testPermissionResolverPassTrough($method, array $arguments, $expectedReturn)
-    {
+    public function testPermissionResolverPassTrough(
+        $method,
+        array $arguments,
+        $expectedReturn
+    ) {
         if ($expectedReturn !== null) {
             $this->getPermissionResolverMock([$method])
                 ->expects(self::once())
@@ -167,7 +170,7 @@ class CachedPermissionServiceTest extends TestCase
      *
      * @param int $ttl
      *
-     * @return \Ibexa\Core\Repository\Permission\CachedPermissionService
+     * @return CachedPermissionService
      */
     protected function getCachedPermissionService($ttl = 5)
     {

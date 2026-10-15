@@ -28,8 +28,11 @@ class BadStateException extends APIBadStateException implements Translatable
     /**
      * Generates: "Argument '{$argumentName}' has a bad state: {$whatIsWrong}".
      */
-    public function __construct(string $argumentName, string $whatIsWrong, ?Exception $previous = null)
-    {
+    public function __construct(
+        string $argumentName,
+        string $whatIsWrong,
+        ?Exception $previous = null
+    ) {
         $this->setMessageTemplate("Argument '%argumentName%' has a bad state: %whatIsWrong%");
         $this->setParameters(['%argumentName%' => $argumentName, '%whatIsWrong%' => $whatIsWrong]);
         parent::__construct($this->getBaseTranslation(), 0, $previous);

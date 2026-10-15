@@ -113,7 +113,7 @@ class Value extends BaseValue
     /**
      * Creates a value only from a file path.
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
+     * @throws InvalidArgumentType
      */
     public static function fromString(string $path): self
     {

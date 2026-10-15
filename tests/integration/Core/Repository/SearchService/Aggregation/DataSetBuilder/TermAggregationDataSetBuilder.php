@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResult\Term
  */
 final class TermAggregationDataSetBuilder
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation */
+    /** @var Aggregation */
     private $aggregation;
 
     /** @var array */

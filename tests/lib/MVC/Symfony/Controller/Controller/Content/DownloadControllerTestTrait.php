@@ -50,8 +50,10 @@ trait DownloadControllerTestTrait
         );
     }
 
-    private function expectContentLoaded(int $contentId, Content $content): void
-    {
+    private function expectContentLoaded(
+        int $contentId,
+        Content $content
+    ): void {
         $this->contentService
             ->expects(self::once())
             ->method('loadContent')
@@ -59,8 +61,11 @@ trait DownloadControllerTestTrait
             ->willReturn($content);
     }
 
-    private function expectTranslatedField(Content $content, string $fieldIdentifier, ?Field $field): void
-    {
+    private function expectTranslatedField(
+        Content $content,
+        string $fieldIdentifier,
+        ?Field $field
+    ): void {
         $this->translationHelper
             ->expects(self::once())
             ->method('getTranslatedField')
@@ -94,8 +99,11 @@ trait DownloadControllerTestTrait
         ]);
     }
 
-    private function createContent(string $fileName, int $contentId = 42, string $contentName = 'Test content'): Content
-    {
+    private function createContent(
+        string $fileName,
+        int $contentId = 42,
+        string $contentName = 'Test content'
+    ): Content {
         return new Content([
             'internalFields' => [
                 new Field([

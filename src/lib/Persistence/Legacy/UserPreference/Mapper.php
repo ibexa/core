@@ -17,7 +17,7 @@ class Mapper
      *
      * @param array $rows
      *
-     * @return \Ibexa\Contracts\Core\Persistence\UserPreference\UserPreference[]
+     * @return UserPreference[]
      */
     public function extractUserPreferencesFromRows(array $rows): array
     {
@@ -34,7 +34,7 @@ class Mapper
      *
      * @param array $row
      *
-     * @return \Ibexa\Contracts\Core\Persistence\UserPreference\UserPreference
+     * @return UserPreference
      */
     private function extractUserPreferenceFromRow(array $row): UserPreference
     {

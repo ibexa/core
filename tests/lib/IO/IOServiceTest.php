@@ -12,6 +12,9 @@ use Closure;
 use Ibexa\Contracts\Core\IO\BinaryFile as SPIBinaryFile;
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct as SPIBinaryFileCreateStruct;
 use Ibexa\Contracts\Core\IO\MimeTypeDetector;
+use Ibexa\Contracts\Core\Repository\Exceptions\Exception;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
 use Ibexa\Core\IO\IOBinarydataHandler;
 use Ibexa\Core\IO\IOMetadataHandler;
@@ -143,7 +146,7 @@ class IOServiceTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testLoadBinaryFileNoMetadataUri(): BinaryFile
     {
@@ -178,8 +181,8 @@ class IOServiceTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws InvalidArgumentException
+     * @throws NotFoundException
      */
     public function testLoadBinaryFileNotFound(): BinaryFile
     {
@@ -217,8 +220,8 @@ class IOServiceTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws InvalidArgumentException
+     * @throws NotFoundException
      */
     public function testLoadBinaryFileByUriNotFound(): BinaryFile
     {
@@ -335,7 +338,7 @@ class IOServiceTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function testDeleteBinaryFileNotFound(): void
     {
@@ -369,8 +372,8 @@ class IOServiceTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws InvalidArgumentException
+     * @throws NotFoundException
      */
     protected function loadBinaryFileNotFound(): BinaryFile
     {
@@ -387,7 +390,7 @@ class IOServiceTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function deleteBinaryFileNotFound(): void
     {
@@ -406,8 +409,8 @@ class IOServiceTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws InvalidArgumentException
+     * @throws NotFoundException
      */
     protected function loadBinaryFileByUriNotFound(): BinaryFile
     {

@@ -16,13 +16,14 @@ use Ibexa\Core\MVC\Symfony\Event\RouteReferenceGenerationEvent;
 use Ibexa\Core\MVC\Symfony\Routing\RouteReference;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\HttpFoundation\Request;
 
 class ContentDownloadRouteReferenceListenerTest extends TestCase
 {
-    /** @var \Ibexa\Core\Helper\TranslationHelper|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var TranslationHelper|MockObject */
     protected $translationHelperMock;
 
     protected function setUp(): void
@@ -133,7 +134,7 @@ class ContentDownloadRouteReferenceListenerTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Repository\Values\Content\Content
+     * @return Content
      */
     protected function getCompleteContent()
     {

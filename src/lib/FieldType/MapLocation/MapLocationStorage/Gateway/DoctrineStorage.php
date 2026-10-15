@@ -17,7 +17,7 @@ class DoctrineStorage extends Gateway
 {
     public const MAP_LOCATION_TABLE = 'ibexa_map_location';
 
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     protected $connection;
 
     public function __construct(Connection $connection)
@@ -31,13 +31,15 @@ class DoctrineStorage extends Gateway
      * Potentially rewrites data in $field and returns true, if the $field
      * needs to be updated in the database.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
+     * @param VersionInfo $versionInfo
+     * @param Field $field
      *
      * @return bool If restoring of the internal field data is required
      */
-    public function storeFieldData(VersionInfo $versionInfo, Field $field): bool
-    {
+    public function storeFieldData(
+        VersionInfo $versionInfo,
+        Field $field
+    ): bool {
         if ($field->value->externalData === null) {
             // Store empty value and return
             $this->deleteFieldData($versionInfo, [$field->id]);
@@ -66,11 +68,13 @@ class DoctrineStorage extends Gateway
     /**
      * Perform an update on the field data.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
+     * @param VersionInfo $versionInfo
+     * @param Field $field
      */
-    protected function updateFieldData(VersionInfo $versionInfo, Field $field)
-    {
+    protected function updateFieldData(
+        VersionInfo $versionInfo,
+        Field $field
+    ) {
         $updateQuery = $this->connection->createQueryBuilder();
         $updateQuery->update($this->connection->quoteIdentifier(self::MAP_LOCATION_TABLE))
             ->set($this->connection->quoteIdentifier('latitude'), ':latitude')
@@ -101,11 +105,13 @@ class DoctrineStorage extends Gateway
     /**
      * Store new field data.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
+     * @param VersionInfo $versionInfo
+     * @param Field $field
      */
-    protected function storeNewFieldData(VersionInfo $versionInfo, Field $field)
-    {
+    protected function storeNewFieldData(
+        VersionInfo $versionInfo,
+        Field $field
+    ) {
         $insertQuery = $this->connection->createQueryBuilder();
         $insertQuery
             ->insert($this->connection->quoteIdentifier(self::MAP_LOCATION_TABLE))
@@ -129,13 +135,15 @@ class DoctrineStorage extends Gateway
     /**
      * Set the loaded field data into $field->externalData.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
+     * @param VersionInfo $versionInfo
+     * @param Field $field
      *
      * @return array
      */
-    public function getFieldData(VersionInfo $versionInfo, Field $field)
-    {
+    public function getFieldData(
+        VersionInfo $versionInfo,
+        Field $field
+    ) {
         $field->value->externalData = $this->loadFieldData($field->id, $versionInfo->versionNo);
     }
 
@@ -149,8 +157,10 @@ class DoctrineStorage extends Gateway
      *
      * @return array|\ArrayAccess<string, float>|null
      */
-    protected function loadFieldData($fieldId, $versionNo)
-    {
+    protected function loadFieldData(
+        $fieldId,
+        $versionNo
+    ) {
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery
             ->select(
@@ -197,19 +207,23 @@ class DoctrineStorage extends Gateway
      *
      * @return bool
      */
-    protected function hasFieldData($fieldId, $versionNo): bool
-    {
+    protected function hasFieldData(
+        $fieldId,
+        $versionNo
+    ): bool {
         return $this->loadFieldData($fieldId, $versionNo) !== null;
     }
 
     /**
      * Delete the data for all given $fieldIds.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $versionInfo
+     * @param VersionInfo $versionInfo
      * @param int[] $fieldIds
      */
-    public function deleteFieldData(VersionInfo $versionInfo, array $fieldIds)
-    {
+    public function deleteFieldData(
+        VersionInfo $versionInfo,
+        array $fieldIds
+    ) {
         if (empty($fieldIds)) {
             // Nothing to do
             return;

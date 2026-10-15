@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\MVC\Symfony\Controller\Controller\Content;
 
 use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Contracts\Core\Repository\Exceptions\Exception;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
@@ -19,6 +20,7 @@ use Ibexa\Core\Helper\PreviewLocationProvider;
 use Ibexa\Core\MVC\Symfony\Controller\Content\PreviewController;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,28 +34,28 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 final class PreviewControllerTest extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ContentService&MockObject */
     protected ContentService $contentService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var LocationService&MockObject */
     protected LocationService $locationService;
 
-    /** @var \Symfony\Component\HttpKernel\HttpKernelInterface&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var HttpKernelInterface&MockObject */
     protected HttpKernelInterface $httpKernel;
 
-    /** @var \Ibexa\Core\Helper\ContentPreviewHelper&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ContentPreviewHelper&MockObject */
     protected ContentPreviewHelper $previewHelper;
 
-    /** @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var AuthorizationCheckerInterface&MockObject */
     protected AuthorizationCheckerInterface $authorizationChecker;
 
-    /** @var \Ibexa\Core\Helper\PreviewLocationProvider&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var PreviewLocationProvider&MockObject */
     protected PreviewLocationProvider $locationProvider;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var CustomLocationControllerChecker&MockObject */
     protected CustomLocationControllerChecker $controllerChecker;
 
-    /** @var \Psr\Log\LoggerInterface&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var LoggerInterface&MockObject */
     private LoggerInterface $logger;
 
     protected function setUp(): void
@@ -86,7 +88,7 @@ final class PreviewControllerTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testPreviewUnauthorized(): void
     {
@@ -107,7 +109,7 @@ final class PreviewControllerTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testPreviewCanUserFail(): void
     {
@@ -226,7 +228,7 @@ final class PreviewControllerTest extends TestCase
     /**
      * @dataProvider getDataForTestPreview
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testPreview(
         ?SiteAccess $previewSiteAccess,

@@ -281,7 +281,7 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
     }
 
     /**
-     * @return \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Mapper
+     * @return Mapper
      */
     protected function getMapper()
     {

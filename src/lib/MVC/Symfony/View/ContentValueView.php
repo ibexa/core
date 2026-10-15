@@ -7,6 +7,8 @@
 
 namespace Ibexa\Core\MVC\Symfony\View;
 
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+
 /**
  * A view that contains a Content.
  */
@@ -15,7 +17,7 @@ interface ContentValueView
     /**
      * Returns the Content.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
+     * @return Content
      */
     public function getContent();
 }

@@ -24,23 +24,24 @@ use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use Liip\ImagineBundle\Exception\Imagine\Cache\Resolver\NotResolvableException;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class PlaceholderAliasGeneratorTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\Imagine\PlaceholderAliasGenerator */
+    /** @var PlaceholderAliasGenerator */
     private $aliasGenerator;
 
-    /** @var \Ibexa\Contracts\Core\Variation\VariationHandler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var VariationHandler|MockObject */
     private $innerAliasGenerator;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var IOServiceInterface|MockObject */
     private $ioService;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\IORepositoryResolver|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var IORepositoryResolver|MockObject */
     private $ioResolver;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\PlaceholderProvider|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var PlaceholderProvider|MockObject */
     private $placeholderProvider;
 
     /** @var array */
@@ -83,8 +84,12 @@ class PlaceholderAliasGeneratorTest extends TestCase
     /**
      * @dataProvider getVariationProvider
      */
-    public function testGetVariationSkipsPlaceholderGeneration(Field $field, APIVersionInfo $versionInfo, string $variationName, array $parameters)
-    {
+    public function testGetVariationSkipsPlaceholderGeneration(
+        Field $field,
+        APIVersionInfo $versionInfo,
+        string $variationName,
+        array $parameters
+    ) {
         $expectedVariation = $this->createMock(ImageVariation::class);
 
         $this->ioResolver
@@ -116,8 +121,12 @@ class PlaceholderAliasGeneratorTest extends TestCase
     /**
      * @dataProvider getVariationProvider
      */
-    public function testGetVariationOriginalFound(Field $field, APIVersionInfo $versionInfo, string $variationName, array $parameters)
-    {
+    public function testGetVariationOriginalFound(
+        Field $field,
+        APIVersionInfo $versionInfo,
+        string $variationName,
+        array $parameters
+    ) {
         $expectedVariation = $this->createMock(ImageVariation::class);
 
         $this->ioResolver
@@ -149,8 +158,12 @@ class PlaceholderAliasGeneratorTest extends TestCase
     /**
      * @dataProvider getVariationProvider
      */
-    public function testGetVariationOriginalNotFound(Field $field, APIVersionInfo $versionInfo, string $variationName, array $parameters)
-    {
+    public function testGetVariationOriginalNotFound(
+        Field $field,
+        APIVersionInfo $versionInfo,
+        string $variationName,
+        array $parameters
+    ) {
         $placeholderPath = '/tmp/placeholder.jpg';
         $binaryCreateStruct = new BinaryFileCreateStruct();
         $expectedVariation = $this->createMock(ImageVariation::class);
@@ -274,8 +287,10 @@ class PlaceholderAliasGeneratorTest extends TestCase
     /**
      * @dataProvider supportsValueProvider
      */
-    public function testSupportsValue(Value $value, bool $isSupported)
-    {
+    public function testSupportsValue(
+        Value $value,
+        bool $isSupported
+    ) {
         self::assertSame($isSupported, $this->aliasGenerator->supportsValue($value));
     }
 

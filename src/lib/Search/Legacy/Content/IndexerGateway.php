@@ -24,12 +24,12 @@ use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
  */
 final readonly class IndexerGateway implements SPIIndexerGateway
 {
-    public function __construct(private Connection $connection)
-    {
-    }
+    public function __construct(private Connection $connection) {}
 
-    public function getContentSince(DateTimeInterface $since, int $iterationCount): Generator
-    {
+    public function getContentSince(
+        DateTimeInterface $since,
+        int $iterationCount
+    ): Generator {
         $query = $this->buildQueryForContentSince($since);
         $query->orderBy('c.modified');
 
@@ -45,8 +45,10 @@ final readonly class IndexerGateway implements SPIIndexerGateway
         return (int)$query->executeQuery()->fetchOne();
     }
 
-    public function getContentInSubtree(string $locationPath, int $iterationCount): Generator
-    {
+    public function getContentInSubtree(
+        string $locationPath,
+        int $iterationCount
+    ): Generator {
         $query = $this->buildQueryForContentInSubtree($locationPath);
 
         yield from $this->fetchIteration($query->executeQuery(), $iterationCount);
@@ -116,8 +118,10 @@ final readonly class IndexerGateway implements SPIIndexerGateway
         return $countQuery;
     }
 
-    private function fetchIteration(Result $result, int $iterationCount): Generator
-    {
+    private function fetchIteration(
+        Result $result,
+        int $iterationCount
+    ): Generator {
         do {
             $contentIds = [];
             for ($i = 0; $i < $iterationCount; ++$i) {

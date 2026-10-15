@@ -32,8 +32,7 @@ final readonly class IOConfigurationPass implements CompilerPassInterface
     public function __construct(
         private ArrayObject $metadataHandlerFactories,
         private ArrayObject $binarydataHandlerFactories
-    ) {
-    }
+    ) {}
 
     public function process(ContainerBuilder $container): void
     {
@@ -55,7 +54,7 @@ final readonly class IOConfigurationPass implements CompilerPassInterface
     }
 
     /**
-     * @param \Symfony\Component\DependencyInjection\Definition $factory The factory service that should receive the list of handlers
+     * @param Definition $factory The factory service that should receive the list of handlers
      * @param array<string, mixed> $configuredHandlers Handlers configuration declared via semantic config
      * @param string $defaultHandler default handler id
      *
@@ -91,8 +90,10 @@ final readonly class IOConfigurationPass implements CompilerPassInterface
      *
      * @phpstan-param THandlerConfigurationFactoryList $factories
      */
-    private function getFactory(ArrayObject $factories, string $type): ConfigurationFactory
-    {
+    private function getFactory(
+        ArrayObject $factories,
+        string $type
+    ): ConfigurationFactory {
         if (!isset($factories[$type])) {
             throw new InvalidConfigurationException("Unknown handler type $type");
         }

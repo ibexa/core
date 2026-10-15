@@ -20,6 +20,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Limitation\ParentDepthLimitationType;
 use Ibexa\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Core\Repository\Values\Content\Location;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test Case for LimitationType.
@@ -28,7 +29,7 @@ class ParentDepthLimitationTypeTest extends Base
 {
     public const int EXAMPLE_CONTENT_INFO_ID = 12;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var SPILocationHandler|MockObject */
     private $locationHandlerMock;
 
     /**
@@ -50,7 +51,7 @@ class ParentDepthLimitationTypeTest extends Base
     }
 
     /**
-     * @return \Ibexa\Core\Limitation\ParentDepthLimitationType
+     * @return ParentDepthLimitationType
      */
     public function testConstruct()
     {
@@ -74,11 +75,13 @@ class ParentDepthLimitationTypeTest extends Base
      *
      * @depends testConstruct
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentDepthLimitation $limitation
-     * @param \Ibexa\Core\Limitation\ParentDepthLimitationType $limitationType
+     * @param ParentDepthLimitation $limitation
+     * @param ParentDepthLimitationType $limitationType
      */
-    public function testAcceptValue(ParentDepthLimitation $limitation, ParentDepthLimitationType $limitationType)
-    {
+    public function testAcceptValue(
+        ParentDepthLimitation $limitation,
+        ParentDepthLimitationType $limitationType
+    ) {
         $limitationType->acceptValue($limitation);
     }
 
@@ -98,11 +101,13 @@ class ParentDepthLimitationTypeTest extends Base
      *
      * @depends testConstruct
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation $limitation
-     * @param \Ibexa\Core\Limitation\ParentDepthLimitationType $limitationType
+     * @param Limitation $limitation
+     * @param ParentDepthLimitationType $limitationType
      */
-    public function testAcceptValueException(Limitation $limitation, ParentDepthLimitationType $limitationType)
-    {
+    public function testAcceptValueException(
+        Limitation $limitation,
+        ParentDepthLimitationType $limitationType
+    ) {
         $this->expectException(InvalidArgumentException::class);
 
         $limitationType->acceptValue($limitation);
@@ -125,10 +130,12 @@ class ParentDepthLimitationTypeTest extends Base
      *
      * @depends testConstruct
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentDepthLimitation $limitation
+     * @param ParentDepthLimitation $limitation
      */
-    public function testValidatePass(ParentDepthLimitation $limitation, ParentDepthLimitationType $limitationType)
-    {
+    public function testValidatePass(
+        ParentDepthLimitation $limitation,
+        ParentDepthLimitationType $limitationType
+    ) {
         $validationErrors = $limitationType->validate($limitation);
         self::assertEmpty($validationErrors);
     }
@@ -136,7 +143,7 @@ class ParentDepthLimitationTypeTest extends Base
     /**
      * @depends testConstruct
      *
-     * @param \Ibexa\Core\Limitation\ParentDepthLimitationType $limitationType
+     * @param ParentDepthLimitationType $limitationType
      */
     public function testBuildValue(ParentDepthLimitationType $limitationType)
     {

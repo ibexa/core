@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Core\FieldType\BinaryBase\Value;
 use Ibexa\Core\FieldType\BinaryBase\Value as BinaryBaseValue;
 use Ibexa\Core\FieldType\Media\Type as MediaType;
 use Ibexa\Core\FieldType\Media\Value as MediaValue;
@@ -146,7 +147,7 @@ final class MediaIntegrationTest extends BaseBinaryFileIntegrationTestCaseCase
     }
 
     /**
-     * @return list<array<\Ibexa\Core\FieldType\BinaryBase\Value>>
+     * @return list<array<Value>>
      */
     public function providerForTestIsEmptyValue(): array
     {

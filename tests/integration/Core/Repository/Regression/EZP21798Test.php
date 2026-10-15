@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
@@ -79,7 +80,7 @@ class EZP21798Test extends BaseTestCase
         $roleDraft = $roleService->createRoleDraft($role);
 
         $numPolicies = count($roleDraft->getPolicies());
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft[] $policies */
+        /** @var PolicyDraft[] $policies */
         $policies = $roleDraft->getPolicies();
         $found = false;
 

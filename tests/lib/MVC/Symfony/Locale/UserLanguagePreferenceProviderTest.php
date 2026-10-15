@@ -51,8 +51,10 @@ final class UserLanguagePreferenceProviderTest extends TestCase
      * @param list<string> $userLanguages
      * @param list<string> $expectedEzLanguageCodes
      */
-    public function testGetPreferredLanguagesWithoutUserLanguage(array $userLanguages, array $expectedEzLanguageCodes): void
-    {
+    public function testGetPreferredLanguagesWithoutUserLanguage(
+        array $userLanguages,
+        array $expectedEzLanguageCodes
+    ): void {
         $request = new Request();
         $request->headers = new HeaderBag(
             [

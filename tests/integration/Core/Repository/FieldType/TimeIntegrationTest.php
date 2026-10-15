@@ -142,7 +142,7 @@ class TimeIntegrationTest extends SearchBaseIntegrationTestCase
      * Asserts that the data provided by {@link getValidCreationFieldData()}
      * was stored and loaded correctly.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Field $field
      */
     public function assertFieldDataLoadedCorrect(Field $field)
     {
@@ -172,7 +172,7 @@ class TimeIntegrationTest extends SearchBaseIntegrationTestCase
     /**
      * Get update field externals data.
      *
-     * @return \Ibexa\Core\FieldType\Time\Value
+     * @return TimeValue
      */
     public function getValidUpdateFieldData()
     {
@@ -216,8 +216,10 @@ class TimeIntegrationTest extends SearchBaseIntegrationTestCase
      *
      * @dataProvider provideInvalidUpdateFieldData
      */
-    public function testUpdateContentFails($failingValue, $expectedException)
-    {
+    public function testUpdateContentFails(
+        $failingValue,
+        $expectedException
+    ) {
         return [
             [
                 'Some unknown date format', InvalidArgumentException::class,
@@ -231,7 +233,7 @@ class TimeIntegrationTest extends SearchBaseIntegrationTestCase
      * Asserts that the data provided by {@link getValidCreationFieldData()}
      * was copied and loaded correctly.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Field $field
      */
     public function assertCopiedFieldDataLoadedCorrectly(Field $field)
     {

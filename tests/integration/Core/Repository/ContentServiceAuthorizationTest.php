@@ -7,14 +7,20 @@
 
 namespace Ibexa\Tests\Integration\Core\Repository;
 
+use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
+use Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LanguageLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LocationLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\User;
 
 /**
  * Test case for operations in the ContentServiceAuthorization using in memory storage.
@@ -28,22 +34,22 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
  */
 class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
+    /** @var User */
     private $administratorUser;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
+    /** @var User */
     private $anonymousUser;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
+    /** @var Repository */
     private $repository;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver */
+    /** @var PermissionResolver */
     private $permissionResolver;
 
-    /** @var \Ibexa\Contracts\Core\Repository\UserService */
+    /** @var UserService */
     private $userService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService */
+    /** @var ContentService */
     private $contentService;
 
     public function setUp(): void
@@ -1037,7 +1043,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
      * Creates a pseudo editor with a limitation to objects in the "Media/Images"
      * subtree.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
+     * @return User
      */
     private function createAnonymousWithEditorRole()
     {
@@ -1193,7 +1199,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
 
         // assert each relation
         /**
-         * @var \Ibexa\Contracts\Core\Repository\Values\Content\RelationList\RelationListItemInterface $relationListItem
+         * @var RelationListItemInterface $relationListItem
          */
         foreach ($actualRelations as $relationListItem) {
             if (!$relationListItem->hasRelation()) {
@@ -1202,7 +1208,7 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
                 continue;
             }
 
-            /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Relation $relation */
+            /** @var Relation $relation */
             $relation = $relationListItem->getRelation();
             $destination = $relation->destinationContentInfo;
             self::assertArrayHasKey(
@@ -1342,10 +1348,10 @@ class ContentServiceAuthorizationTest extends BaseContentServiceTestCase
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo
+     * @return ContentInfo
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     private function getContentInfoForAnonymousUser(): ContentInfo
     {

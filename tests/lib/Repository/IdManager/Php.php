@@ -25,8 +25,10 @@ class Php extends IdManager
      *
      * @return mixed
      */
-    public function generateId($type, $rawId)
-    {
+    public function generateId(
+        $type,
+        $rawId
+    ) {
         return $rawId;
     }
 
@@ -41,8 +43,10 @@ class Php extends IdManager
      *
      * @return mixed
      */
-    public function parseId($type, $id)
-    {
+    public function parseId(
+        $type,
+        $id
+    ) {
         return $id;
     }
 }

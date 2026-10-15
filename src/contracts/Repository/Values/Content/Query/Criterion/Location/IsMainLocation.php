@@ -32,7 +32,7 @@ class IsMainLocation extends Location implements FilteringCriterion
     /**
      * Creates a new IsMainLocation criterion.
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @param int $value one of self::MAIN and self::NOT_MAIN
      */

@@ -77,11 +77,13 @@ class CompoundOrTest extends TestCase
     /**
      * @dataProvider matchProvider
      *
-     * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $request
+     * @param SimplifiedRequest $request
      * @param string $expectedMatch
      */
-    public function testMatch(SimplifiedRequest $request, $expectedMatch): void
-    {
+    public function testMatch(
+        SimplifiedRequest $request,
+        $expectedMatch
+    ): void {
         $compoundMatcher = $this->buildMatcher();
         $compoundMatcher->setRequest($request);
         $compoundMatcher->setMatcherBuilder(new MatcherBuilder());

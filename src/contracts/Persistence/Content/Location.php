@@ -7,6 +7,7 @@
 
 namespace Ibexa\Contracts\Core\Persistence\Content;
 
+use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\ValueObject;
 
 /**
@@ -76,7 +77,7 @@ class Location extends ValueObject
     /**
      * Content ID.
      *
-     * ID of the corresponding {@see \Ibexa\Contracts\Core\Persistence\Content}.
+     * ID of the corresponding {@see Content}.
      *
      * @var int
      */

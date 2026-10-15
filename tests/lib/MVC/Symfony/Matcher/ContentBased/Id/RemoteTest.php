@@ -14,7 +14,7 @@ use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTestCase;
 
 class RemoteTest extends BaseTestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Remote */
+    /** @var RemoteIdMatcher */
     private $matcher;
 
     protected function setUp(): void
@@ -26,15 +26,18 @@ class RemoteTest extends BaseTestCase
     /**
      * @dataProvider matchLocationProvider
      *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Remote::matchLocation
+     * @covers \RemoteIdMatcher::matchLocation
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      *
      * @param string|string[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $location
+     * @param Location $location
      * @param bool $expectedResult
      */
-    public function testMatchLocation($matchingConfig, Location $location, $expectedResult)
-    {
+    public function testMatchLocation(
+        $matchingConfig,
+        Location $location,
+        $expectedResult
+    ) {
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame($expectedResult, $this->matcher->matchLocation($location));
     }
@@ -68,15 +71,18 @@ class RemoteTest extends BaseTestCase
     /**
      * @dataProvider matchContentInfoProvider
      *
-     * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Remote::matchContentInfo
+     * @covers \RemoteIdMatcher::matchContentInfo
      * @covers \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued::setMatchingConfig
      *
      * @param string|string[] $matchingConfig
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo
+     * @param ContentInfo $contentInfo
      * @param bool $expectedResult
      */
-    public function testMatchContentInfo($matchingConfig, ContentInfo $contentInfo, $expectedResult)
-    {
+    public function testMatchContentInfo(
+        $matchingConfig,
+        ContentInfo $contentInfo,
+        $expectedResult
+    ) {
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame($expectedResult, $this->matcher->matchContentInfo($contentInfo));
     }

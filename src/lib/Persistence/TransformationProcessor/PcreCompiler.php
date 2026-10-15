@@ -20,14 +20,14 @@ class PcreCompiler
     /**
      * Class for converting UTF-8 characters.
      *
-     * @var \Ibexa\Core\Persistence\Utf8Converter
+     * @var Utf8Converter
      */
     protected $converter;
 
     /**
      * Construct from UTF8Converter.
      *
-     * @param \Ibexa\Core\Persistence\Utf8Converter $converter
+     * @param Utf8Converter $converter
      */
     public function __construct(Utf8Converter $converter)
     {
@@ -172,8 +172,11 @@ class PcreCompiler
      *
      * @return string
      */
-    protected function getModuloCharRange($start, $end, $modulo): string
-    {
+    protected function getModuloCharRange(
+        $start,
+        $end,
+        $modulo
+    ): string {
         $start = $this->converter->toUnicodeCodepoint($start);
         $end = $this->converter->toUnicodeCodepoint($end);
         $modulo = hexdec($modulo);
@@ -195,8 +198,10 @@ class PcreCompiler
      *
      * @return callable
      */
-    protected function getTransposeClosure($operator, $value)
-    {
+    protected function getTransposeClosure(
+        $operator,
+        $value
+    ) {
         $value = $this->hexdec($value) * ($operator === '-' ? -1 : 1);
         $converter = $this->converter;
 

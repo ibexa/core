@@ -9,6 +9,10 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Limitation\PermissionResolver;
 
 use Ibexa\Contracts\Core\Limitation\Target;
+use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LanguageLimitation;
 use Ibexa\Tests\Integration\Core\Repository\Limitation\PermissionResolver\BaseLimitationIntegrationTestCase;
 
@@ -54,12 +58,14 @@ class LanguageLimitationIntegrationTest extends BaseLimitationIntegrationTestCas
      * @param array $limitations
      * @param bool $expectedResult
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
-    public function testCanUserCreateContent(array $limitations, bool $expectedResult): void
-    {
+    public function testCanUserCreateContent(
+        array $limitations,
+        bool $expectedResult
+    ): void {
         $repository = $this->getRepository();
         $contentTypeService = $repository->getContentTypeService();
         $contentService = $repository->getContentService();
@@ -119,12 +125,14 @@ class LanguageLimitationIntegrationTest extends BaseLimitationIntegrationTestCas
      * @param array $limitations
      * @param bool $expectedResult
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
-    public function testCanUserEditContent(array $limitations, bool $expectedResult): void
-    {
+    public function testCanUserEditContent(
+        array $limitations,
+        bool $expectedResult
+    ): void {
         $repository = $this->getRepository();
         $locationService = $repository->getLocationService();
 
@@ -150,12 +158,14 @@ class LanguageLimitationIntegrationTest extends BaseLimitationIntegrationTestCas
      * @param array $limitations
      * @param bool $expectedResult
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
-    public function testCanUserPublishContent(array $limitations, bool $expectedResult): void
-    {
+    public function testCanUserPublishContent(
+        array $limitations,
+        bool $expectedResult
+    ): void {
         $content = $this->createFolder([self::LANG_ENG_GB => 'British Folder'], 2);
 
         $this->loginAsEditorUserWithLimitations('content', 'publish', $limitations);
@@ -190,15 +200,17 @@ class LanguageLimitationIntegrationTest extends BaseLimitationIntegrationTestCas
     /**
      * @dataProvider providerForCanUserDeleteContent
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation[] $limitations
+     * @param Limitation[] $limitations
      * @param bool $expectedResult
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
-    public function testCanUserDeleteContent(array $limitations, bool $expectedResult): void
-    {
+    public function testCanUserDeleteContent(
+        array $limitations,
+        bool $expectedResult
+    ): void {
         $content = $this->createFolder(
             [
                 self::LANG_ENG_GB => 'British Folder',
@@ -251,16 +263,19 @@ class LanguageLimitationIntegrationTest extends BaseLimitationIntegrationTestCas
     /**
      * @dataProvider providerForCanUserDeleteContentTranslation
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\Limitation[] $limitations
+     * @param Limitation[] $limitations
      * @param string $translation
      * @param bool $expectedResult
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
-    public function testCanUserDeleteContentTranslation(array $limitations, string $translation, bool $expectedResult): void
-    {
+    public function testCanUserDeleteContentTranslation(
+        array $limitations,
+        string $translation,
+        bool $expectedResult
+    ): void {
         $content = $this->createFolder(
             [
                 self::LANG_ENG_GB => 'British Folder',

@@ -13,6 +13,4 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 /**
  * This is the base class for Location criterions.
  */
-abstract class Location extends Criterion
-{
-}
+abstract class Location extends Criterion {}

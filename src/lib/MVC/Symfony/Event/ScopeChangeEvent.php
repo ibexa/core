@@ -15,7 +15,7 @@ use Symfony\Contracts\EventDispatcher\Event;
  */
 class ScopeChangeEvent extends Event
 {
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
+    /** @var SiteAccess */
     private $siteAccess;
 
     public function __construct(SiteAccess $siteAccess)
@@ -24,7 +24,7 @@ class ScopeChangeEvent extends Event
     }
 
     /**
-     * @return \Ibexa\Core\MVC\Symfony\SiteAccess
+     * @return SiteAccess
      */
     public function getSiteAccess()
     {

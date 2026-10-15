@@ -23,7 +23,7 @@ class EZP21109IbexaIntegerTest extends BaseTestCase
      */
     protected $classShortName;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType */
+    /** @var ContentType */
     protected $contentType;
 
     protected function setUp(): void
@@ -64,7 +64,7 @@ class EZP21109IbexaIntegerTest extends BaseTestCase
 
         $content = $contentService->loadContent($draft->versionInfo->contentInfo->id);
 
-        /** @var \Ibexa\Core\FieldType\Integer\Value $fieldValue */
+        /** @var Value $fieldValue */
         $fieldValue = $content->getFieldValue('test');
 
         self::assertInstanceOf(Value::class, $fieldValue);
@@ -88,7 +88,7 @@ class EZP21109IbexaIntegerTest extends BaseTestCase
     /**
      * Creates a Test ContentType for this test holding an ibexa_integerfield.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType
+     * @return ContentType
      */
     protected function createTestContentType()
     {

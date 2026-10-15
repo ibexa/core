@@ -10,6 +10,4 @@ namespace Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 
-abstract class RoleLimitation extends Limitation
-{
-}
+abstract class RoleLimitation extends Limitation {}

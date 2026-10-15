@@ -17,13 +17,15 @@ class ObjectStateIdentifier extends Criterion implements FilteringCriterion
     /**
      * @param string|string[] $value
      */
-    public function __construct(string|array $value, ?string $target = null)
-    {
+    public function __construct(
+        string | array $value,
+        ?string $target = null
+    ) {
         parent::__construct($target, null, $value);
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Operator\Specifications[]
+     * @return Specifications[]
      */
     public function getSpecifications(): array
     {

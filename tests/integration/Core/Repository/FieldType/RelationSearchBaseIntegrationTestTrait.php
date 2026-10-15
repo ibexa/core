@@ -26,14 +26,14 @@ use Ibexa\Core\Repository\Values\Content\Relation;
 trait RelationSearchBaseIntegrationTestTrait
 {
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
+     * @return APIRelation[]
      */
     abstract public function getCreateExpectedRelations(Content $content): array;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content $content
+     * @param Content $content
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
+     * @return APIRelation[]
      */
     abstract public function getUpdateExpectedRelations(Content $content): array;
 
@@ -78,15 +78,18 @@ trait RelationSearchBaseIntegrationTestTrait
     /**
      * Normalizes given $relations for easier comparison.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Relation[] $relations
+     * @param APIRelation[] $relations
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
+     * @return APIRelation[]
      */
     protected function normalizeRelations(array $relations): array
     {
         usort(
             $relations,
-            static function (APIRelation $a, APIRelation $b): int {
+            static function (
+                APIRelation $a,
+                APIRelation $b
+            ): int {
                 if ($a->type === $b->type) {
                     return $a->destinationContentInfo->id < $b->destinationContentInfo->id ? 1 : -1;
                 }
@@ -177,7 +180,7 @@ trait RelationSearchBaseIntegrationTestTrait
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation[]
+     * @return APIRelation[]
      */
     private function getRelations(RelationList $relationList): array
     {

@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\FieldType;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
+use Ibexa\Core\FieldType\BinaryBase\Value;
 use Ibexa\Core\FieldType\BinaryBase\Value as BinaryBaseValue;
 use Ibexa\Core\FieldType\BinaryFile\Value as BinaryFileValue;
 
@@ -128,7 +129,7 @@ final class BinaryFileIntegrationTest extends BaseBinaryFileIntegrationTestCaseC
     }
 
     /**
-     * @return list<array<\Ibexa\Core\FieldType\BinaryBase\Value>>
+     * @return list<array<Value>>
      */
     public function providerForTestIsEmptyValue(): array
     {

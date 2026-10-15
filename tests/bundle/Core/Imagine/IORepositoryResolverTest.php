@@ -64,8 +64,11 @@ final class IORepositoryResolverTest extends TestCase
     /**
      * @dataProvider getFilePathProvider
      */
-    public function testGetFilePath(string $path, string $filter, string $expected): void
-    {
+    public function testGetFilePath(
+        string $path,
+        string $filter,
+        string $expected
+    ): void {
         $this->variationPathGenerator
             ->expects(self::once())
             ->method('getVariationPath')
@@ -132,8 +135,13 @@ final class IORepositoryResolverTest extends TestCase
     /**
      * @dataProvider resolveProvider
      */
-    public function testResolve(string $path, string $filter, string $variationPath, ?string $requestUrl, mixed $expected): void
-    {
+    public function testResolve(
+        string $path,
+        string $filter,
+        string $variationPath,
+        ?string $requestUrl,
+        mixed $expected
+    ): void {
         if ($requestUrl) {
             $this->requestContext->fromRequest(Request::create($requestUrl));
         }
@@ -279,8 +287,10 @@ final class IORepositoryResolverTest extends TestCase
      * @param string[] $filters
      * @param array<string, bool> $imageVariations
      */
-    public function testRemove(array $filters, array $imageVariations): void
-    {
+    public function testRemove(
+        array $filters,
+        array $imageVariations
+    ): void {
         $originalPath = 'foo/bar/test.jpg';
 
         $this->configResolver

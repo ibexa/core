@@ -11,6 +11,4 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content;
 /**
  * This class is used to provide data for updating a section. At least one property has to set.
  */
-class SectionUpdateStruct extends SectionStruct
-{
-}
+class SectionUpdateStruct extends SectionStruct {}

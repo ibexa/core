@@ -19,13 +19,15 @@ final class MessageTest extends TestCase
     /**
      * @dataProvider getDataForTestStringable
      */
-    public function testStringable(Message $message, string $expectedString): void
-    {
+    public function testStringable(
+        Message $message,
+        string $expectedString
+    ): void {
         self::assertSame($expectedString, (string)$message);
     }
 
     /**
-     * @return iterable<string, array{\Ibexa\Contracts\Core\Repository\Values\Translation\Message, string}>
+     * @return iterable<string, array{Message, string}>
      */
     public static function getDataForTestStringable(): iterable
     {

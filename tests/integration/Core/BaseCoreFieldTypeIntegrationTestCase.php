@@ -31,7 +31,7 @@ abstract class BaseCoreFieldTypeIntegrationTestCase extends APIBaseTest
     /**
      * Return the database connection from the service container.
      *
-     * @return \Doctrine\DBAL\Connection|object
+     * @return Connection|object
      */
     protected function getDatabaseConnection(): Connection
     {

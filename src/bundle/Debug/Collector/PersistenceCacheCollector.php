@@ -18,7 +18,7 @@ use Throwable;
  */
 class PersistenceCacheCollector extends DataCollector
 {
-    /** @var \Ibexa\Core\Persistence\Cache\PersistenceLogger */
+    /** @var PersistenceLogger */
     private $logger;
 
     public function __construct(PersistenceLogger $logger)
@@ -26,8 +26,11 @@ class PersistenceCacheCollector extends DataCollector
         $this->logger = $logger;
     }
 
-    public function collect(Request $request, Response $response, ?Throwable $exception = null)
-    {
+    public function collect(
+        Request $request,
+        Response $response,
+        ?Throwable $exception = null
+    ) {
         $this->data = [
             'stats' => $this->logger->getStats(),
             'calls_logging_enabled' => $this->logger->isCallsLoggingEnabled(),

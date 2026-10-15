@@ -168,7 +168,7 @@ final class OrmEntitiesSchemaSubscriberTest extends TestCase
 
     private function dispatch(Schema $schema): Schema
     {
-        $event = new SchemaBuilderEvent($this->createStub(SchemaBuilderInterface::class), $schema);
+        $event = new SchemaBuilderEvent(self::createStub(SchemaBuilderInterface::class), $schema);
 
         (new OrmEntitiesSchemaSubscriber($this->entityManager, self::ENTITY_CLASSES))->onBuildSchema($event);
 

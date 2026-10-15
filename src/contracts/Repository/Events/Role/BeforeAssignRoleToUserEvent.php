@@ -21,8 +21,11 @@ final class BeforeAssignRoleToUserEvent extends BeforeEvent
 
     private ?RoleLimitation $roleLimitation;
 
-    public function __construct(Role $role, User $user, ?RoleLimitation $roleLimitation = null)
-    {
+    public function __construct(
+        Role $role,
+        User $user,
+        ?RoleLimitation $roleLimitation = null
+    ) {
         $this->role = $role;
         $this->user = $user;
         $this->roleLimitation = $roleLimitation;

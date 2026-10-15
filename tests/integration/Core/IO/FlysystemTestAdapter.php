@@ -26,8 +26,10 @@ final class FlysystemTestAdapter implements FlysystemTestAdapterInterface, Files
 
     private FilesystemAdapter $localAdapter;
 
-    public function __construct(FilesystemAdapter $inMemoryAdapter, FilesystemAdapter $localAdapter)
-    {
+    public function __construct(
+        FilesystemAdapter $inMemoryAdapter,
+        FilesystemAdapter $localAdapter
+    ) {
         $this->inMemoryAdapter = $inMemoryAdapter;
         $this->localAdapter = $localAdapter;
         $this->adapter = $this->inMemoryAdapter;
@@ -43,13 +45,19 @@ final class FlysystemTestAdapter implements FlysystemTestAdapterInterface, Files
         return $this->adapter->fileExists($path);
     }
 
-    public function write(string $path, string $contents, Config $config): void
-    {
+    public function write(
+        string $path,
+        string $contents,
+        Config $config
+    ): void {
         $this->adapter->write($path, $contents, $config);
     }
 
-    public function writeStream(string $path, $contents, Config $config): void
-    {
+    public function writeStream(
+        string $path,
+        $contents,
+        Config $config
+    ): void {
         $this->adapter->writeStream($path, $contents, $config);
     }
 
@@ -73,13 +81,17 @@ final class FlysystemTestAdapter implements FlysystemTestAdapterInterface, Files
         $this->adapter->deleteDirectory($path);
     }
 
-    public function createDirectory(string $path, Config $config): void
-    {
+    public function createDirectory(
+        string $path,
+        Config $config
+    ): void {
         $this->adapter->createDirectory($path, $config);
     }
 
-    public function setVisibility(string $path, string $visibility): void
-    {
+    public function setVisibility(
+        string $path,
+        string $visibility
+    ): void {
         $this->adapter->setVisibility($path, $visibility);
     }
 
@@ -103,18 +115,26 @@ final class FlysystemTestAdapter implements FlysystemTestAdapterInterface, Files
         return $this->adapter->fileSize($path);
     }
 
-    public function listContents(string $path, bool $deep): iterable
-    {
+    public function listContents(
+        string $path,
+        bool $deep
+    ): iterable {
         return $this->adapter->listContents($path, $deep);
     }
 
-    public function move(string $source, string $destination, Config $config): void
-    {
+    public function move(
+        string $source,
+        string $destination,
+        Config $config
+    ): void {
         $this->adapter->move($source, $destination, $config);
     }
 
-    public function copy(string $source, string $destination, Config $config): void
-    {
+    public function copy(
+        string $source,
+        string $destination,
+        Config $config
+    ): void {
         $this->adapter->copy($source, $destination, $config);
     }
 }

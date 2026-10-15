@@ -20,7 +20,7 @@ use PDOException;
 class ExceptionConversion extends Gateway
 {
     /**
-     * @var \Ibexa\Core\Search\Legacy\Content\Gateway
+     * @var Gateway
      */
     protected $innerGateway;
 

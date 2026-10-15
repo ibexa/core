@@ -102,8 +102,10 @@ class ObjectStateHandler extends AbstractInMemoryPersistenceHandler implements O
     /**
      * {@inheritdoc}
      */
-    public function loadAllGroups($offset = 0, $limit = -1): array
-    {
+    public function loadAllGroups(
+        $offset = 0,
+        $limit = -1
+    ): array {
         $stateGroups = $this->getListCacheValue(
             $this->cacheIdentifierGenerator->generateKey(self::STATE_GROUP_ALL_IDENTIFIER, [], true),
             function () use ($offset, $limit): array {
@@ -160,8 +162,10 @@ class ObjectStateHandler extends AbstractInMemoryPersistenceHandler implements O
     /**
      * {@inheritdoc}
      */
-    public function updateGroup($groupId, InputStruct $input)
-    {
+    public function updateGroup(
+        $groupId,
+        InputStruct $input
+    ) {
         $this->logger->logCall(__METHOD__, ['groupId' => $groupId, 'struct' => $input]);
         $return = $this->persistenceHandler->objectStateHandler()->updateGroup($groupId, $input);
 
@@ -190,8 +194,10 @@ class ObjectStateHandler extends AbstractInMemoryPersistenceHandler implements O
     /**
      * {@inheritdoc}
      */
-    public function create($groupId, InputStruct $input)
-    {
+    public function create(
+        $groupId,
+        InputStruct $input
+    ) {
         $this->logger->logCall(__METHOD__, ['groupId' => $groupId, 'struct' => $input]);
         $return = $this->persistenceHandler->objectStateHandler()->create($groupId, $input);
 
@@ -232,8 +238,10 @@ class ObjectStateHandler extends AbstractInMemoryPersistenceHandler implements O
     /**
      * {@inheritdoc}
      */
-    public function loadByIdentifier($identifier, $groupId)
-    {
+    public function loadByIdentifier(
+        $identifier,
+        $groupId
+    ) {
         $escapedIdentifier = $this->cacheIdentifierSanitizer->escapeForCacheKey($identifier);
 
         return $this->getCacheValue(
@@ -266,8 +274,10 @@ class ObjectStateHandler extends AbstractInMemoryPersistenceHandler implements O
     /**
      * {@inheritdoc}
      */
-    public function update($stateId, InputStruct $input)
-    {
+    public function update(
+        $stateId,
+        InputStruct $input
+    ) {
         $this->logger->logCall(__METHOD__, ['stateId' => $stateId, 'struct' => $input]);
         $return = $this->persistenceHandler->objectStateHandler()->update($stateId, $input);
 
@@ -281,8 +291,10 @@ class ObjectStateHandler extends AbstractInMemoryPersistenceHandler implements O
     /**
      * {@inheritdoc}
      */
-    public function setPriority($stateId, $priority)
-    {
+    public function setPriority(
+        $stateId,
+        $priority
+    ) {
         $this->logger->logCall(__METHOD__, ['stateId' => $stateId, 'priority' => $priority]);
         $return = $this->persistenceHandler->objectStateHandler()->setPriority($stateId, $priority);
 
@@ -311,8 +323,11 @@ class ObjectStateHandler extends AbstractInMemoryPersistenceHandler implements O
     /**
      * {@inheritdoc}
      */
-    public function setContentState($contentId, $groupId, $stateId)
-    {
+    public function setContentState(
+        $contentId,
+        $groupId,
+        $stateId
+    ) {
         $this->logger->logCall(__METHOD__, ['contentId' => $contentId, 'groupId' => $groupId, 'stateId' => $stateId]);
         $return = $this->persistenceHandler->objectStateHandler()->setContentState($contentId, $groupId, $stateId);
 
@@ -330,8 +345,10 @@ class ObjectStateHandler extends AbstractInMemoryPersistenceHandler implements O
     /**
      * {@inheritdoc}
      */
-    public function getContentState($contentId, $stateGroupId)
-    {
+    public function getContentState(
+        $contentId,
+        $stateGroupId
+    ) {
         return $this->getCacheValue(
             (int) $stateGroupId,
             $this->cacheIdentifierGenerator->generateKey(self::STATE_BY_GROUP_IDENTIFIER, [], true) . '-',

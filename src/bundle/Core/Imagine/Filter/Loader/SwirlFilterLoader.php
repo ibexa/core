@@ -15,7 +15,7 @@ class SwirlFilterLoader implements LoaderInterface
 {
     public const IDENTIFIER = 'filter/swirl';
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\FilterInterface */
+    /** @var FilterInterface */
     private $filter;
 
     public function __construct(FilterInterface $filter)
@@ -23,8 +23,10 @@ class SwirlFilterLoader implements LoaderInterface
         $this->filter = $filter;
     }
 
-    public function load(ImageInterface $image, array $options = []): ImageInterface
-    {
+    public function load(
+        ImageInterface $image,
+        array $options = []
+    ): ImageInterface {
         if (!empty($options)) {
             $this->filter->setOption('degrees', $options[0]);
         }

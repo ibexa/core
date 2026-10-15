@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Exception\InvalidArgumentException;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Core\FieldType\Author\Type as AuthorType;
+use Ibexa\Core\FieldType\Author\Value;
 use Ibexa\Core\FieldType\FieldSettings;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
@@ -23,8 +24,10 @@ class AuthorConverter implements Converter
      * @throws \DOMException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function toStorageValue(FieldValue $value, StorageFieldValue $storageFieldValue)
-    {
+    public function toStorageValue(
+        FieldValue $value,
+        StorageFieldValue $storageFieldValue
+    ) {
         $storageFieldValue->dataText = $this->generateXmlString($value->data);
         $storageFieldValue->sortKeyString = $value->sortKey;
     }
@@ -32,11 +35,13 @@ class AuthorConverter implements Converter
     /**
      * Converts data from $value to $fieldValue.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue $value
-     * @param \Ibexa\Contracts\Core\Persistence\Content\FieldValue $fieldValue
+     * @param StorageFieldValue $value
+     * @param FieldValue $fieldValue
      */
-    public function toFieldValue(StorageFieldValue $value, FieldValue $fieldValue)
-    {
+    public function toFieldValue(
+        StorageFieldValue $value,
+        FieldValue $fieldValue
+    ) {
         $fieldValue->data = $this->restoreValueFromXmlString($value->dataText);
         $fieldValue->sortKey = $value->sortKeyString;
     }
@@ -44,11 +49,13 @@ class AuthorConverter implements Converter
     /**
      * Converts field definition data in $fieldDef into $storageFieldDef.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDef
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition $storageDef
+     * @param FieldDefinition $fieldDef
+     * @param StorageFieldDefinition $storageDef
      */
-    public function toStorageFieldDefinition(FieldDefinition $fieldDef, StorageFieldDefinition $storageDef)
-    {
+    public function toStorageFieldDefinition(
+        FieldDefinition $fieldDef,
+        StorageFieldDefinition $storageDef
+    ) {
         $fieldSettings = $fieldDef->fieldTypeConstraints->fieldSettings;
 
         if ($fieldSettings !== null) {
@@ -59,11 +66,13 @@ class AuthorConverter implements Converter
     /**
      * Converts field definition data in $storageDef into $fieldDef.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition $storageDef
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDef
+     * @param StorageFieldDefinition $storageDef
+     * @param FieldDefinition $fieldDef
      */
-    public function toFieldDefinition(StorageFieldDefinition $storageDef, FieldDefinition $fieldDef)
-    {
+    public function toFieldDefinition(
+        StorageFieldDefinition $storageDef,
+        FieldDefinition $fieldDef
+    ) {
         $fieldDef->fieldTypeConstraints->fieldSettings = new FieldSettings(
             [
                 'defaultAuthor' => $storageDef->dataInt1 ?? AuthorType::DEFAULT_VALUE_EMPTY,
@@ -136,7 +145,7 @@ class AuthorConverter implements Converter
      *
      * @param string $xmlString XML String stored in storage engine
      *
-     * @return \Ibexa\Core\FieldType\Author\Value[]
+     * @return Value[]
      */
     private function restoreValueFromXmlString($xmlString)
     {

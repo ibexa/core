@@ -28,8 +28,11 @@ class BinaryContentDownloadPass implements CompilerPassInterface
         $this->addCall($container, $downloadUrlReference, BinaryFileStorage::class);
     }
 
-    private function addCall(ContainerBuilder $container, Reference $reference, string $targetServiceName): void
-    {
+    private function addCall(
+        ContainerBuilder $container,
+        Reference $reference,
+        string $targetServiceName
+    ): void {
         if (!$container->has($targetServiceName)) {
             return;
         }

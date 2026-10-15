@@ -50,8 +50,10 @@ class PersistenceLogger
      * @param string $method
      * @param array $arguments
      */
-    public function logCall(string $method, array $arguments = []): void
-    {
+    public function logCall(
+        string $method,
+        array $arguments = []
+    ): void {
         ++$this->stats['uncached'];
         if (!$this->logCalls) {
             return;
@@ -76,8 +78,10 @@ class PersistenceLogger
      * @param array $arguments
      * @param int $traceOffset
      */
-    public function logCacheMiss(array $arguments = [], int $traceOffset = 2): void
-    {
+    public function logCacheMiss(
+        array $arguments = [],
+        int $traceOffset = 2
+    ): void {
         ++$this->stats['miss'];
         if (!$this->logCalls) {
             return;
@@ -102,8 +106,11 @@ class PersistenceLogger
      * @param bool $inMemory Denotes is cache hit was from memory (php variable), as opposed to from cache pool which
      *                       is usually disk or remote cache service.
      */
-    public function logCacheHit(array $arguments = [], int $traceOffset = 2, bool $inMemory = false): void
-    {
+    public function logCacheHit(
+        array $arguments = [],
+        int $traceOffset = 2,
+        bool $inMemory = false
+    ): void {
         if ($inMemory) {
             ++$this->stats['memory'];
         } else {
@@ -131,8 +138,12 @@ class PersistenceLogger
      * @param array $trimmedBacktrace
      * @param string $type
      */
-    private function collectCacheCallData($method, array $arguments, array $trimmedBacktrace, string $type): void
-    {
+    private function collectCacheCallData(
+        $method,
+        array $arguments,
+        array $trimmedBacktrace,
+        string $type
+    ): void {
         // simplest/fastests hash possible to identify if we have already collected this before to save on memory use
         $callHash = \hash('adler32', $method . \serialize($arguments));
         if (empty($this->calls[$callHash])) {

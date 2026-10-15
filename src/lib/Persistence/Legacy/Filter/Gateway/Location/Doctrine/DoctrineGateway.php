@@ -29,14 +29,15 @@ final readonly class DoctrineGateway implements Gateway
         private CriterionVisitor $criterionVisitor,
         private SortClauseVisitor $sortClauseVisitor,
         private CountQueryBuilder $countQueryBuilder
-    ) {
-    }
+    ) {}
 
     /**
      * @phpstan-param positive-int $limit
      */
-    public function count(FilteringCriterion $criterion, ?int $limit = null): int
-    {
+    public function count(
+        FilteringCriterion $criterion,
+        ?int $limit = null
+    ): int {
         $query = $this->buildQuery($criterion);
 
         $query->select('COUNT(DISTINCT location.node_id)');

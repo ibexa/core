@@ -8,6 +8,7 @@
 namespace Ibexa\Core\Search\Legacy\Content;
 
 use Ibexa\Contracts\Core\Persistence\Content;
+use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
@@ -54,49 +55,49 @@ class Handler implements SearchHandlerInterface
     /**
      * Content locator gateway.
      *
-     * @var \Ibexa\Core\Search\Legacy\Content\Gateway
+     * @var Gateway
      */
     protected $gateway;
 
     /**
      * Location locator gateway.
      *
-     * @var \Ibexa\Core\Search\Legacy\Content\Location\Gateway
+     * @var LocationGateway
      */
     protected $locationGateway;
 
     /**
      * Word indexer gateway.
      *
-     * @var \Ibexa\Core\Search\Legacy\Content\WordIndexer\Gateway
+     * @var WordIndexerGateway
      */
     protected $indexerGateway;
 
     /**
      * Content mapper.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Mapper
+     * @var ContentMapper
      */
     protected $contentMapper;
 
     /**
      * Location locationMapper.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Location\Mapper
+     * @var LocationMapper
      */
     protected $locationMapper;
 
     /**
      * Language handler.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler
+     * @var LanguageHandler
      */
     protected $languageHandler;
 
     /**
      * FullText mapper.
      *
-     * @var \Ibexa\Core\Search\Legacy\Content\Mapper\FullTextMapper
+     * @var FullTextMapper
      */
     protected $mapper;
 
@@ -118,8 +119,10 @@ class Handler implements SearchHandlerInterface
         $this->mapper = $mapper;
     }
 
-    public function findContent(Query $query, array $languageFilter = []): SearchResult
-    {
+    public function findContent(
+        Query $query,
+        array $languageFilter = []
+    ): SearchResult {
         $languageFilter = $this->setLanguageFilterDefaults($languageFilter);
 
         $start = microtime(true);
@@ -139,7 +142,7 @@ class Handler implements SearchHandlerInterface
             $query->performCount
         );
 
-        /** @phpstan-var \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult<\Ibexa\Contracts\Core\Persistence\Content\ContentInfo> $result */
+        /** @phpstan-var SearchResult<ContentInfo> $result */
         $result = new SearchResult();
         $result->time = (int) (microtime(true) - $start) * 1000; // time expressed in ms
         $result->totalCount = $data['count'] !== null ? (int)$data['count'] : null;
@@ -150,7 +153,7 @@ class Handler implements SearchHandlerInterface
         );
 
         foreach ($contentInfoList as $index => $contentInfo) {
-            /** @phpstan-var \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit<\Ibexa\Contracts\Core\Persistence\Content\ContentInfo> $searchHit */
+            /** @phpstan-var SearchHit<ContentInfo> $searchHit */
             $searchHit = new SearchHit();
             $searchHit->valueObject = $contentInfo;
             $searchHit->matchedTranslation = $this->extractMatchedLanguage(
@@ -165,8 +168,11 @@ class Handler implements SearchHandlerInterface
         return $result;
     }
 
-    protected function extractMatchedLanguage($languageMask, $mainLanguageId, $languageSettings)
-    {
+    protected function extractMatchedLanguage(
+        $languageMask,
+        $mainLanguageId,
+        $languageSettings
+    ) {
         $languageList = !empty($languageSettings['languages']) ?
             $this->languageHandler->loadListByLanguageCodes($languageSettings['languages']) :
             [];
@@ -184,8 +190,10 @@ class Handler implements SearchHandlerInterface
         return null;
     }
 
-    public function findSingle(CriterionInterface $filter, array $languageFilter = []): Content\ContentInfo
-    {
+    public function findSingle(
+        CriterionInterface $filter,
+        array $languageFilter = []
+    ): ContentInfo {
         $languageFilter = $this->setLanguageFilterDefaults($languageFilter);
 
         $searchQuery = new Query();
@@ -206,8 +214,10 @@ class Handler implements SearchHandlerInterface
         return reset($result->searchHits)->valueObject;
     }
 
-    public function findLocations(LocationQuery $query, array $languageFilter = []): SearchResult
-    {
+    public function findLocations(
+        LocationQuery $query,
+        array $languageFilter = []
+    ): SearchResult {
         $languageFilter = $this->setLanguageFilterDefaults($languageFilter);
 
         $start = microtime(true);
@@ -225,14 +235,14 @@ class Handler implements SearchHandlerInterface
             $query->performCount
         );
 
-        /** @phpstan-var \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult<\Ibexa\Contracts\Core\Persistence\Content\Location> $result */
+        /** @phpstan-var SearchResult<Location> $result */
         $result = new SearchResult();
         $result->time = (int) (microtime(true) - $start) * 1000; // time expressed in ms
         $result->totalCount = $data['count'] !== null ? (int)$data['count'] : null;
         $locationList = $this->locationMapper->createLocationsFromRows($data['rows']);
 
         foreach ($locationList as $index => $location) {
-            /** @phpstan-var \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit<\Ibexa\Contracts\Core\Persistence\Content\Location> $searchHit */
+            /** @phpstan-var SearchHit<Location> $searchHit */
             $searchHit = new SearchHit();
             $searchHit->valueObject = $location;
             $searchHit->matchedTranslation = $this->extractMatchedLanguage(
@@ -253,19 +263,23 @@ class Handler implements SearchHandlerInterface
      * @param string $prefix
      * @param string[] $fieldPaths
      * @param int $limit
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion|null $filter
+     * @param Criterion|null $filter
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotImplementedException
      */
-    public function suggest($prefix, $fieldPaths = [], $limit = 10, ?Criterion $filter = null)
-    {
+    public function suggest(
+        $prefix,
+        $fieldPaths = [],
+        $limit = 10,
+        ?Criterion $filter = null
+    ) {
         throw new NotImplementedException('Suggestions are not supported by Legacy search engine.');
     }
 
     /**
      * Indexes a content object.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content $content
+     * @param Content $content
      */
     public function indexContent(Content $content)
     {
@@ -277,11 +291,13 @@ class Handler implements SearchHandlerInterface
     /**
      * Bulk index list of content objects.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content[] $contentList
+     * @param Content[] $contentList
      * @param callable $errorCallback (Content $content, NotFoundException $e)
      */
-    public function bulkIndex(array $contentList, callable $errorCallback)
-    {
+    public function bulkIndex(
+        array $contentList,
+        callable $errorCallback
+    ) {
         $fullTextBulkData = [];
         foreach ($contentList as $content) {
             try {
@@ -295,7 +311,7 @@ class Handler implements SearchHandlerInterface
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Location $location
+     * @param Location $location
      */
     public function indexLocation(Location $location)
     {
@@ -308,13 +324,17 @@ class Handler implements SearchHandlerInterface
      * @param int $contentId
      * @param int|null $versionId
      */
-    public function deleteContent($contentId, $versionId = null)
-    {
+    public function deleteContent(
+        $contentId,
+        $versionId = null
+    ) {
         $this->indexerGateway->remove($contentId, $versionId);
     }
 
-    public function deleteTranslation(int $contentId, string $languageCode): void
-    {
+    public function deleteTranslation(
+        int $contentId,
+        string $languageCode
+    ): void {
         // Not needed with Legacy Storage/Search Engine
     }
 
@@ -324,8 +344,10 @@ class Handler implements SearchHandlerInterface
      * @param mixed $locationId
      * @param mixed $contentId
      */
-    public function deleteLocation($locationId, $contentId)
-    {
+    public function deleteLocation(
+        $locationId,
+        $contentId
+    ) {
         // Not needed with Legacy Storage/Search Engine
     }
 

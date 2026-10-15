@@ -27,10 +27,10 @@ class LegacyDFSClusterTest extends TestCase
 
     private Connection & MockObject $dbalMock;
 
-    /** @var \Doctrine\DBAL\Query\QueryBuilder&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var QueryBuilder&MockObject */
     private QueryBuilder & MockObject $qbMock;
 
-    private UrlDecorator&MockObject $urlDecoratorMock;
+    private UrlDecorator & MockObject $urlDecoratorMock;
 
     protected function setUp(): void
     {
@@ -50,7 +50,7 @@ class LegacyDFSClusterTest extends TestCase
     }
 
     /**
-     * @return iterable<array{string, string, int, \DateTime, \DateTime}>
+     * @return iterable<array{string, string, int, DateTime, DateTime}>
      */
     public function providerCreate(): iterable
     {
@@ -64,8 +64,13 @@ class LegacyDFSClusterTest extends TestCase
     /**
      * @dataProvider providerCreate
      */
-    public function testCreate(string $id, string $mimeType, int $size, \DateTime $mtime, \DateTime $mtimeExpected): void
-    {
+    public function testCreate(
+        string $id,
+        string $mimeType,
+        int $size,
+        DateTime $mtime,
+        DateTime $mtimeExpected
+    ): void {
         $this->dbalMock
             ->expects(self::once())
             ->method('insert')
@@ -179,7 +184,7 @@ class LegacyDFSClusterTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     protected function createDbalStatementMock()
     {
@@ -189,8 +194,10 @@ class LegacyDFSClusterTest extends TestCase
     /**
      * @param array<mixed>|null $result
      */
-    private function setupQueryBuilderLoad(int $rowCount, ?array $result): void
-    {
+    private function setupQueryBuilderLoad(
+        int $rowCount,
+        ?array $result
+    ): void {
         $resultMock = $this->createMock(Result::class);
         $resultMock
             ->expects(self::once())

@@ -23,12 +23,19 @@ abstract class Gateway
      *
      * @return int The ID of the new section
      */
-    abstract public function insertSection(string $name, string $identifier): int;
+    abstract public function insertSection(
+        string $name,
+        string $identifier
+    ): int;
 
     /**
      * Updates section with $id to have $name and $identifier.
      */
-    abstract public function updateSection(int $id, string $name, string $identifier): void;
+    abstract public function updateSection(
+        int $id,
+        string $name,
+        string $identifier
+    ): void;
 
     /**
      * Loads data for section with $id.
@@ -68,5 +75,8 @@ abstract class Gateway
     /**
      * Inserts the assignment of $contentId to $sectionId.
      */
-    abstract public function assignSectionToContent(int $sectionId, int $contentId): void;
+    abstract public function assignSectionToContent(
+        int $sectionId,
+        int $contentId
+    ): void;
 }

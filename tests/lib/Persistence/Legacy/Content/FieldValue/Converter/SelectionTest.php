@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
  */
 class SelectionTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\SelectionConverter */
+    /** @var SelectionConverter */
     protected $converter;
 
     protected function setUp(): void
