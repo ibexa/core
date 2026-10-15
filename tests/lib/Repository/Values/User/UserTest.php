@@ -53,7 +53,7 @@ final class UserTest extends TestCase
     public function testObjectProperties(): void
     {
         $object = new User();
-        $properties = $object->attributes();
+        $properties = (fn (): array => $this->getProperties())->call($object);
         self::assertNotContains('internalFields', $properties, 'Internal property found ');
         self::assertNotContains('content', $properties, 'Internal property found ');
         self::assertContains('id', $properties, 'Property not found ');
