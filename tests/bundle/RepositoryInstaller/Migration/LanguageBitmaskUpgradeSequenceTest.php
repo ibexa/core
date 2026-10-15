@@ -214,6 +214,83 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         }
     }
 
+    public function testStripMigrationLeavesSequentialLanguageIdsUntouched(): void
+    {
+        $connection = $this->getDatabaseConnection();
+        $this->seedPreMigrationData($connection);
+
+        $this->runMigration(new AddContentAlwaysAvailableColumnsMigration($connection, new NullLogger()));
+        $this->runMigration(new AddLanguageTranslationTablesMigration($connection, new NullLogger()));
+        $this->runMigration(new BackfillLanguageTranslationsMigration($connection, new NullLogger()));
+        $this->runMigration(new AddSearchObjectWordLinkLanguageIdColumnsMigration($connection, new NullLogger()));
+        $this->runMigration(new AddUrlAliasAlwaysAvailableColumnMigration($connection, new NullLogger()));
+        $this->runMigration(new DropLanguageBitmaskColumnsMigration($connection, new NullLogger()));
+        $this->runMigration(new NarrowLanguageIdColumnTypesMigration($connection, new NullLogger()));
+        $this->runMigration(new StripAlwaysAvailableBitFromLanguageIdsMigration($connection, new NullLogger()));
+
+        // Simulate a database converted without this migration being recorded (e.g. by an upgrade
+        // script), followed by a new language before the next "doctrine:migrations:migrate": its id
+        // is odd (MAX(id) + 1), yet genuine, so running the migration again must leave its rows alone.
+        $newLanguageId = (new LanguageGateway($connection))->insertLanguage(
+            new Language(['languageCode' => 'fre-FR', 'name' => 'French', 'isEnabled' => true])
+        );
+        self::assertSame(self::ENG_GB | 1, $newLanguageId);
+
+        $connection->insert('ibexa_content_field', [
+            'id' => 4,
+            'contentobject_id' => 1,
+            'version' => 1,
+            'language_code' => 'fre-FR',
+            'language_id' => $newLanguageId,
+        ]);
+        $connection->insert('ibexa_content_name', [
+            'contentobject_id' => 1,
+            'content_version' => 1,
+            'content_translation' => 'fre-FR',
+            'real_translation' => 'fre-FR',
+            'language_id' => $newLanguageId,
+            'name' => 'fre-FR',
+        ]);
+        $connection->insert('ibexa_content_type_name', [
+            'content_type_id' => 1,
+            'content_type_status' => 0,
+            'language_locale' => 'fre-FR',
+            'language_id' => $newLanguageId,
+            'name' => 'fre-FR',
+        ]);
+        $connection->insert('ibexa_object_state_language', [
+            'contentobject_state_id' => 1,
+            'language_id' => $newLanguageId,
+            'name' => 'french',
+            'description' => '',
+        ]);
+        $connection->insert('ibexa_object_state_group_language', [
+            'contentobject_state_group_id' => 1,
+            'language_id' => $newLanguageId,
+            'real_language_id' => $newLanguageId,
+            'name' => 'french',
+            'description' => '',
+        ]);
+
+        $this->runMigration(new StripAlwaysAvailableBitFromLanguageIdsMigration($connection, new NullLogger()));
+
+        foreach (
+            [
+                'ibexa_content_field',
+                'ibexa_content_name',
+                'ibexa_content_type_name',
+                'ibexa_object_state_language',
+                'ibexa_object_state_group_language',
+            ] as $table
+        ) {
+            self::assertEquals(
+                1,
+                $connection->fetchOne("SELECT COUNT(*) FROM {$table} WHERE language_id = ?", [$newLanguageId]),
+                "\"{$table}\" lost its row pointing at the newly created language"
+            );
+        }
+    }
+
     public function testDropMigrationAbortsIfBackfillWasSkipped(): void
     {
         $connection = $this->getDatabaseConnection();
