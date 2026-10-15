@@ -2299,12 +2299,6 @@ parameters:
 			path: src/bundle/Core/Fragment/InlineFragmentRenderer.php
 
 		-
-			message: '#^Trait Ibexa\\Bundle\\Core\\Fragment\\SiteAccessSerializationTrait is used zero times and is not analysed\.$#'
-			identifier: trait.unused
-			count: 1
-			path: src/bundle/Core/Fragment/SiteAccessSerializationTrait.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\IbexaCoreBundle\:\:getContainerExtension\(\) should return Symfony\\Component\\DependencyInjection\\Extension\\ExtensionInterface but returns Symfony\\Component\\DependencyInjection\\Extension\\ExtensionInterface\|false\.$#'
 			identifier: return.type
 			count: 1
