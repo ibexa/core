@@ -42,6 +42,33 @@ class ObjectStateHandlerTest extends AbstractCacheHandlerTestCase
         ];
     }
 
+    public function testLoadDefaultObjectStateResolvesLowestPriorityFromCachedStateList(): void
+    {
+        $default = new SPIObjectState(['id' => 7, 'priority' => 0]);
+
+        $this->cacheIdentifierGeneratorMock
+            ->expects($this->once())
+            ->method('generateKey')
+            ->with('state_list_by_group', [], true)
+            ->willReturn('ibx-slbg');
+
+        $this->cacheMock
+            ->expects($this->once())
+            ->method('getItem')
+            ->with('ibx-slbg-5')
+            ->willReturn($this->getCacheItem('ibx-slbg-5', [
+                new SPIObjectState(['id' => 9, 'priority' => 2]),
+                $default,
+                new SPIObjectState(['id' => 8, 'priority' => 1]),
+            ]));
+
+        $this->persistenceHandlerMock
+            ->expects($this->never())
+            ->method('objectStateHandler');
+
+        self::assertSame($default, $this->persistenceCacheHandler->objectStateHandler()->loadDefaultObjectState(5));
+    }
+
     public static function providerForCachedLoadMethodsHit(): array
     {
         $group = new SPIObjectStateGroup(['id' => 5]);

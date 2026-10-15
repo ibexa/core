@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Persistence\Content\ObjectState;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler as ObjectStateHandlerInterface;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
 
 class ObjectStateHandler extends AbstractInMemoryPersistenceHandler implements ObjectStateHandlerInterface
 {
@@ -157,6 +158,23 @@ class ObjectStateHandler extends AbstractInMemoryPersistenceHandler implements O
                 ];
             }
         );
+    }
+
+    public function loadDefaultObjectState(int $groupId): ObjectState
+    {
+        // Resolved from the cached state list, which is already invalidated on any priority change in the group
+        $defaultState = null;
+        foreach ($this->loadObjectStates($groupId) as $state) {
+            if ($defaultState === null || $state->priority < $defaultState->priority) {
+                $defaultState = $state;
+            }
+        }
+
+        if ($defaultState === null) {
+            throw new NotFoundException('ObjectState', ['groupId' => $groupId]);
+        }
+
+        return $defaultState;
     }
 
     /**

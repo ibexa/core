@@ -155,7 +155,7 @@ abstract class AbstractBaseHandlerTestCase extends TestCase
 
     /**
      * @param $key
-     * @param null $value If null the cache item will be assumed to be a cache miss here.
+     * @param mixed $value If null the cache item will be assumed to be a cache miss here.
      * @param int $defaultLifetime
      *
      * @return CacheItem

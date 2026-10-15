@@ -11881,12 +11881,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/ObjectState/Gateway/ExceptionConversion.php
 
 		-
-			message: '#^Cannot access property \$id on Ibexa\\Contracts\\Core\\Persistence\\Content\\ObjectState\|false\.$#'
-			identifier: property.nonObject
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/ObjectState/Handler.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\ObjectState\\Handler\:\:delete\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -32042,12 +32036,6 @@ parameters:
 
 		-
 			message: '#^Parameter \#1 \$originalClassName of method PHPUnit\\Framework\\TestCase\:\:createMock\(\) expects class\-string\<mixed\>, string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: tests/lib/Persistence/Cache/ContentTypeHandlerTest.php
-
-		-
-			message: '#^Parameter \#2 \$value of method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractBaseHandlerTestCase\:\:getCacheItem\(\) expects null, Ibexa\\Contracts\\Core\\Persistence\\Content\\Type given\.$#'
 			identifier: argument.type
 			count: 1
 			path: tests/lib/Persistence/Cache/ContentTypeHandlerTest.php
