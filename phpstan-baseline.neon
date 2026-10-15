@@ -31807,12 +31807,6 @@ parameters:
 			path: tests/lib/Persistence/Cache/ContentTypeHandlerTest.php
 
 		-
-			message: '#^Parameter \#2 \$value of method Ibexa\\Tests\\Core\\Persistence\\Cache\\AbstractBaseHandlerTestCase\:\:getCacheItem\(\) expects null, Ibexa\\Contracts\\Core\\Persistence\\Content\\Type given\.$#'
-			identifier: argument.type
-			count: 1
-			path: tests/lib/Persistence/Cache/ContentTypeHandlerTest.php
-
-		-
 			message: '#^Unable to resolve the template type T in call to method PHPUnit\\Framework\\TestCase\:\:createMock\(\)$#'
 			identifier: argument.templateType
 			count: 1
