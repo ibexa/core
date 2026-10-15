@@ -13,7 +13,6 @@ use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception as DBALException;
 use Doctrine\DBAL\Platforms\SQLitePlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
-use Ibexa\Contracts\Core\Test\IbexaKernelTestCase;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\FileFixtureFactory;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;
@@ -314,14 +313,9 @@ abstract class TestCase extends BaseTestCase
         );
     }
 
-    /**
-     * @deprecated since Ibexa 4.0, rewrite test case to use {@see IbexaKernelTestCase} instead.
-     *
-     * @return string
-     */
     protected static function getInstallationDir(): string
     {
-        return Legacy::getInstallationDir();
+        return dirname(__DIR__, 4);
     }
 
     protected function getTrashCriteriaConverterDependency(): CriteriaConverter
