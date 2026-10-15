@@ -67,27 +67,6 @@ services:
             $configResolver: '@ibexa.config.resolver'
             $parameterName: content_view_defaults
 
-    ibexa.location_view_provider.configured:
-        class: Ibexa\Bundle\Core\View\Provider\Configured
-        arguments: ['@ibexa.location_view.matcher_factory']
-        tags:
-            - {name: ibexa.view.provider, type: 'Ibexa\Core\MVC\Symfony\View\ContentView', priority: 10}
-
-    ibexa.location_view.matcher_factory:
-        class: Ibexa\Bundle\Core\Matcher\ServiceAwareMatcherFactory
-        arguments:
-            $viewMatcherRegistry: '@Ibexa\Contracts\Core\MVC\View\ViewMatcherRegistryInterface'
-            $repository: '@ibexa.api.repository'
-            $relativeNamespace: 'Ibexa\Core\MVC\Symfony\Matcher\ContentBased'
-
-    ibexa.location_view.matcher_factory.dynamically_configured:
-        class: Ibexa\Core\MVC\Symfony\Matcher\DynamicallyConfiguredMatcherFactoryDecorator
-        decorates: ibexa.location_view.matcher_factory
-        arguments:
-            $innerConfigurableMatcherFactory: '@ibexa.location_view.matcher_factory.dynamically_configured.inner'
-            $configResolver: '@ibexa.config.resolver'
-            $parameterName: location_view
-
     Ibexa\Core\MVC\Symfony\Templating\GlobalHelper:
         class: Ibexa\Core\MVC\Symfony\Templating\GlobalHelper
         arguments: ['@ibexa.config.resolver', '@ibexa.siteaccessaware.service.location', "@router", '@Ibexa\Core\Helper\TranslationHelper']

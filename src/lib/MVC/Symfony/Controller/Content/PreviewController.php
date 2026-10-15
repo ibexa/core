@@ -216,7 +216,6 @@ class PreviewController
             if ($location->isDraft() && $this->controllerChecker->usesCustomController($content, $location)) {
                 $message = <<<EOF
                     <p>The view that rendered this location draft uses a custom controller, and resulted in a fatal error.</p>
-                    <p>Location View is deprecated, as it causes issues with preview, such as an empty location id when previewing the first version of a content.</p>
                     EOF;
             }
         } catch (Exception $innerException) {

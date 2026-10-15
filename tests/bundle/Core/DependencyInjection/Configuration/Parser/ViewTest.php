@@ -8,7 +8,6 @@
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Configuration\Parser;
 
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser\ContentView;
-use Ibexa\Bundle\Core\DependencyInjection\Configuration\Parser\LocationView;
 use Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension;
 use Symfony\Component\Yaml\Yaml;
 
@@ -19,35 +18,13 @@ class ViewTest extends AbstractParserTestCase
     protected function getContainerExtensions(): array
     {
         return [
-            new IbexaCoreExtension([new LocationView(), new ContentView()]),
+            new IbexaCoreExtension([new ContentView()]),
         ];
     }
 
     protected function getMinimalConfiguration(): array
     {
         return $this->config = Yaml::parse(file_get_contents(__DIR__ . '/../../Fixtures/ezpublish_view.yml'));
-    }
-
-    public function testLocationView(): void
-    {
-        $this->load();
-        $expectedLocationView = $this->config['system']['ibexa_demo_frontend_group']['location_view'];
-
-        // Items that don't use a custom controller got converted to content view (location view depreciation)
-        unset($expectedLocationView['full']['frontpage']);
-        unset($expectedLocationView['line']['article']);
-
-        foreach ($expectedLocationView as &$rulesets) {
-            foreach ($rulesets as &$config) {
-                if (!isset($config['params'])) {
-                    $config['params'] = [];
-                }
-            }
-        }
-
-        $this->assertConfigResolverParameterValue('location_view', $expectedLocationView, 'ibexa_demo_site', false);
-        $this->assertConfigResolverParameterValue('location_view', $expectedLocationView, 'fre', false);
-        $this->assertConfigResolverParameterValue('location_view', [], 'ibexa_demo_site_admin', false);
     }
 
     public function testContentView(): void
