@@ -301,7 +301,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         $this->setDefinition($serviceId, new Definition());
         $this->load(
             [
-                'http_cache' => ['purge_type' => 'foobar', 'timeout' => 12],
+                'http_cache' => ['purge_type' => 'foobar'],
             ]
         );
 
