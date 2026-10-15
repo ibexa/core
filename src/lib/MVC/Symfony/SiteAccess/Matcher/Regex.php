@@ -62,6 +62,11 @@ abstract class Regex implements Matcher
             return $this->matchedSiteAccess;
         }
 
+        // No request matched against yet, so there is nothing to match the regex on
+        if ($this->element === null) {
+            return false;
+        }
+
         preg_match(
             "@$this->regex@",
             $this->element,

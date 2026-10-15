@@ -7615,12 +7615,6 @@ parameters:
 			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Map/Host.php
 
 		-
-			message: '#^Parameter \#2 \$subject of function preg_match expects string, string\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Regex.php
-
-		-
 			message: '#^Call to an undefined method object\:\:setRequest\(\)\.$#'
 			identifier: method.notFound
 			count: 1
