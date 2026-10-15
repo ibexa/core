@@ -26,8 +26,11 @@ use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
  * languages now get: the first language added after the upgrade is allocated MAX(id) + 1, exactly
  * the tainted value of the highest existing language.
  *
- * Relies on the whole migration sequence running in one go, before any new language can be created:
- * once a sequential (odd) language id exists, an odd "language_id" is no longer necessarily tainted.
+ * That reasoning only holds while every language id is still a power of two: once a language has been
+ * created with a sequential id, an odd "language_id" may be that language's genuine id. Such an id
+ * proves the bit was stripped before that language was created - by an earlier run, or by an upgrade
+ * script that converted the database outside this migration sequence - so the migration then does
+ * nothing, instead of moving that language's rows onto its neighbour's id.
  *
  * Chunked and non-transactional for the same reasons as BackfillLanguageTranslationsMigration;
  * re-running a chunk is a no-op, since stripped values are even.
@@ -35,6 +38,8 @@ use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
 final class StripAlwaysAvailableBitFromLanguageIdsMigration extends AbstractSqlMigration implements IbexaMigrationInterface
 {
     private const BATCH_SIZE = 5000;
+
+    private const LANGUAGE_TABLE = 'ibexa_language';
 
     /**
      * Table => column to chunk by, or null for tables small enough for a single statement.
@@ -72,6 +77,10 @@ final class StripAlwaysAvailableBitFromLanguageIdsMigration extends AbstractSqlM
         $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::MARIADB, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
 
         $schemaManager = $this->connection->createSchemaManager();
+        if ($schemaManager->tablesExist([self::LANGUAGE_TABLE]) && $this->hasSequentialLanguageIds()) {
+            return;
+        }
+
         foreach (self::TABLES as $table => $chunkColumn) {
             if (!$schemaManager->tablesExist([$table])) {
                 continue;
@@ -85,6 +94,18 @@ final class StripAlwaysAvailableBitFromLanguageIdsMigration extends AbstractSqlM
 
             $this->addChunkedSql($table, $chunkColumn, $updateSql);
         }
+    }
+
+    private function hasSequentialLanguageIds(): bool
+    {
+        foreach ($this->connection->fetchFirstColumn('SELECT id FROM ' . self::LANGUAGE_TABLE) as $languageId) {
+            $languageId = (int)$languageId;
+            if (($languageId & ($languageId - 1)) !== 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function addChunkedSql(
