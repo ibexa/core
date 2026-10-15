@@ -42,7 +42,7 @@ use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
  */
 final class AddLanguageTranslationTablesMigration extends AbstractSqlMigration implements IbexaMigrationInterface
 {
-    private const CONTENT_TABLE = 'ibexa_content';
+    private const string CONTENT_TABLE = 'ibexa_content';
 
     /**
      * Not yet renamed to "ibexa_language" at this point in the migration sequence - that rename
@@ -50,7 +50,7 @@ final class AddLanguageTranslationTablesMigration extends AbstractSqlMigration i
      *
      * @var array<string, array<string, string>>
      */
-    private const FOREIGN_KEYS = [
+    private const array FOREIGN_KEYS = [
         'ibexa_content_translation' => [
             'ibexa_content_translation_content_fk' => 'FOREIGN KEY (content_id) REFERENCES ibexa_content (id) ON DELETE CASCADE ON UPDATE CASCADE',
             'ibexa_content_translation_language_fk' => 'FOREIGN KEY (language_id) REFERENCES ibexa_content_language (id) ON DELETE RESTRICT ON UPDATE CASCADE',

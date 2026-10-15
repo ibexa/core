@@ -41,9 +41,9 @@ use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
  */
 final class AddSearchObjectWordLinkLanguageIdColumnsMigration extends AbstractSqlMigration implements IbexaMigrationInterface
 {
-    private const TABLE = 'ibexa_search_object_word_link';
-    private const LANGUAGE_ID_COLUMN = 'language_id';
-    private const IS_MAIN_AND_ALWAYS_AVAILABLE_COLUMN = 'is_main_and_always_available';
+    private const string TABLE = 'ibexa_search_object_word_link';
+    private const string LANGUAGE_ID_COLUMN = 'language_id';
+    private const string IS_MAIN_AND_ALWAYS_AVAILABLE_COLUMN = 'is_main_and_always_available';
 
     public function getDescription(): string
     {

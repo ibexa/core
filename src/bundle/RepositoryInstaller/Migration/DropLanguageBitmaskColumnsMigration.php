@@ -45,13 +45,13 @@ use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
  */
 final class DropLanguageBitmaskColumnsMigration extends AbstractSqlMigration implements IbexaMigrationInterface
 {
-    private const CONTENT_TABLE = 'ibexa_content';
+    private const string CONTENT_TABLE = 'ibexa_content';
 
     /**
      * Not yet renamed to "ibexa_language" at this point in the migration sequence - that rename
      * happens later, in {@see NarrowLanguageIdColumnTypesMigration}.
      */
-    private const LANGUAGE_TABLE = 'ibexa_content_language';
+    private const string LANGUAGE_TABLE = 'ibexa_content_language';
 
     /**
      * Table => [mask column, index to drop (if any), whether the index needs replacing with a
@@ -59,7 +59,7 @@ final class DropLanguageBitmaskColumnsMigration extends AbstractSqlMigration imp
      *
      * @var array<string, array{0: string, 1: string|null, 2: bool}>
      */
-    private const DROPS = [
+    private const array DROPS = [
         'ibexa_object_state' => ['language_mask', 'ibexa_object_state_lmask', false],
         'ibexa_object_state_group' => ['language_mask', 'ibexa_object_state_group_lmask', false],
         'ibexa_content_type' => ['language_mask', null, false],
@@ -73,7 +73,7 @@ final class DropLanguageBitmaskColumnsMigration extends AbstractSqlMigration imp
      * Which of {@see DROPS} also need a `abortIfTranslationsNotBackfilled()` check before their
      * column is dropped, and what to check it against.
      */
-    private const BACKFILL_CHECKS = [
+    private const array BACKFILL_CHECKS = [
         self::CONTENT_TABLE => ['ibexa_content_translation', 'content_id'],
         'ibexa_content_version' => ['ibexa_content_version_translation', 'content_version_id'],
         'ibexa_url_alias_ml' => ['ibexa_url_alias_ml_translation', null],

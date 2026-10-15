@@ -41,14 +41,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 final class BackfillLanguageTranslationsCommand extends Command
 {
-    private const DEFAULT_BATCH_SIZE = 5000;
+    private const int DEFAULT_BATCH_SIZE = 5000;
 
-    private const TABLE_CONTENT = 'content';
-    private const TABLE_CONTENT_VERSION = 'content_version';
-    private const TABLE_URL_ALIAS = 'url_alias';
-    private const TABLE_ALL = 'all';
+    private const string TABLE_CONTENT = 'content';
+    private const string TABLE_CONTENT_VERSION = 'content_version';
+    private const string TABLE_URL_ALIAS = 'url_alias';
+    private const string TABLE_ALL = 'all';
 
-    private const VALID_TABLES = [
+    private const array VALID_TABLES = [
         self::TABLE_CONTENT,
         self::TABLE_CONTENT_VERSION,
         self::TABLE_URL_ALIAS,

@@ -45,7 +45,7 @@ use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
  */
 final class BackfillLanguageTranslationsMigration extends AbstractSqlMigration implements IbexaMigrationInterface
 {
-    private const BATCH_SIZE = 5000;
+    private const int BATCH_SIZE = 5000;
 
     public function getDescription(): string
     {
