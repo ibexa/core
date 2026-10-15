@@ -22,7 +22,7 @@ class StorageEngineFactory
      * Hash of registered storage engines.
      * Key is the storage engine identifier, value persistence handler itself.
      *
-     * @var PersistenceHandler[]
+     * @var Handler[]
      */
     protected array $storageEngines = [];
 
@@ -43,7 +43,7 @@ class StorageEngineFactory
     }
 
     /**
-     * @return PersistenceHandler[]
+     * @return Handler[]
      */
     public function getStorageEngines(): array
     {

@@ -22,7 +22,7 @@ class SearchEngineIndexerFactory
      * Hash of registered search engine indexers.
      * Key is the search engine identifier, value indexer itself.
      *
-     * @var SearchEngineIndexer[]
+     * @var Indexer[]
      */
     protected $searchEngineIndexers = [];
 
@@ -35,7 +35,7 @@ class SearchEngineIndexerFactory
      *
      * note: It is strongly recommended to register indexer as a lazy service.
      *
-     * @param SearchEngineIndexer $searchEngineIndexer
+     * @param Indexer $searchEngineIndexer
      * @param string $searchEngineIdentifier
      */
     public function registerSearchEngineIndexer(
@@ -48,7 +48,7 @@ class SearchEngineIndexerFactory
     /**
      * Returns registered search engine indexers.
      *
-     * @return SearchEngineIndexer[]
+     * @return Indexer[]
      */
     public function getSearchEngineIndexers()
     {
@@ -61,7 +61,7 @@ class SearchEngineIndexerFactory
      *
      * @throws InvalidSearchEngineIndexer
      *
-     * @return SearchEngineIndexer
+     * @return Indexer
      */
     public function buildSearchEngineIndexer(): SearchEngineIndexer
     {

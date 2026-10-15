@@ -21,7 +21,7 @@ class SearchEngineFactory
      * Hash of registered search engines.
      * Key is the search engine identifier, value search handler itself.
      *
-     * @var SearchHandler[]
+     * @var Handler[]
      */
     protected $searchEngines = [];
 
@@ -34,7 +34,7 @@ class SearchEngineFactory
      *
      * Note It is strongly recommended to register a lazy persistent handler.
      *
-     * @param SearchHandler $searchHandler
+     * @param Handler $searchHandler
      * @param string $searchEngineIdentifier
      */
     public function registerSearchEngine(
@@ -47,7 +47,7 @@ class SearchEngineFactory
     /**
      * Returns registered search engines.
      *
-     * @return SearchHandler[]
+     * @return Handler[]
      */
     public function getSearchEngines()
     {

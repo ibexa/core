@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Limitation\Limitation;
 use Ibexa\Contracts\Core\Limitation\Type as SPILimitationTypeInterface;
 use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
@@ -22,6 +23,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ParentContentTypeLimitation as APIParentContentTypeLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
@@ -182,7 +184,7 @@ class ParentContentTypeLimitationType extends AbstractPersistenceLimitationType 
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If $targets does not contain
      *         objects of type LocationCreateStruct
-     * @throws APINotFoundException
+     * @throws NotFoundException
      *
      * @param APILimitationValue $value
      * @param array $targets
@@ -253,7 +255,7 @@ class ParentContentTypeLimitationType extends AbstractPersistenceLimitationType 
      *
      * @return SPILocation[]
      *
-     * @throws APINotFoundException
+     * @throws NotFoundException
      */
     private function loadParentLocations(ContentInfo $contentInfo)
     {

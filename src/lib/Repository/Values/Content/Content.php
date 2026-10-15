@@ -13,6 +13,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Thumbnail;
+use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 
@@ -35,7 +36,7 @@ class Content extends APIContent
     /** @var array<string, array<string, \Ibexa\Core\FieldType\Value>> An array of field values like <code>[field definition identifier => [language code => field value]] => */
     protected array $fields = [];
 
-    /** @var APIVersionInfo */
+    /** @var VersionInfo */
     protected $versionInfo;
 
     /** @var ContentType */

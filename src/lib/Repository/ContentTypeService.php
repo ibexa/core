@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository;
 
 use Exception;
+use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
 use Ibexa\Contracts\Core\Persistence\Content\Type as SPIContentType;
 use Ibexa\Contracts\Core\Persistence\Content\Type\CreateStruct as SPIContentTypeCreateStruct;
@@ -20,15 +21,18 @@ use Ibexa\Contracts\Core\Repository\ContentTypeService as ContentTypeServiceInte
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException as APIBadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
+use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType as APIContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeCreateStruct as APIContentTypeCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft as APIContentTypeDraft;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroup as APIContentTypeGroup;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroupCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeGroupUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition as APIFieldDefinition;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinitionUpdateStruct;
@@ -53,7 +57,7 @@ use Ibexa\Core\Repository\Values\ContentType\ContentTypeGroup;
 
 class ContentTypeService implements ContentTypeServiceInterface
 {
-    /** @var RepositoryInterface */
+    /** @var Repository */
     protected $repository;
 
     /** @var Handler */
@@ -80,7 +84,7 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * Setups service with reference to repository object that created it & corresponding handler.
      *
-     * @param RepositoryInterface $repository
+     * @param Repository $repository
      * @param Handler $contentTypeHandler
      * @param UserHandler $userHandler
      * @param ContentDomainMapper $contentDomainMapper
@@ -532,7 +536,7 @@ class ContentTypeService implements ContentTypeServiceInterface
      * @param APIContentTypeCreateStruct $contentTypeCreateStruct
      * @param APIContentTypeGroup[] $contentTypeGroups Required array of {@link APIContentTypeGroup} to link type with (must contain one)
      *
-     * @return APIContentTypeDraft
+     * @return ContentTypeDraft
      */
     public function createContentType(
         APIContentTypeCreateStruct $contentTypeCreateStruct,
@@ -606,7 +610,7 @@ class ContentTypeService implements ContentTypeServiceInterface
         $spiFieldDefinitions = [];
         $fieldTypeIdentifierSet = [];
         foreach ($contentTypeCreateStruct->fieldDefinitions as $fieldDefinitionCreateStruct) {
-            /** @var $fieldType SPIFieldType */
+            /** @var $fieldType \Ibexa\Contracts\Core\FieldType\FieldType */
             $fieldType = $this->fieldTypeRegistry->getFieldType(
                 $fieldDefinitionCreateStruct->fieldTypeIdentifier
             );
@@ -708,7 +712,7 @@ class ContentTypeService implements ContentTypeServiceInterface
      * Validates FieldDefinitionCreateStruct.
      *
      * @param FieldDefinitionCreateStruct $fieldDefinitionCreateStruct
-     * @param SPIFieldType $fieldType
+     * @param FieldType $fieldType
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
@@ -875,7 +879,7 @@ class ContentTypeService implements ContentTypeServiceInterface
      *
      * @param APIContentType $contentType
      *
-     * @return APIContentTypeDraft
+     * @return ContentTypeDraft
      */
     public function createContentTypeDraft(APIContentType $contentType): APIContentTypeDraft
     {
@@ -919,7 +923,7 @@ class ContentTypeService implements ContentTypeServiceInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the given identifier or remoteId already exists
      *         or there is no draft assigned to the authenticated user
      *
-     * @param APIContentTypeDraft $contentTypeDraft
+     * @param ContentTypeDraft $contentTypeDraft
      * @param ContentTypeUpdateStruct $contentTypeUpdateStruct
      */
     public function updateContentTypeDraft(
@@ -1178,7 +1182,7 @@ class ContentTypeService implements ContentTypeServiceInterface
      *                                                                 or field definition that can't be added to a ContentType that
      *                                                                 has Content instances is being added to such ContentType
      *
-     * @param APIContentTypeDraft $contentTypeDraft
+     * @param ContentTypeDraft $contentTypeDraft
      * @param FieldDefinitionCreateStruct $fieldDefinitionCreateStruct
      */
     public function addFieldDefinition(
@@ -1260,8 +1264,8 @@ class ContentTypeService implements ContentTypeServiceInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the given field definition does not belong to the given type
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to edit a content type
      *
-     * @param APIContentTypeDraft $contentTypeDraft
-     * @param APIFieldDefinition $fieldDefinition
+     * @param ContentTypeDraft $contentTypeDraft
+     * @param FieldDefinition $fieldDefinition
      */
     public function removeFieldDefinition(
         APIContentTypeDraft $contentTypeDraft,
@@ -1308,8 +1312,8 @@ class ContentTypeService implements ContentTypeServiceInterface
      *                                                                        If the given identifier is used in an existing field of the given content type
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to edit a content type
      *
-     * @param APIContentTypeDraft $contentTypeDraft the content type draft
-     * @param APIFieldDefinition $fieldDefinition the field definition which should be updated
+     * @param ContentTypeDraft $contentTypeDraft the content type draft
+     * @param FieldDefinition $fieldDefinition the field definition which should be updated
      * @param FieldDefinitionUpdateStruct $fieldDefinitionUpdateStruct
      */
     public function updateFieldDefinition(
@@ -1369,7 +1373,7 @@ class ContentTypeService implements ContentTypeServiceInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the content type has no field definitions
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException if the user is not allowed to publish a content type
      *
-     * @param APIContentTypeDraft $contentTypeDraft
+     * @param ContentTypeDraft $contentTypeDraft
      */
     public function publishContentTypeDraft(APIContentTypeDraft $contentTypeDraft): void
     {
@@ -1531,10 +1535,10 @@ class ContentTypeService implements ContentTypeServiceInterface
     }
 
     /**
-     * @param APIContentTypeDraft $contentTypeDraft
+     * @param ContentTypeDraft $contentTypeDraft
      * @param string $languageCode
      *
-     * @return APIContentTypeDraft
+     * @return ContentTypeDraft
      *
      * @throws APIBadStateException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException

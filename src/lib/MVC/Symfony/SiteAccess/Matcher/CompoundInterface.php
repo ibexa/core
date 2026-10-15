@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 
+use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use Ibexa\Core\MVC\Symfony\SiteAccess\MatcherBuilderInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess\VersatileMatcher;
 

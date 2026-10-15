@@ -13,8 +13,10 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\StatusLimitation as APIStatusLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
@@ -54,7 +56,7 @@ class StatusLimitationType implements SPILimitationTypeInterface
      *
      * Make sure {@link acceptValue()} is checked first!
      *
-     * @param APILimitationValue $limitationValue
+     * @param Limitation $limitationValue
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
@@ -89,7 +91,7 @@ class StatusLimitationType implements SPILimitationTypeInterface
      *
      * @param mixed[] $limitationValues
      *
-     * @return APILimitationValue
+     * @return Limitation
      */
     public function buildValue(array $limitationValues): APILimitationValue
     {

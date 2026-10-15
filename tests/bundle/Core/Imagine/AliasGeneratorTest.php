@@ -100,7 +100,7 @@ final class AliasGeneratorTest extends TestCase
      * @dataProvider supportsValueProvider
      */
     public function testSupportsValue(
-        Value $value,
+        FieldTypeValue $value,
         bool $isSupported
     ): void {
         self::assertSame($isSupported, $this->aliasGenerator->supportsValue($value));

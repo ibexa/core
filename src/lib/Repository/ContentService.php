@@ -46,6 +46,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LanguageCode;
+use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
 use Ibexa\Contracts\Core\Repository\Values\Content\Relation as APIRelation;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationList;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationList\Item\RelationListItem;
@@ -2045,7 +2046,7 @@ class ContentService implements ContentServiceInterface
      *
      * @throws APINotFoundException
      *
-     * @return APIRelation[]
+     * @return Relation[]
      */
     protected function internalLoadRelations(APIVersionInfo $versionInfo): array
     {
@@ -2279,7 +2280,7 @@ class ContentService implements ContentServiceInterface
      * @param APIVersionInfo $sourceVersion
      * @param ContentInfo $destinationContent the destination of the relation
      *
-     * @return APIRelation the newly created relation
+     * @return Relation the newly created relation
      */
     public function addRelation(
         APIVersionInfo $sourceVersion,

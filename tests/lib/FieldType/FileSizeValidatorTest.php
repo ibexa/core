@@ -123,7 +123,7 @@ class FileSizeValidatorTest extends TestCase
     /**
      * @param int $size
      *
-     * @return BinaryFileValue
+     * @return Value
      */
     protected function getBinaryFileValue($size)
     {

@@ -12,8 +12,10 @@ use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\BlockingLimitation as APIBlockingLimitation;
+use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
@@ -69,7 +71,7 @@ class BlockingLimitationType implements SPILimitationTypeInterface
      *
      * Make sure {@link acceptValue()} is checked first!
      *
-     * @param APILimitationValue $limitationValue
+     * @param Limitation $limitationValue
      *
      * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
      */
@@ -94,7 +96,7 @@ class BlockingLimitationType implements SPILimitationTypeInterface
      *
      * @param mixed[] $limitationValues
      *
-     * @return APILimitationValue
+     * @return Limitation
      */
     public function buildValue(array $limitationValues): APILimitationValue
     {
@@ -132,8 +134,8 @@ class BlockingLimitationType implements SPILimitationTypeInterface
     /**
      * Returns Criterion for use in find() query.
      *
-     * @param APILimitationValue $value
-     * @param APIUserReference $currentUser
+     * @param Limitation $value
+     * @param UserReference $currentUser
      *
      * @return CriterionInterface
      */

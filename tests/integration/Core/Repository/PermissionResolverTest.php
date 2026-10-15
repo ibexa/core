@@ -1032,15 +1032,16 @@ class PermissionResolverTest extends BaseTestCase
         self::assertSame([], $result->getRoleLimitations());
         self::assertCount(1, $result->getLookupPolicyLimitations());
 
-        $policyLimitations = $result->getLookupPolicyLimitations()[0];
-        self::assertEquals([...$role->getPolicies()][1], $policyLimitations->policy);
         // Order of limitations is not guaranteed by the persistence layer
-        self::assertEquals(
-            [
-                Limitation::LANGUAGE => new Limitation\LanguageLimitation(['limitationValues' => ['eng-GB']]),
-                Limitation::SECTION => new Limitation\SectionLimitation(['limitationValues' => [2]]),
-            ],
-            $this->indexLimitationsByIdentifier($policyLimitations->limitations)
+        $policy = [...$role->getPolicies()][1];
+        $languageLimitation = new Limitation\LanguageLimitation(['limitationValues' => ['eng-GB']]);
+        $sectionLimitation = new Limitation\SectionLimitation(['limitationValues' => [2]]);
+        self::assertThat(
+            $result->getLookupPolicyLimitations()[0],
+            self::logicalOr(
+                self::equalTo(new LookupPolicyLimitations($policy, [$languageLimitation, $sectionLimitation])),
+                self::equalTo(new LookupPolicyLimitations($policy, [$sectionLimitation, $languageLimitation]))
+            )
         );
     }
 
@@ -1355,22 +1356,6 @@ class PermissionResolverTest extends BaseTestCase
                 $actual->lookupPolicyLimitations
             )
         );
-    }
-
-    /**
-     * @param Limitation[] $limitations
-     *
-     * @return array<string, Limitation>
-     */
-    private function indexLimitationsByIdentifier(array $limitations): array
-    {
-        $indexed = [];
-        foreach ($limitations as $limitation) {
-            $indexed[$limitation->getIdentifier()] = $limitation;
-        }
-        ksort($indexed);
-
-        return $indexed;
     }
 
     /**

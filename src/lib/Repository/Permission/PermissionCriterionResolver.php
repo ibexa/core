@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository\Permission;
 
 use Ibexa\Contracts\Core\Repository\PermissionCriterionResolver as APIPermissionCriterionResolver;
+use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\PermissionResolver as PermissionResolverInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd;
@@ -26,7 +27,7 @@ use RuntimeException;
  */
 class PermissionCriterionResolver implements APIPermissionCriterionResolver
 {
-    /** @var PermissionResolverInterface */
+    /** @var PermissionResolver */
     private $innerPermissionResolver;
 
     /** @var LimitationService */
@@ -35,7 +36,7 @@ class PermissionCriterionResolver implements APIPermissionCriterionResolver
     /**
      * Constructor.
      *
-     * @param PermissionResolverInterface $innerPermissionResolver
+     * @param PermissionResolver $innerPermissionResolver
      * @param LimitationService $limitationService
      */
     public function __construct(

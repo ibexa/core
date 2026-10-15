@@ -12,7 +12,9 @@ use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation as APILimitationValue;
+use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference as APIUserReference;
 
 /**
@@ -80,7 +82,7 @@ interface Type
      *
      * @throws InvalidArgumentException If the value does not match the expected type/structure
      *
-     * @param APILimitationValue $limitationValue
+     * @param Limitation $limitationValue
      */
     public function acceptValue(APILimitationValue $limitationValue): void;
 
@@ -89,7 +91,7 @@ interface Type
      *
      * Make sure {@see Type::acceptValue()} is checked first.
      *
-     * @param APILimitationValue $limitationValue
+     * @param Limitation $limitationValue
      *
      * @return array<int, ValidationError>
      */
@@ -103,7 +105,7 @@ interface Type
      *
      * @param array<int, mixed> $limitationValues
      *
-     * @return APILimitationValue
+     * @return Limitation
      */
     public function buildValue(array $limitationValues): APILimitationValue;
 
@@ -128,8 +130,8 @@ interface Type
      * @throws NotImplementedException If the limitation does not support
      *         being used as a Criterion.
      *
-     * @param APILimitationValue $value
-     * @param APIUserReference $currentUser
+     * @param Limitation $value
+     * @param UserReference $currentUser
      *
      * @return CriterionInterface
      */

@@ -7,6 +7,7 @@
 
 namespace Ibexa\Tests\Integration\Core\Repository\Regression;
 
+use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\FieldType\Integer\Value;
 use Ibexa\Core\Persistence\Legacy\Exception\TypeNotFound as TypeNotFoundException;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
