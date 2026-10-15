@@ -9,17 +9,17 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 
 return SearchResult::__set_state([
     'searchHits' => [
-            SearchHit::__set_state([
-                'valueObject' => [
-                        'id' => 4,
-                        'title' => 'Users',
-                    ],
-                'score' => null,
-                'index' => null,
-                'highlight' => null,
-                'matchedTranslation' => 'eng-GB',
-            ]),
-        ],
+        SearchHit::__set_state([
+            'valueObject' => [
+                'id' => 4,
+                'title' => 'Users',
+            ],
+            'score' => null,
+            'index' => null,
+            'highlight' => null,
+            'matchedTranslation' => 'eng-GB',
+        ]),
+    ],
     'spellcheck' => null,
     'time' => 1,
     'timedOut' => null,
