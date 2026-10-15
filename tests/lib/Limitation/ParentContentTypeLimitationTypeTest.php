@@ -432,6 +432,7 @@ class ParentContentTypeLimitationTypeTest extends Base
      * @param class-string $handlerClass
      * @param array<int, array<int, mixed>> $arguments
      * @param array<int, mixed> $results
+     * @param list<string> $persistenceCalls
      */
     private function expectHandlerCalls(
         MockObject $persistenceMock,
@@ -439,7 +440,8 @@ class ParentContentTypeLimitationTypeTest extends Base
         string $handlerClass,
         string $method,
         array $arguments,
-        array $results
+        array $results,
+        array &$persistenceCalls
     ): void {
         if (empty($arguments)) {
             $persistenceMock
@@ -453,7 +455,11 @@ class ParentContentTypeLimitationTypeTest extends Base
         $persistenceMock
             ->expects($this->exactly(count($arguments)))
             ->method($handlerMethod)
-            ->will($this->returnValue($handlerMock));
+            ->willReturnCallback(static function () use (&$persistenceCalls, $handlerMethod, $handlerMock) {
+                $persistenceCalls[] = $handlerMethod;
+
+                return $handlerMock;
+            });
 
         $handlerMock
             ->expects($this->exactly(count($arguments)))
@@ -486,12 +492,16 @@ class ParentContentTypeLimitationTypeTest extends Base
             ->expects($this->never())
             ->method('contentTypeHandler');
 
+        $persistenceCalls = [];
+        $expectedPersistenceCalls = [];
+
         if (empty($persistence)) {
             // Covers API targets, where no additional loading is required
             $persistenceMock
                 ->expects($this->never())
                 ->method($this->anything());
         } elseif (!empty($targets)) {
+            $expectedPersistenceCalls = [];
             $locationLoadArguments = [];
             $locationLoadResults = [];
             $contentLoadArguments = [];
@@ -502,9 +512,12 @@ class ParentContentTypeLimitationTypeTest extends Base
                     $locationLoadArguments[] = [$target->parentLocationId];
                     $locationLoadResults[] = $location;
                     $contentId = $location->contentId;
+                    $expectedPersistenceCalls[] = 'locationHandler';
                 } else {
                     $contentId = $target->contentId;
                 }
+
+                $expectedPersistenceCalls[] = 'contentHandler';
 
                 $contentLoadArguments[] = [$contentId];
                 $contentLoadResults[] = $persistence['contentInfos'][$index];
@@ -516,7 +529,8 @@ class ParentContentTypeLimitationTypeTest extends Base
                 Handler::class,
                 'load',
                 $locationLoadArguments,
-                $locationLoadResults
+                $locationLoadResults,
+                $persistenceCalls
             );
             $this->expectHandlerCalls(
                 $persistenceMock,
@@ -524,14 +538,19 @@ class ParentContentTypeLimitationTypeTest extends Base
                 SPIContentHandler::class,
                 'loadContentInfo',
                 $contentLoadArguments,
-                $contentLoadResults
+                $contentLoadResults,
+                $persistenceCalls
             );
         } else {
             $locationHandlerMock = $this->createMock(Handler::class);
             $persistenceMock
                 ->expects($this->atLeastOnce())
                 ->method('locationHandler')
-                ->will($this->returnValue($locationHandlerMock));
+                ->willReturnCallback(static function () use (&$persistenceCalls, $locationHandlerMock) {
+                    $persistenceCalls[] = 'locationHandler';
+
+                    return $locationHandlerMock;
+                });
 
             $locationHandlerMock
                 ->expects($this->once())
@@ -570,7 +589,17 @@ class ParentContentTypeLimitationTypeTest extends Base
             $persistenceMock
                 ->expects($this->exactly(count($contentLoadArguments)))
                 ->method('contentHandler')
-                ->will($this->returnValue($contentHandlerMock));
+                ->willReturnCallback(static function () use (&$persistenceCalls, $contentHandlerMock) {
+                    $persistenceCalls[] = 'contentHandler';
+
+                    return $contentHandlerMock;
+                });
+
+            // The location handler is used to load the object's locations, then their parents; content info is loaded last.
+            $expectedPersistenceCalls = array_merge(
+                array_fill(0, 1 + count($locationLoadArguments), 'locationHandler'),
+                array_fill(0, count($contentLoadArguments), 'contentHandler')
+            );
 
             $contentHandlerMock
                 ->expects($this->exactly(count($contentLoadArguments)))
@@ -588,6 +617,7 @@ class ParentContentTypeLimitationTypeTest extends Base
 
         self::assertIsBool($value);
         self::assertEquals($expected, $value);
+        self::assertSame($expectedPersistenceCalls, $persistenceCalls);
     }
 
     /**

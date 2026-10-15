@@ -24,6 +24,43 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class TreeHandlerTest extends TestCase
 {
+    /**
+     * Records the call, keeping only the first $recordedArguments arguments (the ones the test cares about).
+     *
+     * @param list<mixed> $calls
+     * @param mixed $return
+     */
+    private static function recorder(
+        array &$calls,
+        string $method,
+        $return,
+        int $recordedArguments = PHP_INT_MAX
+    ): \Closure {
+        return static function (...$arguments) use (&$calls, $method, $return, $recordedArguments) {
+            $calls[] = [$method, ...array_values(array_slice($arguments, 0, $recordedArguments))];
+
+            return $return;
+        };
+    }
+
+    /**
+     * Records only the first argument (the lookup key), later ones are defaults the test does not care about.
+     *
+     * @param list<mixed> $calls
+     * @param array<int, mixed> $returnMap return value keyed by the first argument
+     */
+    private static function mapRecorder(
+        array &$calls,
+        string $method,
+        array $returnMap
+    ): \Closure {
+        return static function (...$arguments) use (&$calls, $method, $returnMap) {
+            $calls[] = [$method, $arguments[0]];
+
+            return $returnMap[$arguments[0]];
+        };
+    }
+
     public function testLoadContentInfoByRemoteId()
     {
         $contentInfoData = [new ContentInfo()];
@@ -135,65 +172,83 @@ class TreeHandlerTest extends TestCase
             ]
         );
 
-        $this->getLocationGatewayMock()
+        $calls = [];
+        $locationGatewayMock = $this->getLocationGatewayMock();
+        $locationGatewayMock
             ->expects($this->exactly(3))
             ->method('getBasicNodeData')
-            ->withConsecutive([42], [201], [202])
-            ->willReturnOnConsecutiveCalls(
-                ['contentobject_id' => 100, 'main_node_id' => 200],
-                ['contentobject_id' => 101, 'main_node_id' => 201],
-                ['contentobject_id' => 102, 'main_node_id' => 202]
-            );
-        $this->getLocationGatewayMock()
+            ->willReturnCallback(self::mapRecorder($calls, 'getBasicNodeData', [
+                42 => ['contentobject_id' => 100, 'main_node_id' => 200],
+                201 => ['contentobject_id' => 101, 'main_node_id' => 201],
+                202 => ['contentobject_id' => 102, 'main_node_id' => 202],
+            ]));
+        $locationGatewayMock
             ->expects($this->exactly(3))
             ->method('getChildren')
-            ->withConsecutive([42], [201], [202])
-            ->willReturnOnConsecutiveCalls(
-                [
+            ->willReturnCallback(self::mapRecorder($calls, 'getChildren', [
+                42 => [
                     ['node_id' => 201],
                     ['node_id' => 202],
                 ],
-                [],
-                []
-            );
-
-        $this->getLocationGatewayMock()
+                201 => [],
+                202 => [],
+            ]));
+        $locationGatewayMock
             ->expects($this->exactly(2))
             ->method('countLocationsByContentId')
-            ->withConsecutive([101], [102])
-            ->willReturnOnConsecutiveCalls(1, 2);
+            ->willReturnCallback(self::mapRecorder($calls, 'countLocationsByContentId', [101 => 1, 102 => 2]));
         $treeHandler
             ->expects($this->once())
             ->method('removeRawContent')
             ->with(101);
-        $this->getLocationGatewayMock()
+        $locationGatewayMock
             ->expects($this->once())
             ->method('getFallbackMainNodeData')
             ->with(102, 202)
-            ->will(
-                $this->returnValue(
-                    [
-                        'node_id' => 203,
-                        'contentobject_version' => 1,
-                        'parent_node_id' => 204,
-                    ]
-                )
-            );
+            ->willReturnCallback(self::recorder($calls, 'getFallbackMainNodeData', [
+                'node_id' => 203,
+                'contentobject_version' => 1,
+                'parent_node_id' => 204,
+            ]));
         $treeHandler
             ->expects($this->once())
             ->method('changeMainLocation')
             ->with(102, 203);
-        $this->getLocationGatewayMock()
+        $locationGatewayMock
             ->expects($this->exactly(3))
             ->method('removeLocation')
-            ->withConsecutive([201], [202], [42]);
-        $this->getLocationGatewayMock()
+            ->willReturnCallback(self::recorder($calls, 'removeLocation', null, 1));
+        $locationGatewayMock
             ->expects($this->exactly(3))
             ->method('deleteNodeAssignment')
-            ->withConsecutive([101], [102], [100]);
+            ->willReturnCallback(self::recorder($calls, 'deleteNodeAssignment', null, 1));
 
         // Start
         $treeHandler->removeSubtree(42);
+
+        self::assertSame(
+            [
+                ['getBasicNodeData', 42],
+                ['getChildren', 42],
+                // First recursive call
+                ['getBasicNodeData', 201],
+                ['getChildren', 201],
+                ['countLocationsByContentId', 101],
+                ['removeLocation', 201],
+                ['deleteNodeAssignment', 101],
+                // Second recursive call
+                ['getBasicNodeData', 202],
+                ['getChildren', 202],
+                ['countLocationsByContentId', 102],
+                ['getFallbackMainNodeData', 102, 202],
+                ['removeLocation', 202],
+                ['deleteNodeAssignment', 102],
+                // Continuation of the original call
+                ['removeLocation', 42],
+                ['deleteNodeAssignment', 100],
+            ],
+            $calls
+        );
     }
 
     public function testSetSectionForSubtree()
@@ -232,23 +287,22 @@ class TreeHandlerTest extends TestCase
             ]
         );
 
+        $calls = [];
         $treeHandler
             ->expects($this->exactly(2))
             ->method('loadLocation')
-            ->withConsecutive([34], [42])
-            ->willReturnOnConsecutiveCalls(
-                new Location(['parentId' => 42]),
-                new Location(['contentId' => 84])
-            );
+            ->willReturnCallback(self::mapRecorder($calls, 'loadLocation', [
+                34 => new Location(['parentId' => 42]),
+                42 => new Location(['contentId' => 84]),
+            ]));
 
         $treeHandler
             ->expects($this->exactly(2))
             ->method('loadContentInfo')
-            ->withConsecutive(['12'], ['84'])
-            ->willReturnOnConsecutiveCalls(
-                new ContentInfo(['currentVersionNo' => 1]),
-                new ContentInfo(['sectionId' => 4])
-            );
+            ->willReturnCallback(self::mapRecorder($calls, 'loadContentInfo', [
+                12 => new ContentInfo(['currentVersionNo' => 1]),
+                84 => new ContentInfo(['sectionId' => 4]),
+            ]));
 
         $this->getLocationGatewayMock()
             ->expects($this->once())
@@ -261,6 +315,16 @@ class TreeHandlerTest extends TestCase
             ->with(34, 4);
 
         $treeHandler->changeMainLocation(12, 34);
+
+        self::assertSame(
+            [
+                ['loadLocation', 34],
+                ['loadContentInfo', 12],
+                ['loadLocation', 42],
+                ['loadContentInfo', 84],
+            ],
+            $calls
+        );
     }
 
     public function testChangeMainLocationToLocationWithoutContentInfo()
@@ -273,23 +337,22 @@ class TreeHandlerTest extends TestCase
             ]
         );
 
+        $calls = [];
         $treeHandler
             ->expects($this->exactly(2))
             ->method('loadLocation')
-            ->withConsecutive([34], [1])
-            ->willReturnOnConsecutiveCalls(
-                new Location(['parentId' => 1]),
-                new Location(['contentId' => 84])
-            );
+            ->willReturnCallback(self::mapRecorder($calls, 'loadLocation', [
+                34 => new Location(['parentId' => 1]),
+                1 => new Location(['contentId' => 84]),
+            ]));
 
         $treeHandler
             ->expects($this->exactly(2))
             ->method('loadContentInfo')
-            ->withConsecutive(['12'], ['84'])
-            ->willReturnOnConsecutiveCalls(
-                new ContentInfo(['currentVersionNo' => 1]),
-                new ContentInfo(['sectionId' => 4])
-            );
+            ->willReturnCallback(self::mapRecorder($calls, 'loadContentInfo', [
+                12 => new ContentInfo(['currentVersionNo' => 1]),
+                84 => new ContentInfo(['sectionId' => 4]),
+            ]));
 
         $this->getLocationGatewayMock()
             ->expects($this->once())
@@ -302,6 +365,16 @@ class TreeHandlerTest extends TestCase
             ->with(34, 4);
 
         $treeHandler->changeMainLocation(12, 34);
+
+        self::assertSame(
+            [
+                ['loadLocation', 34],
+                ['loadContentInfo', 12],
+                ['loadLocation', 1],
+                ['loadContentInfo', 84],
+            ],
+            $calls
+        );
     }
 
     public function testLoadLocation()

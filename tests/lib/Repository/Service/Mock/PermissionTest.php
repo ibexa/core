@@ -110,13 +110,18 @@ class PermissionTest extends BaseServiceMockTest
     ) {
         /** @var $userHandlerMock \PHPUnit\Framework\MockObject\MockObject */
         $userHandlerMock = $this->getPersistenceMock()->userHandler();
+        $userHandlerCalls = [];
         $mockedService = $this->getPermissionResolverMock(null);
 
         $userHandlerMock
             ->expects($this->once())
             ->method('loadRoleAssignmentsByGroupId')
             ->with($this->equalTo(10), $this->equalTo(true))
-            ->will($this->returnValue($roleAssignments));
+            ->willReturnCallback(static function () use (&$userHandlerCalls, $roleAssignments): array {
+                $userHandlerCalls[] = 'loadRoleAssignmentsByGroupId';
+
+                return $roleAssignments;
+            });
 
         $this->expectConsecutiveCalls(
             $userHandlerMock,
@@ -126,12 +131,14 @@ class PermissionTest extends BaseServiceMockTest
             }, $roleAssignments),
             array_map(static function (RoleAssignment $roleAssignment) use ($roles): Role {
                 return $roles[$roleAssignment->roleId];
-            }, $roleAssignments)
+            }, $roleAssignments),
+            $userHandlerCalls
         );
 
         $result = $mockedService->hasAccess('dummy-module', 'dummy-function');
 
         self::assertTrue($result);
+        self::assertUserHandlerCallOrder($userHandlerCalls, $roleAssignments);
     }
 
     public function providerForTestHasAccessReturnsFalse()
@@ -186,13 +193,18 @@ class PermissionTest extends BaseServiceMockTest
     ) {
         /** @var $userHandlerMock \PHPUnit\Framework\MockObject\MockObject */
         $userHandlerMock = $this->getPersistenceMock()->userHandler();
+        $userHandlerCalls = [];
         $service = $this->getPermissionResolverMock(null);
 
         $userHandlerMock
             ->expects($this->once())
             ->method('loadRoleAssignmentsByGroupId')
             ->with($this->equalTo(10), $this->equalTo(true))
-            ->will($this->returnValue($roleAssignments));
+            ->willReturnCallback(static function () use (&$userHandlerCalls, $roleAssignments): array {
+                $userHandlerCalls[] = 'loadRoleAssignmentsByGroupId';
+
+                return $roleAssignments;
+            });
 
         $this->expectConsecutiveCalls(
             $userHandlerMock,
@@ -202,12 +214,14 @@ class PermissionTest extends BaseServiceMockTest
             }, $roleAssignments),
             array_map(static function (RoleAssignment $roleAssignment) use ($roles): Role {
                 return $roles[$roleAssignment->roleId];
-            }, $roleAssignments)
+            }, $roleAssignments),
+            $userHandlerCalls
         );
 
         $result = $service->hasAccess('dummy-module2', 'dummy-function2');
 
         self::assertFalse($result);
+        self::assertUserHandlerCallOrder($userHandlerCalls, $roleAssignments);
     }
 
     /**
@@ -303,6 +317,7 @@ class PermissionTest extends BaseServiceMockTest
     ) {
         /** @var $userHandlerMock \PHPUnit\Framework\MockObject\MockObject */
         $userHandlerMock = $this->getPersistenceMock()->userHandler();
+        $userHandlerCalls = [];
         $roleDomainMapper = $this->getRoleDomainMapperMock(['buildDomainPolicyObject']);
         $permissionResolverMock = $this->getPermissionResolverMock(['getCurrentUserReference']);
 
@@ -315,7 +330,11 @@ class PermissionTest extends BaseServiceMockTest
             ->expects($this->once())
             ->method('loadRoleAssignmentsByGroupId')
             ->with($this->isType('integer'), $this->equalTo(true))
-            ->will($this->returnValue($roleAssignments));
+            ->willReturnCallback(static function () use (&$userHandlerCalls, $roleAssignments): array {
+                $userHandlerCalls[] = 'loadRoleAssignmentsByGroupId';
+
+                return $roleAssignments;
+            });
 
         $this->expectConsecutiveCalls(
             $userHandlerMock,
@@ -325,7 +344,8 @@ class PermissionTest extends BaseServiceMockTest
             }, $roleAssignments),
             array_map(static function (RoleAssignment $roleAssignment) use ($roles): Role {
                 return $roles[$roleAssignment->roleId];
-            }, $roleAssignments)
+            }, $roleAssignments),
+            $userHandlerCalls
         );
 
         $permissionSets = [];
@@ -354,6 +374,7 @@ class PermissionTest extends BaseServiceMockTest
             $permissionSets,
             $permissionResolverMock->hasAccess('dummy-module', 'dummy-function')
         );
+        self::assertUserHandlerCallOrder($userHandlerCalls, $roleAssignments);
     }
 
     /**
@@ -423,6 +444,7 @@ class PermissionTest extends BaseServiceMockTest
 
         /** @var $userHandlerMock \PHPUnit\Framework\MockObject\MockObject */
         $userHandlerMock = $this->getPersistenceMock()->userHandler();
+        $userHandlerCalls = [];
         $roleDomainMapper = $this->getRoleDomainMapperMock();
         $permissionResolverMock = $this->getPermissionResolverMock(['getCurrentUserReference']);
 
@@ -435,7 +457,11 @@ class PermissionTest extends BaseServiceMockTest
             ->expects($this->once())
             ->method('loadRoleAssignmentsByGroupId')
             ->with($this->isType('integer'), $this->equalTo(true))
-            ->will($this->returnValue($roleAssignments));
+            ->willReturnCallback(static function () use (&$userHandlerCalls, $roleAssignments): array {
+                $userHandlerCalls[] = 'loadRoleAssignmentsByGroupId';
+
+                return $roleAssignments;
+            });
 
         $this->expectConsecutiveCalls(
             $userHandlerMock,
@@ -445,7 +471,8 @@ class PermissionTest extends BaseServiceMockTest
             }, $roleAssignments),
             array_map(static function (RoleAssignment $roleAssignment) use ($roles): Role {
                 return $roles[$roleAssignment->roleId];
-            }, $roleAssignments)
+            }, $roleAssignments),
+            $userHandlerCalls
         );
 
         $policyArguments = [];
@@ -467,7 +494,11 @@ class PermissionTest extends BaseServiceMockTest
 
         $this->expectConsecutiveCalls($roleDomainMapper, 'buildDomainPolicyObject', $policyArguments, $policyResults);
 
-        $permissionResolverMock->hasAccess('dummy-module', 'dummy-function');
+        try {
+            $permissionResolverMock->hasAccess('dummy-module', 'dummy-function');
+        } finally {
+            self::assertUserHandlerCallOrder($userHandlerCalls, $roleAssignments);
+        }
     }
 
     /**
@@ -602,6 +633,7 @@ class PermissionTest extends BaseServiceMockTest
     ) {
         /** @var $userHandlerMock \PHPUnit\Framework\MockObject\MockObject */
         $userHandlerMock = $this->getPersistenceMock()->userHandler();
+        $userHandlerCalls = [];
         $limitationTypeMock = $this->createMock(Type::class);
         $limitationService = $this->getLimitationServiceMock();
         $roleDomainMapper = $this->getRoleDomainMapperMock();
@@ -616,7 +648,11 @@ class PermissionTest extends BaseServiceMockTest
             ->expects($this->once())
             ->method('loadRoleAssignmentsByGroupId')
             ->with($this->isType('integer'), $this->equalTo(true))
-            ->will($this->returnValue($roleAssignments));
+            ->willReturnCallback(static function () use (&$userHandlerCalls, $roleAssignments): array {
+                $userHandlerCalls[] = 'loadRoleAssignmentsByGroupId';
+
+                return $roleAssignments;
+            });
 
         $this->expectConsecutiveCalls(
             $userHandlerMock,
@@ -626,7 +662,8 @@ class PermissionTest extends BaseServiceMockTest
             }, $roleAssignments),
             array_map(static function (RoleAssignment $roleAssignment) use ($roles): Role {
                 return $roles[$roleAssignment->roleId];
-            }, $roleAssignments)
+            }, $roleAssignments),
+            $userHandlerCalls
         );
 
         $permissionSets = [];
@@ -663,6 +700,21 @@ class PermissionTest extends BaseServiceMockTest
             $permissionSets,
             $permissionResolverMock->hasAccess('dummy-module', 'dummy-function')
         );
+        self::assertUserHandlerCallOrder($userHandlerCalls, $roleAssignments);
+    }
+
+    /**
+     * @param string[] $calls
+     * @param RoleAssignment[] $roleAssignments
+     */
+    private static function assertUserHandlerCallOrder(
+        array $calls,
+        array $roleAssignments
+    ): void {
+        self::assertSame(
+            array_merge(['loadRoleAssignmentsByGroupId'], array_fill(0, count($roleAssignments), 'loadRole')),
+            $calls
+        );
     }
 
     /**
@@ -672,12 +724,16 @@ class PermissionTest extends BaseServiceMockTest
      * @param mixed $mock
      * @param array<int, array<int, mixed>> $arguments
      * @param array<int, mixed> $results
+     * @param list<string>|null $calls
+     *
+     * @param-out list<string> $calls
      */
     private function expectConsecutiveCalls(
         $mock,
         string $method,
         array $arguments,
-        array $results
+        array $results,
+        ?array &$calls = null
     ): void {
         if (empty($arguments)) {
             $mock->expects($this->never())->method($method);
@@ -685,11 +741,24 @@ class PermissionTest extends BaseServiceMockTest
             return;
         }
 
-        $mock
+        $expectation = $mock
             ->expects($this->exactly(count($arguments)))
             ->method($method)
-            ->withConsecutive(...$arguments)
-            ->willReturnOnConsecutiveCalls(...$results);
+            ->withConsecutive(...$arguments);
+
+        if ($calls === null) {
+            $expectation->willReturnOnConsecutiveCalls(...$results);
+
+            return;
+        }
+
+        // Records the call order, so it can be asserted across methods of the same mock.
+        $results = array_values($results);
+        $expectation->willReturnCallback(static function () use (&$calls, &$results, $method) {
+            $calls[] = $method;
+
+            return array_shift($results);
+        });
     }
 
     /**

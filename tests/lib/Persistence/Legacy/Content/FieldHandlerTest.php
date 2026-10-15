@@ -23,6 +23,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
+use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -64,6 +65,61 @@ class FieldHandlerTest extends LanguageAwareTestCase
      * @var FieldType
      */
     protected $fieldTypeMock;
+
+    /** @var string[] */
+    private array $storageCalls = [];
+
+    /** @var string[] */
+    private array $expectedStorageCalls = [];
+
+    /**
+     * Expects all storeFieldData() calls followed by all copyFieldData() calls, in this exact order.
+     *
+     * @param array<int, array<int, Constraint>> $storeArguments
+     * @param array<int, array<int, Constraint>> $copyArguments
+     */
+    private function expectStorageHandlerCalls(
+        MockObject $storageHandlerMock,
+        array $storeArguments,
+        array $copyArguments,
+        bool $storageHandlerUpdatesFields
+    ): void {
+        $queue = [];
+        foreach ($storeArguments as $constraints) {
+            $queue[] = ['storeFieldData', $constraints];
+        }
+        foreach ($copyArguments as $constraints) {
+            $queue[] = ['copyFieldData', $constraints];
+        }
+
+        $this->storageCalls = [];
+        $this->expectedStorageCalls = array_column($queue, 0);
+        $calls = &$this->storageCalls;
+
+        foreach (['storeFieldData' => count($storeArguments), 'copyFieldData' => count($copyArguments)] as $method => $count) {
+            $storageHandlerMock->expects($this->exactly($count))
+                ->method($method)
+                ->willReturnCallback(
+                    static function (...$arguments) use ($method, &$calls, $queue, $storageHandlerUpdatesFields): bool {
+                        $index = count($calls);
+                        $calls[] = $method;
+                        self::assertSame($queue[$index][0] ?? null, $method);
+                        foreach ($queue[$index][1] as $position => $constraint) {
+                            self::assertThat($arguments[$position], $constraint);
+                        }
+
+                        return $storageHandlerUpdatesFields;
+                    }
+                );
+        }
+    }
+
+    protected function assertPostConditions(): void
+    {
+        parent::assertPostConditions();
+
+        self::assertSame($this->expectedStorageCalls, $this->storageCalls);
+    }
 
     /**
      * @param bool $storageHandlerUpdatesFields
@@ -123,14 +179,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
                 $this->equalTo($originalField),
             ],
         ];
-        $storageHandlerMock->expects($this->exactly(count($storeArguments)))
-            ->method('storeFieldData')
-            ->withConsecutive(...$storeArguments)
-            ->willReturn($storageHandlerUpdatesFields);
-        $storageHandlerMock->expects($this->exactly(count($copyArguments)))
-            ->method('copyFieldData')
-            ->withConsecutive(...$copyArguments)
-            ->willReturn($storageHandlerUpdatesFields);
+        $this->expectStorageHandlerCalls($storageHandlerMock, $storeArguments, $copyArguments, $storageHandlerUpdatesFields);
     }
 
     public function testCreateNewFields()
@@ -520,14 +569,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
                 $this->equalTo($originalField),
             ],
         ];
-        $storageHandlerMock->expects($this->exactly(count($storeArguments)))
-            ->method('storeFieldData')
-            ->withConsecutive(...$storeArguments)
-            ->willReturn($storageHandlerUpdatesFields);
-        $storageHandlerMock->expects($this->exactly(count($copyArguments)))
-            ->method('copyFieldData')
-            ->withConsecutive(...$copyArguments)
-            ->willReturn($storageHandlerUpdatesFields);
+        $this->expectStorageHandlerCalls($storageHandlerMock, $storeArguments, $copyArguments, $storageHandlerUpdatesFields);
     }
 
     public function testUpdateFieldsWithNewLanguage()
@@ -651,15 +693,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
             ];
         }
 
-        $storageHandlerMock->expects($this->exactly(count($storeArguments)))
-            ->method('storeFieldData')
-            ->withConsecutive(...$storeArguments)
-            ->willReturn($storageHandlerUpdatesFields);
-
-        $storageHandlerMock->expects($this->exactly(count($copyArguments)))
-            ->method('copyFieldData')
-            ->withConsecutive(...$copyArguments)
-            ->willReturn($storageHandlerUpdatesFields);
+        $this->expectStorageHandlerCalls($storageHandlerMock, $storeArguments, $copyArguments, $storageHandlerUpdatesFields);
     }
 
     public function testUpdateFieldsExistingLanguages()
@@ -764,15 +798,7 @@ class FieldHandlerTest extends LanguageAwareTestCase
             ];
         }
 
-        $storageHandlerMock->expects($this->exactly(count($storeArguments)))
-            ->method('storeFieldData')
-            ->withConsecutive(...$storeArguments)
-            ->willReturn($storageHandlerUpdatesFields);
-
-        $storageHandlerMock->expects($this->exactly(count($copyArguments)))
-            ->method('copyFieldData')
-            ->withConsecutive(...$copyArguments)
-            ->willReturn($storageHandlerUpdatesFields);
+        $this->expectStorageHandlerCalls($storageHandlerMock, $storeArguments, $copyArguments, $storageHandlerUpdatesFields);
     }
 
     public function testUpdateFieldsForInitialLanguage()

@@ -13,6 +13,8 @@ use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action\RemoveField;
+use PHPUnit\Framework\Constraint\Constraint;
+use PHPUnit\Framework\Constraint\IsEqual;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -45,6 +47,35 @@ class RemoveFieldTest extends TestCase
      */
     protected $removeFieldAction;
 
+    /**
+     * Returns a callback verifying the arguments of consecutive calls of $method and returning the matching result.
+     * Every call is appended to $calls, so the order between different methods of one mock can be asserted.
+     *
+     * @param list<string> $calls
+     * @param array<int, array<int, mixed>> $expectedArguments per call, constraints or values compared with equalTo
+     * @param array<int, mixed> $results per call
+     */
+    private static function sequence(
+        array &$calls,
+        string $method,
+        array $expectedArguments,
+        array $results = []
+    ): \Closure {
+        $callNo = 0;
+
+        return static function (...$arguments) use (&$calls, &$callNo, $method, $expectedArguments, $results) {
+            $calls[] = $method;
+            foreach ($expectedArguments[$callNo] ?? [] as $position => $expected) {
+                self::assertThat(
+                    $arguments[$position],
+                    $expected instanceof Constraint ? $expected : new IsEqual($expected)
+                );
+            }
+
+            return $results[$callNo++] ?? null;
+        };
+    }
+
     public function testApplySingleVersionSingleTranslation()
     {
         $contentId = 42;
@@ -53,23 +84,26 @@ class RemoveFieldTest extends TestCase
         $fieldId = 3;
         $content = $this->getContentFixture(1, ['cro-HR' => $fieldId]);
 
+        $gatewayCalls = [];
+
         $this->getContentGatewayMock()
             ->expects($this->once())
             ->method('listVersionNumbers')
-            ->with($this->equalTo($contentId))
-            ->will($this->returnValue($versionNumbers));
+            ->willReturnCallback(
+                self::sequence($gatewayCalls, 'listVersionNumbers', [[$this->equalTo($contentId)]], [$versionNumbers])
+            );
 
         $this->getContentGatewayMock()
             ->expects($this->once())
             ->method('loadVersionedNameData')
-            ->with($this->equalTo([['id' => $contentId, 'version' => 1]]))
-            ->will($this->returnValue([]));
+            ->willReturnCallback(
+                self::sequence($gatewayCalls, 'loadVersionedNameData', [[$this->equalTo([['id' => $contentId, 'version' => 1]])]], [[]])
+            );
 
         $this->getContentGatewayMock()
             ->expects($this->once())
             ->method('load')
-            ->with($contentId, 1)
-            ->will($this->returnValue([]));
+            ->willReturnCallback(self::sequence($gatewayCalls, 'load', [[$contentId, 1]], [[]]));
 
         $this->getContentMapperMock()
             ->expects($this->once())
@@ -91,6 +125,8 @@ class RemoveFieldTest extends TestCase
             );
 
         $action->apply($contentId);
+
+        self::assertSame(['listVersionNumbers', 'loadVersionedNameData', 'load'], $gatewayCalls);
     }
 
     public function testApplyMultipleVersionsSingleTranslation()
@@ -102,23 +138,26 @@ class RemoveFieldTest extends TestCase
         $content1 = $this->getContentFixture(1, ['cro-HR' => $fieldId]);
         $content2 = $this->getContentFixture(2, ['cro-HR' => $fieldId]);
 
+        $gatewayCalls = [];
+
         $this->getContentGatewayMock()
             ->expects($this->once())
             ->method('listVersionNumbers')
-            ->with($this->equalTo($contentId))
-            ->will($this->returnValue($versionNumbers));
+            ->willReturnCallback(
+                self::sequence($gatewayCalls, 'listVersionNumbers', [[$this->equalTo($contentId)]], [$versionNumbers])
+            );
 
         $this->getContentGatewayMock()
             ->expects($this->once())
             ->method('loadVersionedNameData')
-            ->with($this->equalTo([['id' => $contentId, 'version' => 1], ['id' => $contentId, 'version' => 2]]))
-            ->will($this->returnValue([]));
+            ->willReturnCallback(
+                self::sequence($gatewayCalls, 'loadVersionedNameData', [[$this->equalTo([['id' => $contentId, 'version' => 1], ['id' => $contentId, 'version' => 2]])]], [[]])
+            );
 
         $this->getContentGatewayMock()
             ->expects($this->exactly(2))
             ->method('load')
-            ->withConsecutive([$contentId, 1], [$contentId, 2])
-            ->willReturnOnConsecutiveCalls([], []);
+            ->willReturnCallback(self::sequence($gatewayCalls, 'load', [[$contentId, 1], [$contentId, 2]], [[], []]));
 
         $this->getContentMapperMock()
             ->expects($this->exactly(2))
@@ -140,6 +179,8 @@ class RemoveFieldTest extends TestCase
             );
 
         $action->apply($contentId);
+
+        self::assertSame(['listVersionNumbers', 'loadVersionedNameData', 'load', 'load'], $gatewayCalls);
     }
 
     public function testApplyMultipleVersionsMultipleTranslations()
@@ -152,23 +193,26 @@ class RemoveFieldTest extends TestCase
         $content1 = $this->getContentFixture(1, ['cro-HR' => $fieldId1, 'hun-HU' => $fieldId2]);
         $content2 = $this->getContentFixture(2, ['cro-HR' => $fieldId1, 'hun-HU' => $fieldId2]);
 
+        $gatewayCalls = [];
+
         $this->getContentGatewayMock()
             ->expects($this->once())
             ->method('listVersionNumbers')
-            ->with($this->equalTo($contentId))
-            ->will($this->returnValue($versionNumbers));
+            ->willReturnCallback(
+                self::sequence($gatewayCalls, 'listVersionNumbers', [[$this->equalTo($contentId)]], [$versionNumbers])
+            );
 
         $this->getContentGatewayMock()
             ->expects($this->once())
             ->method('loadVersionedNameData')
-            ->with($this->equalTo([['id' => $contentId, 'version' => 1], ['id' => $contentId, 'version' => 2]]))
-            ->will($this->returnValue([]));
+            ->willReturnCallback(
+                self::sequence($gatewayCalls, 'loadVersionedNameData', [[$this->equalTo([['id' => $contentId, 'version' => 1], ['id' => $contentId, 'version' => 2]])]], [[]])
+            );
 
         $this->getContentGatewayMock()
             ->expects($this->exactly(2))
             ->method('load')
-            ->withConsecutive([$contentId, 1], [$contentId, 2])
-            ->willReturnOnConsecutiveCalls([], []);
+            ->willReturnCallback(self::sequence($gatewayCalls, 'load', [[$contentId, 1], [$contentId, 2]], [[], []]));
 
         $this->getContentMapperMock()
             ->expects($this->exactly(2))
@@ -179,7 +223,9 @@ class RemoveFieldTest extends TestCase
         $this->getContentGatewayMock()
             ->expects($this->exactly(2))
             ->method('deleteField')
-            ->withConsecutive([$fieldId1], [$fieldId2]);
+            ->willReturnCallback(
+                self::sequence($gatewayCalls, 'deleteField', [[$this->equalTo($fieldId1)], [$this->equalTo($fieldId2)]])
+            );
 
         $this->getContentStorageHandlerMock()
             ->expects($this->exactly(2))
@@ -192,9 +238,13 @@ class RemoveFieldTest extends TestCase
         $this->getContentGatewayMock()
             ->expects($this->once())
             ->method('removeRelationsByFieldDefinitionId')
-            ->with($this->equalTo(42));
+            ->willReturnCallback(
+                self::sequence($gatewayCalls, 'removeRelationsByFieldDefinitionId', [[$this->equalTo(42)]])
+            );
 
         $action->apply($contentId);
+
+        self::assertSame(['listVersionNumbers', 'loadVersionedNameData', 'load', 'load', 'removeRelationsByFieldDefinitionId', 'deleteField', 'deleteField'], $gatewayCalls);
     }
 
     protected function getContentFixture(

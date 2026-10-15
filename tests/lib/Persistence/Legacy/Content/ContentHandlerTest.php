@@ -303,27 +303,33 @@ class ContentHandlerTest extends TestCase
         $fieldHandlerMock = $this->getFieldHandlerMock();
         $metadataUpdateStruct = new MetadataUpdateStruct();
 
+        $calls = [];
         $handler->expects($this->once())
             ->method('loadVersionInfo')
             ->with(23, 2)
-            ->will(
-                $this->returnValue(
-                    new VersionInfo([
-                        'contentInfo' => new ContentInfo([
-                            'currentVersionNo' => 1,
-                            'mainLanguageCode' => 'eng-GB',
-                        ]),
-                        'names' => [
-                            'eng-GB' => '',
-                        ],
-                    ])
-                )
-            );
+            ->willReturnCallback(static function () use (&$calls): VersionInfo {
+                $calls[] = 'loadVersionInfo';
+
+                return new VersionInfo([
+                    'contentInfo' => new ContentInfo([
+                        'currentVersionNo' => 1,
+                        'mainLanguageCode' => 'eng-GB',
+                    ]),
+                    'names' => [
+                        'eng-GB' => '',
+                    ],
+                ]);
+            });
 
         $handler
             ->expects($this->once())
             ->method('setStatus')
-            ->with(23, VersionInfo::STATUS_ARCHIVED, 1);
+            ->with(23, VersionInfo::STATUS_ARCHIVED, 1)
+            ->willReturnCallback(static function () use (&$calls): bool {
+                $calls[] = 'setStatus';
+
+                return true;
+            });
 
         $contentRows = [['ezcontentobject_version_version' => 2]];
 
@@ -374,6 +380,8 @@ class ContentHandlerTest extends TestCase
             ->with(23, 2);
 
         $handler->publish(23, 2, $metadataUpdateStruct);
+
+        self::assertSame(['loadVersionInfo', 'setStatus'], $calls);
     }
 
     public function testCreateDraftFromVersion()
@@ -675,14 +683,25 @@ class ContentHandlerTest extends TestCase
                 $this->isInstanceOf(Type::class)
             );
 
+        $calls = [];
         $handler->expects($this->exactly(2))
             ->method('load')
             ->with(14, 4)
-            ->willReturnOnConsecutiveCalls($contentStub, null);
+            ->willReturnCallback(static function () use (&$calls, $contentStub): ?Content {
+                $result = [] === $calls ? $contentStub : null;
+                $calls[] = 'load';
+
+                return $result;
+            });
 
         $handler->expects($this->once())
             ->method('loadContentInfo')
-            ->with(14);
+            ->with(14)
+            ->willReturnCallback(static function () use (&$calls): ContentInfo {
+                $calls[] = 'loadContentInfo';
+
+                return new ContentInfo();
+            });
 
         $resultContent = $handler->updateContent(
             14, // ContentId
@@ -725,6 +744,8 @@ class ContentHandlerTest extends TestCase
                 ]
             )
         );
+
+        self::assertSame(['load', 'load', 'loadContentInfo'], $calls);
     }
 
     public function testUpdateMetadata()
@@ -1269,6 +1290,7 @@ class ContentHandlerTest extends TestCase
                 'typeId' => 4242,
             ]
         );
+        $calls = [];
 
         $contentTypeHandlerMock->expects($this->once())
             ->method('load')
@@ -1278,7 +1300,11 @@ class ContentHandlerTest extends TestCase
         $handler->expects($this->once())
             ->method('loadContentInfo')
             ->with($this->equalTo(23))
-            ->will($this->returnValue(new ContentInfo(['currentVersionNo' => 2])));
+            ->willReturnCallback(static function (int $contentId) use (&$calls): ContentInfo {
+                $calls[] = ['loadContentInfo', $contentId];
+
+                return new ContentInfo(['currentVersionNo' => 2]);
+            });
 
         $mapperMock->expects($this->once())
             ->method('createCreateStructFromContent')
@@ -1292,31 +1318,31 @@ class ContentHandlerTest extends TestCase
             ->with(
                 $this->isInstanceOf(CreateStruct::class),
                 $this->equalTo(2)
-            )->will(
-                $this->returnValue(
-                    new Content(
-                        [
-                            'versionInfo' => new VersionInfo(
-                                [
-                                    'contentInfo' => new ContentInfo(['id' => 24]),
-                                ]
-                            ),
-                        ]
-                    )
-                )
-            );
+            )->willReturnCallback(static function () use (&$calls): Content {
+                $calls[] = ['internalCreate'];
+
+                return new Content(
+                    [
+                        'versionInfo' => new VersionInfo(
+                            [
+                                'contentInfo' => new ContentInfo(['id' => 24]),
+                            ]
+                        ),
+                    ]
+                );
+            });
 
         $handler->expects($this->once())
             ->method('listVersions')
             ->with($this->equalTo(23))
-            ->will(
-                $this->returnValue(
-                    [
-                        new VersionInfo(['versionNo' => 1]),
-                        new VersionInfo(['versionNo' => 2]),
-                    ]
-                )
-            );
+            ->willReturnCallback(static function (int $contentId) use (&$calls): array {
+                $calls[] = ['listVersions', $contentId];
+
+                return [
+                    new VersionInfo(['versionNo' => 1]),
+                    new VersionInfo(['versionNo' => 2]),
+                ];
+            });
 
         $versionInfo = new VersionInfo(
             [
@@ -1331,18 +1357,23 @@ class ContentHandlerTest extends TestCase
         );
         $handler->expects($this->exactly(2))
             ->method('load')
-            ->withConsecutive(
-                [$this->equalTo(23), $this->equalTo(2)],
-                [$this->equalTo(23), $this->equalTo(1)]
-            )
-            ->willReturnOnConsecutiveCalls(
-                new Content(),
-                new Content(
-                    [
-                        'versionInfo' => $versionInfo,
-                        'fields' => [],
-                    ]
-                )
+            ->willReturnCallback(
+                static function (
+                    int $contentId,
+                    int $versionNo
+                ) use (&$calls, $versionInfo): Content {
+                    $calls[] = ['load', $contentId, $versionNo];
+
+                    return [
+                        2 => new Content(),
+                        1 => new Content(
+                            [
+                                'versionInfo' => $versionInfo,
+                                'fields' => [],
+                            ]
+                        ),
+                    ][$versionNo];
+                }
             );
 
         $versionInfo->creationDate = $time;
@@ -1393,6 +1424,16 @@ class ContentHandlerTest extends TestCase
         $this->assertInstanceOf(
             Content::class,
             $result
+        );
+        self::assertSame(
+            [
+                ['loadContentInfo', 23],
+                ['load', 23, 2],
+                ['internalCreate'],
+                ['listVersions', 23],
+                ['load', 23, 1],
+            ],
+            $calls
         );
     }
 

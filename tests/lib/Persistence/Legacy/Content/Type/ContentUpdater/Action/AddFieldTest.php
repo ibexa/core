@@ -16,6 +16,8 @@ use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action\AddField;
+use PHPUnit\Framework\Constraint\Constraint;
+use PHPUnit\Framework\Constraint\IsEqual;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionObject;
@@ -72,6 +74,35 @@ class AddFieldTest extends TestCase
         $this->assertInstanceOf(AddField::class, $action);
     }
 
+    /**
+     * Returns a callback verifying the arguments of consecutive calls of $method and returning the matching result.
+     * Every call is appended to $calls, so the order between different methods of one mock can be asserted.
+     *
+     * @param list<string> $calls
+     * @param array<int, array<int, mixed>> $expectedArguments per call, constraints or values compared with equalTo
+     * @param array<int, mixed> $results per call
+     */
+    private static function sequence(
+        array &$calls,
+        string $method,
+        array $expectedArguments,
+        array $results = []
+    ): \Closure {
+        $callNo = 0;
+
+        return static function (...$arguments) use (&$calls, &$callNo, $method, $expectedArguments, $results) {
+            $calls[] = $method;
+            foreach ($expectedArguments[$callNo] ?? [] as $position => $expected) {
+                self::assertThat(
+                    $arguments[$position],
+                    $expected instanceof Constraint ? $expected : new IsEqual($expected)
+                );
+            }
+
+            return $results[$callNo++] ?? null;
+        };
+    }
+
     public function testApplySingleVersionSingleTranslation()
     {
         $contentId = 42;
@@ -79,23 +110,26 @@ class AddFieldTest extends TestCase
         $content = $this->getContentFixture(1, ['cro-HR']);
         $action = $this->getMockedAction(['insertField']);
 
+        $gatewayCalls = [];
+
         $this->getContentGatewayMock()
             ->expects($this->once())
             ->method('listVersionNumbers')
-            ->with($this->equalTo($contentId))
-            ->will($this->returnValue($versionNumbers));
+            ->willReturnCallback(
+                self::sequence($gatewayCalls, 'listVersionNumbers', [[$this->equalTo($contentId)]], [$versionNumbers])
+            );
 
         $this->getContentGatewayMock()
             ->expects($this->once())
             ->method('loadVersionedNameData')
-            ->with($this->equalTo([['id' => $contentId, 'version' => 1]]))
-            ->will($this->returnValue([]));
+            ->willReturnCallback(
+                self::sequence($gatewayCalls, 'loadVersionedNameData', [[$this->equalTo([['id' => $contentId, 'version' => 1]])]], [[]])
+            );
 
         $this->getContentGatewayMock()
             ->expects($this->once())
             ->method('load')
-            ->with($contentId, 1)
-            ->will($this->returnValue([]));
+            ->willReturnCallback(self::sequence($gatewayCalls, 'load', [[$contentId, 1]], [[]]));
 
         $this->getContentMapperMock()
             ->expects($this->once())
@@ -110,6 +144,8 @@ class AddFieldTest extends TestCase
             ->will($this->returnValue('fieldId1'));
 
         $action->apply($contentId);
+
+        self::assertSame(['listVersionNumbers', 'loadVersionedNameData', 'load'], $gatewayCalls);
     }
 
     public function testApplySingleVersionMultipleTranslations()
@@ -119,23 +155,26 @@ class AddFieldTest extends TestCase
         $content = $this->getContentFixture(1, ['eng-GB', 'ger-DE']);
         $action = $this->getMockedAction(['insertField']);
 
+        $gatewayCalls = [];
+
         $this->getContentGatewayMock()
             ->expects($this->once())
             ->method('listVersionNumbers')
-            ->with($this->equalTo($contentId))
-            ->will($this->returnValue($versionNumbers));
+            ->willReturnCallback(
+                self::sequence($gatewayCalls, 'listVersionNumbers', [[$this->equalTo($contentId)]], [$versionNumbers])
+            );
 
         $this->getContentGatewayMock()
             ->expects($this->once())
             ->method('loadVersionedNameData')
-            ->with($this->equalTo([['id' => $contentId, 'version' => 1]]))
-            ->will($this->returnValue([]));
+            ->willReturnCallback(
+                self::sequence($gatewayCalls, 'loadVersionedNameData', [[$this->equalTo([['id' => $contentId, 'version' => 1]])]], [[]])
+            );
 
         $this->getContentGatewayMock()
             ->expects($this->once())
             ->method('load')
-            ->with($contentId, 1)
-            ->will($this->returnValue([]));
+            ->willReturnCallback(self::sequence($gatewayCalls, 'load', [[$contentId, 1]], [[]]));
 
         $this->getContentMapperMock()
             ->expects($this->once())
@@ -153,6 +192,8 @@ class AddFieldTest extends TestCase
             ->willReturnOnConsecutiveCalls('fieldId1', 'fieldId2');
 
         $action->apply($contentId);
+
+        self::assertSame(['listVersionNumbers', 'loadVersionedNameData', 'load'], $gatewayCalls);
     }
 
     public function testApplyMultipleVersionsSingleTranslation()
@@ -163,23 +204,26 @@ class AddFieldTest extends TestCase
         $content2 = $this->getContentFixture(2, ['eng-GB']);
         $action = $this->getMockedAction(['insertField']);
 
+        $gatewayCalls = [];
+
         $this->getContentGatewayMock()
             ->expects($this->once())
             ->method('listVersionNumbers')
-            ->with($this->equalTo($contentId))
-            ->will($this->returnValue($versionNumbers));
+            ->willReturnCallback(
+                self::sequence($gatewayCalls, 'listVersionNumbers', [[$this->equalTo($contentId)]], [$versionNumbers])
+            );
 
         $this->getContentGatewayMock()
             ->expects($this->once())
             ->method('loadVersionedNameData')
-            ->with($this->equalTo([['id' => $contentId, 'version' => 1], ['id' => $contentId, 'version' => 2]]))
-            ->will($this->returnValue([]));
+            ->willReturnCallback(
+                self::sequence($gatewayCalls, 'loadVersionedNameData', [[$this->equalTo([['id' => $contentId, 'version' => 1], ['id' => $contentId, 'version' => 2]])]], [[]])
+            );
 
         $this->getContentGatewayMock()
             ->expects($this->exactly(2))
             ->method('load')
-            ->withConsecutive([$contentId, 1], [$contentId, 2])
-            ->willReturnOnConsecutiveCalls([], []);
+            ->willReturnCallback(self::sequence($gatewayCalls, 'load', [[$contentId, 1], [$contentId, 2]], [[], []]));
 
         $this->getContentMapperMock()
             ->expects($this->exactly(2))
@@ -197,6 +241,8 @@ class AddFieldTest extends TestCase
             ->willReturnOnConsecutiveCalls('fieldId1', 'fieldId1');
 
         $action->apply($contentId);
+
+        self::assertSame(['listVersionNumbers', 'loadVersionedNameData', 'load', 'load'], $gatewayCalls);
     }
 
     public function testApplyMultipleVersionsMultipleTranslations()
@@ -207,23 +253,26 @@ class AddFieldTest extends TestCase
         $content2 = $this->getContentFixture(2, ['eng-GB', 'ger-DE']);
         $action = $this->getMockedAction(['insertField']);
 
+        $gatewayCalls = [];
+
         $this->getContentGatewayMock()
             ->expects($this->once())
             ->method('listVersionNumbers')
-            ->with($this->equalTo($contentId))
-            ->will($this->returnValue($versionNumbers));
+            ->willReturnCallback(
+                self::sequence($gatewayCalls, 'listVersionNumbers', [[$this->equalTo($contentId)]], [$versionNumbers])
+            );
 
         $this->getContentGatewayMock()
             ->expects($this->once())
             ->method('loadVersionedNameData')
-            ->with($this->equalTo([['id' => $contentId, 'version' => 1], ['id' => $contentId, 'version' => 2]]))
-            ->will($this->returnValue([]));
+            ->willReturnCallback(
+                self::sequence($gatewayCalls, 'loadVersionedNameData', [[$this->equalTo([['id' => $contentId, 'version' => 1], ['id' => $contentId, 'version' => 2]])]], [[]])
+            );
 
         $this->getContentGatewayMock()
             ->expects($this->exactly(2))
             ->method('load')
-            ->withConsecutive([$contentId, 1], [$contentId, 2])
-            ->willReturnOnConsecutiveCalls([], []);
+            ->willReturnCallback(self::sequence($gatewayCalls, 'load', [[$contentId, 1], [$contentId, 2]], [[], []]));
 
         $this->getContentMapperMock()
             ->expects($this->exactly(2))
@@ -243,6 +292,8 @@ class AddFieldTest extends TestCase
             ->willReturnOnConsecutiveCalls('fieldId1', 'fieldId2', 'fieldId1', 'fieldId2');
 
         $action->apply($contentId);
+
+        self::assertSame(['listVersionNumbers', 'loadVersionedNameData', 'load', 'load'], $gatewayCalls);
     }
 
     public function testInsertNewField()

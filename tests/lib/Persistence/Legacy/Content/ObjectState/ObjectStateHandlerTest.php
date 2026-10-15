@@ -427,11 +427,16 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         $handler = $this->getObjectStateHandler();
         $mapperMock = $this->getMapperMock();
         $gatewayMock = $this->getGatewayMock();
+        $calls = [];
 
         $gatewayMock->expects($this->once())
             ->method('loadObjectStateData')
             ->with($this->equalTo(2))
-            ->will($this->returnValue([[]]));
+            ->willReturnCallback(static function (int $stateId) use (&$calls): array {
+                $calls[] = ['loadObjectStateData', $stateId];
+
+                return [[]];
+            });
 
         $mapperMock->expects($this->once())
             ->method('createObjectStateFromData')
@@ -441,7 +446,11 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         $gatewayMock->expects($this->any())
             ->method('loadObjectStateListData')
             ->with($this->equalTo(2))
-            ->will($this->returnValue([[]]));
+            ->willReturnCallback(static function (int $groupId) use (&$calls): array {
+                $calls[] = ['loadObjectStateListData', $groupId];
+
+                return [[]];
+            });
 
         $mapperMock->expects($this->any())
             ->method('createObjectStateListFromData')
@@ -462,9 +471,26 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
                 [$this->equalTo(2), $this->equalTo(0)],
                 [$this->equalTo(1), $this->equalTo(1)],
                 [$this->equalTo(3), $this->equalTo(2)]
-            );
+            )
+            ->willReturnCallback(static function (
+                int $stateId,
+                int $priority
+            ) use (&$calls): void {
+                $calls[] = ['updateObjectStatePriority', $stateId, $priority];
+            });
 
         $handler->setPriority(2, 0);
+
+        self::assertSame(
+            [
+                ['loadObjectStateData', 2],
+                ['loadObjectStateListData', 2],
+                ['updateObjectStatePriority', 2, 0],
+                ['updateObjectStatePriority', 1, 1],
+                ['updateObjectStatePriority', 3, 2],
+            ],
+            $calls
+        );
     }
 
     public function testDelete()

@@ -42,11 +42,16 @@ class ResolverFactoryTest extends TestCase
 
     public function testCreateProxyCacheResolver()
     {
+        $calls = [];
         $this->configResolver
             ->expects($this->once())
             ->method('hasParameter')
             ->with('image_host')
-            ->willReturn(true);
+            ->willReturnCallback(static function () use (&$calls): bool {
+                $calls[] = 'hasParameter';
+
+                return true;
+            });
 
         $host = 'http://ibexa.co';
 
@@ -54,20 +59,30 @@ class ResolverFactoryTest extends TestCase
             ->expects($this->once())
             ->method('getParameter')
             ->with('image_host')
-            ->willReturn($host);
+            ->willReturnCallback(static function () use (&$calls, $host): string {
+                $calls[] = 'getParameter';
+
+                return $host;
+            });
 
         $expected = new ProxyResolver($this->resolver, [$host]);
 
         $this->assertEquals($expected, $this->factory->createCacheResolver());
+        self::assertSame(['hasParameter', 'getParameter'], $calls);
     }
 
     public function testCreateRelativeCacheResolver()
     {
+        $calls = [];
         $this->configResolver
             ->expects($this->once())
             ->method('hasParameter')
             ->with('image_host')
-            ->willReturn(true);
+            ->willReturnCallback(static function () use (&$calls): bool {
+                $calls[] = 'hasParameter';
+
+                return true;
+            });
 
         $host = '/';
 
@@ -75,11 +90,16 @@ class ResolverFactoryTest extends TestCase
             ->expects($this->once())
             ->method('getParameter')
             ->with('image_host')
-            ->willReturn($host);
+            ->willReturnCallback(static function () use (&$calls, $host): string {
+                $calls[] = 'getParameter';
+
+                return $host;
+            });
 
         $expected = new RelativeResolver($this->resolver);
 
         $this->assertEquals($expected, $this->factory->createCacheResolver());
+        self::assertSame(['hasParameter', 'getParameter'], $calls);
     }
 }
 

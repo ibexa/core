@@ -2613,6 +2613,15 @@ class ContentTest extends BaseServiceMockTest
             );
     }
 
+    /** @var string[] */
+    private array $objectStateHandlerCalls = [];
+
+    /** @var string[] */
+    private array $expectedObjectStateHandlerCalls = [];
+
+    /** @var string[] Order of the calls made on the domain mapper mock, for tests asserting it across methods. */
+    private array $domainMapperCalls = [];
+
     private function getUniqueHashDomainMapperMock(
         MockObject $domainMapperMock,
         self $that,
@@ -2625,6 +2634,7 @@ class ContentTest extends BaseServiceMockTest
                 self::returnCallback(
                     static function ($object) use ($that, $contentCreateStruct) {
                         $that->assertEquals($contentCreateStruct, $object);
+                        $that->domainMapperCalls[] = 'getUniqueHash';
 
                         return 'hash';
                     }
@@ -2704,7 +2714,11 @@ class ContentTest extends BaseServiceMockTest
                 [$locationCreateStruct1, $parentLocation, true, null, null, false],
                 [$locationCreateStruct2, $parentLocation, false, null, null, false]
             )
-            ->willReturn($spiLocationCreateStruct);
+            ->willReturnCallback(function () use ($spiLocationCreateStruct): SPILocation\CreateStruct {
+                $this->domainMapperCalls[] = 'buildSPILocationCreateStruct';
+
+                return $spiLocationCreateStruct;
+            });
 
         $spiContentCreateStruct = new SPIContentCreateStruct(
             [
@@ -2744,12 +2758,21 @@ class ContentTest extends BaseServiceMockTest
                 $this->isInstanceOf(SPIContent::class),
                 $this->isInstanceOf(APIContentType::class)
             )
-            ->willReturn($this->createMock(APIContent::class));
+            ->willReturnCallback(function (): APIContent {
+                $this->domainMapperCalls[] = 'buildContentDomainObject';
+
+                return $this->createStub(APIContent::class);
+            });
 
         $repositoryMock->expects($this->once())->method('commit');
 
         // Execute
         $mockedService->createContent($contentCreateStruct, $locationCreateStructs);
+
+        self::assertSame(
+            ['getUniqueHash', 'buildSPILocationCreateStruct', 'buildSPILocationCreateStruct', 'buildContentDomainObject'],
+            $this->domainMapperCalls
+        );
     }
 
     /**
@@ -6087,21 +6110,32 @@ class ContentTest extends BaseServiceMockTest
         /* @var \PHPUnit\Framework\MockObject\MockObject $objectStateHandlerMock */
         $objectStateHandlerMock->expects($this->once())
             ->method('loadAllGroups')
-            ->will($this->returnValue($objectStateGroups));
+            ->willReturnCallback(function () use ($objectStateGroups): array {
+                $this->objectStateHandlerCalls[] = 'loadAllGroups';
 
+                return $objectStateGroups;
+            });
+
+        $objectStates = [
+            [
+                new SPIObjectState(['id' => 11, 'groupId' => 10]),
+                new SPIObjectState(['id' => 12, 'groupId' => 10]),
+            ],
+            [
+                new SPIObjectState(['id' => 21, 'groupId' => 20]),
+                new SPIObjectState(['id' => 22, 'groupId' => 20]),
+            ],
+        ];
         $objectStateHandlerMock->expects($this->exactly(2))
             ->method('loadObjectStates')
             ->withConsecutive([10], [20])
-            ->willReturnOnConsecutiveCalls(
-                [
-                    new SPIObjectState(['id' => 11, 'groupId' => 10]),
-                    new SPIObjectState(['id' => 12, 'groupId' => 10]),
-                ],
-                [
-                    new SPIObjectState(['id' => 21, 'groupId' => 20]),
-                    new SPIObjectState(['id' => 22, 'groupId' => 20]),
-                ]
-            );
+            ->willReturnCallback(function () use (&$objectStates): ?array {
+                $this->objectStateHandlerCalls[] = 'loadObjectStates';
+
+                return array_shift($objectStates);
+            });
+
+        array_push($this->expectedObjectStateHandlerCalls, 'loadAllGroups', 'loadObjectStates', 'loadObjectStates');
     }
 
     protected function mockSetDefaultObjectStates()
@@ -6117,7 +6151,22 @@ class ContentTest extends BaseServiceMockTest
             ->method('setContentState')
             ->withConsecutive(...array_map(static function (SPIObjectState $objectState): array {
                 return [42, $objectState->groupId, $objectState->id];
-            }, $defaultObjectStates));
+            }, $defaultObjectStates))
+            ->willReturnCallback(function (): void {
+                $this->objectStateHandlerCalls[] = 'setContentState';
+            });
+
+        array_push($this->expectedObjectStateHandlerCalls, ...array_fill(0, count($defaultObjectStates), 'setContentState'));
+    }
+
+    /**
+     * Calls on the object state handler mock are expected in the order the helpers above were set up in.
+     */
+    protected function assertPostConditions(): void
+    {
+        parent::assertPostConditions();
+
+        self::assertSame($this->expectedObjectStateHandlerCalls, $this->objectStateHandlerCalls);
     }
 
     /**

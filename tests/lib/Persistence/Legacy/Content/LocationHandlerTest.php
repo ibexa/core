@@ -23,6 +23,8 @@ use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Handler as ObjectStateHandler;
 use Ibexa\Core\Persistence\Legacy\Content\TreeHandler;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
+use PHPUnit\Framework\Constraint\Constraint;
+use PHPUnit\Framework\Constraint\IsEqual;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -391,27 +393,43 @@ class LocationHandlerTest extends TestCase
     public function testMarkSubtreeModified()
     {
         $handler = $this->getLocationHandler();
+        $calls = [];
 
         $this->locationGateway
             ->expects($this->once())
             ->method('getBasicNodeData')
             ->with(69)
-            ->will(
-                $this->returnValue(
-                    [
+            ->willReturnCallback(
+                static function (int $nodeId) use (&$calls): array {
+                    $calls[] = ['getBasicNodeData', $nodeId];
+
+                    return [
                         'node_id' => 69,
                         'path_string' => '/1/2/69/',
                         'contentobject_id' => 67,
-                    ]
-                )
+                    ];
+                }
             );
 
         $this->locationGateway
             ->expects($this->once())
             ->method('updateSubtreeModificationTime')
-            ->with('/1/2/69/');
+            ->with('/1/2/69/')
+            ->willReturnCallback(
+                static function (string $path) use (&$calls): void {
+                    $calls[] = ['updateSubtreeModificationTime', $path];
+                }
+            );
 
         $handler->markSubtreeModified(69);
+
+        self::assertSame(
+            [
+                ['getBasicNodeData', 69],
+                ['updateSubtreeModificationTime', '/1/2/69/'],
+            ],
+            $calls
+        );
     }
 
     public function testChangeMainLocation()
@@ -454,6 +472,35 @@ class LocationHandlerTest extends TestCase
     }
 
     /**
+     * Returns a callback verifying the arguments of consecutive calls of $method and returning the matching result.
+     * Every call is appended to $calls, so the order between different methods of one mock can be asserted.
+     *
+     * @param list<string> $calls
+     * @param array<int, array<int, mixed>> $expectedArguments per call, constraints or values compared with equalTo
+     * @param array<int, mixed> $results per call
+     */
+    private static function sequence(
+        array &$calls,
+        string $method,
+        array $expectedArguments,
+        array $results = []
+    ): \Closure {
+        $callNo = 0;
+
+        return static function (...$arguments) use (&$calls, &$callNo, $method, $expectedArguments, $results) {
+            $calls[] = $method;
+            foreach ($expectedArguments[$callNo] ?? [] as $position => $expected) {
+                self::assertThat(
+                    $arguments[$position],
+                    $expected instanceof Constraint ? $expected : new IsEqual($expected)
+                );
+            }
+
+            return $results[$callNo++] ?? null;
+        };
+    }
+
+    /**
      * Test for the copySubtree() method.
      */
     public function testCopySubtree()
@@ -491,30 +538,45 @@ class LocationHandlerTest extends TestCase
             ->with($destinationData['node_id'])
             ->will($this->returnValue($destinationData));
 
+        $stateCalls = [];
+        $contentCalls = [];
+        $handlerCalls = [];
+
         $this->objectStateHandler
             ->expects($this->once())
             ->method('loadAllGroups')
-            ->will(
-                $this->returnValue(
+            ->willReturnCallback(
+                self::sequence(
+                    $stateCalls,
+                    'loadAllGroups',
+                    [[]],
                     [
-                        new ObjectStateGroup(['id' => 10]),
-                        new ObjectStateGroup(['id' => 20]),
+                        [
+                            new ObjectStateGroup(['id' => 10]),
+                            new ObjectStateGroup(['id' => 20]),
+                        ],
                     ]
                 )
             );
         $this->objectStateHandler
             ->expects($this->exactly(2))
             ->method('loadObjectStates')
-            ->withConsecutive([$this->equalTo(10)], [$this->equalTo(20)])
-            ->willReturnOnConsecutiveCalls(
-                [
-                    new ObjectState(['id' => 11, 'groupId' => 10]),
-                    new ObjectState(['id' => 12, 'groupId' => 10]),
-                ],
-                [
-                    new ObjectState(['id' => 21, 'groupId' => 20]),
-                    new ObjectState(['id' => 22, 'groupId' => 20]),
-                ]
+            ->willReturnCallback(
+                self::sequence(
+                    $stateCalls,
+                    'loadObjectStates',
+                    [[$this->equalTo(10)], [$this->equalTo(20)]],
+                    [
+                        [
+                            new ObjectState(['id' => 11, 'groupId' => 10]),
+                            new ObjectState(['id' => 12, 'groupId' => 10]),
+                        ],
+                        [
+                            new ObjectState(['id' => 21, 'groupId' => 20]),
+                            new ObjectState(['id' => 22, 'groupId' => 20]),
+                        ],
+                    ]
+                )
             );
         $defaultObjectStates = [
             new ObjectState(['id' => 11, 'groupId' => 10]),
@@ -579,19 +641,17 @@ class LocationHandlerTest extends TestCase
         $this->contentHandler
             ->expects($this->exactly(count($contentIds)))
             ->method('copy')
-            ->withConsecutive(...$copyArguments)
-            ->willReturnOnConsecutiveCalls(...$copyResults);
+            ->willReturnCallback(self::sequence($contentCalls, 'copy', $copyArguments, $copyResults));
 
         $this->objectStateHandler
             ->expects($this->exactly(count($setContentStateArguments)))
             ->method('setContentState')
-            ->withConsecutive(...$setContentStateArguments);
+            ->willReturnCallback(self::sequence($stateCalls, 'setContentState', $setContentStateArguments));
 
         $this->contentHandler
             ->expects($this->exactly(count($contentIds)))
             ->method('publish')
-            ->withConsecutive(...$publishArguments)
-            ->willReturnOnConsecutiveCalls(...$publishResults);
+            ->willReturnCallback(self::sequence($contentCalls, 'publish', $publishArguments, $publishResults));
 
         $pathStrings = [$destinationData['node_id'] => $destinationData['path_identification_string']];
         $createStructArguments = [];
@@ -632,39 +692,74 @@ class LocationHandlerTest extends TestCase
         $handler
             ->expects($this->exactly(count($subtreeContentRows)))
             ->method('create')
-            ->withConsecutive(...$createArguments)
-            ->willReturnOnConsecutiveCalls(...$createResults);
+            ->willReturnCallback(self::sequence($handlerCalls, 'create', $createArguments, $createResults));
 
         foreach ($updateMainLocationsMap as $contentId => $locationId) {
             $handler
                 ->expects($this->any())
                 ->method('changeMainLocation')
-                ->with($contentId, $locationId);
+                ->with($contentId, $locationId)
+                ->willReturnCallback(self::sequence($handlerCalls, 'changeMainLocation', [[$contentId, $locationId]]));
         }
 
         $handler
             ->expects($this->once())
             ->method('load')
             ->with($destinationData['node_id'])
-            ->will($this->returnValue(new Location(['contentId' => $destinationData['contentobject_id']])));
+            ->willReturnCallback(
+                self::sequence(
+                    $handlerCalls,
+                    'load',
+                    [[$destinationData['node_id']]],
+                    [new Location(['contentId' => $destinationData['contentobject_id']])]
+                )
+            );
 
         $this->contentHandler
             ->expects($this->exactly(2))
             ->method('loadContentInfo')
-            ->withConsecutive([$destinationData['contentobject_id']], [21])
-            ->willReturnOnConsecutiveCalls(
-                new ContentInfo(['sectionId' => 12345]),
-                new ContentInfo(['mainLocationId' => 1010])
+            ->willReturnCallback(
+                self::sequence(
+                    $contentCalls,
+                    'loadContentInfo',
+                    [[$destinationData['contentobject_id']], [21]],
+                    [
+                        new ContentInfo(['sectionId' => 12345]),
+                        new ContentInfo(['mainLocationId' => 1010]),
+                    ]
+                )
             );
 
         $handler
             ->expects($this->once())
             ->method('setSectionForSubtree')
-            ->with($subtreeContentRows[0]['node_id'] + $offset, 12345);
+            ->with($subtreeContentRows[0]['node_id'] + $offset, 12345)
+            ->willReturnCallback(self::sequence($handlerCalls, 'setSectionForSubtree', [[]]));
 
         $handler->copySubtree(
             $subtreeContentRows[0]['node_id'],
             $destinationData['node_id']
+        );
+
+        $expectedContentCalls = [];
+        foreach ($contentIds as $contentId) {
+            array_push($expectedContentCalls, 'copy', 'publish');
+        }
+        array_push($expectedContentCalls, 'loadContentInfo', 'loadContentInfo');
+        self::assertSame($expectedContentCalls, $contentCalls);
+        self::assertSame(
+            array_merge(
+                ['loadAllGroups', 'loadObjectStates', 'loadObjectStates'],
+                array_fill(0, count($setContentStateArguments), 'setContentState')
+            ),
+            $stateCalls
+        );
+        self::assertSame(
+            array_merge(
+                array_fill(0, count($subtreeContentRows), 'create'),
+                ['changeMainLocation', 'load', 'setSectionForSubtree']
+            ),
+            $handlerCalls
         );
     }
 
