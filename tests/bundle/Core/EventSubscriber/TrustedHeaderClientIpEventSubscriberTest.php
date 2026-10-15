@@ -23,6 +23,11 @@ final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
 
     private const REAL_CLIENT_IP = '98.76.123.234';
 
+    // framework.trusted_headers default
+    private const TRUSTED_HEADER_SET = Request::HEADER_X_FORWARDED_FOR
+        | Request::HEADER_X_FORWARDED_PORT
+        | Request::HEADER_X_FORWARDED_PROTO;
+
     /**
      * @param array<mixed> $data
      */
@@ -39,7 +44,7 @@ final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
     protected function setUp(): void
     {
         $_SERVER['REMOTE_ADDR'] = null;
-        Request::setTrustedProxies([], -1);
+        Request::setTrustedProxies([], self::TRUSTED_HEADER_SET);
     }
 
     protected function tearDown(): void
@@ -81,6 +86,37 @@ final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
         array $headers = [],
         array $server = []
     ): void {
+        $request = $this->dispatchRequestEvent($headers, $server);
+
+        self::assertEquals($isFromTrustedProxy, $request->isFromTrustedProxy());
+        self::assertSame(self::TRUSTED_HEADER_SET, Request::getTrustedHeaderSet());
+    }
+
+    public function testTrustedHeaderEventSubscriberWithoutTrustedProxiesConfigured(): void
+    {
+        // framework.trusted_proxies not configured, so Symfony never sets a trusted header set
+        Request::setTrustedProxies([], -1);
+
+        $request = $this->dispatchRequestEvent(
+            [
+                'Client-Cdn' => 'fastly',
+                'X-Forwarded-Host' => 'forged.example.com',
+            ],
+            ['PLATFORM_RELATIONSHIPS' => true]
+        );
+
+        self::assertFalse($request->isFromTrustedProxy());
+        self::assertSame('localhost', $request->getHost());
+    }
+
+    /**
+     * @param array<string, string> $headers
+     * @param array<string, mixed> $server
+     */
+    private function dispatchRequestEvent(
+        array $headers,
+        array $server
+    ): Request {
         $_SERVER['REMOTE_ADDR'] = self::REAL_CLIENT_IP;
 
         $eventDispatcher = new EventDispatcher();
@@ -100,9 +136,6 @@ final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
             HttpKernelInterface::MAIN_REQUEST
         ), KernelEvents::REQUEST);
 
-        /** @var Request $request */
-        $request = $event->getRequest();
-
-        self::assertEquals($isFromTrustedProxy, $request->isFromTrustedProxy());
+        return $event->getRequest();
     }
 }
