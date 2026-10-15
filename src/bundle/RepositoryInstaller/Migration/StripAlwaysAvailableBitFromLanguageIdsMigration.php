@@ -32,6 +32,13 @@ use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
  * script that converted the database outside this migration sequence - so the migration then does
  * nothing, instead of moving that language's rows onto its neighbour's id.
  *
+ * Legacy eZ Publish can leave an object state with two rows for one language, one with the bit and
+ * one without: changing a state's default language there inserted rows with the flipped bit instead
+ * of updating the existing ones (eZ issue 19169, fixed only for object state groups). Stripping the
+ * bit would collide such twins on the primary key, so the stale one is removed first, by the rule
+ * legacy's own group fix used: the state's default language keeps the row with the bit, every other
+ * language the row without it.
+ *
  * Chunked and non-transactional for the same reasons as BackfillLanguageTranslationsMigration;
  * re-running a chunk is a no-op, since stripped values are even.
  */
@@ -81,6 +88,10 @@ final class StripAlwaysAvailableBitFromLanguageIdsMigration extends AbstractSqlM
             return;
         }
 
+        if ($schemaManager->tablesExist(['ibexa_object_state', 'ibexa_object_state_language'])) {
+            $this->addStaleObjectStateTranslationRemoval();
+        }
+
         foreach (self::TABLES as $table => $chunkColumn) {
             if (!$schemaManager->tablesExist([$table])) {
                 continue;
@@ -106,6 +117,17 @@ final class StripAlwaysAvailableBitFromLanguageIdsMigration extends AbstractSqlM
         }
 
         return false;
+    }
+
+    private function addStaleObjectStateTranslationRemoval(): void
+    {
+        if ($this->isMySQL() || $this->isMariaDB()) {
+            $this->addSqlFile(__DIR__ . '/sql/remove-stale-object-state-translations-mysql.sql');
+        } elseif ($this->isPostgreSQL()) {
+            $this->addSqlFile(__DIR__ . '/sql/remove-stale-object-state-translations-postgresql.sql');
+        } else {
+            $this->addSqlFile(__DIR__ . '/sql/remove-stale-object-state-translations-sqlite.sql');
+        }
     }
 
     private function addChunkedSql(
