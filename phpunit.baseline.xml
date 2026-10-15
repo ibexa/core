@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <files version="1">
  <file path="src/lib/Limitation/ObjectStateLimitationType.php">
-  <line number="148" hash="46c20ceb34da10cf5e5ad5215b58d86570f0d771">
+  <line number="151" hash="46c20ceb34da10cf5e5ad5215b58d86570f0d771">
    <issue><![CDATA[Passing ContentCreateStruct to ObjectStateLimitationType is deprecated  and will throw an error in Ibexa 5.0]]></issue>
   </line>
  </file>
  <file path="src/lib/MVC/Symfony/SiteAccess/Matcher/Regex.php">
-  <line number="63" hash="8e74eca3ada3a6cb69f5ceb7773355dc85574bb6">
+  <line number="65" hash="8e74eca3ada3a6cb69f5ceb7773355dc85574bb6">
    <issue><![CDATA[preg_match(): Passing null to parameter #2 ($subject) of type string is deprecated]]></issue>
   </line>
  </file>
