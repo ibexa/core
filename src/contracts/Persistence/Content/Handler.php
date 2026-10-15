@@ -329,10 +329,10 @@ interface Handler
      * @todo Should the existence verifications happen here or is this supposed to be handled at a higher level?
      *
      * @param int $relationId
-     * @param int $type {@see \Ibexa\Contracts\Core\Repository\Values\Content\Relation::COMMON,
-     *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::EMBED,
-     *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::LINK,
-     *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::FIELD}
+     * @param int $type {@see \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::COMMON,
+     *                 \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::EMBED,
+     *                 \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::LINK,
+     *                 \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::FIELD}
      * @param ?int $destinationContentId Content id to invalidate cache tag related to content reverse relations count
      */
     public function removeRelation(
@@ -380,10 +380,10 @@ interface Handler
      * Only loads relations against published versions.
      *
      * @param mixed $destinationContentId Destination Content ID
-     * @param int|null $type {@see \Ibexa\Contracts\Core\Repository\Values\Content\Relation::COMMON,
-     *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::EMBED,
-     *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::LINK,
-     *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::FIELD}
+     * @param int|null $type {@see \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::COMMON,
+     *                 \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::EMBED,
+     *                 \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::LINK,
+     *                 \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::FIELD}
      *
      * @return Relation[]
      */

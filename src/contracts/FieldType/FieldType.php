@@ -365,7 +365,7 @@ abstract class FieldType
     /**
      * Returns relation data extracted from value.
      *
-     * Not intended for \Ibexa\Contracts\Core\Repository\Values\Content\Relation::COMMON type relations,
+     * Not intended for \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::COMMON type relations,
      * there is an API for handling those.
      *
      * @param Value $value
@@ -375,15 +375,15 @@ abstract class FieldType
      * Example:
      * ```
      * [
-     *     \Ibexa\Contracts\Core\Repository\Values\Content\Relation::LINK => [
+     *     \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::LINK->value => [
      *         'contentIds' => [12, 13, 14],
      *         'locationIds' => [24]
      *     ],
-     *     \Ibexa\Contracts\Core\Repository\Values\Content\Relation::EMBED => [
+     *     \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::EMBED->value => [
      *         'contentIds" => [12],
      *         'locationIds' => [24, 45]
      *     ],
-     *     \Ibexa\Contracts\Core\Repository\Values\Content\Relation::FIELD => [12]
+     *     \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::FIELD->value => [12]
      * ]
      * ```
      */
