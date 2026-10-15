@@ -19059,7 +19059,7 @@ parameters:
 		-
 			message: '#^Parameter \#2 \$array of static method PHPUnit\\Framework\\Assert\:\:assertArrayHasKey\(\) expects array\<mixed\>\|ArrayAccess\<\(int\|string\), mixed\>, array\|bool\|float\|int\|string\|null given\.$#'
 			identifier: argument.type
-			count: 2
+			count: 1
 			path: tests/bundle/Core/DependencyInjection/IbexaCoreExtensionTest.php
 
 		-

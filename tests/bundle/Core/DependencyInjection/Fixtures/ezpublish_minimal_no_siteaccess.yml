@@ -1,6 +1,3 @@
-imagemagick:
-    enabled: false
-
 http_cache:
     purge_type: local
 

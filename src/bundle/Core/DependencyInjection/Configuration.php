@@ -50,7 +50,6 @@ class Configuration extends SiteAccessConfiguration
 
         $this->addRepositoriesSection($rootNode);
         $this->addSiteAccessSection($rootNode);
-        $this->addImageMagickSection($rootNode);
         $this->addHttpCacheSection($rootNode);
         $this->addRouterSection($rootNode);
         $this->addUrlAliasSection($rootNode);
@@ -248,55 +247,6 @@ class Configuration extends SiteAccessConfiguration
                     ->useAttributeAsKey('key')
                     ->normalizeKeys(false)
                     ->prototype('scalar')->end()
-                ->end()
-            ->end();
-    }
-
-    /**
-     * @phpstan-param TRootNode $rootNode
-     */
-    private function addImageMagickSection(ArrayNodeDefinition $rootNode): void
-    {
-        $filtersInfo =
-<<<EOT
-DEPRECATED.
-This is only used for legacy injection.
-You may use imagick/gmagick liip_imagine bundle drivers.
-
-Hash of filters to be used for your image variations config.
-#   Key is the filter name, value is an argument passed to "convert" binary.
-#   You can use numbered placeholders (aka input variables) that will be replaced by defined parameters in your image variations config
-EOT;
-
-        $rootNode
-            ->children()
-                ->arrayNode('imagemagick')
-                    ->info('ImageMagick configuration')
-                    ->children()
-                        ->booleanNode('enabled')->defaultTrue()->end()
-                        ->scalarNode('path')
-                            ->info('Absolute path of ImageMagick / GraphicsMagick "convert" binary.')
-                            ->beforeNormalization()
-                                ->ifTrue(
-                                    static function ($v): bool {
-                                        $basename = basename($v);
-                                        // If there is a space in the basename, just drop it and everything after it.
-                                        if (($wsPos = strpos($basename, ' ')) !== false) {
-                                            $basename = substr($basename, 0, $wsPos);
-                                        }
-
-                                        return !is_executable(dirname($v) . \DIRECTORY_SEPARATOR . $basename);
-                                    }
-                                )
-                                ->thenInvalid('Please provide full path to ImageMagick / GraphicsMagick  "convert" binary. Please also check that it is executable.')
-                            ->end()
-                        ->end()
-                        ->arrayNode('filters')
-                            ->info($filtersInfo)
-                            ->example(['geometry/scaledownonly' => '"-geometry {1}x{2}>"'])
-                            ->prototype('scalar')->end()
-                        ->end()
-                    ->end()
                 ->end()
             ->end();
     }
