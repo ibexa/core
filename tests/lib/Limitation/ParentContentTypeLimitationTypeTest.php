@@ -551,7 +551,7 @@ class ParentContentTypeLimitationTypeTest extends Base
                     $locationLoadArguments[] = [$location->parentId];
                     $locationLoadResults[] = $parentLocation;
                     $contentLoadArguments[] = [$parentLocation->contentId];
-                    $contentLoadResults[] = $persistence['parentContents'][$location->contentId];
+                    $contentLoadResults[] = $persistence['parentContents'][$parentLocation->contentId];
                 } else {
                     $contentLoadArguments[] = [$location->contentId];
                     $contentLoadResults[] = $persistence['contentInfos'][$index];
