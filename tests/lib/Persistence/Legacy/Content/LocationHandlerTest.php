@@ -492,8 +492,8 @@ class LocationHandlerTest extends TestCase
             )
         );
 
-        // loadAllGroups(), loadObjectStates() and setContentState() are all called on the same
-        // mock in a single global order: loadAllGroups() once, loadObjectStates() twice (once per
+        // loadAllGroups(), loadDefaultObjectState() and setContentState() are all called on the same
+        // mock in a single global order: loadAllGroups() once, loadDefaultObjectState() twice (once per
         // object state group), then setContentState() once per content id per default object state.
         $objectStateHandlerInvocationOrder = 0;
 
@@ -518,26 +518,20 @@ class LocationHandlerTest extends TestCase
 
         $this->objectStateHandler
             ->expects($this->exactly(2))
-            ->method('loadObjectStates')
-            ->willReturnCallback(static function (int $groupId) use (&$objectStateHandlerInvocationOrder): array {
+            ->method('loadDefaultObjectState')
+            ->willReturnCallback(static function (int $groupId) use (&$objectStateHandlerInvocationOrder): ObjectState {
                 $order = $objectStateHandlerInvocationOrder++;
                 switch ($order) {
                     case 1:
                         self::assertSame(10, $groupId);
 
-                        return [
-                            new ObjectState(['id' => 11, 'groupId' => 10]),
-                            new ObjectState(['id' => 12, 'groupId' => 10]),
-                        ];
+                        return new ObjectState(['id' => 11, 'groupId' => 10]);
                     case 2:
                         self::assertSame(20, $groupId);
 
-                        return [
-                            new ObjectState(['id' => 21, 'groupId' => 20]),
-                            new ObjectState(['id' => 22, 'groupId' => 20]),
-                        ];
+                        return new ObjectState(['id' => 21, 'groupId' => 20]);
                     default:
-                        self::fail(sprintf('Unexpected invocation order %d for loadObjectStates()', $order));
+                        self::fail(sprintf('Unexpected invocation order %d for loadDefaultObjectState()', $order));
                 }
             });
 

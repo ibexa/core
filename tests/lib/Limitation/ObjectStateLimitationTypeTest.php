@@ -217,6 +217,14 @@ class ObjectStateLimitationTypeTest extends Base
                 ->method('loadObjectStates')
                 ->willReturnMap($this->loadObjectStatesMap);
 
+            // States with priority 0 in $this->loadObjectStatesMap
+            $this->objectStateHandlerMock
+                ->method('loadDefaultObjectState')
+                ->willReturnMap([
+                    [1, new ObjectState(['id' => 2, 'priority' => 0])],
+                    [2, new ObjectState(['id' => 4, 'priority' => 0])],
+                ]);
+
             $this->objectStateHandlerMock
                 ->method('getContentState')
                 ->willReturnMap($getContentStateMap);

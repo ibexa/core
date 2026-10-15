@@ -9,6 +9,7 @@ namespace Ibexa\Core\Limitation;
 
 use Ibexa\Contracts\Core\Limitation\Type as SPILimitationTypeInterface;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException as APINotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
@@ -26,7 +27,6 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\ValidationError;
-use Ibexa\Core\Repository\Helper\DefaultObjectState;
 use RuntimeException;
 
 /**
@@ -112,7 +112,7 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
      *
      * @return bool|null
      *
-     *@throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException If value of the LimitationValue is unsupported
+     *@throws BadStateException If value of the LimitationValue is unsupported
      *         Example if OwnerLimitationValue->limitationValues[0] is not one of: [ 1,  2 ]
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If any of the arguments are invalid
      *         Example: If LimitationValue is instance of ContentTypeLimitationValue, and Type is SectionLimitationType.
@@ -159,7 +159,7 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
      * Checks if the State Group contains at least one State that is used by Limitation.
      *
      * @param int $stateGroupId
-     * @param string[] $limitationValues
+     * @param int[] $limitationValues
      *
      * @return bool
      */
@@ -304,17 +304,9 @@ class ObjectStateLimitationType extends AbstractPersistenceLimitationType implem
         $objectStateIdsToVerify = [];
         $stateGroups = $objectStateHandler->loadAllGroups();
         foreach ($stateGroups as $stateGroup) {
-            $states = $objectStateHandler->loadObjectStates($stateGroup->id);
-            // New Content gets the default State, same as in ContentService::createContent()
-            $defaultState = DefaultObjectState::fromGroupStates($states);
-            if ($defaultState === null) {
-                continue;
-            }
-
-            foreach ($states as $state) {
-                if (in_array($state->id, $limitationValues, true)) {
-                    $objectStateIdsToVerify[] = $defaultState->id;
-                }
+            if ($this->isStateGroupUsedForLimitation($stateGroup->id, $limitationValues)) {
+                // New Content gets the default State, same as in ContentService::createContent()
+                $objectStateIdsToVerify[] = $objectStateHandler->loadDefaultObjectState($stateGroup->id)->id;
             }
         }
 

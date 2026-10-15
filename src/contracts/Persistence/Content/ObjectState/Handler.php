@@ -69,6 +69,13 @@ interface Handler
     public function loadObjectStates($groupId);
 
     /**
+     * Returns the object state new content gets in the given group, the one with the lowest priority.
+     *
+     * @throws NotFoundException if the group has no object states
+     */
+    public function loadDefaultObjectState(int $groupId): ObjectState;
+
+    /**
      * Updates an object state group.
      *
      * @param mixed $groupId

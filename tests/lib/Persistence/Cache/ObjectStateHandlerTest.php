@@ -39,6 +39,7 @@ class ObjectStateHandlerTest extends AbstractCacheHandlerTestCase
             ['setPriority', [7, 99], [['state', [7], false]], null, ['s-7']],
             ['delete', [7], [['state', [7], false]], null, ['s-7']],
             ['setContentState', [4, 5, 7], null, [['state_by_group_on_content', [5, 4], true]], [], 'ibx-sbg-5-oc-4'],
+            ['loadDefaultObjectState', [5], null, null, null, null, new SPIObjectState(['id' => 7])],
         ];
     }
 
