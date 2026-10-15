@@ -9595,12 +9595,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Bookmark/Gateway.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Bookmark\\Gateway\:\:loadUserBookmarks\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/Bookmark/Gateway.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Bookmark\\Gateway\\DoctrineDatabase\:\:getColumns\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -9625,12 +9619,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Bookmark/Gateway/DoctrineDatabase.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Bookmark\\Gateway\\DoctrineDatabase\:\:loadUserBookmarks\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/Bookmark/Gateway/DoctrineDatabase.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Bookmark\\Gateway\\ExceptionConversion\:\:loadBookmarkDataByUserIdAndLocationId\(\) has parameter \$locationId with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -9638,12 +9626,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Bookmark\\Gateway\\ExceptionConversion\:\:loadBookmarkDataByUserIdAndLocationId\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/Bookmark/Gateway/ExceptionConversion.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Bookmark\\Gateway\\ExceptionConversion\:\:loadUserBookmarks\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Persistence/Legacy/Bookmark/Gateway/ExceptionConversion.php
@@ -32389,25 +32371,7 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Bookmark/Gateway/DoctrineDatabaseTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Bookmark\\Gateway\\DoctrineDatabaseTest\:\:dataProviderForLoadUserBookmarks\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/Persistence/Legacy/Bookmark/Gateway/DoctrineDatabaseTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Bookmark\\Gateway\\DoctrineDatabaseTest\:\:loadBookmark\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/Persistence/Legacy/Bookmark/Gateway/DoctrineDatabaseTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Bookmark\\Gateway\\DoctrineDatabaseTest\:\:testCountUserBookmarks\(\) has parameter \$expected with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/Persistence/Legacy/Bookmark/Gateway/DoctrineDatabaseTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Bookmark\\Gateway\\DoctrineDatabaseTest\:\:testLoadUserBookmarks\(\) has parameter \$expected with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/lib/Persistence/Legacy/Bookmark/Gateway/DoctrineDatabaseTest.php
