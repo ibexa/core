@@ -82,14 +82,6 @@ class User implements ReferenceUserInterface, EquatableInterface, PasswordAuthen
         return $this->getAPIUser()->getLogin();
     }
 
-    /**
-     * Nothing to erase: the API user is never serialized (see {@see self::__sleep()}).
-     *
-     * @deprecated since Symfony 7.3, {@see BaseUserInterface::eraseCredentials()} is removed in Symfony 8.0
-     */
-    #[\Deprecated]
-    public function eraseCredentials(): void {}
-
     public function getAPIUserReference(): UserReference
     {
         return $this->reference;
