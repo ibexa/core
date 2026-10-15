@@ -987,7 +987,7 @@ class ContentHandlerTest extends TestCase
                 self::equalTo(RelationType::COMMON->value),
             );
 
-        $this->getContentHandler()->removeRelation(1, RelationType::COMMON->value);
+        $this->getContentHandler()->removeRelation(1, RelationType::COMMON->value, 2);
     }
 
     protected function getRelationFixture()
