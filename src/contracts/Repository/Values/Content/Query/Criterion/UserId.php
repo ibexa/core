@@ -17,7 +17,7 @@ class UserId extends Criterion implements FilteringCriterion
     /**
      * @param int|int[] $value
      */
-    public function __construct(int|array $value)
+    public function __construct(int | array $value)
     {
         parent::__construct(null, null, $value);
     }

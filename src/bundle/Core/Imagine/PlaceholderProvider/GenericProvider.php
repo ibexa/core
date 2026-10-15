@@ -89,7 +89,7 @@ class GenericProvider implements PlaceholderProvider
     }
 
     /**
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentValue
+     * @throws InvalidArgumentValue
      */
     private function getTemporaryPath(): string
     {

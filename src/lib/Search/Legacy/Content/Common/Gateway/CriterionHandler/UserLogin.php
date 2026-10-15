@@ -37,7 +37,7 @@ class UserLogin extends CriterionHandler
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\UserLogin $criterion
+     * @param Criterion\UserLogin $criterion
      */
     public function handle(
         CriteriaConverter $converter,

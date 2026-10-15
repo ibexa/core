@@ -59,14 +59,14 @@ class BinaryBaseStorageGatewayTest extends BaseCoreFieldTypeIntegrationTestCase
         $field->versionNo = 1;
         $field->value = new FieldValue([
             'externalData' => [
-                 'id' => 'image/809c753a26e11f363cd8c14d824d162a.jpg',
-                 'path' => '/tmp/phpR4tNSI',
-                 'inputUri' => '/tmp/phpR4tNSI',
-                 'fileName' => '1.jpg',
-                 'fileSize' => '372949',
-                 'mimeType' => 'image/jpg',
-                 'uri' => '/admin/content/download/75/320?version=1',
-                 'downloadCount' => 0,
+                'id' => 'image/809c753a26e11f363cd8c14d824d162a.jpg',
+                'path' => '/tmp/phpR4tNSI',
+                'inputUri' => '/tmp/phpR4tNSI',
+                'fileName' => '1.jpg',
+                'fileSize' => '372949',
+                'mimeType' => 'image/jpg',
+                'uri' => '/admin/content/download/75/320?version=1',
+                'downloadCount' => 0,
             ],
         ]);
 

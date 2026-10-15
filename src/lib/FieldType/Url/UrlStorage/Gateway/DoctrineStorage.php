@@ -8,6 +8,7 @@
 namespace Ibexa\Core\FieldType\Url\UrlStorage\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Core\FieldType\Url\UrlStorage\Gateway;
 use Ibexa\Core\Persistence\Legacy\URL\Gateway\DoctrineDatabase;
@@ -99,7 +100,7 @@ class DoctrineStorage extends Gateway
      *
      * @param string $url The URL to insert in the database
      *
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function insertUrl($url): int
     {

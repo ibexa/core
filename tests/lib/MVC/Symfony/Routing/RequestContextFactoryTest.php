@@ -39,9 +39,9 @@ final class RequestContextFactoryTest extends TestCase
      * @return iterable<
      *      string,
      *      array{
-     *          \Symfony\Component\Routing\RequestContext,
-     *          \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest,
-     *          \Symfony\Component\Routing\RequestContext
+     *          RequestContext,
+     *          SimplifiedRequest,
+     *          RequestContext
      * }>
      */
     public static function getDataForTestGetContextBySimplifiedRequest(): iterable

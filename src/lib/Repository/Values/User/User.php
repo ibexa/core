@@ -118,9 +118,9 @@ class User extends APIUser
      */
     protected function getProperties(
         $dynamicProperties = ['id',
-        'contentInfo',
-        'versionInfo',
-        'fields']
+            'contentInfo',
+            'versionInfo',
+            'fields']
     ) {
         return parent::getProperties($dynamicProperties);
     }

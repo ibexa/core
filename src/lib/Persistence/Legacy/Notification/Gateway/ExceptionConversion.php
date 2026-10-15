@@ -43,7 +43,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->getNotificationById($notificationId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -65,7 +65,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->updateNotification($notification);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -76,7 +76,7 @@ class ExceptionConversion extends Gateway
     ): int {
         try {
             return $this->innerGateway->countUserNotifications($userId, $query);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -85,7 +85,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->countUserPendingNotifications($userId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -97,7 +97,7 @@ class ExceptionConversion extends Gateway
     ): array {
         try {
             return $this->innerGateway->loadUserNotifications($userId, $offset, $limit);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -108,7 +108,7 @@ class ExceptionConversion extends Gateway
     ): array {
         try {
             return $this->innerGateway->findUserNotifications($userId, $query);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -117,7 +117,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->insert($notification);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -126,7 +126,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->delete($notificationId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }

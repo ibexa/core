@@ -35,12 +35,12 @@ class ContentServiceDecoratorTest extends TestCase
     private const EXAMPLE_CONTENT_REMOTE_ID = 'example';
     private const EXAMPLE_VERSION_NO = 1;
 
-    protected function createDecorator(ContentService&MockObject $service): ContentService
+    protected function createDecorator(ContentService & MockObject $service): ContentService
     {
         return new class($service) extends ContentServiceDecorator {};
     }
 
-    protected function createServiceMock(): ContentService&MockObject
+    protected function createServiceMock(): ContentService & MockObject
     {
         return $this->createMock(ContentService::class);
     }

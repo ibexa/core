@@ -226,7 +226,10 @@ abstract class Gateway
         int $version
     ): void;
 
-    abstract public function removeByUserAndStatus(int $userId, int $status): void;
+    abstract public function removeByUserAndStatus(
+        int $userId,
+        int $status
+    ): void;
 
     /**
      * @param list<string> $prioritizedLanguages

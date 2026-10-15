@@ -82,7 +82,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
         $contentId = 42;
         $roleId = 1;
 
-        $this->loggerMock->expects($this->once())->method('logCall');
+        $this->loggerMock->expects(self::once())->method('logCall');
 
         $innerHandler = $this->setUpRoleAssignmentInvalidation($locationId, $contentId, $roleId);
 

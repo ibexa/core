@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\MVC\Symfony\Component\Serializer\Stubs;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
+use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Compound;
 
 /**
@@ -17,7 +18,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Compound;
 final class CompoundStub extends Compound
 {
     /**
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher[] $subMatchers
+     * @param Matcher[] $subMatchers
      */
     public function __construct(array $subMatchers)
     {
@@ -26,7 +27,7 @@ final class CompoundStub extends Compound
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotImplementedException
      */
     public function match(): never
     {
@@ -34,7 +35,7 @@ final class CompoundStub extends Compound
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException
+     * @throws NotImplementedException
      */
     public function reverseMatch(string $siteAccessName): never
     {

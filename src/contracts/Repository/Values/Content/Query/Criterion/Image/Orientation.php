@@ -29,7 +29,7 @@ final class Orientation extends Criterion
      */
     public function __construct(
         string $fieldDefIdentifier,
-        string|array $orientation
+        string | array $orientation
     ) {
         $this->validate($orientation);
 
@@ -57,7 +57,7 @@ final class Orientation extends Criterion
      *
      * @throws InvalidArgumentException
      */
-    private function validate(string|array $orientation): void
+    private function validate(string | array $orientation): void
     {
         if (
             is_string($orientation)

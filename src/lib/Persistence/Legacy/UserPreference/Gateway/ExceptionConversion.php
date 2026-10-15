@@ -42,7 +42,7 @@ class ExceptionConversion extends Gateway
     ): array {
         try {
             return $this->innerGateway->getUserPreferenceByUserIdAndName($userId, $name);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw new RuntimeException('Database error', 0, $e);
         }
     }
@@ -54,7 +54,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->countUserPreferences($userId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw new RuntimeException('Database error', 0, $e);
         }
     }
@@ -69,7 +69,7 @@ class ExceptionConversion extends Gateway
     ): array {
         try {
             return $this->innerGateway->loadUserPreferences($userId, $offset, $limit);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw new RuntimeException('Database error', 0, $e);
         }
     }
@@ -81,7 +81,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->setUserPreference($setStruct);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw new RuntimeException('Database error', 0, $e);
         }
     }

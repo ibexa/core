@@ -37,7 +37,7 @@ class UserEmail extends CriterionHandler
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\UserEmail $criterion
+     * @param Criterion\UserEmail $criterion
      */
     public function handle(
         CriteriaConverter $converter,

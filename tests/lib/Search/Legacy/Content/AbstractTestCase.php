@@ -8,7 +8,6 @@
 namespace Ibexa\Tests\Core\Search\Legacy\Content;
 
 use Doctrine\DBAL\Exception;
-use Ibexa\Contracts\Core\Persistence\Content\Type\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as SPIContentTypeHandler;
 use Ibexa\Core\FieldType\FieldTypeAliasRegistry;
 use Ibexa\Core\FieldType\FieldTypeAliasResolver;

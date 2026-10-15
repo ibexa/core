@@ -188,7 +188,7 @@ class ContentTypeLimitationTypeTest extends Base
                 ->expects(self::exactly(count($values)))
                 ->method('load')
                 ->withConsecutive(...array_map(static fn ($value): array => [$value], $values))
-                ->willReturnOnConsecutiveCalls(...array_map(fn ($value) => self::throwException(new NotFoundException('contentType', $value)), $values));
+                ->willReturnOnConsecutiveCalls(...array_map(static fn ($value) => self::throwException(new NotFoundException('contentType', $value)), $values));
         } else {
             $this->getPersistenceMock()
                 ->expects(self::never())

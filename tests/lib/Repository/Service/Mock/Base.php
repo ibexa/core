@@ -102,7 +102,7 @@ abstract class Base extends TestCase
     /** @var LocationFilteringHandler|MockObject */
     private $locationFilteringHandlerMock;
 
-    private TransactionHandler&MockObject $transactionHandlerMock;
+    private TransactionHandler & MockObject $transactionHandlerMock;
 
     /**
      * Get Real repository with mocked dependencies.
@@ -319,7 +319,7 @@ abstract class Base extends TestCase
         return $this->persistenceMock;
     }
 
-    protected function getTransactionHandlerMock(): MockObject&TransactionHandler
+    protected function getTransactionHandlerMock(): MockObject & TransactionHandler
     {
         if (!isset($this->transactionHandlerMock)) {
             $this->transactionHandlerMock = $this->createMock(TransactionHandler::class);

@@ -141,14 +141,14 @@ class ContentDownloadRouteReferenceListenerTest extends TestCase
         return new Content(
             [
                 'internalFields' => [
-                        new Field(
-                            [
-                                'fieldDefIdentifier' => 'file',
-                                'languageCode' => 'eng-GB',
-                                'value' => new BinaryFileValue(['fileName' => 'Test-file.pdf']),
-                            ]
-                        ),
-                    ],
+                    new Field(
+                        [
+                            'fieldDefIdentifier' => 'file',
+                            'languageCode' => 'eng-GB',
+                            'value' => new BinaryFileValue(['fileName' => 'Test-file.pdf']),
+                        ]
+                    ),
+                ],
                 'versionInfo' => new VersionInfo(
                     [
                         'contentInfo' => new ContentInfo(['id' => 42, 'mainLanguageCode' => 'eng-GB']),

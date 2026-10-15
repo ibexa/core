@@ -274,55 +274,55 @@ class ChainConfigResolverTest extends TestCase
     {
         return new StaticSiteAccessProvider(
             [
-                 self::FIRST_SA_NAME,
-                 self::SECOND_SA_NAME,
-             ],
+                self::FIRST_SA_NAME,
+                self::SECOND_SA_NAME,
+            ],
             [
-                 self::FIRST_SA_NAME => [self::SA_GROUP],
-                 self::SECOND_SA_NAME => [self::SA_GROUP],
-             ],
+                self::FIRST_SA_NAME => [self::SA_GROUP],
+                self::SECOND_SA_NAME => [self::SA_GROUP],
+            ],
         );
     }
 
     public function parameterProvider(): array
     {
         return [
-             ['foo', 'bar'],
-             ['some.parameter', true],
-             ['some.other.parameter', ['foo', 'bar', 'baz']],
-             ['a.hash.parameter', ['foo' => 'bar', 'tata' => 'toto']],
-             [
-                 'a.deep.hash', [
-                 'foo' => 'bar',
-                 'tata' => 'toto',
-                 'deeper_hash' => [
-                     'likeStarWars' => true,
-                     'jedi' => ['Obi-Wan Kenobi', 'Mace Windu', 'Luke Skywalker', 'Leïa Skywalker (yes! Read episodes 7-8-9!)'],
-                     'sith' => ['Darth Vader', 'Darth Maul', 'Palpatine'],
-                     'roles' => [
-                         'Amidala' => ['Queen'],
-                         'Palpatine' => ['Senator', 'Emperor', 'Villain'],
-                         'C3PO' => ['Droid', 'Annoying guy'],
-                         'Jar-Jar' => ['Still wondering his role', 'Annoying guy'],
-                     ],
-                 ],
-             ],
-             ],
-         ];
+            ['foo', 'bar'],
+            ['some.parameter', true],
+            ['some.other.parameter', ['foo', 'bar', 'baz']],
+            ['a.hash.parameter', ['foo' => 'bar', 'tata' => 'toto']],
+            [
+                'a.deep.hash', [
+                    'foo' => 'bar',
+                    'tata' => 'toto',
+                    'deeper_hash' => [
+                        'likeStarWars' => true,
+                        'jedi' => ['Obi-Wan Kenobi', 'Mace Windu', 'Luke Skywalker', 'Leïa Skywalker (yes! Read episodes 7-8-9!)'],
+                        'sith' => ['Darth Vader', 'Darth Maul', 'Palpatine'],
+                        'roles' => [
+                            'Amidala' => ['Queen'],
+                            'Palpatine' => ['Senator', 'Emperor', 'Villain'],
+                            'C3PO' => ['Droid', 'Annoying guy'],
+                            'Jar-Jar' => ['Still wondering his role', 'Annoying guy'],
+                        ],
+                    ],
+                ],
+            ],
+        ];
     }
 
     public function hasParameterProvider(): array
     {
         return [
-             [true, true, true, true, true],
-             [true, true, true, false, true],
-             [true, true, false, false, true],
-             [false, false, false, false, false],
-             [false, false, true, false, true],
-             [false, false, false, true, true],
-             [false, false, true, true, true],
-             [false, true, false, false, true],
-         ];
+            [true, true, true, true, true],
+            [true, true, true, false, true],
+            [true, true, false, false, true],
+            [false, false, false, false, false],
+            [false, false, true, false, true],
+            [false, false, false, true, true],
+            [false, false, true, true, true],
+            [false, true, false, false, true],
+        ];
     }
 
     private function getChainConfigResolver(): ChainConfigResolver

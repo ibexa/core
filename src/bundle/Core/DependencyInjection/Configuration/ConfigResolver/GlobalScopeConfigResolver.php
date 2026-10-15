@@ -17,8 +17,10 @@ class GlobalScopeConfigResolver extends ContainerConfigResolver
 {
     private const SCOPE_NAME = 'global';
 
-    public function __construct(ContainerInterface $container, string $defaultNamespace)
-    {
+    public function __construct(
+        ContainerInterface $container,
+        string $defaultNamespace
+    ) {
         parent::__construct($container, self::SCOPE_NAME, $defaultNamespace);
     }
 

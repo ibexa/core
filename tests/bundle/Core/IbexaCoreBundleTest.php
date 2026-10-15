@@ -75,9 +75,10 @@ final class IbexaCoreBundleTest extends TestCase
                 return 'ibexa_cloud';
             }
 
-            public function load(array $configs, ContainerBuilder $container): void
-            {
-            }
+            public function load(
+                array $configs,
+                ContainerBuilder $container
+            ): void {}
         };
     }
 }

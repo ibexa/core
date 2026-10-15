@@ -202,7 +202,7 @@ class DefaultRouterTest extends TestCase
                     ->method('analyseLink');
             }
         } else {
-            $matcher = $this->createStub(Matcher::class);
+            $matcher = self::createStub(Matcher::class);
         }
 
         $sa = new SiteAccess($saName, 'test', $matcher);
@@ -281,7 +281,7 @@ class DefaultRouterTest extends TestCase
 
         $router = new DefaultRouter($this->container, 'foo', [], $this->requestContext);
         $router->setConfigResolver($this->configResolver);
-        $router->setSiteAccess(new SiteAccess('test', 'test', $this->createStub(Matcher::class)));
+        $router->setSiteAccess(new SiteAccess('test', 'test', self::createStub(Matcher::class)));
         $router->setSiteAccessRouter($siteAccessRouter);
         $refRouter = new ReflectionObject($router);
         $refGenerator = $refRouter->getProperty('generator');

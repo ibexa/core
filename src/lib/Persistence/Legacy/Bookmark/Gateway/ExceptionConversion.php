@@ -34,7 +34,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->insertBookmark($bookmark);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -43,7 +43,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             $this->innerGateway->deleteBookmark($id);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -54,7 +54,7 @@ class ExceptionConversion extends Gateway
     ): array {
         try {
             return $this->innerGateway->loadBookmarkDataByUserIdAndLocationId($userId, $locationId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -66,7 +66,7 @@ class ExceptionConversion extends Gateway
     ): array {
         try {
             return $this->innerGateway->loadUserBookmarks($userId, $offset, $limit);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -75,7 +75,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->countUserBookmarks($userId);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -86,7 +86,7 @@ class ExceptionConversion extends Gateway
     ): void {
         try {
             $this->innerGateway->locationSwapped($location1Id, $location2Id);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -95,7 +95,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadUserIdsByLocation($location);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }

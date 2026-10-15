@@ -17,7 +17,7 @@ use Traversable;
 final class FloatRangeAggregation extends AbstractFieldRangeAggregation
 {
     /**
-     * @phpstan-param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation\Ranges\RangesGeneratorInterface<float> $generator
+     * @phpstan-param RangesGeneratorInterface<float> $generator
      */
     public static function fromGenerator(
         string $name,

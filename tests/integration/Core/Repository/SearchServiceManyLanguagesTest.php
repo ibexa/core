@@ -54,8 +54,8 @@ final class SearchServiceManyLanguagesTest extends BaseTestCase
         try {
             $result = $searchService->findContent($query, $languageSettings);
         } catch (Exception $e) {
-            $this->fail('Search failed with many languages: ' . $e->getMessage());
+            self::fail('Search failed with many languages: ' . $e->getMessage());
         }
-        $this->assertGreaterThan(0, $result->totalCount);
+        self::assertGreaterThan(0, $result->totalCount);
     }
 }

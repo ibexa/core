@@ -69,7 +69,7 @@ final class TokenService implements TokenServiceInterface
             $token = $this->getToken($tokenType, $token, $identifier);
 
             return !$token->isRevoked();
-        } catch (NotFoundException|UnauthorizedException $exception) {
+        } catch (NotFoundException | UnauthorizedException $exception) {
             return false;
         }
     }

@@ -132,8 +132,10 @@ final class FloatValueValidatorTest extends BaseNumericValidatorTestCase
     /**
      * @dataProvider providerForValidateKO
      */
-    public function testValidateWrongValues(float $value, string $message): void
-    {
+    public function testValidateWrongValues(
+        float $value,
+        string $message
+    ): void {
         $validator = $this->getValidatorInstance();
         $validator->minFloatValue = $this->getMinFloatValue();
         $validator->maxFloatValue = $this->getMaxFloatValue();

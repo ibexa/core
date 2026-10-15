@@ -631,8 +631,12 @@ class ContentTypeHandler extends AbstractInMemoryPersistenceHandler implements C
             function () {
                 return $this->persistenceHandler->contentTypeHandler()->getSearchableFieldMap();
             },
-            static function () {return [];},
-            static function () {return [];},
+            static function () {
+                return [];
+            },
+            static function () {
+                return [];
+            },
             function () {
                 return [
                     $this->cacheIdentifierGenerator->generateTag(self::TYPE_MAP_IDENTIFIER),

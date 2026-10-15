@@ -45,7 +45,7 @@ class ExceptionConversion extends Gateway
     ): array {
         try {
             return $this->innerGateway->find($criterion, $offset, $limit, $sortClauses, $languageFilter, $doCount);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }

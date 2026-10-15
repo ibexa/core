@@ -36,7 +36,7 @@ class ContentTypeDraft extends APIContentTypeDraft
      */
     protected function getProperties(
         $dynamicProperties = ['contentTypeGroups',
-        'fieldDefinitions']
+            'fieldDefinitions']
     ) {
         return parent::getProperties($dynamicProperties);
     }

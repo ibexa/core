@@ -10,7 +10,6 @@ namespace Ibexa\Core\FieldType\BinaryBase;
 use Ibexa\Contracts\Core\FieldType\BinaryBase\RouteAwarePathGenerator;
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue as PersistenceValue;
-use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
@@ -112,7 +111,7 @@ abstract class Type extends FieldType
     /**
      * Throws an exception if value structure is not of expected format.
      *
-     * @throws InvalidArgumentException If the value does not match the expected structure.
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException If the value does not match the expected structure.
      *
      * @param \Ibexa\Core\FieldType\BinaryBase\Value $value
      */
@@ -280,7 +279,7 @@ abstract class Type extends FieldType
     /**
      * Validates a field based on the validators in the field definition.
      *
-     * @throws InvalidArgumentException
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      *
      * @param FieldDefinition $fieldDefinition The field definition of the field
      * @param \Ibexa\Core\FieldType\BinaryBase\Value $fieldValue The field value for which an action is performed

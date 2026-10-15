@@ -63,10 +63,10 @@ final class DoctrineMigrationsSchemaHookTest extends TestCase
     {
         // An empty migration list makes run() stop right after ensureInitialized(), so no
         // connection, executor or plan is needed to tell "ran" from "didn't run" apart.
-        $planCalculator = $this->createStub(MigrationPlanCalculator::class);
+        $planCalculator = self::createStub(MigrationPlanCalculator::class);
         $planCalculator->method('getMigrations')->willReturn(new AvailableMigrationsList([]));
 
-        $dependencyFactory = $this->createStub(DependencyFactory::class);
+        $dependencyFactory = self::createStub(DependencyFactory::class);
         $dependencyFactory->method('getMetadataStorage')->willReturn($metadataStorage);
         $dependencyFactory->method('getMigrationPlanCalculator')->willReturn($planCalculator);
 

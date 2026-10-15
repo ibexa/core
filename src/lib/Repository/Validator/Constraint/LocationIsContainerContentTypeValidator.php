@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository\Validator\Constraint;
 
 use Ibexa\Contracts\Core\Repository\LocationService;
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -17,14 +18,15 @@ final class LocationIsContainerContentTypeValidator extends ConstraintValidator
 {
     public function __construct(
         private LocationService $locationService
-    ) {
-    }
+    ) {}
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct $value
+     * @param LocationCreateStruct $value
      */
-    public function validate($value, Constraint $constraint): void
-    {
+    public function validate(
+        $value,
+        Constraint $constraint
+    ): void {
         if (!$constraint instanceof LocationIsContainerContentType) {
             throw new UnexpectedTypeException($constraint, LocationIsContainerContentType::class);
         }

@@ -36,7 +36,7 @@ final class ExceptionConversion extends Gateway
     ): int {
         try {
             return $this->innerGateway->insertSetting($group, $identifier, $serializedValue);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -51,7 +51,7 @@ final class ExceptionConversion extends Gateway
     ): void {
         try {
             $this->innerGateway->updateSetting($group, $identifier, $serializedValue);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -65,7 +65,7 @@ final class ExceptionConversion extends Gateway
     ): ?array {
         try {
             return $this->innerGateway->loadSetting($group, $identifier);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -77,7 +77,7 @@ final class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadSettingById($id);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -91,7 +91,7 @@ final class ExceptionConversion extends Gateway
     ): void {
         try {
             $this->innerGateway->deleteSetting($group, $identifier);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }

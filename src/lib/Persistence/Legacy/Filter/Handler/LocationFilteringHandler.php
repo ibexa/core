@@ -69,8 +69,10 @@ class LocationFilteringHandler implements Handler
         return $list;
     }
 
-    public function count(Filter $filter, ?int $limit = null): int
-    {
+    public function count(
+        Filter $filter,
+        ?int $limit = null
+    ): int {
         return $this->gateway->count($filter->getCriterion(), $limit);
     }
 }

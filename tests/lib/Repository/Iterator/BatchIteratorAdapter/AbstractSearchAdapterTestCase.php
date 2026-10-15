@@ -67,7 +67,7 @@ abstract class AbstractSearchAdapterTestCase extends TestCase
     /**
      * @phpstan-param TSearchLanguageFilter $languageFilter
      *
-     * @phpstan-return \Ibexa\Contracts\Core\Repository\Iterator\BatchIteratorAdapter\AbstractSearchAdapter<TSearchHitValueObject>
+     * @phpstan-return AbstractSearchAdapter<TSearchHitValueObject>
      */
     abstract protected function createAdapterUnderTest(
         SearchService $searchService,

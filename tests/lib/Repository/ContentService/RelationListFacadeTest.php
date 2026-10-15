@@ -19,11 +19,11 @@ use PHPUnit\Framework\TestCase;
 
 final class RelationListFacadeTest extends TestCase
 {
-    private ContentService&MockObject $contentService;
+    private ContentService & MockObject $contentService;
 
     private RelationListFacade $relationListFacade;
 
-    private VersionInfo&MockObject $versionInfo;
+    private VersionInfo & MockObject $versionInfo;
 
     protected function setUp(): void
     {

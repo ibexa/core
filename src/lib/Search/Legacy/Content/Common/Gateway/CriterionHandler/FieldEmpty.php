@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\FieldTypeService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\IsFieldEmpty;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
@@ -56,7 +57,7 @@ class FieldEmpty extends FieldBase
      */
     public function accept(CriterionInterface $criterion): bool
     {
-        return $criterion instanceof Criterion\IsFieldEmpty;
+        return $criterion instanceof IsFieldEmpty;
     }
 
     /**
@@ -74,7 +75,7 @@ class FieldEmpty extends FieldBase
         if ($fieldIdentifier === null) {
             throw new InvalidArgumentException(
                 '$criterion->target',
-                sprintf('Criterion target must be set for %s criterion.', Criterion\IsFieldEmpty::class)
+                sprintf('Criterion target must be set for %s criterion.', IsFieldEmpty::class)
             );
         }
 
@@ -107,7 +108,7 @@ class FieldEmpty extends FieldBase
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\IsFieldEmpty $criterion
+     * @param IsFieldEmpty $criterion
      */
     public function handle(
         CriteriaConverter $converter,

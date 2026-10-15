@@ -17,7 +17,7 @@ class SectionIdentifier extends Criterion implements FilteringCriterion
     /**
      * @param string|string[] $value
      */
-    public function __construct(string|array $value)
+    public function __construct(string | array $value)
     {
         parent::__construct(null, null, $value);
     }

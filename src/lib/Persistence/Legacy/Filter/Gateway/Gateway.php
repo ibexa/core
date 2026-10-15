@@ -21,7 +21,10 @@ interface Gateway
     /**
      * Return number of matched rows for the given Criteria (a total count w/o pagination constraints, Unless a limit is passed).
      */
-    public function count(FilteringCriterion $criterion, ?int $limit = null): int;
+    public function count(
+        FilteringCriterion $criterion,
+        ?int $limit = null
+    ): int;
 
     /**
      * Return iterator for raw Repository data for the given Query result filtered by the given Criteria,

@@ -193,7 +193,9 @@ class UrlAliasHandler extends AbstractInMemoryPersistenceHandler implements UrlA
 
                 return $tags;
             },
-            static function () { return []; },
+            static function () {
+                return [];
+            },
             function () use ($locationId) {
                 return [
                     $this->cacheIdentifierGenerator->generateTag(self::URL_ALIAS_LOCATION_IDENTIFIER, [$locationId]),

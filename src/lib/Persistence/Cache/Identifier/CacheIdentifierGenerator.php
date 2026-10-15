@@ -18,9 +18,8 @@ use Psr\Log\NullLogger;
  */
 final class CacheIdentifierGenerator implements CacheIdentifierGeneratorInterface, LoggerAwareInterface
 {
-    private const PLACEHOLDER = '-%s';
-
     use LoggerAwareTrait;
+    private const PLACEHOLDER = '-%s';
 
     /** @var string */
     private $prefix;

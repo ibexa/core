@@ -37,7 +37,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->updateUrl($url);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -51,7 +51,7 @@ class ExceptionConversion extends Gateway
     ) {
         try {
             return $this->innerGateway->find($criterion, $offset, $limit, $sortClauses, $doCount);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -60,7 +60,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->findUsages($id);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -69,7 +69,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadUrlData($id);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }
@@ -78,7 +78,7 @@ class ExceptionConversion extends Gateway
     {
         try {
             return $this->innerGateway->loadUrlDataByUrl($url);
-        } catch (DBALException|PDOException $e) {
+        } catch (DBALException | PDOException $e) {
             throw DatabaseException::wrap($e);
         }
     }

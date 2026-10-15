@@ -57,7 +57,7 @@ final class OnAuthenticationTokenCreatedRepositoryUserSubscriberTest extends Tes
     }
 
     /**
-     * @return iterable<string, array{\Symfony\Component\Security\Core\User\UserInterface, bool}>
+     * @return iterable<string, array{UserInterface, bool}>
      */
     public function dataProviderForTestSettingCurrentUserReference(): iterable
     {

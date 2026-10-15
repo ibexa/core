@@ -74,9 +74,9 @@ class NameSchemaService implements NameSchemaServiceInterface
         $this->fieldTypeRegistry = $fieldTypeRegistry;
         // Union makes sure default settings are ignored if provided in argument
         $this->settings = $settings + [
-                'limit' => 150,
-                'sequence' => '...',
-            ];
+            'limit' => 150,
+            'sequence' => '...',
+        ];
         $this->eventDispatcher = $eventDispatcher;
         $this->schemaIdentifierExtractor = $schemaIdentifierExtractor;
     }
