@@ -438,24 +438,6 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
         );
     }
 
-    /**
-     * @deprecated Since 7.2, use buildLocationWithContent(), buildLocation() or (private) mapLocation() instead.
-     */
-    public function buildLocationDomainObject(
-        SPILocation $spiLocation,
-        ?SPIContentInfo $contentInfo = null
-    ) {
-        if ($contentInfo === null) {
-            return $this->buildLocation($spiLocation);
-        }
-
-        return $this->mapLocation(
-            $spiLocation,
-            $this->buildContentInfoDomainObject($contentInfo),
-            $this->buildContentProxy($contentInfo)
-        );
-    }
-
     public function buildLocation(
         SPILocation $spiLocation,
         array $prioritizedLanguages = [],
