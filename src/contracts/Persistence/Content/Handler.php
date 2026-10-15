@@ -333,12 +333,12 @@ interface Handler
      *                 \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::EMBED,
      *                 \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::LINK,
      *                 \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::FIELD}
-     * @param ?int $destinationContentId Content id to invalidate cache tag related to content reverse relations count
+     * @param int $destinationContentId Content id to invalidate cache tag related to content reverse relations count
      */
     public function removeRelation(
         $relationId,
         $type,
-        ?int $destinationContentId = null
+        int $destinationContentId
     );
 
     /**
