@@ -192,10 +192,10 @@ class Handler implements BaseLocationHandler
         $defaultObjectStatesMap = [];
 
         foreach ($this->objectStateHandler->loadAllGroups() as $objectStateGroup) {
-            foreach ($this->objectStateHandler->loadObjectStates($objectStateGroup->id) as $objectState) {
-                // Only register the first object state which is the default one.
-                $defaultObjectStatesMap[$objectStateGroup->id] = $objectState;
-                break;
+            try {
+                $defaultObjectStatesMap[$objectStateGroup->id] = $this->objectStateHandler->loadDefaultObjectState($objectStateGroup->id);
+            } catch (NotFoundException) {
+                // group without states
             }
         }
 

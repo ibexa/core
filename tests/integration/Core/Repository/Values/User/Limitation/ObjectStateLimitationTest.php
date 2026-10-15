@@ -259,8 +259,10 @@ class ObjectStateLimitationTest extends BaseLimitationTestCase
      * @throws UnauthorizedException
      */
     #[DataProvider('providerForPublishOnContentCreateStruct')]
-    public function testPublishOnContentCreateStructMatchesCreatedContent(int $objectStateId, bool $expected): void
-    {
+    public function testPublishOnContentCreateStructMatchesCreatedContent(
+        int $objectStateId,
+        bool $expected
+    ): void {
         $repository = $this->getRepository();
         $contentService = $repository->getContentService();
         $permissionResolver = $repository->getPermissionResolver();

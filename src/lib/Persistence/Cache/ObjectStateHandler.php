@@ -159,6 +159,14 @@ class ObjectStateHandler extends AbstractInMemoryPersistenceHandler implements O
         );
     }
 
+    public function loadDefaultObjectState(int $groupId): ObjectState
+    {
+        // Not cached: a cached value would need tags of every state in the group to survive priority changes
+        $this->logger->logCall(__METHOD__, ['groupId' => $groupId]);
+
+        return $this->persistenceHandler->objectStateHandler()->loadDefaultObjectState($groupId);
+    }
+
     /**
      * {@inheritdoc}
      */
