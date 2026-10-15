@@ -38,10 +38,8 @@ class Handler implements UrlAliasHandlerInterface
      * This is intentionally hardcoded for now as:
      * 1. We don't implement this configuration option.
      * 2. Such option should not be in this layer, should be handled higher up.
-     *
-     * @deprecated
      */
-    public const CONTENT_REPOSITORY_ROOT_LOCATION_ID = 2;
+    private const CONTENT_REPOSITORY_ROOT_LOCATION_ID = 2;
 
     /**
      * The maximum level of alias depth.
