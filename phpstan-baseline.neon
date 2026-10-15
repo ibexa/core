@@ -15577,12 +15577,6 @@ parameters:
 			path: src/lib/Repository/Mapper/ContentDomainMapper.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Repository\\Mapper\\ContentDomainMapper\:\:buildLocationDomainObject\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Repository/Mapper/ContentDomainMapper.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Repository\\Mapper\\ContentDomainMapper\:\:buildLocationDomainObjectsOnSearchResult\(\) has parameter \$languageFilter with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
