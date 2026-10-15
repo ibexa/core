@@ -377,13 +377,6 @@ final class ExceptionConversion extends Gateway
         }
     }
 
-    public function removeByUserAndVersion(
-        int $userId,
-        int $version
-    ): void {
-        $this->removeByUserAndStatus($userId, $version);
-    }
-
     public function removeByUserAndStatus(
         int $userId,
         int $status

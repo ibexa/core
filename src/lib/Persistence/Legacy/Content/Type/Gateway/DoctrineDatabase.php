@@ -1582,16 +1582,6 @@ final class DoctrineDatabase extends Gateway
     /**
      * @throws Exception
      */
-    public function removeByUserAndVersion(
-        int $userId,
-        int $version
-    ): void {
-        $this->removeByUserAndStatus($userId, $version);
-    }
-
-    /**
-     * @throws Exception
-     */
     private function cleanupAssociations(): void
     {
         $this->cleanupClassAttributeTable();
