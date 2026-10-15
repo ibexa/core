@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Bundle\Core\Fragment;
 use Ibexa\Bundle\Core\Fragment\DecoratedFragmentRenderer;
 use Ibexa\Bundle\Core\Fragment\SiteAccessSerializer;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,10 +25,13 @@ class DecoratedFragmentRendererTest extends FragmentRendererBaseTestCase
 {
     protected FragmentRendererInterface & MockObject $innerRenderer;
 
+    protected SiteAccessServiceInterface & MockObject $siteAccessService;
+
     protected function setUp(): void
     {
         parent::setUp();
         $this->innerRenderer = $this->createMock(FragmentRendererInterface::class);
+        $this->siteAccessService = $this->createMock(SiteAccessServiceInterface::class);
     }
 
     public function testSetFragmentPathNotRoutableRenderer(): void
@@ -38,8 +42,9 @@ class DecoratedFragmentRendererTest extends FragmentRendererBaseTestCase
             ->expects(self::never())
             ->method('analyseLink');
 
+        $this->siteAccessService->method('getCurrent')->willReturn($siteAccess);
+
         $renderer = $this->getRenderer();
-        $renderer->setSiteAccess($siteAccess);
         if ($renderer instanceof RoutableFragmentRenderer) {
             $renderer->setFragmentPath('foo');
         }
@@ -55,13 +60,14 @@ class DecoratedFragmentRendererTest extends FragmentRendererBaseTestCase
             ->with('/foo')
             ->willReturn('/bar/foo');
 
+        $this->siteAccessService->method('getCurrent')->willReturn($siteAccess);
+
         $innerRenderer = $this->createMock(RoutableFragmentRenderer::class);
         $innerRenderer
             ->expects(self::once())
             ->method('setFragmentPath')
             ->with('/bar/foo');
-        $renderer = new DecoratedFragmentRenderer($innerRenderer, new SiteAccessSerializer($this->getSerializer()));
-        $renderer->setSiteAccess($siteAccess);
+        $renderer = new DecoratedFragmentRenderer($innerRenderer, new SiteAccessSerializer($this->getSerializer()), $this->siteAccessService);
         $renderer->setFragmentPath('/foo');
     }
 
@@ -136,11 +142,8 @@ class DecoratedFragmentRendererTest extends FragmentRendererBaseTestCase
         return $request;
     }
 
-    /**
-     * @return \Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface&\Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware
-     */
     public function getRenderer(): FragmentRendererInterface
     {
-        return new DecoratedFragmentRenderer($this->innerRenderer, new SiteAccessSerializer($this->getSerializer()));
+        return new DecoratedFragmentRenderer($this->innerRenderer, new SiteAccessSerializer($this->getSerializer()), $this->siteAccessService);
     }
 }

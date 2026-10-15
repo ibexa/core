@@ -11,8 +11,8 @@ namespace Ibexa\Bundle\Core\Routing;
 use Ibexa\Core\MVC\Symfony\Routing\RequestContextFactory;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
-use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess\URILexer;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,10 +28,8 @@ use Symfony\Component\Routing\RouterInterface;
  * Matching honours the `semanticPathinfo` request attribute set by the SiteAccess matcher, and link generation
  * prepends the SiteAccess URI part (for URI-based SiteAccess matchers) and supports the `siteaccess` route parameter.
  */
-final class DefaultRouter implements RouterInterface, RequestMatcherInterface, WarmableInterface, SiteAccessAware
+final class DefaultRouter implements RouterInterface, RequestMatcherInterface, WarmableInterface
 {
-    private ?SiteAccess $siteAccess = null;
-
     /**
      * @param string[] $nonSiteAccessAwareRoutes route name prefixes that are not supposed to be SiteAccess aware,
      *        i.e. routes pointing to asset generation
@@ -39,14 +37,10 @@ final class DefaultRouter implements RouterInterface, RequestMatcherInterface, W
     public function __construct(
         private readonly RouterInterface&RequestMatcherInterface $innerRouter,
         private readonly SiteAccessRouterInterface $siteAccessRouter,
+        private readonly SiteAccessServiceInterface $siteAccessService,
         private readonly array $nonSiteAccessAwareRoutes = [],
         private readonly ?LoggerInterface $logger = null
     ) {
-    }
-
-    public function setSiteAccess(?SiteAccess $siteAccess = null): void
-    {
-        $this->siteAccess = $siteAccess;
     }
 
     public function setContext(RequestContext $context): void
@@ -93,7 +87,7 @@ final class DefaultRouter implements RouterInterface, RequestMatcherInterface, W
      */
     public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH): string
     {
-        $siteAccess = $this->siteAccess;
+        $siteAccess = $this->siteAccessService->getCurrent();
         $originalContext = $context = $this->getContext();
         $isSiteAccessAware = $this->isSiteAccessAwareRoute($name);
 
@@ -105,7 +99,7 @@ final class DefaultRouter implements RouterInterface, RequestMatcherInterface, W
                 $context = $this->getContextBySimplifiedRequest($siteAccess->matcher->getRequest());
                 $this->setContext($context);
             } else {
-                $siteAccess = $this->siteAccess;
+                $siteAccess = $this->siteAccessService->getCurrent();
                 $this->logger?->notice("Could not generate a link using provided 'siteaccess' parameter: {$parameters['siteaccess']}. Generating using current context.");
             }
 

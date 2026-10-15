@@ -7,8 +7,6 @@
 
 namespace Ibexa\Bundle\Core\Fragment;
 
-use Ibexa\Core\MVC\Symfony\SiteAccess;
-use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
@@ -16,11 +14,9 @@ use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
 use Symfony\Component\HttpKernel\Fragment\InlineFragmentRenderer as BaseRenderer;
 use Symfony\Component\HttpKernel\Fragment\RoutableFragmentRenderer;
 
-class InlineFragmentRenderer extends BaseRenderer implements SiteAccessAware, FragmentRendererInterface
+class InlineFragmentRenderer extends BaseRenderer implements FragmentRendererInterface
 {
     protected FragmentRendererInterface $innerRenderer;
-
-    private ?SiteAccess $siteAccess = null;
 
     private SiteAccessSerializerInterface $siteAccessSerializer;
 
@@ -37,11 +33,6 @@ class InlineFragmentRenderer extends BaseRenderer implements SiteAccessAware, Fr
         if ($this->innerRenderer instanceof RoutableFragmentRenderer) {
             $this->innerRenderer->setFragmentPath($path);
         }
-    }
-
-    public function setSiteAccess(?SiteAccess $siteAccess = null): void
-    {
-        $this->siteAccess = $siteAccess;
     }
 
     /**

@@ -12,10 +12,12 @@ use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Router as SiteAccessRouter;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -31,14 +33,18 @@ class SiteAccessMatchListener implements EventSubscriberInterface
 
     private SerializerInterface $serializer;
 
+    private SiteAccessServiceInterface $siteAccessService;
+
     public function __construct(
         SiteAccessRouter $siteAccessRouter,
         EventDispatcherInterface $eventDispatcher,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
+        SiteAccessServiceInterface $siteAccessService
     ) {
         $this->siteAccessRouter = $siteAccessRouter;
         $this->eventDispatcher = $eventDispatcher;
         $this->serializer = $serializer;
+        $this->siteAccessService = $siteAccessService;
     }
 
     public static function getSubscribedEvents(): array
@@ -89,6 +95,15 @@ class SiteAccessMatchListener implements EventSubscriberInterface
         if ($siteaccess instanceof SiteAccess) {
             $siteAccessEvent = new PostSiteAccessMatchEvent($siteaccess, $request, $event->getRequestType());
             $this->eventDispatcher->dispatch($siteAccessEvent, MVCEvents::SITEACCESS);
+
+            // SiteAccessService establishes the base of its stack by reacting to this same event
+            // for MAIN_REQUEST (see SiteAccessService::onSiteAccessMatch()); a sub-request's
+            // SiteAccess is a nested change on top of that, so push it the same way any other
+            // caller would, via changeSiteAccess(). SiteAccessRestoreListener pops it back off via
+            // restoreSiteAccess() once this sub-request finishes.
+            if ($event->getRequestType() === HttpKernelInterface::SUB_REQUEST) {
+                $this->siteAccessService->changeSiteAccess($siteaccess);
+            }
         }
     }
 

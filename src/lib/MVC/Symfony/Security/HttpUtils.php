@@ -8,22 +8,28 @@
 namespace Ibexa\Core\MVC\Symfony\Security;
 
 use Ibexa\Core\MVC\Symfony\SiteAccess;
-use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
+use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
 use Symfony\Component\Security\Http\HttpUtils as BaseHttpUtils;
 
-class HttpUtils extends BaseHttpUtils implements SiteAccessAware
+class HttpUtils extends BaseHttpUtils
 {
-    private ?SiteAccess $siteAccess;
-
-    public function setSiteAccess(?SiteAccess $siteAccess = null): void
-    {
-        $this->siteAccess = $siteAccess;
+    public function __construct(
+        ?UrlGeneratorInterface $urlGenerator = null,
+        UrlMatcherInterface|RequestMatcherInterface|null $urlMatcher = null,
+        ?string $domainRegexp = null,
+        ?string $secureDomainRegexp = null,
+        private ?SiteAccessServiceInterface $siteAccessService = null,
+    ) {
+        parent::__construct($urlGenerator, $urlMatcher, $domainRegexp, $secureDomainRegexp);
     }
 
     private function analyzeLink(string $path): string
     {
-        $matcher = $this->siteAccess?->matcher;
+        $matcher = $this->siteAccessService?->getCurrent()?->matcher;
         if ($path[0] === '/' && $matcher instanceof SiteAccess\URILexer) {
             $path = $matcher->analyseLink($path);
         }

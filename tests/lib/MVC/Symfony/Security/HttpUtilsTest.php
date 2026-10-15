@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Security;
 
 use Ibexa\Core\MVC\Symfony\Security\HttpUtils;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,8 +21,8 @@ class HttpUtilsTest extends TestCase
     public function testGenerateUriStandard($uri, $isUriRouteName, $expected): void
     {
         $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
-        $httpUtils = new HttpUtils($urlGenerator);
-        $httpUtils->setSiteAccess(new SiteAccess('test'));
+        $siteAccessService = $this->createSiteAccessServiceReturning(new SiteAccess('test'));
+        $httpUtils = new HttpUtils($urlGenerator, null, null, null, $siteAccessService);
         $request = Request::create('http://ezpublish.dev/');
         $request->attributes->set('siteaccess', new SiteAccess('test'));
         $requestAttributes = ['foo' => 'bar', 'some' => 'thing'];
@@ -32,7 +33,7 @@ class HttpUtilsTest extends TestCase
                 ->expects(self::once())
                 ->method('generate')
                 ->with($uri, $requestAttributes, UrlGeneratorInterface::ABSOLUTE_URL)
-                ->will(self::returnValue($expected . '?' . http_build_query($requestAttributes)));
+                ->willReturn($expected . '?' . http_build_query($requestAttributes));
         }
 
         self::assertSame($expected, $httpUtils->generateUri($request, $uri));
@@ -62,13 +63,13 @@ class HttpUtilsTest extends TestCase
                 ->expects(self::once())
                 ->method('analyseLink')
                 ->with($uri)
-                ->will(self::returnValue($siteAccessUri . $uri));
+                ->willReturn($siteAccessUri . $uri);
             $siteAccess->matcher = $matcher;
         }
 
         $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
-        $httpUtils = new HttpUtils($urlGenerator);
-        $httpUtils->setSiteAccess($siteAccess);
+        $siteAccessService = $this->createSiteAccessServiceReturning($siteAccess);
+        $httpUtils = new HttpUtils($urlGenerator, null, null, null, $siteAccessService);
         $request = Request::create('http://ezpublish.dev/');
         $request->attributes->set('siteaccess', $siteAccess);
         $requestAttributes = ['foo' => 'bar', 'some' => 'thing'];
@@ -79,7 +80,7 @@ class HttpUtilsTest extends TestCase
                 ->expects(self::once())
                 ->method('generate')
                 ->with($uri, $requestAttributes, UrlGeneratorInterface::ABSOLUTE_URL)
-                ->will(self::returnValue($expected . '?' . http_build_query($requestAttributes)));
+                ->willReturn($expected . '?' . http_build_query($requestAttributes));
         }
 
         $res = $httpUtils->generateUri($request, $uri);
@@ -102,8 +103,8 @@ class HttpUtilsTest extends TestCase
 
     public function testCheckRequestPathStandard(): void
     {
-        $httpUtils = new HttpUtils();
-        $httpUtils->setSiteAccess(new SiteAccess('test'));
+        $siteAccessService = $this->createSiteAccessServiceReturning(new SiteAccess('test'));
+        $httpUtils = new HttpUtils(null, null, null, null, $siteAccessService);
         $request = Request::create('http://ezpublish.dev/foo/bar');
         self::assertTrue($httpUtils->checkRequestPath($request, '/foo/bar'));
     }
@@ -118,12 +119,12 @@ class HttpUtilsTest extends TestCase
                 ->expects(self::once())
                 ->method('analyseLink')
                 ->with($path)
-                ->will(self::returnValue($siteAccessUri . $path));
+                ->willReturn($siteAccessUri . $path);
             $siteAccess->matcher = $matcher;
         }
 
-        $httpUtils = new HttpUtils();
-        $httpUtils->setSiteAccess($siteAccess);
+        $siteAccessService = $this->createSiteAccessServiceReturning($siteAccess);
+        $httpUtils = new HttpUtils(null, null, null, null, $siteAccessService);
         $request = Request::create($requestUri);
         self::assertSame($expected, $httpUtils->checkRequestPath($request, $path));
     }
@@ -141,5 +142,13 @@ class HttpUtilsTest extends TestCase
             ['/foo', '/test_access', 'http://ezpublish.dev/test_access/foo/bar?some=thing&toto=tata', false],
             ['/foo/bar', '/blabla', 'http://ezpublish.dev/blabla/foo/bar', true],
         ];
+    }
+
+    private function createSiteAccessServiceReturning(SiteAccess $siteAccess): SiteAccessServiceInterface
+    {
+        $siteAccessService = $this->createMock(SiteAccessServiceInterface::class);
+        $siteAccessService->method('getCurrent')->willReturn($siteAccess);
+
+        return $siteAccessService;
     }
 }

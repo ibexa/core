@@ -14,8 +14,12 @@ use Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension;
 use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory;
 use Ibexa\Bundle\IO\DependencyInjection\IbexaIOExtension;
 use Ibexa\Core\IO\UrlDecorator\AbsolutePrefix;
+use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService;
 use Ibexa\Tests\Integration\Core\Repository\Container\Compiler\SetAllServicesPublicPass;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Yaml\Yaml;
 
 class IbexaIOExtensionTest extends AbstractExtensionTestCase
@@ -86,6 +90,10 @@ class IbexaIOExtensionTest extends AbstractExtensionTestCase
         );
         $this->buildMinimalContainerForUrlPrefixTest();
 
+        $siteAccessService = $this->container->get(SiteAccessService::class);
+        self::assertInstanceOf(SiteAccessService::class, $siteAccessService);
+        $siteAccessService->changeSiteAccess(new SiteAccess('site'));
+
         $decorator = $this->container->get(AbsolutePrefix::class);
 
         self::assertEquals(
@@ -101,6 +109,7 @@ class IbexaIOExtensionTest extends AbstractExtensionTestCase
         $this->container->setParameter('kernel.debug', true);
         $this->container->setParameter('kernel.project_dir', self::FIXTURES_DIR);
         $this->container->setParameter('kernel.cache_dir', self::FIXTURES_DIR . '/cache');
+        $this->container->setDefinition('event_dispatcher', new Definition(EventDispatcher::class));
 
         $this->container->addCompilerPass(new ChainConfigResolverPass());
         $this->container->addCompilerPass(new SetAllServicesPublicPass());

@@ -13,7 +13,7 @@ use Ibexa\Bundle\Core\SiteAccess\Config\ComplexConfigProcessor;
 use Ibexa\Contracts\Core\SiteAccess\ConfigProcessor;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Container\Compiler;
-use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Ibexa\Tests\Integration\Core\Repository\Container\Compiler\SetAllServicesPublicPass;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 use Symfony\Component\Config\FileLocator;
@@ -166,7 +166,7 @@ final class LegacyTestContainerBuilder extends ContainerBuilder
 
         $definition = new Definition(ComplexConfigProcessor::class);
         $definition->setArgument('$configResolver', new Reference(ConfigResolverInterface::class));
-        $definition->setArgument('$siteAccessService', new Reference(SiteAccessService::class));
+        $definition->setArgument('$siteAccessService', new Reference(SiteAccessServiceInterface::class));
 
         $this->setDefinition(ConfigProcessor::class, $definition);
     }

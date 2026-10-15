@@ -13,7 +13,7 @@ use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Security\Authentication\AnonymousUserAccessListener;
-use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -29,7 +29,7 @@ final class SecurityPassTest extends AbstractCompilerPassTestCase
         $this->setDefinition('security.http_utils', new Definition());
         $this->setDefinition('security.authentication.success_handler', new Definition());
         $this->setDefinition(ConfigResolverInterface::class, new Definition());
-        $this->setDefinition(SiteAccess::class, new Definition());
+        $this->setDefinition(SiteAccessServiceInterface::class, new Definition());
         $this->setDefinition(PermissionResolver::class, new Definition());
         $this->setDefinition(UserService::class, new Definition());
     }
@@ -43,10 +43,10 @@ final class SecurityPassTest extends AbstractCompilerPassTestCase
     {
         $this->compile();
 
-        $this->assertContainerBuilderHasServiceDefinitionWithMethodCall(
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument(
             'security.http_utils',
-            'setSiteAccess',
-            [new Reference(SiteAccess::class)]
+            '$siteAccessService',
+            new Reference(SiteAccessServiceInterface::class)
         );
     }
 
