@@ -13,6 +13,4 @@ use Ibexa\Contracts\Test\Core\Schema\AbstractSchemaAlignmentTestCase;
 /**
  * @coversNothing
  */
-final class SchemaAlignmentTest extends AbstractSchemaAlignmentTestCase
-{
-}
+final class SchemaAlignmentTest extends AbstractSchemaAlignmentTestCase {}
