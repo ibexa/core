@@ -25,9 +25,15 @@ final class TrustedHeaderClientIpEventSubscriber implements EventSubscriberInter
     public function onKernelRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
+        $trustedHeaderSet = Request::getTrustedHeaderSet();
+
+        // -1 means framework.trusted_proxies is not configured; passing it on would trust every forwarded header
+        if ($trustedHeaderSet === -1) {
+            return;
+        }
 
         if ($this->isPlatformShProxy($request) && $request->headers->get('Client-Cdn') === 'fastly') {
-            Request::setTrustedProxies(['REMOTE_ADDR'], Request::getTrustedHeaderSet());
+            Request::setTrustedProxies(['REMOTE_ADDR'], $trustedHeaderSet);
         }
     }
 
