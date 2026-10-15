@@ -74,7 +74,7 @@ class ViewProvidersPass implements CompilerPassInterface
             );
         }
 
-        // 5.4.5 BC service after location view deprecation
+        // Lets PreviewController detect views rendered with a custom controller
         if ($container->hasDefinition(CustomLocationControllerChecker::class)) {
             $container->getDefinition(CustomLocationControllerChecker::class)->addMethodCall(
                 'addViewProviders',
