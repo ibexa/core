@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\QueryType\BuiltIn;
 
 use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier;
@@ -129,8 +130,10 @@ abstract class AbstractQueryType extends OptionsResolverBasedQueryType
 
     private function getRootLocationPathString(): string
     {
-        $rootLocation = $this->repository->getLocationService()->loadLocation(
-            $this->configResolver->getParameter('content.tree_root.location_id')
+        $rootLocationId = $this->configResolver->getParameter('content.tree_root.location_id');
+        // The tree root is needed only for its path string, so it doesn't have to be readable by the current user
+        $rootLocation = $this->repository->sudo(
+            static fn (Repository $repository): Location => $repository->getLocationService()->loadLocation($rootLocationId)
         );
 
         return $rootLocation->pathString;
