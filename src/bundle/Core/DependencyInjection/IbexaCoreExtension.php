@@ -358,8 +358,8 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
         ContainerBuilder $container
     ): void {
         $container->setParameter(
-            'ibexa.installer.schema_builder_event.enabled',
-            $config['installer']['schema_builder_event']['enabled'] ?? true
+            'ibexa.installer.doctrine_migrations.enabled',
+            $config['installer']['doctrine_migrations']['enabled']
         );
     }
 
