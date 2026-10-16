@@ -157,7 +157,7 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
         $versionNo = null,
         ?array $translations = null
     ) {
-        $keySuffix = $versionNo ? "-{$versionNo}-" : '-';
+        $keySuffix = null !== $versionNo ? "-{$versionNo}-" : '-';
         $keySuffix .= empty($translations) ? self::ALL_TRANSLATIONS_KEY : implode('|', $translations);
 
         return $this->getCacheValue(
@@ -268,7 +268,7 @@ class ContentHandler extends AbstractInMemoryPersistenceHandler implements Conte
         $contentId,
         $versionNo = null
     ) {
-        $keySuffix = $versionNo ? "-{$versionNo}" : '';
+        $keySuffix = null !== $versionNo ? "-{$versionNo}" : '';
         $cacheItem = $this->cache->getItem(
             $this->cacheIdentifierGenerator->generateKey(
                 self::CONTENT_VERSION_INFO_IDENTIFIER,
