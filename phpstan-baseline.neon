@@ -1567,12 +1567,6 @@ parameters:
 			path: src/bundle/Core/EventListener/CacheViewResponseListener.php
 
 		-
-			message: '#^Parameter \#2 \$values of method Symfony\\Component\\HttpFoundation\\ResponseHeaderBag\:\:set\(\) expects array\<string\>\|string\|null, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/bundle/Core/EventListener/CacheViewResponseListener.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\EventListener\\ConfigScopeListener\:\:__construct\(\) has parameter \$configResolvers with no value type specified in iterable type iterable\.$#'
 			identifier: missingType.iterableValue
 			count: 1
