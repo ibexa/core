@@ -31,7 +31,9 @@
         "ibexa/doctrine-migrations": "~5.0.x-dev",
         "ibexa/doctrine-schema": "~5.0.x-dev",
         "ibexa/jms-translation-bundle": "^2.6.1",
-        "league/flysystem-memory": "^2.0.6",
+        "league/flysystem": "^2.5 || ^3.36",
+        "league/flysystem-memory": "^2.0.6 || ^3.0",
+        "league/mime-type-detection": "^1.0",
         "liip/imagine-bundle": "^2.3",
         "nelmio/cors-bundle": "^2.0",
         "oneup/flysystem-bundle": "^4.4.2",
@@ -63,6 +65,7 @@
         "twig/twig": ">=3.0 <3.16 || ^3.19.0"
     },
     "require-dev": {
+        "composer-runtime-api": "^2.0",
         "behat/behat": "^3.6.1",
         "dama/doctrine-test-bundle": "^8.0",
         "friends-of-behat/mink-extension": "^2.4",
