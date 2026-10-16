@@ -885,7 +885,7 @@ class Handler implements BaseContentHandler
     public function removeRelation(
         $relationId,
         $type,
-        ?int $destinationContentId = null
+        int $destinationContentId
     ): void {
         $this->contentGateway->deleteRelation($relationId, $type);
     }

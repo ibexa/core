@@ -134,25 +134,6 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         $this->assertContainerBuilderHasParameter('ibexa.site_access.match_config', null);
     }
 
-    public function testImageMagickConfigurationBasic(): void
-    {
-        if (!isset($_ENV['imagemagickConvertPath']) || !is_executable($_ENV['imagemagickConvertPath'])) {
-            self::markTestSkipped('Missing or mis-configured Imagemagick convert path.');
-        }
-
-        $this->load(
-            [
-                'imagemagick' => [
-                    'enabled' => true,
-                    'path' => $_ENV['imagemagickConvertPath'],
-                ],
-            ]
-        );
-        $this->assertContainerBuilderHasParameter('ibexa.image.imagemagick.enabled', true);
-        $this->assertContainerBuilderHasParameter('ibexa.image.imagemagick.executable_path', dirname($_ENV['imagemagickConvertPath']));
-        $this->assertContainerBuilderHasParameter('ibexa.image.imagemagick.executable', basename($_ENV['imagemagickConvertPath']));
-    }
-
     #[DataProvider('translationsConfigurationProvider')]
     public function testUITranslationsConfiguration(
         bool $enabled,
@@ -187,33 +168,6 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
             false,
             false,
         ];
-    }
-
-    public function testImageMagickConfigurationFilters(): void
-    {
-        if (!isset($_ENV['imagemagickConvertPath']) || !is_executable($_ENV['imagemagickConvertPath'])) {
-            self::markTestSkipped('Missing or mis-configured Imagemagick convert path.');
-        }
-
-        $customFilters = [
-            'foobar' => '-foobar',
-            'wow' => '-amazing',
-        ];
-        $this->load(
-            [
-                'imagemagick' => [
-                    'enabled' => true,
-                    'path' => $_ENV['imagemagickConvertPath'],
-                    'filters' => $customFilters,
-                ],
-            ]
-        );
-        self::assertTrue($this->container->hasParameter('ibexa.image.imagemagick.filters'));
-        $filters = $this->container->getParameter('ibexa.image.imagemagick.filters');
-        self::assertArrayHasKey('foobar', $filters);
-        self::assertSame($customFilters['foobar'], $filters['foobar']);
-        self::assertArrayHasKey('wow', $filters);
-        self::assertSame($customFilters['wow'], $filters['wow']);
     }
 
     public function testImagePlaceholderConfiguration(): void
@@ -324,7 +278,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         $this->setDefinition($serviceId, new Definition());
         $this->load(
             [
-                'http_cache' => ['purge_type' => 'foobar', 'timeout' => 12],
+                'http_cache' => ['purge_type' => 'foobar'],
             ]
         );
 
@@ -622,116 +576,6 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
                 'storage' => [
                     'engine' => 'persistentprudence',
                     'connection' => 'yes',
-                    'config' => [],
-                ],
-                'search' => [
-                    'engine' => '%ibexa.api.search_engine.default%',
-                    'connection' => null,
-                    'config' => [],
-                ],
-                'fields_groups' => [
-                    'list' => ['content', 'metadata'],
-                    'default' => '%ibexa.site_access.config.default.content.field_groups.default%',
-                ],
-                'options' => [
-                    'default_version_archive_limit' => 5,
-                    'remove_archived_versions_on_publish' => true,
-                ],
-            ],
-        ];
-        $this->load(['repositories' => $repositories]);
-        self::assertTrue($this->container->hasParameter('ibexa.repositories'));
-
-        self::assertSame(
-            $expectedRepositories,
-            $this->container->getParameter('ibexa.repositories')
-        );
-    }
-
-    public function testRepositoriesConfigurationCompatibility(): void
-    {
-        $repositories = [
-            'main' => [
-                'engine' => 'legacy',
-                'connection' => 'default',
-                'search' => [
-                    'engine' => 'legacy',
-                    'connection' => 'blabla',
-                ],
-            ],
-            'foo' => [
-                'engine' => 'sqlng',
-                'connection' => 'default',
-                'search' => [
-                    'engine' => 'solr',
-                    'connection' => 'lalala',
-                ],
-            ],
-        ];
-        $expectedRepositories = [
-            'main' => [
-                'search' => [
-                    'engine' => 'legacy',
-                    'connection' => 'blabla',
-                    'config' => [],
-                ],
-                'storage' => [
-                    'engine' => 'legacy',
-                    'connection' => 'default',
-                    'config' => [],
-                ],
-                'fields_groups' => [
-                    'list' => ['content', 'metadata'],
-                    'default' => '%ibexa.site_access.config.default.content.field_groups.default%',
-                ],
-                'options' => [
-                    'default_version_archive_limit' => 5,
-                    'remove_archived_versions_on_publish' => true,
-                ],
-            ],
-            'foo' => [
-                'search' => [
-                    'engine' => 'solr',
-                    'connection' => 'lalala',
-                    'config' => [],
-                ],
-                'storage' => [
-                    'engine' => 'sqlng',
-                    'connection' => 'default',
-                    'config' => [],
-                ],
-                'fields_groups' => [
-                    'list' => ['content', 'metadata'],
-                    'default' => '%ibexa.site_access.config.default.content.field_groups.default%',
-                ],
-                'options' => [
-                    'default_version_archive_limit' => 5,
-                    'remove_archived_versions_on_publish' => true,
-                ],
-            ],
-        ];
-        $this->load(['repositories' => $repositories]);
-        self::assertTrue($this->container->hasParameter('ibexa.repositories'));
-
-        self::assertSame(
-            $expectedRepositories,
-            $this->container->getParameter('ibexa.repositories')
-        );
-    }
-
-    public function testRepositoriesConfigurationCompatibility2(): void
-    {
-        $repositories = [
-            'main' => [
-                'engine' => 'legacy',
-                'connection' => 'default',
-            ],
-        ];
-        $expectedRepositories = [
-            'main' => [
-                'storage' => [
-                    'engine' => 'legacy',
-                    'connection' => 'default',
                     'config' => [],
                 ],
                 'search' => [

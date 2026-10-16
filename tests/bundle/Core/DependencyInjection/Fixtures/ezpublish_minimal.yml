@@ -19,9 +19,6 @@ siteaccess:
             the_front: ibexa_demo_site
             the_back: ibexa_demo_site_admin
 
-imagemagick:
-    enabled: false
-
 http_cache:
     purge_type: local
 

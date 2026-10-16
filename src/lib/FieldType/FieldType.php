@@ -7,7 +7,6 @@
 
 namespace Ibexa\Core\FieldType;
 
-use Ibexa\Contracts\Core\FieldType\Comparable;
 use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue as PersistenceValue;
@@ -33,7 +32,7 @@ use Ibexa\Core\Persistence\TransformationProcessor;
  * Field types are primed and pre-configured with the Field Definitions found in
  * content types.
  */
-abstract class FieldType extends SPIFieldType implements Comparable
+abstract class FieldType extends SPIFieldType
 {
     /**
      * The setting keys which are available on this field type.

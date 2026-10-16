@@ -34,9 +34,6 @@ system:
         fielddefinition_settings_templates:
             - { template: "ibexa_demo_site_template.html.twig", priority: 123 }
 
-imagemagick:
-    enabled: false
-
 http_cache:
     purge_type: local
 

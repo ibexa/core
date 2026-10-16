@@ -32,7 +32,7 @@ final class ConfigurationDumper
     }
 
     /**
-     * @param array<string, array<string, array{'deprecated'?: bool, 'alternative'?: string}>> $webpackConfigNames
+     * @param array<string, array<string, array<string, mixed>>> $webpackConfigNames
      *
      * @throws \JsonException
      */
@@ -54,7 +54,7 @@ final class ConfigurationDumper
 
     /**
      * @param array<string, array{path: string, namespace: string}> $bundlesMetadata
-     * @param array<string, array{'deprecated'?: bool, 'alternative'?: string}> $configFiles
+     * @param array<string, array<string, mixed>> $configFiles
      *
      * @return array<string>
      */
@@ -64,21 +64,11 @@ final class ConfigurationDumper
         string $rootPath
     ): array {
         $paths = [];
-        foreach ($configFiles as $configFile => $options) {
+        foreach (array_keys($configFiles) as $configFile) {
             $finder = $this->createFinder($bundlesMetadata, $configFile, $rootPath);
 
             /** @var SplFileInfo $fileInfo */
             foreach ($finder as $fileInfo) {
-                if ($options['deprecated'] ?? false) {
-                    trigger_deprecation(
-                        'ibexa/core',
-                        '4.0.0',
-                        'Support for old configuration files is deprecated, please update name of %s file, to %s',
-                        $fileInfo->getPathname(),
-                        $options['alternative'] ?? ''
-                    );
-                }
-
                 $path = $fileInfo->getRealPath();
                 if (str_starts_with($path, $rootPath)) {
                     $path = './' . substr($path, strlen($rootPath));

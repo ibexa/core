@@ -119,7 +119,6 @@ class UserService implements UserServiceInterface
         // Union makes sure default settings are ignored if provided in argument
         $this->settings = $settings + [
             'defaultUserPlacement' => 12,
-            'userClassID' => 4, // @deprecated, use `user_content_type_identifier` configuration instead
             'userGroupClassID' => 3,
             'hashType' => $passwordHashGenerator->getDefaultHashType(),
             'siteName' => 'ibexa.co',
