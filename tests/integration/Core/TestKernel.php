@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Repository\TrashService;
 use Ibexa\Contracts\Core\Test\IbexaTestKernel;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;
 use Ibexa\Contracts\Test\Core\IbexaTestKernel as BaseIbexaTestKernel;
+use Ibexa\Core\QueryType\BuiltIn\ChildrenQueryType;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -54,6 +55,7 @@ final class TestKernel extends BaseIbexaTestKernel
         yield TrashService::class;
         yield BookmarkService::class;
         yield Handler::class;
+        yield ChildrenQueryType::class;
     }
 
     public function getFixtures(): iterable
