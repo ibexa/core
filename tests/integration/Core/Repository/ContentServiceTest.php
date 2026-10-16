@@ -2727,6 +2727,19 @@ class ContentServiceTest extends BaseContentServiceTest
     }
 
     /**
+     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadVersionInfoById($contentId, $versionNo)
+     */
+    public function testLoadVersionInfoByIdThrowsNotFoundExceptionForVersionZeroWhenCurrentVersionIsCached(): void
+    {
+        $content = $this->createContentVersion1();
+        $this->contentService->loadVersionInfoById($content->id);
+
+        $this->expectException(NotFoundException::class);
+
+        $this->contentService->loadVersionInfoById($content->id, 0);
+    }
+
+    /**
      * Test for the loadContentByVersionInfo() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContentByVersionInfo($versionInfo, $languages)
@@ -3057,6 +3070,19 @@ class ContentServiceTest extends BaseContentServiceTest
 
         // This call will fail with a "NotFoundException", because for this content object no versionNo=2 exists.
         $this->contentService->loadContent($content->id, null, 2);
+    }
+
+    /**
+     * @covers \Ibexa\Contracts\Core\Repository\ContentService::loadContent($contentId, $languages, $versionNo)
+     */
+    public function testLoadContentThrowsNotFoundExceptionForVersionZeroWhenCurrentVersionIsCached(): void
+    {
+        $content = $this->createContentVersion1();
+        $this->contentService->loadContent($content->id);
+
+        $this->expectException(NotFoundException::class);
+
+        $this->contentService->loadContent($content->id, null, 0);
     }
 
     /**
