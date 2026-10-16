@@ -91,7 +91,7 @@ final class DropLanguageBitmaskColumnsMigration extends AbstractSqlMigration imp
 
     public static function getCreationDate(): DateTimeImmutable
     {
-        return new DateTimeImmutable('2026-09-29 00:00:05');
+        return new DateTimeImmutable('2026-09-29 05:00:00');
     }
 
     public function up(Schema $schema): void

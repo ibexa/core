@@ -71,7 +71,7 @@ final class StripAlwaysAvailableBitFromLanguageIdsMigration extends AbstractSqlM
 
     public static function getCreationDate(): DateTimeImmutable
     {
-        return new DateTimeImmutable('2026-09-29 00:00:07');
+        return new DateTimeImmutable('2026-09-29 07:00:00');
     }
 
     public function isTransactional(): bool
