@@ -127,15 +127,10 @@ class RequestEventListener implements EventSubscriberInterface
                     $semanticPathinfo = $siteaccess->matcher->analyseLink($semanticPathinfo);
                 }
 
-                $headers = [];
-                if ($request->attributes->has('locationId')) {
-                    $headers['X-Location-Id'] = $request->attributes->get('locationId');
-                }
                 $event->setResponse(
                     new RedirectResponse(
                         $semanticPathinfo . ($queryString ? "?$queryString" : ''),
-                        Response::HTTP_MOVED_PERMANENTLY,
-                        $headers
+                        Response::HTTP_MOVED_PERMANENTLY
                     )
                 );
                 $event->stopPropagation();

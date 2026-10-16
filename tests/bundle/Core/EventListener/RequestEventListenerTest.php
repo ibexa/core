@@ -167,7 +167,7 @@ class RequestEventListenerTest extends TestCase
         self::assertInstanceOf(RedirectResponse::class, $response);
         self::assertSame("$semanticPathinfo?some=thing", $response->getTargetUrl());
         self::assertSame(301, $response->getStatusCode());
-        self::assertEquals(123, $response->headers->get('X-Location-Id'));
+        self::assertFalse($response->headers->has('X-Location-Id'));
         self::assertTrue($event->isPropagationStopped());
     }
 
