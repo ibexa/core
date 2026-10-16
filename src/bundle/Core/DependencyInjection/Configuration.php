@@ -574,8 +574,7 @@ EOT;
      * <code>
      * ibexa:
      *     installer:
-     *         schema_builder_event:
-     *             enabled: true
+     *         doctrine_migrations: true
      * </code>
      *
      * @param ArrayNodeDefinition $rootNode
@@ -586,19 +585,14 @@ EOT;
             ->children()
                 ->arrayNode('installer')
                     ->children()
-                        ->arrayNode('schema_builder_event')
-                            ->info('Configuration of the legacy, event-driven database schema building mechanism used by the "ibexa:install" command')
-                            ->children()
-                                ->booleanNode('enabled')
-                                    ->defaultTrue()
-                                    ->info(
-                                        'Whether "ibexa:install" dispatches Ibexa\Contracts\DoctrineSchema\Event\SchemaBuilderEvent ' .
-                                        'to let packages contribute their database schema via an event subscriber, as opposed to ' .
-                                        'the schema being installed from static SQL migrations. ' .
-                                        'Disable once all installed packages have migrated away from the event-driven mechanism.'
-                                    )
-                                ->end()
-                            ->end()
+                        ->arrayNode('doctrine_migrations')
+                            ->info(
+                                'Whether "ibexa:install" installs the database schema and the core bootstrap data by running the ' .
+                                'Doctrine Migrations tagged with Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationTag ' .
+                                '(requires "ibexa/doctrine-migrations"), instead of dispatching the legacy, event-driven ' .
+                                'Ibexa\Contracts\DoctrineSchema\Event\SchemaBuilderEvent.'
+                            )
+                            ->canBeEnabled()
                         ->end()
                     ->end()
                 ->end()
