@@ -23,7 +23,7 @@ $versionInfo->creatorId = 14;
 $versionInfo->creationDate = 1313061317;
 $versionInfo->status = 1;
 $versionInfo->initialLanguageCode = 'eng-US';
-$versionInfo->languageCodes = ['eng-US'];
+$versionInfo->languageCodes = ['eng-US', 'eng-GB'];
 
 $versionInfo->contentInfo = new ContentInfo();
 $versionInfo->contentInfo->id = 226;
@@ -118,6 +118,86 @@ $field->fieldDefinitionId = 193;
 $field->type = 'ibexa_keyword';
 $field->value = new FieldValue();
 $field->languageCode = 'eng-US';
+$field->versionNo = 2;
+
+$content->fields[] = $field;
+
+$field = new Field();
+$field->id = 4000;
+$field->fieldDefinitionId = 193;
+$field->type = 'ibexa_keyword';
+$field->value = new FieldValue();
+$field->languageCode = 'eng-GB';
+$field->versionNo = 2;
+
+$content->fields[] = $field;
+
+$field = new Field();
+$field->id = 0;
+$field->fieldDefinitionId = 183;
+$field->type = 'ibexa_string';
+$field->value = new FieldValue();
+$field->languageCode = 'eng-GB';
+$field->versionNo = 2;
+
+$content->fields[] = $field;
+
+$field = new Field();
+$field->id = 0;
+$field->fieldDefinitionId = 184;
+$field->type = 'ibexa_string';
+$field->value = new FieldValue();
+$field->languageCode = 'eng-GB';
+$field->versionNo = 2;
+
+$content->fields[] = $field;
+
+$field = new Field();
+$field->id = 0;
+$field->fieldDefinitionId = 185;
+$field->type = 'ibexa_author';
+$field->value = new FieldValue();
+$field->languageCode = 'eng-GB';
+$field->versionNo = 2;
+
+$content->fields[] = $field;
+
+$field = new Field();
+$field->id = 0;
+$field->fieldDefinitionId = 188;
+$field->type = 'ibexa_boolean';
+$field->value = new FieldValue();
+$field->languageCode = 'eng-GB';
+$field->versionNo = 2;
+
+$content->fields[] = $field;
+
+$field = new Field();
+$field->id = 0;
+$field->fieldDefinitionId = 189;
+$field->type = 'ibexa_image';
+$field->value = new FieldValue();
+$field->languageCode = 'eng-GB';
+$field->versionNo = 2;
+
+$content->fields[] = $field;
+
+$field = new Field();
+$field->id = 0;
+$field->fieldDefinitionId = 191;
+$field->type = 'ibexa_datetime';
+$field->value = new FieldValue();
+$field->languageCode = 'eng-GB';
+$field->versionNo = 2;
+
+$content->fields[] = $field;
+
+$field = new Field();
+$field->id = 0;
+$field->fieldDefinitionId = 192;
+$field->type = 'ibexa_datetime';
+$field->value = new FieldValue();
+$field->languageCode = 'eng-GB';
 $field->versionNo = 2;
 
 $content->fields[] = $field;

@@ -44,7 +44,7 @@ class DoctrineDatabaseTest extends TestCase
         self::assertQueryResult(
             [
                 [
-                    'id' => '8',
+                    'id' => '5',
                     'locale' => 'de-DE',
                     'name' => 'Deutsch (Deutschland)',
                     'disabled' => '0',
@@ -53,7 +53,7 @@ class DoctrineDatabaseTest extends TestCase
             $this->getDatabaseConnection()->createQueryBuilder()
                 ->select('id', 'locale', 'name', 'disabled')
                 ->from(Gateway::CONTENT_LANGUAGE_TABLE)
-                ->where('id=8')
+                ->where('id=5')
         );
     }
 
@@ -170,6 +170,30 @@ class DoctrineDatabaseTest extends TestCase
                 ->from(Gateway::CONTENT_LANGUAGE_TABLE)
                 ->where('id=2')
         );
+    }
+
+    public function testCanDeleteUnusedLanguageAdjacentToAnotherInUseLanguage(): void
+    {
+        $gateway = $this->getDatabaseGateway();
+        $connection = $this->getDatabaseConnection();
+
+        // Both real, independently-allocated languages (post-migration sequential ids commonly end
+        // up adjacent like this) - 65 is in use, 64 is not, and must stay deletable regardless.
+        $connection->insert(
+            Gateway::CONTENT_LANGUAGE_TABLE,
+            ['id' => 64, 'locale' => 'fr-FR', 'name' => 'Francais (France)', 'disabled' => 0]
+        );
+        $connection->insert(
+            Gateway::CONTENT_LANGUAGE_TABLE,
+            ['id' => 65, 'locale' => 'it-IT', 'name' => 'Italiano (Italia)', 'disabled' => 0]
+        );
+        $connection->insert(
+            'ibexa_object_state_language',
+            ['contentobject_state_id' => 1, 'language_id' => 65, 'description' => '', 'name' => 'x']
+        );
+
+        self::assertTrue($gateway->canDeleteLanguage(64));
+        self::assertFalse($gateway->canDeleteLanguage(65));
     }
 
     /**

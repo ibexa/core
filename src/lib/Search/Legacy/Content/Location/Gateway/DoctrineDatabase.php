@@ -7,15 +7,14 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Location\Gateway;
 
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
-use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
@@ -62,7 +61,7 @@ final class DoctrineDatabase extends Gateway
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery->select(
             't.*',
-            'c.language_mask',
+            'c.always_available',
             'c.initial_language_id'
         );
 
@@ -109,18 +108,7 @@ final class DoctrineDatabase extends Gateway
 
         // If not main-languages query
         if (!empty($languageFilter['languages'])) {
-            $selectQuery->andWhere(
-                $selectQuery->expr()->gt(
-                    $this->getDatabasePlatform()->getBitAndComparisonExpression(
-                        'c.language_mask',
-                        $selectQuery->createNamedParameter(
-                            $this->getLanguageMask($languageFilter),
-                            ParameterType::INTEGER
-                        )
-                    ),
-                    $selectQuery->createNamedParameter(0, ParameterType::INTEGER)
-                )
-            );
+            $selectQuery->andWhere($this->buildTranslationCondition($selectQuery, $languageFilter));
         }
 
         if ($sortClauses !== null) {
@@ -185,18 +173,7 @@ final class DoctrineDatabase extends Gateway
 
         // If not main-languages query
         if (!empty($languageFilter['languages'])) {
-            $query->andWhere(
-                $query->expr()->gt(
-                    $this->getDatabasePlatform()->getBitAndComparisonExpression(
-                        'c.language_mask',
-                        $query->createNamedParameter(
-                            $this->getLanguageMask($languageFilter),
-                            ParameterType::INTEGER
-                        )
-                    ),
-                    $query->createNamedParameter(0, ParameterType::INTEGER)
-                )
-            );
+            $query->andWhere($this->buildTranslationCondition($query, $languageFilter));
         }
 
         $statement = $query->executeQuery();
@@ -205,38 +182,50 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Generates a language mask from the given $languageFilter.
+     * Builds the "content is translated into one of the requested languages, or it's
+     * always-available" condition shared by find() and getTotalCount() - kept as one place so the
+     * two queries can't drift out of sync on the always-available fallback.
+     *
+     * @param QueryBuilder $queryBuilder
+     * @param array{languages?: string[], useAlwaysAvailable?: bool} $languageFilter
      *
      * @throws NotFoundException
      */
-    private function getLanguageMask(array $languageFilter): int
-    {
-        if (!isset($languageFilter['languages'])) {
-            $languageFilter['languages'] = [];
+    private function buildTranslationCondition(
+        $queryBuilder,
+        array $languageFilter
+    ): string {
+        $languageIds = array_map(
+            fn (string $languageCode): int => $this->languageHandler->loadByLanguageCode($languageCode)->id,
+            $languageFilter['languages'] ?? []
+        );
+
+        $translationExistsSubQuery = $this->connection->createQueryBuilder();
+        $translationExistsSubQuery
+            ->select('1')
+            ->from('ibexa_content_translation', 'ct')
+            ->where(
+                $translationExistsSubQuery->expr()->and(
+                    'ct.content_id = c.id',
+                    $translationExistsSubQuery->expr()->in(
+                        'ct.language_id',
+                        $queryBuilder->createNamedParameter($languageIds, ArrayParameterType::INTEGER)
+                    )
+                )
+            );
+
+        $translationCondition = sprintf('EXISTS (%s)', $translationExistsSubQuery->getSQL());
+
+        if ($languageFilter['useAlwaysAvailable'] ?? true) {
+            $translationCondition = $queryBuilder->expr()->or(
+                $translationCondition,
+                $queryBuilder->expr()->eq(
+                    'c.always_available',
+                    $queryBuilder->createNamedParameter(true, ParameterType::BOOLEAN)
+                )
+            );
         }
 
-        if (!isset($languageFilter['useAlwaysAvailable'])) {
-            $languageFilter['useAlwaysAvailable'] = true;
-        }
-
-        $mask = 0;
-        if ($languageFilter['useAlwaysAvailable']) {
-            $mask |= 1;
-        }
-
-        foreach ($languageFilter['languages'] as $languageCode) {
-            $mask |= $this->languageHandler->loadByLanguageCode($languageCode)->id;
-        }
-
-        return $mask;
-    }
-
-    private function getDatabasePlatform(): AbstractPlatform
-    {
-        try {
-            return $this->connection->getDatabasePlatform();
-        } catch (Exception $e) {
-            throw DatabaseException::wrap($e);
-        }
+        return $translationCondition;
     }
 }
