@@ -210,6 +210,7 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
     {
         yield 'not configured' => [[], false];
         yield 'enabled' => [['installer' => ['doctrine_migrations' => true]], true];
+        yield 'enabled (nested)' => [['installer' => ['doctrine_migrations' => ['enabled' => true]]], true];
     }
 
     public function testImageMagickConfigurationFilters()

@@ -359,7 +359,7 @@ class IbexaCoreExtension extends Extension implements PrependExtensionInterface
     ): void {
         $container->setParameter(
             'ibexa.installer.doctrine_migrations.enabled',
-            $config['installer']['doctrine_migrations']['enabled'] ?? false
+            $config['installer']['doctrine_migrations']['enabled']
         );
     }
 

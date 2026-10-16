@@ -584,6 +584,7 @@ EOT;
         return $rootNode
             ->children()
                 ->arrayNode('installer')
+                    ->addDefaultsIfNotSet()
                     ->children()
                         ->arrayNode('doctrine_migrations')
                             ->info(
