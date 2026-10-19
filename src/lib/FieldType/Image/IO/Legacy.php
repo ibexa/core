@@ -9,6 +9,8 @@ namespace Ibexa\Core\FieldType\Image\IO;
 
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\IO\IOServiceInterface;
+use Ibexa\Core\IO\RangeAwareIOServiceInterface;
+use Ibexa\Core\IO\Stream\StreamSeeker;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
 use Ibexa\Core\IO\Values\MissingBinaryFile;
@@ -29,7 +31,7 @@ use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
  * In addition, loadBinaryFile() will also hide the need to explicitly call getExternalPath()
  * on  the internal path stored in legacy.
  */
-class Legacy implements IOServiceInterface
+class Legacy implements RangeAwareIOServiceInterface
 {
     /**
      * Published images IO Service.
@@ -222,6 +224,21 @@ class Legacy implements IOServiceInterface
     public function getFileInputStream(BinaryFile $binaryFile)
     {
         return $this->publishedIOService->getFileInputStream($binaryFile);
+    }
+
+    public function getFileInputStreamRange(
+        BinaryFile $binaryFile,
+        int $offset,
+        ?int $length = null
+    ) {
+        if ($this->publishedIOService instanceof RangeAwareIOServiceInterface) {
+            return $this->publishedIOService->getFileInputStreamRange($binaryFile, $offset, $length);
+        }
+
+        $resource = $this->publishedIOService->getFileInputStream($binaryFile);
+        StreamSeeker::seek($resource, $offset);
+
+        return $resource;
     }
 
     public function deleteBinaryFile(BinaryFile $binaryFile)

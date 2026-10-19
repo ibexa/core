@@ -11,6 +11,7 @@ namespace Ibexa\Tests\Core\IO\IOBinarydataHandler;
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct as SPIBinaryFileCreateStruct;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
+use Ibexa\Core\IO\Flysystem\RangeReader\RangeReaderInterface;
 use Ibexa\Core\IO\IOBinarydataHandler;
 use Ibexa\Core\IO\IOBinarydataHandler\Flysystem;
 use League\Flysystem\FilesystemOperator;
@@ -152,6 +153,65 @@ class FlysystemTest extends TestCase
 
         $this->expectException(BinaryFileNotFoundException::class);
         $this->handler->getResource($filePath);
+    }
+
+    public function testGetResourceRangeReturnsNullWithoutRangeReader(): void
+    {
+        $this->filesystem
+            ->expects(self::never())
+            ->method('readStream');
+
+        self::assertNull((new Flysystem($this->filesystem))->getResourceRange('prefix/my/file.mp4', 100, 50));
+    }
+
+    /**
+     * @dataProvider provideForGetResourceRangeUsesRangeReader
+     *
+     * @param resource|null $readerResult
+     */
+    public function testGetResourceRangeUsesRangeReader($readerResult): void
+    {
+        $rangeReader = $this->createMock(RangeReaderInterface::class);
+        $rangeReader
+            ->expects(self::once())
+            ->method('readStreamRange')
+            ->with('prefix/my/file.mp4', 100, 50)
+            ->willReturn($readerResult);
+        $this->filesystem
+            ->expects(self::never())
+            ->method('readStream');
+
+        $handler = new Flysystem($this->filesystem, null, $rangeReader);
+
+        self::assertSame($readerResult, $handler->getResourceRange('prefix/my/file.mp4', 100, 50));
+    }
+
+    /**
+     * @return iterable<string, array{resource|null}>
+     */
+    public function provideForGetResourceRangeUsesRangeReader(): iterable
+    {
+        $stream = fopen('php://memory', 'rb');
+        self::assertIsResource($stream);
+
+        yield 'reader serves range' => [$stream];
+        yield 'reader cannot serve range' => [null];
+    }
+
+    public function testGetResourceRangeThrowsNotFoundOnReaderFailure(): void
+    {
+        $rangeReader = $this->createMock(RangeReaderInterface::class);
+        $rangeReader
+            ->expects(self::once())
+            ->method('readStreamRange')
+            ->with('prefix/my/file.mp4', 100, null)
+            ->willThrowException(UnableToReadFile::fromLocation('prefix/my/file.mp4'));
+
+        $handler = new Flysystem($this->filesystem, null, $rangeReader);
+
+        $this->expectException(BinaryFileNotFoundException::class);
+
+        $handler->getResourceRange('prefix/my/file.mp4', 100);
     }
 
     public function testGetUri(): void
