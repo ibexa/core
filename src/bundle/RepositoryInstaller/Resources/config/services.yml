@@ -27,7 +27,7 @@ services:
         autowire: true
         parent: Ibexa\Bundle\RepositoryInstaller\Installer\DbBasedInstaller
         arguments:
-            $schemaBuilderEventEnabled: '%ibexa.installer.schema_builder_event.enabled%'
+            $doctrineMigrationsEnabled: '%ibexa.installer.doctrine_migrations.enabled%'
             # Optional: TaggedMigrationsRunner's own service definition may not exist at all
             # (RemoveTaggedMigrationsRunnerPass removes it when "ibexa/doctrine-migrations" isn't
             # installed/enabled) - autowiring alone can't express "pass null if absent".
