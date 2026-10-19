@@ -9,10 +9,11 @@ namespace Ibexa\Bundle\IO;
 
 use DateTime;
 use Ibexa\Core\IO\IOServiceInterface;
+use Ibexa\Core\IO\RangeAwareIOServiceInterface;
+use Ibexa\Core\IO\Stream\StreamSeeker;
 use Ibexa\Core\IO\Values\BinaryFile;
 use InvalidArgumentException;
 use LogicException;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -34,16 +35,22 @@ class BinaryStreamResponse extends Response
     protected $maxlen;
 
     /**
+     * Opened in prepare(), so storage errors are raised before any header is sent.
+     *
+     * @var resource|null
+     */
+    private $inputStream;
+
+    /**
      * Constructor.
      *
-     * @param BinaryFile          $binaryFile         The name of the file to stream
-     * @param IOServiceInterface  $ioService          The name of the file to stream
-     * @param int                 $status             The response status code
-     * @param array               $headers            An array of response headers
-     * @param bool                $public             Files are public by default
-     * @param string|null         $contentDisposition The type of Content-Disposition to set automatically with the filename
-     * @param bool                $autoEtag           Whether the ETag header should be automatically set
-     * @param bool                $autoLastModified   Whether the Last-Modified header should be automatically set
+     * @param BinaryFile         $binaryFile         The file to stream
+     * @param IOServiceInterface $ioService          The IO service used to read the file
+     * @param int                $status             The response status code
+     * @param array<string, string|string[]> $headers An array of response headers
+     * @param bool               $public             Files are public by default
+     * @param string|null        $contentDisposition The type of Content-Disposition to set automatically with the filename
+     * @param bool               $autoLastModified   Whether the Last-Modified header should be automatically set
      */
     public function __construct(
         BinaryFile $binaryFile,
@@ -68,12 +75,11 @@ class BinaryStreamResponse extends Response
     /**
      * Sets the file to stream.
      *
-     * @param \SplFileInfo|string $file The file to stream
-     * @param string $contentDisposition
-     * @param bool $autoEtag
-     * @param bool $autoLastModified
+     * @param BinaryFile $file The file to stream
+     * @param string|null $contentDisposition The type of Content-Disposition to set automatically with the filename
+     * @param bool $autoLastModified Whether the Last-Modified header should be automatically set
      *
-     * @return BinaryFileResponse
+     * @return $this
      */
     public function setFile(
         $file,
@@ -105,6 +111,8 @@ class BinaryStreamResponse extends Response
 
     /**
      * Automatically sets the Last-Modified header according the file modification date.
+     *
+     * @return $this
      */
     public function setAutoLastModified()
     {
@@ -120,7 +128,7 @@ class BinaryStreamResponse extends Response
      * @param string $filename Optionally use this filename instead of the real name of the file
      * @param string $filenameFallback A fallback filename, containing only ASCII characters. Defaults to an automatically encoded filename
      *
-     * @return BinaryStreamResponse
+     * @return $this
      */
     public function setContentDisposition(
         $disposition,
@@ -207,6 +215,11 @@ class BinaryStreamResponse extends Response
             }
         }
 
+        $this->closeInputStream();
+        if ($this->isSuccessful() && 0 !== $this->maxlen) {
+            $this->inputStream = $this->openInputStream();
+        }
+
         return $this;
     }
 
@@ -225,11 +238,40 @@ class BinaryStreamResponse extends Response
             return;
         }
 
+        $in = $this->inputStream ?? $this->openInputStream();
+        $this->inputStream = null;
         $out = fopen('php://output', 'wb');
-        $in = $this->ioService->getFileInputStream($this->file);
-        stream_copy_to_stream($in, $out, $this->maxlen, $this->offset);
 
+        stream_copy_to_stream($in, $out, $this->maxlen ?? -1);
+
+        fclose($in);
         fclose($out);
+    }
+
+    private function closeInputStream(): void
+    {
+        if ($this->inputStream !== null) {
+            fclose($this->inputStream);
+            $this->inputStream = null;
+        }
+    }
+
+    /**
+     * @return resource stream positioned at the requested offset
+     */
+    private function openInputStream()
+    {
+        $offset = (int)$this->offset;
+        $length = $this->maxlen > 0 ? (int)$this->maxlen : null;
+
+        if ($this->ioService instanceof RangeAwareIOServiceInterface) {
+            return $this->ioService->getFileInputStreamRange($this->file, $offset, $length);
+        }
+
+        $in = $this->ioService->getFileInputStream($this->file);
+        StreamSeeker::seek($in, $offset);
+
+        return $in;
     }
 
     /**

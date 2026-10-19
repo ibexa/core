@@ -11,11 +11,12 @@ use Ibexa\Bundle\IO\ApiLoader\HandlerRegistry;
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\IO\IOBinarydataHandler;
+use Ibexa\Core\IO\RangeAwareIOBinarydataHandlerInterface;
 
 /**
  * @internal
  */
-final class SiteAccessDependentBinaryDataHandler implements IOBinarydataHandler
+final class SiteAccessDependentBinaryDataHandler implements IOBinarydataHandler, RangeAwareIOBinarydataHandlerInterface
 {
     /** @var ConfigResolverInterface */
     private $configResolver;
@@ -56,6 +57,19 @@ final class SiteAccessDependentBinaryDataHandler implements IOBinarydataHandler
     public function getResource($spiBinaryFileId)
     {
         return $this->getHandler()->getResource($spiBinaryFileId);
+    }
+
+    public function getResourceRange(
+        string $spiBinaryFileId,
+        int $offset,
+        ?int $length = null
+    ) {
+        $handler = $this->getHandler();
+        if (!$handler instanceof RangeAwareIOBinarydataHandlerInterface) {
+            return null;
+        }
+
+        return $handler->getResourceRange($spiBinaryFileId, $offset, $length);
     }
 
     public function getUri($spiBinaryFileId)
