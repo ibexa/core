@@ -270,7 +270,7 @@ EOT
     /**
      * Not yet renamed to "ibexa_language" at the point in the real migration sequence where this
      * command's logic normally runs (as part of BackfillLanguageTranslationsMigration) - that
-     * rename happens later, in NarrowLanguageIdColumnTypesMigration. When run manually/standalone
+     * rename happens later, in RenameLanguageTableMigration. When run manually/standalone
      * after the full sequence (or against a fresh install, which starts from the renamed schema),
      * the table is already "ibexa_language".
      *

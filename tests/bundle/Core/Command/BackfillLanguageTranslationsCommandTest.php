@@ -31,7 +31,7 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
         $connection = $this->getDatabaseConnection();
 
         // These commands hardcode "ibexa_content_language" (the name it still has at the point in
-        // the real migration sequence where they're used, before NarrowLanguageIdColumnTypesMigration
+        // the real migration sequence where they're used, before RenameLanguageTableMigration
         // renames it to "ibexa_language") - rename it back after the fixture above (which inserts via
         // the Gateway::CONTENT_LANGUAGE_TABLE constant, i.e. under the current name) has populated it.
         $connection->executeStatement('ALTER TABLE ibexa_language RENAME TO ibexa_content_language');
@@ -255,7 +255,7 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
     /**
      * Undoes setUp()'s pre-migration simulation: renames the language table to its final name and
      * drops the mask columns, matching the state a schema is in once DropLanguageBitmaskColumnsMigration
-     * and NarrowLanguageIdColumnTypesMigration have both run (or a fresh install, which never had
+     * and RenameLanguageTableMigration have both run (or a fresh install, which never had
      * them at all).
      */
     private function simulateFullyMigratedSchema(Connection $connection): void
