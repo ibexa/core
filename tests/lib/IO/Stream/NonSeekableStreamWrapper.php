@@ -39,18 +39,14 @@ final class NonSeekableStreamWrapper
 
         $stream = fopen(self::PROTOCOL . '://' . $key, 'rb');
         if ($stream === false) {
-            throw new \RuntimeException('Unable to open non-seekable test stream');
+            throw new \UnexpectedValueException('Unable to open non-seekable test stream');
         }
 
         return $stream;
     }
 
-    public function stream_open(
-        string $path,
-        string $mode,
-        int $options,
-        ?string &$openedPath
-    ): bool {
+    public function stream_open(string $path): bool
+    {
         $key = substr($path, strlen(self::PROTOCOL) + 3);
         if (!isset(self::$contents[$key])) {
             return false;
@@ -74,10 +70,8 @@ final class NonSeekableStreamWrapper
         return $this->position >= strlen($this->data);
     }
 
-    public function stream_seek(
-        int $offset,
-        int $whence = SEEK_SET
-    ): bool {
+    public function stream_seek(): bool
+    {
         return false;
     }
 
