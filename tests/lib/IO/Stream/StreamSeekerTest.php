@@ -81,7 +81,7 @@ final class StreamSeekerTest extends TestCase
     {
         $stream = fopen('php://memory', 'w+b');
         if ($stream === false) {
-            throw new \RuntimeException('Unable to open memory stream');
+            throw new \UnexpectedValueException('Unable to open memory stream');
         }
 
         fwrite($stream, self::DATA);

@@ -32,13 +32,21 @@ final class StreamSeeker
             return;
         }
 
-        if (stream_get_meta_data($stream)['seekable'] && fseek($stream, $offset) === 0) {
-            $size = fstat($stream)['size'] ?? null;
-            if ($size !== null && $offset > $size) {
-                self::fail($stream, $offset, $size);
+        if (stream_get_meta_data($stream)['seekable']) {
+            $start = ftell($stream);
+            if (fseek($stream, $offset) === 0) {
+                $size = fstat($stream)['size'] ?? null;
+                if ($size !== null && $offset > $size) {
+                    self::fail($stream, $offset, $size);
+                }
+
+                return;
             }
 
-            return;
+            // some PHP versions leave the position at the end of the stream after a failed seek
+            if ($start !== false) {
+                fseek($stream, $start);
+            }
         }
 
         $remaining = $offset;
