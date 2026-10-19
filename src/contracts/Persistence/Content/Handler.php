@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Relation\CreateStruct as RelationCr
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
 
 /**
  * The Content Handler interface defines content operations on the storage engine.
@@ -329,10 +330,7 @@ interface Handler
      * @todo Should the existence verifications happen here or is this supposed to be handled at a higher level?
      *
      * @param int $relationId
-     * @param int $type {@see \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::COMMON,
-     *                 \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::EMBED,
-     *                 \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::LINK,
-     *                 \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::FIELD}
+     * @param int $type value of {@see RelationType}
      * @param ?int $destinationContentId Content id to invalidate cache tag related to content reverse relations count
      */
     public function removeRelation(
@@ -380,10 +378,7 @@ interface Handler
      * Only loads relations against published versions.
      *
      * @param mixed $destinationContentId Destination Content ID
-     * @param int|null $type {@see \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::COMMON,
-     *                 \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::EMBED,
-     *                 \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::LINK,
-     *                 \Ibexa\Contracts\Core\Repository\Values\Content\RelationType::FIELD}
+     * @param int|null $type value of {@see RelationType}
      *
      * @return Relation[]
      */

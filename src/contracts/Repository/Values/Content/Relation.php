@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  * @property-read string $sourceFieldDefinitionIdentifier the field definition identifier of the field where this relation is anchored if the relation is of type EMBED, LINK, or ATTRIBUTE
  * @property-read ContentInfo $sourceContentInfo Calls {@see Relation::getSourceContentInfo()}
  * @property-read ContentInfo $destinationContentInfo Calls {@see Relation::getDestinationContentInfo()}
- * @property-read int $type The relation type bitmask containing one or more of RelationType::COMMON, RelationType::EMBED, RelationType::LINK, RelationType::FIELD
+ * @property-read int $type The relation type bitmask of {@see RelationType} values
  */
 abstract class Relation extends ValueObject
 {
@@ -34,13 +34,7 @@ abstract class Relation extends ValueObject
     protected ?string $sourceFieldDefinitionIdentifier = null;
 
     /**
-     * The relation type bitmask.
-     *
-     * @see RelationType::COMMON
-     * @see RelationType::EMBED
-     * @see RelationType::LINK
-     * @see RelationType::FIELD
-     * @see RelationType::ASSET
+     * The relation type bitmask of {@see RelationType} values.
      */
     protected int $type;
 

@@ -51,13 +51,7 @@ class Relation extends ValueObject
     public $destinationContentId;
 
     /**
-     * Type bitmask.
-     *
-     * @see RelationType::COMMON
-     * @see RelationType::EMBED
-     * @see RelationType::LINK
-     * @see RelationType::FIELD
-     * @see RelationType::ASSET
+     * Bitmask of {@see RelationType} values.
      *
      * @var int
      */

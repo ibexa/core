@@ -45,12 +45,7 @@ class CreateStruct extends ValueObject
     public $destinationContentId;
 
     /**
-     * Type bitmask.
-     *
-     * @see RelationType::COMMON
-     * @see RelationType::EMBED
-     * @see RelationType::LINK
-     * @see RelationType::FIELD
+     * Bitmask of {@see RelationType} values.
      *
      * @var int
      */
