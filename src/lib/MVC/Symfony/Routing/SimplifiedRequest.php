@@ -12,71 +12,31 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 class SimplifiedRequest extends ValueObject
 {
     /**
-     * The request scheme (http or https).
-     */
-    protected ?string $scheme = null;
-
-    /**
-     * The host name.
-     */
-    protected ?string $host = null;
-
-    /**
      * The port the request is made on.
      */
     protected ?int $port = null;
 
     /**
-     * The path being requested relative to the executed script.
-     * The path info always starts with a /.
-     */
-    protected ?string $pathinfo = null;
-
-    /**
-     * Array of parameters extracted from the query string.
-     *
-     * @var array<mixed>|null
-     */
-    protected ?array $queryParams = null;
-
-    /**
-     * List of languages acceptable by the client browser.
-     * The languages are ordered in the user browser preferences.
-     *
-     * @var string[]|null
-     */
-    protected ?array $languages = null;
-
-    /**
-     * Hash of request headers.
-     *
-     * @var array<string, array<string|null>>|null
-     */
-    protected ?array $headers = null;
-
-    /**
-     * @param array<mixed>|null $queryParams
-     * @param string[]|null $languages
-     * @param array<string, array<string|null>>|null $headers
+     * @param string|null $scheme The request scheme (http or https).
+     * @param string|null $host The host name.
+     * @param int|string|null $port The port the request is made on.
+     * @param string|null $pathinfo The path being requested relative to the executed script, always starts with a /.
+     * @param array<mixed>|null $queryParams Parameters extracted from the query string.
+     * @param string[]|null $languages Languages acceptable by the client browser, ordered by the user browser preferences.
+     * @param array<string, array<string|null>>|null $headers Hash of request headers.
      */
     public function __construct(
-        ?string $scheme = null,
-        ?string $host = null,
+        protected ?string $scheme = null,
+        protected ?string $host = null,
         int | string | null $port = null,
-        ?string $pathinfo = null,
-        ?array $queryParams = null,
-        ?array $languages = null,
-        ?array $headers = null
+        protected ?string $pathinfo = null,
+        protected ?array $queryParams = null,
+        protected ?array $languages = null,
+        protected ?array $headers = null
     ) {
         parent::__construct();
 
-        $this->scheme = $scheme;
-        $this->host = $host;
         $this->port = $port !== null ? (int)$port : null;
-        $this->pathinfo = $pathinfo;
-        $this->queryParams = $queryParams;
-        $this->languages = $languages;
-        $this->headers = $headers;
     }
 
     /**
