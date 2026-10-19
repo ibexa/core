@@ -19,8 +19,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @internal for internal use by Ibexa packages' integration test setup
  *
- * Installs the database schema the way a real `ibexa:install` does when the SchemaBuilderEvent path
- * is turned off: by running every Ibexa-tagged Doctrine migration via {@see TaggedMigrationsRunner}
+ * Installs the database schema the way a real `ibexa:install` does when "ibexa.installer.doctrine_migrations"
+ * is enabled: by running every Ibexa-tagged Doctrine migration via {@see TaggedMigrationsRunner}
  * — the very same service {@see CoreInstaller} uses, so
  * a test database built this way is built by the production code path, not by a re-implementation
  * of it.

@@ -34,43 +34,42 @@ class CoreInstaller extends DbBasedInstaller implements Installer
     /** @var SchemaBuilderInterface */
     protected $schemaBuilder;
 
-    private bool $schemaBuilderEventEnabled;
+    private bool $doctrineMigrationsEnabled;
 
     private ?TaggedMigrationsRunner $taggedMigrationsRunner;
 
     public function __construct(
         Connection $db,
         SchemaBuilderInterface $schemaBuilder,
-        bool $schemaBuilderEventEnabled,
+        bool $doctrineMigrationsEnabled,
         ?TaggedMigrationsRunner $taggedMigrationsRunner = null
     ) {
         parent::__construct($db);
 
         $this->schemaBuilder = $schemaBuilder;
-        $this->schemaBuilderEventEnabled = $schemaBuilderEventEnabled;
+        $this->doctrineMigrationsEnabled = $doctrineMigrationsEnabled;
         $this->taggedMigrationsRunner = $taggedMigrationsRunner;
     }
 
     /**
      * Imports the core database schema.
      *
-     * When the "ibexa.installer.schema_builder_event.enabled" setting is enabled (the default), the schema
-     * is built by dispatching the legacy event-driven {@see SchemaBuilderEvent},
+     * By default, the schema is built by dispatching the legacy event-driven {@see SchemaBuilderEvent},
      * allowing other packages to contribute their own tables via an event subscriber.
      *
-     * Otherwise, the schema is installed by {@see TaggedMigrationsRunner}, which runs every not-yet-executed
-     * migration tagged with {@see IbexaMigrationTag::TAG}
-     * (core's own {@see InstallSchemaMigration} plus any other
-     * package's) via the application's Doctrine Migrations DependencyFactory.
+     * When the "ibexa.installer.doctrine_migrations" setting is enabled, the schema is installed by
+     * {@see TaggedMigrationsRunner} instead, which runs every not-yet-executed migration tagged with
+     * {@see IbexaMigrationTag::TAG} (core's own {@see InstallSchemaMigration} plus any other package's)
+     * via the application's Doctrine Migrations DependencyFactory.
      *
      * @throws DBALException
-     * @throws RuntimeException if "ibexa.installer.schema_builder_event.enabled" is disabled but
-     *     "ibexa/doctrine-migrations" isn't installed/enabled to run the migrations-based path instead
+     * @throws RuntimeException if "ibexa.installer.doctrine_migrations" is enabled but
+     *     "ibexa/doctrine-migrations" isn't installed/enabled to run the migrations-based path
      * @throws MigrationFailedException if one of those migrations fails
      */
     public function importSchema()
     {
-        if ($this->schemaBuilderEventEnabled) {
+        if (!$this->doctrineMigrationsEnabled) {
             $this->executeQueries($this->getQueriesFromSchemaBuilderEvent());
 
             return;
@@ -78,7 +77,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
 
         if ($this->taggedMigrationsRunner === null) {
             throw new RuntimeException(
-                'Disabling "ibexa.installer.schema_builder_event.enabled" requires the "' .
+                'Enabling "ibexa.installer.doctrine_migrations" requires the "' .
                 IbexaOnlyDependencyFactory::SERVICE_ID . '" service (provided by "ibexa/doctrine-migrations", ' .
                 'with Ibexa\Bundle\DoctrineMigrations\IbexaDoctrineMigrationsBundle registered) to be available.'
             );
@@ -164,18 +163,18 @@ class CoreInstaller extends DbBasedInstaller implements Installer
     /**
      * Imports the core bootstrap data.
      *
-     * When the "ibexa.installer.schema_builder_event.enabled" setting is enabled (the default), this imports
-     * the DBMS-specific "cleandata.sql" file directly.
+     * By default, this imports the DBMS-specific "cleandata.sql" file directly.
      *
-     * Otherwise, this is a no-op: {@see ImportDataMigration} is
-     * tagged and already runs as part of {@see importSchema()}'s call to {@see TaggedMigrationsRunner}.
+     * When the "ibexa.installer.doctrine_migrations" setting is enabled, this is a no-op instead:
+     * {@see ImportDataMigration} is tagged and already runs as part of {@see importSchema()}'s call to
+     * {@see TaggedMigrationsRunner}.
      *
      * @throws DBALException
      * @throws InvalidArgumentException
      */
     public function importData()
     {
-        if ($this->schemaBuilderEventEnabled) {
+        if (!$this->doctrineMigrationsEnabled) {
             $this->runQueriesFromFile($this->getKernelSQLFileForDBMS('cleandata.sql'));
         }
     }
