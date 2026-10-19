@@ -181,38 +181,8 @@ class BinaryStreamResponse extends Response
         $this->offset = 0;
         $this->maxlen = -1;
 
-        if ($request->headers->has('Range')) {
-            // Process the range headers.
-            if (!$request->headers->has('If-Range') || $this->getEtag() == $request->headers->get('If-Range')) {
-                $range = $request->headers->get('Range');
-                $fileSize = $this->file->size;
-
-                list($start, $end) = explode('-', substr($range, 6), 2) + [0];
-
-                $end = ('' === $end) ? $fileSize - 1 : (int)$end;
-
-                if ('' === $start) {
-                    $start = $fileSize - $end;
-                    $end = $fileSize - 1;
-                } else {
-                    $start = (int)$start;
-                }
-
-                if ($start <= $end) {
-                    if ($start < 0 || $end > $fileSize - 1) {
-                        $this->setStatusCode(Response::HTTP_REQUESTED_RANGE_NOT_SATISFIABLE);
-
-                        return $this;
-                    }
-
-                    $this->maxlen = $end - $start + 1;
-                    $this->offset = $start;
-
-                    $this->setStatusCode(Response::HTTP_PARTIAL_CONTENT);
-                    $this->headers->set('Content-Range', sprintf('bytes %s-%s/%s', $start, $end, $fileSize));
-                    $this->headers->set('Content-Length', $this->maxlen);
-                }
-            }
+        if ($this->isRangeRequested($request) && !$this->applyRange((string)$request->headers->get('Range'))) {
+            return $this;
         }
 
         $this->closeInputStream();
@@ -246,6 +216,50 @@ class BinaryStreamResponse extends Response
 
         fclose($in);
         fclose($out);
+    }
+
+    private function isRangeRequested(Request $request): bool
+    {
+        return $request->headers->has('Range')
+            && (!$request->headers->has('If-Range') || $this->getEtag() == $request->headers->get('If-Range'));
+    }
+
+    /**
+     * @return bool false when the range is not satisfiable
+     */
+    private function applyRange(string $range): bool
+    {
+        $fileSize = $this->file->size;
+
+        list($start, $end) = explode('-', substr($range, 6), 2) + [0];
+
+        $end = ('' === $end) ? $fileSize - 1 : (int)$end;
+
+        if ('' === $start) {
+            $start = $fileSize - $end;
+            $end = $fileSize - 1;
+        } else {
+            $start = (int)$start;
+        }
+
+        if ($start > $end) {
+            return true;
+        }
+
+        if ($start < 0 || $end > $fileSize - 1) {
+            $this->setStatusCode(Response::HTTP_REQUESTED_RANGE_NOT_SATISFIABLE);
+
+            return false;
+        }
+
+        $this->maxlen = $end - $start + 1;
+        $this->offset = $start;
+
+        $this->setStatusCode(Response::HTTP_PARTIAL_CONTENT);
+        $this->headers->set('Content-Range', sprintf('bytes %s-%s/%s', $start, $end, $fileSize));
+        $this->headers->set('Content-Length', $this->maxlen);
+
+        return true;
     }
 
     private function closeInputStream(): void
