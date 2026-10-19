@@ -46,7 +46,7 @@ final class AddLanguageTranslationTablesMigration extends AbstractSqlMigration i
 
     /**
      * Not yet renamed to "ibexa_language" at this point in the migration sequence - that rename
-     * happens later, in {@see NarrowLanguageIdColumnTypesMigration}.
+     * happens later, in {@see RenameLanguageTableMigration}.
      *
      * @var array<string, array<string, string>>
      */

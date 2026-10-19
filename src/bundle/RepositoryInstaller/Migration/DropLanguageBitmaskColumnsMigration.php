@@ -49,7 +49,7 @@ final class DropLanguageBitmaskColumnsMigration extends AbstractSqlMigration imp
 
     /**
      * Not yet renamed to "ibexa_language" at this point in the migration sequence - that rename
-     * happens later, in {@see NarrowLanguageIdColumnTypesMigration}.
+     * happens later, in {@see RenameLanguageTableMigration}.
      */
     private const string LANGUAGE_TABLE = 'ibexa_content_language';
 

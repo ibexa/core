@@ -9,59 +9,62 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\RepositoryInstaller\Migration;
 
 use DateTimeImmutable;
+use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\BigIntType;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\AbstractSqlMigration;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationInterface;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
-use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway;
 
 /**
- * Renames "ibexa_content_language" to "ibexa_language" - the table holds every language in the
- * system (content, object states, content types, URL aliases), not just "content" languages, so the
- * name shouldn't suggest otherwise - and narrows every "language_id"-shaped column from BIGINT to
- * INTEGER, starting with the renamed table's own "id" column: a regular install never comes close to
- * the ~2 billion languages an INTEGER already allows, so BIGINT (originally chosen to mirror the
- * legacy bitmask's PHP-integer width) is unnecessary column width carried over from that scheme.
- * {@see Gateway::CONTENT_LANGUAGE_TABLE} is the only
- * place application code names this table, so this migration plus that one constant change is the
- * entire cutover - every gateway and test fixture that already goes through the constant needs no
- * further changes.
+ * Narrows "ibexa_language.id" and every "language_id"-shaped column in core from BIGINT to INT. A
+ * regular install never comes close to the ~2 billion languages an INT allows, so BIGINT, chosen to
+ * mirror the legacy bitmask's PHP-integer width, is width carried over from that scheme.
  *
- * The rename itself is a plain, uniformly-supported operation on all 3 platforms (including SQLite,
- * which has no ALTER COLUMN TYPE but does support `ALTER TABLE ... RENAME TO ...`), and none of
- * MySQL/PostgreSQL/SQLite drop foreign keys pointing at a renamed table - they're tracked internally,
- * not by name - so it needs no FK drop/recreate step of its own.
+ * On MySQL and MariaDB, which refuse to change either column of a foreign key, the keys pointing at
+ * "ibexa_language.id" are dropped right before this migration and re-created right after it: core's
+ * own by {@see DropLanguageIdForeignKeysMigration} and {@see RestoreLanguageIdForeignKeysMigration},
+ * those of other packages by their own migrations. The statements are in
+ * sql/narrow-language-id-column-types-mysql.sql and change only column types, so a retry after a
+ * failure can run all of them again. The migration aborts with the list of keys when any key still
+ * points at "ibexa_language.id", rather than failing halfway through.
  *
- * The type-narrowing part is trickier: four of the affected columns already carry a live FOREIGN KEY
- * to the language table's "id" column (added earlier in this same migration sequence):
- * "ibexa_content_translation.language_id", "ibexa_content_version_translation.language_id",
- * "ibexa_url_alias_ml_translation.language_id" and "ibexa_content_type_field_definition_ml.language_id".
- * Narrowing a column that's party to a FK isn't reliably portable across MySQL/PostgreSQL without
- * dropping the constraint first, so the narrowing SQL drops those four FKs, narrows every affected
- * column (the four above, the language table's "id" they reference, and every other unconstrained
- * "language_id"-shaped column touched by this migration sequence), then re-creates the four FKs with
- * their original options - all of it referencing the table by its new name, since the rename (queued
- * first) always executes before it.
+ * PostgreSQL changes the types with the keys in place, and the migration runs there in one
+ * transaction (sql/narrow-language-id-column-types-postgresql.sql). SQLite has no fixed-width
+ * INTEGER/BIGINT distinction and no `ALTER TABLE ... ALTER COLUMN ... TYPE`, so it's skipped; a fresh
+ * SQLite install gets the INT columns from schema.yaml.
  *
- * SQLite only gets the rename: it has no fixed-width INTEGER/BIGINT distinction (both use the same
- * dynamic storage class) and no `ALTER TABLE ... ALTER COLUMN ... TYPE`, so there is nothing to gain
- * from a costly full-table-rebuild just to change a declared type that SQLite itself ignores. A fresh
- * SQLite install already gets the narrower declared type directly from schema.yaml.
+ * Language ids under the bitmask scheme are powers of two, so a database with more than 30 languages
+ * has ids that don't fit in an INT. The migration aborts then too, instead of failing on the first
+ * statement.
  *
  * Guarded via the connection's schema manager rather than the injected $schema, because
- * TaggedMigrationsRunner (the "ibexa:install" path) invokes up() with an empty Schema, so
- * $schema->hasTable()/hasColumn() would always report false there.
+ * TaggedMigrationsRunner (the "ibexa:install" path) invokes up() with an empty Schema.
  */
 final class NarrowLanguageIdColumnTypesMigration extends AbstractSqlMigration implements IbexaMigrationInterface
 {
-    private const string OLD_LANGUAGE_TABLE = 'ibexa_content_language';
     private const string LANGUAGE_TABLE = 'ibexa_language';
-    private const string LANGUAGE_TABLE_ID_COLUMN = 'id';
+    private const int INT_MAX = 2147483647;
+
+    /** The columns sql/narrow-language-id-column-types-*.sql narrows, by table. */
+    private const array COLUMNS = [
+        'ibexa_language' => ['id'],
+        'ibexa_content_translation' => ['language_id'],
+        'ibexa_content_version_translation' => ['language_id'],
+        'ibexa_url_alias_ml_translation' => ['language_id'],
+        'ibexa_content_type_field_definition_ml' => ['language_id'],
+        'ibexa_content' => ['initial_language_id'],
+        'ibexa_content_version' => ['initial_language_id'],
+        'ibexa_content_type' => ['initial_language_id'],
+        'ibexa_object_state' => ['default_language_id'],
+        'ibexa_object_state_group' => ['default_language_id'],
+        'ibexa_object_state_language' => ['language_id'],
+        'ibexa_object_state_group_language' => ['language_id', 'real_language_id'],
+    ];
 
     public function getDescription(): string
     {
-        return 'Renames "ibexa_content_language" to "ibexa_language" and narrows "language_id"-shaped columns from BIGINT to INTEGER';
+        return 'Narrows "ibexa_language.id" and the "language_id"-shaped columns from BIGINT to INT';
     }
 
     public static function getTargetVersion(): string
@@ -71,59 +74,70 @@ final class NarrowLanguageIdColumnTypesMigration extends AbstractSqlMigration im
 
     public static function getCreationDate(): DateTimeImmutable
     {
-        return new DateTimeImmutable('2026-10-19 06:00:00');
+        return new DateTimeImmutable('2026-10-19 06:00:02');
     }
 
     public function up(Schema $schema): void
     {
         $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::MARIADB, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
 
-        $schemaManager = $this->connection->createSchemaManager();
-
-        // Both branches are checked (rather than assuming "old name gone" means "already renamed by
-        // this migration") so re-running after a partial/interrupted execution - or a fresh install,
-        // which never has either at this point outside a schema.yaml-driven install - is a no-op.
-        $currentTableName = match (true) {
-            $schemaManager->tablesExist([self::OLD_LANGUAGE_TABLE]) => self::OLD_LANGUAGE_TABLE,
-            $schemaManager->tablesExist([self::LANGUAGE_TABLE]) => self::LANGUAGE_TABLE,
-            default => null,
-        };
-
-        if ($currentTableName === null) {
-            return;
-        }
-
-        $needsRename = $currentTableName === self::OLD_LANGUAGE_TABLE;
-        $idColumn = $schemaManager->introspectTable($currentTableName)->getColumn(self::LANGUAGE_TABLE_ID_COLUMN);
-        $needsNarrowing = $idColumn->getType() instanceof BigIntType;
-
-        if (!$needsRename && !$needsNarrowing) {
-            return;
-        }
-
         if ($this->isSqlite()) {
-            if ($needsRename) {
-                $this->addSql(sprintf('ALTER TABLE %s RENAME TO %s', self::OLD_LANGUAGE_TABLE, self::LANGUAGE_TABLE));
-            }
-
-            // No ALTER COLUMN TYPE support on SQLite - see class docblock.
             return;
         }
 
-        if ($needsRename) {
-            $this->addSql(
-                $this->isMySQL() || $this->isMariaDB()
-                    ? sprintf('RENAME TABLE %s TO %s', self::OLD_LANGUAGE_TABLE, self::LANGUAGE_TABLE)
-                    : sprintf('ALTER TABLE %s RENAME TO %s', self::OLD_LANGUAGE_TABLE, self::LANGUAGE_TABLE)
-            );
+        $schemaManager = $this->connection->createSchemaManager();
+        if (!$schemaManager->tablesExist([self::LANGUAGE_TABLE]) || !$this->hasBigIntColumns($schemaManager)) {
+            return;
         }
 
-        if ($needsNarrowing) {
-            if ($this->isMySQL() || $this->isMariaDB()) {
-                $this->addSqlFile(__DIR__ . '/sql/narrow-language-id-column-types-mysql.sql');
-            } elseif ($this->isPostgreSQL()) {
-                $this->addSqlFile(__DIR__ . '/sql/narrow-language-id-column-types-postgresql.sql');
+        $maxLanguageId = (int)$this->connection->fetchOne('SELECT MAX(id) FROM ' . self::LANGUAGE_TABLE);
+        $this->abortIf(
+            $maxLanguageId > self::INT_MAX,
+            sprintf(
+                'Language id %d doesn\'t fit in an INT. Ids that large come from the bitmask scheme with more than 30 languages, and need renumbering before the language ids can be narrowed.',
+                $maxLanguageId
+            )
+        );
+
+        if ($this->isMySQL() || $this->isMariaDB()) {
+            $foreignKeys = $this->connection->fetchFirstColumn(
+                "SELECT CONCAT(TABLE_NAME, '.', CONSTRAINT_NAME) FROM information_schema.REFERENTIAL_CONSTRAINTS
+                 WHERE CONSTRAINT_SCHEMA = DATABASE() AND REFERENCED_TABLE_NAME = ? ORDER BY 1",
+                [self::LANGUAGE_TABLE]
+            );
+            $this->abortIf(
+                $foreignKeys !== [],
+                sprintf(
+                    'These foreign keys still point at "%s.id", and MySQL and MariaDB won\'t narrow either of their columns while they exist: %s. Drop them before this migration, and narrow their columns to INT and re-create them after it.',
+                    self::LANGUAGE_TABLE,
+                    implode(', ', $foreignKeys)
+                )
+            );
+
+            $this->addSqlFile(__DIR__ . '/sql/narrow-language-id-column-types-mysql.sql');
+        } elseif ($this->isPostgreSQL()) {
+            $this->addSqlFile(__DIR__ . '/sql/narrow-language-id-column-types-postgresql.sql');
+        }
+    }
+
+    /**
+     * @param AbstractSchemaManager<\Doctrine\DBAL\Platforms\AbstractPlatform> $schemaManager
+     */
+    private function hasBigIntColumns(AbstractSchemaManager $schemaManager): bool
+    {
+        foreach (self::COLUMNS as $table => $columns) {
+            if (!$schemaManager->tablesExist([$table])) {
+                continue;
+            }
+
+            $introspected = $schemaManager->introspectTable($table);
+            foreach ($columns as $column) {
+                if ($introspected->hasColumn($column) && $introspected->getColumn($column)->getType() instanceof BigIntType) {
+                    return true;
+                }
             }
         }
+
+        return false;
     }
 }

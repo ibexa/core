@@ -18,7 +18,10 @@ use Ibexa\Bundle\RepositoryInstaller\Migration\AddSearchObjectWordLinkLanguageId
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddUrlAliasAlwaysAvailableColumnMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\BackfillLanguageTranslationsMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\DropLanguageBitmaskColumnsMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\DropLanguageIdForeignKeysMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\NarrowLanguageIdColumnTypesMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\RenameLanguageTableMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\RestoreLanguageIdForeignKeysMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\StripAlwaysAvailableBitFromLanguageIdsMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\TaggedMigrationsRunner;
 use Ibexa\Contracts\Core\Persistence\Content\Language;
@@ -45,7 +48,10 @@ use Psr\Log\NullLogger;
 #[CoversClass(AddSearchObjectWordLinkLanguageIdColumnsMigration::class)]
 #[CoversClass(AddUrlAliasAlwaysAvailableColumnMigration::class)]
 #[CoversClass(DropLanguageBitmaskColumnsMigration::class)]
+#[CoversClass(RenameLanguageTableMigration::class)]
+#[CoversClass(DropLanguageIdForeignKeysMigration::class)]
 #[CoversClass(NarrowLanguageIdColumnTypesMigration::class)]
+#[CoversClass(RestoreLanguageIdForeignKeysMigration::class)]
 #[CoversClass(StripAlwaysAvailableBitFromLanguageIdsMigration::class)]
 final class LanguageBitmaskUpgradeSequenceTest extends TestCase
 {
@@ -76,8 +82,8 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
     {
         $connection = $this->getDatabaseConnection();
 
-        // Tests that expect the sequence to abort before NarrowLanguageIdColumnTypesMigration's
-        // rename step (e.g. testDropMigrationAbortsIfBackfillWasSkipped) never rename the table
+        // Tests that expect the sequence to abort before RenameLanguageTableMigration
+        // (e.g. testDropMigrationAbortsIfBackfillWasSkipped) never rename the table
         // back to "ibexa_language". The underlying SQLite connection is reused across tests (see
         // DatabaseConnectionFactory's static connection pool), so leaving it renamed would break the
         // next test's setUp(), which expects parent::setUp()'s schema.yaml import to find
@@ -102,9 +108,10 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         $this->runMigration(new AddUrlAliasAlwaysAvailableColumnMigration($connection, new NullLogger()));
         $this->runMigration(new DropLanguageBitmaskColumnsMigration($connection, new NullLogger()));
         // Renames "ibexa_content_language" to "ibexa_language" on every platform including SQLite.
-        // The column-narrowing half of this same migration is MySQL/PostgreSQL-only (SQLite has no
-        // ALTER COLUMN TYPE) and is verified against real databases, not here.
-        $this->runMigration(new NarrowLanguageIdColumnTypesMigration($connection, new NullLogger()));
+        // Dropping the foreign keys, narrowing the columns and re-creating the keys is
+        // MySQL/PostgreSQL-only (SQLite has no ALTER COLUMN TYPE) and is verified against real
+        // databases, not here.
+        $this->runLanguageTableMigrations($connection);
         $this->runMigration(new StripAlwaysAvailableBitFromLanguageIdsMigration($connection, new NullLogger()));
 
         $schemaManager = $connection->createSchemaManager();
@@ -225,7 +232,7 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         $this->runMigration(new AddSearchObjectWordLinkLanguageIdColumnsMigration($connection, new NullLogger()));
         $this->runMigration(new AddUrlAliasAlwaysAvailableColumnMigration($connection, new NullLogger()));
         $this->runMigration(new DropLanguageBitmaskColumnsMigration($connection, new NullLogger()));
-        $this->runMigration(new NarrowLanguageIdColumnTypesMigration($connection, new NullLogger()));
+        $this->runLanguageTableMigrations($connection);
         $this->runMigration(new StripAlwaysAvailableBitFromLanguageIdsMigration($connection, new NullLogger()));
 
         // Simulate a database converted without this migration being recorded (e.g. by an upgrade
@@ -320,7 +327,7 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         $this->runMigration(new AddSearchObjectWordLinkLanguageIdColumnsMigration($connection, new NullLogger()));
         $this->runMigration(new AddUrlAliasAlwaysAvailableColumnMigration($connection, new NullLogger()));
         $this->runMigration(new DropLanguageBitmaskColumnsMigration($connection, new NullLogger()));
-        $this->runMigration(new NarrowLanguageIdColumnTypesMigration($connection, new NullLogger()));
+        $this->runLanguageTableMigrations($connection);
         $this->runMigration(new StripAlwaysAvailableBitFromLanguageIdsMigration($connection, new NullLogger()));
 
         self::assertSame(
@@ -690,6 +697,17 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
                 ['id' => ParameterType::INTEGER]
             )
         );
+    }
+
+    /**
+     * Runs the four migrations that rename the language table and narrow its id, in their order.
+     */
+    private function runLanguageTableMigrations(Connection $connection): void
+    {
+        $this->runMigration(new RenameLanguageTableMigration($connection, new NullLogger()));
+        $this->runMigration(new DropLanguageIdForeignKeysMigration($connection, new NullLogger()));
+        $this->runMigration(new NarrowLanguageIdColumnTypesMigration($connection, new NullLogger()));
+        $this->runMigration(new RestoreLanguageIdForeignKeysMigration($connection, new NullLogger()));
     }
 
     /**

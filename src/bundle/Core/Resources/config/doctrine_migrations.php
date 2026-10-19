@@ -17,14 +17,17 @@ use Ibexa\Bundle\RepositoryInstaller\Migration\ConvertMariaDbJsonColumnsMigratio
 use Ibexa\Bundle\RepositoryInstaller\Migration\ConvertMariaDbJsonColumnsTo6_0Migration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\ConvertPostgreSqlSerialColumnsToIdentityMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\DropLanguageBitmaskColumnsMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\DropLanguageIdForeignKeysMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\FixLegacyIdentifiersMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\ImportDataMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\InstallSchemaMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\NarrowLanguageIdColumnTypesMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\RecreateMariaDbBookmarkForeignKeysMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\RemoveStateAssignLocationLimitationsMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\RenameLanguageTableMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\RenamePostgreSqlPrimaryKeysMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\RenameSchemaTo5_0Migration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\RestoreLanguageIdForeignKeysMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\StripAlwaysAvailableBitFromLanguageIdsMigration;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationTag;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -112,7 +115,19 @@ return static function (ContainerConfigurator $configurator): void {
         ->arg('$connection', service('ibexa.persistence.connection'))
         ->tag(IbexaMigrationTag::TAG);
 
+    $services->set(RenameLanguageTableMigration::class)
+        ->arg('$connection', service('ibexa.persistence.connection'))
+        ->tag(IbexaMigrationTag::TAG);
+
+    $services->set(DropLanguageIdForeignKeysMigration::class)
+        ->arg('$connection', service('ibexa.persistence.connection'))
+        ->tag(IbexaMigrationTag::TAG);
+
     $services->set(NarrowLanguageIdColumnTypesMigration::class)
+        ->arg('$connection', service('ibexa.persistence.connection'))
+        ->tag(IbexaMigrationTag::TAG);
+
+    $services->set(RestoreLanguageIdForeignKeysMigration::class)
         ->arg('$connection', service('ibexa.persistence.connection'))
         ->tag(IbexaMigrationTag::TAG);
 
