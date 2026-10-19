@@ -51,7 +51,7 @@ final class AddContentAlwaysAvailableColumnsMigration extends AbstractSqlMigrati
 
     public static function getCreationDate(): DateTimeImmutable
     {
-        return new DateTimeImmutable('2026-09-29 00:00:00');
+        return new DateTimeImmutable('2026-10-19 00:00:00');
     }
 
     public function up(Schema $schema): void
