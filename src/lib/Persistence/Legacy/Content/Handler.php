@@ -23,6 +23,7 @@ use Ibexa\Contracts\Core\Persistence\Content\UpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
 use Ibexa\Core\Base\Exceptions\NotFoundException as NotFound;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway as UrlAliasGateway;
@@ -877,10 +878,7 @@ class Handler implements BaseContentHandler
      * @todo Should the existence verifications happen here or is this supposed to be handled at a higher level?
      *
      * @param mixed $relationId
-     * @param int $type {@see \Ibexa\Contracts\Core\Repository\Values\Content\Relation::COMMON,
-     *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::EMBED,
-     *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::LINK,
-     *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::FIELD}
+     * @param int $type value of {@see RelationType}
      */
     public function removeRelation(
         $relationId,
@@ -926,10 +924,7 @@ class Handler implements BaseContentHandler
      * Only loads relations against published versions.
      *
      * @param mixed $destinationContentId Destination Content ID
-     * @param int|null $type {@see \Ibexa\Contracts\Core\Repository\Values\Content\Relation::COMMON,
-     *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::EMBED,
-     *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::LINK,
-     *                 \Ibexa\Contracts\Core\Repository\Values\Content\Relation::FIELD}
+     * @param int|null $type value of {@see RelationType}
      *
      * @return Relation[]
      */

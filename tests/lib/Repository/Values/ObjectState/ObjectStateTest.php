@@ -69,10 +69,6 @@ class ObjectStateTest extends TestCase
         $objectState = new ObjectState($properties);
         $this->assertPropertiesCorrect($properties, $objectState);
 
-        // BC test:
-        self::assertTrue(isset($objectState->defaultLanguageCode));
-        self::assertSame('eng-US', $objectState->defaultLanguageCode);
-
         return $objectState;
     }
 

@@ -8,6 +8,7 @@
 namespace Ibexa\Contracts\Core\Persistence\Content;
 
 use Ibexa\Contracts\Core\Persistence\ValueObject;
+use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
 
 /**
  * Class representing a relation between content.
@@ -50,13 +51,7 @@ class Relation extends ValueObject
     public $destinationContentId;
 
     /**
-     * Type bitmask.
-     *
-     * @see \Ibexa\Contracts\Core\Repository\Values\Content\Relation::COMMON
-     * @see \Ibexa\Contracts\Core\Repository\Values\Content\Relation::EMBED
-     * @see \Ibexa\Contracts\Core\Repository\Values\Content\Relation::LINK
-     * @see \Ibexa\Contracts\Core\Repository\Values\Content\Relation::FIELD
-     * @see \Ibexa\Contracts\Core\Repository\Values\Content\Relation::ASSET
+     * Bitmask of {@see RelationType} values.
      *
      * @var int
      */

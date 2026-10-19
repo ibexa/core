@@ -10,28 +10,23 @@ namespace Ibexa\Tests\Core\Repository\Service\Mock;
 use DateTime;
 use DateTimeImmutable;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo as SPIContentInfo;
-use Ibexa\Contracts\Core\Persistence\Content\Field as PersistenceContentField;
 use Ibexa\Contracts\Core\Persistence\Content\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Location;
 use Ibexa\Contracts\Core\Persistence\Content\Type as PersistenceContentType;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo as SPIVersionInfo;
-use Ibexa\Contracts\Core\Repository\Exceptions\Exception;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location as APILocation;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
-use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\Repository\Mapper\ContentDomainMapper;
 use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperInterface;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
-use Ibexa\Core\Repository\Values\ContentType\FieldDefinitionCollection;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -144,33 +139,6 @@ final class ContentDomainMapperTest extends BaseServiceMockTest
             $this->getContentDomainMapper()->buildLocationWithContent($spiRootLocation, null),
             $this->getContentDomainMapper()->buildLocation($spiRootLocation)
         );
-    }
-
-    /**
-     * @throws Exception
-     */
-    #[Group('legacy')]
-    public function testBuildDomainFieldsDeprecatedBehavior(): void
-    {
-        $persistenceFields = [new PersistenceContentField()];
-        $persistenceContentType = self::createStub(PersistenceContentType::class);
-        $apiContentTypeMock = $this->createMock(ContentType::class);
-        $apiContentTypeMock->method('getFieldDefinitions')->willReturn(new FieldDefinitionCollection());
-        $this
-            ->getContentTypeDomainMapperMock()
-            ->method('buildContentTypeDomainObject')
-            ->with($persistenceContentType, [])->willReturn($apiContentTypeMock)
-        ;
-
-        $this->expectUserDeprecationMessage(
-            'Since ibexa/core 4.6: Passing Ibexa\Contracts\Core\Persistence\Content\Type instead of ' .
-            'Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType as 2nd argument of ' .
-            'Ibexa\Core\Repository\Mapper\ContentDomainMapper::buildDomainFields() method is deprecated and will cause ' .
-            'a fatal error in 5.0. Build Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType using ' .
-            'Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper::buildContentTypeDomainObject prior passing it to the method'
-        );
-
-        $this->getContentDomainMapper()->buildDomainFields($persistenceFields, $persistenceContentType);
     }
 
     /**

@@ -405,7 +405,7 @@ class UserIntegrationTest extends BaseIntegrationTestCase
         // Create draft from user content object
         $contentService = $repository->getContentService();
 
-        return $contentService->createContentDraft($user->content->contentInfo, $user->content->versionInfo);
+        return $contentService->createContentDraft($user->getContentInfo(), $user->getVersionInfo());
     }
 
     public function testCreateContentWithEmptyFieldValue(): void

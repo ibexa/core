@@ -216,15 +216,6 @@ abstract class Gateway
         int $status
     ): void;
 
-    /**
-     * @deprecated 5.0.0. Use removeByUserAndStatus() instead.
-     * Remove items created or modified by User.
-     */
-    abstract public function removeByUserAndVersion(
-        int $userId,
-        int $version
-    ): void;
-
     abstract public function removeByUserAndStatus(
         int $userId,
         int $status

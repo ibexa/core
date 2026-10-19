@@ -11,7 +11,6 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Security;
 use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
 use Ibexa\Core\MVC\Symfony\Security\UserInterface;
 use Ibexa\Core\MVC\Symfony\Security\UserWrapped;
-use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\User\EquatableInterface;
@@ -49,23 +48,12 @@ final class UserWrappedTest extends TestCase
         self::assertSame($newWrappedUser, $userWrapped->getWrappedUser());
     }
 
-    #[IgnoreDeprecations]
     public function testRegularUser(): void
     {
-        // Symfony 8 removed UserInterface::eraseCredentials(), so a plain
-        // SymfonyUserInterface mock no longer has it to configure. UserWrapped::eraseCredentials()
-        // still calls it via reflection when the wrapped user implements it (legacy/BC support),
-        // so mock a user that still declares the method to exercise that path. Calling it here
-        // is itself deprecated (see UserWrapped::eraseCredentials()); that is expected and ignored.
-        $originalUser = $this->createMock(LegacyEraseCredentialsUserInterface::class);
+        $originalUser = $this->createMock(SymfonyUserInterface::class);
         $user = new UserWrapped($originalUser, $this->apiUser);
 
         self::assertTrue($user->isEqualTo(self::createStub(SymfonyUserInterface::class)));
-
-        $originalUser
-            ->expects($this->once())
-            ->method('eraseCredentials');
-        $user->eraseCredentials();
 
         $username = 'lolautruche';
         $roles = ['ROLE_USER', 'ROLE_TEST'];
@@ -112,14 +100,3 @@ final class UserWrappedTest extends TestCase
  * @internal For use with tests only
  */
 interface UserEquatableInterface extends UserInterface, EquatableInterface {}
-
-/**
- * @internal For use with tests only.
- *
- * Symfony 8 dropped eraseCredentials() from SymfonyUserInterface; this keeps it mockable
- * to exercise UserWrapped's reflection-based BC call to a legacy implementer.
- */
-interface LegacyEraseCredentialsUserInterface extends SymfonyUserInterface
-{
-    public function eraseCredentials(): void;
-}

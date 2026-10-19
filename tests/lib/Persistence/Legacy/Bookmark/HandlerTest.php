@@ -128,55 +128,6 @@ class HandlerTest extends TestCase
         self::assertEmpty($this->handler->loadByUserIdAndLocationId($userId, [$locationId]));
     }
 
-    public function testLoadUserBookmarks(): void
-    {
-        $userId = 87;
-        $offset = 50;
-        $limit = 25;
-
-        $rows = [
-            [
-                'id' => '12',
-                'name' => '',
-                'node_id' => '2',
-                'user_id' => $userId,
-            ],
-            [
-                'id' => '75',
-                'name' => '',
-                'node_id' => '54',
-                'user_id' => $userId,
-            ],
-        ];
-
-        $objects = [
-            new Bookmark([
-                'id' => 12,
-                'locationId' => 2,
-                'userId' => 78,
-            ]),
-            new Bookmark([
-                'id' => 75,
-                'locationId' => 54,
-                'userId' => 87,
-            ]),
-        ];
-
-        $this->gateway
-            ->expects($this->once())
-            ->method('loadUserBookmarks')
-            ->with($userId, $offset, $limit)
-            ->willReturn($rows);
-
-        $this->mapper
-            ->expects($this->once())
-            ->method('extractBookmarksFromRows')
-            ->with($rows)
-            ->willReturn($objects);
-
-        self::assertEquals($objects, $this->handler->loadUserBookmarks($userId, $offset, $limit));
-    }
-
     public function testLocationSwapped(): void
     {
         $location1Id = 1;

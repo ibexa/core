@@ -478,7 +478,7 @@ interface ContentService
      *
      * @return Relation The newly created relation.
      *
-     * @see Relation::COMMON
+     * @see RelationType::COMMON
      */
     public function addRelation(
         VersionInfo $sourceVersion,
@@ -490,9 +490,9 @@ interface ContentService
      *
      * @throws UnauthorizedException if the user is not allowed edit this version.
      * @throws BadStateException if the version is not a draft.
-     * @throws InvalidArgumentException if there is no relation of type {@see Relation::COMMON} for the given destination.
+     * @throws InvalidArgumentException if there is no relation of type {@see RelationType::COMMON} for the given destination.
      *
-     * @see Relation::COMMON
+     * @see RelationType::COMMON
      */
     public function deleteRelation(
         VersionInfo $sourceVersion,

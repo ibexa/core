@@ -59,27 +59,6 @@ class ExceptionConversion extends Gateway
         }
     }
 
-    public function loadUserBookmarks(
-        int $userId,
-        int $offset = 0,
-        int $limit = -1
-    ): array {
-        try {
-            return $this->innerGateway->loadUserBookmarks($userId, $offset, $limit);
-        } catch (DBALException | PDOException $e) {
-            throw DatabaseException::wrap($e);
-        }
-    }
-
-    public function countUserBookmarks(int $userId): int
-    {
-        try {
-            return $this->innerGateway->countUserBookmarks($userId);
-        } catch (DBALException | PDOException $e) {
-            throw DatabaseException::wrap($e);
-        }
-    }
-
     public function locationSwapped(
         int $location1Id,
         int $location2Id

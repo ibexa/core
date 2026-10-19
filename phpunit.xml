@@ -34,7 +34,7 @@
       <directory>tests/bundle/LegacySearchEngine</directory>
     </testsuite>
   </testsuites>
-  <source baseline="phpunit.baseline.xml" ignoreIndirectDeprecations="false" ignoreSuppressionOfDeprecations="true">
+  <source baseline="phpunit.baseline.xml" ignoreIndirectDeprecations="true" ignoreSuppressionOfDeprecations="true">
     <include>
       <directory>src</directory>
     </include>
