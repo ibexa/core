@@ -11,7 +11,6 @@ use Ibexa\Rector\Rule\PropertyToGetterRector;
 use Rector\Config\RectorConfig;
 use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\Symfony\Set\SymfonySetList;
-use Rector\Symfony\Symfony61\Rector\Class_\CommandConfigureToAttributeRector;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -31,9 +30,6 @@ return RectorConfig::configure()
         DoctrineSetList::DOCTRINE_DBAL_211,
     ])
     ->withSkip([
-        CommandConfigureToAttributeRector::class => [
-            __DIR__ . '/tests/bundle/Core/EventListener/BackwardCompatibleCommandListenerTest.php',
-        ],
         PropertyToGetterRector::class => [
             __DIR__ . '/tests/lib/Repository/Values/ContentType/ContentTypeTest.php',
         ]
