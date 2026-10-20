@@ -32,7 +32,7 @@ final class ConfigurationDumper
     }
 
     /**
-     * @param array<string, array<string, array<string, mixed>>> $webpackConfigNames
+     * @param array<string, array<string, array{}>> $webpackConfigNames
      *
      * @throws \JsonException
      */
@@ -54,7 +54,7 @@ final class ConfigurationDumper
 
     /**
      * @param array<string, array{path: string, namespace: string}> $bundlesMetadata
-     * @param array<string, array<string, mixed>> $configFiles
+     * @param array<string, array{}> $configFiles
      *
      * @return array<string>
      */
