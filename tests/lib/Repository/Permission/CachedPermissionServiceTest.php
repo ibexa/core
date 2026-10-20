@@ -165,6 +165,35 @@ class CachedPermissionServiceTest extends TestCase
         $cachedService->setCurrentUserReference($userRef);
     }
 
+    public function testGetPermissionsCriterionIsCachedAfterSudoError(): void
+    {
+        $criterionMock = $this->createMock(Criterion::class);
+
+        $this->getPermissionResolverMock(['sudo'])
+            ->expects(self::once())
+            ->method('sudo')
+            ->willThrowException(new \Error('sudo callback failure'));
+
+        $this->getPermissionCriterionResolverMock(['getPermissionsCriterion'])
+            ->expects(self::once())
+            ->method('getPermissionsCriterion')
+            ->with('content', 'read')
+            ->willReturn($criterionMock);
+
+        $cachedService = $this->getCachedPermissionService();
+
+        try {
+            $cachedService->sudo(static function (): void {}, $this->createMock(Repository::class));
+            self::fail('Error thrown inside sudo() was not rethrown');
+        } catch (\Error $e) {
+            self::assertSame('sudo callback failure', $e->getMessage());
+        }
+
+        // outside of sudo() the content/read criterion is cached, so the inner resolver is hit once
+        self::assertSame($criterionMock, $cachedService->getPermissionsCriterion('content', 'read'));
+        self::assertSame($criterionMock, $cachedService->getPermissionsCriterion('content', 'read'));
+    }
+
     /**
      * Returns the CachedPermissionService to test against.
      *

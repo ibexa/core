@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
 use Ibexa\Contracts\Core\Limitation\Type;
+use Ibexa\Contracts\Core\Persistence\User\Handler as UserHandler;
 use Ibexa\Contracts\Core\Persistence\User\Policy;
 use Ibexa\Contracts\Core\Persistence\User\Role;
 use Ibexa\Contracts\Core\Persistence\User\RoleAssignment;
@@ -17,6 +18,8 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\Base\Exceptions\NotFound\LimitationNotFoundException;
+use Ibexa\Core\Repository\Mapper\RoleDomainMapper;
+use Ibexa\Core\Repository\Permission\LimitationService;
 use Ibexa\Core\Repository\Permission\PermissionResolver;
 use Ibexa\Core\Repository\Repository as CoreRepository;
 use Ibexa\Core\Repository\Values\User\UserReference;
@@ -250,6 +253,41 @@ class PermissionTest extends BaseServiceMockTest
         );
 
         self::assertTrue($result);
+    }
+
+    public function testSudoIsLeftOnError(): void
+    {
+        $userHandlerMock = $this->createMock(UserHandler::class);
+        $userHandlerMock
+            ->expects(self::once())
+            ->method('loadRoleAssignmentsByGroupId')
+            ->with(10, true)
+            ->willReturn([]);
+
+        $configResolver = $this->createStub(ConfigResolverInterface::class);
+        $configResolver->method('getParameter')->willReturn(10);
+
+        $service = new PermissionResolver(
+            $this->createStub(RoleDomainMapper::class),
+            $this->createStub(LimitationService::class),
+            $userHandlerMock,
+            $configResolver,
+            ['dummy-module' => ['dummy-function' => ['dummy-limitation' => true]]]
+        );
+
+        try {
+            $service->sudo(
+                static function (): void {
+                    throw new \Error('sudo callback failure');
+                },
+                $this->createStub(Repository::class)
+            );
+            self::fail('Error thrown inside sudo() was not rethrown');
+        } catch (\Error $e) {
+            self::assertSame('sudo callback failure', $e->getMessage());
+        }
+
+        self::assertFalse($service->hasAccess('dummy-module', 'dummy-function'));
     }
 
     /**
