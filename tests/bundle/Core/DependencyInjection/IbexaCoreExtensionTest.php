@@ -189,6 +189,29 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         ];
     }
 
+    /**
+     * @param array<string, mixed> $config
+     */
+    #[DataProvider('provideInstallerDoctrineMigrationsConfiguration')]
+    public function testInstallerDoctrineMigrationsConfiguration(
+        array $config,
+        bool $expectedParameterValue
+    ): void {
+        $this->load($config);
+
+        $this->assertContainerBuilderHasParameter('ibexa.installer.doctrine_migrations.enabled', $expectedParameterValue);
+    }
+
+    /**
+     * @return iterable<string, array{array<string, mixed>, bool}>
+     */
+    public static function provideInstallerDoctrineMigrationsConfiguration(): iterable
+    {
+        yield 'not configured' => [[], false];
+        yield 'enabled' => [['installer' => ['doctrine_migrations' => true]], true];
+        yield 'enabled (nested)' => [['installer' => ['doctrine_migrations' => ['enabled' => true]]], true];
+    }
+
     public function testImageMagickConfigurationFilters(): void
     {
         if (!isset($_ENV['imagemagickConvertPath']) || !is_executable($_ENV['imagemagickConvertPath'])) {
