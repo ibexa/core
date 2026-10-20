@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\RepositoryInstaller\Migration;
 
 use DateTimeImmutable;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\BigIntType;
@@ -121,7 +122,7 @@ final class NarrowLanguageIdColumnTypesMigration extends AbstractSqlMigration im
     }
 
     /**
-     * @param AbstractSchemaManager<\Doctrine\DBAL\Platforms\AbstractPlatform> $schemaManager
+     * @param AbstractSchemaManager<AbstractPlatform> $schemaManager
      */
     private function hasBigIntColumns(AbstractSchemaManager $schemaManager): bool
     {
