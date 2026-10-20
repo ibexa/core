@@ -2550,7 +2550,7 @@ class ContentTest extends BaseServiceMockTest
         $structFields
     ): void {
         $this->expectException(ContentFieldValidationException::class);
-        $this->expectExceptionMessage('Content fields did not validate');
+        $this->expectExceptionMessage('Content "" fields did not validate');
 
         $fieldDefinitions = $this->fixturesForTestCreateContentNonRedundantFieldSetComplex();
         list($contentCreateStruct, $allFieldErrors) =
