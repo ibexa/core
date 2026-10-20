@@ -7,7 +7,6 @@
 
 namespace Ibexa\Core\MVC\Symfony;
 
-use Ibexa\Core\MVC\Symfony\Event\APIContentExceptionEvent;
 use Ibexa\Core\MVC\Symfony\Event\PostSiteAccessMatchEvent;
 use Ibexa\Core\MVC\Symfony\Event\PreContentViewEvent;
 use Ibexa\Core\MVC\Symfony\Event\RouteReferenceGenerationEvent;
@@ -33,15 +32,6 @@ final class MVCEvents
      * @see Manager
      */
     public const PRE_CONTENT_VIEW = 'ezpublish.pre_content_view';
-
-    /**
-     * The API_CONTENT_EXCEPTION event occurs when the API throws an exception that could not be caught internally
-     * (missing field type, internal error...).
-     * It allows further programmatic handling (like rendering a custom view) for the exception thrown.
-     *
-     * The event listener method receives an {@see APIContentExceptionEvent}.
-     */
-    public const API_CONTENT_EXCEPTION = 'ezpublish.api.contentException';
 
     /**
      * CONFIG_SCOPE_CHANGE event occurs when configuration scope is changed (e.g. for content preview in a given siteaccess).
