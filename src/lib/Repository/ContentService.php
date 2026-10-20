@@ -9,8 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Core\Repository;
 
 use Exception;
-use Ibexa\Contracts\Core\FieldType\FieldType;
-use Ibexa\Contracts\Core\FieldType\Value;
 use Ibexa\Contracts\Core\Limitation\Target;
 use Ibexa\Contracts\Core\Limitation\Target\DestinationLocation as DestinationLocationTarget;
 use Ibexa\Contracts\Core\Options\Context;
@@ -1710,7 +1708,7 @@ class ContentService implements ContentServiceInterface
 
             if ($newValue !== null
                 && $field->value !== null
-                && $this->fieldValuesAreEqual($fieldType, $newValue, $field->value)
+                && $fieldType->valuesEqual($newValue, $field->value)
             ) {
                 continue;
             }
@@ -1729,14 +1727,6 @@ class ContentService implements ContentServiceInterface
         }
 
         $this->internalUpdateContent($versionInfo, $updateStruct, null, true);
-    }
-
-    protected function fieldValuesAreEqual(
-        FieldType $fieldType,
-        Value $value1,
-        Value $value2
-    ): bool {
-        return $fieldType->valuesEqual($value1, $value2);
     }
 
     /**
