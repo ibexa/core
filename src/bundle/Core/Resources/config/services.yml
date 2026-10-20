@@ -89,8 +89,6 @@ services:
 
     Ibexa\Core\MVC\Symfony\Controller\Content\ViewController:
         class: Ibexa\Core\MVC\Symfony\Controller\Content\ViewController
-        arguments:
-            $viewManager: '@Ibexa\Core\MVC\Symfony\View\ViewManagerInterface'
         parent: Ibexa\Core\MVC\Symfony\Controller\Controller
         tags:
             - { name: controller.service_arguments }

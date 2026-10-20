@@ -10,25 +10,12 @@ namespace Ibexa\Core\MVC\Symfony\Controller\Content;
 
 use Ibexa\Core\MVC\Symfony\Controller\Controller;
 use Ibexa\Core\MVC\Symfony\View\ContentView;
-use Ibexa\Core\MVC\Symfony\View\ViewManagerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * This controller provides the content view feature.
  */
 class ViewController extends Controller
 {
-    protected ViewManagerInterface $viewManager;
-
-    public function __construct(
-        ContainerInterface $container,
-        ViewManagerInterface $viewManager,
-    ) {
-        parent::__construct($container);
-
-        $this->viewManager = $viewManager;
-    }
-
     /**
      * This is the default view action or a ContentView object.
      *
