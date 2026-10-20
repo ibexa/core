@@ -278,6 +278,8 @@ interface ContentService
      * It can be changed on updating the version.
      *
      * @throws UnauthorizedException if the current user is not allowed to create the draft.
+     * @throws BadStateException if no version is given and the content is not published, or if the given version is a draft.
+     * @throws InvalidArgumentException if the given version does not belong to the given content.
      *
      * @param User|null $creator Used as creator of the draft if given; otherwise uses current user.
      * @param Language|null $language If not set the draft is created with the initialLanguage code of the source version or if not present with the main language.
@@ -328,6 +330,7 @@ interface ContentService
      * @throws ContentFieldValidationException if a field in the $contentUpdateStruct is not valid.
      * @throws ContentValidationException if a required field is set to an empty value.
      * @throws InvalidArgumentException if a field value is not accepted by the field type.
+     * @throws NotFoundException if a field value cannot be processed, e.g. rich text in an unsupported XML namespace.
      *
      * @param array<int, string>|null $fieldIdentifiersToValidate List of field identifiers for partial validation or null
      *                      for case of full validation. Empty identifiers array is equal to no validation.
@@ -350,6 +353,8 @@ interface ContentService
      *
      * @throws UnauthorizedException if the user is not allowed to publish this version.
      * @throws BadStateException if the version is not a draft.
+     * @throws ContentFieldValidationException if a field of a published translation is not valid, e.g. a required field is empty.
+     * @throws NotFoundException if the content item, or the parent Location of its first publication, no longer exists.
      *
      * @param array<int, string> $translations List of language codes of translations which will be included
      *                               in a published version.
