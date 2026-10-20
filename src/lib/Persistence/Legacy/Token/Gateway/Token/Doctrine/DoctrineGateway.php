@@ -96,8 +96,10 @@ final class DoctrineGateway extends AbstractGateway implements Gateway
         );
     }
 
-    public function revokeByIdentifier(int $typeId, ?string $identifier): void
-    {
+    public function revokeByIdentifier(
+        int $typeId,
+        ?string $identifier
+    ): void {
         $this->connection->update(
             self::TABLE_NAME,
             [

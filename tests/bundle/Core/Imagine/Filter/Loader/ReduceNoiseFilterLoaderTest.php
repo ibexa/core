@@ -16,9 +16,9 @@ use PHPUnit\Framework\TestCase;
 
 class ReduceNoiseFilterLoaderTest extends TestCase
 {
-    private FilterInterface&Stub $filter;
+    private FilterInterface & Stub $filter;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\Loader\ReduceNoiseFilterLoader */
+    /** @var ReduceNoiseFilterLoader */
     private $loader;
 
     protected function setUp(): void

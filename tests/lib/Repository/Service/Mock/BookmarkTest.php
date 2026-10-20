@@ -11,6 +11,7 @@ namespace Ibexa\Tests\Core\Repository\Service\Mock;
 use Exception;
 use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
 use Ibexa\Contracts\Core\Persistence\Bookmark\CreateStruct;
+use Ibexa\Contracts\Core\Persistence\Bookmark\Handler;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
@@ -30,7 +31,7 @@ class BookmarkTest extends BaseServiceMockTest
     public const CURRENT_USER_ID = 7;
     public const LOCATION_ID = 1;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Bookmark\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Handler|MockObject */
     private $bookmarkHandler;
 
     protected function setUp(): void
@@ -41,13 +42,13 @@ class BookmarkTest extends BaseServiceMockTest
 
         $permissionResolverMock = $this->createMock(PermissionResolver::class);
         $permissionResolverMock
-            ->expects(self::atLeastOnce())
+            ->expects($this->atLeastOnce())
             ->method('getCurrentUserReference')
             ->willReturn(new UserReference(self::CURRENT_USER_ID));
 
         $repository = $this->getRepositoryMock();
         $repository
-            ->expects(self::atLeastOnce())
+            ->expects($this->atLeastOnce())
             ->method('getPermissionResolver')
             ->willReturn($permissionResolverMock);
     }
@@ -59,7 +60,7 @@ class BookmarkTest extends BaseServiceMockTest
         $this->assertLocationIsLoaded($location);
 
         $this->bookmarkHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadByUserIdAndLocationId')
             ->with(self::CURRENT_USER_ID, [self::LOCATION_ID])
             ->willReturn([]);
@@ -88,7 +89,7 @@ class BookmarkTest extends BaseServiceMockTest
         $this->assertLocationIsLoaded($location);
 
         $this->bookmarkHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadByUserIdAndLocationId')
             ->with(self::CURRENT_USER_ID, [self::LOCATION_ID])
             ->willReturn([self::LOCATION_ID => new Bookmark()]);
@@ -102,14 +103,14 @@ class BookmarkTest extends BaseServiceMockTest
 
     public function testCreateBookmarkWithRollback(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
 
         $location = $this->createLocation(self::LOCATION_ID);
 
         $this->assertLocationIsLoaded($location);
 
         $this->bookmarkHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadByUserIdAndLocationId')
             ->with(self::CURRENT_USER_ID, [self::LOCATION_ID])
             ->willReturn([]);
@@ -133,7 +134,7 @@ class BookmarkTest extends BaseServiceMockTest
         $bookmark = new Bookmark(['id' => self::BOOKMARK_ID]);
 
         $this->bookmarkHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadByUserIdAndLocationId')
             ->with(self::CURRENT_USER_ID, [self::LOCATION_ID])
             ->willReturn([self::LOCATION_ID => $bookmark]);
@@ -150,14 +151,14 @@ class BookmarkTest extends BaseServiceMockTest
 
     public function testDeleteBookmarkWithRollback(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
 
         $location = $this->createLocation(self::LOCATION_ID);
 
         $this->assertLocationIsLoaded($location);
 
         $this->bookmarkHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadByUserIdAndLocationId')
             ->with(self::CURRENT_USER_ID, [self::LOCATION_ID])
             ->willReturn([self::LOCATION_ID => new Bookmark(['id' => self::BOOKMARK_ID])]);
@@ -181,7 +182,7 @@ class BookmarkTest extends BaseServiceMockTest
         $this->assertLocationIsLoaded($location);
 
         $this->bookmarkHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadByUserIdAndLocationId')
             ->with(self::CURRENT_USER_ID, [self::LOCATION_ID])
             ->willReturn([]);
@@ -206,13 +207,13 @@ class BookmarkTest extends BaseServiceMockTest
 
         $locationServiceMock = $this->createMock(LocationService::class);
         $locationServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('find')
             ->willReturn($locationList);
 
         $repository = $this->getRepositoryMock();
         $repository
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getLocationService')
             ->willReturn($locationServiceMock);
 
@@ -230,7 +231,7 @@ class BookmarkTest extends BaseServiceMockTest
     public function testLocationShouldNotBeBookmarked(): void
     {
         $this->bookmarkHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadByUserIdAndLocationId')
             ->with(self::CURRENT_USER_ID, [self::LOCATION_ID])
             ->willReturn([]);
@@ -241,7 +242,7 @@ class BookmarkTest extends BaseServiceMockTest
     public function testLocationShouldBeBookmarked(): void
     {
         $this->bookmarkHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadByUserIdAndLocationId')
             ->with(self::CURRENT_USER_ID, [self::LOCATION_ID])
             ->willReturn([self::LOCATION_ID => new Bookmark()]);
@@ -253,13 +254,13 @@ class BookmarkTest extends BaseServiceMockTest
     {
         $locationServiceMock = $this->createMock(LocationService::class);
         $locationServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadLocation')
             ->willReturn($location);
 
         $repository = $this->getRepositoryMock();
         $repository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getLocationService')
             ->willReturn($locationServiceMock);
 
@@ -269,32 +270,34 @@ class BookmarkTest extends BaseServiceMockTest
     private function assertTransactionIsNotStarted(callable $operation): void
     {
         $repository = $this->getRepositoryMock();
-        $repository->expects(self::never())->method('beginTransaction');
+        $repository->expects($this->never())->method('beginTransaction');
         $operation();
-        $repository->expects(self::never())->method('commit');
-        $repository->expects(self::never())->method('rollback');
+        $repository->expects($this->never())->method('commit');
+        $repository->expects($this->never())->method('rollback');
     }
 
     private function assertTransactionIsCommitted(callable $operation): void
     {
         $repository = $this->getRepositoryMock();
-        $repository->expects(self::once())->method('beginTransaction');
+        $repository->expects($this->once())->method('beginTransaction');
         $operation();
-        $repository->expects(self::once())->method('commit');
-        $repository->expects(self::never())->method('rollback');
+        $repository->expects($this->once())->method('commit');
+        $repository->expects($this->never())->method('rollback');
     }
 
     private function assertTransactionIsRollback(callable $operation): void
     {
         $repository = $this->getRepositoryMock();
-        $repository->expects(self::once())->method('beginTransaction');
+        $repository->expects($this->once())->method('beginTransaction');
         $operation();
-        $repository->expects(self::never())->method('commit');
-        $repository->expects(self::once())->method('rollback');
+        $repository->expects($this->never())->method('commit');
+        $repository->expects($this->once())->method('rollback');
     }
 
-    private function createLocation(int $id = self::CURRENT_USER_ID, string $name = 'Lorem ipsum...'): Location
-    {
+    private function createLocation(
+        int $id = self::CURRENT_USER_ID,
+        string $name = 'Lorem ipsum...'
+    ): Location {
         return new Location([
             'id' => $id,
             'contentInfo' => new ContentInfo([
@@ -304,7 +307,7 @@ class BookmarkTest extends BaseServiceMockTest
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\BookmarkService|\PHPUnit\Framework\MockObject\MockObject
+     * @return \Ibexa\Contracts\Core\Repository\BookmarkService|MockObject
      */
     private function createBookmarkService(?array $methods = null)
     {

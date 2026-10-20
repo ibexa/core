@@ -584,8 +584,10 @@ class URLServiceTest extends BaseURLServiceTestCase
      */
     #[Depends('testFindUrls')]
     #[DataProvider('dataProviderForFindUrlsWithSorting')]
-    public function testFindUrlsWithSorting(SortClause $sortClause, array $expectedUrls): void
-    {
+    public function testFindUrlsWithSorting(
+        SortClause $sortClause,
+        array $expectedUrls
+    ): void {
         $query = new URLQuery();
         $query->filter = new Criterion\MatchAll();
         $query->sortClauses = [$sortClause];
@@ -811,7 +813,7 @@ class URLServiceTest extends BaseURLServiceTestCase
      * Test for URLService::createUpdateStruct() method.
      *
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\URL\URLUpdateStruct
+     * @return URLUpdateStruct
      */
     public function testCreateUpdateStruct()
     {
@@ -830,7 +832,7 @@ class URLServiceTest extends BaseURLServiceTestCase
     /**
      * Test for URLService::createUpdateStruct() method.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\URL\URLUpdateStruct $updateStruct
+     * @param URLUpdateStruct $updateStruct
      */
     #[Depends('testCreateUpdateStruct')]
     public function testCreateUpdateStructValues(URLUpdateStruct $updateStruct): void
@@ -847,8 +849,13 @@ class URLServiceTest extends BaseURLServiceTestCase
      */
     #[Depends('testLoadById')]
     #[DataProvider('dataProviderForFindUsages')]
-    public function testFindUsages($urlId, $offset, $limit, array $expectedContentInfos, $expectedTotalCount = null): void
-    {
+    public function testFindUsages(
+        $urlId,
+        $offset,
+        $limit,
+        array $expectedContentInfos,
+        $expectedTotalCount = null
+    ): void {
         $repository = $this->getRepository();
 
         $id = $this->generateId('url', $urlId);

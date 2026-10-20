@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Controller;
 
 use Ibexa\Core\MVC\Symfony\Controller\Controller;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,13 +21,13 @@ use Twig\Environment;
 #[CoversClass(Controller::class)]
 class ControllerTest extends TestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Controller\Controller */
+    /** @var Controller */
     protected $controller;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     protected $templateEngineMock;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     protected $containerMock;
 
     protected function setUp(): void
@@ -35,10 +36,10 @@ class ControllerTest extends TestCase
         $this->containerMock = $this->createMock(ContainerInterface::class);
         $this->controller = $this->getMockForAbstractClass(Controller::class, [$this->containerMock]);
         $this->containerMock
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('get')
             ->with('twig')
-            ->will(self::returnValue($this->templateEngineMock));
+            ->will($this->returnValue($this->templateEngineMock));
     }
 
     public function testRender(): void
@@ -47,10 +48,10 @@ class ControllerTest extends TestCase
         $params = ['foo' => 'bar', 'truc' => 'muche'];
         $tplResult = "I'm a template result";
         $this->templateEngineMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('render')
             ->with($view, $params)
-            ->will(self::returnValue($tplResult));
+            ->will($this->returnValue($tplResult));
         $response = $this->controller->render($view, $params);
         self::assertInstanceOf(Response::class, $response);
         self::assertSame($tplResult, $response->getContent());
@@ -63,10 +64,10 @@ class ControllerTest extends TestCase
         $params = ['foo' => 'bar', 'truc' => 'muche'];
         $tplResult = "I'm a template result";
         $this->templateEngineMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('render')
             ->with($view, $params)
-            ->will(self::returnValue($tplResult));
+            ->will($this->returnValue($tplResult));
 
         self::assertSame($response, $this->controller->render($view, $params, $response));
         self::assertSame($tplResult, $response->getContent());

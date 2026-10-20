@@ -18,8 +18,10 @@ namespace Ibexa\Contracts\Core\Collection;
  */
 class MutableArrayMap extends ArrayMap implements MutableMapInterface
 {
-    public function set($key, $value): void
-    {
+    public function set(
+        $key,
+        $value
+    ): void {
         $this->items[$key] = $value;
     }
 
@@ -38,7 +40,7 @@ class MutableArrayMap extends ArrayMap implements MutableMapInterface
      *
      * @phpstan-param TValueFrom[] $items
      *
-     * @phpstan-return \Ibexa\Contracts\Core\Collection\MutableArrayMap<TKey,TValueFrom>
+     * @phpstan-return MutableArrayMap<TKey,TValueFrom>
      */
     protected function createFrom(array $items): MutableArrayMap
     {

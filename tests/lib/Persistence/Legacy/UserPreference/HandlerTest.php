@@ -14,6 +14,7 @@ use Ibexa\Core\Persistence\Legacy\UserPreference\Gateway;
 use Ibexa\Core\Persistence\Legacy\UserPreference\Handler;
 use Ibexa\Core\Persistence\Legacy\UserPreference\Mapper;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Handler::class)]
@@ -21,13 +22,13 @@ class HandlerTest extends TestCase
 {
     public const USER_PREFERENCE_ID = 1;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\UserPreference\Gateway|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Gateway|MockObject */
     private $gateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\UserPreference\Mapper|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Mapper|MockObject */
     private $mapper;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\UserPreference\Handler */
+    /** @var Handler */
     private $handler;
 
     protected function setUp(): void
@@ -46,13 +47,13 @@ class HandlerTest extends TestCase
         ]);
 
         $this->gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setUserPreference')
             ->with($setStruct)
             ->willReturn(self::USER_PREFERENCE_ID);
 
         $this->mapper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('extractUserPreferencesFromRows')
             ->willReturn([new UserPreference([
                 'id' => self::USER_PREFERENCE_ID,
@@ -69,7 +70,7 @@ class HandlerTest extends TestCase
         $expectedCount = 12;
 
         $this->gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('countUserPreferences')
             ->with($ownerId)
             ->willReturn($expectedCount);
@@ -96,13 +97,13 @@ class HandlerTest extends TestCase
         ];
 
         $this->gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadUserPreferences')
             ->with($ownerId, $offset, $limit)
             ->willReturn($rows);
 
         $this->mapper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('extractUserPreferencesFromRows')
             ->with($rows)
             ->willReturn($objects);

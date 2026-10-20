@@ -36,8 +36,10 @@ class ContentTest extends AbstractParserTestCase
     }
 
     #[DataProvider('contentSettingsProvider')]
-    public function testContentSettings(array $config, array $expected): void
-    {
+    public function testContentSettings(
+        array $config,
+        array $expected
+    ): void {
         $this->load(
             [
                 'system' => [

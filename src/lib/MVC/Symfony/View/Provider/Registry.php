@@ -9,22 +9,23 @@ namespace Ibexa\Core\MVC\Symfony\View\Provider;
 
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\MVC\Symfony\View\View;
+use Ibexa\Core\MVC\Symfony\View\ViewProvider;
 
 class Registry
 {
     /**
      * Array of ViewProvider, indexed by handled type.
      *
-     * @phpstan-var array<string, list<\Ibexa\Core\MVC\Symfony\View\ViewProvider>>
+     * @phpstan-var array<string, list<ViewProvider>>
      */
     private $viewProviders;
 
     /**
-     * @param \Ibexa\Core\MVC\Symfony\View\View $view
+     * @param View $view
      *
-     * @return \Ibexa\Core\MVC\Symfony\View\ViewProvider[]
+     * @return ViewProvider[]
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function getViewProviders(View $view)
     {

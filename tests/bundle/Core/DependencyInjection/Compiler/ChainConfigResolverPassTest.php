@@ -41,8 +41,10 @@ class ChainConfigResolverPassTest extends AbstractCompilerPassTestCase
      * @param int $expectedPriority
      */
     #[DataProvider('addResolverProvider')]
-    public function testAddResolver($declaredPriority, $expectedPriority): void
-    {
+    public function testAddResolver(
+        $declaredPriority,
+        $expectedPriority
+    ): void {
         $resolverDef = new Definition();
         $serviceId = 'some_service_id';
         $resolverDef->addTag(

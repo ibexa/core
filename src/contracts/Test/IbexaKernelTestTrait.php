@@ -22,6 +22,7 @@ use Ibexa\Contracts\Core\Repository\SectionService;
 use Ibexa\Contracts\Core\Repository\TrashService;
 use Ibexa\Contracts\Core\Repository\URLAliasService;
 use Ibexa\Contracts\Core\Repository\UserService;
+use Ibexa\Contracts\Core\Test\Persistence\Fixture;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
 use Ibexa\Core\Repository\Values\User\UserReference;
 use Ibexa\Tests\Core\Repository\LegacySchemaImporter;
@@ -64,7 +65,7 @@ trait IbexaKernelTestTrait
     }
 
     /**
-     * @return iterable<\Ibexa\Contracts\Core\Test\Persistence\Fixture>
+     * @return iterable<Fixture>
      */
     protected static function getFixtures(): iterable
     {
@@ -78,8 +79,10 @@ trait IbexaKernelTestTrait
      *
      * @return T
      */
-    final protected static function getServiceByClassName(string $className, ?string $id = null): object
-    {
+    final protected static function getServiceByClassName(
+        string $className,
+        ?string $id = null
+    ): object {
         if (!self::$booted) {
             static::bootKernel();
         }
@@ -91,8 +94,10 @@ trait IbexaKernelTestTrait
         return $service;
     }
 
-    protected static function getTestServiceId(?string $id, string $className): string
-    {
+    protected static function getTestServiceId(
+        ?string $id,
+        string $className
+    ): string {
         $kernel = self::$kernel;
         if (!$kernel instanceof IbexaTestKernelInterface) {
             throw new RuntimeException(sprintf(

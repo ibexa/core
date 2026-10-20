@@ -15,16 +15,16 @@ use Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface;
 
 abstract class BaseRenderStrategy implements RenderStrategy
 {
-    /** @var \Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface[] */
+    /** @var FragmentRendererInterface[] */
     protected $fragmentRenderers;
 
     /** @var string */
     protected $defaultRenderer;
 
-    /** @var \Ibexa\Core\MVC\Symfony\SiteAccess */
+    /** @var SiteAccess */
     protected $siteAccess;
 
-    /** @var \Symfony\Component\HttpFoundation\RequestStack */
+    /** @var RequestStack */
     protected $requestStack;
 
     public function __construct(

@@ -55,8 +55,11 @@ abstract class Generator implements SiteAccessAware
      *                          SiteAccess name can be provided as 'siteaccess' to generate a link to it (cross siteaccess link).
      * @param int $referenceType The type of reference to be generated (one of the constants)
      */
-    public function generate(mixed $urlResource, array $parameters, int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string
-    {
+    public function generate(
+        mixed $urlResource,
+        array $parameters,
+        int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH
+    ): string {
         $siteAccess = $this->siteAccess;
         $requestContext = $this->requestContext;
 
@@ -96,10 +99,15 @@ abstract class Generator implements SiteAccessAware
      *
      * @param array<string, mixed> $parameters
      */
-    abstract public function doGenerate(mixed $urlResource, array $parameters): string;
+    abstract public function doGenerate(
+        mixed $urlResource,
+        array $parameters
+    ): string;
 
-    protected function generateAbsoluteUrl(string $uri, RequestContext $requestContext): string
-    {
+    protected function generateAbsoluteUrl(
+        string $uri,
+        RequestContext $requestContext
+    ): string {
         $scheme = $requestContext->getScheme();
         $port = '';
         if ($scheme === 'http' && $requestContext->getHttpPort() !== 80) {

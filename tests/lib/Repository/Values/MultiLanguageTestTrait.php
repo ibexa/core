@@ -20,7 +20,7 @@ use ReflectionClass;
 trait MultiLanguageTestTrait
 {
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\MultiLanguageName $object tested ValueObject
+     * @param MultiLanguageName $object tested ValueObject
      */
     #[Depends('testNewClassWithMultiLanguageProperties')]
     public function testGetMultiLanguagePrioritizedName($object): void
@@ -38,7 +38,7 @@ trait MultiLanguageTestTrait
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\MultiLanguageName $object tested ValueObject
+     * @param MultiLanguageName $object tested ValueObject
      */
     #[Depends('testNewClassWithMultiLanguageProperties')]
     public function testGetMultiLanguageDefaultName($object): void
@@ -65,7 +65,7 @@ trait MultiLanguageTestTrait
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\MultiLanguageDescription $object tested ValueObject
+     * @param MultiLanguageDescription $object tested ValueObject
      */
     #[Depends('testNewClassWithMultiLanguageProperties')]
     public function testGetMultiLanguagePrioritizedDescription($object): void
@@ -83,7 +83,7 @@ trait MultiLanguageTestTrait
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\MultiLanguageDescription $object tested ValueObject
+     * @param MultiLanguageDescription $object tested ValueObject
      */
     #[Depends('testNewClassWithMultiLanguageProperties')]
     public function testGetMultiLanguageDefaultDescription($object): void

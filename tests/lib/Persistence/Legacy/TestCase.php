@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Core\Persistence\Legacy;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ConnectionException;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception as DBALException;
 use Doctrine\DBAL\Platforms\SQLitePlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -20,6 +21,7 @@ use Ibexa\Contracts\DoctrineSchema\Database\DefaultTableOptions;
 use Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker;
 use Ibexa\Core\Persistence\Legacy\Filter\Query\LimitedCountQueryBuilder;
 use Ibexa\Core\Persistence\Legacy\SharedGateway;
+use Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway;
 use Ibexa\Core\Search\Legacy\Content;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
@@ -58,11 +60,11 @@ abstract class TestCase extends BaseTestCase
      *
      * @internal
      *
-     * @var \Doctrine\DBAL\Connection
+     * @var Connection
      */
     protected $connection;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway */
+    /** @var Gateway */
     private $sharedGateway;
 
     /**
@@ -107,9 +109,9 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
-    final public function getSharedGateway(): SharedGateway\Gateway
+    final public function getSharedGateway(): Gateway
     {
         if (!$this->sharedGateway) {
             $connection = $this->getDatabaseConnection();
@@ -246,8 +248,10 @@ abstract class TestCase extends BaseTestCase
      * @param array $properties
      * @param object $object
      */
-    protected function assertPropertiesCorrect(array $properties, $object)
-    {
+    protected function assertPropertiesCorrect(
+        array $properties,
+        $object
+    ) {
         if (!is_object($object)) {
             throw new InvalidArgumentException(
                 'Received ' . gettype($object) . ' instead of object as second parameter'
@@ -309,14 +313,9 @@ abstract class TestCase extends BaseTestCase
         );
     }
 
-    /**
-     * @deprecated since Ibexa 4.0, rewrite test case to use {@see \Ibexa\Contracts\Core\Test\IbexaKernelTestCase} instead.
-     *
-     * @return string
-     */
     protected static function getInstallationDir(): string
     {
-        return Legacy::getInstallationDir();
+        return dirname(__DIR__, 4);
     }
 
     protected function getTrashCriteriaConverterDependency(): CriteriaConverter

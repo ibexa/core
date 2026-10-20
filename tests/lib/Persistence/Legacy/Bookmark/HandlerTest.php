@@ -13,19 +13,20 @@ use Ibexa\Contracts\Core\Persistence\Bookmark\CreateStruct;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Handler;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Mapper;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class HandlerTest extends TestCase
 {
     public const BOOKMARK_ID = 7;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Bookmark\Gateway|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Gateway|MockObject */
     private $gateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Bookmark\Mapper|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Mapper|MockObject */
     private $mapper;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Bookmark\Handler */
+    /** @var Handler */
     private $handler;
 
     protected function setUp(): void
@@ -48,13 +49,13 @@ class HandlerTest extends TestCase
         ]);
 
         $this->mapper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('createBookmarkFromCreateStruct')
             ->with($createStruct)
             ->willReturn($bookmark);
 
         $this->gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('insertBookmark')
             ->with($bookmark)
             ->willReturn(self::BOOKMARK_ID);
@@ -67,7 +68,7 @@ class HandlerTest extends TestCase
     public function testDelete(): void
     {
         $this->gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('deleteBookmark')
             ->with(self::BOOKMARK_ID);
 
@@ -93,13 +94,13 @@ class HandlerTest extends TestCase
         ]);
 
         $this->gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadBookmarkDataByUserIdAndLocationId')
             ->with($userId, [$locationId])
             ->willReturn($rows);
 
         $this->mapper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('extractBookmarksFromRows')
             ->with($rows)
             ->willReturn([$object]);
@@ -113,67 +114,18 @@ class HandlerTest extends TestCase
         $locationId = 54;
 
         $this->gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadBookmarkDataByUserIdAndLocationId')
             ->with($userId, [$locationId])
             ->willReturn([]);
 
         $this->mapper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('extractBookmarksFromRows')
             ->with([])
             ->willReturn([]);
 
         self::assertEmpty($this->handler->loadByUserIdAndLocationId($userId, [$locationId]));
-    }
-
-    public function testLoadUserBookmarks(): void
-    {
-        $userId = 87;
-        $offset = 50;
-        $limit = 25;
-
-        $rows = [
-            [
-                'id' => '12',
-                'name' => '',
-                'node_id' => '2',
-                'user_id' => $userId,
-            ],
-            [
-                'id' => '75',
-                'name' => '',
-                'node_id' => '54',
-                'user_id' => $userId,
-            ],
-        ];
-
-        $objects = [
-            new Bookmark([
-                'id' => 12,
-                'locationId' => 2,
-                'userId' => 78,
-            ]),
-            new Bookmark([
-                'id' => 75,
-                'locationId' => 54,
-                'userId' => 87,
-            ]),
-        ];
-
-        $this->gateway
-            ->expects(self::once())
-            ->method('loadUserBookmarks')
-            ->with($userId, $offset, $limit)
-            ->willReturn($rows);
-
-        $this->mapper
-            ->expects(self::once())
-            ->method('extractBookmarksFromRows')
-            ->with($rows)
-            ->willReturn($objects);
-
-        self::assertEquals($objects, $this->handler->loadUserBookmarks($userId, $offset, $limit));
     }
 
     public function testLocationSwapped(): void
@@ -182,7 +134,7 @@ class HandlerTest extends TestCase
         $location2Id = 2;
 
         $this->gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('locationSwapped')
             ->with($location1Id, $location2Id);
 

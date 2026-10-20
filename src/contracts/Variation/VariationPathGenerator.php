@@ -16,5 +16,8 @@ interface VariationPathGenerator
     /**
      * Returns the variation for image $path with $variation.
      */
-    public function getVariationPath(string $path, string $variation): string;
+    public function getVariationPath(
+        string $path,
+        string $variation
+    ): string;
 }

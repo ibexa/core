@@ -24,16 +24,17 @@ final readonly class SynchronousContentPublicationStrategy implements ContentPub
 {
     public function __construct(
         private ContentService $contentService,
-    ) {
-    }
+    ) {}
 
     public function supports(): bool
     {
         return true;
     }
 
-    public function publishVersion(VersionInfo $versionInfo, array $translations = Language::ALL): ContentPublicationResult
-    {
+    public function publishVersion(
+        VersionInfo $versionInfo,
+        array $translations = Language::ALL
+    ): ContentPublicationResult {
         return new ContentPublicationResult(
             $this->contentService->publishVersion($versionInfo, $translations)
         );

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\MVC\Symfony\Component\Serializer;
 
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Compound;
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Exception\LogicException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
@@ -28,16 +29,19 @@ class CompoundMatcherNormalizer implements NormalizerInterface, NormalizerAwareI
     use NormalizerAwareTrait;
 
     /**
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Compound $data
+     * @param Compound $data
      *
      * @phpstan-return TNormalizedCompoundMatcherData $data
      *
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     * @throws ExceptionInterface
      *
-     * @see \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Compound::__sleep
+     * @see Compound::__sleep
      */
-    public function normalize(mixed $data, ?string $format = null, array $context = []): array
-    {
+    public function normalize(
+        mixed $data,
+        ?string $format = null,
+        array $context = []
+    ): array {
         /** @var array<string, array<mixed>> $subMatchers */
         $subMatchers = $this->normalizer->normalize($data->getSubMatchers(), $format, $context);
 
@@ -49,8 +53,11 @@ class CompoundMatcherNormalizer implements NormalizerInterface, NormalizerAwareI
         ];
     }
 
-    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
-    {
+    public function supportsNormalization(
+        mixed $data,
+        ?string $format = null,
+        array $context = []
+    ): bool {
         return $data instanceof Compound;
     }
 
@@ -64,12 +71,16 @@ class CompoundMatcherNormalizer implements NormalizerInterface, NormalizerAwareI
     }
 
     /**
-     * @phpstan-param class-string<\Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\Compound> $type
+     * @phpstan-param class-string<Compound> $type
      *
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
+     * @throws ExceptionInterface
      */
-    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): object
-    {
+    public function denormalize(
+        mixed $data,
+        string $type,
+        ?string $format = null,
+        array $context = []
+    ): object {
         $compoundMatcherType = $data['type'] ?? throw new LogicException('Unknown compound matcher type');
         if (!is_a($compoundMatcherType, Compound::class, true)) {
             throw new LogicException(sprintf('%s is not a subtype of %s', $compoundMatcherType, Compound::class));

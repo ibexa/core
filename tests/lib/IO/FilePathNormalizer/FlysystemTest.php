@@ -12,14 +12,15 @@ use Ibexa\Core\IO\FilePathNormalizer\Flysystem;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
 use League\Flysystem\WhitespacePathNormalizer;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class FlysystemTest extends TestCase
 {
-    /** @var \Ibexa\Core\IO\FilePathNormalizer\Flysystem */
+    /** @var Flysystem */
     private $filePathNormalizer;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var SlugConverter|MockObject */
     private $slugConverter;
 
     public function setUp(): void
@@ -37,7 +38,7 @@ final class FlysystemTest extends TestCase
         bool $doHash
     ): void {
         $this->slugConverter
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('convert')
             ->with($fileName)
             ->willReturn($sluggedFileName);
@@ -123,7 +124,7 @@ final class FlysystemTest extends TestCase
             $expectedHash = substr($md5File, 0, 12);
 
             $this->slugConverter
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('convert')
                 ->with('image.jpg')
                 ->willReturn('image.jpg');
@@ -147,7 +148,7 @@ final class FlysystemTest extends TestCase
 
         try {
             $this->slugConverter
-                ->expects(self::exactly(2))
+                ->expects($this->exactly(2))
                 ->method('convert')
                 ->with('image.jpg')
                 ->willReturn('image.jpg');

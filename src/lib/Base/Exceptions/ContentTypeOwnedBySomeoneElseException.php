@@ -13,8 +13,10 @@ use Throwable;
 
 final class ContentTypeOwnedBySomeoneElseException extends NotFoundException implements APIContentTypeOwnedBySomeoneElseException
 {
-    public function __construct(int $contentTypeId, ?Throwable $previous = null)
-    {
+    public function __construct(
+        int $contentTypeId,
+        ?Throwable $previous = null
+    ) {
         parent::__construct('The content type is owned by someone else', $contentTypeId, $previous);
     }
 }

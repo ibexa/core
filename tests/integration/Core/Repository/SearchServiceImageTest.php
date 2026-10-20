@@ -8,7 +8,11 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentTypeDraft;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
@@ -43,16 +47,16 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
     #[DataProvider('provideInvalidDataForTestCriterion')]
     public function testCriterion(
         int $expectedCount,
-        Query\Criterion $imageCriterion
+        Criterion $imageCriterion
     ): void {
         if (getenv('SEARCH_ENGINE') === 'legacy') {
             self::markTestSkipped('Image criteria are not supported in Legacy Search Engine');
         }
 
         $query = new Query();
-        $query->filter = new Query\Criterion\LogicalAnd(
+        $query->filter = new Criterion\LogicalAnd(
             [
-                new Query\Criterion\ContentTypeIdentifier(self::IMAGE_CONTENT_TYPE),
+                new Criterion\ContentTypeIdentifier(self::IMAGE_CONTENT_TYPE),
                 $imageCriterion,
             ]
         );
@@ -68,7 +72,7 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
     /**
      * @return iterable<array{
      *     int,
-     *     \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion
+     *     Criterion
      * }>
      */
     public static function provideDataForTestCriterion(): iterable
@@ -171,7 +175,7 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
 
         yield 'Image' => [
             2,
-            new Query\Criterion\Image(
+            new Criterion\Image(
                 self::IMAGE_FIELD_DEF_IDENTIFIER,
                 [
                     'mimeTypes' => [
@@ -202,7 +206,7 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
     /**
      * @return iterable<array{
      *     int,
-     *     \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion
+     *     Criterion
      * }>
      */
     public static function provideInvalidDataForTestCriterion(): iterable
@@ -254,9 +258,9 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
     /**
      * @param string|array<string> $value
      */
-    private static function createMimeTypeCriterion($value): Query\Criterion\Image\MimeType
+    private static function createMimeTypeCriterion($value): Criterion\Image\MimeType
     {
-        return new Query\Criterion\Image\MimeType(
+        return new Criterion\Image\MimeType(
             self::IMAGE_FIELD_DEF_IDENTIFIER,
             $value
         );
@@ -269,8 +273,8 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
     private static function createFileSizeCriterion(
         $min = 0,
         $max = null
-    ): Query\Criterion\Image\FileSize {
-        return new Query\Criterion\Image\FileSize(
+    ): Criterion\Image\FileSize {
+        return new Criterion\Image\FileSize(
             self::IMAGE_FIELD_DEF_IDENTIFIER,
             $min,
             $max
@@ -280,8 +284,8 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
     private static function createWidthCriterion(
         int $min = 0,
         ?int $max = null
-    ): Query\Criterion\Image\Width {
-        return new Query\Criterion\Image\Width(
+    ): Criterion\Image\Width {
+        return new Criterion\Image\Width(
             self::IMAGE_FIELD_DEF_IDENTIFIER,
             $min,
             $max
@@ -291,8 +295,8 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
     private static function createHeightCriterion(
         int $min = 0,
         ?int $max = null
-    ): Query\Criterion\Image\Height {
-        return new Query\Criterion\Image\Height(
+    ): Criterion\Image\Height {
+        return new Criterion\Image\Height(
             self::IMAGE_FIELD_DEF_IDENTIFIER,
             $min,
             $max
@@ -304,8 +308,8 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
         int $maxWidth,
         int $minHeight,
         int $maxHeight
-    ): Query\Criterion\Image\Dimensions {
-        return new Query\Criterion\Image\Dimensions(
+    ): Criterion\Image\Dimensions {
+        return new Criterion\Image\Dimensions(
             self::IMAGE_FIELD_DEF_IDENTIFIER,
             [
                 'width' => [
@@ -323,9 +327,9 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
     /**
      * @param string|array<string> $value
      */
-    private static function createOrientationCriterion($value): Query\Criterion\Image\Orientation
+    private static function createOrientationCriterion($value): Criterion\Image\Orientation
     {
-        return new Query\Criterion\Image\Orientation(
+        return new Criterion\Image\Orientation(
             self::IMAGE_FIELD_DEF_IDENTIFIER,
             $value
         );
@@ -394,9 +398,9 @@ final class SearchServiceImageTest extends RepositorySearchTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws InvalidArgumentException
+     * @throws BadStateException
+     * @throws UnauthorizedException
      */
     private function setFieldTypeAsSearchable(
         ContentTypeDraft $contentTypeDraft,

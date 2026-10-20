@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 final class UserChecker implements UserCheckerInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\UserService */
+    /** @var UserService */
     private $userService;
 
     public function __construct(UserService $userService)
@@ -40,8 +40,10 @@ final class UserChecker implements UserCheckerInterface
         }
     }
 
-    public function checkPostAuth(UserInterface $user, ?TokenInterface $token = null): void
-    {
+    public function checkPostAuth(
+        UserInterface $user,
+        ?TokenInterface $token = null
+    ): void {
         if (!$user instanceof IbexaUserInterface) {
             return;
         }

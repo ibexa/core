@@ -16,15 +16,16 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\MVC\Symfony\Event\ResolveRenderOptionsEvent;
 use Ibexa\Core\MVC\Symfony\Templating\RenderOptions;
 use Ibexa\Core\MVC\Symfony\Templating\Twig\Extension\RenderExtension;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Twig\Test\IntegrationTestCase;
 
 final class RenderExtensionTest extends IntegrationTestCase
 {
-    /** @var \Ibexa\Contracts\Core\MVC\Templating\RenderStrategy&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var RenderStrategy&MockObject */
     private RenderStrategy $renderStrategy;
 
-    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var EventDispatcherInterface&MockObject */
     private EventDispatcherInterface $eventDispatcher;
 
     protected function setUp(): void

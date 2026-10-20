@@ -48,7 +48,7 @@ abstract class AbstractSearchAdapterTestCase extends TestCase
 
         $searchService = $this->createMock(SearchService::class);
         $searchService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method($this->getExpectedFindMethod())
             ->with($expectedQuery, self::EXAMPLE_LANGUAGE_FILTER, true)
             ->willReturn($searchResults);
@@ -67,7 +67,7 @@ abstract class AbstractSearchAdapterTestCase extends TestCase
     /**
      * @phpstan-param TSearchLanguageFilter $languageFilter
      *
-     * @phpstan-return \Ibexa\Contracts\Core\Repository\Iterator\BatchIteratorAdapter\AbstractSearchAdapter<TSearchHitValueObject>
+     * @phpstan-return AbstractSearchAdapter<TSearchHitValueObject>
      */
     abstract protected function createAdapterUnderTest(
         SearchService $searchService,

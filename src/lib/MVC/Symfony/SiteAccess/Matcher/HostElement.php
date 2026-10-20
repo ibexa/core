@@ -30,7 +30,7 @@ class HostElement implements VersatileMatcher
     /**
      * @param array<mixed>|int $elementNumber Number of elements to take into account.
      */
-    public function __construct(array|int $elementNumber)
+    public function __construct(array | int $elementNumber)
     {
         if (is_array($elementNumber)) {
             // DI config parser will create an array with 'value' => number
@@ -50,7 +50,7 @@ class HostElement implements VersatileMatcher
      *
      * @return string|false SiteAccess matched or false.
      */
-    public function match(): string|bool
+    public function match(): string | bool
     {
         $elements = $this->getHostElements();
 
@@ -65,7 +65,7 @@ class HostElement implements VersatileMatcher
     /**
      * Injects the request object to match against.
      *
-     * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $request
+     * @param SimplifiedRequest $request
      */
     public function setRequest(SimplifiedRequest $request): void
     {

@@ -141,7 +141,7 @@ class CreateStruct extends ValueObject
     /**
      * Content fields in this type.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition[]
+     * @var FieldDefinition[]
      */
     public $fieldDefinitions = [];
 

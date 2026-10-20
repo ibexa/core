@@ -27,11 +27,11 @@ final class UserTest extends TestCase
         $contentMock = $this->createMock(Content::class);
         $versionInfoMock = $this->createMock(VersionInfo::class);
 
-        $contentMock->expects(self::once())
+        $contentMock->expects($this->once())
             ->method('getVersionInfo')
             ->willReturn($versionInfoMock);
 
-        $versionInfoMock->expects(self::once())
+        $versionInfoMock->expects($this->once())
             ->method('getName')
             ->willReturn($name);
 
@@ -55,6 +55,7 @@ final class UserTest extends TestCase
         $object = new User();
         $properties = $object->attributes();
         self::assertNotContains('internalFields', $properties, 'Internal property found ');
+        self::assertNotContains('content', $properties, 'Internal property found ');
         self::assertContains('id', $properties, 'Property not found ');
         self::assertContains('fields', $properties, 'Property not found ');
         self::assertContains('versionInfo', $properties, 'Property not found ');
@@ -70,6 +71,15 @@ final class UserTest extends TestCase
             }
             $propertiesHash[$property] = 1;
         }
+    }
+
+    public function testContentPropertyIsNotExposed(): void
+    {
+        $user = new User(['content' => self::createStub(Content::class)]);
+        self::assertFalse($user->__isset('content'));
+
+        $this->expectException(PropertyNotFoundException::class);
+        $user->__get('content');
     }
 
     public function testIsPropertySet(): void

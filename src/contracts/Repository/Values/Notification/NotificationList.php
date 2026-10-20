@@ -21,7 +21,7 @@ class NotificationList extends ValueObject implements IteratorAggregate
     /** @phpstan-var int<0, max> */
     public int $totalCount = 0;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Notification\Notification[] */
+    /** @var Notification[] */
     public array $items = [];
 
     /**

@@ -18,18 +18,17 @@ use Symfony\Contracts\Service\ServiceProviderInterface;
 final readonly class StorageConnectionFactory
 {
     /**
-     * @phpstan-param \Symfony\Contracts\Service\ServiceProviderInterface<\Doctrine\DBAL\Connection> $serviceLocator
+     * @phpstan-param ServiceProviderInterface<Connection> $serviceLocator
      */
     public function __construct(
         private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider,
         private ServiceProviderInterface $serviceLocator,
-    ) {
-    }
+    ) {}
 
     /**
      * Returns database connection used by database handler.
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
     public function getConnection(): Connection

@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Integration\Core\Repository;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft;
+use Ibexa\Contracts\Core\Repository\Values\User\Role;
 use Ibexa\Contracts\Core\Repository\Values\User\UserRoleAssignment;
 use Ibexa\Core\Repository\RoleService;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -612,7 +613,7 @@ class RoleServiceAuthorizationTest extends BaseTestCase
     /**
      * Create a role fixture in a variable named <b>$role</b>,.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\Role
+     * @return Role
      */
     private function createRole()
     {

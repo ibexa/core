@@ -74,8 +74,11 @@ class RouterURIElement2Test extends RouterBaseTestCase
      * @param string $expectedFixedUpURI
      */
     #[DataProvider('analyseProvider')]
-    public function testAnalyseURI($level, $uri, $expectedFixedUpURI): void
-    {
+    public function testAnalyseURI(
+        $level,
+        $uri,
+        $expectedFixedUpURI
+    ): void {
         $matcher = new URIElementMatcher([$level]);
         $matcher->setRequest(
             new SimplifiedRequest('http', '', 80, $uri)
@@ -89,8 +92,11 @@ class RouterURIElement2Test extends RouterBaseTestCase
      * @param string $expectedFixedUpURI
      */
     #[DataProvider('analyseProvider')]
-    public function testAnalyseURILevelAsInt($level, $uri, $expectedFixedUpURI): void
-    {
+    public function testAnalyseURILevelAsInt(
+        $level,
+        $uri,
+        $expectedFixedUpURI
+    ): void {
         $matcher = new URIElementMatcher($level);
         $matcher->setRequest(
             new SimplifiedRequest('http', '', 80, $uri)
@@ -104,8 +110,11 @@ class RouterURIElement2Test extends RouterBaseTestCase
      * @param string $linkUri
      */
     #[DataProvider('analyseProvider')]
-    public function testAnalyseLink($level, $fullUri, $linkUri): void
-    {
+    public function testAnalyseLink(
+        $level,
+        $fullUri,
+        $linkUri
+    ): void {
         $matcher = new URIElementMatcher([$level]);
         $matcher->setRequest(
             new SimplifiedRequest('http', '', 80, $fullUri)
@@ -135,8 +144,10 @@ class RouterURIElement2Test extends RouterBaseTestCase
     }
 
     #[DataProvider('reverseMatchProvider')]
-    public function testReverseMatch($siteAccessName, $originalPathinfo): void
-    {
+    public function testReverseMatch(
+        $siteAccessName,
+        $originalPathinfo
+    ): void {
         $expectedSiteAccessPath = str_replace('_', '/', $siteAccessName);
         $matcher = new URIElementMatcher([2]);
         $matcher->setRequest(new SimplifiedRequest('http', '', 80, $originalPathinfo));
@@ -203,7 +214,7 @@ class RouterURIElement2Test extends RouterBaseTestCase
     }
 
     /**
-     * @return \Ibexa\Tests\Core\MVC\Symfony\SiteAccess\SiteAccessSetting[]
+     * @return SiteAccessSetting[]
      */
     public function getSiteAccessProviderSettings(): array
     {

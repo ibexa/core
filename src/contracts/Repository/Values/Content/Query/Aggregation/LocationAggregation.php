@@ -11,6 +11,4 @@ namespace Ibexa\Contracts\Core\Repository\Values\Content\Query\Aggregation;
 /**
  * Marker interface for location based aggregation.
  */
-interface LocationAggregation
-{
-}
+interface LocationAggregation {}

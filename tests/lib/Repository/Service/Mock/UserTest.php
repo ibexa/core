@@ -11,6 +11,7 @@ use Exception;
 use Ibexa\Contracts\Core\Persistence\User\Handler as PersistenceUserHandler;
 use Ibexa\Contracts\Core\Persistence\User\RoleAssignment;
 use Ibexa\Contracts\Core\Repository\ContentService as APIContentService;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\UserService as APIUserService;
@@ -31,7 +32,7 @@ class UserTest extends BaseServiceMockTest
     private const MOCKED_USER_ID = 42;
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws UnauthorizedException
      */
     public function testDeleteUser(): void
     {
@@ -45,15 +46,15 @@ class UserTest extends BaseServiceMockTest
         $contentInfo = $this->createMock(APIContentInfo::class);
         $this->mockDeleteUserFlow($repository, $userService, $contentService, $user, $contentInfo, $userHandler);
 
-        $contentService->expects(self::once())->method('deleteContent')->with($contentInfo);
-        $userHandler->expects(self::once())->method('delete')->with(self::MOCKED_USER_ID);
-        $repository->expects(self::once())->method('commit');
+        $contentService->expects($this->once())->method('deleteContent')->with($contentInfo);
+        $userHandler->expects($this->once())->method('delete')->with(self::MOCKED_USER_ID);
+        $repository->expects($this->once())->method('commit');
 
         $userService->deleteUser($user);
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws UnauthorizedException
      */
     public function testDeleteUserWithRollback(): void
     {
@@ -68,12 +69,12 @@ class UserTest extends BaseServiceMockTest
         $this->mockDeleteUserFlow($repository, $userService, $contentService, $user, $contentInfo, $userHandler);
 
         $exception = new Exception();
-        $contentService->expects(self::once())
+        $contentService->expects($this->once())
             ->method('deleteContent')
             ->with($contentInfo)
             ->willThrowException($exception);
 
-        $repository->expects(self::once())->method('rollback');
+        $repository->expects($this->once())->method('rollback');
 
         $this->expectExceptionObject($exception);
         $userService->deleteUser($user);
@@ -86,7 +87,7 @@ class UserTest extends BaseServiceMockTest
      *
      * @param string[] $methods
      *
-     * @return \Ibexa\Contracts\Core\Repository\UserService&\PHPUnit\Framework\MockObject\MockObject
+     * @return APIUserService&MockObject
      */
     protected function getPartlyMockedUserService(?array $methods = null): APIUserService
     {
@@ -107,12 +108,12 @@ class UserTest extends BaseServiceMockTest
     }
 
     private function mockDeleteUserFlow(
-        Repository&MockObject $repository,
-        APIUserService&MockObject $userService,
-        APIContentService&MockObject $contentService,
-        User&MockObject $user,
-        APIContentInfo&MockObject $contentInfo,
-        PersistenceUserHandler&MockObject $userHandler
+        Repository & MockObject $repository,
+        APIUserService & MockObject $userService,
+        APIContentService & MockObject $contentService,
+        User & MockObject $user,
+        APIContentInfo & MockObject $contentInfo,
+        PersistenceUserHandler & MockObject $userHandler
     ): void {
         $loadedUser = $this->createMock(APIUser::class);
         $versionInfo = $this->createMock(APIVersionInfo::class);
@@ -125,14 +126,14 @@ class UserTest extends BaseServiceMockTest
         $userService->method('loadUser')->with(self::MOCKED_USER_ID)->willReturn($loadedUser);
 
         $userHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadRoleAssignmentsByGroupId')
             ->with(self::MOCKED_USER_ID)
             ->willReturn([new RoleAssignment(['id' => 1])]);
 
         $userHandler->method('removeRoleAssignment')->with(1);
 
-        $repository->expects(self::once())->method('beginTransaction');
-        $repository->expects(self::once())->method('getContentService')->willReturn($contentService);
+        $repository->expects($this->once())->method('beginTransaction');
+        $repository->expects($this->once())->method('getContentService')->willReturn($contentService);
     }
 }

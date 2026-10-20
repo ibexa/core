@@ -9,11 +9,12 @@ namespace Ibexa\Tests\Bundle\Core\Imagine\Cache\Resolver;
 
 use Ibexa\Bundle\Core\Imagine\Cache\Resolver\ProxyResolver;
 use Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ProxyResolverTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface */
+    /** @var MockObject|ResolverInterface */
     private $resolver;
 
     /** @var string */
@@ -38,7 +39,7 @@ class ProxyResolverTest extends TestCase
         $resolvedPath = 'http://ibexa.co/var/site/storage/images/_aliases/medium/7/4/2/0/247-1-eng-GB/img_0885.jpg';
 
         $this->resolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('resolve')
             ->with($this->path, $this->filter)
             ->willReturn($resolvedPath);
@@ -56,7 +57,7 @@ class ProxyResolverTest extends TestCase
         $resolvedPath = 'http://ibexa.co:8060/var/site/storage/images/_aliases/medium/7/4/2/0/247-1-eng-GB/img_0885.jpg';
 
         $this->resolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('resolve')
             ->with($this->path, $this->filter)
             ->willReturn($resolvedPath);
@@ -74,7 +75,7 @@ class ProxyResolverTest extends TestCase
         $resolvedPath = 'http://ezplatform.com:8080/var/site/storage/images/_aliases/medium/7/4/2/0/247-1-eng-GB/img_0885.jpg';
 
         $this->resolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('resolve')
             ->with($this->path, $this->filter)
             ->willReturn($resolvedPath);

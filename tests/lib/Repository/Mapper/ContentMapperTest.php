@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Repository\Mapper;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
@@ -22,15 +23,16 @@ use Ibexa\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinitionCollection;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(ContentService::class)]
 final class ContentMapperTest extends TestCase
 {
-    private Handler&Stub $contentLanguageHandler;
+    private Handler & Stub $contentLanguageHandler;
 
-    /** @var \Ibexa\Core\FieldType\FieldTypeRegistry&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var FieldTypeRegistry&MockObject */
     private FieldTypeRegistry $fieldTypeRegistry;
 
     private ContentMapper $contentMapper;
@@ -47,7 +49,7 @@ final class ContentMapperTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException
+     * @throws ContentValidationException
      */
     public function testUpdateContentGetsProperFieldsToUpdate(): void
     {
@@ -105,7 +107,7 @@ final class ContentMapperTest extends TestCase
         );
 
         $this->fieldTypeRegistry
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getFieldType')
             ->willReturn(new TextLine\Type());
 

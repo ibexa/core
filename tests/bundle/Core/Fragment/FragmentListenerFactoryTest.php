@@ -19,8 +19,10 @@ use Symfony\Component\HttpKernel\EventListener\FragmentListener;
 class FragmentListenerFactoryTest extends TestCase
 {
     #[DataProvider('buildFragmentListenerProvider')]
-    public function testBuildFragmentListener($requestUri, $isFragmentCandidate): void
-    {
+    public function testBuildFragmentListener(
+        $requestUri,
+        $isFragmentCandidate
+    ): void {
         $listenerClass = FragmentListener::class;
         $uriSigner = new UriSigner('my_precious_secret');
         $baseFragmentPath = '/_fragment';

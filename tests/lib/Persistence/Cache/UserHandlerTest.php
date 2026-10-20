@@ -469,11 +469,11 @@ class UserHandlerTest extends AbstractInMemoryCacheHandlerTestCase
 
     public function testPublishRoleDraftFromExistingRole(): void
     {
-        $this->loggerMock->expects(self::once())->method('logCall');
+        $this->loggerMock->expects($this->once())->method('logCall');
         $innerHandlerMock = $this->createMock(SPIUserHandler::class);
 
         $this->persistenceHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('userHandler')
             ->willReturn($innerHandlerMock);
 
@@ -481,31 +481,31 @@ class UserHandlerTest extends AbstractInMemoryCacheHandlerTestCase
         $originalRoleId = 30;
 
         $innerHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadRole')
             ->with($roleDraftId, Role::STATUS_DRAFT)
             ->willReturn(new Role(['originalId' => $originalRoleId]));
 
         $innerHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('publishRoleDraft')
             ->with($roleDraftId);
 
         $roleTag = 'r-' . $originalRoleId;
 
         $this->cacheIdentifierGeneratorMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('generateTag')
             ->with('role', [$originalRoleId], false)
             ->willReturn($roleTag);
 
         $this->cacheMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('invalidateTags')
             ->with([$roleTag]);
 
         $this->cacheMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('deleteItem');
 
         $handler = $this->persistenceCacheHandler->userHandler();
@@ -514,27 +514,37 @@ class UserHandlerTest extends AbstractInMemoryCacheHandlerTestCase
 
     public function testPublishNewRoleDraft(): void
     {
-        $this->loggerMock->expects(self::once())->method('logCall');
+        $this->loggerMock->expects($this->once())->method('logCall');
         $innerHandlerMock = $this->createMock(SPIUserHandler::class);
         $this->persistenceHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('userHandler')
             ->willReturn($innerHandlerMock);
         $roleDraftId = 33;
+        $calls = [];
         $innerHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadRole')
             ->with($roleDraftId, Role::STATUS_DRAFT)
-            ->willReturn(new Role(['originalId' => -1]));
+            ->willReturnCallback(static function () use (&$calls): Role {
+                $calls[] = 'loadRole';
+
+                return new Role(['originalId' => -1]);
+            });
         $innerHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('publishRoleDraft')
-            ->with($roleDraftId);
+            ->with($roleDraftId)
+            ->willReturnCallback(static function () use (&$calls): void {
+                $calls[] = 'publishRoleDraft';
+            });
         $this->cacheMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method(self::anything());
         $handler = $this->persistenceCacheHandler->userHandler();
         $handler->publishRoleDraft($roleDraftId);
+
+        self::assertSame(['loadRole', 'publishRoleDraft'], $calls);
     }
 
     public function testAssignRole(): void
@@ -545,32 +555,32 @@ class UserHandlerTest extends AbstractInMemoryCacheHandlerTestCase
         $contentId = 14;
         $roleId = 9;
 
-        $this->loggerMock->expects(self::once())->method('logCall');
+        $this->loggerMock->expects($this->once())->method('logCall');
 
         $this->persistenceHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('userHandler')
             ->willReturn($innerUserHandlerMock);
 
         $innerUserHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('assignRole')
             ->with($contentId, $roleId)
             ->willReturn(null);
 
         $this->persistenceHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('locationHandler')
             ->willReturn($innerLocationHandlerMock);
 
         $innerLocationHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadLocationsByContent')
             ->with($contentId)
             ->willReturn([new Location(['id' => '43'])]);
 
         $tags = ['ragl-14', 'rarl-9', 'lp-43'];
-        $matcher = self::exactly(3);
+        $matcher = $this->exactly(3);
 
         $this->cacheIdentifierGeneratorMock
             ->expects($matcher)
@@ -597,12 +607,12 @@ class UserHandlerTest extends AbstractInMemoryCacheHandlerTestCase
             });
 
         $this->cacheMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('invalidateTags')
             ->with($tags);
 
         $this->cacheMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('deleteItem');
 
         $handler = $this->persistenceCacheHandler->userHandler();
@@ -640,7 +650,7 @@ class UserHandlerTest extends AbstractInMemoryCacheHandlerTestCase
             "ragl-$contentId",
             "rarl-$roleId",
         ];
-        $matcher = self::exactly(count($tags));
+        $matcher = $this->exactly(count($tags));
         $this->cacheIdentifierGeneratorMock
             ->expects($matcher)
             ->method('generateTag')->willReturnCallback(static function (...$parameters) use ($matcher, $tags): string {

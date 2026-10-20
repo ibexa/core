@@ -28,8 +28,7 @@ class ImageFileVariationPurger implements VariationPurger, LoggerAwareInterface
         private readonly ImageFileList $imageFileList,
         private readonly IOServiceInterface $ioService,
         private readonly VariationPathGenerator $variationPathGenerator
-    ) {
-    }
+    ) {}
 
     public function purge(array $aliasNames): void
     {

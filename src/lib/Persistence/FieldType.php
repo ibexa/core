@@ -14,21 +14,21 @@ use Ibexa\Contracts\Core\Persistence\FieldType as FieldTypeInterface;
 /**
  * This class represents a FieldType available to SPI users.
  *
- * @see \Ibexa\Contracts\Core\FieldType\FieldType
+ * @see SPIFieldType
  */
 class FieldType implements FieldTypeInterface
 {
     /**
      * Holds internal FieldType object.
      *
-     * @var \Ibexa\Contracts\Core\FieldType\FieldType
+     * @var SPIFieldType
      */
     protected $internalFieldType;
 
     /**
      * Creates a new FieldType object.
      *
-     * @param \Ibexa\Contracts\Core\FieldType\FieldType $fieldType
+     * @param SPIFieldType $fieldType
      */
     public function __construct(SPIFieldType $fieldType)
     {
@@ -38,7 +38,7 @@ class FieldType implements FieldTypeInterface
     /**
      * Returns the empty value for the field type that can be processed by the storage engine.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\FieldValue
+     * @return FieldValue
      */
     public function getEmptyValue()
     {

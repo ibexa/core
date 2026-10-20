@@ -16,9 +16,9 @@ interface Handler
     /**
      * Store Notification ValueObject in persistent storage.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Notification\CreateStruct $createStruct
+     * @param CreateStruct $createStruct
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Notification\Notification
+     * @return Notification
      */
     public function createNotification(CreateStruct $createStruct): Notification;
 
@@ -26,12 +26,15 @@ interface Handler
      * Update Notification ValueObject in persistent storage.
      * There's no edit feature but it's essential to mark Notification as read.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Notification\Notification $notification
-     * @param \Ibexa\Contracts\Core\Persistence\Notification\UpdateStruct $updateStruct
+     * @param APINotification $notification
+     * @param UpdateStruct $updateStruct
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Notification\Notification
+     * @return Notification
      */
-    public function updateNotification(APINotification $notification, UpdateStruct $updateStruct): Notification;
+    public function updateNotification(
+        APINotification $notification,
+        UpdateStruct $updateStruct
+    ): Notification;
 
     /**
      * @param int[] $notificationIds
@@ -59,27 +62,37 @@ interface Handler
      *
      * @param int $notificationId
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Notification\Notification
+     * @return Notification
      */
     public function getNotificationById(int $notificationId): Notification;
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Notification\Notification[]
+     * @return Notification[]
      */
-    public function loadUserNotifications(int $userId, int $offset, int $limit): array;
+    public function loadUserNotifications(
+        int $userId,
+        int $offset,
+        int $limit
+    ): array;
 
     /**
-     * @return \Ibexa\Contracts\Core\Persistence\Notification\Notification[]
+     * @return Notification[]
      */
-    public function findUserNotifications(int $userId, ?NotificationQuery $query = null): array;
+    public function findUserNotifications(
+        int $userId,
+        ?NotificationQuery $query = null
+    ): array;
 
     /**
      * @phpstan-return int<0, max>
      */
-    public function countNotifications(int $currentUserId, ?NotificationQuery $query = null): int;
+    public function countNotifications(
+        int $currentUserId,
+        ?NotificationQuery $query = null
+    ): int;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Notification\Notification $notification
+     * @param APINotification $notification
      */
     public function delete(APINotification $notification): void;
 }

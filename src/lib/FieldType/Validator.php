@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\FieldType;
 
+use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException as PropertyNotFound;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 
@@ -18,7 +19,7 @@ abstract class Validator
     /**
      * The errors collected during validation.
      *
-     * @var \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     * @var ValidationError[]
      */
     protected $errors = [];
 
@@ -83,7 +84,7 @@ abstract class Validator
     /**
      * @param mixed $constraints
      *
-     * @return array<\Ibexa\Contracts\Core\FieldType\ValidationError>
+     * @return array<ValidationError>
      */
     abstract public function validateConstraints($constraints);
 
@@ -98,14 +99,17 @@ abstract class Validator
      *
      * @return bool
      */
-    abstract public function validate(Value $value, ?FieldDefinition $fieldDefinition = null);
+    abstract public function validate(
+        Value $value,
+        ?FieldDefinition $fieldDefinition = null
+    );
 
     /**
      * Returns array of messages on performed validations.
      *
      * When no validation errors occurred, the returned array should be empty.
      *
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     * @return ValidationError[]
      */
     public function getMessage()
     {
@@ -117,7 +121,7 @@ abstract class Validator
      *
      * @internal
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException
+     * @throws PropertyNotFound
      *
      * @param array $constraints
      */
@@ -145,7 +149,7 @@ abstract class Validator
      *
      * @param string $name
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException
+     * @throws PropertyNotFound
      *
      * @return mixed
      */
@@ -165,10 +169,12 @@ abstract class Validator
      * @param string $name
      * @param mixed $value
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\PropertyNotFoundException
+     * @throws PropertyNotFound
      */
-    public function __set($name, $value)
-    {
+    public function __set(
+        $name,
+        $value
+    ) {
         if (!array_key_exists($name, $this->constraints)) {
             throw new PropertyNotFound("Constraint '{$name}' is not valid for this validator.");
         }

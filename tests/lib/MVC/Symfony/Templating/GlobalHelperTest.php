@@ -14,6 +14,7 @@ use Ibexa\Core\Helper\TranslationHelper;
 use Ibexa\Core\MVC\Symfony\Routing\UrlAliasRouter;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\Templating\GlobalHelper;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -23,21 +24,21 @@ use Symfony\Component\Routing\RouterInterface;
 
 class GlobalHelperTest extends TestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Templating\GlobalHelper */
+    /** @var GlobalHelper */
     protected $helper;
 
-    protected ContainerInterface&Stub $container;
+    protected ContainerInterface & Stub $container;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     protected $locationService;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     protected $configResolver;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     protected $router;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     protected $translationHelper;
 
     protected function setUp(): void
@@ -125,14 +126,14 @@ class GlobalHelperTest extends TestCase
         $requestStack = new RequestStack([$request]);
 
         $this->router
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('generate')
             ->with('ibexa.content.view', [
                 'contentId' => $contentId,
                 'locationId' => $locationId,
                 'viewType' => $viewType,
             ])
-            ->will(self::returnValue($expectedSystemUriString));
+            ->will($this->returnValue($expectedSystemUriString));
 
         $this->helper->setRequestStack($requestStack);
 
@@ -148,10 +149,10 @@ class GlobalHelperTest extends TestCase
     {
         $rootLocationId = 2;
         $this->configResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getParameter')
             ->with('content.tree_root.location_id')
-            ->will(self::returnValue($rootLocationId));
+            ->will($this->returnValue($rootLocationId));
 
         $rootLocation = $this
             ->getMockBuilder(Location::class)
@@ -159,10 +160,10 @@ class GlobalHelperTest extends TestCase
             ->getMock();
 
         $this->locationService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadLocation')
             ->with($rootLocationId)
-            ->will(self::returnValue($rootLocation));
+            ->will($this->returnValue($rootLocation));
 
         self::assertSame($rootLocation, $this->helper->getRootLocation());
     }
@@ -172,10 +173,10 @@ class GlobalHelperTest extends TestCase
         $language = 'fre-FR';
         $siteaccess = 'fre';
         $this->translationHelper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getTranslationSiteAccess')
             ->with($language)
-            ->will(self::returnValue($siteaccess));
+            ->will($this->returnValue($siteaccess));
 
         self::assertSame($siteaccess, $this->helper->getTranslationSiteAccess($language));
     }
@@ -184,9 +185,9 @@ class GlobalHelperTest extends TestCase
     {
         $languages = ['fre-FR', 'eng-GB', 'esl-ES'];
         $this->translationHelper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getAvailableLanguages')
-            ->will(self::returnValue($languages));
+            ->will($this->returnValue($languages));
 
         self::assertSame($languages, $this->helper->getAvailableLanguages());
     }

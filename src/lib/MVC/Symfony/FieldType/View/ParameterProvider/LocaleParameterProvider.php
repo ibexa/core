@@ -20,7 +20,7 @@ class LocaleParameterProvider implements ParameterProviderInterface
 {
     use RequestStackAware;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface */
+    /** @var LocaleConverterInterface */
     protected $localeConverter;
 
     public function __construct(LocaleConverterInterface $localeConverter)
@@ -34,7 +34,7 @@ class LocaleParameterProvider implements ParameterProviderInterface
      * Locale from request object will be used as locale if set, otherwise field language code
      * will be converted to locale string.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Field $field
+     * @param Field $field
      *
      * @return array
      */

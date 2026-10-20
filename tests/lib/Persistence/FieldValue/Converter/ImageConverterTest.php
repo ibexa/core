@@ -27,12 +27,12 @@ final class ImageConverterTest extends TestCase
 
     private const MIME_TYPES_STORAGE_VALUE = '["image\/png","image\/jpeg"]';
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\ImageConverter */
+    /** @var ImageConverter */
     private $imageConverter;
 
-    private UrlRedecoratorInterface&Stub $urlRedecorator;
+    private UrlRedecoratorInterface & Stub $urlRedecorator;
 
-    private IOServiceInterface&Stub $ioService;
+    private IOServiceInterface & Stub $ioService;
 
     protected function setUp(): void
     {

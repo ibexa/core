@@ -16,6 +16,7 @@ use Doctrine\ORM\Cache;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\Internal\Hydration\AbstractHydrator;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;
@@ -100,8 +101,10 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
         return $this->getWrapped()->createQuery($dql);
     }
 
-    public function createNativeQuery(string $sql, ResultSetMapping $rsm): NativeQuery
-    {
+    public function createNativeQuery(
+        string $sql,
+        ResultSetMapping $rsm
+    ): NativeQuery {
         return $this->getWrapped()->createNativeQuery($sql, $rsm);
     }
 
@@ -117,10 +120,12 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
      *
      * @return T|null
      *
-     * @throws \Doctrine\ORM\Exception\ORMException
+     * @throws ORMException
      */
-    public function getReference($entityName, $id): ?object
-    {
+    public function getReference(
+        $entityName,
+        $id
+    ): ?object {
         return $this->getWrapped()->getReference($entityName, $id);
     }
 
@@ -129,8 +134,11 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
         $this->getWrapped()->close();
     }
 
-    public function lock(object $entity, LockMode|int $lockMode, DateTimeInterface|int|null $lockVersion = null): void
-    {
+    public function lock(
+        object $entity,
+        LockMode | int $lockMode,
+        DateTimeInterface | int | null $lockVersion = null
+    ): void {
         $this->getWrapped()->lock($entity, $lockMode, $lockVersion);
     }
 
@@ -191,8 +199,12 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
      *
      * @return T|null
      */
-    public function find($className, $id, LockMode|int|null $lockMode = null, ?int $lockVersion = null): ?object
-    {
+    public function find(
+        $className,
+        $id,
+        LockMode | int | null $lockMode = null,
+        ?int $lockVersion = null
+    ): ?object {
         return $this->getWrapped()->find($className, $id, $lockMode, $lockVersion);
     }
 
@@ -216,8 +228,10 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
         $this->getWrapped()->detach($object);
     }
 
-    public function refresh(object $object, LockMode|int|null $lockMode = null): void
-    {
+    public function refresh(
+        object $object,
+        LockMode | int | null $lockMode = null
+    ): void {
         $this->getWrapped()->refresh($object, $lockMode);
     }
 

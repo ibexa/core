@@ -10,8 +10,10 @@ namespace Ibexa\Core\IO\Exception;
 
 class InvalidBinaryAbsolutePathException extends InvalidBinaryFileIdException
 {
-    public function __construct(string $identifier, int $code = 0)
-    {
+    public function __construct(
+        string $identifier,
+        int $code = 0
+    ) {
         parent::__construct($identifier);
 
         $this->setMessageTemplate(

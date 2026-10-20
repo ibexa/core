@@ -20,11 +20,11 @@ use PHPUnit\Framework\TestCase;
 
 final class RelationListFacadeTest extends TestCase
 {
-    private ContentService&MockObject $contentService;
+    private ContentService & MockObject $contentService;
 
     private RelationListFacade $relationListFacade;
 
-    private VersionInfo&Stub $versionInfo;
+    private VersionInfo & Stub $versionInfo;
 
     protected function setUp(): void
     {
@@ -40,7 +40,7 @@ final class RelationListFacadeTest extends TestCase
             ->willReturn(new \ArrayIterator([]));
 
         $this->contentService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadRelationList')
             ->with($this->versionInfo)
             ->willReturn($relationList);
@@ -62,7 +62,7 @@ final class RelationListFacadeTest extends TestCase
             ->willReturn(new \ArrayIterator([$relationListItem]));
 
         $this->contentService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadRelationList')
             ->with(self::identicalTo($this->versionInfo))
             ->willReturn($relationList);
@@ -89,7 +89,7 @@ final class RelationListFacadeTest extends TestCase
             ->willReturn(new \ArrayIterator([$relationListItem]));
 
         $this->contentService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadRelationList')
             ->with($this->versionInfo)
             ->willReturn($relationList);

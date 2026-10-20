@@ -17,6 +17,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\FieldType\User\Type;
 use Ibexa\Core\FieldType\User\Type as UserType;
+use Ibexa\Core\FieldType\User\Value;
 use Ibexa\Core\FieldType\User\Value as UserValue;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\Persistence\Cache\UserHandler;
@@ -211,7 +212,7 @@ class UserTest extends FieldTypeTestCase
     }
 
     /**
-     * @param \Ibexa\Core\FieldType\User\Value $userValue
+     * @param Value $userValue
      * @param array $expectedValidationErrors
      * @param callable|null $loadByLoginBehaviorCallback
      *
@@ -228,7 +229,7 @@ class UserTest extends FieldTypeTestCase
         if (null !== $loadByLoginBehaviorCallback) {
             $loadByLoginBehaviorCallback(
                 $userHandlerMock
-                    ->expects(self::once())
+                    ->expects($this->once())
                     ->method('loadByLogin')
                     ->with($userValue->login)
             );
@@ -322,13 +323,13 @@ class UserTest extends FieldTypeTestCase
         $userHandlerMock = $this->createMock(UserHandler::class);
 
         $userHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadByLogin')
             ->with($validateUserValue->login)
             ->willThrowException(new NotFoundException('', ''));
 
         $userHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadByEmail')
             ->with($validateUserValue->email)
             ->willReturn($existingUser);
@@ -361,8 +362,10 @@ class UserTest extends FieldTypeTestCase
     }
 
     #[DataProvider('providerForTestCreatePersistenceValue')]
-    public function testCreatePersistenceValue(array $userValueDate, array $expectedFieldValueExternalData): void
-    {
+    public function testCreatePersistenceValue(
+        array $userValueDate,
+        array $expectedFieldValueExternalData
+    ): void {
         $passwordHashServiceMock = $this->createMock(PasswordHashService::class);
         $passwordHashServiceMock->method('getDefaultHashType')->willReturn(RepositoryUser::DEFAULT_PASSWORD_HASH);
         $userType = new UserType(
@@ -445,13 +448,13 @@ class UserTest extends FieldTypeTestCase
         $userHandlerMock = $this->createMock(UserHandler::class);
 
         $userHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadByLogin')
             ->with($validateUserValue->login)
             ->willThrowException(new NotFoundException('', ''));
 
         $userHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadByEmail')
             ->with($validateUserValue->email)
             ->willThrowException(new NotFoundException('', ''));
@@ -633,7 +636,7 @@ class UserTest extends FieldTypeTestCase
         $userHandlerMock = $this->createMock(UserHandler::class);
 
         $userHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadByLogin')
             ->with($validateUserValue->login)
             ->willThrowException(new NotFoundException('', ''));

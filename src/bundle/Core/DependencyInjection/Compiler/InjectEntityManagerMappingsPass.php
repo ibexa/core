@@ -82,8 +82,10 @@ final class InjectEntityManagerMappingsPass implements CompilerPassInterface
      * This requires the pass to run before DbalSchemaFilterPass, which is why
      * IbexaCoreBundle registers it with a higher priority.
      */
-    private function protectLegacySchemaFromOrmSchemaSync(string $entityManagerName, ContainerBuilder $container): void
-    {
+    private function protectLegacySchemaFromOrmSchemaSync(
+        string $entityManagerName,
+        ContainerBuilder $container
+    ): void {
         if (!str_starts_with($entityManagerName, 'ibexa_')) {
             return;
         }
@@ -101,8 +103,10 @@ final class InjectEntityManagerMappingsPass implements CompilerPassInterface
         );
     }
 
-    private function createMetadataDriverDefinition($driverType, $driverPaths): Definition
-    {
+    private function createMetadataDriverDefinition(
+        $driverType,
+        $driverPaths
+    ): Definition {
         $metadataDriver = new Definition($this->getMetadataDriverClass($driverType));
         $arguments = [array_values($driverPaths)];
 
@@ -128,8 +132,10 @@ final class InjectEntityManagerMappingsPass implements CompilerPassInterface
         };
     }
 
-    private function prepareMappingDriverConfig(array $entityManagerConfig, ContainerBuilder $container): array
-    {
+    private function prepareMappingDriverConfig(
+        array $entityManagerConfig,
+        ContainerBuilder $container
+    ): array {
         $bundles = $container->getParameter('kernel.bundles');
         $driverConfig = [];
         foreach ($entityManagerConfig as $mappingName => $config) {

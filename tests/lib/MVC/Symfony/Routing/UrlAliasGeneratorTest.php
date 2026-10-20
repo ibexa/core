@@ -22,6 +22,7 @@ use Ibexa\Core\Repository\Permission\PermissionResolver;
 use Ibexa\Core\Repository\Repository;
 use Ibexa\Core\Repository\Values\Content\Location;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -29,27 +30,27 @@ use Symfony\Component\Routing\RouterInterface;
 
 class UrlAliasGeneratorTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $repository;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $urlAliasService;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $locationService;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $router;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $logger;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator */
+    /** @var UrlAliasGenerator */
     private $urlAliasGenerator;
 
-    private SiteAccessRouterInterface&Stub $siteAccessRouter;
+    private SiteAccessRouterInterface & Stub $siteAccessRouter;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $configResolver;
 
     protected function setUp(): void
@@ -73,17 +74,17 @@ class UrlAliasGeneratorTest extends TestCase
         $this->urlAliasService = $this->createMock(URLAliasService::class);
         $this->locationService = $this->createMock(LocationService::class);
         $this->repository
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getURLAliasService')
-            ->will(self::returnValue($this->urlAliasService));
+            ->will($this->returnValue($this->urlAliasService));
         $this->repository
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getLocationService')
-            ->will(self::returnValue($this->locationService));
+            ->will($this->returnValue($this->locationService));
         $repository
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getPermissionResolver')
-            ->will(self::returnValue($this->getPermissionResolverMock()));
+            ->will($this->returnValue($this->getPermissionResolverMock()));
 
         $urlAliasCharmap = [
             '"' => '%22',
@@ -108,22 +109,24 @@ class UrlAliasGeneratorTest extends TestCase
         $pathPrefix = '/foo/bar';
         $rootUrlAlias = new URLAlias(['path' => $pathPrefix]);
         $this->locationService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadLocation')
             ->with($rootLocationId)
-            ->will(self::returnValue($rootLocation));
+            ->will($this->returnValue($rootLocation));
         $this->urlAliasService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('reverseLookup')
             ->with($rootLocation)
-            ->will(self::returnValue($rootUrlAlias));
+            ->will($this->returnValue($rootUrlAlias));
 
         self::assertSame($pathPrefix, $this->urlAliasGenerator->getPathPrefixByRootLocationId($rootLocationId));
     }
 
     #[DataProvider('providerTestIsPrefixExcluded')]
-    public function testIsPrefixExcluded($uri, $expectedIsExcluded): void
-    {
+    public function testIsPrefixExcluded(
+        $uri,
+        $expectedIsExcluded
+    ): void {
         $this->urlAliasGenerator->setExcludedUriPrefixes(
             [
                 '/products',
@@ -159,22 +162,25 @@ class UrlAliasGeneratorTest extends TestCase
         $locationId = 123;
         $location = new Location(['id' => $locationId]);
         $this->locationService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadLocation')
             ->with($locationId)
-            ->will(self::returnValue($location));
+            ->will($this->returnValue($location));
         $this->urlAliasGenerator->loadLocation($locationId);
     }
 
     #[DataProvider('providerTestDoGenerate')]
-    public function testDoGenerate(URLAlias $urlAlias, array $parameters, $expected): void
-    {
+    public function testDoGenerate(
+        URLAlias $urlAlias,
+        array $parameters,
+        $expected
+    ): void {
         $location = new Location(['id' => 123]);
         $this->urlAliasService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('listLocationAliases')
             ->with($location, false)
-            ->will(self::returnValue([$urlAlias]));
+            ->will($this->returnValue([$urlAlias]));
 
         $this->urlAliasGenerator->setSiteAccess(new SiteAccess('test', 'fake', self::createStub(SiteAccess\URILexer::class)));
 
@@ -214,8 +220,11 @@ class UrlAliasGeneratorTest extends TestCase
      * @param array $parameters
      */
     #[DataProvider('providerTestDoGenerateWithSiteaccess')]
-    public function testDoGenerateWithSiteAccessParam(URLAlias $urlAlias, array $parameters, string $expected): void
-    {
+    public function testDoGenerateWithSiteAccessParam(
+        URLAlias $urlAlias,
+        array $parameters,
+        string $expected
+    ): void {
         $siteaccessName = 'foo';
         $parameters += ['siteaccess' => $siteaccessName];
         $languages = ['esl-ES', 'fre-FR', 'eng-GB'];
@@ -230,10 +239,10 @@ class UrlAliasGeneratorTest extends TestCase
         ];
 
         $this->configResolver
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getParameter')
             ->will(
-                self::returnValueMap(
+                $this->returnValueMap(
                     [
                         ['languages', null, 'foo', $languages],
                         ['languages', null, 'bar', $languages],
@@ -245,10 +254,10 @@ class UrlAliasGeneratorTest extends TestCase
 
         $location = new Location(['id' => 123]);
         $this->urlAliasService
-            ->expects(self::exactly(1))
+            ->expects($this->exactly(1))
             ->method('listLocationAliases')
             ->will(
-                self::returnValueMap(
+                $this->returnValueMap(
                     [
                         [$location, false, null, null, $languages, [$urlAlias]],
                     ]
@@ -256,20 +265,20 @@ class UrlAliasGeneratorTest extends TestCase
             );
 
         $this->locationService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadLocation')
             ->will(
-                self::returnCallback(
+                $this->returnCallback(
                     static function ($locationId): Location {
                         return new Location(['id' => $locationId]);
                     }
                 )
             );
         $this->urlAliasService
-            ->expects(self::exactly(1))
+            ->expects($this->exactly(1))
             ->method('reverseLookup')
             ->will(
-                self::returnCallback(
+                $this->returnCallback(
                     static function ($location) use ($treeRootUrlAlias): URLAlias {
                         return $treeRootUrlAlias[$location->id];
                     }
@@ -298,7 +307,7 @@ class UrlAliasGeneratorTest extends TestCase
                 '/baz',
             ],
             [
-                new UrlAlias(['path' => '/special-chars-"<>\'']),
+                new URLAlias(['path' => '/special-chars-"<>\'']),
                 [],
                 '/special-chars-%22%3C%3E%27',
             ],
@@ -313,12 +322,12 @@ class UrlAliasGeneratorTest extends TestCase
                 '/baz#qux',
             ],
             'fragment_and_special_chars' => [
-                new UrlAlias(['path' => '/special-chars-"<>\'']),
+                new URLAlias(['path' => '/special-chars-"<>\'']),
                 ['_fragment' => 'qux'],
                 '/special-chars-%22%3C%3E%27#qux',
             ],
             'fragment_site_siteaccess_and_params' => [
-                new UrlAlias(['path' => '/foo/bar/baz']),
+                new URLAlias(['path' => '/foo/bar/baz']),
                 ['_fragment' => 'qux', 'siteaccess' => 'bar', 'some' => 'foo'],
                 '/baz?some=foo#qux',
             ],
@@ -341,10 +350,10 @@ class UrlAliasGeneratorTest extends TestCase
         ];
 
         $this->configResolver
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getParameter')
             ->will(
-                self::returnValueMap(
+                $this->returnValueMap(
                     [
                         ['languages', null, $siteSiteAccess, ['eng-GB']],
                         ['languages', null, $gerSiteAccess, ['ger-DE']],
@@ -367,7 +376,7 @@ class UrlAliasGeneratorTest extends TestCase
         $location = new Location(['id' => $gerSiteAccessLocationId]);
 
         $this->urlAliasService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('listLocationAliases')
             ->with($location, false, null, null, ['ger-DE'])
             ->willReturn(
@@ -379,13 +388,13 @@ class UrlAliasGeneratorTest extends TestCase
             );
 
         $this->locationService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadLocation')
             ->with($gerSiteAccessLocationId, ['ger-DE'])
             ->willReturn($location);
 
         $this->urlAliasService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('reverseLookup')
             ->with($location, null, false, ['ger-DE'])
             ->willReturn($treeRootUrlAliases[$location->id]);
@@ -408,25 +417,29 @@ class UrlAliasGeneratorTest extends TestCase
         $location = new Location(['id' => 123, 'contentInfo' => new ContentInfo(['id' => 456])]);
         $uri = "/content/location/$location->id";
         $this->urlAliasService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('listLocationAliases')
             ->with($location, false)
-            ->will(self::returnValue([]));
+            ->will($this->returnValue([]));
         $this->router
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('generate')
             ->with(
                 UrlAliasGenerator::INTERNAL_CONTENT_VIEW_ROUTE,
                 ['contentId' => $location->contentId, 'locationId' => $location->id]
             )
-            ->will(self::returnValue($uri));
+            ->will($this->returnValue($uri));
 
         self::assertSame($uri, $this->urlAliasGenerator->doGenerate($location, []));
     }
 
     #[DataProvider('providerTestDoGenerateRootLocation')]
-    public function testDoGenerateRootLocation(URLAlias $urlAlias, $isOutsideAndNotExcluded, $expected, $pathPrefix): void
-    {
+    public function testDoGenerateRootLocation(
+        URLAlias $urlAlias,
+        $isOutsideAndNotExcluded,
+        $expected,
+        $pathPrefix
+    ): void {
         $excludedPrefixes = ['/products', '/shared'];
         $rootLocationId = 456;
         $this->urlAliasGenerator->setRootLocationId($rootLocationId);
@@ -436,25 +449,25 @@ class UrlAliasGeneratorTest extends TestCase
         $rootLocation = new Location(['id' => $rootLocationId]);
         $rootUrlAlias = new URLAlias(['path' => $pathPrefix]);
         $this->locationService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadLocation')
             ->with($rootLocationId)
-            ->will(self::returnValue($rootLocation));
+            ->will($this->returnValue($rootLocation));
         $this->urlAliasService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('reverseLookup')
             ->with($rootLocation)
-            ->will(self::returnValue($rootUrlAlias));
+            ->will($this->returnValue($rootUrlAlias));
 
         $this->urlAliasService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('listLocationAliases')
             ->with($location, false)
-            ->will(self::returnValue([$urlAlias]));
+            ->will($this->returnValue([$urlAlias]));
 
         if ($isOutsideAndNotExcluded) {
             $this->logger
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('warning');
         }
 
@@ -468,61 +481,61 @@ class UrlAliasGeneratorTest extends TestCase
     {
         return [
             [
-                new UrlAlias(['path' => '/my/root-folder/foo/bar']),
+                new URLAlias(['path' => '/my/root-folder/foo/bar']),
                 false,
                 '/foo/bar',
                 '/my/root-folder',
             ],
             [
-                new UrlAlias(['path' => '/my/root-folder/something']),
+                new URLAlias(['path' => '/my/root-folder/something']),
                 false,
                 '/something',
                 '/my/root-folder',
             ],
             [
-                new UrlAlias(['path' => '/my/root-folder']),
+                new URLAlias(['path' => '/my/root-folder']),
                 false,
                 '/',
                 '/my/root-folder',
             ],
             [
-                new UrlAlias(['path' => '/foo/bar']),
+                new URLAlias(['path' => '/foo/bar']),
                 false,
                 '/foo/bar',
                 '/',
             ],
             [
-                new UrlAlias(['path' => '/something']),
+                new URLAlias(['path' => '/something']),
                 false,
                 '/something',
                 '/',
             ],
             [
-                new UrlAlias(['path' => '/']),
+                new URLAlias(['path' => '/']),
                 false,
                 '/',
                 '/',
             ],
             [
-                new UrlAlias(['path' => '/outside/tree/foo/bar']),
+                new URLAlias(['path' => '/outside/tree/foo/bar']),
                 true,
                 '/outside/tree/foo/bar',
                 '/my/root-folder',
             ],
             [
-                new UrlAlias(['path' => '/products/ibexa-dxp']),
+                new URLAlias(['path' => '/products/ibexa-dxp']),
                 false,
                 '/products/ibexa-dxp',
                 '/my/root-folder',
             ],
             [
-                new UrlAlias(['path' => '/shared/some-content']),
+                new URLAlias(['path' => '/shared/some-content']),
                 false,
                 '/shared/some-content',
                 '/my/root-folder',
             ],
             [
-                new UrlAlias(['path' => '/products/ibexa-dxp']),
+                new URLAlias(['path' => '/products/ibexa-dxp']),
                 false,
                 '/products/ibexa-dxp',
                 '/prod',

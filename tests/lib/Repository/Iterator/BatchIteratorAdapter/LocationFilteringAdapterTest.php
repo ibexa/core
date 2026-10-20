@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Repository\Iterator\BatchIteratorAdapter;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Iterator\BatchIteratorAdapter\LocationFilteringAdapter;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
@@ -23,8 +25,8 @@ final class LocationFilteringAdapterTest extends TestCase
     private const EXAMPLE_LIMIT = 25;
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws BadStateException
+     * @throws InvalidArgumentException
      */
     public function testFetch(): void
     {
@@ -56,7 +58,7 @@ final class LocationFilteringAdapterTest extends TestCase
 
         $locationService = $this->createMock(LocationService::class);
         $locationService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('find')
             ->with($expectedFilter, self::EXAMPLE_LANGUAGE_FILTER)
             ->willReturn($locationList);

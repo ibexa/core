@@ -24,22 +24,23 @@ use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Core\Repository\Values\ContentType\FieldDefinition;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class AssetMapperTest extends TestCase
 {
     public const EXAMPLE_CONTENT_ID = 487;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ContentService|MockObject */
     private $contentService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var LocationService|MockObject */
     private $locationService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var \Ibexa\Contracts\Core\Repository\ContentTypeService|MockObject */
     private $contentTypeService;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ConfigResolverInterface|MockObject */
     private $configResolver;
 
     /** @var array */
@@ -72,22 +73,26 @@ class AssetMapperTest extends TestCase
         $content = new Content();
 
         $this->contentTypeService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadContentTypeByIdentifier')
             ->with($this->mappings['content_type_identifier'])
             ->willReturn($contentType);
 
         $this->contentService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('newContentCreateStruct')
             ->with($contentType, $languageCode)
             ->willReturn($contentCreateStruct);
 
-        $matcher = self::exactly(2);
+        $matcher = $this->exactly(2);
         $contentCreateStruct
             ->expects($matcher)
             ->method('setField')
-            ->willReturnCallback(function (string $fieldDefIdentifier, mixed $actualValue, ?string $language = null) use ($matcher, $name, $value): void {
+            ->willReturnCallback(function (
+                string $fieldDefIdentifier,
+                mixed $actualValue,
+                ?string $language = null
+            ) use ($matcher, $name, $value): void {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertSame($this->mappings['name_field_identifier'], $fieldDefIdentifier);
                     self::assertSame($name, $actualValue);
@@ -98,19 +103,19 @@ class AssetMapperTest extends TestCase
             });
 
         $this->locationService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('newLocationCreateStruct')
             ->with($this->mappings['parent_location_id'])
             ->willReturn($locationCreateStruct);
 
         $this->contentService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('createContent')
             ->with($contentCreateStruct, [$locationCreateStruct])
             ->willReturn($contentDraft);
 
         $this->contentService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('publishVersion')
             ->with($contentDraft->versionInfo)
             ->willReturn($content);
@@ -126,13 +131,13 @@ class AssetMapperTest extends TestCase
 
         $mapper = $this->createPartialMapper(['isAsset']);
         $mapper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('isAsset')
             ->with($content)
             ->willReturn(true);
 
         $content
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getField')
             ->with($this->mappings['content_field_identifier'])
             ->willReturn($expectedValue);
@@ -148,7 +153,7 @@ class AssetMapperTest extends TestCase
 
         $mapper = $this->createPartialMapper(['isAsset']);
         $mapper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('isAsset')
             ->with($content)
             ->willReturn(false);
@@ -162,13 +167,13 @@ class AssetMapperTest extends TestCase
 
         $contentType = $this->createMock(ContentType::class);
         $contentType
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getFieldDefinition')
             ->with($this->mappings['content_field_identifier'])
             ->willReturn($fieldDefinition);
 
         $this->contentTypeService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadContentTypeByIdentifier')
             ->with($this->mappings['content_type_identifier'])
             ->willReturn($contentType);
@@ -183,13 +188,13 @@ class AssetMapperTest extends TestCase
 
         $mapper = $this->createPartialMapper(['isAsset']);
         $mapper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('isAsset')
             ->with($content)
             ->willReturn(true);
 
         $content
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getFieldValue')
             ->with($this->mappings['content_field_identifier'])
             ->willReturn($expectedValue);
@@ -205,7 +210,7 @@ class AssetMapperTest extends TestCase
 
         $mapper = $this->createPartialMapper(['isAsset']);
         $mapper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('isAsset')
             ->with($content)
             ->willReturn(false);
@@ -214,14 +219,17 @@ class AssetMapperTest extends TestCase
     }
 
     #[DataProvider('dataProviderForIsAsset')]
-    public function testIsAsset(int $contentContentTypeId, int $assetContentTypeId, bool $expected): void
-    {
+    public function testIsAsset(
+        int $contentContentTypeId,
+        int $assetContentTypeId,
+        bool $expected
+    ): void {
         $assetContentType = new ContentType([
             'id' => $assetContentTypeId,
         ]);
 
         $this->contentTypeService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadContentTypeByIdentifier')
             ->with($this->mappings['content_type_identifier'])
             ->willReturn($assetContentType);
@@ -305,7 +313,7 @@ class AssetMapperTest extends TestCase
     {
         $content = $this->createMock(Content::class);
         $content
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('__get')
             ->with('id')
             ->willReturn($id);
@@ -321,7 +329,7 @@ class AssetMapperTest extends TestCase
 
         $content = $this->createMock(Content::class);
         $content
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('__get')
             ->with('contentInfo')
             ->willReturn($contentInfo);
@@ -330,7 +338,7 @@ class AssetMapperTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @return ConfigResolverInterface|MockObject
      */
     private function mockConfigResolver(): ConfigResolverInterface
     {

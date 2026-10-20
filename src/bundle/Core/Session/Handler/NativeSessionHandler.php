@@ -24,8 +24,10 @@ class NativeSessionHandler extends \SessionHandler
      *
      * @see http://php.net/manual/en/session.configuration.php#ini.session.save-path for further details.
      */
-    public function __construct($savePath = null, $saveHandler = null)
-    {
+    public function __construct(
+        $savePath = null,
+        $saveHandler = null
+    ) {
         if (null !== $savePath) {
             ini_set('session.save_path', $savePath);
         }

@@ -21,7 +21,7 @@ final class EmailProvider extends BaseProvider
             return $this->createSecurityUser(
                 $this->userService->loadUserByEmail($identifier)
             );
-        } catch (NotFoundException|InvalidArgumentException $e) {
+        } catch (NotFoundException | InvalidArgumentException $e) {
             throw new UserNotFoundException($e->getMessage(), 0, $e);
         }
     }

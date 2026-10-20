@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Test\Repository\SetupFactory;
 
 use Doctrine\DBAL\Connection;
+use Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension;
 use Ibexa\Bundle\Core\DependencyInjection\ServiceTags;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder as FilteringCriterionQueryBuilder;
@@ -28,6 +29,7 @@ use Ibexa\DoctrineSchema\Filter\SchemaAssetsFilterBypass;
 use Ibexa\Tests\Core\Repository\IdManager\Php;
 use Ibexa\Tests\Core\Repository\LegacySchemaImporter;
 use Ibexa\Tests\Integration\Core\LegacyTestContainerBuilder;
+use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -55,7 +57,7 @@ class Legacy extends SetupFactory
     /**
      * Service container.
      *
-     * @var \Ibexa\Core\Base\ServiceContainer
+     * @var ServiceContainer
      */
     protected static ServiceContainer $serviceContainer;
 
@@ -127,7 +129,7 @@ class Legacy extends SetupFactory
         }
 
         $this->clearInternalCaches();
-        /** @var \Ibexa\Contracts\Core\Repository\Repository $repository */
+        /** @var Repository $repository */
         $repository = $this->getServiceContainer()->get($this->repositoryReference);
 
         // Set admin user as current user by default
@@ -188,7 +190,7 @@ class Legacy extends SetupFactory
      */
     protected function clearInternalCaches(): void
     {
-        /** @var \Ibexa\Core\Persistence\Legacy\Handler $handler */
+        /** @var Handler $handler */
         $handler = $this->getServiceContainer()->get(Handler::class);
 
         $contentLanguageHandler = $handler->contentLanguageHandler();
@@ -201,7 +203,7 @@ class Legacy extends SetupFactory
             $contentTypeHandler->clearCache();
         }
 
-        /** @var \Psr\Cache\CacheItemPoolInterface $cachePool */
+        /** @var CacheItemPoolInterface $cachePool */
         $cachePool = $this->getServiceContainer()->get('ibexa.cache_pool');
 
         $cachePool->clear();
@@ -309,7 +311,7 @@ class Legacy extends SetupFactory
     /**
      * This is intended to be used from external repository to enable container customization.
      *
-     * @param \Symfony\Component\DependencyInjection\ContainerBuilder $containerBuilder
+     * @param ContainerBuilder $containerBuilder
      */
     protected function externalBuildContainer(ContainerBuilder $containerBuilder): void
     {
@@ -328,7 +330,7 @@ class Legacy extends SetupFactory
      * Apply automatic configuration to needed Symfony Services.
      *
      * Note: Based on
-     * {@see \Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension::registerForAutoConfiguration},
+     * {@see IbexaCoreExtension::registerForAutoConfiguration},
      * but only for services needed by integration test setup.
      */
     private function registerForAutoConfiguration(ContainerBuilder $containerBuilder): void
@@ -340,10 +342,7 @@ class Legacy extends SetupFactory
             ->addTag(ServiceTags::FILTERING_SORT_CLAUSE_QUERY_BUILDER);
     }
 
-    /**
-     * @deprecated since Ibexa 4.0, rewrite a test case to use {@see \Ibexa\Contracts\Core\Test\IbexaKernelTestCase} instead.
-     */
-    public static function getInstallationDir(): string
+    private static function getInstallationDir(): string
     {
         // package root directory:
         $installationDir = realpath(__DIR__ . '/../../../../../');
@@ -354,10 +353,7 @@ class Legacy extends SetupFactory
         return $installationDir;
     }
 
-    /**
-     * @deprecated since Ibexa 4.0, rewrite a test case to use {@see \Ibexa\Contracts\Core\Test\IbexaKernelTestCase} instead.
-     */
-    public static function getCacheDir(): string
+    private static function getCacheDir(): string
     {
         return self::getInstallationDir() . '/var/cache';
     }

@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(CheckboxConverter::class)]
 class CheckboxTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\CheckboxConverter */
+    /** @var CheckboxConverter */
     protected $converter;
 
     protected function setUp(): void

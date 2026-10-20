@@ -15,25 +15,28 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator;
+use Ibexa\Core\MVC\Symfony\Routing\UrlAliasRouter as UrlAliasRouterAlias;
 use Ibexa\Core\MVC\Symfony\View\Manager as ViewManager;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Tests\Core\MVC\Symfony\Routing\UrlAliasRouterTest as BaseUrlAliasRouterTest;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\RequestContext;
 
 class UrlAliasRouterTest extends BaseUrlAliasRouterTest
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $configResolver;
 
     protected function setUp(): void
     {
         $this->configResolver = $this->createMock(ConfigResolverInterface::class);
         $this->configResolver
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getParameter')
             ->will(
-                self::returnValueMap(
+                $this->returnValueMap(
                     [
                         ['url_alias_router', null, null, true],
                         ['content.tree_root.location_id', null, null, null],
@@ -44,8 +47,13 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
         parent::setUp();
     }
 
-    protected function getRouter(LocationService $locationService, URLAliasService $urlAliasService, ContentService $contentService, UrlAliasGenerator $urlAliasGenerator, RequestContext $requestContext)
-    {
+    protected function getRouter(
+        LocationService $locationService,
+        URLAliasService $urlAliasService,
+        ContentService $contentService,
+        UrlAliasGenerator $urlAliasGenerator,
+        RequestContext $requestContext
+    ) {
         $router = new UrlAliasRouter($locationService, $urlAliasService, $contentService, $urlAliasGenerator, $requestContext);
         $router->setConfigResolver($this->configResolver);
 
@@ -67,10 +75,10 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
 
         $this->resetConfigResolver();
         $this->configResolver
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getParameter')
             ->will(
-                self::returnValueMap(
+                $this->returnValueMap(
                     [
                         ['url_alias_router', null, null, false],
                     ]
@@ -84,10 +92,10 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
         $rootLocationId = 123;
         $this->resetConfigResolver();
         $this->configResolver
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getParameter')
             ->will(
-                self::returnValueMap(
+                $this->returnValueMap(
                     [
                         ['url_alias_router', null, null, true],
                     ]
@@ -97,10 +105,10 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
 
         $prefix = '/root/prefix';
         $this->urlALiasGenerator
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('getPathPrefixByRootLocationId')
             ->with($rootLocationId)
-            ->will(self::returnValue($prefix));
+            ->will($this->returnValue($prefix));
 
         $locationId = 789;
         $path = '/foo/bar';
@@ -113,15 +121,15 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
             ]
         );
         $this->urlAliasService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('lookup')
             ->with($prefix . $path)
-            ->will(self::returnValue($urlAlias));
+            ->will($this->returnValue($urlAlias));
 
         $this->urlALiasGenerator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadLocation')
-            ->will(self::returnValue(new Location(['contentInfo' => new ContentInfo(['id' => 456])])));
+            ->will($this->returnValue(new Location(['contentInfo' => new ContentInfo(['id' => 456])])));
 
         $expected = [
             '_route' => UrlAliasRouter::URL_ALIAS_ROUTE_NAME,
@@ -140,10 +148,10 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
         $rootLocationId = 123;
         $this->resetConfigResolver();
         $this->configResolver
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getParameter')
             ->will(
-                self::returnValueMap(
+                $this->returnValueMap(
                     [
                         ['url_alias_router', null, null, true],
                     ]
@@ -153,14 +161,14 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
 
         $prefix = '/root/prefix';
         $this->urlALiasGenerator
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('getPathPrefixByRootLocationId')
             ->with($rootLocationId)
-            ->will(self::returnValue($prefix));
+            ->will($this->returnValue($prefix));
         $this->urlALiasGenerator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadLocation')
-            ->will(self::returnValue(new Location(['contentInfo' => new ContentInfo(['id' => 456])])));
+            ->will($this->returnValue(new Location(['contentInfo' => new ContentInfo(['id' => 456])])));
 
         $locationId = 789;
         $path = '/foo/bar';
@@ -174,10 +182,10 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
             ]
         );
         $this->urlAliasService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('lookup')
             ->with($prefix . $requestedPath)
-            ->will(self::returnValue($urlAlias));
+            ->will($this->returnValue($urlAlias));
 
         $expected = [
             '_route' => UrlAliasRouter::URL_ALIAS_ROUTE_NAME,
@@ -198,10 +206,10 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
         $rootLocationId = 123;
         $this->resetConfigResolver();
         $this->configResolver
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getParameter')
             ->will(
-                self::returnValueMap(
+                $this->returnValueMap(
                     [
                         ['url_alias_router', null, null, true],
                     ]
@@ -211,10 +219,10 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
 
         $prefix = '/';
         $this->urlALiasGenerator
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('getPathPrefixByRootLocationId')
             ->with($rootLocationId)
-            ->will(self::returnValue($prefix));
+            ->will($this->returnValue($prefix));
 
         $locationId = 789;
         $path = '/foo/bar';
@@ -228,14 +236,14 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
             ]
         );
         $this->urlAliasService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('lookup')
             ->with($requestedPath)
-            ->will(self::returnValue($urlAlias));
+            ->will($this->returnValue($urlAlias));
         $this->urlALiasGenerator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadLocation')
-            ->will(self::returnValue(new Location(['contentInfo' => new ContentInfo(['id' => 456])])));
+            ->will($this->returnValue(new Location(['contentInfo' => new ContentInfo(['id' => 456])])));
 
         $expected = [
             '_route' => UrlAliasRouter::URL_ALIAS_ROUTE_NAME,
@@ -251,15 +259,80 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
         self::assertEquals($expected, $this->router->matchRequest($request));
     }
 
+    #[DataProvider('providerForTestMatchRequestRootLocationRedirectsToSlash')]
+    public function testMatchRequestRootLocationRedirectsToSlash(string $requestedPath): void
+    {
+        $rootLocationId = 123;
+        $this->resetConfigResolver();
+        $this->configResolver
+            ->expects($this->once())
+            ->method('getParameter')
+            ->with('url_alias_router')
+            ->willReturn(true);
+        $this->router->setRootLocationId($rootLocationId);
+
+        $prefix = '/root/prefix';
+        $this->urlALiasGenerator
+            ->expects($this->exactly(2))
+            ->method('getPathPrefixByRootLocationId')
+            ->with($rootLocationId)
+            ->willReturn($prefix);
+        $this->urlALiasGenerator
+            ->expects($this->once())
+            ->method('loadLocation')
+            ->with($rootLocationId)
+            ->willReturn(new Location(['contentInfo' => new ContentInfo(['id' => 456])]));
+
+        $urlAlias = new URLAlias(
+            [
+                'destination' => $rootLocationId,
+                'path' => $prefix,
+                'type' => URLAlias::LOCATION,
+                'isHistory' => false,
+            ]
+        );
+        $this->urlAliasService
+            ->expects($this->once())
+            ->method('lookup')
+            ->with($prefix . $requestedPath)
+            ->willReturn($urlAlias);
+
+        $expected = [
+            '_route' => UrlAliasRouterAlias::URL_ALIAS_ROUTE_NAME,
+            '_controller' => UrlAliasRouterAlias::VIEW_ACTION,
+            'locationId' => $rootLocationId,
+            'contentId' => 456,
+            'viewType' => ViewManager::VIEW_TYPE_FULL,
+            'layout' => true,
+            'semanticPathinfo' => '/',
+            'needsRedirect' => true,
+        ];
+
+        $request = $this->getRequestByPathInfo(str_replace(' ', '%20', $requestedPath));
+        $request->attributes->set('semanticPathinfo', $requestedPath);
+        self::assertEquals($expected, $this->router->matchRequest($request));
+    }
+
+    /**
+     * @return iterable<string, array{string}>
+     */
+    public static function providerForTestMatchRequestRootLocationRedirectsToSlash(): iterable
+    {
+        yield 'single space' => ['/ '];
+        yield 'single space encoded' => ['/%20'];
+        yield 'multiple spaces' => ['/   '];
+        yield 'space followed by slash' => ['/ /'];
+    }
+
     public function testMatchRequestResourceCaseRedirectWithRootLocation(): void
     {
         $rootLocationId = 123;
         $this->resetConfigResolver();
         $this->configResolver
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getParameter')
             ->will(
-                self::returnValueMap(
+                $this->returnValueMap(
                     [
                         ['url_alias_router', null, null, true],
                     ]
@@ -269,10 +342,10 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
 
         $prefix = '/root/prefix';
         $this->urlALiasGenerator
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('getPathPrefixByRootLocationId')
             ->with($rootLocationId)
-            ->will(self::returnValue($prefix));
+            ->will($this->returnValue($prefix));
 
         $path = '/foo/bar';
         $requestedPath = '/Foo/Bar';
@@ -285,10 +358,10 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
             ]
         );
         $this->urlAliasService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('lookup')
             ->with($prefix . $requestedPath)
-            ->will(self::returnValue($urlAlias));
+            ->will($this->returnValue($urlAlias));
 
         $expected = [
             '_route' => UrlAliasRouter::URL_ALIAS_ROUTE_NAME,
@@ -304,10 +377,10 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
         $rootLocationId = 123;
         $this->resetConfigResolver();
         $this->configResolver
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getParameter')
             ->will(
-                self::returnValueMap(
+                $this->returnValueMap(
                     [
                         ['url_alias_router', null, null, true],
                     ]
@@ -317,10 +390,10 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
 
         $prefix = '/root/prefix';
         $this->urlALiasGenerator
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('getPathPrefixByRootLocationId')
             ->with($rootLocationId)
-            ->will(self::returnValue($prefix));
+            ->will($this->returnValue($prefix));
 
         $path = '/foo/bar';
         $requestedPath = '/Foo/Bar';
@@ -331,10 +404,10 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
             ]
         );
         $this->urlAliasService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('lookup')
             ->with($prefix . $requestedPath)
-            ->will(self::returnValue($urlAlias));
+            ->will($this->returnValue($urlAlias));
 
         $expected = [
             '_route' => UrlAliasRouter::URL_ALIAS_ROUTE_NAME,
@@ -349,10 +422,10 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
     {
         $this->resetConfigResolver();
         $this->configResolver
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getParameter')
             ->will(
-                self::returnValueMap(
+                $this->returnValueMap(
                     [
                         ['url_alias_router', null, null, true],
                         ['content.tree_root.location_id', null, null, 123],
@@ -365,29 +438,29 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
         $pathInfo = '/shared/content/foo-bar';
         $destinationId = 789;
         $this->urlALiasGenerator
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('isUriPrefixExcluded')
             ->with($pathInfo)
-            ->will(self::returnValue(true));
+            ->will($this->returnValue(true));
 
         $urlAlias = new URLAlias(
             [
                 'path' => $pathInfo,
-                'type' => UrlAlias::LOCATION,
+                'type' => URLAlias::LOCATION,
                 'destination' => $destinationId,
                 'isHistory' => false,
             ]
         );
         $request = $this->getRequestByPathInfo($pathInfo);
         $this->urlAliasService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('lookup')
             ->with($pathInfo)
-            ->will(self::returnValue($urlAlias));
+            ->will($this->returnValue($urlAlias));
         $this->urlALiasGenerator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadLocation')
-            ->will(self::returnValue(new Location(['contentInfo' => new ContentInfo(['id' => 456])])));
+            ->will($this->returnValue(new Location(['contentInfo' => new ContentInfo(['id' => 456])])));
 
         $expected = [
             '_route' => UrlAliasRouter::URL_ALIAS_ROUTE_NAME,

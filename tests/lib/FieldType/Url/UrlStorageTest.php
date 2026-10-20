@@ -12,6 +12,8 @@ use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Core\FieldType\Url\UrlStorage;
+use Ibexa\Core\FieldType\Url\UrlStorage\Gateway;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -25,18 +27,18 @@ class UrlStorageTest extends TestCase
         $gateway = $this->getGatewayMock();
 
         $gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getUrlIdMap')
             ->with(['http://ibexa.co'])
-            ->will(self::returnValue(['http://ibexa.co' => 12]));
+            ->will($this->returnValue(['http://ibexa.co' => 12]));
 
         $gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('linkUrl')
             ->with(12, 42, 24);
 
         $gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('unlinkUrl')
             ->with(
                 42,
@@ -59,24 +61,24 @@ class UrlStorageTest extends TestCase
         $gateway = $this->getGatewayMock();
 
         $gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getUrlIdMap')
             ->with(['http://ibexa.co'])
-            ->will(self::returnValue([]));
+            ->will($this->returnValue([]));
 
         $gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('insertUrl')
             ->with('http://ibexa.co')
-            ->will(self::returnValue(12));
+            ->will($this->returnValue(12));
 
         $gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('linkUrl')
             ->with(12, 42, 24);
 
         $gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('unlinkUrl')
             ->with(
                 42,
@@ -99,19 +101,19 @@ class UrlStorageTest extends TestCase
         $gateway = $this->getGatewayMock();
 
         $gateway
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('getUrlIdMap');
 
         $gateway
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('insertUrl');
 
         $gateway
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('linkUrl');
 
         $gateway
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('unlinkUrl');
 
         $storage = $this->getPartlyMockedStorage($gateway);
@@ -129,10 +131,10 @@ class UrlStorageTest extends TestCase
         $gateway = $this->getGatewayMock();
 
         $gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getIdUrlMap')
             ->with([12])
-            ->will(self::returnValue([12 => 'http://ibexa.co']));
+            ->will($this->returnValue([12 => 'http://ibexa.co']));
 
         $storage = $this->getPartlyMockedStorage($gateway);
         $storage->getFieldData($versionInfo, $field);
@@ -148,15 +150,15 @@ class UrlStorageTest extends TestCase
         $gateway = $this->getGatewayMock();
 
         $gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getIdUrlMap')
             ->with([12])
-            ->will(self::returnValue([]));
+            ->will($this->returnValue([]));
 
         $storage = $this->getPartlyMockedStorage($gateway);
         $logger = $this->getLoggerMock();
         $logger
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('error')
             ->with("URL with ID '12' not found");
 
@@ -173,12 +175,12 @@ class UrlStorageTest extends TestCase
         $gateway = $this->getGatewayMock();
 
         $gateway
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('getIdUrlMap');
 
         $logger = $this->getLoggerMock();
         $logger
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('error');
 
         $storage = $this->getPartlyMockedStorage($gateway);
@@ -193,11 +195,15 @@ class UrlStorageTest extends TestCase
         $fieldIds = [12, 23, 34];
         $gateway = $this->getGatewayMock();
 
-        $matcher = self::exactly(count($fieldIds));
+        $matcher = $this->exactly(count($fieldIds));
         $gateway
             ->expects($matcher)
             ->method('unlinkUrl')
-            ->willReturnCallback(static function ($actualId, $actualVersionNo, array $excludeUrlIds = []) use ($matcher, $fieldIds): void {
+            ->willReturnCallback(static function (
+                $actualId,
+                $actualVersionNo,
+                array $excludeUrlIds = []
+            ) use ($matcher, $fieldIds): void {
                 $index = $matcher->numberOfInvocations() - 1;
                 self::assertSame($fieldIds[$index], $actualId);
                 self::assertSame(24, $actualVersionNo);
@@ -215,9 +221,9 @@ class UrlStorageTest extends TestCase
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\FieldType\StorageGatewayInterface $gateway
+     * @param StorageGatewayInterface $gateway
      *
-     * @return \Ibexa\Core\FieldType\Url\UrlStorage|\PHPUnit\Framework\MockObject\MockObject
+     * @return UrlStorage|MockObject
      */
     protected function getPartlyMockedStorage(StorageGatewayInterface $gateway)
     {
@@ -232,11 +238,11 @@ class UrlStorageTest extends TestCase
             ->getMock();
     }
 
-    /** @var \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var LoggerInterface|MockObject */
     protected $loggerMock;
 
     /**
-     * @return \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @return LoggerInterface|MockObject
      */
     protected function getLoggerMock()
     {
@@ -249,16 +255,16 @@ class UrlStorageTest extends TestCase
         return $this->loggerMock;
     }
 
-    /** @var \Ibexa\Core\FieldType\Url\UrlStorage\Gateway|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Gateway|MockObject */
     protected $gatewayMock;
 
     /**
-     * @return \Ibexa\Core\FieldType\Url\UrlStorage\Gateway|\PHPUnit\Framework\MockObject\MockObject
+     * @return Gateway|MockObject
      */
     protected function getGatewayMock()
     {
         if (!isset($this->gatewayMock)) {
-            $this->gatewayMock = $this->createMock(UrlStorage\Gateway::class);
+            $this->gatewayMock = $this->createMock(Gateway::class);
         }
 
         return $this->gatewayMock;

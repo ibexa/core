@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  * It allows reading & writing of files in a unified way
  *
  * @property-read string $id The id of the binary file
- * @property-read \DateTime $mtime File modification time
+ * @property-read DateTime $mtime File modification time
  * @property-read string $uri HTTP URI to the binary file
  * @property-read int $size File size
  */

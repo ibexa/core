@@ -17,14 +17,14 @@ interface ViewBuilderRegistry
      *
      * @param mixed $argument
      *
-     * @return \Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilder|null The ViewBuilder, or null if there's none.
+     * @return ViewBuilder|null The ViewBuilder, or null if there's none.
      */
     public function getFromRegistry($argument);
 
     /**
      * Adds ViewBuilders from the $objects array to the registry.
      *
-     * @param \Ibexa\Core\MVC\Symfony\View\Builder\ViewBuilder[] $objects
+     * @param ViewBuilder[] $objects
      */
     public function addToRegistry(array $objects);
 }

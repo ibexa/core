@@ -42,18 +42,20 @@ class RegenerateUrlAliasesCommand extends Command
 - Manually clear HTTP cache after running this command.
 EOT;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Repository */
+    /** @var Repository */
     private $repository;
 
-    /** @var \Psr\Log\LoggerInterface */
+    /** @var LoggerInterface */
     private $logger;
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Repository $repository
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param Repository $repository
+     * @param LoggerInterface $logger
      */
-    public function __construct(Repository $repository, ?LoggerInterface $logger = null)
-    {
+    public function __construct(
+        Repository $repository,
+        ?LoggerInterface $logger = null
+    ) {
         parent::__construct();
 
         $this->repository = $repository;
@@ -107,8 +109,10 @@ EOT
      *
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $iterationCount = (int)$input->getOption('iteration-count');
         $locationIds = $input->getOption('location-id');
 
@@ -164,12 +168,14 @@ EOT
      * Return configured progress bar helper.
      *
      * @param int $maxSteps
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param OutputInterface $output
      *
-     * @return \Symfony\Component\Console\Helper\ProgressBar
+     * @return ProgressBar
      */
-    protected function getProgressBar($maxSteps, OutputInterface $output)
-    {
+    protected function getProgressBar(
+        $maxSteps,
+        OutputInterface $output
+    ) {
         $progressBar = new ProgressBar($output, $maxSteps);
         $progressBar->setFormat(
             ' %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s% %memory:6s%'
@@ -181,11 +187,13 @@ EOT
     /**
      * Process single results page of fetched Locations.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location[] $locations
-     * @param \Symfony\Component\Console\Helper\ProgressBar $progressBar
+     * @param Location[] $locations
+     * @param ProgressBar $progressBar
      */
-    private function processLocations(array $locations, ProgressBar $progressBar): void
-    {
+    private function processLocations(
+        array $locations,
+        ProgressBar $progressBar
+    ): void {
         $contentList = $this->repository->sudo(
             static function (Repository $repository) use ($locations): iterable {
                 $contentInfoList = array_map(
@@ -241,12 +249,14 @@ EOT
      * @param int $offset
      * @param int $iterationCount
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location[]
+     * @return Location[]
      *
-     * @throws \Exception
+     * @throws Exception
      */
-    private function loadAllLocations(int $offset, int $iterationCount): array
-    {
+    private function loadAllLocations(
+        int $offset,
+        int $iterationCount
+    ): array {
         return $this->repository->sudo(
             static function (Repository $repository) use ($offset, $iterationCount): array {
                 return $repository->getLocationService()->loadAllLocations($offset, $iterationCount);
@@ -259,12 +269,15 @@ EOT
      * @param int $offset
      * @param int $iterationCount
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location[]
+     * @return Location[]
      *
-     * @throws \Exception
+     * @throws Exception
      */
-    private function loadSpecificLocations(array $locationIds, int $offset, int $iterationCount): array
-    {
+    private function loadSpecificLocations(
+        array $locationIds,
+        int $offset,
+        int $iterationCount
+    ): array {
         $locationIds = array_slice($locationIds, $offset, $iterationCount);
 
         return $this->repository->sudo(
@@ -279,7 +292,7 @@ EOT
      *
      * @return int[]
      *
-     * @throws \Exception
+     * @throws Exception
      */
     private function getFilteredLocationList(array $locationIds): array
     {
@@ -300,7 +313,7 @@ EOT
     }
 
     /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param OutputInterface $output
      * @param int $locationsCount
      * @param int[] $locationIds
      * @param int $iterationCount

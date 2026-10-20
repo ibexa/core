@@ -16,6 +16,4 @@ use Iterator;
  *
  * @extends \Iterator<array-key, string>
  */
-interface FileIteratorInterface extends Countable, Iterator
-{
-}
+interface FileIteratorInterface extends Countable, Iterator {}

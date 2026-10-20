@@ -17,8 +17,11 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class HttpUtilsTest extends TestCase
 {
     #[DataProvider('generateUriStandardProvider')]
-    public function testGenerateUriStandard($uri, $isUriRouteName, $expected): void
-    {
+    public function testGenerateUriStandard(
+        $uri,
+        $isUriRouteName,
+        $expected
+    ): void {
         $urlGenerator = $this->createMock(UrlGeneratorInterface::class);
         $httpUtils = new HttpUtils($urlGenerator);
         $httpUtils->setSiteAccess(new SiteAccess('test'));
@@ -29,10 +32,10 @@ class HttpUtilsTest extends TestCase
 
         if ($isUriRouteName) {
             $urlGenerator
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('generate')
                 ->with($uri, $requestAttributes, UrlGeneratorInterface::ABSOLUTE_URL)
-                ->will(self::returnValue($expected . '?' . http_build_query($requestAttributes)));
+                ->will($this->returnValue($expected . '?' . http_build_query($requestAttributes)));
         }
 
         self::assertSame($expected, $httpUtils->generateUri($request, $uri));
@@ -53,16 +56,20 @@ class HttpUtilsTest extends TestCase
     }
 
     #[DataProvider('generateUriProvider')]
-    public function testGenerateUri($uri, $isUriRouteName, $siteAccessUri, $expected): void
-    {
+    public function testGenerateUri(
+        $uri,
+        $isUriRouteName,
+        $siteAccessUri,
+        $expected
+    ): void {
         $siteAccess = new SiteAccess('test', 'test');
         if ($uri[0] === '/') {
             $matcher = $this->createMock(SiteAccess\URILexer::class);
             $matcher
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('analyseLink')
                 ->with($uri)
-                ->will(self::returnValue($siteAccessUri . $uri));
+                ->will($this->returnValue($siteAccessUri . $uri));
             $siteAccess->matcher = $matcher;
         }
 
@@ -76,10 +83,10 @@ class HttpUtilsTest extends TestCase
 
         if ($isUriRouteName) {
             $urlGenerator
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('generate')
                 ->with($uri, $requestAttributes, UrlGeneratorInterface::ABSOLUTE_URL)
-                ->will(self::returnValue($expected . '?' . http_build_query($requestAttributes)));
+                ->will($this->returnValue($expected . '?' . http_build_query($requestAttributes)));
         }
 
         $res = $httpUtils->generateUri($request, $uri);
@@ -109,16 +116,20 @@ class HttpUtilsTest extends TestCase
     }
 
     #[DataProvider('checkRequestPathProvider')]
-    public function testCheckRequestPath($path, $siteAccessUri, $requestUri, $expected): void
-    {
+    public function testCheckRequestPath(
+        $path,
+        $siteAccessUri,
+        $requestUri,
+        $expected
+    ): void {
         $siteAccess = new SiteAccess('test', 'test');
         if ($siteAccessUri !== null) {
             $matcher = $this->createMock(SiteAccess\URILexer::class);
             $matcher
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('analyseLink')
                 ->with($path)
-                ->will(self::returnValue($siteAccessUri . $path));
+                ->will($this->returnValue($siteAccessUri . $path));
             $siteAccess->matcher = $matcher;
         }
 

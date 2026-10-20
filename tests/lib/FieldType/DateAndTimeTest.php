@@ -9,7 +9,9 @@ namespace Ibexa\Tests\Core\FieldType;
 
 use DateInterval;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\FieldType\DateAndTime\Type;
 use Ibexa\Core\FieldType\DateAndTime\Type as DateAndTime;
+use Ibexa\Core\FieldType\DateAndTime\Value;
 use Ibexa\Core\FieldType\DateAndTime\Value as DateAndTimeValue;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
@@ -106,14 +108,16 @@ class DateAndTimeTest extends FieldTypeTestCase
     }
 
     /**
-     * @param \Ibexa\Core\FieldType\DateAndTime\Value $expectedResult
+     * @param Value $expectedResult
      */
     #[DataProvider('provideInputForFromHash')]
-    public function testFromHash(mixed $inputHash, mixed $expectedResult): void
-    {
+    public function testFromHash(
+        mixed $inputHash,
+        mixed $expectedResult
+    ): void {
         $this->assertIsValidHashValue($inputHash);
 
-        /** @var \Ibexa\Core\FieldType\DateAndTime\Type $fieldType */
+        /** @var Type $fieldType */
         $fieldType = $this->getFieldTypeUnderTest();
 
         $actualResult = $fieldType->fromHash($inputHash);
@@ -162,11 +166,13 @@ class DateAndTimeTest extends FieldTypeTestCase
      * @throws \DateMalformedIntervalStringException
      */
     #[DataProvider('provideInputForTimeStringFromHash')]
-    public function testTimeStringFromHash(mixed $inputHash, string $intervalSpec): void
-    {
+    public function testTimeStringFromHash(
+        mixed $inputHash,
+        string $intervalSpec
+    ): void {
         $this->assertIsValidHashValue($inputHash);
 
-        /** @var \Ibexa\Core\FieldType\DateAndTime\Type $fieldType */
+        /** @var Type $fieldType */
         $fieldType = $this->getFieldTypeUnderTest();
 
         $expectedResult = new DateAndTimeValue(new \DateTime());

@@ -17,8 +17,11 @@ use PHPUnit\Framework\TestCase;
 class PrefixTest extends TestCase
 {
     #[DataProvider('provideData')]
-    public function testDecorate($url, $prefix, $decoratedUrl): void
-    {
+    public function testDecorate(
+        $url,
+        $prefix,
+        $decoratedUrl
+    ): void {
         $decorator = $this->buildDecorator($prefix);
 
         self::assertEquals(
@@ -28,8 +31,11 @@ class PrefixTest extends TestCase
     }
 
     #[DataProvider('provideData')]
-    public function testUndecorate($url, $prefix, $decoratedUrl): void
-    {
+    public function testUndecorate(
+        $url,
+        $prefix,
+        $decoratedUrl
+    ): void {
         $decorator = $this->buildDecorator($prefix);
 
         self::assertEquals(

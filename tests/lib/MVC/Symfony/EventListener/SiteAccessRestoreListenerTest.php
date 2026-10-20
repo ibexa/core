@@ -27,9 +27,9 @@ use Symfony\Component\HttpKernel\KernelEvents;
 #[CoversClass(SiteAccessRestoreListener::class)]
 final class SiteAccessRestoreListenerTest extends TestCase
 {
-    private HttpKernelInterface&Stub $kernel;
+    private HttpKernelInterface & Stub $kernel;
 
-    private EventDispatcherInterface&MockObject $eventDispatcher;
+    private EventDispatcherInterface & MockObject $eventDispatcher;
 
     private RequestStack $requestStack;
 
@@ -65,7 +65,7 @@ final class SiteAccessRestoreListenerTest extends TestCase
         $this->requestStack->push($subRequest);
 
         $this->eventDispatcher
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('dispatch')
             ->with(
                 self::callback(
@@ -84,11 +84,13 @@ final class SiteAccessRestoreListenerTest extends TestCase
     }
 
     /**
-     * @param \Symfony\Component\HttpFoundation\Request[] $requests
+     * @param Request[] $requests
      */
     #[DataProvider('provideNoDispatchCases')]
-    public function testNoDispatch(array $requests, int $requestType): void
-    {
+    public function testNoDispatch(
+        array $requests,
+        int $requestType
+    ): void {
         $finishingRequest = null;
         foreach ($requests as $request) {
             $this->requestStack->push($request);
@@ -96,7 +98,7 @@ final class SiteAccessRestoreListenerTest extends TestCase
         }
         self::assertNotNull($finishingRequest);
 
-        $this->eventDispatcher->expects(self::never())->method('dispatch');
+        $this->eventDispatcher->expects($this->never())->method('dispatch');
 
         $this->listener->onKernelFinishRequest(
             new FinishRequestEvent($this->kernel, $finishingRequest, $requestType)
@@ -104,7 +106,7 @@ final class SiteAccessRestoreListenerTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array{\Symfony\Component\HttpFoundation\Request[], int}>
+     * @return iterable<string, array{Request[], int}>
      */
     public static function provideNoDispatchCases(): iterable
     {

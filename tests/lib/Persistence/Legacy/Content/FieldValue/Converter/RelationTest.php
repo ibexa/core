@@ -14,12 +14,13 @@ use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\RelationConverter
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(RelationConverter::class)]
 class RelationTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\RelationConverter */
+    /** @var MockObject|RelationConverter */
     protected $converter;
 
     protected function setUp(): void

@@ -22,8 +22,10 @@ final class SortSpecParserTest extends TestCase
     private const EXAMPLE_SORT_CLAUSE_ID = 'id';
 
     #[DataProvider('dataProviderForParseSortDirection')]
-    public function testParseSortDirection(array $input, string $expectedDirection): void
-    {
+    public function testParseSortDirection(
+        array $input,
+        string $expectedDirection
+    ): void {
         $lexer = new SortSpecLexerStub($input);
         $parser = new SortSpecParser(self::createStub(SortClauseParserInterface::class), $lexer);
 
@@ -94,7 +96,7 @@ final class SortSpecParserTest extends TestCase
 
         $sortClause = self::createStub(SortClause::class);
         $sortClauseArgsParser
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('parse')
             ->with($parser, self::EXAMPLE_SORT_CLAUSE_ID)
             ->willReturn($sortClause);
@@ -107,8 +109,8 @@ final class SortSpecParserTest extends TestCase
         $token = new Token(Token::TYPE_ID, self::EXAMPLE_SORT_CLAUSE_ID);
 
         $lexer = $this->createMock(SortSpecLexerInterface::class);
-        $lexer->expects(self::once())->method('peek')->willReturn($token);
-        $lexer->expects(self::once())->method('consume')->willReturn($token);
+        $lexer->expects($this->once())->method('peek')->willReturn($token);
+        $lexer->expects($this->once())->method('consume')->willReturn($token);
 
         $parser = new SortSpecParser(
             self::createStub(SortClauseParserInterface::class),
@@ -123,8 +125,8 @@ final class SortSpecParserTest extends TestCase
         $token = new Token(Token::TYPE_ASC);
 
         $lexer = $this->createMock(SortSpecLexerInterface::class);
-        $lexer->expects(self::once())->method('peek')->willReturn($token);
-        $lexer->expects(self::once())->method('consume')->willReturn($token);
+        $lexer->expects($this->once())->method('peek')->willReturn($token);
+        $lexer->expects($this->once())->method('consume')->willReturn($token);
 
         $parser = new SortSpecParser(
             self::createStub(SortClauseParserInterface::class),

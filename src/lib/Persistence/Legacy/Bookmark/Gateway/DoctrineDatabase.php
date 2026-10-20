@@ -24,7 +24,7 @@ class DoctrineDatabase extends Gateway
     public const COLUMN_LOCATION_ID = 'node_id';
     public const COLUMN_NAME = 'name';
 
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     protected $connection;
 
     public function __construct(Connection $connection)
@@ -84,8 +84,10 @@ class DoctrineDatabase extends Gateway
     /**
      * {@inheritdoc}
      */
-    public function loadBookmarkDataByUserIdAndLocationId(int $userId, array $locationIds): array
-    {
+    public function loadBookmarkDataByUserIdAndLocationId(
+        int $userId,
+        array $locationIds
+    ): array {
         $query = $this->connection->createQueryBuilder();
         $query
             ->select(...$this->getColumns())
@@ -124,45 +126,10 @@ class DoctrineDatabase extends Gateway
     /**
      * {@inheritdoc}
      */
-    public function loadUserBookmarks(int $userId, int $offset = 0, int $limit = -1): array
-    {
-        $query = $this->connection->createQueryBuilder();
-        $query
-            ->select(...$this->getColumns())
-            ->from(self::TABLE_BOOKMARKS)
-            ->where($query->expr()->eq(self::COLUMN_USER_ID, ':user_id'))
-            ->setFirstResult($offset);
-
-        if ($limit > 0) {
-            $query->setMaxResults($limit);
-        }
-
-        $query->orderBy(self::COLUMN_ID, 'DESC');
-        $query->setParameter('user_id', $userId, ParameterType::INTEGER);
-
-        return $query->executeQuery()->fetchAllAssociative();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function countUserBookmarks(int $userId): int
-    {
-        $query = $this->connection->createQueryBuilder();
-        $query
-            ->select('COUNT(' . self::COLUMN_ID . ')')
-            ->from(self::TABLE_BOOKMARKS)
-            ->where($query->expr()->eq(self::COLUMN_USER_ID, ':user_id'))
-            ->setParameter('user_id', $userId, ParameterType::INTEGER);
-
-        return (int) $query->executeQuery()->fetchOne();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function locationSwapped(int $location1Id, int $location2Id): void
-    {
+    public function locationSwapped(
+        int $location1Id,
+        int $location2Id
+    ): void {
         $query = $this->connection->createQueryBuilder();
         $query
             ->update(self::TABLE_BOOKMARKS)

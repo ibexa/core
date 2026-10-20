@@ -37,9 +37,9 @@ final class RequestContextFactoryTest extends TestCase
      * @return iterable<
      *      string,
      *      array{
-     *          \Symfony\Component\Routing\RequestContext,
-     *          \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest,
-     *          \Symfony\Component\Routing\RequestContext
+     *          RequestContext,
+     *          SimplifiedRequest,
+     *          RequestContext
      * }>
      */
     public static function getDataForTestGetContextBySimplifiedRequest(): iterable
@@ -47,12 +47,10 @@ final class RequestContextFactoryTest extends TestCase
         yield 'fully populated HTTP SimplifiedRequest' => [
             new RequestContext(),
             new SimplifiedRequest(
-                [
-                    'scheme' => 'http',
-                    'host' => 'localhost',
-                    'port' => '8080',
-                    'pathinfo' => 'foo',
-                ]
+                scheme: 'http',
+                host: 'localhost',
+                port: '8080',
+                pathinfo: 'foo',
             ),
             new RequestContext('', 'GET', 'localhost', 'http', 8080, 443, 'foo'),
         ];
@@ -60,12 +58,10 @@ final class RequestContextFactoryTest extends TestCase
         yield 'fully populated HTTPS SimplifiedRequest' => [
             new RequestContext(),
             new SimplifiedRequest(
-                [
-                    'scheme' => 'https',
-                    'host' => 'localhost',
-                    'port' => '8443',
-                    'pathinfo' => 'foo',
-                ]
+                scheme: 'https',
+                host: 'localhost',
+                port: '8443',
+                pathinfo: 'foo',
             ),
             new RequestContext('', 'GET', 'localhost', 'https', 80, 8443, 'foo'),
         ];

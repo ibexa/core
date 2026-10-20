@@ -23,7 +23,7 @@ class MultipleIdentifierMapper extends IdentifierMapper
     /**
      * Map field value to a proper search engine representation.
      *
-     * @param \Ibexa\Contracts\Core\Search\Field $field
+     * @param Field $field
      *
      * @return mixed
      */

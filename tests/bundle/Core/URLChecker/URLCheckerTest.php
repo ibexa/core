@@ -15,25 +15,26 @@ use Ibexa\Contracts\Core\Repository\Values\URL\SearchResult;
 use Ibexa\Contracts\Core\Repository\Values\URL\URL;
 use Ibexa\Contracts\Core\Repository\Values\URL\URLQuery;
 use Ibexa\Contracts\Core\Repository\Values\URL\URLUpdateStruct;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
 class URLCheckerTest extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\Repository\URLService|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var URLService|MockObject */
     private $urlService;
 
-    /** @var \Ibexa\Bundle\Core\URLChecker\URLHandlerRegistryInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var URLHandlerRegistryInterface|MockObject */
     private $handlerRegistry;
 
-    /** @var \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var LoggerInterface|MockObject */
     private $logger;
 
     protected function setUp(): void
     {
         $this->urlService = $this->createMock(URLService::class);
         $this->urlService
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('createUpdateStruct')
             ->willReturnCallback(static function (): URLUpdateStruct {
                 return new URLUpdateStruct();
@@ -49,7 +50,7 @@ class URLCheckerTest extends TestCase
         $groups = $this->createGroupedUrls(['http', 'https']);
 
         $this->urlService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('findUrls')
             ->with($query)
             ->willReturn($this->createSearchResults($groups));
@@ -61,7 +62,7 @@ class URLCheckerTest extends TestCase
 
         foreach ($handlers as $scheme => $handler) {
             $handler
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('validate')
                 ->willReturnCallback(static function (array $urls) use ($scheme, $groups): void {
                     self::assertEqualsCanonicalizing($groups[$scheme], $urls);
@@ -80,13 +81,13 @@ class URLCheckerTest extends TestCase
         $groups = $this->createGroupedUrls(['http', 'https'], 10);
 
         $this->urlService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('findUrls')
             ->with($query)
             ->willReturn($this->createSearchResults($groups));
 
         $this->logger
-            ->expects(self::atLeastOnce())
+            ->expects($this->atLeastOnce())
             ->method('error')
             ->with('Unsupported URL schema: https');
 
@@ -96,7 +97,7 @@ class URLCheckerTest extends TestCase
 
         foreach ($handlers as $scheme => $handler) {
             $handler
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('validate')
                 ->willReturnCallback(static function (array $urls) use ($scheme, $groups): void {
                     self::assertEqualsCanonicalizing($groups[$scheme], $urls);
@@ -136,8 +137,10 @@ class URLCheckerTest extends TestCase
         ]);
     }
 
-    private function createGroupedUrls(array $schemes, $n = 10)
-    {
+    private function createGroupedUrls(
+        array $schemes,
+        $n = 10
+    ) {
         $results = [];
 
         foreach ($schemes as $i => $scheme) {
@@ -154,7 +157,7 @@ class URLCheckerTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Bundle\Core\URLChecker\URLChecker
+     * @return URLChecker
      */
     private function createUrlChecker()
     {

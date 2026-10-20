@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
 use Exception;
+use Ibexa\Contracts\Core\Persistence\UserPreference\Handler;
 use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreference;
 use Ibexa\Contracts\Core\Persistence\UserPreference\UserPreferenceSetStruct;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
@@ -19,6 +20,7 @@ use Ibexa\Core\Repository\UserPreferenceService;
 use Ibexa\Core\Repository\Values\User\UserReference;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\MockObject;
 
 #[CoversClass(UserPreferenceService::class)]
 class UserPreferenceTest extends BaseServiceMockTest
@@ -27,7 +29,7 @@ class UserPreferenceTest extends BaseServiceMockTest
     public const USER_PREFERENCE_NAME = 'setting';
     public const USER_PREFERENCE_VALUE = 'value';
 
-    /** @var \Ibexa\Contracts\Core\Persistence\UserPreference\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Handler|MockObject */
     private $userSPIPreferenceHandler;
 
     protected function setUp(): void
@@ -84,7 +86,7 @@ class UserPreferenceTest extends BaseServiceMockTest
 
     public function testSetUserPreferenceWithRollback(): void
     {
-        $this->expectException(\Exception::class);
+        $this->expectException(Exception::class);
 
         $apiUserPreferenceSetStruct = new APIUserPreferenceSetStruct([
             'name' => 'setting',
@@ -107,7 +109,7 @@ class UserPreferenceTest extends BaseServiceMockTest
         $userPreferenceValue = 'value';
 
         $this->userSPIPreferenceHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getUserPreferenceByUserIdAndName')
             ->with(self::CURRENT_USER_ID, $userPreferenceName)
             ->willReturn(new UserPreference([
@@ -135,13 +137,13 @@ class UserPreferenceTest extends BaseServiceMockTest
         }, range(1, $expectedTotalCount));
 
         $this->userSPIPreferenceHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('countUserPreferences')
             ->with(self::CURRENT_USER_ID)
             ->willReturn($expectedTotalCount);
 
         $this->userSPIPreferenceHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadUserPreferences')
             ->with(self::CURRENT_USER_ID, $offset, $limit)
             ->willReturn(array_map(static function ($locationId): UserPreference {
@@ -162,7 +164,7 @@ class UserPreferenceTest extends BaseServiceMockTest
         $expectedTotalCount = 10;
 
         $this->userSPIPreferenceHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('countUserPreferences')
             ->with(self::CURRENT_USER_ID)
             ->willReturn($expectedTotalCount);
@@ -173,7 +175,7 @@ class UserPreferenceTest extends BaseServiceMockTest
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\UserPreferenceService|\PHPUnit\Framework\MockObject\MockObject
+     * @return \Ibexa\Contracts\Core\Repository\UserPreferenceService|MockObject
      */
     private function createAPIUserPreferenceService(?array $methods = null)
     {
@@ -187,28 +189,28 @@ class UserPreferenceTest extends BaseServiceMockTest
     private function assertTransactionIsCommitted(callable $operation): void
     {
         $repository = $this->getRepositoryMock();
-        $repository->expects(self::once())->method('beginTransaction');
+        $repository->expects($this->once())->method('beginTransaction');
         $operation();
-        $repository->expects(self::once())->method('commit');
-        $repository->expects(self::never())->method('rollback');
+        $repository->expects($this->once())->method('commit');
+        $repository->expects($this->never())->method('rollback');
     }
 
     private function assertTransactionIsNotStarted(callable $operation): void
     {
         $repository = $this->getRepositoryMock();
-        $repository->expects(self::never())->method('beginTransaction');
+        $repository->expects($this->never())->method('beginTransaction');
         $operation();
-        $repository->expects(self::never())->method('commit');
-        $repository->expects(self::never())->method('rollback');
+        $repository->expects($this->never())->method('commit');
+        $repository->expects($this->never())->method('rollback');
     }
 
     private function assertTransactionIsRollback(callable $operation): void
     {
         $repository = $this->getRepositoryMock();
-        $repository->expects(self::once())->method('beginTransaction');
+        $repository->expects($this->once())->method('beginTransaction');
         $operation();
-        $repository->expects(self::never())->method('commit');
-        $repository->expects(self::once())->method('rollback');
+        $repository->expects($this->never())->method('commit');
+        $repository->expects($this->once())->method('rollback');
     }
 
     private function createAPIUserPreference(): APIUserPreference

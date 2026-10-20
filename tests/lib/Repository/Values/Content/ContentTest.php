@@ -19,10 +19,10 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(Content::class)]
 final class ContentTest extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Field[] */
+    /** @var Field[] */
     private $internalFields;
 
-    /** @var \Ibexa\Core\Repository\Values\Content\Content */
+    /** @var Content */
     private $content;
 
     protected function setUp(): void
@@ -132,7 +132,7 @@ final class ContentTest extends TestCase
     {
         $name = 'Translated name';
         $versionInfoMock = $this->createMock(VersionInfo::class);
-        $versionInfoMock->expects(self::once())
+        $versionInfoMock->expects($this->once())
             ->method('getName')
             ->willReturn($name);
 

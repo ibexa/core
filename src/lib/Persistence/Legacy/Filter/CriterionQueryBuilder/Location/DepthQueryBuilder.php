@@ -8,8 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location;
 
+use Doctrine\DBAL\Exception;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Location;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Location\Depth;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 
 /**
@@ -19,17 +20,17 @@ final class DepthQueryBuilder extends BaseLocationCriterionQueryBuilder
 {
     public function accepts(FilteringCriterion $criterion): bool
     {
-        return $criterion instanceof Location\Depth;
+        return $criterion instanceof Depth;
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function buildQueryConstraint(
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
     ): ?string {
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Location\Depth $criterion */
+        /** @var Depth $criterion */
         parent::buildQueryConstraint($queryBuilder, $criterion);
 
         return $queryBuilder->buildOperatorBasedCriterionConstraint(

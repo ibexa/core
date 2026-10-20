@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Bundle\IO;
 
 use Ibexa\Bundle\IO\BinaryStreamResponse;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -20,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 final class BinaryStreamResponseTest extends TestCase
 {
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function testSendContent(): void
     {
@@ -31,7 +32,7 @@ final class BinaryStreamResponseTest extends TestCase
         $in = fopen('php://input', 'rb');
 
         $ioServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getFileInputStream')
             ->with($binaryStreamResponse->getFile())
             ->willReturn($in);
@@ -47,7 +48,7 @@ final class BinaryStreamResponseTest extends TestCase
         $binaryStreamResponse = new BinaryStreamResponse($binaryFile, $ioServiceMock);
 
         $ioServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getMimeType')
             ->with('foo.jpg')
             ->willReturn('image/jpeg');

@@ -9,14 +9,15 @@ namespace Ibexa\Tests\Bundle\Core\Imagine;
 
 use Ibexa\Bundle\Core\Imagine\AliasCleaner;
 use Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class AliasCleanerTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\Imagine\AliasCleaner */
+    /** @var AliasCleaner */
     private $aliasCleaner;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $resolver;
 
     protected function setUp(): void
@@ -30,7 +31,7 @@ class AliasCleanerTest extends TestCase
     {
         $originalPath = 'foo/bar/test.jpg';
         $this->resolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('remove')
             ->with([$originalPath], []);
 

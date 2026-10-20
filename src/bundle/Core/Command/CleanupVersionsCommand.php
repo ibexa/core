@@ -115,8 +115,10 @@ EOT
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         // We don't load repo services or config resolver before execute() to avoid loading before SiteAccess is set.
         $keep = $input->getOption('keep');
         if ($keep === 'config_default') {
@@ -206,7 +208,7 @@ EOT
                     (int) $contentId
                 ), OutputInterface::VERBOSITY_VERBOSE);
 
-                /** @var \Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo $version */
+                /** @var VersionInfo $version */
                 foreach ($versions as $version) {
                     $contentService->deleteVersion($version);
                     ++$removedVersionsCounter;
@@ -244,10 +246,13 @@ EOT
      *
      * @return array
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    protected function getObjectsIds($keep, $status, $excludedContentTypes = [])
-    {
+    protected function getObjectsIds(
+        $keep,
+        $status,
+        $excludedContentTypes = []
+    ) {
         $query = $this->connection->createQueryBuilder()
                 ->select('c.id')
                 ->from(Gateway::CONTENT_ITEM_TABLE, 'c')
@@ -286,7 +291,7 @@ EOT
      *
      * @return int
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     private function mapStatusToVersionInfoStatus($status)
     {

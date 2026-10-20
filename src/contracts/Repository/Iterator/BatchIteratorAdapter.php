@@ -12,5 +12,8 @@ use Iterator;
 
 interface BatchIteratorAdapter
 {
-    public function fetch(int $offset, int $limit): Iterator;
+    public function fetch(
+        int $offset,
+        int $limit
+    ): Iterator;
 }

@@ -9,14 +9,17 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action
 
 use Ibexa\Contracts\Core\Persistence\Content;
 use Ibexa\Contracts\Core\Persistence\Content\Field;
+use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
+use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater;
 use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action\AddField;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionObject;
 
@@ -29,31 +32,31 @@ class AddFieldTest extends TestCase
     /**
      * Content gateway mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway
+     * @var Gateway
      */
     protected $contentGatewayMock;
 
     /**
      * Content gateway mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\StorageHandler
+     * @var StorageHandler
      */
     protected $contentStorageHandlerMock;
 
     /**
      * FieldValue converter mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter
+     * @var Converter
      */
     protected $fieldValueConverterMock;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Mapper */
+    /** @var Mapper */
     protected $contentMapperMock;
 
     /**
      * AddField action to test.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action\AddField
+     * @var AddField
      */
     protected $addFieldAction;
 
@@ -78,34 +81,34 @@ class AddFieldTest extends TestCase
         $action = $this->getMockedAction(['insertField']);
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('listVersionNumbers')
             ->with(self::equalTo($contentId))
-            ->will(self::returnValue($versionNumbers));
+            ->will($this->returnValue($versionNumbers));
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadVersionedNameData')
             ->with(self::equalTo([['id' => $contentId, 'version' => 1]]))
-            ->will(self::returnValue([]));
+            ->will($this->returnValue([]));
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('load')
             ->with($contentId, 1)
-            ->will(self::returnValue([]));
+            ->will($this->returnValue([]));
 
         $this->getContentMapperMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('extractContentFromRows')
             ->with([], [])
-            ->will(self::returnValue([$content]));
+            ->will($this->returnValue([$content]));
 
         $action
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('insertField')
             ->with($content, $this->getFieldReference(null, 1, 'cro-HR'))
-            ->will(self::returnValue('fieldId1'));
+            ->will($this->returnValue('fieldId1'));
 
         $action->apply($contentId);
     }
@@ -118,30 +121,30 @@ class AddFieldTest extends TestCase
         $action = $this->getMockedAction(['insertField']);
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('listVersionNumbers')
             ->with(self::equalTo($contentId))
-            ->will(self::returnValue($versionNumbers));
+            ->will($this->returnValue($versionNumbers));
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadVersionedNameData')
             ->with(self::equalTo([['id' => $contentId, 'version' => 1]]))
-            ->will(self::returnValue([]));
+            ->will($this->returnValue([]));
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('load')
             ->with($contentId, 1)
-            ->will(self::returnValue([]));
+            ->will($this->returnValue([]));
 
         $this->getContentMapperMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('extractContentFromRows')
             ->with([], [])
-            ->will(self::returnValue([$content]));
+            ->will($this->returnValue([$content]));
 
-        $matcher = self::exactly(2);
+        $matcher = $this->exactly(2);
         $action
             ->expects($matcher)
             ->method('insertField')
@@ -169,18 +172,18 @@ class AddFieldTest extends TestCase
         $action = $this->getMockedAction(['insertField']);
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('listVersionNumbers')
             ->with(self::equalTo($contentId))
-            ->will(self::returnValue($versionNumbers));
+            ->will($this->returnValue($versionNumbers));
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadVersionedNameData')
             ->with(self::equalTo([['id' => $contentId, 'version' => 1], ['id' => $contentId, 'version' => 2]]))
-            ->will(self::returnValue([]));
+            ->will($this->returnValue([]));
 
-        $loadMatcher = self::exactly(2);
+        $loadMatcher = $this->exactly(2);
         $this->getContentGatewayMock()
             ->expects($loadMatcher)
             ->method('load')
@@ -190,7 +193,7 @@ class AddFieldTest extends TestCase
                 return [];
             });
 
-        $extractMatcher = self::exactly(2);
+        $extractMatcher = $this->exactly(2);
         $this->getContentMapperMock()
             ->expects($extractMatcher)
             ->method('extractContentFromRows')
@@ -200,7 +203,7 @@ class AddFieldTest extends TestCase
                 return $extractMatcher->numberOfInvocations() === 1 ? [$content1] : [$content2];
             });
 
-        $insertMatcher = self::exactly(2);
+        $insertMatcher = $this->exactly(2);
         $action
             ->expects($insertMatcher)
             ->method('insertField')
@@ -226,18 +229,18 @@ class AddFieldTest extends TestCase
         $action = $this->getMockedAction(['insertField']);
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('listVersionNumbers')
             ->with(self::equalTo($contentId))
-            ->will(self::returnValue($versionNumbers));
+            ->will($this->returnValue($versionNumbers));
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadVersionedNameData')
             ->with(self::equalTo([['id' => $contentId, 'version' => 1], ['id' => $contentId, 'version' => 2]]))
-            ->will(self::returnValue([]));
+            ->will($this->returnValue([]));
 
-        $loadMatcher = self::exactly(2);
+        $loadMatcher = $this->exactly(2);
         $this->getContentGatewayMock()
             ->expects($loadMatcher)
             ->method('load')
@@ -247,7 +250,7 @@ class AddFieldTest extends TestCase
                 return [];
             });
 
-        $extractMatcher = self::exactly(2);
+        $extractMatcher = $this->exactly(2);
         $this->getContentMapperMock()
             ->expects($extractMatcher)
             ->method('extractContentFromRows')
@@ -257,7 +260,7 @@ class AddFieldTest extends TestCase
                 return $extractMatcher->numberOfInvocations() === 1 ? [$content1] : [$content2];
             });
 
-        $insertMatcher = self::exactly(4);
+        $insertMatcher = $this->exactly(4);
         $action
             ->expects($insertMatcher)
             ->method('insertField')
@@ -298,7 +301,7 @@ class AddFieldTest extends TestCase
         $field->value = $value;
 
         $this->getFieldValueConverterMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('toStorageValue')
             ->with(
                 $value,
@@ -306,22 +309,22 @@ class AddFieldTest extends TestCase
             );
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('insertNewField')
             ->with(
                 $content,
                 $field,
                 self::isInstanceOf(StorageFieldValue::class)
             )
-            ->will(self::returnValue(23));
+            ->will($this->returnValue(23));
 
         $this->getContentStorageHandlerMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('storeFieldData')
             ->with($versionInfo, $field)
-            ->will(self::returnValue(false));
+            ->will($this->returnValue(false));
 
-        $this->getContentGatewayMock()->expects(self::never())->method('updateField');
+        $this->getContentGatewayMock()->expects($this->never())->method('updateField');
 
         $action = $this->getMockedAction();
 
@@ -346,7 +349,7 @@ class AddFieldTest extends TestCase
         $field->value = $value;
 
         $this->getFieldValueConverterMock()
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('toStorageValue')
             ->with(
                 $value,
@@ -354,23 +357,23 @@ class AddFieldTest extends TestCase
             );
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('insertNewField')
             ->with(
                 $content,
                 $field,
                 self::isInstanceOf(StorageFieldValue::class)
             )
-            ->will(self::returnValue(23));
+            ->will($this->returnValue(23));
 
         $this->getContentStorageHandlerMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('storeFieldData')
             ->with($versionInfo, $field)
-            ->will(self::returnValue(true));
+            ->will($this->returnValue(true));
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('updateField')
             ->with(
                 $field,
@@ -400,7 +403,7 @@ class AddFieldTest extends TestCase
         $field->value = $value;
 
         $this->getFieldValueConverterMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('toStorageValue')
             ->with(
                 $value,
@@ -408,7 +411,7 @@ class AddFieldTest extends TestCase
             );
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('insertExistingField')
             ->with(
                 $content,
@@ -417,12 +420,12 @@ class AddFieldTest extends TestCase
             );
 
         $this->getContentStorageHandlerMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('storeFieldData')
             ->with($versionInfo, $field)
-            ->will(self::returnValue(false));
+            ->will($this->returnValue(false));
 
-        $this->getContentGatewayMock()->expects(self::never())->method('updateField');
+        $this->getContentGatewayMock()->expects($this->never())->method('updateField');
 
         $action = $this->getMockedAction();
 
@@ -447,7 +450,7 @@ class AddFieldTest extends TestCase
         $field->value = $value;
 
         $this->getFieldValueConverterMock()
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('toStorageValue')
             ->with(
                 $value,
@@ -455,7 +458,7 @@ class AddFieldTest extends TestCase
             );
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('insertExistingField')
             ->with(
                 $content,
@@ -464,13 +467,13 @@ class AddFieldTest extends TestCase
             );
 
         $this->getContentStorageHandlerMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('storeFieldData')
             ->with($versionInfo, $field)
-            ->will(self::returnValue(true));
+            ->will($this->returnValue(true));
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('updateField')
             ->with(
                 $field,
@@ -493,10 +496,12 @@ class AddFieldTest extends TestCase
      * @param int $versionNo
      * @param array $languageCodes
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content
+     * @return Content
      */
-    protected function getContentFixture($versionNo, array $languageCodes)
-    {
+    protected function getContentFixture(
+        $versionNo,
+        array $languageCodes
+    ) {
         $contentInfo = new Content\ContentInfo();
         $contentInfo->id = 'contentId';
         $versionInfo = new Content\VersionInfo();
@@ -519,7 +524,7 @@ class AddFieldTest extends TestCase
     /**
      * Returns a Content Gateway mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Gateway
+     * @return MockObject|Gateway
      */
     protected function getContentGatewayMock()
     {
@@ -533,7 +538,7 @@ class AddFieldTest extends TestCase
     /**
      * Returns a FieldValue converter mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter
+     * @return MockObject|Converter
      */
     protected function getFieldValueConverterMock()
     {
@@ -547,7 +552,7 @@ class AddFieldTest extends TestCase
     /**
      * Returns a Content StorageHandler mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\StorageHandler
+     * @return MockObject|StorageHandler
      */
     protected function getContentStorageHandlerMock()
     {
@@ -561,7 +566,7 @@ class AddFieldTest extends TestCase
     /**
      * Returns a Content mapper mock.
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Mapper
+     * @return MockObject|Mapper
      */
     protected function getContentMapperMock()
     {
@@ -575,11 +580,11 @@ class AddFieldTest extends TestCase
     /**
      * Returns a FieldDefinition fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition
+     * @return FieldDefinition
      */
     protected function getFieldDefinitionFixture()
     {
-        $fieldDef = new Content\Type\FieldDefinition();
+        $fieldDef = new FieldDefinition();
         $fieldDef->id = 42;
         $fieldDef->isTranslatable = true;
         $fieldDef->fieldType = 'ibexa_string';
@@ -595,10 +600,13 @@ class AddFieldTest extends TestCase
      * @param int $versionNo
      * @param string $languageCode
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Field
+     * @return Field
      */
-    public function getFieldReference($id, $versionNo, $languageCode)
-    {
+    public function getFieldReference(
+        $id,
+        $versionNo,
+        $languageCode
+    ) {
         $field = new Field();
 
         $field->id = $id;
@@ -614,7 +622,7 @@ class AddFieldTest extends TestCase
     /**
      * @param $methods
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action\AddField
+     * @return MockObject|AddField
      */
     protected function getMockedAction($methods = [])
     {

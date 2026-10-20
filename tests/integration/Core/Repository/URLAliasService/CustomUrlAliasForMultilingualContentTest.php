@@ -8,7 +8,10 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\URLAliasService;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Core\Repository\ContentService;
 use Ibexa\Core\Repository\URLAliasService;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
@@ -19,9 +22,9 @@ use PHPUnit\Framework\Attributes\CoversClass;
 final class CustomUrlAliasForMultilingualContentTest extends BaseTestCase
 {
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testCreateCustomUrlAliasWithTheSamePathThrowsException(): void
     {

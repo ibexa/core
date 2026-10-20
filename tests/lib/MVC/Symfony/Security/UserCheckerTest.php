@@ -18,6 +18,7 @@ use Ibexa\Core\MVC\Symfony\Security\UserChecker;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\Values\User\User as APIUser;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Exception\DisabledException;
 use Throwable;
@@ -26,10 +27,10 @@ final class UserCheckerTest extends TestCase
 {
     private const EXAMPLE_USER_ID = 14;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $userServiceMock;
 
-    /** @var \Ibexa\Core\MVC\Symfony\Security\UserChecker */
+    /** @var UserChecker */
     private $userChecker;
 
     protected function setUp(): void
@@ -114,7 +115,7 @@ final class UserCheckerTest extends TestCase
         );
 
         $this->userServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getPasswordInfo')
             ->with(self::identicalTo($apiUser))
             ->willReturn(new PasswordInfo());
@@ -147,7 +148,7 @@ final class UserCheckerTest extends TestCase
         );
 
         $this->userServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getPasswordInfo')
             ->with(self::identicalTo($apiUser))
             ->willReturn(

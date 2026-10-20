@@ -40,7 +40,7 @@ final class DoctrineMigrationsSchemaHookTest extends TestCase
     public function testRunsTaggedMigrationsWhenEnabled(): void
     {
         $metadataStorage = $this->createMock(MetadataStorage::class);
-        $metadataStorage->expects(self::once())->method('ensureInitialized');
+        $metadataStorage->expects($this->once())->method('ensureInitialized');
 
         $hook = new DoctrineMigrationsSchemaHook($this->createRunner($metadataStorage));
 
@@ -50,7 +50,7 @@ final class DoctrineMigrationsSchemaHookTest extends TestCase
     public function testDoesNotRunTaggedMigrationsWhenLeftAtItsDefault(): void
     {
         $metadataStorage = $this->createMock(MetadataStorage::class);
-        $metadataStorage->expects(self::never())->method('ensureInitialized');
+        $metadataStorage->expects($this->never())->method('ensureInitialized');
 
         $hook = new DoctrineMigrationsSchemaHook($this->createRunner($metadataStorage));
 
@@ -58,7 +58,7 @@ final class DoctrineMigrationsSchemaHookTest extends TestCase
     }
 
     /**
-     * @param \Doctrine\Migrations\Metadata\Storage\MetadataStorage&\PHPUnit\Framework\MockObject\MockObject $metadataStorage
+     * @param MetadataStorage&MockObject $metadataStorage
      */
     private function createRunner(MockObject $metadataStorage): TaggedMigrationsRunner
     {
@@ -79,8 +79,10 @@ final class DoctrineMigrationsSchemaHookTest extends TestCase
      *
      * @return array<string, mixed>
      */
-    private function resolve(DoctrineMigrationsSchemaHook $hook, array $options): array
-    {
+    private function resolve(
+        DoctrineMigrationsSchemaHook $hook,
+        array $options
+    ): array {
         $resolver = new OptionsResolver();
         $hook->configureOptions($resolver);
 

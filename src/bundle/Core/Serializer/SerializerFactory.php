@@ -8,19 +8,22 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Serializer;
 
+use Symfony\Component\Serializer\Encoder\DecoderInterface;
+use Symfony\Component\Serializer\Encoder\EncoderInterface;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Serializer;
 
 final readonly class SerializerFactory
 {
     /**
-     * @param iterable<\Symfony\Component\Serializer\Normalizer\NormalizerInterface|\Symfony\Component\Serializer\Normalizer\DenormalizerInterface> $normalizers
-     * @param iterable<\Symfony\Component\Serializer\Encoder\EncoderInterface|\Symfony\Component\Serializer\Encoder\DecoderInterface> $encoders
+     * @param iterable<NormalizerInterface|DenormalizerInterface> $normalizers
+     * @param iterable<EncoderInterface|DecoderInterface> $encoders
      */
     public function __construct(
         private iterable $normalizers,
         private iterable $encoders
-    ) {
-    }
+    ) {}
 
     public function create(): Serializer
     {

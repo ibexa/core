@@ -12,8 +12,12 @@ use Throwable;
 
 class InvalidVariationException extends InvalidArgumentException
 {
-    public function __construct(string $variationName, string $variationType, int $code = 0, ?Throwable $previous = null)
-    {
+    public function __construct(
+        string $variationName,
+        string $variationType,
+        int $code = 0,
+        ?Throwable $previous = null
+    ) {
         parent::__construct("Invalid variation '$variationName' for $variationType", $code, $previous);
     }
 }

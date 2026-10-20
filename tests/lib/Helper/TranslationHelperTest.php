@@ -15,6 +15,7 @@ use Ibexa\Core\Helper\TranslationHelper;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
@@ -23,21 +24,21 @@ class TranslationHelperTest extends TestCase
     private const int EXAMPLE_MAIN_LOCATION_ID = 999;
     private const string EXAMPLE_LANGUAGE_CODE = 'fre-FR';
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var MockObject|ConfigResolverInterface */
     private $configResolver;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\Repository\ContentService */
+    /** @var MockObject|ContentService */
     private $contentService;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $logger;
 
-    /** @var \Ibexa\Core\Helper\TranslationHelper */
+    /** @var TranslationHelper */
     private $translationHelper;
 
     private $siteAccessByLanguages;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Field[] */
+    /** @var Field[] */
     private $translatedFields;
 
     /** @var string[] */
@@ -76,7 +77,7 @@ class TranslationHelperTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Core\Repository\Values\Content\Content
+     * @return Content
      */
     private function generateContent()
     {
@@ -106,14 +107,16 @@ class TranslationHelperTest extends TestCase
      * @param string $expectedLocale
      */
     #[DataProvider('getTranslatedNameProvider')]
-    public function testGetTranslatedName(array $prioritizedLanguages, $expectedLocale): void
-    {
+    public function testGetTranslatedName(
+        array $prioritizedLanguages,
+        $expectedLocale
+    ): void {
         $content = $this->generateContent();
         $this->configResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getParameter')
             ->with('languages')
-            ->will(self::returnValue($prioritizedLanguages));
+            ->will($this->returnValue($prioritizedLanguages));
 
         self::assertSame($this->translatedNames[$expectedLocale], $this->translationHelper->getTranslatedContentName($content));
     }
@@ -123,24 +126,26 @@ class TranslationHelperTest extends TestCase
      * @param string $expectedLocale
      */
     #[DataProvider('getTranslatedNameProvider')]
-    public function testGetTranslatedNameByContentInfo(array $prioritizedLanguages, $expectedLocale): void
-    {
+    public function testGetTranslatedNameByContentInfo(
+        array $prioritizedLanguages,
+        $expectedLocale
+    ): void {
         $versionInfo = $this->generateVersionInfo();
         $contentInfo = new ContentInfo([
             'id' => 123,
             'mainLocationId' => self::EXAMPLE_MAIN_LOCATION_ID,
         ]);
         $this->configResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getParameter')
             ->with('languages')
-            ->will(self::returnValue($prioritizedLanguages));
+            ->will($this->returnValue($prioritizedLanguages));
 
         $this->contentService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadVersionInfo')
             ->with($contentInfo)
-            ->will(self::returnValue($versionInfo));
+            ->will($this->returnValue($versionInfo));
 
         self::assertSame($this->translatedNames[$expectedLocale], $this->translationHelper->getTranslatedContentNameByContentInfo($contentInfo));
     }
@@ -168,14 +173,14 @@ class TranslationHelperTest extends TestCase
             'mainLanguageCode' => self::EXAMPLE_LANGUAGE_CODE,
         ]);
         $this->configResolver
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('getParameter');
 
         $this->contentService
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('loadVersionInfo')
             ->with($contentInfo)
-            ->will(self::returnValue($versionInfo));
+            ->will($this->returnValue($versionInfo));
 
         self::assertSame('My name in english', $this->translationHelper->getTranslatedContentNameByContentInfo($contentInfo, 'eng-GB'));
         self::assertSame('Mon nom en français', $this->translationHelper->getTranslatedContentNameByContentInfo($contentInfo, 'eng-US'));
@@ -194,11 +199,11 @@ class TranslationHelperTest extends TestCase
             ]
         );
         $this->configResolver
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('getParameter');
 
         $this->contentService
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('loadContentByContentInfo');
 
         self::assertSame(
@@ -211,7 +216,7 @@ class TranslationHelperTest extends TestCase
     {
         $content = $this->generateContent();
         $this->configResolver
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('getParameter');
 
         self::assertSame('My name in english', $this->translationHelper->getTranslatedContentName($content, 'eng-GB'));
@@ -223,14 +228,16 @@ class TranslationHelperTest extends TestCase
      * @param string $expectedLocale
      */
     #[DataProvider('getTranslatedFieldProvider')]
-    public function getTranslatedField(array $prioritizedLanguages, $expectedLocale)
-    {
+    public function getTranslatedField(
+        array $prioritizedLanguages,
+        $expectedLocale
+    ) {
         $content = $this->generateContent();
         $this->configResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getParameter')
             ->with('languages')
-            ->will(self::returnValue($prioritizedLanguages));
+            ->will($this->returnValue($prioritizedLanguages));
 
         self::assertSame($this->translatedFields[$expectedLocale], $this->translationHelper->getTranslatedField($content, 'test'));
     }
@@ -252,10 +259,10 @@ class TranslationHelperTest extends TestCase
     public function testGetTranslationSiteAccessUnkownLanguage(): void
     {
         $this->configResolver
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('getParameter')
             ->will(
-                self::returnValueMap(
+                $this->returnValueMap(
                     [
                         ['translation_siteaccesses', null, null, []],
                         ['related_siteaccesses', null, null, []],
@@ -264,20 +271,24 @@ class TranslationHelperTest extends TestCase
             );
 
         $this->logger
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('error');
 
         self::assertNull($this->translationHelper->getTranslationSiteAccess('eng-DE'));
     }
 
     #[DataProvider('getTranslationSiteAccessProvider')]
-    public function testGetTranslationSiteAccess($language, array $translationSiteAccesses, array $relatedSiteAccesses, $expectedResult): void
-    {
+    public function testGetTranslationSiteAccess(
+        $language,
+        array $translationSiteAccesses,
+        array $relatedSiteAccesses,
+        $expectedResult
+    ): void {
         $this->configResolver
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('getParameter')
             ->will(
-                self::returnValueMap(
+                $this->returnValueMap(
                     [
                         ['translation_siteaccesses', null, null, $translationSiteAccesses],
                         ['related_siteaccesses', null, null, $relatedSiteAccesses],
@@ -312,10 +323,10 @@ class TranslationHelperTest extends TestCase
     public function testGetAvailableLanguagesWithTranslationSiteAccesses(): void
     {
         $this->configResolver
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getParameter')
             ->will(
-                self::returnValueMap(
+                $this->returnValueMap(
                     [
                         ['translation_siteaccesses', null, null, ['fre', 'esl']],
                         ['related_siteaccesses', null, null, ['fre', 'esl', 'heb']],
@@ -333,10 +344,10 @@ class TranslationHelperTest extends TestCase
     public function testGetAvailableLanguagesWithoutTranslationSiteAccesses(): void
     {
         $this->configResolver
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getParameter')
             ->will(
-                self::returnValueMap(
+                $this->returnValueMap(
                     [
                         ['translation_siteaccesses', null, null, []],
                         ['related_siteaccesses', null, null, ['fre', 'esl', 'heb']],

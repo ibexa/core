@@ -10,6 +10,4 @@ namespace Ibexa\Tests\Integration\Core\Doctrine\Stub\SchemaFilterEntityBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-final class SchemaFilterEntityBundle extends Bundle
-{
-}
+final class SchemaFilterEntityBundle extends Bundle {}

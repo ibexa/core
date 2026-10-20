@@ -7,10 +7,11 @@
 
 namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
-use const PHP_SAPI;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
+
+use const PHP_SAPI;
 
 class ConsoleCacheWarmupPass implements CompilerPassInterface
 {

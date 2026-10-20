@@ -20,7 +20,7 @@ final class FieldSortClauseParserTest extends TestCase
     private const EXAMPLE_CONTENT_TYPE_ID = 'article';
     private const EXAMPLE_FIELD_ID = 'title';
 
-    /** @var \Ibexa\Core\QueryType\BuiltIn\SortSpec\SortClauseParser\FieldSortClauseParser */
+    /** @var FieldSortClauseParser */
     private $fieldSortClauseParser;
 
     protected function setUp(): void
@@ -31,7 +31,7 @@ final class FieldSortClauseParserTest extends TestCase
     public function testParse(): void
     {
         $parser = $this->createMock(SortSpecParserInterface::class);
-        $matcher = self::exactly(3);
+        $matcher = $this->exactly(3);
         $parser->expects($matcher)
             ->method('match')->willReturnCallback(static function (...$parameters) use ($matcher): ?Token {
                 if ($matcher->numberOfInvocations() === 1) {

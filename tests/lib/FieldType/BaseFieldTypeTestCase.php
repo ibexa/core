@@ -9,7 +9,9 @@ namespace Ibexa\Tests\Core\FieldType;
 
 use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\FieldType\ValidationError;
+use Ibexa\Contracts\Core\FieldType\Value;
 use Ibexa\Contracts\Core\FieldType\Value as FieldTypeValue;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition as APIFieldDefinition;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -106,7 +108,7 @@ abstract class BaseFieldTypeTestCase extends TestCase
      * ];
      * ```
      *
-     * @phpstan-return iterable<string, array{mixed, \Ibexa\Contracts\Core\FieldType\Value}>
+     * @phpstan-return iterable<string, array{mixed, Value}>
      */
     abstract public static function provideValidInputForAcceptValue(): iterable;
 
@@ -141,7 +143,7 @@ abstract class BaseFieldTypeTestCase extends TestCase
      * ];
      * ```
      *
-     * @phpstan-return iterable<array{\Ibexa\Contracts\Core\FieldType\Value, mixed}>
+     * @phpstan-return iterable<array{Value, mixed}>
      */
     abstract public static function provideInputForToHash(): iterable;
 
@@ -183,7 +185,7 @@ abstract class BaseFieldTypeTestCase extends TestCase
      * Provides data for the getName() test.
      *
      * @phpstan-return array<array{
-     *     0: \Ibexa\Contracts\Core\FieldType\Value,
+     *     0: Value,
      *     1: string,
      *     2?: array<string, mixed>,
      *     3?: string
@@ -380,7 +382,7 @@ abstract class BaseFieldTypeTestCase extends TestCase
      * ];
      * ```
      *
-     * @phpstan-return iterable<string, array{array<string, mixed>, \Ibexa\Contracts\Core\FieldType\Value}>
+     * @phpstan-return iterable<string, array{array<string, mixed>, Value}>
      */
     public static function provideValidDataForValidate(): iterable
     {
@@ -456,22 +458,22 @@ abstract class BaseFieldTypeTestCase extends TestCase
      *
      * @phpstan-return iterable<string, array{
      *     array<string, mixed>,
-     *     \Ibexa\Contracts\Core\FieldType\Value,
-     *     array<\Ibexa\Contracts\Core\FieldType\ValidationError>
+     *     Value,
+     *     array<ValidationError>
      * }>
      */
     public static function provideInvalidDataForValidate(): iterable
     {
         yield 'invalid field definition data with no errors' => [
-                [],
-                new class() implements FieldTypeValue {
-                    public function __toString(): string
-                    {
-                        return '';
-                    }
-                },
-                [],
-            ];
+            [],
+            new class() implements FieldTypeValue {
+                public function __toString(): string
+                {
+                    return '';
+                }
+            },
+            [],
+        ];
     }
 
     /**
@@ -547,11 +549,13 @@ abstract class BaseFieldTypeTestCase extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     #[DataProvider('provideValidInputForAcceptValue')]
-    public function testAcceptValue(mixed $inputValue, FieldTypeValue $expectedOutputValue): void
-    {
+    public function testAcceptValue(
+        mixed $inputValue,
+        FieldTypeValue $expectedOutputValue
+    ): void {
         $fieldType = $this->getFieldTypeUnderTest();
 
         $outputValue = $fieldType->acceptValue($inputValue);
@@ -566,7 +570,7 @@ abstract class BaseFieldTypeTestCase extends TestCase
     /**
      * Tests that default empty value is unchanged by the `acceptValue` method.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function testAcceptGetEmptyValue(): void
     {
@@ -585,7 +589,7 @@ abstract class BaseFieldTypeTestCase extends TestCase
     /**
      * @phpstan-param class-string<\Throwable> $expectedException
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     #[DataProvider('provideInvalidInputForAcceptValue')]
     public function testAcceptValueFailsOnInvalidValues(
@@ -599,8 +603,10 @@ abstract class BaseFieldTypeTestCase extends TestCase
     }
 
     #[DataProvider('provideInputForToHash')]
-    public function testToHash(FieldTypeValue $inputValue, mixed $expectedResult): void
-    {
+    public function testToHash(
+        FieldTypeValue $inputValue,
+        mixed $expectedResult
+    ): void {
         $fieldType = $this->getFieldTypeUnderTest();
 
         $actualResult = $fieldType->toHash($inputValue);
@@ -626,8 +632,10 @@ abstract class BaseFieldTypeTestCase extends TestCase
      * @param array<mixed>|null $inputHash
      */
     #[DataProvider('provideInputForFromHash')]
-    public function testFromHash(mixed $inputHash, mixed $expectedResult): void
-    {
+    public function testFromHash(
+        mixed $inputHash,
+        mixed $expectedResult
+    ): void {
         $this->assertIsValidHashValue($inputHash);
 
         $fieldType = $this->getFieldTypeUnderTest();
@@ -795,8 +803,10 @@ abstract class BaseFieldTypeTestCase extends TestCase
      *
      * @param string[] $keyChain
      */
-    protected function assertIsValidHashValue(mixed $actualHash, array $keyChain = []): void
-    {
+    protected function assertIsValidHashValue(
+        mixed $actualHash,
+        array $keyChain = []
+    ): void {
         switch ($actualHashType = gettype($actualHash)) {
             case 'boolean':
             case 'integer':
@@ -830,11 +840,13 @@ abstract class BaseFieldTypeTestCase extends TestCase
     /**
      * @param array<string, mixed> $fieldDefinitionData
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     #[DataProvider('provideValidDataForValidate')]
-    public function testValidateValid(array $fieldDefinitionData, FieldTypeValue $value): void
-    {
+    public function testValidateValid(
+        array $fieldDefinitionData,
+        FieldTypeValue $value
+    ): void {
         if (isset($fieldDefinitionData['__no_data__'])) {
             self::markTestSkipped($fieldDefinitionData['__no_data__']);
         }
@@ -847,13 +859,16 @@ abstract class BaseFieldTypeTestCase extends TestCase
 
     /**
      * @param array<string, mixed> $fieldDefinitionData
-     * @param \Ibexa\Contracts\Core\FieldType\ValidationError[] $errors
+     * @param ValidationError[] $errors
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     #[DataProvider('provideInvalidDataForValidate')]
-    public function testValidateInvalid(array $fieldDefinitionData, FieldTypeValue $value, array $errors): void
-    {
+    public function testValidateInvalid(
+        array $fieldDefinitionData,
+        FieldTypeValue $value,
+        array $errors
+    ): void {
         if (isset($fieldDefinitionData['__no_data__'])) {
             self::markTestSkipped($fieldDefinitionData['__no_data__']);
         }
@@ -865,17 +880,19 @@ abstract class BaseFieldTypeTestCase extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      *
      * @param array<string, mixed> $fieldDefinitionData
      *
-     * @phpstan-return array<\Ibexa\Contracts\Core\FieldType\ValidationError>
+     * @phpstan-return array<ValidationError>
      */
-    protected function doValidate(array $fieldDefinitionData, FieldTypeValue $value): array
-    {
+    protected function doValidate(
+        array $fieldDefinitionData,
+        FieldTypeValue $value
+    ): array {
         $fieldType = $this->getFieldTypeUnderTest();
 
-        /** @var \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition|\PHPUnit\Framework\MockObject\MockObject $fieldDefinitionMock */
+        /** @var APIFieldDefinition|MockObject $fieldDefinitionMock */
         $fieldDefinitionMock = $this->createMock(APIFieldDefinition::class);
 
         foreach ($fieldDefinitionData as $method => $data) {

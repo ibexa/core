@@ -18,8 +18,7 @@ class URLWildcardServiceDecoratorTest extends TestCase
 {
     protected function createDecorator(MockObject $service): URLWildcardService
     {
-        return new class($service) extends URLWildcardServiceDecorator {
-        };
+        return new class($service) extends URLWildcardServiceDecorator {};
     }
 
     protected function createServiceMock(): MockObject
@@ -38,7 +37,7 @@ class URLWildcardServiceDecoratorTest extends TestCase
             true,
         ];
 
-        $serviceMock->expects(self::once())->method('create')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('create')->with(...$parameters);
 
         $decoratedService->create(...$parameters);
     }
@@ -50,7 +49,7 @@ class URLWildcardServiceDecoratorTest extends TestCase
 
         $parameters = [self::createStub(URLWildcard::class)];
 
-        $serviceMock->expects(self::once())->method('remove')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('remove')->with(...$parameters);
 
         $decoratedService->remove(...$parameters);
     }
@@ -62,7 +61,7 @@ class URLWildcardServiceDecoratorTest extends TestCase
 
         $parameters = [1];
 
-        $serviceMock->expects(self::once())->method('load')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('load')->with(...$parameters);
 
         $decoratedService->load(...$parameters);
     }
@@ -77,7 +76,7 @@ class URLWildcardServiceDecoratorTest extends TestCase
             100,
         ];
 
-        $serviceMock->expects(self::once())->method('loadAll')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('loadAll')->with(...$parameters);
 
         $decoratedService->loadAll(...$parameters);
     }
@@ -89,7 +88,7 @@ class URLWildcardServiceDecoratorTest extends TestCase
 
         $parameters = ['ibexa.co'];
 
-        $serviceMock->expects(self::once())->method('translate')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('translate')->with(...$parameters);
 
         $decoratedService->translate(...$parameters);
     }

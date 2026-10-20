@@ -17,14 +17,14 @@ abstract class Action
     /**
      * Content gateway.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway
+     * @var ContentGateway
      */
     protected $contentGateway;
 
     /**
      * Creates a new action.
      *
-     * @param \Ibexa\Core\Persistence\Legacy\Content\Gateway $contentGateway
+     * @param ContentGateway $contentGateway
      */
     public function __construct(ContentGateway $contentGateway)
     {

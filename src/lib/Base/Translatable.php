@@ -44,7 +44,10 @@ interface Translatable
     /**
      * Adds a parameter to the existing hash map.
      */
-    public function addParameter(string $name, string $value): void;
+    public function addParameter(
+        string $name,
+        string $value
+    ): void;
 
     /**
      * Adds `$parameters` to an existing hash map.

@@ -15,6 +15,7 @@ use Ibexa\Contracts\Core\Persistence\Handler as PersistenceHandler;
 use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\ConsoleEvents;
@@ -22,13 +23,13 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class BackgroundIndexingTerminateListenerTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\EventListener\BackgroundIndexingTerminateListener */
+    /** @var BackgroundIndexingTerminateListener */
     protected $listener;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var PersistenceHandler|MockObject */
     protected $persistenceMock;
 
-    /** @var \Ibexa\Contracts\Core\Search\Handler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var SearchHandler|MockObject */
     protected $searchMock;
 
     protected function setUp(): void
@@ -82,41 +83,43 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
 
     /**
      * @param array|null $value
-     * @param \Psr\Log\LoggerInterface|\PHPUnit\Framework\MockObject\MockObject|null $logger
+     * @param LoggerInterface|MockObject|null $logger
      */
     #[DataProvider('indexingProvider')]
-    public function testIndexing(?array $values = null, $logger = null): void
-    {
+    public function testIndexing(
+        ?array $values = null,
+        $logger = null
+    ): void {
         $contentHandlerMock = $this->createMock(Content\Handler::class);
         $this->persistenceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('contentHandler')
             ->willReturn($contentHandlerMock);
 
         if ($values) {
             $contentHandlerMock
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('loadContentInfo')
                 ->with(33)
                 ->willReturn(new ContentInfo(['id' => 33, 'currentVersionNo' => 2, 'status' => ContentInfo::STATUS_PUBLISHED]));
 
             $contentHandlerMock
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('load')
                 ->with(33, 2)
                 ->willReturn(new Content());
 
             $this->searchMock
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('indexContent')
                 ->with(self::isInstanceOf(Content::class));
 
-            $this->searchMock->expects(self::never())->method('indexLocation');
-            $this->searchMock->expects(self::never())->method('deleteContent');
-            $this->searchMock->expects(self::never())->method('deleteLocation');
+            $this->searchMock->expects($this->never())->method('indexLocation');
+            $this->searchMock->expects($this->never())->method('deleteContent');
+            $this->searchMock->expects($this->never())->method('deleteLocation');
         } else {
-            $contentHandlerMock->expects(self::never())->method(self::anything());
-            $this->searchMock->expects(self::never())->method(self::anything());
+            $contentHandlerMock->expects($this->never())->method(self::anything());
+            $this->searchMock->expects($this->never())->method(self::anything());
         }
 
         foreach ((array) $values as $value) {
@@ -131,11 +134,11 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
             $this->listener->setLogger($logger);
 
             if ($values) {
-                $logger->expects(self::once())
+                $logger->expects($this->once())
                     ->method('warning')
                     ->with(self::isString());
             } else {
-                $logger->expects(self::never())
+                $logger->expects($this->never())
                     ->method('warning');
             }
         }
@@ -167,16 +170,19 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
     }
 
     #[DataProvider('indexDeleteProvider')]
-    public function testIndexDelete(ContentInfo|Location $value, ContentInfo|\Throwable $infoReturn, Content|\Throwable|null $contentReturn = null): void
-    {
+    public function testIndexDelete(
+        ContentInfo | Location $value,
+        ContentInfo | \Throwable $infoReturn,
+        Content | \Throwable | null $contentReturn = null
+    ): void {
         $contentHandlerMock = $this->createMock(Content\Handler::class);
         $this->persistenceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('contentHandler')
             ->willReturn($contentHandlerMock);
 
         $loadContentInfoExpectation = $contentHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadContentInfo')
             ->with(33);
         if ($infoReturn instanceof \Throwable) {
@@ -187,7 +193,7 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
 
         if ($contentReturn) {
             $loadExpectation = $contentHandlerMock
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('load')
                 ->with(33, 2);
             if ($contentReturn instanceof \Throwable) {
@@ -197,12 +203,12 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
             }
         } else {
             $contentHandlerMock
-                ->expects(self::never())
+                ->expects($this->never())
                 ->method('load');
         }
 
-        $this->searchMock->expects(self::never())->method('indexContent');
-        $this->searchMock->expects(self::never())->method('indexLocation');
+        $this->searchMock->expects($this->never())->method('indexContent');
+        $this->searchMock->expects($this->never())->method('indexLocation');
 
         if ($value instanceof Location) {
             $contentId = $value->contentId;
@@ -215,17 +221,17 @@ class BackgroundIndexingTerminateListenerTest extends TestCase
         }
 
         $this->searchMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('deleteContent')
             ->with($contentId);
 
         if ($locationId) {
             $this->searchMock
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('deleteLocation')
                 ->with($locationId);
         } else {
-            $this->searchMock->expects(self::never())->method('deleteLocation');
+            $this->searchMock->expects($this->never())->method('deleteLocation');
         }
 
         $this->listener->reindex();

@@ -12,5 +12,9 @@ use Doctrine\DBAL\Query\QueryBuilder;
 
 interface CountQueryBuilder
 {
-    public function wrap(QueryBuilder $queryBuilder, string $countableField, ?int $limit = null): QueryBuilder;
+    public function wrap(
+        QueryBuilder $queryBuilder,
+        string $countableField,
+        ?int $limit = null
+    ): QueryBuilder;
 }

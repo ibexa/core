@@ -8,7 +8,12 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\SearchService;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\LanguageService;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\LanguageCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
@@ -28,9 +33,9 @@ final class MultilingualContentSearchIndexingTest extends BaseTestCase
     ];
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testPublishingSingleTranslationKeepsSearchIndexConsistent(): void
     {
@@ -75,7 +80,7 @@ final class MultilingualContentSearchIndexingTest extends BaseTestCase
         ]);
         $searchResult = $searchService->findContent($query, ['languages' => $translations]);
         self::assertSame(1, $searchResult->totalCount);
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $foundContent */
+        /** @var Content $foundContent */
         $foundContent = $searchResult->searchHits[0]->valueObject;
         $expectedContentInfo = $foundContent->contentInfo;
         $expectedVersionNo = $foundContent->getVersionInfo()->versionNo;
@@ -85,7 +90,7 @@ final class MultilingualContentSearchIndexingTest extends BaseTestCase
             ['languages' => [self::MODIFIED_TRANSLATION]]
         );
         self::assertSame(1, $searchResult->totalCount);
-        /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Content $foundContent */
+        /** @var Content $foundContent */
         $foundContent = $searchResult->searchHits[0]->valueObject;
         self::assertEquals($expectedContentInfo, $foundContent->contentInfo);
         self::assertEquals($expectedVersionNo, $foundContent->getVersionInfo()->versionNo);
@@ -94,8 +99,8 @@ final class MultilingualContentSearchIndexingTest extends BaseTestCase
     /**
      * Create required languages which are not pre-defined by Repository test setup.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws InvalidArgumentException
+     * @throws UnauthorizedException
      */
     private function createMissingLanguages(LanguageService $languageService): void
     {

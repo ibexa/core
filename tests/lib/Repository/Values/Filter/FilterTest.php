@@ -16,17 +16,18 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Contracts\Core\Repository\Values\URL\Query\SortClause as URLQuerySortClause;
-use function md5;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+
+use function md5;
 use function sprintf;
 
 #[CoversClass(Filter::class)]
 final class FilterTest extends TestCase
 {
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws BadStateException
      */
     public function testConstructor(): void
     {
@@ -43,7 +44,7 @@ final class FilterTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws BadStateException
      */
     #[DataProvider('getInvalidSortClausesData')]
     public function testConstructorThrowsBadStateException(
@@ -82,8 +83,7 @@ final class FilterTest extends TestCase
                 new SortClause\DatePublished(),
                 new SortClause\SectionIdentifier(Query::SORT_DESC),
                 Query::SORT_ASC,
-                new class('', Query::SORT_DESC) extends URLQuerySortClause {
-                },
+                new class('', Query::SORT_DESC) extends URLQuerySortClause {},
             ],
             'Expected an instance of "Ibexa\Contracts\Core\Repository\Values\Filter\FilteringSortClause", ' .
             'got "string" at position 2',
@@ -91,7 +91,7 @@ final class FilterTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws BadStateException
      */
     public function testWithCriterion(): Filter
     {
@@ -105,7 +105,7 @@ final class FilterTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws BadStateException
      */
     public function testWithCriterionThrowsBadStateException(): void
     {
@@ -117,7 +117,7 @@ final class FilterTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws BadStateException
      */
     public function testAndWithCriterion(): Filter
     {
@@ -140,7 +140,7 @@ final class FilterTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws BadStateException
      */
     public function testOrWithCriterion(): Filter
     {
@@ -182,7 +182,7 @@ final class FilterTest extends TestCase
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause[] $expectedSortClauses
+     * @param SortClause[] $expectedSortClauses
      */
     #[DataProvider('getComplexFilterTestData')]
     public function testBuildingComplexFilter(
@@ -199,8 +199,8 @@ final class FilterTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws BadStateException
+     * @throws InvalidArgumentException
      */
     public static function getComplexFilterTestData(): iterable
     {
@@ -387,7 +387,7 @@ final class FilterTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
+     * @throws BadStateException
      */
     public static function getFilters(): iterable
     {

@@ -19,7 +19,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler;
  */
 final class DoctrineDatabase extends Handler
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway */
+    /** @var Gateway */
     protected $contentTypeGateway;
 
     public function __construct(Gateway $contentTypeGateway)
@@ -27,8 +27,10 @@ final class DoctrineDatabase extends Handler
         $this->contentTypeGateway = $contentTypeGateway;
     }
 
-    public function updateContentObjects(Type $fromType, Type $toType): void
-    {
+    public function updateContentObjects(
+        Type $fromType,
+        Type $toType
+    ): void {
         // Do nothing, content objects are no longer updated
     }
 
@@ -37,8 +39,10 @@ final class DoctrineDatabase extends Handler
         $this->contentTypeGateway->delete($fromType->id, $fromType->status);
     }
 
-    public function publishNewType(Type $toType, int $newStatus): void
-    {
+    public function publishNewType(
+        Type $toType,
+        int $newStatus
+    ): void {
         $this->contentTypeGateway->publishTypeAndFields(
             $toType->id,
             $toType->status,

@@ -29,14 +29,16 @@ abstract class Regex implements Matcher
 
     protected SimplifiedRequest $request;
 
-    protected string|false $matchedSiteAccess;
+    protected string | false $matchedSiteAccess;
 
     /**
      * @param string $regex Regular Expression to use.
      * @param int $itemNumber Item number to pick in regex.
      */
-    public function __construct(string $regex, int $itemNumber)
-    {
+    public function __construct(
+        string $regex,
+        int $itemNumber
+    ) {
         $this->regex = $regex;
         $this->itemNumber = $itemNumber;
     }
@@ -46,7 +48,7 @@ abstract class Regex implements Matcher
         return ['regex', 'itemNumber', 'matchedSiteAccess'];
     }
 
-    public function match(): string|bool
+    public function match(): string | bool
     {
         return $this->getMatchedSiteAccess();
     }
@@ -54,10 +56,15 @@ abstract class Regex implements Matcher
     /**
      * Returns matched SiteAccess.
      */
-    protected function getMatchedSiteAccess(): string|false
+    protected function getMatchedSiteAccess(): string | false
     {
         if (isset($this->matchedSiteAccess)) {
             return $this->matchedSiteAccess;
+        }
+
+        // No request matched against yet, so there is nothing to match the regex on
+        if ($this->element === null) {
+            return false;
         }
 
         preg_match(
@@ -74,7 +81,7 @@ abstract class Regex implements Matcher
     /**
      * Injects the request object to match against.
      *
-     * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $request
+     * @param SimplifiedRequest $request
      */
     public function setRequest(SimplifiedRequest $request): void
     {

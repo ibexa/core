@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Bundle\Debug\Collector;
 
 use Exception;
 use Ibexa\Bundle\Debug\Collector\IbexaCoreCollector;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +17,7 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollectorInterface;
 
 class IbexaCoreCollectorTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Debug\Collector\IbexaCoreCollector */
+    /** @var IbexaCoreCollector */
     private $mainCollector;
 
     protected function setUp(): void
@@ -30,9 +31,9 @@ class IbexaCoreCollectorTest extends TestCase
         $collector = $this->getDataCollectorMock();
         $name = 'foobar';
         $collector
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getName')
-            ->will(self::returnValue($name));
+            ->will($this->returnValue($name));
 
         $this->mainCollector->addCollector($collector);
         self::assertSame($collector, $this->mainCollector->getCollector($name));
@@ -52,15 +53,15 @@ class IbexaCoreCollectorTest extends TestCase
         $collector1 = $this->getDataCollectorMock();
         $nameCollector1 = 'collector1';
         $collector1
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getName')
-            ->will(self::returnValue($nameCollector1));
+            ->will($this->returnValue($nameCollector1));
         $collector2 = $this->getDataCollectorMock();
         $nameCollector2 = 'collector2';
         $collector2
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getName')
-            ->will(self::returnValue($nameCollector2));
+            ->will($this->returnValue($nameCollector2));
 
         $allCollectors = [
             $nameCollector1 => $collector1,
@@ -79,9 +80,9 @@ class IbexaCoreCollectorTest extends TestCase
         $collector = $this->getDataCollectorMock();
         $name = 'foobar';
         $collector
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getName')
-            ->will(self::returnValue($name));
+            ->will($this->returnValue($name));
         $this->mainCollector->addCollector($collector);
         self::assertNull($this->mainCollector->getToolbarTemplate($name));
     }
@@ -91,9 +92,9 @@ class IbexaCoreCollectorTest extends TestCase
         $collector = $this->getDataCollectorMock();
         $name = 'foobar';
         $collector
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getName')
-            ->will(self::returnValue($name));
+            ->will($this->returnValue($name));
         $toolbarTemplate = 'toolbar.html.twig';
 
         $this->mainCollector->addCollector($collector, 'foo', $toolbarTemplate);
@@ -105,9 +106,9 @@ class IbexaCoreCollectorTest extends TestCase
         $collector = $this->getDataCollectorMock();
         $name = 'foobar';
         $collector
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getName')
-            ->will(self::returnValue($name));
+            ->will($this->returnValue($name));
         $this->mainCollector->addCollector($collector);
         self::assertNull($this->mainCollector->getPanelTemplate($name));
     }
@@ -117,9 +118,9 @@ class IbexaCoreCollectorTest extends TestCase
         $collector = $this->getDataCollectorMock();
         $name = 'foobar';
         $collector
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getName')
-            ->will(self::returnValue($name));
+            ->will($this->returnValue($name));
         $panelTemplate = 'toolbar.html.twig';
 
         $this->mainCollector->addCollector($collector, $panelTemplate, 'foo');
@@ -131,15 +132,15 @@ class IbexaCoreCollectorTest extends TestCase
         $collector1 = $this->getDataCollectorMock();
         $nameCollector1 = 'collector1';
         $collector1
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getName')
-            ->will(self::returnValue($nameCollector1));
+            ->will($this->returnValue($nameCollector1));
         $collector2 = $this->getDataCollectorMock();
         $nameCollector2 = 'collector2';
         $collector2
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getName')
-            ->will(self::returnValue($nameCollector2));
+            ->will($this->returnValue($nameCollector2));
 
         $allCollectors = [
             $nameCollector1 => $collector1,
@@ -150,11 +151,11 @@ class IbexaCoreCollectorTest extends TestCase
         $response = new Response();
         $exception = new Exception();
 
-        /** @var \PHPUnit\Framework\MockObject\MockObject */
+        /** @var MockObject */
         foreach ($allCollectors as $name => $collector) {
             $this->mainCollector->addCollector($collector);
             $collector
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('collect')
                 ->with($request, $response, $exception);
         }

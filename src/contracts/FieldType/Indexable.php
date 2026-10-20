@@ -9,6 +9,7 @@ namespace Ibexa\Contracts\Core\FieldType;
 
 use Ibexa\Contracts\Core\Persistence\Content\Field;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
+use Ibexa\Contracts\Core\Search\FieldType;
 
 /**
  * The field type interface which all field types have to implement to be
@@ -19,17 +20,20 @@ interface Indexable
     /**
      * Get index data for field for search backend.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field $field
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition $fieldDefinition
+     * @param Field $field
+     * @param FieldDefinition $fieldDefinition
      *
      * @return \Ibexa\Contracts\Core\Search\Field[]
      */
-    public function getIndexData(Field $field, FieldDefinition $fieldDefinition);
+    public function getIndexData(
+        Field $field,
+        FieldDefinition $fieldDefinition
+    );
 
     /**
      * Get index field types for search backend.
      *
-     * @return array<string, \Ibexa\Contracts\Core\Search\FieldType>
+     * @return array<string, FieldType>
      */
     public function getIndexDefinition();
 

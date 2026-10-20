@@ -57,7 +57,7 @@ final class ContentTypeSpecificationTest extends TestCase
             ->getMockForAbstractClass();
 
         $contentMock = $this->createMock(Content::class);
-        $contentMock->expects(self::once())
+        $contentMock->expects($this->once())
             ->method('getContentType')
             ->willReturn($contentTypeMock);
 

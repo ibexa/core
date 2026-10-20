@@ -10,14 +10,15 @@ namespace Ibexa\Tests\Bundle\Core\Cache\Warmer;
 
 use Ibexa\Bundle\Core\Cache\Warmer\ProxyCacheWarmer;
 use Ibexa\Core\Repository\ProxyFactory\ProxyGeneratorInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class ProxyCacheWarmerTest extends TestCase
 {
-    /** @var \Ibexa\Core\Repository\ProxyFactory\ProxyGeneratorInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ProxyGeneratorInterface|MockObject */
     private $proxyGenerator;
 
-    /** @var \Ibexa\Bundle\Core\Cache\Warmer\ProxyCacheWarmer */
+    /** @var ProxyCacheWarmer */
     private $proxyCacheWarmer;
 
     protected function setUp(): void
@@ -34,7 +35,7 @@ final class ProxyCacheWarmerTest extends TestCase
     public function testWarmUp(): void
     {
         $this->proxyGenerator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('warmUp')
             ->with(ProxyCacheWarmer::PROXY_CLASSES);
 

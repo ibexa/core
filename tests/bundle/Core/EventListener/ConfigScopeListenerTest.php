@@ -14,17 +14,18 @@ use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Tests\Bundle\Core\EventListener\Stubs\ViewManager;
 use Ibexa\Tests\Bundle\Core\EventListener\Stubs\ViewProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ConfigScopeListenerTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $configResolver;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $viewManager;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $viewProviders;
 
     protected function setUp(): void
@@ -54,17 +55,17 @@ class ConfigScopeListenerTest extends TestCase
         $siteAccess = new SiteAccess('test');
         $event = new ScopeChangeEvent($siteAccess);
         $this->configResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setDefaultScope')
             ->with($siteAccess->name);
         $this->viewManager
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setSiteAccess')
             ->with($siteAccess);
 
         foreach ($this->viewProviders as $viewProvider) {
             $viewProvider
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('setSiteAccess')
                 ->with($siteAccess);
         }

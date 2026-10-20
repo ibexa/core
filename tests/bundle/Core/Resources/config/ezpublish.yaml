@@ -17,3 +17,6 @@ ibexa:
             search:
                 engine: '%env(SEARCH_ENGINE)%'
                 connection: default
+    url_alias:
+        slug_converter:
+            transformation: urlalias

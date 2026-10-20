@@ -11,6 +11,7 @@ use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\Contextu
 use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -19,7 +20,7 @@ class ContextualizerTest extends TestCase
 {
     private const string SA_NODE_NAME = 'heyho';
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $container;
 
     /** @var string */
@@ -44,7 +45,7 @@ class ContextualizerTest extends TestCase
         'sa3' => ['sa_group1'],
     ];
 
-    /** @var \Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\Contextualizer */
+    /** @var Contextualizer */
     private $contextualizer;
 
     protected function setUp(): void
@@ -62,10 +63,13 @@ class ContextualizerTest extends TestCase
     }
 
     #[DataProvider('setContextualParameterProvider')]
-    public function testSetContextualParameter($parameterName, $scope, $value): void
-    {
+    public function testSetContextualParameter(
+        $parameterName,
+        $scope,
+        $value
+    ): void {
         $this->container
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setParameter')
             ->with("$this->namespace.$scope.$parameterName", $value);
 
@@ -482,17 +486,17 @@ class ContextualizerTest extends TestCase
         ];
 
         $this->container
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('hasParameter')
-            ->will(self::returnValueMap($hasParameterMap));
+            ->will($this->returnValueMap($hasParameterMap));
 
         $this->container
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getParameter')
-            ->will(self::returnValueMap($getParameterMap));
+            ->will($this->returnValueMap($getParameterMap));
 
         $this->container
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('setParameter')
             ->with(
                 self::equalTo("$this->namespace.$siteaccess.$testId"),

@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Persistence\User\RoleAssignment;
 use Ibexa\Contracts\Core\Repository\Values\Content\Trash\TrashItemDeleteResult;
 use Ibexa\Core\Persistence\Cache\ContentHandler;
 use Ibexa\Core\Persistence\Cache\LocationHandler;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Test case for Persistence\Cache\SectionHandler.
@@ -63,12 +64,12 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
         $contentId = 42;
         $roleId = 1;
 
-        $this->loggerMock->expects(self::once())->method('logCall');
+        $this->loggerMock->expects($this->once())->method('logCall');
 
         $innerHandler = $this->setUpRoleAssignmentInvalidation($originalLocationId, $contentId, $roleId);
 
         $innerHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('recover')
             ->with($originalLocationId, $targetLocationId)
             ->willReturn(null);
@@ -83,12 +84,12 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
         $contentId = 42;
         $roleId = 1;
 
-        $this->loggerMock->expects(self::once())->method('logCall');
+        $this->loggerMock->expects($this->once())->method('logCall');
 
         $innerHandler = $this->setUpRoleAssignmentInvalidation($locationId, $contentId, $roleId);
 
         $innerHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('trashSubtree')
             ->with($locationId)
             ->willReturn(null);
@@ -98,10 +99,13 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
-    private function setUpRoleAssignmentInvalidation(int $locationId, int $contentId, int $roleId): object
-    {
+    private function setUpRoleAssignmentInvalidation(
+        int $locationId,
+        int $contentId,
+        int $roleId
+    ): object {
         $tags = [
             'c-' . $contentId,
             'lp-' . $locationId,
@@ -110,7 +114,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
 
         $handlerMethodName = $this->getHandlerMethodName();
 
-        $this->loggerMock->expects(self::once())->method('logCall');
+        $this->loggerMock->expects($this->once())->method('logCall');
 
         $innerHandler = $this->createMock($this->getHandlerClassName());
         $locationHandlerMock = $this->createMock(LocationHandler::class);
@@ -138,10 +142,10 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
             ->willReturn($userHandlerMock);
 
         $this->persistenceHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method($this->getHandlerMethodName())
             ->willReturn($innerHandler);
-        $matcher = self::exactly(3);
+        $matcher = $this->exactly(3);
 
         $this->cacheIdentifierGeneratorMock
             ->expects($matcher)
@@ -172,7 +176,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
             });
 
         $this->cacheMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('invalidateTags')
             ->with($tags);
 
@@ -191,13 +195,13 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
 
         $trashed = new Trashed(['id' => $trashedId, 'contentId' => $contentId]);
         $innerHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('deleteTrashItem')
             ->with($trashedId)
             ->willReturn(new TrashItemDeleteResult(['trashItemId' => $trashedId, 'contentId' => $contentId]));
 
         $innerHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadTrashItem')
             ->with($trashedId)
             ->willReturn($trashed);
@@ -209,7 +213,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
         $contentHandlerMock = $this->createMock(ContentHandler::class);
 
         $contentHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadReverseRelations')
             ->with($contentId)
             ->willReturn([new Relation(['sourceContentId' => $relationSourceContentId])]);
@@ -223,7 +227,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
             'lp-' . $trashedId,
             'c-' . $relationSourceContentId,
         ];
-        $matcher = self::exactly(3);
+        $matcher = $this->exactly(3);
 
         $this->cacheIdentifierGeneratorMock
             ->expects($matcher)
@@ -254,11 +258,11 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
             });
 
         $this->cacheMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('invalidateTags')
             ->with($tags);
 
-        /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Trash\Handler $handler */
+        /** @var TrashHandler $handler */
         $handler = $this->persistenceCacheHandler->$handlerMethodName();
         $handler->deleteTrashItem($trashedId);
     }
@@ -274,7 +278,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
         $innerHandler = $this->createMock($this->getHandlerClassName());
 
         $innerHandler
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('findTrashItems')
             ->willReturn(new Location\Trash\TrashResult([
                 'items' => [new Trashed(['id' => $trashedId, 'contentId' => $contentId])],
@@ -289,7 +293,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
         $contentHandlerMock = $this->createMock(ContentHandler::class);
 
         $contentHandlerMock
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('loadReverseRelations')
             ->with($contentId)
             ->willReturn([new Relation(['sourceContentId' => $relationSourceContentId])]);
@@ -309,7 +313,7 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
             'c-' . $contentId,
             'lp-' . $trashedId,
         ];
-        $matcher = self::exactly(6);
+        $matcher = $this->exactly(6);
 
         //one set of arguments and tags for each relation
         $this->cacheIdentifierGeneratorMock
@@ -322,11 +326,11 @@ class TrashHandlerTest extends AbstractCacheHandlerTestCase
             });
 
         $this->cacheMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('invalidateTags')
             ->with($tags);
 
-        /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Trash\Handler $handler */
+        /** @var TrashHandler $handler */
         $handler = $this->persistenceCacheHandler->$handlerMethodName();
         $handler->emptyTrash();
     }

@@ -16,17 +16,18 @@ use Ibexa\Contracts\Core\Repository\Values\URL\URLQuery;
 use Ibexa\Core\Persistence\Legacy\URL\Gateway;
 use Ibexa\Core\Persistence\Legacy\URL\Handler;
 use Ibexa\Core\Persistence\Legacy\URL\Mapper;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class HandlerTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\URL\Gateway|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Gateway|MockObject */
     private $gateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\URL\Mapper|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Mapper|MockObject */
     private $mapper;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\URL\Handler */
+    /** @var Handler */
     private $handler;
 
     protected function setUp(): void
@@ -43,13 +44,13 @@ class HandlerTest extends TestCase
         $url = $this->getUrl(1, 'http://ibexa.co');
 
         $this->mapper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('createURLFromUpdateStruct')
             ->with($urlUpdateStruct)
             ->willReturn($url);
 
         $this->gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('updateUrl')
             ->with($url);
 
@@ -84,13 +85,13 @@ class HandlerTest extends TestCase
         ];
 
         $this->gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('find')
             ->with($query->filter, $query->offset, $query->limit, $query->sortClauses, $query->performCount)
             ->willReturn($results);
 
         $this->mapper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('extractURLsFromRows')
             ->with($results['rows'])
             ->willReturn($expected['items']);
@@ -105,13 +106,13 @@ class HandlerTest extends TestCase
         $id = 1;
 
         $this->gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadUrlData')
             ->with($id)
             ->willReturn([]);
 
         $this->mapper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('extractURLsFromRows')
             ->with([])
             ->willReturn([]);
@@ -124,13 +125,13 @@ class HandlerTest extends TestCase
         $url = $this->getUrl(1, 'http://ibexa.co');
 
         $this->gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadUrlData')
             ->with($url->id)
             ->willReturn([$url]);
 
         $this->mapper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('extractURLsFromRows')
             ->with([$url])
             ->willReturn([$url]);
@@ -145,13 +146,13 @@ class HandlerTest extends TestCase
         $url = 'http://ibexa.co';
 
         $this->gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadUrlDataByUrl')
             ->with($url)
             ->willReturn([]);
 
         $this->mapper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('extractURLsFromRows')
             ->with([])
             ->willReturn([]);
@@ -164,13 +165,13 @@ class HandlerTest extends TestCase
         $url = $this->getUrl(1, 'http://ibexa.co');
 
         $this->gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadUrlDataByUrl')
             ->with($url->url)
             ->willReturn([$url]);
 
         $this->mapper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('extractURLsFromRows')
             ->with([$url])
             ->willReturn([$url]);
@@ -184,16 +185,18 @@ class HandlerTest extends TestCase
         $ids = [1, 2, 3];
 
         $this->gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('findUsages')
             ->with($url->id)
-            ->will(self::returnValue($ids));
+            ->will($this->returnValue($ids));
 
         self::assertEquals($ids, $this->handler->findUsages($url->id));
     }
 
-    private function getUrl($id = 1, $urlAddr = 'http://ibexa.co')
-    {
+    private function getUrl(
+        $id = 1,
+        $urlAddr = 'http://ibexa.co'
+    ) {
         $url = new URL();
         $url->id = $id;
         $url->url = $url;

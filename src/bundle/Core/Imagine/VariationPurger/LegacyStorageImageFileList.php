@@ -34,8 +34,7 @@ class LegacyStorageImageFileList implements ImageFileList
         private readonly ImageFileRowReader $rowReader,
         private readonly IOConfigProvider $ioConfigResolver,
         private readonly ConfigResolverInterface $configResolver
-    ) {
-    }
+    ) {}
 
     #[\ReturnTypeWillChange]
     public function current(): ?string

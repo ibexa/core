@@ -9,17 +9,19 @@ namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\Id;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ContentType;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ContentType as ContentTypeIdMatcher;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
 use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 
 #[CoversClass(ContentTypeIdMatcher::class)]
 #[CoversClass(MultipleValued::class)]
 class ContentTypeTest extends BaseTestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ContentType */
+    /** @var ContentType */
     private $matcher;
 
     protected function setUp(): void
@@ -33,8 +35,11 @@ class ContentTypeTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchLocationProvider')]
-    public function testMatchLocation($matchingConfig, int $contentTypeId, $expectedResult): void
-    {
+    public function testMatchLocation(
+        $matchingConfig,
+        int $contentTypeId,
+        $expectedResult
+    ): void {
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame($expectedResult, $this->matcher->matchLocation($this->generateLocationForContentType($contentTypeId)));
     }
@@ -78,16 +83,16 @@ class ContentTypeTest extends BaseTestCase
      *
      * @param int $contentTypeId
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     private function generateLocationForContentType($contentTypeId)
     {
         $location = $this->getLocationMock();
         $location
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getContentInfo')
             ->will(
-                self::returnValue(
+                $this->returnValue(
                     $this->generateContentInfoForContentType($contentTypeId)
                 )
             );
@@ -100,7 +105,7 @@ class ContentTypeTest extends BaseTestCase
      *
      * @param int $contentTypeId
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     private function generateContentInfoForContentType($contentTypeId)
     {
@@ -112,8 +117,11 @@ class ContentTypeTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchContentInfoProvider')]
-    public function testMatchContentInfo($matchingConfig, int $contentTypeId, $expectedResult): void
-    {
+    public function testMatchContentInfo(
+        $matchingConfig,
+        int $contentTypeId,
+        $expectedResult
+    ): void {
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame($expectedResult, $this->matcher->matchContentInfo($this->generateContentInfoForContentType($contentTypeId)));
     }

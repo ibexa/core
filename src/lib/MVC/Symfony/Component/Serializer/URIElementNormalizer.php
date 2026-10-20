@@ -17,13 +17,16 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 final class URIElementNormalizer implements NormalizerInterface, DenormalizerInterface
 {
-    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
-    {
+    public function supportsNormalization(
+        mixed $data,
+        ?string $format = null,
+        array $context = []
+    ): bool {
         return $data instanceof URIElement;
     }
 
     /**
-     * @param \Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\URIElement $data
+     * @param URIElement $data
      *
      * @return array{elementNumber: int, uriElements: array<string>}
      */
@@ -39,8 +42,12 @@ final class URIElementNormalizer implements NormalizerInterface, DenormalizerInt
         ];
     }
 
-    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): URIElement
-    {
+    public function denormalize(
+        mixed $data,
+        string $type,
+        ?string $format = null,
+        array $context = []
+    ): URIElement {
         $uriElement = new URIElement($data['elementNumber']);
         if (!empty($data['uriElements'])) {
             $uriElement->setUriElements($data['uriElements']);

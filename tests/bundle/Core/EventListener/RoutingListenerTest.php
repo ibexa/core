@@ -14,19 +14,20 @@ use Ibexa\Core\MVC\Symfony\Event\PostSiteAccessMatchEvent;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\Routing\Generator\UrlAliasGenerator;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class RoutingListenerTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $configResolver;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $urlAliasRouter;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $urlAliasGenerator;
 
     protected function setUp(): void
@@ -53,10 +54,10 @@ class RoutingListenerTest extends TestCase
         $rootLocationId = 123;
         $excludedUriPrefixes = ['/foo/bar', '/baz'];
         $this->configResolver
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getParameter')
             ->will(
-                self::returnValueMap(
+                $this->returnValueMap(
                     [
                         ['content.tree_root.location_id', null, null, $rootLocationId],
                         ['content.tree_root.excluded_uri_prefixes', null, null, $excludedUriPrefixes],
@@ -65,15 +66,15 @@ class RoutingListenerTest extends TestCase
             );
 
         $this->urlAliasRouter
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setRootLocationId')
             ->with($rootLocationId);
         $this->urlAliasGenerator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setRootLocationId')
             ->with($rootLocationId);
         $this->urlAliasGenerator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setExcludedUriPrefixes')
             ->with($excludedUriPrefixes);
 

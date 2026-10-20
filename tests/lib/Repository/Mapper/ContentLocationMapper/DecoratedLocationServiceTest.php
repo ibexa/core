@@ -18,13 +18,13 @@ use PHPUnit\Framework\TestCase;
 
 class DecoratedLocationServiceTest extends TestCase
 {
-    /** @var \Ibexa\Core\Repository\Mapper\ContentLocationMapper\DecoratedLocationService */
+    /** @var DecoratedLocationService */
     private $locationService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService */
+    /** @var ApiLocationService */
     private $innerLocationService;
 
-    /** @var \Ibexa\Core\Repository\Mapper\ContentLocationMapper\ContentLocationMapper */
+    /** @var ContentLocationMapper */
     private $mapper;
 
     protected function setUp(): void
@@ -51,7 +51,7 @@ class DecoratedLocationServiceTest extends TestCase
             ->willReturn($location);
 
         $this->mapper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setMapping')
             ->with(1, 2);
 
@@ -83,7 +83,7 @@ class DecoratedLocationServiceTest extends TestCase
         $this->innerLocationService
             ->method('loadLocationList')
             ->willReturn($locations);
-        $matcher = self::atLeastOnce();
+        $matcher = $this->atLeastOnce();
 
         $this->mapper
             ->expects($matcher)
@@ -135,7 +135,7 @@ class DecoratedLocationServiceTest extends TestCase
             ->method('loadLocations')
             ->with($contentInfo)
             ->willReturn($locations);
-        $matcher = self::atLeastOnce();
+        $matcher = $this->atLeastOnce();
 
         $this->mapper
             ->expects($matcher)
@@ -189,7 +189,7 @@ class DecoratedLocationServiceTest extends TestCase
             ->method('loadLocationChildren')
             ->with($location)
             ->willReturn($locationList);
-        $matcher = self::atLeastOnce();
+        $matcher = $this->atLeastOnce();
 
         $this->mapper
             ->expects($matcher)
@@ -237,7 +237,7 @@ class DecoratedLocationServiceTest extends TestCase
         $this->innerLocationService
             ->method('loadAllLocations')
             ->willReturn($locations);
-        $matcher = self::atLeastOnce();
+        $matcher = $this->atLeastOnce();
 
         $this->mapper
             ->expects($matcher)

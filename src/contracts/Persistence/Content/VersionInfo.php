@@ -48,7 +48,7 @@ class VersionInfo extends ValueObject
     /**
      * ContentInfo of the content this VersionInfo belongs to.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\ContentInfo
+     * @var ContentInfo
      */
     public $contentInfo;
 

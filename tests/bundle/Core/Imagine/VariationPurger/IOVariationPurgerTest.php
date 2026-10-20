@@ -27,10 +27,10 @@ final class IOVariationPurgerTest extends TestCase
         $aliasGeneratorDecorator = $this->createMock(AliasGeneratorDecorator::class);
 
         $aliasGeneratorDecorator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getVariationNameTag')
             ->willReturn('image_variation_name');
-        $matcher = self::exactly(2);
+        $matcher = $this->exactly(2);
         $ioService
             ->expects($matcher)
             ->method('deleteDirectory')->willReturnCallback(static function (...$parameters) use ($matcher): void {
@@ -41,7 +41,7 @@ final class IOVariationPurgerTest extends TestCase
                     self::assertSame('_aliases/large', $parameters[0]);
                 }
             });
-        $matcher = self::exactly(2);
+        $matcher = $this->exactly(2);
         $cacheIdentifierGenerator
             ->expects($matcher)
             ->method('generateTag')->willReturnCallback(static function (...$parameters) use ($matcher): ?string {
@@ -60,7 +60,7 @@ final class IOVariationPurgerTest extends TestCase
 
                 return null;
             });
-        $matcher = self::exactly(2);
+        $matcher = $this->exactly(2);
         $tagAwareAdapter
             ->expects($matcher)
             ->method('invalidateTags')->willReturnCallback(static function (...$parameters) use ($matcher): bool {

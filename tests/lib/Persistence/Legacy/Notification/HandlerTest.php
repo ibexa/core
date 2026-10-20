@@ -18,6 +18,7 @@ use Ibexa\Core\Persistence\Legacy\Notification\Gateway;
 use Ibexa\Core\Persistence\Legacy\Notification\Handler;
 use Ibexa\Core\Persistence\Legacy\Notification\Mapper;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Handler::class)]
@@ -25,13 +26,13 @@ class HandlerTest extends TestCase
 {
     public const NOTIFICATION_ID = 1;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Notification\Gateway|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Gateway|MockObject */
     private $gateway;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Notification\Mapper|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Mapper|MockObject */
     private $mapper;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Notification\Handler */
+    /** @var Handler */
     private $handler;
 
     protected function setUp(): void
@@ -52,13 +53,13 @@ class HandlerTest extends TestCase
         ]);
 
         $this->gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('insert')
             ->with($createStruct)
             ->willReturn(self::NOTIFICATION_ID);
 
         $this->mapper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('extractNotificationsFromRows')
             ->willReturn([new Notification([
                 'id' => self::NOTIFICATION_ID,
@@ -75,7 +76,7 @@ class HandlerTest extends TestCase
         $expectedCount = 12;
 
         $this->gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('countUserPendingNotifications')
             ->with($ownerId)
             ->willReturn($expectedCount);
@@ -96,13 +97,13 @@ class HandlerTest extends TestCase
         ]);
 
         $this->gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getNotificationById')
             ->with(self::NOTIFICATION_ID)
             ->willReturn($rows);
 
         $this->mapper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('extractNotificationsFromRows')
             ->with($rows)
             ->willReturn([$object]);
@@ -118,7 +119,7 @@ class HandlerTest extends TestCase
         $updateStruct->isPending = false;
 
         $this->gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('bulkUpdateUserNotifications')
             ->with(
                 $ownerId,
@@ -152,18 +153,18 @@ class HandlerTest extends TestCase
         $spiNotification = new Notification($data);
 
         $this->mapper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('createNotificationFromUpdateStruct')
             ->with($updateStruct)
             ->willReturn($spiNotification);
 
         $this->gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('updateNotification')
             ->with($spiNotification);
 
         $this->mapper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('extractNotificationsFromRows')
             ->willReturn([new Notification([
                 'id' => self::NOTIFICATION_ID,
@@ -178,7 +179,7 @@ class HandlerTest extends TestCase
         $expectedCount = 12;
 
         $this->gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('countUserNotifications')
             ->with($ownerId)
             ->willReturn($expectedCount);
@@ -205,13 +206,13 @@ class HandlerTest extends TestCase
         ];
 
         $this->gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadUserNotifications')
             ->with($ownerId, $offset, $limit)
             ->willReturn($rows);
 
         $this->mapper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('extractNotificationsFromRows')
             ->with($rows)
             ->willReturn($objects);
@@ -239,7 +240,7 @@ class HandlerTest extends TestCase
         ];
 
         $this->gateway
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('findUserNotifications')
             ->with(
                 self::equalTo($ownerId),
@@ -251,7 +252,7 @@ class HandlerTest extends TestCase
             ->willReturn($rows);
 
         $this->mapper
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('extractNotificationsFromRows')
             ->with($rows)
             ->willReturn($objects);
@@ -268,7 +269,7 @@ class HandlerTest extends TestCase
         ]);
 
         $this->gateway
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('delete')
             ->with($notification->id);
 

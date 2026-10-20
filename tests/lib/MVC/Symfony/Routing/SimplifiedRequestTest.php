@@ -17,11 +17,13 @@ class SimplifiedRequestTest extends TestCase
 {
     /**
      * @param string $url
-     * @param \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest $expectedRequest
+     * @param SimplifiedRequest $expectedRequest
      */
     #[DataProvider('fromUrlProvider')]
-    public function testFromUrl($url, $expectedRequest): void
-    {
+    public function testFromUrl(
+        $url,
+        $expectedRequest
+    ): void {
         self::assertEquals(
             $expectedRequest,
             SimplifiedRequest::fromUrl($url)
@@ -57,32 +59,26 @@ class SimplifiedRequestTest extends TestCase
             [
                 'http://www.example.com/foo/bar',
                 new SimplifiedRequest(
-                    [
-                        'scheme' => 'http',
-                        'host' => 'www.example.com',
-                        'pathinfo' => '/foo/bar',
-                    ]
+                    scheme: 'http',
+                    host: 'www.example.com',
+                    pathinfo: '/foo/bar',
                 ),
             ],
             [
                 'https://www.example.com/',
                 new SimplifiedRequest(
-                    [
-                        'scheme' => 'https',
-                        'host' => 'www.example.com',
-                        'pathinfo' => '/',
-                    ]
+                    scheme: 'https',
+                    host: 'www.example.com',
+                    pathinfo: '/',
                 ),
             ],
             [
                 'http://www.example.com/foo?param=value&this=that',
                 new SimplifiedRequest(
-                    [
-                        'scheme' => 'http',
-                        'host' => 'www.example.com',
-                        'pathinfo' => '/foo',
-                        'queryParams' => ['param' => 'value', 'this' => 'that'],
-                    ]
+                    scheme: 'http',
+                    host: 'www.example.com',
+                    pathinfo: '/foo',
+                    queryParams: ['param' => 'value', 'this' => 'that'],
                 ),
             ],
         ];

@@ -32,8 +32,10 @@ final class MessageTest extends TestCase
      * @param array<string, scalar|null> $values
      */
     #[DataProvider('getDataForTestMessage')]
-    public function testGetters(string $message, array $values): void
-    {
+    public function testGetters(
+        string $message,
+        array $values
+    ): void {
         $translation = new Message($message, $values);
 
         self::assertSame($message, $translation->getMessageTemplate());

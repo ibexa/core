@@ -29,8 +29,10 @@ class LocaleParameterProviderTest extends TestCase
     }
 
     #[DataProvider('providerForTestGetViewParameters')]
-    public function testGetViewParameters($hasRequestLocale, $expectedLocale): void
-    {
+    public function testGetViewParameters(
+        $hasRequestLocale,
+        $expectedLocale
+    ): void {
         $field = new Field(['languageCode' => 'cro-HR']);
         $parameterProvider = new LocaleParameterProvider($this->getLocaleConverterMock());
         $parameterProvider->setRequestStack($this->getRequestStackMock($hasRequestLocale));
@@ -54,10 +56,10 @@ class LocaleParameterProviderTest extends TestCase
     {
         $mock = $this->createMock(LocaleConverterInterface::class);
 
-        $mock->expects(self::any())
+        $mock->expects($this->any())
             ->method('convertToPOSIX')
             ->with(self::equalTo('cro-HR'))
-            ->will(self::returnValue('hr_HR'));
+            ->will($this->returnValue('hr_HR'));
 
         return $mock;
     }

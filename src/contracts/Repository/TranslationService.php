@@ -25,12 +25,15 @@ interface TranslationService
      *
      * Translate a Translation value object.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Translation $translation
+     * @param Translation $translation
      * @param string $locale
      *
      * @return string
      */
-    public function translate(Translation $translation, $locale);
+    public function translate(
+        Translation $translation,
+        $locale
+    );
 
     /**
      * Translate string.
@@ -43,5 +46,8 @@ interface TranslationService
      *
      * @return string
      */
-    public function translateString($translation, $locale);
+    public function translateString(
+        $translation,
+        $locale
+    );
 }

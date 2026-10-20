@@ -16,9 +16,18 @@ use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
  */
 interface RouteAwarePathGenerator extends PathGeneratorInterface
 {
-    public function getRoute(Field $field, VersionInfo $versionInfo): string;
+    public function getRoute(
+        Field $field,
+        VersionInfo $versionInfo
+    ): string;
 
-    public function getParameters(Field $field, VersionInfo $versionInfo): array;
+    public function getParameters(
+        Field $field,
+        VersionInfo $versionInfo
+    ): array;
 
-    public function generate(string $route, array $parameters = []): string;
+    public function generate(
+        string $route,
+        array $parameters = []
+    ): string;
 }

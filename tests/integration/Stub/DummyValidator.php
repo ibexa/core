@@ -20,8 +20,11 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class DummyValidator implements ValidatorInterface
 {
-    public function validate(mixed $value, $constraints = null, $groups = null): ConstraintViolationListInterface
-    {
+    public function validate(
+        mixed $value,
+        $constraints = null,
+        $groups = null
+    ): ConstraintViolationListInterface {
         return new ConstraintViolationList();
     }
 
@@ -35,13 +38,20 @@ class DummyValidator implements ValidatorInterface
         return false;
     }
 
-    public function validateProperty(object $object, string $propertyName, array|GroupSequence|string|null $groups = null): ConstraintViolationListInterface
-    {
+    public function validateProperty(
+        object $object,
+        string $propertyName,
+        array | GroupSequence | string | null $groups = null
+    ): ConstraintViolationListInterface {
         return new ConstraintViolationList();
     }
 
-    public function validatePropertyValue(object|string $objectOrClass, string $propertyName, mixed $value, array|GroupSequence|string|null $groups = null): ConstraintViolationListInterface
-    {
+    public function validatePropertyValue(
+        object | string $objectOrClass,
+        string $propertyName,
+        mixed $value,
+        array | GroupSequence | string | null $groups = null
+    ): ConstraintViolationListInterface {
         return new ConstraintViolationList();
     }
 
@@ -63,18 +73,28 @@ class DummyValidator implements ValidatorInterface
                 return $this;
             }
 
-            public function validate(mixed $value, Constraint|array|null $constraints = null, string|GroupSequence|array|null $groups = null): static
-            {
+            public function validate(
+                mixed $value,
+                Constraint | array | null $constraints = null,
+                string | GroupSequence | array | null $groups = null
+            ): static {
                 return $this;
             }
 
-            public function validateProperty(object $object, string $propertyName, string|GroupSequence|array|null $groups = null): static
-            {
+            public function validateProperty(
+                object $object,
+                string $propertyName,
+                string | GroupSequence | array | null $groups = null
+            ): static {
                 return $this;
             }
 
-            public function validatePropertyValue(object|string $objectOrClass, string $propertyName, mixed $value, $groups = null): static
-            {
+            public function validatePropertyValue(
+                object | string $objectOrClass,
+                string $propertyName,
+                mixed $value,
+                $groups = null
+            ): static {
                 return $this;
             }
 

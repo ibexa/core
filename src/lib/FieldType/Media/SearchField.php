@@ -13,6 +13,4 @@ use Ibexa\Core\FieldType\BinaryBase\AbstractBinarySearchField;
 /**
  * Indexable definition for Media field type.
  */
-class SearchField extends AbstractBinarySearchField
-{
-}
+class SearchField extends AbstractBinarySearchField {}

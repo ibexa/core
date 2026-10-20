@@ -19,7 +19,7 @@ abstract class Gateway
     /**
      * Insert a bookmark.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark $bookmark
+     * @param Bookmark $bookmark
      *
      * @return int ID
      */
@@ -40,7 +40,10 @@ abstract class Gateway
      *
      * @return array
      */
-    abstract public function loadBookmarkDataByUserIdAndLocationId(int $userId, array $locationIds): array;
+    abstract public function loadBookmarkDataByUserIdAndLocationId(
+        int $userId,
+        array $locationIds
+    ): array;
 
     /**
      * Load user ids by the given $location.
@@ -50,34 +53,13 @@ abstract class Gateway
     abstract public function loadUserIdsByLocation(Location $location): array;
 
     /**
-     * Load data for all bookmarks owned by given $userId.
-     *
-     * @deprecated 4.6.33 "Gateway::loadUserBookmarks()" method is deprecated, will be removed in 6.0.0. Use "LocationService::find()" and "Criterion\Location\IsBookmarked" instead.
-     *
-     * @param int $userId ID of user
-     * @param int $offset Offset to start listing from, 0 by default
-     * @param int $limit Limit for the listing. -1 by default (no limit)
-     *
-     * @return array
-     */
-    abstract public function loadUserBookmarks(int $userId, int $offset = 0, int $limit = -1): array;
-
-    /**
-     * Count bookmarks owned by given $userId.
-     *
-     * @deprecated 4.6.33 The "Gateway::countUserBookmarks()" method is deprecated, will be removed in 6.0.0. Use "LocationService::count()" and "Criterion\Location\IsBookmarked" instead.
-     *
-     * @param int $userId ID of user
-     *
-     * @return int
-     */
-    abstract public function countUserBookmarks(int $userId): int;
-
-    /**
      * Updates related bookmarks when location was swapped.
      *
      * @param int $location1Id ID of first location
      * @param int $location2Id ID of second location
      */
-    abstract public function locationSwapped(int $location1Id, int $location2Id): void;
+    abstract public function locationSwapped(
+        int $location1Id,
+        int $location2Id
+    ): void;
 }

@@ -1,18 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Method Ibexa\\Bundle\\Core\\ApiLoader\\RepositoryFactory\:\:__construct\(\) has parameter \$policyMap with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/ApiLoader/RepositoryFactory.php
-
-		-
-			message: '#^Property Ibexa\\Bundle\\Core\\ApiLoader\\RepositoryFactory\:\:\$policyMap type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/Core/ApiLoader/RepositoryFactory.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\ApiLoader\\SearchEngineFactory\:\:registerSearchEngine\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -2131,12 +2119,6 @@ parameters:
 			path: src/bundle/Core/Features/Context/QueryControllerContext.php
 
 		-
-			message: '#^Interface Ibexa\\Contracts\\Core\\Repository\\RoleService referenced with incorrect case\: Ibexa\\Contracts\\Core\\Repository\\roleService\.$#'
-			identifier: interface.nameCase
-			count: 1
-			path: src/bundle/Core/Features/Context/RoleContext.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\RoleContext\:\:getRole\(\) should return Ibexa\\Contracts\\Core\\Repository\\Values\\User\\Role but returns Ibexa\\Contracts\\Core\\Repository\\Values\\User\\Role\|null\.$#'
 			identifier: return.type
 			count: 1
@@ -2315,12 +2297,6 @@ parameters:
 			identifier: property.onlyWritten
 			count: 1
 			path: src/bundle/Core/Fragment/InlineFragmentRenderer.php
-
-		-
-			message: '#^Trait Ibexa\\Bundle\\Core\\Fragment\\SiteAccessSerializationTrait is used zero times and is not analysed\.$#'
-			identifier: trait.unused
-			count: 1
-			path: src/bundle/Core/Fragment/SiteAccessSerializationTrait.php
 
 		-
 			message: '#^Method Ibexa\\Bundle\\Core\\IbexaCoreBundle\:\:getContainerExtension\(\) should return Symfony\\Component\\DependencyInjection\\Extension\\ExtensionInterface but returns Symfony\\Component\\DependencyInjection\\Extension\\ExtensionInterface\|false\.$#'
@@ -5707,12 +5683,6 @@ parameters:
 			path: src/lib/FieldType/Keyword/KeywordStorage/Gateway/DoctrineStorage.php
 
 		-
-			message: '#^PHPDoc tag @param has invalid value \(\\Ibexa\\Contracts\\Core\\Persistence\\Content\\Field\)\: Unexpected token "\\n     \* ", expected variable at offset 137 on line 4$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: src/lib/FieldType/Keyword/KeywordStorage/Gateway/DoctrineStorage.php
-
-		-
 			message: '#^Parameter \#1 \$keywordsToInsert of method Ibexa\\Core\\FieldType\\Keyword\\KeywordStorage\\Gateway\\DoctrineStorage\:\:insertKeywords\(\) expects array\<string\>, array\<true\> given\.$#'
 			identifier: argument.type
 			count: 1
@@ -7625,12 +7595,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Map/Host.php
-
-		-
-			message: '#^Parameter \#2 \$subject of function preg_match expects string, string\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Matcher/Regex.php
 
 		-
 			message: '#^Call to an undefined method object\:\:setRequest\(\)\.$#'
@@ -9625,12 +9589,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Bookmark/Gateway.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Bookmark\\Gateway\:\:loadUserBookmarks\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/Bookmark/Gateway.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Bookmark\\Gateway\\DoctrineDatabase\:\:getColumns\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -9655,12 +9613,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Bookmark/Gateway/DoctrineDatabase.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Bookmark\\Gateway\\DoctrineDatabase\:\:loadUserBookmarks\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/Bookmark/Gateway/DoctrineDatabase.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Bookmark\\Gateway\\ExceptionConversion\:\:loadBookmarkDataByUserIdAndLocationId\(\) has parameter \$locationId with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -9668,12 +9620,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Bookmark\\Gateway\\ExceptionConversion\:\:loadBookmarkDataByUserIdAndLocationId\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/Bookmark/Gateway/ExceptionConversion.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Bookmark\\Gateway\\ExceptionConversion\:\:loadUserBookmarks\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/lib/Persistence/Legacy/Bookmark/Gateway/ExceptionConversion.php
@@ -15631,12 +15577,6 @@ parameters:
 			path: src/lib/Repository/Mapper/ContentDomainMapper.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Repository\\Mapper\\ContentDomainMapper\:\:buildLocationDomainObject\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Repository/Mapper/ContentDomainMapper.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Repository\\Mapper\\ContentDomainMapper\:\:buildLocationDomainObjectsOnSearchResult\(\) has parameter \$languageFilter with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -15835,12 +15775,6 @@ parameters:
 			path: src/lib/Repository/NameSchema/NameSchemaService.php
 
 		-
-			message: '#^Access to an undefined property Ibexa\\Contracts\\Core\\Repository\\Values\\ObjectState\\ObjectState\:\:\$defaultLanguageCode\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/lib/Repository/ObjectStateService.php
-
-		-
 			message: '#^Access to an undefined property Ibexa\\Contracts\\Core\\Repository\\Values\\ObjectState\\ObjectState\:\:\$prioritizedLanguages\.$#'
 			identifier: property.notFound
 			count: 1
@@ -15957,12 +15891,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Core\\Repository\\Permission\\PermissionResolver\:\:prepareTargetsForType\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Repository/Permission/PermissionResolver.php
-
-		-
-			message: '#^PHPDoc tag @param for parameter \$callback contains unresolvable type\.$#'
-			identifier: parameter.unresolvableType
 			count: 1
 			path: src/lib/Repository/Permission/PermissionResolver.php
 
@@ -17025,12 +16953,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Core\\Repository\\Values\\ContentType\\FieldDefinitionCollection\:\:map\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Repository/Values/ContentType/FieldDefinitionCollection.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(\\Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\FieldDefinition\[\]\)\: Unexpected token "\\n     ", expected variable at offset 87 on line 2$#'
-			identifier: phpDoc.parseError
 			count: 1
 			path: src/lib/Repository/Values/ContentType/FieldDefinitionCollection.php
 
@@ -18591,7 +18513,7 @@ parameters:
 		-
 			message: '#^Parameter \#1 \$resolver of method Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\ChainConfigResolver\:\:addResolver\(\) expects Ibexa\\Contracts\\Core\\SiteAccess\\ConfigResolverInterface, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
 			identifier: argument.type
-			count: 4
+			count: 2
 			path: tests/bundle/Core/ChainConfigResolverTest.php
 
 		-
@@ -19171,12 +19093,6 @@ parameters:
 			path: tests/bundle/Core/DependencyInjection/IbexaCoreExtensionTest.php
 
 		-
-			message: '#^Parameter \#2 \$haystack of static method PHPUnit\\Framework\\Assert\:\:assertContains\(\) expects iterable, array\|bool\|float\|int\|string\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: tests/bundle/Core/DependencyInjection/IbexaCoreExtensionTest.php
-
-		-
 			message: '#^Parameter \#2 \.\.\.\$arrays of function array_merge_recursive expects array, array\|bool\|float\|int\|string\|null given\.$#'
 			identifier: argument.type
 			count: 1
@@ -19315,7 +19231,7 @@ parameters:
 			path: tests/bundle/Core/EventListener/BackwardCompatibleCommandListenerTest.php
 
 		-
-			message: '#^Method Symfony\\Component\\Console\\Command\\Command@anonymous/tests/bundle/Core/EventListener/BackwardCompatibleCommandListenerTest\.php\:116\:\:__construct\(\) has parameter \$deprecatedAliases with no value type specified in iterable type array\.$#'
+			message: '#^Method Symfony\\Component\\Console\\Command\\Command@anonymous/tests/bundle/Core/EventListener/BackwardCompatibleCommandListenerTest\.php\:118\:\:__construct\(\) has parameter \$deprecatedAliases with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/bundle/Core/EventListener/BackwardCompatibleCommandListenerTest.php
@@ -20053,19 +19969,7 @@ parameters:
 			path: tests/integration/Core/FieldType/FieldConstraintsStorage/Stub/ExampleFieldConstraintsStorage.php
 
 		-
-			message: '#^PHPDoc tag @param has invalid value \(\\Ibexa\\Contracts\\Core\\Persistence\\Content\\FieldTypeConstraints\[\]\)\: Unexpected token "\\n     ", expected variable at offset 82 on line 2$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: tests/integration/Core/FieldType/FieldConstraintsStorage/Stub/ExampleFieldConstraintsStorage.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\IO\\BinarydataHandler\\FlysystemTest\:\:getBinaryDataHandler\(\) should return Ibexa\\Core\\IO\\IOBinarydataHandler but returns object\.$#'
-			identifier: return.type
-			count: 1
-			path: tests/integration/Core/IO/BinarydataHandler/FlysystemTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Integration\\Core\\IO\\BinarydataHandler\\FlysystemTest\:\:getFlysystemFilesystem\(\) should return League\\Flysystem\\FilesystemOperator but returns object\.$#'
 			identifier: return.type
 			count: 1
 			path: tests/integration/Core/IO/BinarydataHandler/FlysystemTest.php
@@ -25585,12 +25489,6 @@ parameters:
 			path: tests/integration/Core/Repository/FieldType/UrlIntegrationTest.php
 
 		-
-			message: '#^Access to an undefined property Ibexa\\Contracts\\Core\\Repository\\Values\\User\\User\:\:\$content\.$#'
-			identifier: property.notFound
-			count: 2
-			path: tests/integration/Core/Repository/FieldType/UserIntegrationTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Integration\\Core\\Repository\\FieldType\\UserIntegrationTest\:\:assertCopiedFieldDataLoadedCorrectly\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -26189,12 +26087,6 @@ parameters:
 			identifier: argument.type
 			count: 2
 			path: tests/integration/Core/Repository/NonRedundantFieldSetTest.php
-
-		-
-			message: '#^Access to an undefined property Ibexa\\Contracts\\Core\\Repository\\Values\\ObjectState\\ObjectState\:\:\$defaultLanguageCode\.$#'
-			identifier: property.notFound
-			count: 2
-			path: tests/integration/Core/Repository/ObjectStateServiceTest.php
 
 		-
 			message: '#^Access to an undefined property Ibexa\\Contracts\\Core\\Repository\\Values\\ObjectState\\ObjectState\:\:\$names\.$#'
@@ -30475,7 +30367,7 @@ parameters:
 			path: tests/lib/Limitation/SubtreeLimitationTypeTest.php
 
 		-
-			message: '#^Method Ibexa\\Contracts\\Core\\MVC\\View\\VariableProvider@anonymous/tests/lib/MVC/Symfony/EventListener/ContentViewTwigVariablesSubscriberTest\.php\:47\:\:getTwigVariables\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Contracts\\Core\\MVC\\View\\VariableProvider@anonymous/tests/lib/MVC/Symfony/EventListener/ContentViewTwigVariablesSubscriberTest\.php\:48\:\:getTwigVariables\(\) has parameter \$options with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/lib/MVC/Symfony/EventListener/ContentViewTwigVariablesSubscriberTest.php
@@ -30487,7 +30379,7 @@ parameters:
 			path: tests/lib/MVC/Symfony/EventListener/ContentViewTwigVariablesSubscriberTest.php
 
 		-
-			message: '#^Property Ibexa\\Contracts\\Core\\MVC\\View\\VariableProvider@anonymous/tests/lib/MVC/Symfony/EventListener/ContentViewTwigVariablesSubscriberTest\.php\:47\:\:\$identifier has no type specified\.$#'
+			message: '#^Property Ibexa\\Contracts\\Core\\MVC\\View\\VariableProvider@anonymous/tests/lib/MVC/Symfony/EventListener/ContentViewTwigVariablesSubscriberTest\.php\:48\:\:\$identifier has no type specified\.$#'
 			identifier: missingType.property
 			count: 1
 			path: tests/lib/MVC/Symfony/EventListener/ContentViewTwigVariablesSubscriberTest.php
@@ -31437,24 +31329,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Templating\\Twig\\Extension\\FileSizeExtensionTest\:\:setConfigurationLocale\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/FileSizeExtensionTest.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(\\Ibexa\\Contracts\\Core\\SiteAccess\\ConfigResolverInterface\|\\PHPUnit\\Framework\\MockObject\\MockObject\)\: Unexpected token "\\n     ", expected variable at offset 115 on line 2$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/FileSizeExtensionTest.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(\\Ibexa\\Core\\MVC\\Symfony\\Locale\\LocaleConverterInterface\|\\PHPUnit\\Framework\\MockObject\\MockObject\)\: Unexpected token "\\n     ", expected variable at offset 114 on line 2$#'
-			identifier: phpDoc.parseError
-			count: 1
-			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/FileSizeExtensionTest.php
-
-		-
-			message: '#^PHPDoc tag @param has invalid value \(\\Symfony\\Contracts\\Translation\\TranslatorInterface\|\\PHPUnit\\Framework\\MockObject\\MockObject\)\: Unexpected token "\\n     ", expected variable at offset 109 on line 2$#'
-			identifier: phpDoc.parseError
 			count: 1
 			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/FileSizeExtensionTest.php
 
@@ -32479,25 +32353,7 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Bookmark/Gateway/DoctrineDatabaseTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Bookmark\\Gateway\\DoctrineDatabaseTest\:\:dataProviderForLoadUserBookmarks\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/Persistence/Legacy/Bookmark/Gateway/DoctrineDatabaseTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Bookmark\\Gateway\\DoctrineDatabaseTest\:\:loadBookmark\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/Persistence/Legacy/Bookmark/Gateway/DoctrineDatabaseTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Bookmark\\Gateway\\DoctrineDatabaseTest\:\:testCountUserBookmarks\(\) has parameter \$expected with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/Persistence/Legacy/Bookmark/Gateway/DoctrineDatabaseTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Bookmark\\Gateway\\DoctrineDatabaseTest\:\:testLoadUserBookmarks\(\) has parameter \$expected with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/lib/Persistence/Legacy/Bookmark/Gateway/DoctrineDatabaseTest.php
@@ -35167,13 +35023,13 @@ parameters:
 			path: tests/lib/Repository/ContentThumbnail/ContentFieldStrategyTest.php
 
 		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Validator\\ContentValidator@anonymous/tests/lib/Repository/ContentValidator/ContentValidatorStrategyTest\.php\:88\:\:__construct\(\) has parameter \$validationReturn with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Validator\\ContentValidator@anonymous/tests/lib/Repository/ContentValidator/ContentValidatorStrategyTest\.php\:90\:\:__construct\(\) has parameter \$validationReturn with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/lib/Repository/ContentValidator/ContentValidatorStrategyTest.php
 
 		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Validator\\ContentValidator@anonymous/tests/lib/Repository/ContentValidator/ContentValidatorStrategyTest\.php\:88\:\:validate\(\) has parameter \$context with no value type specified in iterable type array\.$#'
+			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Validator\\ContentValidator@anonymous/tests/lib/Repository/ContentValidator/ContentValidatorStrategyTest\.php\:90\:\:validate\(\) has parameter \$context with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/lib/Repository/ContentValidator/ContentValidatorStrategyTest.php
@@ -35185,7 +35041,7 @@ parameters:
 			path: tests/lib/Repository/ContentValidator/ContentValidatorStrategyTest.php
 
 		-
-			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Validator\\ContentValidator@anonymous/tests/lib/Repository/ContentValidator/ContentValidatorStrategyTest\.php\:88\:\:\$validationReturn type has no value type specified in iterable type array\.$#'
+			message: '#^Property Ibexa\\Contracts\\Core\\Repository\\Validator\\ContentValidator@anonymous/tests/lib/Repository/ContentValidator/ContentValidatorStrategyTest\.php\:90\:\:\$validationReturn type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: tests/lib/Repository/ContentValidator/ContentValidatorStrategyTest.php
@@ -37675,12 +37531,6 @@ parameters:
 			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
 
 		-
-			message: '#^Call to method expects\(\) on an unknown class object\.$#'
-			identifier: class.notFound
-			count: 4
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTestCase\:\:getAPIServiceClassName\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -37755,24 +37605,6 @@ parameters:
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTestCase\:\:testForPassTrough\(\) has parameter \$arguments with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
-
-		-
-			message: '#^Method PHPUnit\\Framework\\MockObject\\Builder\\InvocationMocker\:\:with\(\) invoked with unpacked array with possibly string key, but it''s not allowed because of @no\-named\-arguments\.$#'
-			identifier: argument.named
-			count: 4
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
-
-		-
-			message: '#^Property Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTestCase\:\:\$innerApiServiceMock \(object&PHPUnit\\Framework\\MockObject\\MockObject\) does not accept PHPUnit\\Framework\\MockObject\\MockObject\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
-
-		-
-			message: '#^Property Ibexa\\Tests\\Core\\Repository\\SiteAccessAware\\AbstractServiceTestCase\:\:\$innerApiServiceMock has unknown class object as its type\.$#'
-			identifier: class.notFound
 			count: 1
 			path: tests/lib/Repository/SiteAccessAware/AbstractServiceTestCase.php
 
@@ -38149,20 +37981,8 @@ parameters:
 			path: tests/lib/Repository/Values/Filter/FilterTest.php
 
 		-
-			message: '#^Call to static method PHPUnit\\Framework\\Assert\:\:assertTrue\(\) with true will always evaluate to true\.$#'
-			identifier: staticMethod.alreadyNarrowedType
-			count: 1
-			path: tests/lib/Repository/Values/ObjectState/ObjectStateGroupTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Values\\ObjectState\\ObjectStateGroupTest\:\:assertPropertiesCorrect\(\) has no return type specified\.$#'
 			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Values/ObjectState/ObjectStateGroupTest.php
-
-		-
-			message: '#^Property Ibexa\\Core\\Repository\\Values\\ObjectState\\ObjectStateGroup\:\:\$defaultLanguageCode \(string\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
 			count: 1
 			path: tests/lib/Repository/Values/ObjectState/ObjectStateGroupTest.php
 
@@ -38405,3 +38225,39 @@ parameters:
 			identifier: phpDoc.parseError
 			count: 1
 			path: tests/lib/Validation/StructValidatorTest.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(Field\)\: Unexpected token "\\n     \* ", expected variable at offset 95 on line 4$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/lib/FieldType/Keyword/KeywordStorage/Gateway/DoctrineStorage.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(FieldDefinition\[\]\)\: Unexpected token "\\n     ", expected variable at offset 35 on line 2$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: src/lib/Repository/Values/ContentType/FieldDefinitionCollection.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(FieldTypeConstraints\[\]\)\: Unexpected token "\\n     ", expected variable at offset 40 on line 2$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: tests/integration/Core/FieldType/FieldConstraintsStorage/Stub/ExampleFieldConstraintsStorage.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(TranslatorInterface\|MockObject\)\: Unexpected token "\\n     ", expected variable at offset 48 on line 2$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/FileSizeExtensionTest.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(ConfigResolverInterface\|MockObject\)\: Unexpected token "\\n     ", expected variable at offset 52 on line 2$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/FileSizeExtensionTest.php
+
+		-
+			message: '#^PHPDoc tag @param has invalid value \(LocaleConverterInterface\|MockObject\)\: Unexpected token "\\n     ", expected variable at offset 53 on line 2$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: tests/lib/MVC/Symfony/Templating/Twig/Extension/FileSizeExtensionTest.php

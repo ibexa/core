@@ -18,13 +18,11 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\CriterionVisitor\CriterionVisitor;
 
 /**
- * @implements \Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface<\Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\IsSystem>
+ * @implements \Ibexa\Contracts\Core\Persistence\Content\Type\CriterionHandlerInterface<IsSystemCriterion>
  */
 final class IsSystem implements CriterionHandlerInterface
 {
-    public function __construct(private readonly Connection $connection)
-    {
-    }
+    public function __construct(private readonly Connection $connection) {}
 
     public function supports(CriterionInterface $criterion): bool
     {
@@ -32,7 +30,7 @@ final class IsSystem implements CriterionHandlerInterface
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\IsSystem $criterion
+     * @param IsSystemCriterion $criterion
      */
     public function apply(
         CriterionVisitor $criterionVisitor,

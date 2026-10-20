@@ -22,13 +22,13 @@ use Ibexa\Contracts\Core\Repository\Values\Content\SectionUpdateStruct;
  */
 class SectionService implements SectionServiceInterface
 {
-    /** @var \Ibexa\Contracts\Core\Repository\SectionService */
+    /** @var SectionServiceInterface */
     protected $service;
 
     /**
      * Construct service object from aggregated service.
      *
-     * @param \Ibexa\Contracts\Core\Repository\SectionService $service
+     * @param SectionServiceInterface $service
      */
     public function __construct(
         SectionServiceInterface $service
@@ -41,8 +41,10 @@ class SectionService implements SectionServiceInterface
         return $this->service->createSection($sectionCreateStruct);
     }
 
-    public function updateSection(Section $section, SectionUpdateStruct $sectionUpdateStruct): Section
-    {
+    public function updateSection(
+        Section $section,
+        SectionUpdateStruct $sectionUpdateStruct
+    ): Section {
         return $this->service->updateSection($section, $sectionUpdateStruct);
     }
 
@@ -71,13 +73,17 @@ class SectionService implements SectionServiceInterface
         return $this->service->isSectionUsed($section);
     }
 
-    public function assignSection(ContentInfo $contentInfo, Section $section): void
-    {
+    public function assignSection(
+        ContentInfo $contentInfo,
+        Section $section
+    ): void {
         $this->service->assignSection($contentInfo, $section);
     }
 
-    public function assignSectionToSubtree(Location $location, Section $section): void
-    {
+    public function assignSectionToSubtree(
+        Location $location,
+        Section $section
+    ): void {
         $this->service->assignSectionToSubtree($location, $section);
     }
 

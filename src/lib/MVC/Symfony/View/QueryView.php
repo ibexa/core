@@ -8,6 +8,4 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\MVC\Symfony\View;
 
-final class QueryView extends BaseView
-{
-}
+final class QueryView extends BaseView {}

@@ -13,8 +13,11 @@ use RuntimeException;
 
 final class SyntaxErrorException extends RuntimeException
 {
-    public static function fromUnexpectedToken(string $input, Token $token, array $expectedTypes): self
-    {
+    public static function fromUnexpectedToken(
+        string $input,
+        Token $token,
+        array $expectedTypes
+    ): self {
         $message = sprintf(
             'Error while parsing sorting specification: "%s": Unexpected token %s (%s) at position %d. Expected one of the following tokens: %s',
             $input,

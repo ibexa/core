@@ -11,6 +11,7 @@ use DOMDocument;
 use Ibexa\Contracts\Core\Persistence\Content\FieldTypeConstraints;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition as SPIFieldDefinition;
+use Ibexa\Core\FieldType\Author\Author;
 use Ibexa\Core\FieldType\Author\Type as AuthorType;
 use Ibexa\Core\FieldType\FieldSettings;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\AuthorConverter;
@@ -25,10 +26,10 @@ use PHPUnit\Framework\TestCase;
 #[Group('ibexa_author')]
 class AuthorTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\AuthorConverter */
+    /** @var AuthorConverter */
     protected $converter;
 
-    /** @var \Ibexa\Core\FieldType\Author\Author[] */
+    /** @var Author[] */
     private $authors;
 
     protected function setUp(): void

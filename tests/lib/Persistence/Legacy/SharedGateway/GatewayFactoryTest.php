@@ -9,23 +9,25 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\Persistence\Legacy\SharedGateway;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms;
 use Ibexa\Core\Persistence\Legacy\SharedGateway\DatabasePlatform\FallbackGateway;
 use Ibexa\Core\Persistence\Legacy\SharedGateway\DatabasePlatform\SqliteGateway;
 use Ibexa\Core\Persistence\Legacy\SharedGateway\GatewayFactory;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Traversable;
 
 #[CoversClass(GatewayFactory::class)]
 final class GatewayFactoryTest extends TestCase
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\SharedGateway\GatewayFactory */
+    /** @var GatewayFactory */
     private $factory;
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function setUp(): void
     {
@@ -40,10 +42,10 @@ final class GatewayFactoryTest extends TestCase
     }
 
     /**
-     * @param \Doctrine\DBAL\Connection $connectionMock
+     * @param Connection $connectionMock
      * @param string $expectedInstance
      *
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     #[DataProvider('getTestBuildSharedGatewayData')]
     public function testBuildSharedGateway(
@@ -57,7 +59,7 @@ final class GatewayFactoryTest extends TestCase
     }
 
     /**
-     * @return \Doctrine\DBAL\Connection[]|\PHPUnit\Framework\MockObject\MockObject[]|\Traversable
+     * @return Connection[]|MockObject[]|Traversable
      */
     public static function getTestBuildSharedGatewayData(): Traversable
     {

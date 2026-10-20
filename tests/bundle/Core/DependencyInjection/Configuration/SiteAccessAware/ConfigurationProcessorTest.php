@@ -90,7 +90,11 @@ class ConfigurationProcessorTest extends TestCase
             ],
         ];
 
-        $mapperClosure = static function (array &$scopeSettings, $currentScope, ContextualizerInterface $contextualizer) use ($config, $availableSAs, $saNodeName, $expectedContextualizer): void {
+        $mapperClosure = static function (
+            array &$scopeSettings,
+            $currentScope,
+            ContextualizerInterface $contextualizer
+        ) use ($config, $availableSAs, $saNodeName, $expectedContextualizer): void {
             self::assertTrue(isset($availableSAs[$currentScope]));
             self::assertSame($config[$saNodeName][$currentScope], $scopeSettings);
             self::assertSame($expectedContextualizer, $contextualizer);
@@ -130,10 +134,10 @@ class ConfigurationProcessorTest extends TestCase
 
         $mapper = $this->createMock(ConfigurationMapperInterface::class);
         $mapper
-            ->expects(self::exactly(count($config[$saNodeName])))
+            ->expects($this->exactly(count($config[$saNodeName])))
             ->method('mapConfig')
             ->will(
-                self::returnValueMap(
+                $this->returnValueMap(
                     [
                         [$sa1Config, $sa1Name, $contextualizer, null],
                         [$sa2Config, $sa2Name, $contextualizer, null],
@@ -176,18 +180,18 @@ class ConfigurationProcessorTest extends TestCase
 
         $mapper = $this->createMock(HookableConfigurationMapperInterface::class);
         $mapper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('preMap')
             ->with($config, $contextualizer);
         $mapper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('postMap')
             ->with($config, $contextualizer);
         $mapper
-            ->expects(self::exactly(count($config[$saNodeName])))
+            ->expects($this->exactly(count($config[$saNodeName])))
             ->method('mapConfig')
             ->will(
-                self::returnValueMap(
+                $this->returnValueMap(
                     [
                         [$sa1Config, $sa1Name, $contextualizer, null],
                         [$sa2Config, $sa2Name, $contextualizer, null],
@@ -228,7 +232,7 @@ class ConfigurationProcessorTest extends TestCase
         ];
 
         $contextualizer
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('mapSetting')
             ->with('foo', $config);
         $processor->mapSetting('foo', $config);
@@ -264,7 +268,7 @@ class ConfigurationProcessorTest extends TestCase
         ];
 
         $contextualizer
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('mapConfigArray')
             ->with('hello', $config, ContextualizerInterface::MERGE_FROM_SECOND_LEVEL);
         $processor->mapConfigArray('hello', $config, ContextualizerInterface::MERGE_FROM_SECOND_LEVEL);

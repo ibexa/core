@@ -10,24 +10,25 @@ namespace Ibexa\Tests\Core\Repository\Validator;
 
 use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Contracts\Core\Persistence\Content;
+use Ibexa\Contracts\Core\Persistence\Content\Handler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\Repository\Validator\TargetContentValidator;
 use PHPUnit\Framework\TestCase;
 
 final class TargetContentValidatorTest extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Handler|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var Handler|\PHPUnit_Framework_MockObject_MockObject */
     private $contentHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var Content\Type\Handler|\PHPUnit_Framework_MockObject_MockObject */
     private $contentTypeHandler;
 
-    /** @var \Ibexa\Core\Repository\Validator\TargetContentValidator */
+    /** @var TargetContentValidator */
     private $targetContentValidator;
 
     public function setUp(): void
     {
-        $this->contentHandler = $this->createMock(Content\Handler::class);
+        $this->contentHandler = $this->createMock(Handler::class);
         $this->contentTypeHandler = $this->createMock(Content\Type\Handler::class);
 
         $this->targetContentValidator = new TargetContentValidator($this->contentHandler, $this->contentTypeHandler);
@@ -66,13 +67,13 @@ final class TargetContentValidatorTest extends TestCase
         $contentType = new Content\Type(['id' => $contentTypeId, 'identifier' => 'article']);
 
         $this->contentHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('load')
             ->with($contentId)
             ->willReturn($content);
 
         $this->contentTypeHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('load')
             ->with($contentInfo->contentTypeId)
             ->willReturn($contentType);

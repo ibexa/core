@@ -37,17 +37,17 @@ class PatternTest extends CriterionHandlerTestCase
         $expected = 'url LIKE :pattern';
         $expressionBuilder = $this->createMock(ExpressionBuilder::class);
         $expressionBuilder
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('like')
             ->with('url', ':pattern')
             ->willReturn($expected);
         $queryBuilder = $this->createMock(QueryBuilder::class);
         $queryBuilder
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('expr')
             ->willReturn($expressionBuilder);
         $queryBuilder
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('createNamedParameter')
             ->with('%' . $criterion->pattern . '%', ParameterType::STRING, ':pattern')
             ->willReturn(':pattern');

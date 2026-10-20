@@ -21,11 +21,14 @@ use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
  */
 class LanguageCode extends CriterionHandler
 {
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator */
+    /** @var MaskGenerator */
     private $maskGenerator;
 
-    public function __construct(Connection $connection, MaskGenerator $maskGenerator, JoinedTablesTracker $joinedTablesTracker)
-    {
+    public function __construct(
+        Connection $connection,
+        MaskGenerator $maskGenerator,
+        JoinedTablesTracker $joinedTablesTracker
+    ) {
         parent::__construct($connection, $joinedTablesTracker);
 
         $this->maskGenerator = $maskGenerator;
@@ -37,7 +40,7 @@ class LanguageCode extends CriterionHandler
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LanguageCode $criterion
+     * @param Criterion\LanguageCode $criterion
      */
     public function handle(
         CriteriaConverter $converter,

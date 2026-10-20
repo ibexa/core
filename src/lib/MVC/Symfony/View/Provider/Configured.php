@@ -18,11 +18,11 @@ use Symfony\Component\HttpKernel\Controller\ControllerReference;
  */
 class Configured implements ViewProvider
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\MatcherFactoryInterface */
+    /** @var MatcherFactoryInterface */
     protected $matcherFactory;
 
     /**
-     * @param \Ibexa\Core\MVC\Symfony\Matcher\MatcherFactoryInterface $matcherFactory
+     * @param MatcherFactoryInterface $matcherFactory
      */
     public function __construct(MatcherFactoryInterface $matcherFactory)
     {
@@ -43,7 +43,7 @@ class Configured implements ViewProvider
      *
      * @param array $viewConfig
      *
-     * @return \Ibexa\Core\MVC\Symfony\View\ContentView
+     * @return ContentView
      */
     protected function buildContentView(array $viewConfig)
     {

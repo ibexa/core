@@ -11,6 +11,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\LanguageLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation;
+use Ibexa\Core\Repository\Repository;
 use Ibexa\Core\Repository\TrashService as CoveredTrashService;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Depends;
@@ -280,7 +281,7 @@ class TrashServiceAuthorizationTest extends BaseTrashServiceTestCase
             'Publishers',
             'Publisher'
         );
-        /** @var \Ibexa\Core\Repository\Repository $repository */
+        /** @var Repository $repository */
         $repository = $this->getRepository();
         $repository->getPermissionResolver()->setCurrentUserReference($publisherUser);
         $trashService = $repository->getTrashService();

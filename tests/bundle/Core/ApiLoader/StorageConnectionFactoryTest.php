@@ -16,21 +16,25 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Container\ApiLoader\RepositoryConfigurationProvider;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 
 final class StorageConnectionFactoryTest extends BaseRepositoryConfigurationProviderTestCase
 {
     #[DataProvider('getConnectionProvider')]
-    public function testGetConnection(string $repositoryAlias, string $doctrineConnection): void
-    {
+    public function testGetConnection(
+        string $repositoryAlias,
+        string $doctrineConnection
+    ): void {
         $repositories = [
             $repositoryAlias => $this->buildNormalizedSingleRepositoryConfig('legacy', $doctrineConnection),
         ];
 
         $configResolver = $this->getConfigResolverMock();
         $configResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getParameter')
             ->with('repository')
             ->willReturn($repositoryAlias)
@@ -59,9 +63,9 @@ final class StorageConnectionFactoryTest extends BaseRepositoryConfigurationProv
     }
 
     /**
-     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws ContainerExceptionInterface
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function testGetConnectionInvalidRepository(): void
     {
@@ -71,7 +75,7 @@ final class StorageConnectionFactoryTest extends BaseRepositoryConfigurationProv
 
         $configResolver = $this->getConfigResolverMock();
         $configResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getParameter')
             ->with('repository')
             ->willReturn('nonexistent_repository')
@@ -95,7 +99,7 @@ final class StorageConnectionFactoryTest extends BaseRepositoryConfigurationProv
             ],
         ];
         $repositoryConfigurationProviderMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getRepositoryConfig')
             ->willReturn($repositoryConfig)
         ;
@@ -144,7 +148,7 @@ final class StorageConnectionFactoryTest extends BaseRepositoryConfigurationProv
         if (isset($doctrineConnections[$connectionName])) {
             $serviceLocatorMock->method('get')->with($connectionName)->willReturn(self::createStub(Connection::class));
         } else {
-            $serviceLocatorMock->expects(self::never())->method('get');
+            $serviceLocatorMock->expects($this->never())->method('get');
         }
 
         return new StorageConnectionFactory(

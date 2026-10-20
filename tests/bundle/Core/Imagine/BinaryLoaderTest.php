@@ -15,15 +15,16 @@ use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\MissingBinaryFile;
 use Liip\ImagineBundle\Exception\Binary\Loader\NotLoadableException;
 use Liip\ImagineBundle\Model\Binary;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Mime\MimeTypes;
 
 class BinaryLoaderTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $ioService;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\BinaryLoader */
+    /** @var BinaryLoader */
     private $binaryLoader;
 
     protected function setUp(): void
@@ -35,28 +36,28 @@ class BinaryLoaderTest extends TestCase
 
     public function testFindNotFound(): void
     {
-        $this->expectException(\Liip\ImagineBundle\Exception\Binary\Loader\NotLoadableException::class);
+        $this->expectException(NotLoadableException::class);
 
         $path = 'something.jpg';
         $this->ioService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadBinaryFile')
             ->with($path)
-            ->will(self::throwException(new NotFoundException('foo', 'bar')));
+            ->will($this->throwException(new NotFoundException('foo', 'bar')));
 
         $this->binaryLoader->find($path);
     }
 
     public function testFindMissing(): void
     {
-        $this->expectException(\Liip\ImagineBundle\Exception\Binary\Loader\NotLoadableException::class);
+        $this->expectException(NotLoadableException::class);
 
         $path = 'something.jpg';
         $this->ioService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadBinaryFile')
             ->with($path)
-            ->will(self::returnValue(new MissingBinaryFile()));
+            ->will($this->returnValue(new MissingBinaryFile()));
 
         $this->binaryLoader->find($path);
     }
@@ -65,10 +66,10 @@ class BinaryLoaderTest extends TestCase
     {
         $path = 'var/site/storage/images/1/2/3/123-name/name.png';
         $this->ioService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadBinaryFile')
             ->with($path)
-            ->will(self::throwException(new InvalidBinaryFileIdException($path)));
+            ->will($this->throwException(new InvalidBinaryFileIdException($path)));
 
         try {
             $this->binaryLoader->find($path);

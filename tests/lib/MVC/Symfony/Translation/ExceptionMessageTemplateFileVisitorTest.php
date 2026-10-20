@@ -62,7 +62,7 @@ final class ExceptionMessageTemplateFileVisitorTest extends BaseMessageExtractor
         if ($this->visitor instanceof LoggerAwareInterface) {
             $logger = $this->createMock(LoggerInterface::class);
             $logger
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('error');
 
             $this->visitor->setLogger($logger);
@@ -75,8 +75,10 @@ final class ExceptionMessageTemplateFileVisitorTest extends BaseMessageExtractor
         );
     }
 
-    protected function buildVisitor(DocParser $docParser, FileSourceFactory $fileSourceFactory): FileVisitorInterface
-    {
+    protected function buildVisitor(
+        DocParser $docParser,
+        FileSourceFactory $fileSourceFactory
+    ): FileVisitorInterface {
         return new ExceptionMessageTemplateFileVisitor(
             $docParser,
             $fileSourceFactory

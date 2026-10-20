@@ -23,8 +23,7 @@ final readonly class UserLanguagePreferenceProvider implements UserLanguagePrefe
         private UserPreferenceService $userPreferenceService,
         private array $languageCodesMap,
         private string $localeFallback
-    ) {
-    }
+    ) {}
 
     public function getPreferredLocales(?Request $request = null): array
     {

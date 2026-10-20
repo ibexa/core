@@ -114,12 +114,14 @@ final class MemberOfLimitationTypeTest extends Base
     }
 
     #[DataProvider('providerForTestValidateError')]
-    public function testValidateError(MemberOfLimitation $limitation, int $errorCount): void
-    {
+    public function testValidateError(
+        MemberOfLimitation $limitation,
+        int $errorCount
+    ): void {
         $contentHandlerMock = $this->createMock(ContentHandlerInterface::class);
 
         if ($limitation->limitationValues !== null) {
-            $matcher = self::exactly(2);
+            $matcher = $this->exactly(2);
             $contentHandlerMock->expects($matcher)
                 ->method('loadContentInfo')->willReturnCallback(static function (...$parameters) use ($matcher): ?ContentInfo {
                     if ($matcher->numberOfInvocations() === 1) {
@@ -173,7 +175,7 @@ final class MemberOfLimitationTypeTest extends Base
                     new Location(['parentId' => 13]),
                     new Location(['parentId' => 14]),
                 ]);
-            $matcher = self::exactly(2);
+            $matcher = $this->exactly(2);
 
             $locationHandlerMock->expects($matcher)
                 ->method('load')->willReturnCallback(static function (...$parameters) use ($matcher): ?Location {
@@ -354,7 +356,7 @@ final class MemberOfLimitationTypeTest extends Base
     }
 
     /**
-     * @param \Ibexa\Core\Repository\Values\User\User|\Ibexa\Core\Repository\Values\User\UserRoleAssignment $object
+     * @param User|UserRoleAssignment $object
      */
     #[DataProvider('providerForTestEvaluateSelfGroup')]
     public function testEvaluateSelfGroup(
@@ -370,7 +372,7 @@ final class MemberOfLimitationTypeTest extends Base
         foreach ($currentUserGroupLocations as $groupLocation) {
             $currentUserLocation[] = new Location(['parentId' => $groupLocation->contentId - 1]);
         }
-        $matcher = self::exactly(2);
+        $matcher = $this->exactly(2);
         $locationHandlerMock->expects($matcher)
             ->method('loadLocationsByContent')->willReturnCallback(function (...$parameters) use ($matcher, $object, $currentUserLocation): ?array {
                 if ($matcher->numberOfInvocations() === 1) {
@@ -389,7 +391,7 @@ final class MemberOfLimitationTypeTest extends Base
 
                 return null;
             });
-        $matcher = self::exactly(2 + count($currentUserGroupLocations));
+        $matcher = $this->exactly(2 + count($currentUserGroupLocations));
 
         $locationHandlerMock->expects($matcher)
             ->method('load')->willReturnCallback(static function (...$parameters) use ($matcher, $currentUserGroupLocations): Location {

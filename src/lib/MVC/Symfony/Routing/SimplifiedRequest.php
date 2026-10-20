@@ -12,75 +12,31 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 class SimplifiedRequest extends ValueObject
 {
     /**
-     * The request scheme (http or https).
-     */
-    protected ?string $scheme = null;
-
-    /**
-     * The host name.
-     */
-    protected ?string $host = null;
-
-    /**
      * The port the request is made on.
      */
     protected ?int $port = null;
 
     /**
-     * The path being requested relative to the executed script.
-     * The path info always starts with a /.
+     * @param string|null $scheme The request scheme (http or https).
+     * @param string|null $host The host name.
+     * @param int|string|null $port The port the request is made on.
+     * @param string|null $pathinfo The path being requested relative to the executed script, always starts with a /.
+     * @param array<mixed>|null $queryParams Parameters extracted from the query string.
+     * @param string[]|null $languages Languages acceptable by the client browser, ordered by the user browser preferences.
+     * @param array<string, array<string|null>>|null $headers Hash of request headers.
      */
-    protected ?string $pathinfo = null;
-
-    /**
-     * Array of parameters extracted from the query string.
-     *
-     * @var array<mixed>|null
-     */
-    protected ?array $queryParams = null;
-
-    /**
-     * List of languages acceptable by the client browser.
-     * The languages are ordered in the user browser preferences.
-     *
-     * @var string[]|null
-     */
-    protected ?array $languages = null;
-
-    /**
-     * Hash of request headers.
-     *
-     * @var array<string, array<string>>|null
-     */
-    protected ?array $headers = null;
-
     public function __construct(
-        //string $scheme = 'http', string $host = '', int $port = 80, string $pathinfo = '', array $queryParams = [], array $languages = [], array $headers = []
+        protected ?string $scheme = null,
+        protected ?string $host = null,
+        int | string | null $port = null,
+        protected ?string $pathinfo = null,
+        protected ?array $queryParams = null,
+        protected ?array $languages = null,
+        protected ?array $headers = null
     ) {
-        $args = func_get_args();
+        parent::__construct();
 
-        if (
-            empty($args) ||
-            (func_num_args() === 1 && is_array($args[0]))
-        ) {
-            if (!empty($args)) {
-                trigger_deprecation(
-                    'ibexa/core',
-                    '5.0',
-                    'The signature of method "%s()" now requires explicit arguments: "string $scheme, string $host, string $port, string $pathinfo, array $queryParams, array $languages, array $headers", using ValueObject array constructor is deprecated.',
-                    __METHOD__
-                );
-            }
-            parent::__construct($args[0] ?? []);
-        } else {
-            $this->scheme = $args[0] ?? null;
-            $this->host = $args[1] ?? null;
-            $this->port = isset($args[2]) ? (int)$args[2] : null;
-            $this->pathinfo = $args[3] ?? null;
-            $this->queryParams = $args[4] ?? null;
-            $this->languages = $args[5] ?? null;
-            $this->headers = $args[6] ?? null;
-        }
+        $this->port = $port !== null ? (int)$port : null;
     }
 
     /**
@@ -146,7 +102,7 @@ class SimplifiedRequest extends ValueObject
      *
      * @internal
      *
-     * @return \Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest
+     * @return SimplifiedRequest
      */
     public static function fromUrl($url)
     {
@@ -223,7 +179,7 @@ class SimplifiedRequest extends ValueObject
     }
 
     /**
-     * @return array<string>|null
+     * @return array<string|null>|null
      */
     public function getHeader(string $headerName): ?array
     {
@@ -231,7 +187,7 @@ class SimplifiedRequest extends ValueObject
     }
 
     /**
-     * @return array<string, array<string>>|null
+     * @return array<string, array<string|null>>|null
      */
     public function getHeaders(): ?array
     {

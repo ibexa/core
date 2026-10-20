@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\FieldType\Image\IO;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\Exception;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Image\IO\Legacy as LegacyIOService;
@@ -54,12 +55,12 @@ final class LegacyTest extends TestCase
         $path = '/tmp/file.png';
         $struct = new BinaryFileCreateStruct();
         $this->publishedIoServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('newBinaryCreateStructFromLocalFile')
             ->with($path)
             ->willReturn($struct);
 
-        $this->draftIoServiceMock->expects(self::never())->method('newBinaryCreateStructFromLocalFile');
+        $this->draftIoServiceMock->expects($this->never())->method('newBinaryCreateStructFromLocalFile');
 
         self::assertEquals(
             $struct,
@@ -71,12 +72,12 @@ final class LegacyTest extends TestCase
     {
         $path = 'path/file.png';
         $this->publishedIoServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('exists')
             ->with($path)
             ->willReturn(true);
 
-        $this->draftIoServiceMock->expects(self::never())->method('exists');
+        $this->draftIoServiceMock->expects($this->never())->method('exists');
 
         self::assertTrue(
             $this->service->exists($path)
@@ -86,7 +87,7 @@ final class LegacyTest extends TestCase
     /**
      * Standard binary file, with regular id.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testLoadBinaryFile(): void
     {
@@ -94,12 +95,12 @@ final class LegacyTest extends TestCase
         $binaryFile = new BinaryFile(['id' => $id]);
 
         $this->publishedIoServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadBinaryFile')
             ->with($id)
             ->willReturn($binaryFile);
 
-        $this->draftIoServiceMock->expects(self::never())->method('loadBinaryFile');
+        $this->draftIoServiceMock->expects($this->never())->method('loadBinaryFile');
 
         self::assertSame(
             $binaryFile,
@@ -110,7 +111,7 @@ final class LegacyTest extends TestCase
     /**
      * Load from an internal draft binary file path.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testLoadBinaryFileDraftInternalPath(): void
     {
@@ -119,12 +120,12 @@ final class LegacyTest extends TestCase
         $binaryFile = new BinaryFile(['id' => $id]);
 
         $this->draftIoServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadBinaryFileByUri')
             ->with($internalId)
             ->willReturn($binaryFile);
 
-        $this->publishedIoServiceMock->expects(self::never())->method('loadBinaryFile');
+        $this->publishedIoServiceMock->expects($this->never())->method('loadBinaryFile');
 
         self::assertSame(
             $binaryFile,
@@ -135,7 +136,7 @@ final class LegacyTest extends TestCase
     /**
      * Load from an internal published binary file path.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testLoadBinaryFilePublishedInternalPath(): void
     {
@@ -144,12 +145,12 @@ final class LegacyTest extends TestCase
         $binaryFile = new BinaryFile(['id' => $id]);
 
         $this->publishedIoServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadBinaryFileByUri')
             ->with($internalId)
             ->willReturn($binaryFile);
 
-        $this->draftIoServiceMock->expects(self::never())->method('loadBinaryFile');
+        $this->draftIoServiceMock->expects($this->never())->method('loadBinaryFile');
 
         self::assertSame(
             $binaryFile,
@@ -160,7 +161,7 @@ final class LegacyTest extends TestCase
     /**
      * Load from an external draft binary file path.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testLoadBinaryFileDraftExternalPath(): void
     {
@@ -168,13 +169,13 @@ final class LegacyTest extends TestCase
         $binaryFile = new BinaryFile(['id' => $id]);
 
         $this->publishedIoServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadBinaryFile')
             ->with($id)
             ->willThrowException(new InvalidArgumentException('binaryFileId', "Can't find file with id $id"));
 
         $this->draftIoServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadBinaryFile')
             ->with($id)
             ->willReturn($binaryFile);
@@ -186,14 +187,14 @@ final class LegacyTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testLoadBinaryFileByUriWithPublishedFile(): void
     {
         $binaryFileUri = 'var/test/images/an/image.png';
         $binaryFile = new BinaryFile(['id' => 'an/image.png']);
         $this->publishedIoServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadBinaryFileByUri')
             ->with($binaryFileUri)
             ->willReturn($binaryFile);
@@ -205,7 +206,7 @@ final class LegacyTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testLoadBinaryFileByUriWithDraftFile(): void
     {
@@ -213,13 +214,13 @@ final class LegacyTest extends TestCase
         $binaryFile = new BinaryFile(['id' => 'an/image.png']);
 
         $this->publishedIoServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadBinaryFileByUri')
             ->with($binaryFileUri)
-            ->will(self::throwException(new InvalidArgumentException('$id', "Prefix not found in {$binaryFile->id}")));
+            ->will($this->throwException(new InvalidArgumentException('$id', "Prefix not found in {$binaryFile->id}")));
 
         $this->draftIoServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadBinaryFileByUri')
             ->with($binaryFileUri)
             ->willReturn($binaryFile);
@@ -231,7 +232,7 @@ final class LegacyTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testGetFileContents(): void
     {
@@ -240,18 +241,18 @@ final class LegacyTest extends TestCase
         $binaryFile = new BinaryFile(['id' => $path]);
 
         $this->draftIoServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('exists')
             ->with($path)
             ->willReturn(false);
 
         $this->publishedIoServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getFileContents')
             ->with($binaryFile)
             ->willReturn($contents);
 
-        $this->draftIoServiceMock->expects(self::never())->method('getFileContents');
+        $this->draftIoServiceMock->expects($this->never())->method('getFileContents');
 
         self::assertSame(
             $contents,
@@ -260,7 +261,7 @@ final class LegacyTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testGetFileContentsOfDraft(): void
     {
@@ -269,18 +270,18 @@ final class LegacyTest extends TestCase
         $binaryFile = new BinaryFile(['id' => $path]);
 
         $this->draftIoServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('exists')
             ->with($path)
             ->willReturn(true);
 
         $this->draftIoServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getFileContents')
             ->with($binaryFile)
             ->willReturn($contents);
 
-        $this->publishedIoServiceMock->expects(self::never())->method('getFileContents');
+        $this->publishedIoServiceMock->expects($this->never())->method('getFileContents');
 
         self::assertSame(
             $contents,
@@ -289,7 +290,7 @@ final class LegacyTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testGetMimeType(): void
     {
@@ -297,18 +298,18 @@ final class LegacyTest extends TestCase
         $mimeType = 'image/png';
 
         $this->draftIoServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('exists')
             ->with($path)
             ->willReturn(false);
 
         $this->publishedIoServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getMimeType')
             ->with($path)
             ->willReturn($mimeType);
 
-        $this->draftIoServiceMock->expects(self::never())->method('getMimeType');
+        $this->draftIoServiceMock->expects($this->never())->method('getMimeType');
 
         self::assertSame(
             $mimeType,
@@ -317,7 +318,7 @@ final class LegacyTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testGetMimeTypeOfDraft(): void
     {
@@ -325,18 +326,18 @@ final class LegacyTest extends TestCase
         $mimeType = 'image/png';
 
         $this->draftIoServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('exists')
             ->with($path)
             ->willReturn(true);
 
         $this->draftIoServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getMimeType')
             ->with($path)
             ->willReturn($mimeType);
 
-        $this->publishedIoServiceMock->expects(self::never())->method('getMimeType');
+        $this->publishedIoServiceMock->expects($this->never())->method('getMimeType');
 
         self::assertSame(
             $mimeType,
@@ -345,7 +346,7 @@ final class LegacyTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testCreateBinaryFile(): void
     {
@@ -353,12 +354,12 @@ final class LegacyTest extends TestCase
         $binaryFile = new BinaryFile();
 
         $this->publishedIoServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('createBinaryFile')
             ->with($createStruct)
             ->willReturn($binaryFile);
 
-        $this->draftIoServiceMock->expects(self::never())->method('createBinaryFile');
+        $this->draftIoServiceMock->expects($this->never())->method('createBinaryFile');
 
         self::assertSame(
             $binaryFile,
@@ -370,12 +371,12 @@ final class LegacyTest extends TestCase
     {
         $binaryFile = new BinaryFile(['id' => 'foo']);
         $this->publishedIoServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getUri')
             ->with($binaryFile->getId())
             ->willReturn('protocol://uri');
 
-        $this->draftIoServiceMock->expects(self::never())->method('getUri');
+        $this->draftIoServiceMock->expects($this->never())->method('getUri');
 
         self::assertEquals(
             'protocol://uri',
@@ -384,18 +385,18 @@ final class LegacyTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testGetFileInputStream(): void
     {
         $binaryFile = new BinaryFile();
         $this->publishedIoServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getFileInputStream')
             ->with($binaryFile)
             ->willReturn('resource');
 
-        $this->draftIoServiceMock->expects(self::never())->method('getFileInputStream');
+        $this->draftIoServiceMock->expects($this->never())->method('getFileInputStream');
 
         self::assertEquals(
             'resource',
@@ -404,34 +405,34 @@ final class LegacyTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testDeleteBinaryFile(): void
     {
         $binaryFile = new BinaryFile();
         $this->publishedIoServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('deleteBinaryFile')
             ->with($binaryFile);
 
-        $this->draftIoServiceMock->expects(self::never())->method('deleteBinaryFile');
+        $this->draftIoServiceMock->expects($this->never())->method('deleteBinaryFile');
 
         $this->service->deleteBinaryFile($binaryFile);
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testNewBinaryCreateStructFromUploadedFile(): void
     {
         $struct = new BinaryFileCreateStruct();
         $this->publishedIoServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('newBinaryCreateStructFromUploadedFile')
             ->with([])
             ->willReturn($struct);
 
-        $this->draftIoServiceMock->expects(self::never())->method('newBinaryCreateStructFromUploadedFile');
+        $this->draftIoServiceMock->expects($this->never())->method('newBinaryCreateStructFromUploadedFile');
 
         self::assertEquals(
             $struct,

@@ -11,6 +11,7 @@ use Ibexa\Bundle\Core\EventListener\LocaleListener;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,19 +22,19 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class LocaleListenerTest extends TestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Locale\LocaleConverterInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var LocaleConverterInterface|MockObject */
     private $localeConverter;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ConfigResolverInterface|MockObject */
     private $configResolver;
 
-    /** @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ConfigResolverInterface|MockObject */
     private $requestStack;
 
     protected function setUp(): void
     {
         $parameterBagMock = $this->createMock(ParameterBag::class);
-        $parameterBagMock->expects(self::never())->method(self::anything());
+        $parameterBagMock->expects($this->never())->method(self::anything());
 
         $requestMock = $this->createMock(Request::class);
         $requestMock->attributes = $parameterBagMock;
@@ -44,19 +45,22 @@ class LocaleListenerTest extends TestCase
     }
 
     #[DataProvider('onKernelRequestProvider')]
-    public function testOnKernelRequest(array $configuredLanguages, array $convertedLocalesValueMap, $expectedLocale): void
-    {
+    public function testOnKernelRequest(
+        array $configuredLanguages,
+        array $convertedLocalesValueMap,
+        $expectedLocale
+    ): void {
         $this->configResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getParameter')
             ->with('languages')
-            ->will(self::returnValue($configuredLanguages));
+            ->will($this->returnValue($configuredLanguages));
 
         $this->localeConverter
-            ->expects(self::atLeastOnce())
+            ->expects($this->atLeastOnce())
             ->method('convertToPOSIX')
             ->will(
-                self::returnValueMap($convertedLocalesValueMap)
+                $this->returnValueMap($convertedLocalesValueMap)
             );
 
         $defaultLocale = 'en';

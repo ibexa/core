@@ -81,9 +81,9 @@ class ArrayTranslatorFieldsGroupsListTest extends TestCase
     public function testUsesIdentifierIfNoTranslation(): void
     {
         $this->getTranslatorMock()
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('trans')
-            ->will(self::returnArgument(0));
+            ->will($this->returnArgument(0));
 
         $list = $this->getArrayTranslatorFieldsGroupsList();
 
@@ -108,7 +108,7 @@ class ArrayTranslatorFieldsGroupsListTest extends TestCase
     }
 
     /**
-     * @return \Symfony\Contracts\Translation\TranslatorInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @return TranslatorInterface|MockObject
      */
     private function getTranslatorMock(): MockObject
     {
@@ -122,10 +122,10 @@ class ArrayTranslatorFieldsGroupsListTest extends TestCase
     private function applyTranslationsForTranslationsMock(): void
     {
         $this->getTranslatorMock()
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('trans')
             ->will(
-                self::returnValueMap([
+                $this->returnValueMap([
                     [self::FIRST_GROUP_ID, [], 'ibexa_fields_groups', null, self::FIRST_GROUP_NAME],
                     [self::SECOND_GROUP_ID, [], 'ibexa_fields_groups', null, self::SECOND_GROUP_NAME],
                 ])
@@ -135,7 +135,7 @@ class ArrayTranslatorFieldsGroupsListTest extends TestCase
     /**
      * @param array $constructorArgs
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition|\PHPUnit\Framework\MockObject\MockObject
+     * @return FieldDefinition|MockObject
      */
     private function getFieldDefinitionMock(array $constructorArgs = []): MockObject
     {

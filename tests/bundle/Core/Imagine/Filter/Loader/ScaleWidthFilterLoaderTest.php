@@ -11,14 +11,15 @@ use Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleWidthFilterLoader;
 use Imagine\Exception\InvalidArgumentException;
 use Imagine\Image\ImageInterface;
 use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ScaleWidthFilterLoaderTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $innerLoader;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleWidthFilterLoader */
+    /** @var ScaleWidthFilterLoader */
     private $loader;
 
     protected function setUp(): void
@@ -41,10 +42,10 @@ class ScaleWidthFilterLoaderTest extends TestCase
         $width = 123;
         $image = self::createStub(ImageInterface::class);
         $this->innerLoader
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('load')
             ->with($image, self::equalTo(['widen' => $width]))
-            ->will(self::returnValue($image));
+            ->will($this->returnValue($image));
 
         self::assertSame($image, $this->loader->load($image, [$width]));
     }

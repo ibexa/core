@@ -29,18 +29,18 @@ use PHPUnit\Framework\MockObject\Stub;
 
 class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTestCase
 {
-    /** @var \Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage\Gateway|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Gateway|MockObject */
     protected $gateway;
 
-    protected PathGeneratorInterface&MockObject $pathGeneratorMock;
+    protected PathGeneratorInterface & MockObject $pathGeneratorMock;
 
-    /** @var \Ibexa\Core\IO\IOServiceInterface|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var IOServiceInterface|MockObject */
     protected $ioServiceMock;
 
-    /** @var \Ibexa\Core\FieldType\BinaryBase\BinaryBaseStorage|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var BinaryBaseStorage|MockObject */
     protected $storage;
 
-    protected FileExtensionBlackListValidator&Stub $fileExtensionBlackListValidatorMock;
+    protected FileExtensionBlackListValidator & Stub $fileExtensionBlackListValidatorMock;
 
     protected function setUp(): void
     {
@@ -77,8 +77,10 @@ class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTestCase
     }
 
     #[DataProvider('providerOfFieldData')]
-    public function testStoreFieldData(VersionInfo $versionInfo, Field $field): void
-    {
+    public function testStoreFieldData(
+        VersionInfo $versionInfo,
+        Field $field
+    ): void {
         $binaryFileIdentifier = 'qwerty12345';
         $binaryFileCreateStruct = new BinaryFileCreateStruct([
             'id' => $binaryFileIdentifier,
@@ -87,18 +89,18 @@ class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTestCase
         ]);
 
         $this->ioServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('newBinaryCreateStructFromLocalFile')
             ->willReturn($binaryFileCreateStruct);
 
         $this->pathGeneratorMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getStoragePathForField')
             ->with($field, $versionInfo)
             ->willReturn('image/qwerty12345.jpg');
 
         $this->ioServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('createBinaryFile')
             ->with($binaryFileCreateStruct)
             ->willReturn(new BinaryFile(['id' => $binaryFileIdentifier, 'uri' => '/foo']));
@@ -108,8 +110,10 @@ class BinaryBaseStorageTest extends BaseCoreFieldTypeIntegrationTestCase
 
     #[Depends('testStoreFieldData')]
     #[DataProvider('providerOfFieldData')]
-    public function testCopyLegacyField(VersionInfo $versionInfo, Field $originalField): void
-    {
+    public function testCopyLegacyField(
+        VersionInfo $versionInfo,
+        Field $originalField
+    ): void {
         $field = clone $originalField;
         $field->id = 124;
         $field->versionNo = 2;

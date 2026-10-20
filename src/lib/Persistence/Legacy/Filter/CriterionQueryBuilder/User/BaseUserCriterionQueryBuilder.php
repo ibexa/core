@@ -19,7 +19,7 @@ use Ibexa\Core\Persistence\TransformationProcessor;
  */
 abstract class BaseUserCriterionQueryBuilder implements CriterionQueryBuilder
 {
-    /** @var \Ibexa\Core\Persistence\TransformationProcessor */
+    /** @var TransformationProcessor */
     private $transformationProcessor;
 
     public function __construct(TransformationProcessor $transformationProcessor)

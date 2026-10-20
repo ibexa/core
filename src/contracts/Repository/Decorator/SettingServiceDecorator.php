@@ -23,13 +23,17 @@ abstract class SettingServiceDecorator implements SettingService
         $this->innerService = $innerService;
     }
 
-    public function loadSetting(string $group, string $identifier): Setting
-    {
+    public function loadSetting(
+        string $group,
+        string $identifier
+    ): Setting {
         return $this->innerService->loadSetting($group, $identifier);
     }
 
-    public function updateSetting(Setting $setting, SettingUpdateStruct $settingUpdateStruct): Setting
-    {
+    public function updateSetting(
+        Setting $setting,
+        SettingUpdateStruct $settingUpdateStruct
+    ): Setting {
         return $this->innerService->updateSetting($setting, $settingUpdateStruct);
     }
 

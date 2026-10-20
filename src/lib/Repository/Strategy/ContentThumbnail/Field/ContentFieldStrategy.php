@@ -18,11 +18,11 @@ use Traversable;
 
 final class ContentFieldStrategy implements ThumbnailStrategy
 {
-    /** @var \Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\Field\FieldTypeBasedThumbnailStrategy[] */
+    /** @var FieldTypeBasedThumbnailStrategy[] */
     private $strategies = [];
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\Field\FieldTypeBasedThumbnailStrategy[]|\Traversable $strategies
+     * @param FieldTypeBasedThumbnailStrategy[]|Traversable $strategies
      */
     public function __construct(Traversable $strategies)
     {
@@ -34,17 +34,19 @@ final class ContentFieldStrategy implements ThumbnailStrategy
     }
 
     /**
-     * @throws \Ibexa\Core\Base\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
-    public function getThumbnail(Field $field, ?VersionInfo $versionInfo = null): ?Thumbnail
-    {
+    public function getThumbnail(
+        Field $field,
+        ?VersionInfo $versionInfo = null
+    ): ?Thumbnail {
         if (!$this->hasStrategy($field->fieldTypeIdentifier)) {
             throw new NotFoundException('Field\ThumbnailStrategy', $field->fieldTypeIdentifier);
         }
 
         $fieldStrategies = $this->strategies[$field->fieldTypeIdentifier];
 
-        /** @var \Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\Field\FieldTypeBasedThumbnailStrategy $fieldStrategy */
+        /** @var FieldTypeBasedThumbnailStrategy $fieldStrategy */
         foreach ($fieldStrategies as $fieldStrategy) {
             $thumbnail = $fieldStrategy->getThumbnail($field, $versionInfo);
 
@@ -61,13 +63,15 @@ final class ContentFieldStrategy implements ThumbnailStrategy
         return !empty($this->strategies[$fieldTypeIdentifier]);
     }
 
-    public function addStrategy(string $fieldTypeIdentifier, FieldTypeBasedThumbnailStrategy $thumbnailStrategy): void
-    {
+    public function addStrategy(
+        string $fieldTypeIdentifier,
+        FieldTypeBasedThumbnailStrategy $thumbnailStrategy
+    ): void {
         $this->strategies[$fieldTypeIdentifier][] = $thumbnailStrategy;
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\Field\FieldTypeBasedThumbnailStrategy[]|\Traversable $thumbnailStrategies
+     * @param FieldTypeBasedThumbnailStrategy[]|Traversable $thumbnailStrategies
      */
     public function setStrategies(array $thumbnailStrategies): void
     {

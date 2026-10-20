@@ -17,7 +17,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\User;
  * which the version belongs to.
  *
  * @property-read string[] $names returns an array with language code keys and name values
- * @property-read \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $contentInfo calls getContentInfo()
+ * @property-read ContentInfo $contentInfo calls getContentInfo()
  * @property-read int $id the internal id of the version
  * @property-read int $versionNo the version number of this version (which only increments in scope of a single Content object)
  * @property-read \DateTime $modifiedDate the last modified date of this version
@@ -34,16 +34,16 @@ class VersionInfo extends APIVersionInfo
     /** @var string[] */
     protected $names;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo */
+    /** @var ContentInfo */
     protected $contentInfo;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\User\User */
+    /** @var User */
     protected $creator;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Language */
+    /** @var Language */
     protected $initialLanguage;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\Language[] */
+    /** @var Language[] */
     protected $languages;
 
     /**

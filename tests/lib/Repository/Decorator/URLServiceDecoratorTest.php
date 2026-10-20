@@ -20,8 +20,7 @@ class URLServiceDecoratorTest extends TestCase
 {
     protected function createDecorator(MockObject $service): URLService
     {
-        return new class($service) extends URLServiceDecorator {
-        };
+        return new class($service) extends URLServiceDecorator {};
     }
 
     protected function createServiceMock(): MockObject
@@ -36,7 +35,7 @@ class URLServiceDecoratorTest extends TestCase
 
         $parameters = [];
 
-        $serviceMock->expects(self::once())->method('createUpdateStruct')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('createUpdateStruct')->with(...$parameters);
 
         $decoratedService->createUpdateStruct(...$parameters);
     }
@@ -48,7 +47,7 @@ class URLServiceDecoratorTest extends TestCase
 
         $parameters = [self::createStub(URLQuery::class)];
 
-        $serviceMock->expects(self::once())->method('findUrls')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('findUrls')->with(...$parameters);
 
         $decoratedService->findUrls(...$parameters);
     }
@@ -64,7 +63,7 @@ class URLServiceDecoratorTest extends TestCase
             100,
         ];
 
-        $serviceMock->expects(self::once())->method('findUsages')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('findUsages')->with(...$parameters);
 
         $decoratedService->findUsages(...$parameters);
     }
@@ -76,7 +75,7 @@ class URLServiceDecoratorTest extends TestCase
 
         $parameters = [1];
 
-        $serviceMock->expects(self::once())->method('loadById')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('loadById')->with(...$parameters);
 
         $decoratedService->loadById(...$parameters);
     }
@@ -88,7 +87,7 @@ class URLServiceDecoratorTest extends TestCase
 
         $parameters = ['random_value_5ced05ce172635.77719845'];
 
-        $serviceMock->expects(self::once())->method('loadByUrl')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('loadByUrl')->with(...$parameters);
 
         $decoratedService->loadByUrl(...$parameters);
     }
@@ -103,7 +102,7 @@ class URLServiceDecoratorTest extends TestCase
             self::createStub(URLUpdateStruct::class),
         ];
 
-        $serviceMock->expects(self::once())->method('updateUrl')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('updateUrl')->with(...$parameters);
 
         $decoratedService->updateUrl(...$parameters);
     }

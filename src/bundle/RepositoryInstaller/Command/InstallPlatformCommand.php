@@ -8,12 +8,14 @@
 namespace Ibexa\Bundle\RepositoryInstaller\Command;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Schema\Table;
 use Ibexa\Bundle\RepositoryInstaller\Installer\Installer;
 use Ibexa\Contracts\Core\Container\ApiLoader\RepositoryConfigurationProviderInterface;
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException;
 use Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface;
 use LogicException;
 use Psr\Cache\CacheItemPoolInterface;
+use Sensio\Bundle\DistributionBundle\Composer\ScriptHandler;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -43,7 +45,7 @@ final class InstallPlatformCommand extends Command
 
     private string $environment;
 
-    /** @var \Symfony\Component\DependencyInjection\ServiceLocator<\Ibexa\Bundle\RepositoryInstaller\Installer\Installer> */
+    /** @var ServiceLocator<Installer> */
     private ServiceLocator $installers;
 
     private RepositoryConfigurationProviderInterface $repositoryConfigurationProvider;
@@ -51,7 +53,7 @@ final class InstallPlatformCommand extends Command
     private SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass;
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ServiceLocator<\Ibexa\Bundle\RepositoryInstaller\Installer\Installer> $installers
+     * @param ServiceLocator<Installer> $installers
      */
     public function __construct(
         Connection $connection,
@@ -86,8 +88,10 @@ final class InstallPlatformCommand extends Command
         );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $this->output = $output;
         $this->checkPermissions();
         $this->checkCreateDatabase($output);
@@ -150,7 +154,7 @@ final class InstallPlatformCommand extends Command
      * which deliberately hides non-entity tables from
      * doctrine:schema:update) for this one listing.
      *
-     * @return \Doctrine\DBAL\Schema\Table[]
+     * @return Table[]
      */
     private function listExistingTablesUnfiltered(): array
     {
@@ -203,8 +207,10 @@ final class InstallPlatformCommand extends Command
      *
      * IMPORTANT: This is done using a command because config has change, so container and all services are different.
      */
-    private function indexData(OutputInterface $output, ?string $siteaccess = null): void
-    {
+    private function indexData(
+        OutputInterface $output,
+        ?string $siteaccess = null
+    ): void {
         $output->writeln(
             sprintf('Search engine re-indexing, executing command ibexa:reindex')
         );
@@ -218,10 +224,12 @@ final class InstallPlatformCommand extends Command
     }
 
     /**
-     * @return \Ibexa\Bundle\RepositoryInstaller\Installer\Installer
+     * @return Installer
      */
-    private function getInstaller(string $type, OutputInterface $output): Installer
-    {
+    private function getInstaller(
+        string $type,
+        OutputInterface $output
+    ): Installer {
         if (!$this->installers->has($type)) {
             $output->writeln(
                 "Unknown install type '$type', available options in currently installed Ibexa package: " .
@@ -238,15 +246,18 @@ final class InstallPlatformCommand extends Command
      *
      * Typically useful when configuration has changed, or you are outside of Symfony context (Composer commands).
      *
-     * Based on {@see \Sensio\Bundle\DistributionBundle\Composer\ScriptHandler::executeCommand}.
+     * Based on {@see ScriptHandler::executeCommand}.
      *
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param OutputInterface $output
      * @param string $cmd Ibexa command to execute, like 'ezplatform:solr_create_index'
      *               Escape any user provided arguments, like: 'assets:install '.escapeshellarg($webDir)
      * @param int $timeout
      */
-    private function executeCommand(OutputInterface $output, $cmd, $timeout = 300): void
-    {
+    private function executeCommand(
+        OutputInterface $output,
+        $cmd,
+        $timeout = 300
+    ): void {
         $phpFinder = new PhpExecutableFinder();
         if (!$phpPath = $phpFinder->find(false)) {
             throw new \RuntimeException('The php executable could not be found. Add it to your PATH environment variable and try again');
@@ -286,7 +297,12 @@ final class InstallPlatformCommand extends Command
             $timeout
         );
 
-        $process->run(static function ($type, $buffer) use ($output): void { $output->write($buffer, false); });
+        $process->run(static function (
+            $type,
+            $buffer
+        ) use ($output): void {
+            $output->write($buffer, false);
+        });
         $exitCode = $process->getExitCode() ?? 0;
         if ($exitCode !== self::SUCCESS) {
             throw new \RuntimeException(sprintf('An error occurred when executing the "%s" command.', escapeshellarg($cmd)));

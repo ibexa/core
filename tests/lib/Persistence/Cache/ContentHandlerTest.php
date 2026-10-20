@@ -105,6 +105,7 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTestCase
             ['load', [2, 1], 'ibx-c-2-1-' . ContentHandler::ALL_TRANSLATIONS_KEY, null, null, [['content', [], true]], ['ibx-c'], $content],
             ['load', [2, 1, ['eng-GB', 'eng-US']], 'ibx-c-2-1-eng-GB|eng-US', null, null, [['content', [], true]], ['ibx-c'], $content],
             ['load', [2], 'ibx-c-2-' . ContentHandler::ALL_TRANSLATIONS_KEY, null, null, [['content', [], true]], ['ibx-c'], $content],
+            ['load', [2, 0], 'ibx-c-2-0-' . ContentHandler::ALL_TRANSLATIONS_KEY, null, null, [['content', [], true]], ['ibx-c'], $content],
             ['load', [2, null, ['eng-GB', 'eng-US']], 'ibx-c-2-eng-GB|eng-US', null, null, [['content', [], true]], ['ibx-c'], $content],
             ['loadContentList', [[2]], 'ibx-c-2-' . ContentHandler::ALL_TRANSLATIONS_KEY, null, null, [['content', [], true]], ['ibx-c'], [2 => $content], true],
             ['loadContentList', [[5], ['eng-GB', 'eng-US']], 'ibx-c-5-eng-GB|eng-US', null, null, [['content', [], true]], ['ibx-c'], [5 => $content], true],
@@ -114,6 +115,7 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTestCase
             ['loadRelation', [66], 'ibx-re-66', null, null, [['relation', [66], true]], ['ibx-re-66'], new SPIRelation()],
             ['loadVersionInfo', [2, 1], 'ibx-cvi-2-1', null, null, [['content_version_info', [2], true]], ['ibx-cvi-2'], $version],
             ['loadVersionInfo', [2], 'ibx-cvi-2', null, null, [['content_version_info', [2], true]], ['ibx-cvi-2'], $version],
+            ['loadVersionInfo', [2, 0], 'ibx-cvi-2-0', null, null, [['content_version_info', [2], true]], ['ibx-cvi-2'], $version],
             ['listVersions', [2], 'ibx-c-2-vl', null, null, [['content_version_list', [2], true]], ['ibx-c-2-vl'], [$version]],
             ['loadVersionInfoList', [[2]], 'ibx-cvi-2', null, null, [['content_version_info', [], true]], ['ibx-cvi'], [2 => $version], true],
         ];
@@ -438,16 +440,16 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTestCase
 
     public function testDeleteContent(): void
     {
-        $this->loggerMock->expects(self::once())->method('logCall');
+        $this->loggerMock->expects($this->once())->method('logCall');
 
         $innerHandlerMock = $this->createMock(SPIContentHandler::class);
         $this->persistenceHandlerMock
-            ->expects(self::exactly(2))
+            ->expects($this->exactly(2))
             ->method('contentHandler')
             ->willReturn($innerHandlerMock);
 
         $innerHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadReverseRelations')
             ->with(2, RelationType::FIELD->value | RelationType::ASSET->value)
             ->willReturn(
@@ -457,15 +459,15 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTestCase
             );
 
         $innerHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('deleteContent')
             ->with(2)
             ->willReturn(true);
 
         $this->cacheMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('deleteItem');
-        $matcher = self::exactly(2);
+        $matcher = $this->exactly(2);
 
         $this->cacheIdentifierGeneratorMock
             ->expects($matcher)
@@ -489,7 +491,7 @@ class ContentHandlerTest extends AbstractInMemoryCacheHandlerTestCase
             });
 
         $this->cacheMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('invalidateTags')
             ->with(['c-42', 'c-2']);
 

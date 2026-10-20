@@ -17,13 +17,14 @@ use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
 use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 
 #[CoversClass(SectionIdentifierMatcher::class)]
 #[CoversClass(MultipleValued::class)]
 #[CoversClass(RepositoryAware::class)]
 class SectionTest extends BaseTestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Identifier\Section */
+    /** @var SectionIdentifierMatcher */
     private $matcher;
 
     protected function setUp(): void
@@ -37,15 +38,15 @@ class SectionTest extends BaseTestCase
      *
      * @param string $sectionIdentifier
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     private function generateRepositoryMockForSectionIdentifier($sectionIdentifier)
     {
         $sectionServiceMock = $this->createMock(SectionService::class);
-        $sectionServiceMock->expects(self::once())
+        $sectionServiceMock->expects($this->once())
             ->method('loadSection')
             ->will(
-                self::returnValue(
+                $this->returnValue(
                     $this
                         ->getMockBuilder(Section::class)
                         ->setConstructorArgs(
@@ -59,13 +60,13 @@ class SectionTest extends BaseTestCase
 
         $repository = $this->getRepositoryMock();
         $repository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getSectionService')
-            ->will(self::returnValue($sectionServiceMock));
+            ->will($this->returnValue($sectionServiceMock));
         $repository
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getPermissionResolver')
-            ->will(self::returnValue($this->getPermissionResolverMock()));
+            ->will($this->returnValue($this->getPermissionResolverMock()));
 
         return $repository;
     }
@@ -75,17 +76,20 @@ class SectionTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchSectionProvider')]
-    public function testMatchLocation($matchingConfig, string $sectionIdentifier, $expectedResult): void
-    {
+    public function testMatchLocation(
+        $matchingConfig,
+        string $sectionIdentifier,
+        $expectedResult
+    ): void {
         $this->matcher->setRepository($this->generateRepositoryMockForSectionIdentifier($sectionIdentifier));
         $this->matcher->setMatchingConfig($matchingConfig);
 
         $location = $this->getLocationMock();
         $location
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getContentInfo')
             ->will(
-                self::returnValue(
+                $this->returnValue(
                     $this->getContentInfoMock(['sectionId' => 1])
                 )
             );
@@ -130,8 +134,11 @@ class SectionTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchSectionProvider')]
-    public function testMatchContentInfo($matchingConfig, string $sectionIdentifier, $expectedResult): void
-    {
+    public function testMatchContentInfo(
+        $matchingConfig,
+        string $sectionIdentifier,
+        $expectedResult
+    ): void {
         $this->matcher->setRepository($this->generateRepositoryMockForSectionIdentifier($sectionIdentifier));
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame(

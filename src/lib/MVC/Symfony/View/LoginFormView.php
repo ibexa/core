@@ -15,7 +15,7 @@ final class LoginFormView extends BaseView
     /** @var string */
     private $lastUsername;
 
-    /** @var \Symfony\Component\Security\Core\Exception\AuthenticationException|null */
+    /** @var AuthenticationException|null */
     private $lastAuthenticationException;
 
     public function getLastUsername(): ?string

@@ -28,7 +28,7 @@ class PlaceholderAliasGeneratorConfiguratorTest extends TestCase
     {
         $configResolver = $this->createMock(ConfigResolverInterface::class);
         $configResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getParameter')
             ->with('io.binarydata_handler')
             ->willReturn(self::BINARY_HANDLER_NAME);
@@ -37,7 +37,7 @@ class PlaceholderAliasGeneratorConfiguratorTest extends TestCase
 
         $providerRegistry = $this->createMock(PlaceholderProviderRegistry::class);
         $providerRegistry
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getProvider')
             ->with(self::PROVIDER_TYPE)
             ->willReturn($provider);
@@ -51,7 +51,7 @@ class PlaceholderAliasGeneratorConfiguratorTest extends TestCase
 
         $generator = $this->createMock(PlaceholderAliasGenerator::class);
         $generator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setPlaceholderProvider')
             ->with($provider, self::PROVIDER_OPTIONS);
 

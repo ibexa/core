@@ -29,8 +29,10 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
     }
 
     #[DataProvider('provideDescribedServiceToTagName')]
-    public function testAddHandlers(string $serviceId, string $tag): void
-    {
+    public function testAddHandlers(
+        string $serviceId,
+        string $tag
+    ): void {
         $this->setDefinition(
             $serviceId,
             new Definition()
@@ -50,8 +52,10 @@ class CriteriaConverterPassTest extends AbstractCompilerPassTestCase
     }
 
     #[DataProvider('provideDescribedServiceToTagName')]
-    public function testAddContentHandlersWithPriority(string $serviceId, string $tag): void
-    {
+    public function testAddContentHandlersWithPriority(
+        string $serviceId,
+        string $tag
+    ): void {
         $this->setDefinition(
             $serviceId,
             new Definition()

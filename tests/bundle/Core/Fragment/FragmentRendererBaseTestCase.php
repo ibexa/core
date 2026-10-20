@@ -42,7 +42,7 @@ abstract class FragmentRendererBaseTestCase extends TestCase
         $options = ['foo' => 'bar'];
         $expectedReturn = new Response('/_fragment?foo=bar');
         $this->innerRenderer
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('render')
             ->with($reference, $request, $options)
             ->willReturn($expectedReturn)

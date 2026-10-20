@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as SPITypeHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\TransformationProcessor;
 use Ibexa\Core\Search\Legacy\Content\FullTextData;
+use Ibexa\Core\Search\Legacy\Content\FullTextValue;
 use Ibexa\Core\Search\Legacy\Content\WordIndexer\Gateway;
 use Ibexa\Core\Search\Legacy\Content\WordIndexer\Repository\SearchIndex;
 
@@ -27,7 +28,7 @@ class DoctrineDatabase extends Gateway
      */
     public const DB_INT_MAX = 2147483647;
 
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     protected $connection;
 
     /**
@@ -35,7 +36,7 @@ class DoctrineDatabase extends Gateway
      *
      * Need this for being able to pick fields that are searchable.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler
+     * @var SPITypeHandler
      */
     protected $typeHandler;
 
@@ -44,7 +45,7 @@ class DoctrineDatabase extends Gateway
      *
      * Need this for being able to transform text to searchable value
      *
-     * @var \Ibexa\Core\Persistence\TransformationProcessor
+     * @var TransformationProcessor
      */
     protected $transformationProcessor;
 
@@ -53,11 +54,11 @@ class DoctrineDatabase extends Gateway
      *
      * Need this for queries on ezsearch* tables
      *
-     * @var \Ibexa\Core\Search\Legacy\Content\WordIndexer\Repository\SearchIndex
+     * @var SearchIndex
      */
     protected $searchIndex;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator */
+    /** @var MaskGenerator */
     private $languageMaskGenerator;
 
     /**
@@ -90,7 +91,7 @@ class DoctrineDatabase extends Gateway
      *
      * @see https://github.com/ezsystems/ezpublish-legacy/blob/master/kernel/search/plugins/ezsearchengine/ezsearchengine.php#L45
      *
-     * @param \Ibexa\Core\Search\Legacy\Content\FullTextData $fullTextData
+     * @param FullTextData $fullTextData
      */
     public function index(FullTextData $fullTextData)
     {
@@ -103,7 +104,7 @@ class DoctrineDatabase extends Gateway
         // Remove previously indexed content if exists to avoid keeping in index removed field values
         $this->remove($fullTextData->id);
         foreach ($fullTextData->values as $fullTextValue) {
-            /** @var \Ibexa\Core\Search\Legacy\Content\FullTextValue $fullTextValue */
+            /** @var FullTextValue $fullTextValue */
             if (is_numeric(trim($fullTextValue->value))) {
                 $integerValue = (int)$fullTextValue->value;
                 if ($integerValue > self::DB_INT_MAX) {
@@ -175,7 +176,7 @@ class DoctrineDatabase extends Gateway
      * a limited set of FullTextData objects. Amount you have memory for depends on server, size
      * of FullTextData objects & PHP version.
      *
-     * @param \Ibexa\Core\Search\Legacy\Content\FullTextData[] $fullTextBulkData
+     * @param FullTextData[] $fullTextBulkData
      */
     public function bulkIndex(array $fullTextBulkData)
     {
@@ -196,8 +197,10 @@ class DoctrineDatabase extends Gateway
      *
      * @return bool
      */
-    public function remove($contentId, $versionId = null): bool
-    {
+    public function remove(
+        $contentId,
+        $versionId = null
+    ): bool {
         $doDelete = false;
         $this->connection->beginTransaction();
         // fetch all the words and decrease the object count on all the words
@@ -230,15 +233,19 @@ class DoctrineDatabase extends Gateway
      *
      * @see https://github.com/ezsystems/ezpublish-legacy/blob/master/kernel/search/plugins/ezsearchengine/ezsearchengine.php#L255
      *
-     * @param \Ibexa\Core\Search\Legacy\Content\FullTextData $fullTextData
+     * @param FullTextData $fullTextData
      * @param array $indexArray
      * @param array $wordIDArray
      * @param int $placement
      *
      * @return int last placement
      */
-    private function indexWords(FullTextData $fullTextData, array $indexArray, array $wordIDArray, $placement = 0)
-    {
+    private function indexWords(
+        FullTextData $fullTextData,
+        array $indexArray,
+        array $wordIDArray,
+        $placement = 0
+    ) {
         $contentId = $fullTextData->id;
 
         $prevWordId = 0;

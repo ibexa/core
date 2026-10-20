@@ -17,7 +17,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 final class ContentFieldValidationExceptionTest extends TestCase
 {
     /**
-     * @see \Ibexa\Core\Base\Exceptions\ContentFieldValidationException::MAX_MESSAGES_NUMBER
+     * @see ContentFieldValidationException::MAX_MESSAGES_NUMBER
      */
     private const int MAX_MESSAGES_NUMBER = 32;
 

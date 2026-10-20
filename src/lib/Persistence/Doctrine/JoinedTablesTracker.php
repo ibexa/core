@@ -17,7 +17,7 @@ use WeakMap;
  */
 final class JoinedTablesTracker
 {
-    /** @var \WeakMap<QueryBuilder, array<string, true>> */
+    /** @var WeakMap<QueryBuilder, array<string, true>> */
     private WeakMap $joinedTablesByQueryBuilder;
 
     public function __construct()
@@ -30,8 +30,10 @@ final class JoinedTablesTracker
      *
      * @return bool true if the table was not already joined (i.e. the caller still needs to perform the join)
      */
-    public function markTableAsJoined(QueryBuilder $queryBuilder, string $tableIdentifier): bool
-    {
+    public function markTableAsJoined(
+        QueryBuilder $queryBuilder,
+        string $tableIdentifier
+    ): bool {
         $joined = $this->getJoinedTables($queryBuilder);
         if (isset($joined[$tableIdentifier])) {
             return false;

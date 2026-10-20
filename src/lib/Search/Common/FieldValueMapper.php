@@ -8,6 +8,7 @@
 namespace Ibexa\Core\Search\Common;
 
 use Ibexa\Contracts\Core\Search\Field;
+use Ibexa\Contracts\Core\Search\FieldType;
 
 /**
  * Maps raw field values to something search engine can understand.
@@ -16,14 +17,14 @@ use Ibexa\Contracts\Core\Search\Field;
  * implementation, meaning engines should override common implementation
  * as needed, but the same input should be handled across engines.
  *
- * @see \Ibexa\Contracts\Core\Search\FieldType
+ * @see FieldType
  */
 abstract class FieldValueMapper
 {
     /**
      * Check if field can be mapped.
      *
-     * @param \Ibexa\Contracts\Core\Search\Field $field
+     * @param Field $field
      *
      * @return bool
      */
@@ -32,7 +33,7 @@ abstract class FieldValueMapper
     /**
      * Map field value to a proper search engine representation.
      *
-     * @param \Ibexa\Contracts\Core\Search\Field $field
+     * @param Field $field
      *
      * @return mixed|null Returns null on empty value
      */

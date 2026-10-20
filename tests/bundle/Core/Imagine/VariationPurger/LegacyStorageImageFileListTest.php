@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(LegacyStorageImageFileList::class)]
 final class LegacyStorageImageFileListTest extends TestCase
 {
-    protected ImageFileRowReader&MockObject $rowReaderMock;
+    protected ImageFileRowReader & MockObject $rowReaderMock;
 
     protected LegacyStorageImageFileList $fileList;
 
@@ -78,14 +78,14 @@ final class LegacyStorageImageFileListTest extends TestCase
 
         $index = 0;
         $this->rowReaderMock
-            ->expects(self::exactly($expectedIteratorInvocationsCount))
+            ->expects($this->exactly($expectedIteratorInvocationsCount))
             ->method('getRow')
             ->willReturnCallback(static function () use (&$index, $fileList): ?string {
                 return $fileList[$index++] ?? null;
             });
 
         $this->rowReaderMock
-            ->expects(self::exactly($expectedIteratorInvocationsCount))
+            ->expects($this->exactly($expectedIteratorInvocationsCount))
             ->method('getCount')
             ->willReturn($fileListCount);
     }

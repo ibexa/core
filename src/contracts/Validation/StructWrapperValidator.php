@@ -36,8 +36,11 @@ final class StructWrapperValidator implements ValidatorInterface
         return $this->inner->hasMetadataFor($value);
     }
 
-    public function validate(mixed $value, Constraint|array|null $constraints = null, $groups = null): ConstraintViolationListInterface
-    {
+    public function validate(
+        mixed $value,
+        Constraint | array | null $constraints = null,
+        $groups = null
+    ): ConstraintViolationListInterface {
         $result = $this->inner->validate($value, $constraints, $groups);
 
         if (!$value instanceof ValidationStructWrapperInterface) {
@@ -73,13 +76,20 @@ final class StructWrapperValidator implements ValidatorInterface
         return $unwrappedErrors;
     }
 
-    public function validateProperty(object $object, string $propertyName, $groups = null): ConstraintViolationListInterface
-    {
+    public function validateProperty(
+        object $object,
+        string $propertyName,
+        $groups = null
+    ): ConstraintViolationListInterface {
         return $this->inner->validateProperty($object, $propertyName, $groups);
     }
 
-    public function validatePropertyValue($objectOrClass, string $propertyName, $value, $groups = null): ConstraintViolationListInterface
-    {
+    public function validatePropertyValue(
+        $objectOrClass,
+        string $propertyName,
+        $value,
+        $groups = null
+    ): ConstraintViolationListInterface {
         return $this->inner->validatePropertyValue($objectOrClass, $propertyName, $value, $groups);
     }
 

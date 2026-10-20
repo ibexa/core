@@ -44,8 +44,10 @@ class FileExtensionBlackListValidator extends Validator
     /**
      * {@inheritdoc}
      */
-    public function validate(BaseValue $value, ?FieldDefinition $fieldDefinition = null): bool
-    {
+    public function validate(
+        BaseValue $value,
+        ?FieldDefinition $fieldDefinition = null
+    ): bool {
         $this->errors = [];
 
         $this->validateFileExtension($value->fileName);

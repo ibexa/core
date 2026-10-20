@@ -9,14 +9,22 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\RepositoryInstaller\Installer;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\Migrations\Query\Query;
+use Ibexa\Bundle\RepositoryInstaller\Event\Subscriber\BuildSchemaSubscriber;
+use Ibexa\Bundle\RepositoryInstaller\Migration\Exception\MigrationFailedException;
+use Ibexa\Bundle\RepositoryInstaller\Migration\ImportDataMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\InstallSchemaMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\TaggedMigrationsRunner;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationTag;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaOnlyDependencyFactory;
 use Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface;
 use Ibexa\Contracts\DoctrineSchema\DbPlatformFactoryInterface;
+use Ibexa\Contracts\DoctrineSchema\Event\SchemaBuilderEvent;
 use Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface;
 use RuntimeException;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -26,27 +34,27 @@ use Symfony\Component\Console\Helper\ProgressBar;
  */
 class CoreInstaller extends DbBasedInstaller implements Installer
 {
-    /** @var \Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface */
+    /** @var SchemaBuilderInterface */
     protected $schemaBuilder;
 
     private SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass;
 
     private DbPlatformFactoryInterface $dbPlatformFactory;
 
-    private bool $schemaBuilderEventEnabled;
+    private bool $doctrineMigrationsEnabled;
 
     private ?TaggedMigrationsRunner $taggedMigrationsRunner;
 
     /**
-     * @param \Doctrine\DBAL\Connection $db
-     * @param \Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface $schemaBuilder
+     * @param Connection $db
+     * @param SchemaBuilderInterface $schemaBuilder
      */
     public function __construct(
         Connection $db,
         SchemaBuilderInterface $schemaBuilder,
         SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass,
         DbPlatformFactoryInterface $dbPlatformFactory,
-        bool $schemaBuilderEventEnabled,
+        bool $doctrineMigrationsEnabled,
         ?TaggedMigrationsRunner $taggedMigrationsRunner = null
     ) {
         parent::__construct($db);
@@ -54,7 +62,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
         $this->schemaBuilder = $schemaBuilder;
         $this->schemaAssetsFilterBypass = $schemaAssetsFilterBypass;
         $this->dbPlatformFactory = $dbPlatformFactory;
-        $this->schemaBuilderEventEnabled = $schemaBuilderEventEnabled;
+        $this->doctrineMigrationsEnabled = $doctrineMigrationsEnabled;
         $this->taggedMigrationsRunner = $taggedMigrationsRunner;
     }
 
@@ -69,23 +77,22 @@ class CoreInstaller extends DbBasedInstaller implements Installer
     /**
      * Imports the core database schema.
      *
-     * When the "ibexa.installer.schema_builder_event.enabled" setting is enabled (the default), the schema
-     * is built by dispatching the legacy event-driven {@see \Ibexa\Contracts\DoctrineSchema\Event\SchemaBuilderEvent},
+     * By default, the schema is built by dispatching the legacy event-driven {@see SchemaBuilderEvent},
      * allowing other packages to contribute their own tables via an event subscriber.
      *
-     * Otherwise, the schema is installed by {@see TaggedMigrationsRunner}, which runs every not-yet-executed
-     * migration tagged with {@see \Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationTag::TAG}
-     * (core's own {@see \Ibexa\Bundle\RepositoryInstaller\Migration\InstallSchemaMigration} plus any other
-     * package's) via the application's Doctrine Migrations DependencyFactory.
+     * When the "ibexa.installer.doctrine_migrations" setting is enabled, the schema is installed by
+     * {@see TaggedMigrationsRunner} instead, which runs every not-yet-executed migration tagged with
+     * {@see IbexaMigrationTag::TAG} (core's own {@see InstallSchemaMigration} plus any other package's)
+     * via the application's Doctrine Migrations DependencyFactory.
      *
-     * @throws \Doctrine\DBAL\Exception
-     * @throws \RuntimeException if "ibexa.installer.schema_builder_event.enabled" is disabled but
-     *     "ibexa/doctrine-migrations" isn't installed/enabled to run the migrations-based path instead
-     * @throws \Ibexa\Bundle\RepositoryInstaller\Migration\Exception\MigrationFailedException if one of those migrations fails
+     * @throws Exception
+     * @throws RuntimeException if "ibexa.installer.doctrine_migrations" is enabled but
+     *     "ibexa/doctrine-migrations" isn't installed/enabled to run the migrations-based path
+     * @throws MigrationFailedException if one of those migrations fails
      */
     public function importSchema()
     {
-        if ($this->schemaBuilderEventEnabled) {
+        if (!$this->doctrineMigrationsEnabled) {
             $this->executeQueries($this->getQueriesFromSchemaBuilderEvent());
 
             return;
@@ -93,7 +100,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
 
         if ($this->taggedMigrationsRunner === null) {
             throw new RuntimeException(
-                'Disabling "ibexa.installer.schema_builder_event.enabled" requires the "' .
+                'Enabling "ibexa.installer.doctrine_migrations" requires the "' .
                 IbexaOnlyDependencyFactory::SERVICE_ID . '" service (provided by "ibexa/doctrine-migrations", ' .
                 'with Ibexa\Bundle\DoctrineMigrations\IbexaDoctrineMigrationsBundle registered) to be available.'
             );
@@ -107,10 +114,10 @@ class CoreInstaller extends DbBasedInstaller implements Installer
      *
      * If you wish to extend the schema, implement your own EventSubscriber.
      *
-     * @see \Ibexa\Contracts\DoctrineSchema\Event\SchemaBuilderEvent
-     * @see \Ibexa\Bundle\RepositoryInstaller\Event\Subscriber\BuildSchemaSubscriber
+     * @see SchemaBuilderEvent
+     * @see BuildSchemaSubscriber
      *
-     * @return list<\Doctrine\Migrations\Query\Query>
+     * @return list<Query>
      */
     private function getQueriesFromSchemaBuilderEvent(): array
     {
@@ -133,7 +140,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
      * Reports the queries {@see TaggedMigrationsRunner} already executed (and recorded) via the Doctrine
      * Migrations DependencyFactory.
      *
-     * @param \Doctrine\Migrations\Query\Query[] $queries
+     * @param Query[] $queries
      */
     private function reportExecutedQueries(array $queries): void
     {
@@ -148,7 +155,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
     }
 
     /**
-     * @param \Doctrine\Migrations\Query\Query[] $queries
+     * @param Query[] $queries
      */
     private function executeQueries(array $queries): void
     {
@@ -179,18 +186,18 @@ class CoreInstaller extends DbBasedInstaller implements Installer
     /**
      * Imports the core bootstrap data.
      *
-     * When the "ibexa.installer.schema_builder_event.enabled" setting is enabled (the default), this imports
-     * the DBMS-specific "cleandata.sql" file directly.
+     * By default, this imports the DBMS-specific "cleandata.sql" file directly.
      *
-     * Otherwise, this is a no-op: {@see \Ibexa\Bundle\RepositoryInstaller\Migration\ImportDataMigration} is
-     * tagged and already runs as part of {@see importSchema()}'s call to {@see TaggedMigrationsRunner}.
+     * When the "ibexa.installer.doctrine_migrations" setting is enabled, this is a no-op instead:
+     * {@see ImportDataMigration} is tagged and already runs as part of {@see importSchema()}'s call to
+     * {@see TaggedMigrationsRunner}.
      *
-     * @throws \Doctrine\DBAL\Exception
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws Exception
+     * @throws InvalidArgumentException
      */
     public function importData()
     {
-        if ($this->schemaBuilderEventEnabled) {
+        if (!$this->doctrineMigrationsEnabled) {
             $this->runQueriesFromFile($this->getKernelSQLFileForDBMS('cleandata.sql'));
         }
     }
@@ -232,7 +239,5 @@ class CoreInstaller extends DbBasedInstaller implements Installer
     /**
      * Handle optional import of binary files to var folder.
      */
-    public function importBinaries()
-    {
-    }
+    public function importBinaries() {}
 }

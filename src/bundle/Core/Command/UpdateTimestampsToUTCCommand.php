@@ -58,7 +58,7 @@ class UpdateTimestampsToUTCCommand extends Command
     /** @var string */
     private $to;
 
-    /** @var \Doctrine\DBAL\Connection */
+    /** @var Connection */
     private $connection;
 
     /** @var string */
@@ -144,11 +144,13 @@ EOT
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param InputInterface $input
+     * @param OutputInterface $output
      */
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         $iterationCount = (int) $input->getOption('iteration-count');
         $this->dryRun = $input->getOption('dry-run');
         $this->mode = $input->getOption('mode');
@@ -270,10 +272,13 @@ EOT
     /**
      * @param int $offset
      * @param int $limit
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param OutputInterface $output
      */
-    protected function processTimestamps($offset, $limit, $output)
-    {
+    protected function processTimestamps(
+        $offset,
+        $limit,
+        $output
+    ) {
         $timestampBasedFields = $this->getTimestampBasedFields($offset, $limit);
 
         $dateTimeInUTC = new DateTime();
@@ -298,8 +303,10 @@ EOT
      *
      * @return array
      */
-    protected function getTimestampBasedFields($offset, $limit)
-    {
+    protected function getTimestampBasedFields(
+        $offset,
+        $limit
+    ) {
         $query = $this->connection->createQueryBuilder();
         $query
             ->select('a.id, a.version, a.data_int')
@@ -390,12 +397,14 @@ EOT
 
     /**
      * @param string $dateTimeString
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param OutputInterface $output
      *
      * @return bool
      */
-    protected function validateDateTimeString($dateTimeString, OutputInterface $output): bool
-    {
+    protected function validateDateTimeString(
+        $dateTimeString,
+        OutputInterface $output
+    ): bool {
         try {
             new DateTime($dateTimeString);
         } catch (\Exception $exception) {
@@ -409,12 +418,14 @@ EOT
 
     /**
      * @param string $timezone
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param OutputInterface $output
      *
      * @return string
      */
-    protected function validateTimezone($timezone, OutputInterface $output)
-    {
+    protected function validateTimezone(
+        $timezone,
+        OutputInterface $output
+    ) {
         if (!$timezone) {
             $timezone = date_default_timezone_get();
             $output->writeln([
@@ -444,12 +455,14 @@ EOT
      * Return configured progress bar helper.
      *
      * @param int $maxSteps
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param OutputInterface $output
      *
-     * @return \Symfony\Component\Console\Helper\ProgressBar
+     * @return ProgressBar
      */
-    protected function getProgressBar($maxSteps, OutputInterface $output)
-    {
+    protected function getProgressBar(
+        $maxSteps,
+        OutputInterface $output
+    ) {
         $progressBar = new ProgressBar($output, $maxSteps);
         $progressBar->setFormat(
             ' %current%/%max% [%bar%] %percent:3s%% %elapsed:6s%/%estimated:-6s% %memory:6s%'

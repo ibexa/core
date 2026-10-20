@@ -8,6 +8,7 @@
 namespace Ibexa\Contracts\Core\Persistence\Content\Location\Trash;
 
 use ArrayIterator;
+use Ibexa\Contracts\Core\Persistence\Content\Location\Trashed;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 class TrashResult extends ValueObject implements \IteratorAggregate
@@ -22,7 +23,7 @@ class TrashResult extends ValueObject implements \IteratorAggregate
     /**
      * The value objects found for the query.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\Location\Trashed[]
+     * @var Trashed[]
      */
     public $items = [];
 

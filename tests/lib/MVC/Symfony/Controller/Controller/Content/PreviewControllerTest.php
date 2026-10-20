@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\MVC\Symfony\Controller\Controller\Content;
 
 use Ibexa\Contracts\Core\Repository\ContentService;
+use Ibexa\Contracts\Core\Repository\Exceptions\Exception;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
@@ -21,6 +22,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -33,27 +35,27 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 #[CoversClass(PreviewController::class)]
 final class PreviewControllerTest extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\Repository\ContentService&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ContentService&MockObject */
     protected ContentService $contentService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\LocationService&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var LocationService&MockObject */
     protected LocationService $locationService;
 
-    /** @var \Symfony\Component\HttpKernel\HttpKernelInterface&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var HttpKernelInterface&MockObject */
     protected HttpKernelInterface $httpKernel;
 
-    /** @var \Ibexa\Core\Helper\ContentPreviewHelper&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ContentPreviewHelper&MockObject */
     protected ContentPreviewHelper $previewHelper;
 
-    /** @var \Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var AuthorizationCheckerInterface&MockObject */
     protected AuthorizationCheckerInterface $authorizationChecker;
 
-    /** @var \Ibexa\Core\Helper\PreviewLocationProvider&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var PreviewLocationProvider&MockObject */
     protected PreviewLocationProvider $locationProvider;
 
-    protected CustomLocationControllerChecker&Stub $controllerChecker;
+    protected CustomLocationControllerChecker & Stub $controllerChecker;
 
-    /** @var \Psr\Log\LoggerInterface&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var LoggerInterface&MockObject */
     private LoggerInterface $logger;
 
     protected function setUp(): void
@@ -86,7 +88,7 @@ final class PreviewControllerTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testPreviewUnauthorized(): void
     {
@@ -97,7 +99,7 @@ final class PreviewControllerTest extends TestCase
         $lang = 'eng-GB';
         $versionNo = 3;
         $this->contentService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadContent')
             ->with($contentId, [$lang], $versionNo)
             ->willThrowException(new UnauthorizedException('foo', 'bar'))
@@ -107,7 +109,7 @@ final class PreviewControllerTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testPreviewCanUserFail(): void
     {
@@ -165,7 +167,7 @@ final class PreviewControllerTest extends TestCase
         $this->httpKernel->method('handle')->willThrowException(new NotFoundException('Foo Property', 'foobar'));
 
         $this->logger
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('warning')
             ->with('Location (42) not found or not available in requested language (eng-GB) when loading the preview page');
 
@@ -224,7 +226,7 @@ final class PreviewControllerTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     #[DataProvider('getDataForTestPreview')]
     public function testPreview(
@@ -332,7 +334,7 @@ final class PreviewControllerTest extends TestCase
         SiteAccess $originalSiteAccess,
         ?SiteAccess $previewSiteAccess = null
     ): void {
-        $matcher = self::exactly(2);
+        $matcher = $this->exactly(2);
         $this->previewHelper
             ->expects($matcher)
             ->method('setPreviewActive')->willReturnCallback(static function (...$parameters) use ($matcher): void {
@@ -346,24 +348,24 @@ final class PreviewControllerTest extends TestCase
         ;
 
         $this->previewHelper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setPreviewedContent')
             ->with($content)
         ;
         $this->previewHelper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setPreviewedLocation')
             ->with($location)
         ;
         $this->previewHelper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getOriginalSiteAccess')
             ->willReturn($originalSiteAccess)
         ;
 
         if ($previewSiteAccess !== null) {
             $this->previewHelper
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('changeConfigScope')
                 ->with($previewSiteAccess->name)
                 ->willReturn($previewSiteAccess)
@@ -371,7 +373,7 @@ final class PreviewControllerTest extends TestCase
         }
 
         $this->previewHelper
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('restoreConfigScope')
         ;
     }

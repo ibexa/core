@@ -14,26 +14,29 @@ use Ibexa\Contracts\Core\Persistence\ValueObject;
 /**
  * Content item Value Object - a composite of Content and Type instances.
  *
- * @property-read \Ibexa\Contracts\Core\Persistence\Content $content
- * @property-read \Ibexa\Contracts\Core\Persistence\Content\ContentInfo $contentInfo
- * @property-read \Ibexa\Contracts\Core\Persistence\Content\Type $type
+ * @property-read Content $content
+ * @property-read ContentInfo $contentInfo
+ * @property-read Type $type
  */
 final class ContentItem extends ValueObject
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Content */
+    /** @var Content */
     protected $content;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\ContentInfo */
+    /** @var ContentInfo */
     protected $contentInfo;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Type */
+    /** @var Type */
     protected $type;
 
     /**
      * @internal for internal use by Repository Storage abstraction
      */
-    public function __construct(Content $content, ContentInfo $contentInfo, Type $type)
-    {
+    public function __construct(
+        Content $content,
+        ContentInfo $contentInfo,
+        Type $type
+    ) {
         parent::__construct([]);
         $this->content = $content;
         $this->contentInfo = $contentInfo;

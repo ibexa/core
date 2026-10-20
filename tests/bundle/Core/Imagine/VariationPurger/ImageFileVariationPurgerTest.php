@@ -41,7 +41,7 @@ final class ImageFileVariationPurgerTest extends TestCase
                 'path/to/2nd/image.png',
             ]
         );
-        $matcher = self::exactly(4);
+        $matcher = $this->exactly(4);
 
         $this->pathGeneratorMock
             ->expects($matcher)
@@ -76,22 +76,22 @@ final class ImageFileVariationPurgerTest extends TestCase
         );
 
         $this->pathGeneratorMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getVariationPath')
             ->willReturn('path/to/file_large.png');
 
         $this->ioServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('exists')
             ->willReturn(true);
 
         $this->ioServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadBinaryFile')
             ->willReturn(new BinaryFile());
 
         $this->ioServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('deleteBinaryFile')
             ->with(self::isInstanceOf(BinaryFile::class));
 
@@ -105,21 +105,21 @@ final class ImageFileVariationPurgerTest extends TestCase
         );
 
         $this->pathGeneratorMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getVariationPath')
             ->willReturn('path/to/file_large.png');
 
         $this->ioServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('exists')
             ->willReturn(false);
 
         $this->ioServiceMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('loadBinaryFile');
 
         $this->ioServiceMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('deleteBinaryFile');
 
         $purger->purge(['large']);
@@ -130,8 +130,7 @@ final class ImageFileVariationPurgerTest extends TestCase
      */
     private function createPurger(array $fileList): ImageFileVariationPurger
     {
-        $imageFileList = new class($fileList) extends ArrayIterator implements ImageFileList {
-        };
+        $imageFileList = new class($fileList) extends ArrayIterator implements ImageFileList {};
 
         return new ImageFileVariationPurger($imageFileList, $this->ioServiceMock, $this->pathGeneratorMock);
     }

@@ -8,38 +8,38 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 
 return SearchResult::__set_state([
-   'searchHits' => [
-    0 => SearchHit::__set_state([
-       'valueObject' => [
-        'id' => 12,
-        'title' => 'Administrator users',
-      ],
-       'score' => 1,
-       'index' => null,
-       'highlight' => null,
-    ]),
-    1 => SearchHit::__set_state([
-       'valueObject' => [
-        'id' => 13,
-        'title' => 'Editors',
-      ],
-       'score' => 1,
-       'index' => null,
-       'highlight' => null,
-    ]),
-    2 => SearchHit::__set_state([
-       'valueObject' => [
-        'id' => 42,
-        'title' => 'Anonymous users',
-      ],
-       'score' => 1,
-       'index' => null,
-       'highlight' => null,
-    ]),
-  ],
-   'spellcheck' => null,
-   'time' => 1,
-   'timedOut' => null,
-   'maxScore' => 1,
-   'totalCount' => 3,
+    'searchHits' => [
+        0 => SearchHit::__set_state([
+            'valueObject' => [
+                'id' => 12,
+                'title' => 'Administrator users',
+            ],
+            'score' => 1,
+            'index' => null,
+            'highlight' => null,
+        ]),
+        1 => SearchHit::__set_state([
+            'valueObject' => [
+                'id' => 13,
+                'title' => 'Editors',
+            ],
+            'score' => 1,
+            'index' => null,
+            'highlight' => null,
+        ]),
+        2 => SearchHit::__set_state([
+            'valueObject' => [
+                'id' => 42,
+                'title' => 'Anonymous users',
+            ],
+            'score' => 1,
+            'index' => null,
+            'highlight' => null,
+        ]),
+    ],
+    'spellcheck' => null,
+    'time' => 1,
+    'timedOut' => null,
+    'maxScore' => 1,
+    'totalCount' => 3,
 ]);

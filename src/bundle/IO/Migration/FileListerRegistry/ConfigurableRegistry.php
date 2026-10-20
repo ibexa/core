@@ -18,18 +18,16 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 final class ConfigurableRegistry implements FileListerRegistry
 {
     /**
-     * @param \Ibexa\Bundle\IO\Migration\FileListerInterface[] $registry Hash of FileListerInterfaces, with identifier string as key.
+     * @param FileListerInterface[] $registry Hash of FileListerInterfaces, with identifier string as key.
      */
-    public function __construct(private readonly array $registry = [])
-    {
-    }
+    public function __construct(private readonly array $registry = []) {}
 
     /**
      * Returns the FileListerInterface matching the argument.
      *
      * @param string $identifier An identifier string.
      *
-     * @return \Ibexa\Bundle\IO\Migration\FileListerInterface The FileListerInterface given by the identifier.
+     * @return FileListerInterface The FileListerInterface given by the identifier.
      *
      *@throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException If no FileListerInterface exists with this identifier
      */

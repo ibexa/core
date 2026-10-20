@@ -14,11 +14,11 @@ use Ibexa\Contracts\Core\Persistence\Handler as SPIPersistenceHandler;
  */
 class AbstractPersistenceLimitationType
 {
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler */
+    /** @var SPIPersistenceHandler */
     protected $persistence;
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\Handler $persistence
+     * @param SPIPersistenceHandler $persistence
      */
     public function __construct(SPIPersistenceHandler $persistence)
     {

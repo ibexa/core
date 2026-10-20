@@ -8,6 +8,7 @@
 namespace Ibexa\Core\FieldType\Validator;
 
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Core\FieldType\BinaryFile\Value;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\FieldType\Validator;
 use Ibexa\Core\FieldType\Value as BaseValue;
@@ -64,12 +65,14 @@ class FileSizeValidator extends Validator
     /**
      * Checks if $value->file has the appropriate size.
      *
-     * @param \Ibexa\Core\FieldType\BinaryFile\Value $value
+     * @param Value $value
      *
      * @return bool
      */
-    public function validate(BaseValue $value, ?FieldDefinition $fieldDefinition = null): bool
-    {
+    public function validate(
+        BaseValue $value,
+        ?FieldDefinition $fieldDefinition = null
+    ): bool {
         $isValid = true;
 
         if ($this->constraints['maxFileSize'] !== false && $value->file->size > $this->constraints['maxFileSize']) {

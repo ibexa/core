@@ -20,7 +20,7 @@ final class ContentValueResolverTest extends TestCase
 {
     private ContentValueResolver $resolver;
 
-    private MockObject&ContentService $contentServiceMock;
+    private MockObject & ContentService $contentServiceMock;
 
     protected function setUp(): void
     {
@@ -37,7 +37,7 @@ final class ContentValueResolverTest extends TestCase
         $mockContent = self::createStub(Content::class);
 
         $this->contentServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadContent')
             ->with(123)
             ->willReturn($mockContent);
@@ -54,7 +54,7 @@ final class ContentValueResolverTest extends TestCase
         $argumentMetadata->method('getType')->willReturn(Content::class);
 
         $this->contentServiceMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('loadContent');
 
         $result = iterator_to_array($this->resolver->resolve($request, $argumentMetadata));
@@ -69,7 +69,7 @@ final class ContentValueResolverTest extends TestCase
         $argumentMetadata->method('getType')->willReturn('OtherClass');
 
         $this->contentServiceMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('loadContent');
 
         $result = iterator_to_array($this->resolver->resolve($request, $argumentMetadata));

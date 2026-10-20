@@ -8,6 +8,9 @@ declare(strict_types=1);
 
 namespace Ibexa\Contracts\Core\Repository;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\URL\SearchResult;
 use Ibexa\Contracts\Core\Repository\Values\URL\URL;
 use Ibexa\Contracts\Core\Repository\Values\URL\URLQuery;
@@ -22,18 +25,18 @@ interface URLService
     /**
      * Instantiates a new URL update struct.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\URL\URLUpdateStruct
+     * @return URLUpdateStruct
      */
     public function createUpdateStruct(): URLUpdateStruct;
 
     /**
      * Find URLs.
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws UnauthorizedException
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\URL\URLQuery $query
+     * @param URLQuery $query
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\URL\SearchResult
+     * @return SearchResult
      */
     public function findUrls(URLQuery $query): SearchResult;
 
@@ -42,23 +45,27 @@ interface URLService
      *
      * Content is filter by user permissions.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\URL\URL $url
+     * @param URL $url
      * @param int $offset
      * @param int $limit
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\URL\UsageSearchResult
+     * @return UsageSearchResult
      */
-    public function findUsages(URL $url, int $offset = 0, int $limit = -1): UsageSearchResult;
+    public function findUsages(
+        URL $url,
+        int $offset = 0,
+        int $limit = -1
+    ): UsageSearchResult;
 
     /**
      * Load single URL (by ID).
      *
      * @param int $id ID of URL
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\URL\URL
+     * @return URL
      */
     public function loadById(int $id): URL;
 
@@ -67,24 +74,27 @@ interface URLService
      *
      * @param string $url URL
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\URL\URL
+     * @return URL
      */
     public function loadByUrl(string $url): URL;
 
     /**
      * Updates URL.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\URL\URL $url
-     * @param \Ibexa\Contracts\Core\Repository\Values\URL\URLUpdateStruct $struct
+     * @param URL $url
+     * @param URLUpdateStruct $struct
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException if the url already exists
+     * @throws NotFoundException
+     * @throws UnauthorizedException
+     * @throws InvalidArgumentException if the url already exists
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\URL\URL
+     * @return URL
      */
-    public function updateUrl(URL $url, URLUpdateStruct $struct): URL;
+    public function updateUrl(
+        URL $url,
+        URLUpdateStruct $struct
+    ): URL;
 }

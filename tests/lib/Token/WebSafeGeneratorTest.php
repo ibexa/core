@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Token\TokenGeneratorInterface;
 use Ibexa\Core\Token\WebSafeGenerator;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(WebSafeGenerator::class)]
@@ -19,7 +20,7 @@ final class WebSafeGeneratorTest extends TestCase
 {
     private TokenGeneratorInterface $tokenGenerator;
 
-    /** @var \Ibexa\Contracts\Core\Token\TokenGeneratorInterface&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var TokenGeneratorInterface&MockObject */
     private TokenGeneratorInterface $randomBytesTokenGenerator;
 
     protected function setUp(): void
@@ -94,7 +95,7 @@ final class WebSafeGeneratorTest extends TestCase
         string $token
     ): void {
         $this->randomBytesTokenGenerator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('generateToken')
             ->with($length)
             ->willReturn($token);

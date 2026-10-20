@@ -11,6 +11,7 @@ namespace Ibexa\Tests\Core\Validation;
 use Ibexa\Contracts\Core\Validation\StructWrapperValidator;
 use Ibexa\Contracts\Core\Validation\ValidationStructWrapperInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use Symfony\Component\Validator\ConstraintViolation;
@@ -22,7 +23,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 #[CoversClass(StructWrapperValidator::class)]
 final class StructWrapperValidatorTest extends TestCase
 {
-    /** @var \Symfony\Component\Validator\Validator\ValidatorInterface&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ValidatorInterface&MockObject */
     private ValidatorInterface $validator;
 
     private StructWrapperValidator $structValidator;
@@ -40,7 +41,7 @@ final class StructWrapperValidatorTest extends TestCase
         $initialErrors->method('count')->willReturn(0);
 
         $this->validator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('validate')
             ->with(
                 $struct,
@@ -84,7 +85,7 @@ final class StructWrapperValidatorTest extends TestCase
         $wrapper = $this->createMock(ValidationStructWrapperInterface::class);
 
         $struct = new stdClass();
-        $wrapper->expects(self::once())
+        $wrapper->expects($this->once())
             ->method('getStruct')
             ->willReturn($struct);
 
@@ -115,7 +116,7 @@ final class StructWrapperValidatorTest extends TestCase
         $object = new stdClass();
         $propertyName = 'foobar';
         $group = ['Default', 'group'];
-        $this->validator->expects(self::once())
+        $this->validator->expects($this->once())
             ->method('validateProperty')
             ->with($object, $propertyName, $group)
             ->willReturn($initialErrors);
@@ -132,7 +133,7 @@ final class StructWrapperValidatorTest extends TestCase
         $propertyName = 'foobar';
         $value = 'someValue';
         $group = ['Default', 'group'];
-        $this->validator->expects(self::once())
+        $this->validator->expects($this->once())
             ->method('validatePropertyValue')
             ->with($object, $propertyName, $value, $group)
             ->willReturn($initialErrors);

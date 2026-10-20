@@ -48,7 +48,7 @@ final class RepositoryUserAuthenticationSubscriberTest extends TestCase
         $apiUser = new APIUser();
         $user = $this->createMock(User::class);
         $user
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getAPIUser')
             ->willReturn($apiUser);
         $user
@@ -57,7 +57,7 @@ final class RepositoryUserAuthenticationSubscriberTest extends TestCase
 
         $userService = $this->createMock(UserService::class);
         $userService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('checkUserCredentials')
             ->with($apiUser, 'my_password')
             ->willThrowException(
@@ -94,7 +94,7 @@ final class RepositoryUserAuthenticationSubscriberTest extends TestCase
     {
         $logger = $this->createMock(LoggerInterface::class);
         $logger
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('warning')
             ->with('Authentication took longer than the configured constant time. Consider increasing the value of ' . RepositoryUserAuthenticationSubscriber::CONSTANT_AUTH_TIME_SETTING);
 
@@ -107,7 +107,7 @@ final class RepositoryUserAuthenticationSubscriberTest extends TestCase
     public function testAuthenticateConstantTimeDisabled(): void
     {
         $logger = $this->createMock(LoggerInterface::class);
-        $logger->expects(self::never())->method('warning');
+        $logger->expects($this->never())->method('warning');
 
         $this->getSubscriber(null, 0.0, $logger)->validateRepositoryUser(
             $this->getCheckPassportEvent()
@@ -117,10 +117,10 @@ final class RepositoryUserAuthenticationSubscriberTest extends TestCase
     public function testSkippingRepositoryUserValidationForSelfValidatingPassport(): void
     {
         $user = $this->createMock(User::class);
-        $user->expects(self::never())->method('getAPIUser');
+        $user->expects($this->never())->method('getAPIUser');
 
         $userService = $this->createMock(UserService::class);
-        $userService->expects(self::never())->method('checkUserCredentials');
+        $userService->expects($this->never())->method('checkUserCredentials');
 
         $selfValidatingPassport = new SelfValidatingPassport(new UserBadge('foo'));
 
@@ -148,7 +148,7 @@ final class RepositoryUserAuthenticationSubscriberTest extends TestCase
     }
 
     private function getCheckPassportEvent(
-        (User & MockObject)|null $user = null,
+        (User & MockObject) | null $user = null,
         ?Passport $passport = null,
     ): CheckPassportEvent {
         $user = $user ?? $this->createMock(User::class);
@@ -156,7 +156,7 @@ final class RepositoryUserAuthenticationSubscriberTest extends TestCase
         if ($passport === null) {
             $userProvider = $this->createMock(User\APIUserProviderInterface::class);
             $userProvider
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('loadUserByIdentifier')
                 ->willReturn($user);
 

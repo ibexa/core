@@ -8,8 +8,10 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion as Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 use Ibexa\Core\Persistence\Legacy\Bookmark\Gateway\DoctrineDatabase;
 use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Location\IsBookmarkedQueryBuilder;
@@ -26,9 +28,9 @@ final class IsBookmarkedQueryBuilderTest extends BaseCriterionVisitorQueryBuilde
         . ' AND (bookmark.' . DoctrineDatabase::COLUMN_LOCATION_ID . ' = location.node_id)';
 
     /**
-     * @return iterable<string, array{\Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion, string, array<string, int>}>
+     * @return iterable<string, array{FilteringCriterion, string, array<string, int>}>
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
+     * @throws InvalidCriterionArgumentException
      */
     public static function getFilteringCriteriaQueryData(): iterable
     {

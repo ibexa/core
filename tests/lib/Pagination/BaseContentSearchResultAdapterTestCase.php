@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResultCollection;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 /**
  * @template TSearchResultAdapter of \Ibexa\Core\Pagination\Pagerfanta\SearchResultAdapter
@@ -35,7 +36,7 @@ abstract class BaseContentSearchResultAdapterTestCase extends BaseSearchResultAd
 
         $searchResult = new SearchResult(['totalCount' => $nbResults]);
         $this->searchService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('findContent')
             ->with($countQuery, self::EXAMPLE_LANGUAGE_FILTER)
             ->willReturn($searchResult)
@@ -45,7 +46,7 @@ abstract class BaseContentSearchResultAdapterTestCase extends BaseSearchResultAd
     }
 
     /**
-     * @phpstan-return list<\Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit<\Ibexa\Contracts\Core\Repository\Values\ValueObject>>
+     * @phpstan-return list<SearchHit<ValueObject>>
      */
     protected function mockSearchHitsForGetSlice(
         Query $query,
@@ -81,7 +82,7 @@ abstract class BaseContentSearchResultAdapterTestCase extends BaseSearchResultAd
 
         $this
             ->searchService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('findContent')
             ->with($searchQuery, self::EXAMPLE_LANGUAGE_FILTER)
             ->willReturn($searchResult)
@@ -110,7 +111,7 @@ abstract class BaseContentSearchResultAdapterTestCase extends BaseSearchResultAd
 
         $this
             ->searchService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('findContent')
             ->with($aggregationQuery, self::EXAMPLE_LANGUAGE_FILTER)
             ->willReturn($searchResult)
@@ -119,8 +120,10 @@ abstract class BaseContentSearchResultAdapterTestCase extends BaseSearchResultAd
         return $query;
     }
 
-    protected function createTestQuery(int $limit = 25, int $offset = 0): Query
-    {
+    protected function createTestQuery(
+        int $limit = 25,
+        int $offset = 0
+    ): Query {
         $query = new Query();
         $query->query = $this->createMock(CriterionInterface::class);
         $query->aggregations[] = $this->createMock(Aggregation::class);

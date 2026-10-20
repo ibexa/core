@@ -11,13 +11,14 @@ namespace Ibexa\Contracts\Core\Repository\Events\Content;
 use Ibexa\Contracts\Core\Repository\Event\BeforeEvent;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use UnexpectedValueException;
 
 final class BeforeCreateContentEvent extends BeforeEvent
 {
     private ContentCreateStruct $contentCreateStruct;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct[] */
+    /** @var LocationCreateStruct[] */
     private array $locationCreateStructs;
 
     private ?Content $content = null;
@@ -41,7 +42,7 @@ final class BeforeCreateContentEvent extends BeforeEvent
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct[]
+     * @return LocationCreateStruct[]
      */
     public function getLocationCreateStructs(): array
     {

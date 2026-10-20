@@ -16,7 +16,6 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as SPIContentTypeHandl
 use Ibexa\Contracts\Core\Persistence\Content\UrlAlias\Handler as SPIUrlAliasHandler;
 use Ibexa\Contracts\Core\Persistence\TransactionHandler as SPITransactionHandler;
 use Ibexa\Contracts\Core\Persistence\User\Handler as SPIUserHandler;
-use Ibexa\Contracts\Core\Test\Repository\SetupFactory\Legacy;
 use Ibexa\Core\Base\ServiceContainer;
 use Ibexa\Core\Persistence\Legacy\Content\Handler as ContentHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Handler as LocationHandler;
@@ -262,7 +261,7 @@ class HandlerTest extends TestCase
             self::$container = new ServiceContainer(
                 $containerBuilder,
                 $installDir,
-                Legacy::getCacheDir(),
+                $installDir . '/var/cache',
                 true,
                 true
             );

@@ -7,6 +7,7 @@
 
 namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\Id;
 
+use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Location;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Location as LocationIdMatcher;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
 use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTestCase;
@@ -17,7 +18,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 #[CoversClass(MultipleValued::class)]
 class LocationTest extends BaseTestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Location */
+    /** @var Location */
     private $matcher;
 
     protected function setUp(): void
@@ -31,8 +32,11 @@ class LocationTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchLocationProvider')]
-    public function testMatchLocation($matchingConfig, int $id, $expectedResult): void
-    {
+    public function testMatchLocation(
+        $matchingConfig,
+        int $id,
+        $expectedResult
+    ): void {
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame($expectedResult, $this->matcher->matchLocation($this->getLocationMock(['id' => $id])));
     }
@@ -71,8 +75,11 @@ class LocationTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchContentInfoProvider')]
-    public function testMatchContentInfo($matchingConfig, int $mainLocationId, $expectedResult): void
-    {
+    public function testMatchContentInfo(
+        $matchingConfig,
+        int $mainLocationId,
+        $expectedResult
+    ): void {
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame($expectedResult, $this->matcher->matchContentInfo($this->getContentInfoMock(['mainLocationId' => $mainLocationId])));
     }

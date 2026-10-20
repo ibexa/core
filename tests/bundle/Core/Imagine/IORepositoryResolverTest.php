@@ -39,7 +39,7 @@ final class IORepositoryResolverTest extends TestCase
 
     private IORepositoryResolver $imageResolver;
 
-    protected VariationPurger&Stub $variationPurger;
+    protected VariationPurger & Stub $variationPurger;
 
     protected VariationPathGenerator & MockObject $variationPathGenerator;
 
@@ -63,10 +63,13 @@ final class IORepositoryResolverTest extends TestCase
     }
 
     #[DataProvider('getFilePathProvider')]
-    public function testGetFilePath(string $path, string $filter, string $expected): void
-    {
+    public function testGetFilePath(
+        string $path,
+        string $filter,
+        string $expected
+    ): void {
         $this->variationPathGenerator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getVariationPath')
             ->with($path, $filter)
             ->willReturn($expected);
@@ -93,13 +96,13 @@ final class IORepositoryResolverTest extends TestCase
         $aliasPath = 'Tardis/bigger/in-the-inside/RiverSong_thumbnail.jpg';
 
         $this->variationPathGenerator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getVariationPath')
             ->with($path, $filter)
             ->willReturn($aliasPath);
 
         $this->ioService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('exists')
             ->with($aliasPath)
             ->willReturn(true);
@@ -114,13 +117,13 @@ final class IORepositoryResolverTest extends TestCase
         $aliasPath = 'Tardis/bigger/in-the-inside/RiverSong_thumbnail.jpg';
 
         $this->variationPathGenerator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getVariationPath')
             ->with($path, $filter)
             ->willReturn($aliasPath);
 
         $this->ioService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('exists')
             ->with($aliasPath)
             ->willReturn(false);
@@ -129,19 +132,24 @@ final class IORepositoryResolverTest extends TestCase
     }
 
     #[DataProvider('resolveProvider')]
-    public function testResolve(string $path, string $filter, string $variationPath, ?string $requestUrl, mixed $expected): void
-    {
+    public function testResolve(
+        string $path,
+        string $filter,
+        string $variationPath,
+        ?string $requestUrl,
+        mixed $expected
+    ): void {
         if ($requestUrl) {
             $this->requestContext->fromRequest(Request::create($requestUrl));
         }
 
         $this->ioService
-            ->expects(self::atLeastOnce())
+            ->expects($this->atLeastOnce())
             ->method('loadBinaryFile')
             ->willReturn(new BinaryFile(['uri' => $variationPath]));
 
         $this->variationPathGenerator
-            ->expects($filter !== IORepositoryResolver::VARIATION_ORIGINAL ? self::once() : self::never())
+            ->expects($filter !== IORepositoryResolver::VARIATION_ORIGINAL ? $this->once() : $this->never())
             ->method('getVariationPath')
             ->willReturn($variationPath);
 
@@ -155,7 +163,7 @@ final class IORepositoryResolverTest extends TestCase
 
         $path = 'foo/something.jpg';
         $this->ioService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadBinaryFile')
             ->with($path)
             ->willReturn(new MissingBinaryFile());
@@ -169,7 +177,7 @@ final class IORepositoryResolverTest extends TestCase
 
         $path = 'foo/something.jpg';
         $this->ioService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadBinaryFile')
             ->with($path)
             ->willThrowException(new NotFoundException('foo', 'bar'));
@@ -243,12 +251,12 @@ final class IORepositoryResolverTest extends TestCase
 
         $createStruct = new BinaryFileCreateStruct();
         $this->ioService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('newBinaryCreateStructFromLocalFile')
             ->willReturn($createStruct);
 
         $this->ioService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('createBinaryFile');
 
         $this->imageResolver->store($binary, $path, $filter);
@@ -275,19 +283,21 @@ final class IORepositoryResolverTest extends TestCase
      * @param array<string, bool> $imageVariations
      */
     #[DataProvider('getDataForTestRemove')]
-    public function testRemove(array $filters, array $imageVariations): void
-    {
+    public function testRemove(
+        array $filters,
+        array $imageVariations
+    ): void {
         $originalPath = 'foo/bar/test.jpg';
 
         $this->configResolver
-            ->expects(!empty($filters) ? self::never() : self::once())
+            ->expects(!empty($filters) ? $this->never() : $this->once())
             ->method('getParameter')
             ->with('image_variations')
             ->willReturn($imageVariations);
 
         $pathCount = !empty($filters) ? count($filters) : count($imageVariations);
         $this->variationPathGenerator
-            ->expects(self::exactly($pathCount))
+            ->expects($this->exactly($pathCount))
             ->method('getVariationPath')
             ->willReturnMap(
                 [
@@ -306,7 +316,7 @@ final class IORepositoryResolverTest extends TestCase
     {
         $fileToDelete = 'foo/bar/test_chaud_cacao.jpg';
         $this->ioService
-            ->expects(self::exactly($pathCount))
+            ->expects($this->exactly($pathCount))
             ->method('exists')
             ->willReturnMap(
                 [
@@ -318,13 +328,13 @@ final class IORepositoryResolverTest extends TestCase
 
         $binaryFile = new BinaryFile(['id' => $fileToDelete]);
         $this->ioService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadBinaryFile')
             ->with($fileToDelete)
             ->willReturn($binaryFile);
 
         $this->ioService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('deleteBinaryFile')
             ->with($binaryFile);
     }

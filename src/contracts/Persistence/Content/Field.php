@@ -35,7 +35,7 @@ class Field extends ValueObject
     /**
      * Value of the field.
      *
-     * @var \Ibexa\Contracts\Core\Persistence\Content\FieldValue
+     * @var FieldValue
      */
     public $value;
 

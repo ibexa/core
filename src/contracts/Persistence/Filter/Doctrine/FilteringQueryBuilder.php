@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Persistence\Filter\Doctrine;
 
 use Doctrine\DBAL\ArrayParameterType;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
@@ -17,6 +18,7 @@ use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
+
 use function sprintf;
 
 /**
@@ -24,7 +26,7 @@ use function sprintf;
  *
  * **NOTE:** To be used **only** with Repository Content/Location Filtering feature.
  *
- * @see \Doctrine\DBAL\Query\QueryBuilder
+ * @see QueryBuilder
  */
 final class FilteringQueryBuilder extends QueryBuilder
 {
@@ -51,8 +53,10 @@ final class FilteringQueryBuilder extends QueryBuilder
      * @return $this
      */
     #[\Override]
-    public function from($from, $alias = null): self
-    {
+    public function from(
+        $from,
+        $alias = null
+    ): self {
         if ($alias !== null) {
             $this->fromAliases[$alias] = true;
         }
@@ -71,8 +75,12 @@ final class FilteringQueryBuilder extends QueryBuilder
      * @return $this
      */
     #[\Override]
-    public function join($fromAlias, $join, $alias, $condition = null): self
-    {
+    public function join(
+        $fromAlias,
+        $join,
+        $alias,
+        $condition = null
+    ): self {
         $this->trackJoin($fromAlias, $alias, $condition);
 
         return parent::join($fromAlias, $join, $alias, $condition !== null ? (string)$condition : null);
@@ -89,8 +97,12 @@ final class FilteringQueryBuilder extends QueryBuilder
      * @return $this
      */
     #[\Override]
-    public function innerJoin($fromAlias, $join, $alias, $condition = null): self
-    {
+    public function innerJoin(
+        $fromAlias,
+        $join,
+        $alias,
+        $condition = null
+    ): self {
         $this->trackJoin($fromAlias, $alias, $condition);
 
         return parent::innerJoin($fromAlias, $join, $alias, $condition !== null ? (string)$condition : null);
@@ -107,8 +119,12 @@ final class FilteringQueryBuilder extends QueryBuilder
      * @return $this
      */
     #[\Override]
-    public function leftJoin($fromAlias, $join, $alias, $condition = null): self
-    {
+    public function leftJoin(
+        $fromAlias,
+        $join,
+        $alias,
+        $condition = null
+    ): self {
         $this->trackJoin($fromAlias, $alias, $condition);
 
         return parent::leftJoin($fromAlias, $join, $alias, $condition !== null ? (string)$condition : null);
@@ -125,15 +141,22 @@ final class FilteringQueryBuilder extends QueryBuilder
      * @return $this
      */
     #[\Override]
-    public function rightJoin($fromAlias, $join, $alias, $condition = null): self
-    {
+    public function rightJoin(
+        $fromAlias,
+        $join,
+        $alias,
+        $condition = null
+    ): self {
         $this->trackJoin($fromAlias, $alias, $condition);
 
         return parent::rightJoin($fromAlias, $join, $alias, $condition !== null ? (string)$condition : null);
     }
 
-    private function trackJoin(string $fromAlias, string $alias, string|\Stringable|null $condition): void
-    {
+    private function trackJoin(
+        string $fromAlias,
+        string $alias,
+        string | \Stringable | null $condition
+    ): void {
         $this->joinedFromAliases[$fromAlias] = true;
         $this->joinedAliases[$alias] = true;
         $this->joinConditionsByAlias[$alias] = $condition !== null ? (string)$condition : '';
@@ -150,7 +173,7 @@ final class FilteringQueryBuilder extends QueryBuilder
     /**
      * Create table JOIN, but only if it hasn't been already joined (determined based on $tableAlias).
      *
-     * @throws \Ibexa\Core\Base\Exceptions\DatabaseException if conditions of pre-existing same alias joins are different
+     * @throws DatabaseException if conditions of pre-existing same alias joins are different
      */
     public function joinOnce(
         string $fromAlias,
@@ -183,7 +206,7 @@ final class FilteringQueryBuilder extends QueryBuilder
     /**
      * Create table LEFT JOIN, but only if it hasn't been already joined (determined based on $tableAlias).
      *
-     * @throws \Ibexa\Core\Base\Exceptions\DatabaseException if conditions of pre-existing same alias joins are different
+     * @throws DatabaseException if conditions of pre-existing same alias joins are different
      */
     public function leftJoinOnce(
         string $fromAlias,
@@ -232,8 +255,10 @@ final class FilteringQueryBuilder extends QueryBuilder
      * @param string|null $order
      */
     #[\Override]
-    public function addOrderBy($sort, $order = null): FilteringQueryBuilder
-    {
+    public function addOrderBy(
+        $sort,
+        $order = null
+    ): FilteringQueryBuilder {
         return parent::addOrderBy($sort, $this->mapLegacyOrderToDoctrine($order));
     }
 
@@ -274,7 +299,7 @@ final class FilteringQueryBuilder extends QueryBuilder
     }
 
     /**
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     public function buildOperatorBasedCriterionConstraint(
         string $columnName,
@@ -288,7 +313,7 @@ final class FilteringQueryBuilder extends QueryBuilder
                     $this->createNamedParameter($criterionValue, ArrayParameterType::INTEGER)
                 );
 
-            case Query\Criterion\Operator::BETWEEN:
+            case Operator::BETWEEN:
                 return sprintf(
                     '%s BETWEEN %s AND %s',
                     $columnName,
@@ -296,11 +321,11 @@ final class FilteringQueryBuilder extends QueryBuilder
                     $this->createNamedParameter($criterionValue[1], ParameterType::INTEGER)
                 );
 
-            case Query\Criterion\Operator::EQ:
-            case Query\Criterion\Operator::GT:
-            case Query\Criterion\Operator::GTE:
-            case Query\Criterion\Operator::LT:
-            case Query\Criterion\Operator::LTE:
+            case Operator::EQ:
+            case Operator::GT:
+            case Operator::GTE:
+            case Operator::LT:
+            case Operator::LTE:
                 return $this->expr()->comparison(
                     $columnName,
                     $operator,

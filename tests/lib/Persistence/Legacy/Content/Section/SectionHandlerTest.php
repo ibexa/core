@@ -19,14 +19,14 @@ class SectionHandlerTest extends TestCase
     /**
      * Section handler.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Section\Handler
+     * @var Handler
      */
     protected $sectionHandler;
 
     /**
      * Section gateway mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Section\Gateway
+     * @var Gateway
      */
     protected $gatewayMock;
 
@@ -36,12 +36,12 @@ class SectionHandlerTest extends TestCase
 
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('insertSection')
             ->with(
                 self::equalTo('New Section'),
                 self::equalTo('new_section')
-            )->will(self::returnValue(23));
+            )->will($this->returnValue(23));
 
         $sectionRef = new Section();
         $sectionRef->id = 23;
@@ -62,7 +62,7 @@ class SectionHandlerTest extends TestCase
 
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('updateSection')
             ->with(
                 self::equalTo(23),
@@ -89,12 +89,12 @@ class SectionHandlerTest extends TestCase
 
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('loadSectionData')
             ->with(
                 self::equalTo(23)
             )->will(
-                self::returnValue(
+                $this->returnValue(
                     [
                         [
                             'id' => '23',
@@ -124,10 +124,10 @@ class SectionHandlerTest extends TestCase
 
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
         ->method('loadAllSectionData')
         ->will(
-            self::returnValue(
+            $this->returnValue(
                 [
                     [
                         'id' => '23',
@@ -167,12 +167,12 @@ class SectionHandlerTest extends TestCase
 
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('loadSectionDataByIdentifier')
             ->with(
                 self::equalTo('new_section')
             )->will(
-                self::returnValue(
+                $this->returnValue(
                     [
                         [
                             'id' => '23',
@@ -202,12 +202,12 @@ class SectionHandlerTest extends TestCase
 
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('countContentObjectsInSection')
             ->with(self::equalTo(23))
-            ->will(self::returnValue(0));
+            ->will($this->returnValue(0));
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('deleteSection')
             ->with(
                 self::equalTo(23)
@@ -224,12 +224,12 @@ class SectionHandlerTest extends TestCase
 
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('countContentObjectsInSection')
             ->with(self::equalTo(23))
-            ->will(self::returnValue(2));
+            ->will($this->returnValue(2));
 
-        $gatewayMock->expects(self::never())
+        $gatewayMock->expects($this->never())
             ->method('deleteSection');
 
         $result = $handler->delete(23);
@@ -241,7 +241,7 @@ class SectionHandlerTest extends TestCase
 
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('assignSectionToContent')
             ->with(
                 self::equalTo(23),
@@ -257,13 +257,13 @@ class SectionHandlerTest extends TestCase
 
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('countPoliciesUsingSection')
             ->with(
                 self::equalTo(1)
             )
             ->will(
-                self::returnValue(7)
+                $this->returnValue(7)
             );
 
         $result = $handler->policiesCount(1);
@@ -275,13 +275,13 @@ class SectionHandlerTest extends TestCase
 
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('countRoleAssignmentsUsingSection')
             ->with(
                 self::equalTo(1)
             )
             ->will(
-                self::returnValue(0)
+                $this->returnValue(0)
             );
 
         $handler->countRoleAssignmentsUsingSection(1);
@@ -290,7 +290,7 @@ class SectionHandlerTest extends TestCase
     /**
      * Returns the section handler to test.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Section\Handler
+     * @return Handler
      */
     protected function getSectionHandler()
     {
@@ -306,7 +306,7 @@ class SectionHandlerTest extends TestCase
     /**
      * Returns a mock for the section gateway.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Section\Gateway
+     * @return Gateway
      */
     protected function getGatewayMock()
     {

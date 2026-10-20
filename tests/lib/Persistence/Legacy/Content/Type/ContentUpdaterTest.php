@@ -15,6 +15,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater;
 use Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater\Action;
+use Ibexa\Core\Search\Legacy\Content\Handler;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -24,39 +25,39 @@ class ContentUpdaterTest extends TestCase
     /**
      * Content gateway mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Gateway
+     * @var Gateway
      */
     protected $contentGatewayMock;
 
     /**
      * FieldValue converter registry mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
+     * @var ConverterRegistry
      */
     protected $converterRegistryMock;
 
     /**
      * Search handler mock.
      *
-     * @var \Ibexa\Core\Search\Legacy\Content\Handler
+     * @var Handler
      */
     protected $searchHandlerMock;
 
     /**
      * Content StorageHandler mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\StorageHandler
+     * @var StorageHandler
      */
     protected $contentStorageHandlerMock;
 
     /**
      * Content Updater to test.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater
+     * @var ContentUpdater
      */
     protected $contentUpdater;
 
-    /** @var \Ibexa\Core\Persistence\Legacy\Content\Mapper */
+    /** @var Mapper */
     protected $contentMapperMock;
 
     public function testDetermineActions(): void
@@ -65,11 +66,11 @@ class ContentUpdaterTest extends TestCase
         $toType = $this->getToTypeFixture();
 
         $converterRegMock = $this->getConverterRegistryMock();
-        $converterRegMock->expects(self::once())
+        $converterRegMock->expects($this->once())
             ->method('getConverter')
             ->with('ibexa_string')
             ->will(
-                self::returnValue(
+                $this->returnValue(
                     ($converterMock = $this->createMock(Converter::class))
                 )
             );
@@ -80,13 +81,13 @@ class ContentUpdaterTest extends TestCase
 
         self::assertEquals(
             [
-                new ContentUpdater\Action\RemoveField(
+                new Action\RemoveField(
                     $this->getContentGatewayMock(),
                     $fromType->fieldDefinitions[0],
                     $this->getContentStorageHandlerMock(),
                     $this->getContentMapperMock()
                 ),
-                new ContentUpdater\Action\AddField(
+                new Action\AddField(
                     $this->getContentGatewayMock(),
                     $toType->fieldDefinitions[2],
                     $converterMock,
@@ -108,7 +109,7 @@ class ContentUpdaterTest extends TestCase
             '',
             false
         );
-        $actionAMatcher = self::exactly(2);
+        $actionAMatcher = $this->exactly(2);
         $actionA->expects($actionAMatcher)
             ->method('apply')
             ->willReturnCallback(static function (...$parameters) use ($actionAMatcher): void {
@@ -120,7 +121,7 @@ class ContentUpdaterTest extends TestCase
             '',
             false
         );
-        $actionBMatcher = self::exactly(2);
+        $actionBMatcher = $this->exactly(2);
         $actionB->expects($actionBMatcher)
             ->method('apply')
             ->willReturnCallback(static function (...$parameters) use ($actionBMatcher): void {
@@ -130,11 +131,11 @@ class ContentUpdaterTest extends TestCase
         $actions = [$actionA, $actionB];
 
         $this->getContentGatewayMock()
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getContentIdsByContentTypeId')
             ->with(23)
             ->will(
-                self::returnValue([11, 22])
+                $this->returnValue([11, 22])
             );
 
         $updater->applyUpdates(23, $actions);
@@ -143,7 +144,7 @@ class ContentUpdaterTest extends TestCase
     /**
      * Returns a fixture for the from Type.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
+     * @return Type
      */
     protected function getFromTypeFixture()
     {
@@ -167,7 +168,7 @@ class ContentUpdaterTest extends TestCase
     /**
      * Returns a fixture for the to Type.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type
+     * @return Type
      */
     protected function getToTypeFixture()
     {
@@ -187,7 +188,7 @@ class ContentUpdaterTest extends TestCase
     /**
      * Returns a Content Gateway mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Gateway
+     * @return Gateway
      */
     protected function getContentGatewayMock()
     {
@@ -201,7 +202,7 @@ class ContentUpdaterTest extends TestCase
     /**
      * Returns a FieldValue Converter registry mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry
+     * @return ConverterRegistry
      */
     protected function getConverterRegistryMock()
     {
@@ -215,7 +216,7 @@ class ContentUpdaterTest extends TestCase
     /**
      * Returns a Content StorageHandler mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\StorageHandler
+     * @return StorageHandler
      */
     protected function getContentStorageHandlerMock()
     {
@@ -229,7 +230,7 @@ class ContentUpdaterTest extends TestCase
     /**
      * Returns a Content mapper mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Mapper
+     * @return Mapper
      */
     protected function getContentMapperMock()
     {
@@ -243,7 +244,7 @@ class ContentUpdaterTest extends TestCase
     /**
      * Returns the content updater to test.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater
+     * @return ContentUpdater
      */
     protected function getContentUpdater()
     {

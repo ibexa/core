@@ -13,6 +13,4 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 /**
  * Marker for Content & Location trash Criterion.
  */
-interface Criterion extends CriterionInterface
-{
-}
+interface Criterion extends CriterionInterface {}

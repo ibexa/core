@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\AggregationResultCollection;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 
 /**
  * @template TSearchResultAdapter of \Ibexa\Core\Pagination\Pagerfanta\SearchResultAdapter
@@ -40,7 +41,7 @@ abstract class BaseLocationSearchResultAdapterTestCase extends BaseSearchResultA
         );
 
         $this->searchService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('findLocations')
             ->with($countQuery, self::EXAMPLE_LANGUAGE_FILTER)
             ->willReturn($searchResult)
@@ -50,7 +51,7 @@ abstract class BaseLocationSearchResultAdapterTestCase extends BaseSearchResultA
     }
 
     /**
-     * @phpstan-return list<\Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit<\Ibexa\Contracts\Core\Repository\Values\ValueObject>>
+     * @phpstan-return list<SearchHit<ValueObject>>
      */
     protected function mockSearchHitsForGetSlice(
         LocationQuery $query,
@@ -86,7 +87,7 @@ abstract class BaseLocationSearchResultAdapterTestCase extends BaseSearchResultA
 
         $this
             ->searchService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('findLocations')
             ->with($searchQuery, self::EXAMPLE_LANGUAGE_FILTER)
             ->willReturn($searchResult)
@@ -116,7 +117,7 @@ abstract class BaseLocationSearchResultAdapterTestCase extends BaseSearchResultA
 
         $this
             ->searchService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('findLocations')
             ->with($aggregationQuery, self::EXAMPLE_LANGUAGE_FILTER)
             ->willReturn($searchResult)
@@ -125,8 +126,10 @@ abstract class BaseLocationSearchResultAdapterTestCase extends BaseSearchResultA
         return $query;
     }
 
-    protected function createTestQuery(int $limit = 25, int $offset = 0): LocationQuery
-    {
+    protected function createTestQuery(
+        int $limit = 25,
+        int $offset = 0
+    ): LocationQuery {
         $query = new LocationQuery();
         $query->query = $this->createMock(CriterionInterface::class);
         $query->aggregations[] = $this->createMock(Aggregation::class);

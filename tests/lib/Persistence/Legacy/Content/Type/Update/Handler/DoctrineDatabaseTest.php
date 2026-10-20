@@ -20,14 +20,14 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Gateway mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway
+     * @var Gateway
      */
     protected $gatewayMock;
 
     /**
      * Content Updater mock.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater
+     * @var ContentUpdater
      */
     protected $contentUpdaterMock;
 
@@ -37,10 +37,10 @@ class DoctrineDatabaseTest extends TestCase
 
         $updaterMock = $this->getContentUpdaterMock();
 
-        $updaterMock->expects(self::never())
+        $updaterMock->expects($this->never())
             ->method('determineActions');
 
-        $updaterMock->expects(self::never())
+        $updaterMock->expects($this->never())
             ->method('applyUpdates');
 
         $types = $this->getTypeFixtures();
@@ -54,7 +54,7 @@ class DoctrineDatabaseTest extends TestCase
 
         $gatewayMock = $this->getGatewayMock();
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('delete')
             ->with(
                 self::equalTo(23),
@@ -73,7 +73,7 @@ class DoctrineDatabaseTest extends TestCase
         $gatewayMock = $this->getGatewayMock();
         $updaterMock = $this->getContentUpdaterMock();
 
-        $gatewayMock->expects(self::once())
+        $gatewayMock->expects($this->once())
             ->method('publishTypeAndFields')
             ->with(self::equalTo(23), self::equalTo(1), self::equalTo(0));
 
@@ -85,7 +85,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Returns an array with 'from' and 'to' types.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Type[]
+     * @return Type[]
      */
     protected function getTypeFixtures()
     {
@@ -105,7 +105,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Returns the Update Handler to test.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\Update\Handler\DoctrineDatabase
+     * @return DoctrineDatabase
      */
     protected function getUpdateHandler()
     {
@@ -115,7 +115,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Returns a gateway mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\Gateway
+     * @return Gateway
      */
     protected function getGatewayMock()
     {
@@ -129,7 +129,7 @@ class DoctrineDatabaseTest extends TestCase
     /**
      * Returns a Content Updater mock.
      *
-     * @return \Ibexa\Core\Persistence\Legacy\Content\Type\ContentUpdater
+     * @return ContentUpdater
      */
     protected function getContentUpdaterMock()
     {

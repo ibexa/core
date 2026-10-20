@@ -30,8 +30,7 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTestCase
             ]
         );
 
-        $valueObject = new class() extends ValueObject {
-        };
+        $valueObject = new class() extends ValueObject {};
         self::assertFalse($renderLocationStrategy->supports($valueObject));
 
         $this->expectException(InvalidArgumentException::class);
@@ -135,7 +134,7 @@ class RenderLocationStrategyTest extends BaseRenderStrategyTestCase
         });
 
         $fragmentRendererMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('render')
             ->with($controllerReferenceCallback, $requestCallback)
             ->willReturn(new Response('some_rendered_content'));

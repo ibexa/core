@@ -10,6 +10,9 @@ namespace Ibexa\Tests\Core\Repository\Decorator;
 
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Decorator\ContentServiceDecorator;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentDraftList;
@@ -32,13 +35,12 @@ class ContentServiceDecoratorTest extends TestCase
     private const EXAMPLE_CONTENT_REMOTE_ID = 'example';
     private const EXAMPLE_VERSION_NO = 1;
 
-    protected function createDecorator(ContentService&MockObject $service): ContentService
+    protected function createDecorator(ContentService & MockObject $service): ContentService
     {
-        return new class($service) extends ContentServiceDecorator {
-        };
+        return new class($service) extends ContentServiceDecorator {};
     }
 
-    protected function createServiceMock(): ContentService&MockObject
+    protected function createServiceMock(): ContentService & MockObject
     {
         return $this->createMock(ContentService::class);
     }
@@ -50,7 +52,7 @@ class ContentServiceDecoratorTest extends TestCase
 
         $parameters = [self::EXAMPLE_CONTENT_ID];
 
-        $serviceMock->expects(self::once())->method('loadContentInfo')->with(...$parameters)->willReturn(self::createStub(ContentInfo::class));
+        $serviceMock->expects($this->once())->method('loadContentInfo')->with(...$parameters)->willReturn(self::createStub(ContentInfo::class));
 
         $decoratedService->loadContentInfo(...$parameters);
     }
@@ -62,7 +64,7 @@ class ContentServiceDecoratorTest extends TestCase
 
         $parameters = [[9999]];
 
-        $serviceMock->expects(self::once())->method('loadContentInfoList')->with(...$parameters)->willReturn([]);
+        $serviceMock->expects($this->once())->method('loadContentInfoList')->with(...$parameters)->willReturn([]);
 
         $decoratedService->loadContentInfoList(...$parameters);
     }
@@ -74,7 +76,7 @@ class ContentServiceDecoratorTest extends TestCase
 
         $parameters = ['random_value_5ced05ce1541a6.54558542'];
 
-        $serviceMock->expects(self::once())->method('loadContentInfoByRemoteId')->with(...$parameters)->willReturn(self::createStub(ContentInfo::class));
+        $serviceMock->expects($this->once())->method('loadContentInfoByRemoteId')->with(...$parameters)->willReturn(self::createStub(ContentInfo::class));
 
         $decoratedService->loadContentInfoByRemoteId(...$parameters);
     }
@@ -89,7 +91,7 @@ class ContentServiceDecoratorTest extends TestCase
             self::EXAMPLE_VERSION_NO,
         ];
 
-        $serviceMock->expects(self::once())->method('loadVersionInfo')->with(...$parameters)->willReturn(self::createStub(VersionInfo::class));
+        $serviceMock->expects($this->once())->method('loadVersionInfo')->with(...$parameters)->willReturn(self::createStub(VersionInfo::class));
 
         $decoratedService->loadVersionInfo(...$parameters);
     }
@@ -104,7 +106,7 @@ class ContentServiceDecoratorTest extends TestCase
             self::EXAMPLE_VERSION_NO,
         ];
 
-        $serviceMock->expects(self::once())->method('loadVersionInfoById')->with(...$parameters)->willReturn(self::createStub(VersionInfo::class));
+        $serviceMock->expects($this->once())->method('loadVersionInfoById')->with(...$parameters)->willReturn(self::createStub(VersionInfo::class));
 
         $decoratedService->loadVersionInfoById(...$parameters);
     }
@@ -121,7 +123,7 @@ class ContentServiceDecoratorTest extends TestCase
             true,
         ];
 
-        $serviceMock->expects(self::once())->method('loadContentByContentInfo')->with(...$parameters)->willReturn(self::createStub(Content::class));
+        $serviceMock->expects($this->once())->method('loadContentByContentInfo')->with(...$parameters)->willReturn(self::createStub(Content::class));
 
         $decoratedService->loadContentByContentInfo(...$parameters);
     }
@@ -137,7 +139,7 @@ class ContentServiceDecoratorTest extends TestCase
             true,
         ];
 
-        $serviceMock->expects(self::once())->method('loadContentByVersionInfo')->with(...$parameters)->willReturn(self::createStub(Content::class));
+        $serviceMock->expects($this->once())->method('loadContentByVersionInfo')->with(...$parameters)->willReturn(self::createStub(Content::class));
 
         $decoratedService->loadContentByVersionInfo(...$parameters);
     }
@@ -154,7 +156,7 @@ class ContentServiceDecoratorTest extends TestCase
             true,
         ];
 
-        $serviceMock->expects(self::once())->method('loadContent')->with(...$parameters)->willReturn(self::createStub(Content::class));
+        $serviceMock->expects($this->once())->method('loadContent')->with(...$parameters)->willReturn(self::createStub(Content::class));
 
         $decoratedService->loadContent(...$parameters);
     }
@@ -171,7 +173,7 @@ class ContentServiceDecoratorTest extends TestCase
             true,
         ];
 
-        $serviceMock->expects(self::once())->method('loadContentByRemoteId')->with(...$parameters)->willReturn(self::createStub(Content::class));
+        $serviceMock->expects($this->once())->method('loadContentByRemoteId')->with(...$parameters)->willReturn(self::createStub(Content::class));
 
         $decoratedService->loadContentByRemoteId(...$parameters);
     }
@@ -187,7 +189,7 @@ class ContentServiceDecoratorTest extends TestCase
             true,
         ];
 
-        $serviceMock->expects(self::once())->method('loadContentListByContentInfo')->with(...$parameters)->willReturn([]);
+        $serviceMock->expects($this->once())->method('loadContentListByContentInfo')->with(...$parameters)->willReturn([]);
 
         $decoratedService->loadContentListByContentInfo(...$parameters);
     }
@@ -202,7 +204,7 @@ class ContentServiceDecoratorTest extends TestCase
             ['random_value_5ced05ce155881.06739513'],
         ];
 
-        $serviceMock->expects(self::once())->method('createContent')->with(...$parameters)->willReturn(self::createStub(Content::class));
+        $serviceMock->expects($this->once())->method('createContent')->with(...$parameters)->willReturn(self::createStub(Content::class));
 
         $decoratedService->createContent(...$parameters);
     }
@@ -217,7 +219,7 @@ class ContentServiceDecoratorTest extends TestCase
             self::createStub(ContentMetadataUpdateStruct::class),
         ];
 
-        $serviceMock->expects(self::once())->method('updateContentMetadata')->with(...$parameters)->willReturn(self::createStub(Content::class));
+        $serviceMock->expects($this->once())->method('updateContentMetadata')->with(...$parameters)->willReturn(self::createStub(Content::class));
 
         $decoratedService->updateContentMetadata(...$parameters);
     }
@@ -229,7 +231,7 @@ class ContentServiceDecoratorTest extends TestCase
 
         $parameters = [self::createStub(ContentInfo::class)];
 
-        $serviceMock->expects(self::once())->method('deleteContent')->with(...$parameters)->willReturn([]);
+        $serviceMock->expects($this->once())->method('deleteContent')->with(...$parameters)->willReturn([]);
 
         $decoratedService->deleteContent(...$parameters);
     }
@@ -245,7 +247,7 @@ class ContentServiceDecoratorTest extends TestCase
             self::createStub(User::class),
         ];
 
-        $serviceMock->expects(self::once())->method('createContentDraft')->with(...$parameters)->willReturn(self::createStub(Content::class));
+        $serviceMock->expects($this->once())->method('createContentDraft')->with(...$parameters)->willReturn(self::createStub(Content::class));
 
         $decoratedService->createContentDraft(...$parameters);
     }
@@ -257,7 +259,7 @@ class ContentServiceDecoratorTest extends TestCase
 
         $parameters = [self::createStub(User::class)];
 
-        $serviceMock->expects(self::once())->method('loadContentDraftList')->with(...$parameters)->willReturn(new ContentDraftList());
+        $serviceMock->expects($this->once())->method('loadContentDraftList')->with(...$parameters)->willReturn(new ContentDraftList());
 
         $decoratedService->loadContentDraftList(...$parameters);
     }
@@ -272,7 +274,7 @@ class ContentServiceDecoratorTest extends TestCase
             self::createStub(ContentUpdateStruct::class),
         ];
 
-        $serviceMock->expects(self::once())->method('updateContent')->with(...$parameters)->willReturn(self::createStub(Content::class));
+        $serviceMock->expects($this->once())->method('updateContent')->with(...$parameters)->willReturn(self::createStub(Content::class));
 
         $decoratedService->updateContent(...$parameters);
     }
@@ -284,7 +286,7 @@ class ContentServiceDecoratorTest extends TestCase
 
         $parameters = [self::createStub(VersionInfo::class)];
 
-        $serviceMock->expects(self::once())->method('publishVersion')->with(...$parameters)->willReturn(self::createStub(Content::class));
+        $serviceMock->expects($this->once())->method('publishVersion')->with(...$parameters)->willReturn(self::createStub(Content::class));
 
         $decoratedService->publishVersion(...$parameters);
     }
@@ -296,7 +298,7 @@ class ContentServiceDecoratorTest extends TestCase
 
         $parameters = [self::createStub(VersionInfo::class)];
 
-        $serviceMock->expects(self::once())->method('deleteVersion')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('deleteVersion')->with(...$parameters);
 
         $decoratedService->deleteVersion(...$parameters);
     }
@@ -308,7 +310,7 @@ class ContentServiceDecoratorTest extends TestCase
 
         $parameters = [self::createStub(ContentInfo::class)];
 
-        $serviceMock->expects(self::once())->method('loadVersions')->with(...$parameters)->willReturn([]);
+        $serviceMock->expects($this->once())->method('loadVersions')->with(...$parameters)->willReturn([]);
 
         $decoratedService->loadVersions(...$parameters);
     }
@@ -324,7 +326,7 @@ class ContentServiceDecoratorTest extends TestCase
             self::createStub(VersionInfo::class),
         ];
 
-        $serviceMock->expects(self::once())->method('copyContent')->with(...$parameters)->willReturn(self::createStub(Content::class));
+        $serviceMock->expects($this->once())->method('copyContent')->with(...$parameters)->willReturn(self::createStub(Content::class));
 
         $decoratedService->copyContent(...$parameters);
     }
@@ -336,7 +338,7 @@ class ContentServiceDecoratorTest extends TestCase
 
         $parameters = [self::createStub(VersionInfo::class)];
 
-        $serviceMock->expects(self::once())->method('loadRelationList')->with(...$parameters)->willReturn(new RelationList());
+        $serviceMock->expects($this->once())->method('loadRelationList')->with(...$parameters)->willReturn(new RelationList());
 
         $decoratedService->loadRelationList(...$parameters);
     }
@@ -348,7 +350,7 @@ class ContentServiceDecoratorTest extends TestCase
 
         $parameters = [self::createStub(ContentInfo::class)];
 
-        $serviceMock->expects(self::once())->method('loadReverseRelations')->with(...$parameters)->willReturn([]);
+        $serviceMock->expects($this->once())->method('loadReverseRelations')->with(...$parameters)->willReturn([]);
 
         $decoratedService->loadReverseRelations(...$parameters);
     }
@@ -363,7 +365,7 @@ class ContentServiceDecoratorTest extends TestCase
             self::createStub(ContentInfo::class),
         ];
 
-        $serviceMock->expects(self::once())->method('addRelation')->with(...$parameters)->willReturn(self::createStub(Relation::class));
+        $serviceMock->expects($this->once())->method('addRelation')->with(...$parameters)->willReturn(self::createStub(Relation::class));
 
         $decoratedService->addRelation(...$parameters);
     }
@@ -378,7 +380,7 @@ class ContentServiceDecoratorTest extends TestCase
             self::createStub(ContentInfo::class),
         ];
 
-        $serviceMock->expects(self::once())->method('deleteRelation')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('deleteRelation')->with(...$parameters);
 
         $decoratedService->deleteRelation(...$parameters);
     }
@@ -393,7 +395,7 @@ class ContentServiceDecoratorTest extends TestCase
             self::EXAMPLE_LANGUAGE_CODE,
         ];
 
-        $serviceMock->expects(self::once())->method('deleteTranslation')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('deleteTranslation')->with(...$parameters);
 
         $decoratedService->deleteTranslation(...$parameters);
     }
@@ -408,7 +410,7 @@ class ContentServiceDecoratorTest extends TestCase
             'random_value_5ced05ce156d37.22902273',
         ];
 
-        $serviceMock->expects(self::once())->method('deleteTranslationFromDraft')->with(...$parameters)->willReturn(self::createStub(Content::class));
+        $serviceMock->expects($this->once())->method('deleteTranslationFromDraft')->with(...$parameters)->willReturn(self::createStub(Content::class));
 
         $decoratedService->deleteTranslationFromDraft(...$parameters);
     }
@@ -420,7 +422,7 @@ class ContentServiceDecoratorTest extends TestCase
 
         $parameters = [self::createStub(ContentInfo::class)];
 
-        $serviceMock->expects(self::once())->method('hideContent')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('hideContent')->with(...$parameters);
 
         $decoratedService->hideContent(...$parameters);
     }
@@ -432,7 +434,7 @@ class ContentServiceDecoratorTest extends TestCase
 
         $parameters = [self::createStub(ContentInfo::class)];
 
-        $serviceMock->expects(self::once())->method('revealContent')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('revealContent')->with(...$parameters);
 
         $decoratedService->revealContent(...$parameters);
     }
@@ -447,7 +449,7 @@ class ContentServiceDecoratorTest extends TestCase
             'random_value_5ced05ce156db7.87562997',
         ];
 
-        $serviceMock->expects(self::once())->method('newContentCreateStruct')->with(...$parameters)->willReturn(self::createStub(ContentCreateStruct::class));
+        $serviceMock->expects($this->once())->method('newContentCreateStruct')->with(...$parameters)->willReturn(self::createStub(ContentCreateStruct::class));
 
         $decoratedService->newContentCreateStruct(...$parameters);
     }
@@ -459,7 +461,7 @@ class ContentServiceDecoratorTest extends TestCase
 
         $parameters = [];
 
-        $serviceMock->expects(self::once())->method('newContentMetadataUpdateStruct')->with(...$parameters)->willReturn(self::createStub(ContentMetadataUpdateStruct::class));
+        $serviceMock->expects($this->once())->method('newContentMetadataUpdateStruct')->with(...$parameters)->willReturn(self::createStub(ContentMetadataUpdateStruct::class));
 
         $decoratedService->newContentMetadataUpdateStruct(...$parameters);
     }
@@ -471,15 +473,15 @@ class ContentServiceDecoratorTest extends TestCase
 
         $parameters = [];
 
-        $serviceMock->expects(self::once())->method('newContentUpdateStruct')->with(...$parameters)->willReturn(self::createStub(ContentUpdateStruct::class));
+        $serviceMock->expects($this->once())->method('newContentUpdateStruct')->with(...$parameters)->willReturn(self::createStub(ContentUpdateStruct::class));
 
         $decoratedService->newContentUpdateStruct(...$parameters);
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws BadStateException
+     * @throws NotFoundException
+     * @throws InvalidArgumentException
      */
     public function testLoadVersionInfoListByContentInfoDecorator(): void
     {
@@ -489,7 +491,7 @@ class ContentServiceDecoratorTest extends TestCase
         $argument = [self::createStub(ContentInfo::class)];
 
         $serviceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadVersionInfoListByContentInfo')
             ->with($argument)
             ->willReturn([]);

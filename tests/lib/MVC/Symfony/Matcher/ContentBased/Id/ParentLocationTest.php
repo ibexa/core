@@ -11,18 +11,20 @@ use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Core\MVC\RepositoryAware;
+use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentLocation;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentLocation as ParentLocationIdMatcher;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
 use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 
 #[CoversClass(ParentLocationIdMatcher::class)]
 #[CoversClass(MultipleValued::class)]
 #[CoversClass(RepositoryAware::class)]
 class ParentLocationTest extends BaseTestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\ParentLocation */
+    /** @var ParentLocation */
     private $matcher;
 
     protected function setUp(): void
@@ -36,8 +38,11 @@ class ParentLocationTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchLocationProvider')]
-    public function testMatchLocation($matchingConfig, int $parentLocationId, $expectedResult): void
-    {
+    public function testMatchLocation(
+        $matchingConfig,
+        int $parentLocationId,
+        $expectedResult
+    ): void {
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame($expectedResult, $this->matcher->matchLocation($this->getLocationMock(['parentLocationId' => $parentLocationId])));
     }
@@ -76,8 +81,11 @@ class ParentLocationTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchContentInfoProvider')]
-    public function testMatchContentInfo($matchingConfig, int $parentLocationId, $expectedResult): void
-    {
+    public function testMatchContentInfo(
+        $matchingConfig,
+        int $parentLocationId,
+        $expectedResult
+    ): void {
         $this->matcher->setRepository($this->generateRepositoryMockForParentLocationId($parentLocationId));
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame(
@@ -120,29 +128,29 @@ class ParentLocationTest extends BaseTestCase
      *
      * @param int $parentLocationId
      *
-     * @return \PHPUnit\Framework\MockObject\MockObject
+     * @return MockObject
      */
     private function generateRepositoryMockForParentLocationId($parentLocationId)
     {
         $locationServiceMock = $this->createMock(LocationService::class);
-        $locationServiceMock->expects(self::once())
+        $locationServiceMock->expects($this->once())
             ->method('loadLocation')
             ->with(42)
             ->will(
-                self::returnValue(
+                $this->returnValue(
                     $this->getLocationMock(['parentLocationId' => $parentLocationId])
                 )
             );
 
         $repository = $this->getRepositoryMock();
         $repository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getLocationService')
-            ->will(self::returnValue($locationServiceMock));
+            ->will($this->returnValue($locationServiceMock));
         $repository
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getPermissionResolver')
-            ->will(self::returnValue($this->getPermissionResolverMock()));
+            ->will($this->returnValue($this->getPermissionResolverMock()));
 
         return $repository;
     }

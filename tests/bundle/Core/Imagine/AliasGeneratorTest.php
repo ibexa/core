@@ -11,13 +11,14 @@ namespace Ibexa\Tests\Bundle\Core\Imagine;
 use DateTime;
 use Ibexa\Bundle\Core\Imagine\AliasGenerator;
 use Ibexa\Bundle\Core\Imagine\Variation\ImagineAwareAliasGenerator;
-use Ibexa\Contracts\Core\FieldType\Value;
 use Ibexa\Contracts\Core\FieldType\Value as FieldTypeValue;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidVariationException;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Variation\Values\ImageVariation;
 use Ibexa\Contracts\Core\Variation\VariationHandler;
 use Ibexa\Contracts\Core\Variation\VariationPathGenerator;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentType;
 use Ibexa\Core\FieldType\Image\Value as ImageValue;
 use Ibexa\Core\FieldType\TextLine\Value as TextLineValue;
 use Ibexa\Core\IO\IOServiceInterface;
@@ -41,29 +42,29 @@ use Psr\Log\LoggerInterface;
 
 final class AliasGeneratorTest extends TestCase
 {
-    private MockObject&LoaderInterface $dataLoader;
+    private MockObject & LoaderInterface $dataLoader;
 
-    private MockObject&FilterManager $filterManager;
+    private MockObject & FilterManager $filterManager;
 
-    private MockObject&ResolverInterface $ioResolver;
+    private MockObject & ResolverInterface $ioResolver;
 
     private FilterConfiguration $filterConfiguration;
 
-    private MockObject&LoggerInterface $logger;
+    private MockObject & LoggerInterface $logger;
 
-    private MockObject&ImagineInterface $imagine;
+    private MockObject & ImagineInterface $imagine;
 
     private AliasGenerator $aliasGenerator;
 
     private VariationHandler $decoratedAliasGenerator;
 
-    private MockObject&BoxInterface $box;
+    private MockObject & BoxInterface $box;
 
-    private MockObject&ImageInterface $image;
+    private MockObject & ImageInterface $image;
 
-    private MockObject&IOServiceInterface $ioService;
+    private MockObject & IOServiceInterface $ioService;
 
-    private MockObject&VariationPathGenerator $variationPathGenerator;
+    private MockObject & VariationPathGenerator $variationPathGenerator;
 
     protected function setUp(): void
     {
@@ -97,8 +98,10 @@ final class AliasGeneratorTest extends TestCase
     }
 
     #[DataProvider('supportsValueProvider')]
-    public function testSupportsValue(Value $value, bool $isSupported): void
-    {
+    public function testSupportsValue(
+        FieldTypeValue $value,
+        bool $isSupported
+    ): void {
         self::assertSame($isSupported, $this->aliasGenerator->supportsValue($value));
     }
 
@@ -135,7 +138,7 @@ final class AliasGeneratorTest extends TestCase
     /**
      * Test obtaining Image Variation that hasn't been stored yet.
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
+     * @throws InvalidArgumentType
      */
     public function testGetVariationNotStored(): void
     {
@@ -148,28 +151,28 @@ final class AliasGeneratorTest extends TestCase
         $expectedUrl = "http://localhost/foo/bar/image_$variationName.jpg";
 
         $this->ioResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('isStored')
             ->with($originalPath, $variationName)
-            ->will(self::returnValue(false));
+            ->will($this->returnValue(false));
 
         $this->logger
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('debug');
 
         $binary = self::createStub(BinaryInterface::class);
         $this->dataLoader
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('find')
             ->with($originalPath)
-            ->will(self::returnValue($binary));
+            ->will($this->returnValue($binary));
         $this->filterManager
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('applyFilter')
             ->with($binary, $variationName)
-            ->will(self::returnValue($binary));
+            ->will($this->returnValue($binary));
         $this->ioResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('store')
             ->with($binary, $originalPath, $variationName);
 
@@ -208,20 +211,20 @@ final class AliasGeneratorTest extends TestCase
         $expectedUrl = 'http://localhost/foo/bar/image.jpg';
 
         $this->ioResolver
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('isStored')
             ->with($originalPath, $variationName)
-            ->will(self::returnValue(false));
+            ->will($this->returnValue(false));
 
         $this->logger
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('debug');
 
         $this->ioResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('resolve')
             ->with($originalPath, $variationName)
-            ->will(self::returnValue($expectedUrl));
+            ->will($this->returnValue($expectedUrl));
 
         $expected = new ImageVariation(
             [
@@ -268,10 +271,10 @@ final class AliasGeneratorTest extends TestCase
         $expectedUrl = 'http://localhost/foo/bar/image.jpg';
 
         $this->ioResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('resolve')
             ->with($originalPath, $variationName)
-            ->will(self::returnValue($expectedUrl));
+            ->will($this->returnValue($expectedUrl));
 
         $expected = new ImageVariation(
             [
@@ -300,7 +303,7 @@ final class AliasGeneratorTest extends TestCase
     /**
      * Test obtaining Image Variation that hasn't been stored yet and has multiple references.
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
+     * @throws InvalidArgumentType
      */
     public function testGetVariationNotStoredHavingReferences(): void
     {
@@ -320,21 +323,21 @@ final class AliasGeneratorTest extends TestCase
         $expectedUrl = "http://localhost/foo/bar/image_$variationName.jpg";
 
         $this->ioResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('isStored')
             ->with($originalPath, $variationName)
-            ->will(self::returnValue(false));
+            ->will($this->returnValue(false));
 
         $this->logger
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('debug');
 
         $binary = self::createStub(BinaryInterface::class);
         $this->dataLoader
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('find')
             ->with($originalPath)
-            ->will(self::returnValue($binary));
+            ->will($this->returnValue($binary));
 
         // Filter manager is supposed to be called 3 times to generate references, and then passed variation.
         $expectedApplyFilterCalls = [
@@ -342,7 +345,7 @@ final class AliasGeneratorTest extends TestCase
             [$binary, $reference1, []],
             [$binary, $variationName, []],
         ];
-        $matcher = self::exactly(3);
+        $matcher = $this->exactly(3);
         $this->filterManager
             ->expects($matcher)
             ->method('applyFilter')
@@ -353,7 +356,7 @@ final class AliasGeneratorTest extends TestCase
             });
 
         $this->ioResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('store')
             ->with($binary, $originalPath, $variationName);
 
@@ -370,7 +373,7 @@ final class AliasGeneratorTest extends TestCase
     /**
      * Test obtaining Image Variation that has been stored already.
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType
+     * @throws InvalidArgumentType
      */
     public function testGetVariationAlreadyStored(): void
     {
@@ -382,23 +385,23 @@ final class AliasGeneratorTest extends TestCase
         $expectedUrl = "http://localhost/foo/bar/image_$variationName.jpg";
 
         $this->ioResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('isStored')
             ->with($originalPath, $variationName)
-            ->will(self::returnValue(true));
+            ->will($this->returnValue(true));
 
         $this->logger
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('debug');
 
         $this->dataLoader
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('find');
         $this->filterManager
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('applyFilter');
         $this->ioResolver
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('store');
 
         $this->assertImageVariationIsCorrect(
@@ -416,9 +419,9 @@ final class AliasGeneratorTest extends TestCase
         $this->expectException(SourceImageNotFoundException::class);
 
         $this->dataLoader
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('find')
-            ->will(self::throwException(new NotLoadableException()));
+            ->will($this->throwException(new NotLoadableException()));
 
         $field = new Field([
             'value' => new ImageValue(),
@@ -438,30 +441,30 @@ final class AliasGeneratorTest extends TestCase
         $field = new Field(['value' => $imageValue, 'fieldDefIdentifier' => 'image_field']);
 
         $this->ioResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('isStored')
             ->with($originalPath, $variationName)
-            ->will(self::returnValue(true));
+            ->will($this->returnValue(true));
 
         $this->logger
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('debug');
 
         $this->dataLoader
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('find');
         $this->filterManager
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('applyFilter');
         $this->ioResolver
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('store');
 
         $this->ioResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('resolve')
             ->with($originalPath, $variationName)
-            ->will(self::throwException(new NotResolvableException()));
+            ->will($this->throwException(new NotResolvableException()));
 
         $this->aliasGenerator->getVariation($field, new VersionInfo(), $variationName);
     }
@@ -470,7 +473,7 @@ final class AliasGeneratorTest extends TestCase
      * Prepare required Imagine-related mocks and assert that the Image Variation is as expected.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     protected function assertImageVariationIsCorrect(
         string $expectedUrl,
@@ -496,25 +499,25 @@ final class AliasGeneratorTest extends TestCase
         );
 
         $this->ioResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('resolve')
             ->with($originalPath, $variationName)
             ->willReturn($expectedUrl);
 
         $this->variationPathGenerator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getVariationPath')
             ->with($originalPath, $variationName)
             ->willReturn($binaryFile->uri);
 
         $this->ioService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadBinaryFile')
             ->withAnyParameters()
             ->willReturn($binaryFile);
 
         $this->ioService
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getFileContents')
             ->with($binaryFile)
             ->willReturn('file contents mock');
@@ -525,22 +528,22 @@ final class AliasGeneratorTest extends TestCase
             ->willReturn('image/jpeg');
 
         $this->imagine
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('load')
             ->with('file contents mock')
             ->willReturn($this->image);
 
         $this->image
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getSize')
             ->willReturn($this->box);
 
         $this->box
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getWidth')
             ->willReturn($imageWidth);
         $this->box
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getHeight')
             ->willReturn($imageHeight);
 

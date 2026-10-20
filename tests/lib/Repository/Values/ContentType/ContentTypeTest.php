@@ -37,13 +37,13 @@ final class ContentTypeTest extends TestCase
         $fieldDefinitionCollection = $this->createMock(APIFieldDefinitionCollection::class);
 
         $fieldDefinitionCollection
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('has')
             ->with(self::EXAMPLE_FIELD_DEFINITION_IDENTIFIER)
             ->willReturn(true);
 
         $fieldDefinitionCollection
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('get')
             ->with(self::EXAMPLE_FIELD_DEFINITION_IDENTIFIER)
             ->willReturn($fieldDefinition);
@@ -62,7 +62,7 @@ final class ContentTypeTest extends TestCase
     {
         $fieldDefinitionCollection = $this->createMock(APIFieldDefinitionCollection::class);
         $fieldDefinitionCollection
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('has')
             ->with(self::EXAMPLE_FIELD_DEFINITION_IDENTIFIER)
             ->willReturn(true);
@@ -80,7 +80,7 @@ final class ContentTypeTest extends TestCase
     {
         $fieldDefinitionCollection = $this->createMock(APIFieldDefinitionCollection::class);
         $fieldDefinitionCollection
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('anyOfType')
             ->with(self::EXAMPLE_FIELD_TYPE_IDENTIFIER)
             ->willReturn(true);
@@ -100,7 +100,7 @@ final class ContentTypeTest extends TestCase
 
         $fieldDefinitionCollection = $this->createMock(APIFieldDefinitionCollection::class);
         $fieldDefinitionCollection
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('filterByType')
             ->with(self::EXAMPLE_FIELD_TYPE_IDENTIFIER)
             ->willReturn($expectedFieldDefinitionCollection);
@@ -126,7 +126,7 @@ final class ContentTypeTest extends TestCase
 
         $fieldDefinitionCollection = $this->createMock(APIFieldDefinitionCollection::class);
         $fieldDefinitionCollection
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('filterByType')
             ->with(self::EXAMPLE_FIELD_TYPE_IDENTIFIER)
             ->willReturn($filteredFieldDefinitionCollection);

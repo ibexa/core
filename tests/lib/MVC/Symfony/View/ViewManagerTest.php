@@ -19,6 +19,7 @@ use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -27,21 +28,21 @@ use Twig\Environment;
 #[Group('mvc')]
 class ViewManagerTest extends TestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\View\Manager */
+    /** @var Manager */
     private $viewManager;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Twig\Environment */
+    /** @var MockObject|Environment */
     private $templateEngineMock;
 
-    private EventDispatcherInterface&Stub $eventDispatcherMock;
+    private EventDispatcherInterface & Stub $eventDispatcherMock;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\Repository\Repository */
+    /** @var MockObject|Repository */
     private $repositoryMock;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface */
+    /** @var MockObject|ConfigResolverInterface */
     private $configResolverMock;
 
-    /** @var \Ibexa\Core\MVC\Symfony\View\Configurator|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Configurator|MockObject */
     private $viewConfigurator;
 
     private $viewBaseLayout = 'IbexaCoreBundle::viewbase.html.twig';
@@ -73,10 +74,10 @@ class ViewManagerTest extends TestCase
         $params = ['foo' => 'bar'];
         $templateIdentifier = 'foo:bar:baz';
         $this->viewConfigurator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('configure')
             ->will(
-                self::returnCallback(
+                $this->returnCallback(
                     static function (View $view) use ($templateIdentifier): void {
                         $view->setTemplateIdentifier($templateIdentifier);
                     }
@@ -86,13 +87,13 @@ class ViewManagerTest extends TestCase
         // Configuring template engine behaviour
         $expectedTemplateResult = 'This is content rendering';
         $this->templateEngineMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('render')
             ->with(
                 $templateIdentifier,
                 $params + ['content' => $content, 'view_base_layout' => $this->viewBaseLayout]
             )
-            ->will(self::returnValue($expectedTemplateResult));
+            ->will($this->returnValue($expectedTemplateResult));
 
         self::assertSame($expectedTemplateResult, $this->viewManager->renderContent($content, 'customViewType', $params));
     }
@@ -109,10 +110,10 @@ class ViewManagerTest extends TestCase
         };
         $params = ['foo' => 'bar'];
         $this->viewConfigurator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('configure')
             ->will(
-                self::returnCallback(
+                $this->returnCallback(
                     static function (View $view) use ($closure): void {
                         $view->setTemplateIdentifier($closure);
                     }
@@ -123,7 +124,7 @@ class ViewManagerTest extends TestCase
         $params += ['content' => $content, 'view_base_layout' => $this->viewBaseLayout];
         $expectedTemplateResult = array_keys($params);
         $this->templateEngineMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('render');
 
         $templateResult = unserialize($this->viewManager->renderContent($content, 'full', $params));
@@ -140,10 +141,10 @@ class ViewManagerTest extends TestCase
         $templateIdentifier = 'foo:bar:baz';
         $params = ['foo' => 'bar'];
         $this->viewConfigurator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('configure')
             ->will(
-                self::returnCallback(
+                $this->returnCallback(
                     static function (View $view) use ($templateIdentifier): void {
                         $view->setTemplateIdentifier($templateIdentifier);
                     }
@@ -152,30 +153,30 @@ class ViewManagerTest extends TestCase
 
         $languages = ['eng-GB'];
         $this->configResolverMock
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getParameter')
             ->with('languages')
-            ->will(self::returnValue($languages));
+            ->will($this->returnValue($languages));
 
         $contentService = $this->createMock(APIContentService::class);
 
-        $contentService->expects(self::any())
+        $contentService->expects($this->any())
             ->method('loadContentByContentInfo')
             ->with($location->contentInfo, $languages)
-            ->will(self::returnValue($content));
+            ->will($this->returnValue($content));
 
         $this->repositoryMock
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getContentService')
-            ->will(self::returnValue($contentService));
+            ->will($this->returnValue($contentService));
 
         // Configuring template engine behaviour
         $expectedTemplateResult = 'This is location rendering';
         $this->templateEngineMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('render')
             ->with($templateIdentifier, $params + ['location' => $location, 'content' => $content, 'view_base_layout' => $this->viewBaseLayout])
-            ->will(self::returnValue($expectedTemplateResult));
+            ->will($this->returnValue($expectedTemplateResult));
 
         self::assertSame($expectedTemplateResult, $this->viewManager->renderLocation($location, 'customViewType', $params));
     }
@@ -189,10 +190,10 @@ class ViewManagerTest extends TestCase
         $templateIdentifier = 'foo:bar:baz';
         $params = ['foo' => 'bar', 'content' => $content];
         $this->viewConfigurator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('configure')
             ->will(
-                self::returnCallback(
+                $this->returnCallback(
                     static function (View $view) use ($templateIdentifier): void {
                         $view->setTemplateIdentifier($templateIdentifier);
                     }
@@ -201,18 +202,18 @@ class ViewManagerTest extends TestCase
 
         $contentService = $this->createMock(ContentService::class);
 
-        $contentService->expects(self::any())
+        $contentService->expects($this->any())
             ->method('loadContentByContentInfo')
             ->with($content->contentInfo)
             ->will(
-                self::returnValue($content)
+                $this->returnValue($content)
             );
 
         $this->repositoryMock
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getContentService')
             ->will(
-                self::returnValue(
+                $this->returnValue(
                     $contentService
                 )
             );
@@ -220,13 +221,13 @@ class ViewManagerTest extends TestCase
         // Configuring template engine behaviour
         $expectedTemplateResult = 'This is location rendering';
         $this->templateEngineMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('render')
             ->with(
                 $templateIdentifier,
                 $params + ['location' => $location, 'content' => $content, 'view_base_layout' => $this->viewBaseLayout]
             )
-            ->will(self::returnValue($expectedTemplateResult));
+            ->will($this->returnValue($expectedTemplateResult));
 
         self::assertSame($expectedTemplateResult, $this->viewManager->renderLocation($location, 'customViewType', $params));
     }
@@ -242,10 +243,10 @@ class ViewManagerTest extends TestCase
         };
         $params = ['foo' => 'bar'];
         $this->viewConfigurator
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('configure')
             ->will(
-                self::returnCallback(
+                $this->returnCallback(
                     static function (View $view) use ($closure): void {
                         $view->setTemplateIdentifier($closure);
                     }
@@ -254,18 +255,18 @@ class ViewManagerTest extends TestCase
 
         $contentService = $this->createMock(ContentService::class);
 
-        $contentService->expects(self::any())
+        $contentService->expects($this->any())
             ->method('loadContentByContentInfo')
             ->with($content->contentInfo)
             ->will(
-                self::returnValue($content)
+                $this->returnValue($content)
             );
 
         $this->repositoryMock
-            ->expects(self::any())
+            ->expects($this->any())
             ->method('getContentService')
             ->will(
-                self::returnValue(
+                $this->returnValue(
                     $contentService
                 )
             );
@@ -273,7 +274,7 @@ class ViewManagerTest extends TestCase
         // Configuring template engine behaviour
         $params += ['location' => $location, 'content' => $content, 'view_base_layout' => $this->viewBaseLayout];
         $this->templateEngineMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('render');
 
         $expectedTemplateResult = array_keys($params);

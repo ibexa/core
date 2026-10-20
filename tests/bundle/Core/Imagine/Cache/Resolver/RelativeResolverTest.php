@@ -9,11 +9,12 @@ namespace Ibexa\Tests\Bundle\Core\Imagine\Cache\Resolver;
 
 use Ibexa\Bundle\Core\Imagine\Cache\Resolver\RelativeResolver;
 use Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class RelativeResolverTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject|\Liip\ImagineBundle\Imagine\Cache\Resolver\ResolverInterface */
+    /** @var MockObject|ResolverInterface */
     private $liipResolver;
 
     protected function setUp(): void
@@ -33,7 +34,7 @@ class RelativeResolverTest extends TestCase
         $expected = '/var/site/storage/images/_aliases/big/7/4/2/0/247-1-eng-GB/test.png';
 
         $this->liipResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('resolve')
             ->with($path, $filter)
             ->willReturn($absolute);

@@ -18,20 +18,21 @@ use Ibexa\Core\FieldType\ImageAsset\Value as ImageAssetValue;
 use Ibexa\Core\MVC\Symfony\FieldType\ImageAsset\ParameterProvider;
 use Ibexa\Core\Repository\SiteAccessAware\Repository;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ParameterProviderTest extends TestCase
 {
-    /** @var \Ibexa\Core\Repository\SiteAccessAware\Repository|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var Repository|MockObject */
     private $repository;
 
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var PermissionResolver|MockObject */
     private $permissionsResolver;
 
-    /** @var \Ibexa\Core\MVC\Symfony\FieldType\ImageAsset\ParameterProvider */
+    /** @var ParameterProvider */
     private $parameterProvider;
 
-    /** @var \Ibexa\Contracts\Core\Repository\FieldType|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var FieldType|MockObject */
     private $fieldType;
 
     protected function setUp(): void
@@ -67,8 +68,10 @@ class ParameterProviderTest extends TestCase
     }
 
     #[DataProvider('dataProviderForTestGetViewParameters')]
-    public function testGetViewParameters($status, array $expected): void
-    {
+    public function testGetViewParameters(
+        $status,
+        array $expected
+    ): void {
         $destinationContentId = 1;
 
         $this->fieldType
@@ -108,7 +111,7 @@ class ParameterProviderTest extends TestCase
         };
 
         $this->repository
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('sudo')
             ->with($closure)
             ->willThrowException(self::createStub(NotFoundException::class));
@@ -137,11 +140,16 @@ class ParameterProviderTest extends TestCase
             ->willReturn($contentInfo)
         ;
 
-        $matcher = self::exactly(2);
+        $matcher = $this->exactly(2);
         $this->permissionsResolver
             ->expects($matcher)
             ->method('canUser')
-            ->willReturnCallback(static function (string $module, string $function, object $object, array $targets = []) use ($matcher, $contentInfo): bool {
+            ->willReturnCallback(static function (
+                string $module,
+                string $function,
+                object $object,
+                array $targets = []
+            ) use ($matcher, $contentInfo): bool {
                 self::assertSame('content', $module);
                 self::assertSame($contentInfo, $object);
                 if ($matcher->numberOfInvocations() === 1) {
@@ -189,7 +197,7 @@ class ParameterProviderTest extends TestCase
     /**
      * @param int $destinationContentId
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Field
+     * @return Field
      */
     private function createField(int $destinationContentId): Field
     {

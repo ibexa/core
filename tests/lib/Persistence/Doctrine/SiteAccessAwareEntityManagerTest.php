@@ -25,7 +25,7 @@ use Symfony\Contracts\Service\ResetInterface;
 
 final class SiteAccessAwareEntityManagerTest extends TestCase
 {
-    private EntityManagerFactory&MockObject $entityManagerFactory;
+    private EntityManagerFactory & MockObject $entityManagerFactory;
 
     private SiteAccessAwareEntityManager $siteAccessAwareEntityManager;
 
@@ -48,7 +48,7 @@ final class SiteAccessAwareEntityManagerTest extends TestCase
     {
         $entity = new stdClass();
         $wrapped = $this->createMock(EntityManagerInterface::class);
-        $wrapped->expects(self::once())
+        $wrapped->expects($this->once())
             ->method('find')
             ->with(stdClass::class, 1, LockMode::OPTIMISTIC, 2)
             ->willReturn($entity);
@@ -63,7 +63,7 @@ final class SiteAccessAwareEntityManagerTest extends TestCase
     {
         $entity = new stdClass();
         $wrapped = $this->createMock(EntityManagerInterface::class);
-        $wrapped->expects(self::once())
+        $wrapped->expects($this->once())
             ->method('find')
             ->with(stdClass::class, 1, null, null)
             ->willReturn($entity);
@@ -78,7 +78,7 @@ final class SiteAccessAwareEntityManagerTest extends TestCase
     {
         $entity = new stdClass();
         $wrapped = $this->createMock(EntityManagerInterface::class);
-        $wrapped->expects(self::once())
+        $wrapped->expects($this->once())
             ->method('refresh')
             ->with($entity, LockMode::PESSIMISTIC_WRITE);
         $this->entityManagerFactory->method('getEntityManager')->willReturn($wrapped);
@@ -90,7 +90,7 @@ final class SiteAccessAwareEntityManagerTest extends TestCase
     {
         $entity = new stdClass();
         $wrapped = $this->createMock(EntityManagerInterface::class);
-        $wrapped->expects(self::once())
+        $wrapped->expects($this->once())
             ->method('lock')
             ->with($entity, LockMode::OPTIMISTIC, 3);
         $this->entityManagerFactory->method('getEntityManager')->willReturn($wrapped);
@@ -102,7 +102,7 @@ final class SiteAccessAwareEntityManagerTest extends TestCase
     {
         $repository = self::createStub(EntityRepository::class);
         $wrapped = $this->createMock(EntityManagerInterface::class);
-        $wrapped->expects(self::once())
+        $wrapped->expects($this->once())
             ->method('getRepository')
             ->with(stdClass::class)
             ->willReturn($repository);
@@ -117,7 +117,7 @@ final class SiteAccessAwareEntityManagerTest extends TestCase
     {
         $metadata = self::createStub(ClassMetadata::class);
         $wrapped = $this->createMock(EntityManagerInterface::class);
-        $wrapped->expects(self::once())
+        $wrapped->expects($this->once())
             ->method('getClassMetadata')
             ->with(stdClass::class)
             ->willReturn($metadata);
@@ -132,7 +132,7 @@ final class SiteAccessAwareEntityManagerTest extends TestCase
     {
         $metadataFactory = self::createStub(ClassMetadataFactory::class);
         $wrapped = $this->createMock(EntityManagerInterface::class);
-        $wrapped->expects(self::once())
+        $wrapped->expects($this->once())
             ->method('getMetadataFactory')
             ->willReturn($metadataFactory);
         $this->entityManagerFactory->method('getEntityManager')->willReturn($wrapped);
@@ -145,7 +145,7 @@ final class SiteAccessAwareEntityManagerTest extends TestCase
     public function testWrappedEntityManagerIsResolvedOnlyOnce(): void
     {
         $wrapped = self::createStub(EntityManagerInterface::class);
-        $this->entityManagerFactory->expects(self::once())
+        $this->entityManagerFactory->expects($this->once())
             ->method('getEntityManager')
             ->willReturn($wrapped);
 
@@ -158,7 +158,7 @@ final class SiteAccessAwareEntityManagerTest extends TestCase
     {
         $first = self::createStub(EntityManagerInterface::class);
         $second = self::createStub(EntityManagerInterface::class);
-        $this->entityManagerFactory->expects(self::exactly(2))
+        $this->entityManagerFactory->expects($this->exactly(2))
             ->method('getEntityManager')
             ->willReturnOnConsecutiveCalls($first, $second);
 
@@ -171,7 +171,7 @@ final class SiteAccessAwareEntityManagerTest extends TestCase
     {
         $first = self::createStub(EntityManagerInterface::class);
         $second = self::createStub(EntityManagerInterface::class);
-        $this->entityManagerFactory->expects(self::exactly(2))
+        $this->entityManagerFactory->expects($this->exactly(2))
             ->method('getEntityManager')
             ->willReturnOnConsecutiveCalls($first, $second);
 

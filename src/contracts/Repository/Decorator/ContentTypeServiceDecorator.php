@@ -96,8 +96,10 @@ abstract class ContentTypeServiceDecorator implements ContentTypeService
         return $this->innerService->loadContentTypeByRemoteId($remoteId, $prioritizedLanguages);
     }
 
-    public function loadContentTypeDraft(int $contentTypeId, bool $ignoreOwnership = false): ContentTypeDraft
-    {
+    public function loadContentTypeDraft(
+        int $contentTypeId,
+        bool $ignoreOwnership = false
+    ): ContentTypeDraft {
         return $this->innerService->loadContentTypeDraft($contentTypeId, $ignoreOwnership);
     }
 
@@ -108,8 +110,10 @@ abstract class ContentTypeServiceDecorator implements ContentTypeService
         return $this->innerService->loadContentTypeList($contentTypeIds, $prioritizedLanguages);
     }
 
-    public function findContentTypes(?ContentTypeQuery $query = null, array $prioritizedLanguages = []): SearchResult
-    {
+    public function findContentTypes(
+        ?ContentTypeQuery $query = null,
+        array $prioritizedLanguages = []
+    ): SearchResult {
         return $this->innerService->findContentTypes($query, $prioritizedLanguages);
     }
 

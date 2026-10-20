@@ -9,9 +9,11 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\MVC\Symfony\Translation;
 
 use Doctrine\Common\Annotations\DocParser;
+use JMS\TranslationBundle\Model\Message;
 use JMS\TranslationBundle\Model\MessageCatalogue;
 use JMS\TranslationBundle\Translation\Extractor\FileVisitorInterface;
 use JMS\TranslationBundle\Translation\FileSourceFactory;
+use PhpParser\Node\Stmt;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -27,7 +29,7 @@ abstract class BaseMessageExtractorPhpFileVisitorTestCase extends TestCase
     protected FileVisitorInterface $visitor;
 
     /**
-     * @return iterable<string, array{string, array<\JMS\TranslationBundle\Model\Message>}>
+     * @return iterable<string, array{string, array<Message>}>
      */
     abstract public static function getDataForTestExtractTranslation(): iterable;
 
@@ -46,11 +48,13 @@ abstract class BaseMessageExtractorPhpFileVisitorTestCase extends TestCase
     }
 
     /**
-     * @param array<\JMS\TranslationBundle\Model\Message> $expectedMessages
+     * @param array<Message> $expectedMessages
      */
     #[DataProvider('getDataForTestExtractTranslation')]
-    public function testExtractTranslation(string $phpFileName, array $expectedMessages): void
-    {
+    public function testExtractTranslation(
+        string $phpFileName,
+        array $expectedMessages
+    ): void {
         $messageCatalogue = new MessageCatalogue();
         $file = self::FIXTURES_DIR . $phpFileName;
         $fileInfo = new SplFileInfo($file);
@@ -88,7 +92,7 @@ abstract class BaseMessageExtractorPhpFileVisitorTestCase extends TestCase
     }
 
     /**
-     * @return \PhpParser\Node\Stmt[]
+     * @return Stmt[]
      */
     protected function getASTFromFile(string $filePath): array
     {

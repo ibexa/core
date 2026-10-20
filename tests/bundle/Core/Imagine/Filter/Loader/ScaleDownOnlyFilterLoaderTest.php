@@ -12,14 +12,15 @@ use Imagine\Exception\InvalidArgumentException;
 use Imagine\Image\ImageInterface;
 use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ScaleDownOnlyFilterLoaderTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $innerLoader;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\Loader\ScaleDownOnlyFilterLoader */
+    /** @var ScaleDownOnlyFilterLoader */
     private $loader;
 
     protected function setUp(): void
@@ -55,10 +56,10 @@ class ScaleDownOnlyFilterLoaderTest extends TestCase
         $options = [123, 456];
         $image = self::createStub(ImageInterface::class);
         $this->innerLoader
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('load')
             ->with($image, self::equalTo(['size' => $options, 'mode' => 'inset']))
-            ->will(self::returnValue($image));
+            ->will($this->returnValue($image));
 
         self::assertSame($image, $this->loader->load($image, $options));
     }

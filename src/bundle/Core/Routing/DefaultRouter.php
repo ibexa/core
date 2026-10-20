@@ -37,12 +37,11 @@ final class DefaultRouter implements RouterInterface, RequestMatcherInterface, W
      *        i.e. routes pointing to asset generation
      */
     public function __construct(
-        private readonly RouterInterface&RequestMatcherInterface $innerRouter,
+        private readonly RouterInterface & RequestMatcherInterface $innerRouter,
         private readonly SiteAccessRouterInterface $siteAccessRouter,
         private readonly array $nonSiteAccessAwareRoutes = [],
         private readonly ?LoggerInterface $logger = null
-    ) {
-    }
+    ) {}
 
     public function setSiteAccess(?SiteAccess $siteAccess = null): void
     {
@@ -91,8 +90,11 @@ final class DefaultRouter implements RouterInterface, RequestMatcherInterface, W
     /**
      * @param array<string, mixed> $parameters
      */
-    public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH): string
-    {
+    public function generate(
+        string $name,
+        array $parameters = [],
+        int $referenceType = self::ABSOLUTE_PATH
+    ): string {
         $siteAccess = $this->siteAccess;
         $originalContext = $context = $this->getContext();
         $isSiteAccessAware = $this->isSiteAccessAwareRoute($name);
@@ -127,8 +129,12 @@ final class DefaultRouter implements RouterInterface, RequestMatcherInterface, W
         }
     }
 
-    private function prependSiteAccessUri(string $url, RequestContext $context, int $referenceType, URILexer $matcher): string
-    {
+    private function prependSiteAccessUri(
+        string $url,
+        RequestContext $context,
+        int $referenceType,
+        URILexer $matcher
+    ): string {
         if ($referenceType === self::ABSOLUTE_URL || $referenceType === self::NETWORK_PATH) {
             $scheme = $context->getScheme();
             $port = '';
@@ -151,8 +157,10 @@ final class DefaultRouter implements RouterInterface, RequestMatcherInterface, W
     /**
      * @return string[]
      */
-    public function warmUp(string $cacheDir, ?string $buildDir = null): array
-    {
+    public function warmUp(
+        string $cacheDir,
+        ?string $buildDir = null
+    ): array {
         if ($this->innerRouter instanceof WarmableInterface) {
             return $this->innerRouter->warmUp($cacheDir, $buildDir);
         }

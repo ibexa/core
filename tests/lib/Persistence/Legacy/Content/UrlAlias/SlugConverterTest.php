@@ -88,12 +88,12 @@ final class SlugConverterTest extends TestCase
         $transformedText = 'test text  c ';
         $slug = 'test_text_c';
 
-        $transformationProcessor->expects(self::atLeastOnce())
+        $transformationProcessor->expects($this->atLeastOnce())
             ->method('transform')
             ->with($text, ['test_command2'])
             ->willReturn($transformedText);
 
-        $slugConverter->expects(self::once())
+        $slugConverter->expects($this->once())
             ->method('cleanupText')
             ->with(self::equalTo($transformedText), self::equalTo('test_cleanup2'))
             ->willReturn($slug);
@@ -119,8 +119,11 @@ final class SlugConverterTest extends TestCase
      * Test for the getUniqueCounterValue() method.
      */
     #[DataProvider('providerForTestGetUniqueCounterValue')]
-    public function testGetUniqueCounterValue(string $text, bool $isRootLevel, int $returnValue): void
-    {
+    public function testGetUniqueCounterValue(
+        string $text,
+        bool $isRootLevel,
+        int $returnValue
+    ): void {
         $slugConverter = $this->getSlugConverter();
 
         self::assertEquals(
@@ -135,19 +138,19 @@ final class SlugConverterTest extends TestCase
     public static function cleanupTextData(): iterable
     {
         yield [
-                '.Ph\'nglui mglw\'nafh, Cthulhu R\'lyeh wgah\'nagl fhtagn!?...',
-                'url_cleanup',
-                'Ph-nglui-mglw-nafh-Cthulhu-R-lyeh-wgah-nagl-fhtagn!',
+            '.Ph\'nglui mglw\'nafh, Cthulhu R\'lyeh wgah\'nagl fhtagn!?...',
+            'url_cleanup',
+            'Ph-nglui-mglw-nafh-Cthulhu-R-lyeh-wgah-nagl-fhtagn!',
         ];
         yield [
-                '.Ph\'nglui mglw\'nafh, Cthulhu R\'lyeh wgah\'nagl fhtagn!?...',
-                'url_cleanup_iri',
-                'Ph\'nglui-mglw\'nafh,-Cthulhu-R\'lyeh-wgah\'nagl-fhtagn!',
+            '.Ph\'nglui mglw\'nafh, Cthulhu R\'lyeh wgah\'nagl fhtagn!?...',
+            'url_cleanup_iri',
+            'Ph\'nglui-mglw\'nafh,-Cthulhu-R\'lyeh-wgah\'nagl-fhtagn!',
         ];
         yield [
-                '.Ph\'nglui mglw\'nafh, Cthulhu R\'lyeh wgah\'nagl fhtagn!?...',
-                'url_cleanup_compat',
-                'ph_nglui_mglw_nafh_cthulhu_r_lyeh_wgah_nagl_fhtagn',
+            '.Ph\'nglui mglw\'nafh, Cthulhu R\'lyeh wgah\'nagl fhtagn!?...',
+            'url_cleanup_compat',
+            'ph_nglui_mglw_nafh_cthulhu_r_lyeh_wgah_nagl_fhtagn',
         ];
     }
 
@@ -155,8 +158,11 @@ final class SlugConverterTest extends TestCase
      * Test for the cleanupText() method.
      */
     #[DataProvider('cleanupTextData')]
-    public function testCleanupText(string $text, string $method, string $expected): void
-    {
+    public function testCleanupText(
+        string $text,
+        string $method,
+        string $expected
+    ): void {
         $testMethod = new ReflectionMethod(
             SlugConverter::class,
             'cleanupText'
@@ -176,29 +182,33 @@ final class SlugConverterTest extends TestCase
     public static function convertData(): iterable
     {
         yield [
-                '.Ph\'nglui mglw\'nafh, Cthulhu R\'lyeh wgah\'nagl fhtagn!?...',
-                '\'_1\'',
-                'urlalias',
-                'Ph-nglui-mglw-nafh-Cthulhu-R-lyeh-wgah-nagl-fhtagn!',
+            '.Ph\'nglui mglw\'nafh, Cthulhu R\'lyeh wgah\'nagl fhtagn!?...',
+            '\'_1\'',
+            'urlalias',
+            'Ph-nglui-mglw-nafh-Cthulhu-R-lyeh-wgah-nagl-fhtagn!',
         ];
         yield [
-                '.Ph\'nglui mglw\'nafh, Cthulhu R\'lyeh wgah\'nagl fhtagn!?...',
-                '\'_1\'',
-                'urlalias_iri',
-                'Ph\'nglui-mglw\'nafh,-Cthulhu-R\'lyeh-wgah\'nagl-fhtagn!',
+            '.Ph\'nglui mglw\'nafh, Cthulhu R\'lyeh wgah\'nagl fhtagn!?...',
+            '\'_1\'',
+            'urlalias_iri',
+            'Ph\'nglui-mglw\'nafh,-Cthulhu-R\'lyeh-wgah\'nagl-fhtagn!',
         ];
         yield [
-                '.Ph\'nglui mglw\'nafh, Cthulhu R\'lyeh wgah\'nagl fhtagn!?...',
-                '\'_1\'',
-                'urlalias_compat',
-                'ph_nglui_mglw_nafh_cthulhu_r_lyeh_wgah_nagl_fhtagn',
+            '.Ph\'nglui mglw\'nafh, Cthulhu R\'lyeh wgah\'nagl fhtagn!?...',
+            '\'_1\'',
+            'urlalias_compat',
+            'ph_nglui_mglw_nafh_cthulhu_r_lyeh_wgah_nagl_fhtagn',
         ];
     }
 
     #[Depends('testCleanupText')]
     #[DataProvider('convertData')]
-    public function testConvertNoMocking(string $text, string $defaultText, string $transformation, string $expected): void
-    {
+    public function testConvertNoMocking(
+        string $text,
+        string $defaultText,
+        string $transformation,
+        string $expected
+    ): void {
         $transformationsDirectory = dirname(__DIR__, 6) . '/src/lib/Resources/slug_converter/transformations';
         $transformationProcessor = new PreprocessedBased(
             new PcreCompiler(
@@ -268,21 +278,23 @@ final class SlugConverterTest extends TestCase
         return $this->transformationProcessorMock;
     }
 
-    private function mockSlugConverter(string $slug, string $defaultText): SlugConverter & MockObject
-    {
+    private function mockSlugConverter(
+        string $slug,
+        string $defaultText
+    ): SlugConverter & MockObject {
         $slugConverter = $this->getSlugConverterMock(['cleanupText']);
         $transformationProcessor = $this->getTransformationProcessorMock();
 
         $transformedText = 'test text  c ';
 
         $transformationProcessor
-            ->expects(self::atLeastOnce())
+            ->expects($this->atLeastOnce())
             ->method('transform')
             ->with($defaultText, ['test_command1'])
             ->willReturn($transformedText);
 
         $slugConverter
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('cleanupText')
             ->with(self::equalTo($transformedText), self::equalTo('test_cleanup1'))
             ->willReturn($slug);

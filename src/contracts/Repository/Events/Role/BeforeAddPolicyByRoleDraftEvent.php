@@ -21,8 +21,10 @@ final class BeforeAddPolicyByRoleDraftEvent extends BeforeEvent
 
     private ?RoleDraft $updatedRoleDraft = null;
 
-    public function __construct(RoleDraft $roleDraft, PolicyCreateStruct $policyCreateStruct)
-    {
+    public function __construct(
+        RoleDraft $roleDraft,
+        PolicyCreateStruct $policyCreateStruct
+    ) {
         $this->roleDraft = $roleDraft;
         $this->policyCreateStruct = $policyCreateStruct;
     }

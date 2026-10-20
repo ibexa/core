@@ -51,8 +51,10 @@ class BookmarkHandler extends AbstractHandler implements BookmarkHandlerInterfac
     /**
      * {@inheritdoc}
      */
-    public function loadByUserIdAndLocationId(int $userId, array $locationIds): array
-    {
+    public function loadByUserIdAndLocationId(
+        int $userId,
+        array $locationIds
+    ): array {
         return $this->getMultipleCacheItems(
             $locationIds,
             $this->cacheIdentifierGenerator->generateKey(self::BOOKMARK_IDENTIFIER, [$userId], true) . '-',
@@ -85,34 +87,10 @@ class BookmarkHandler extends AbstractHandler implements BookmarkHandlerInterfac
     /**
      * {@inheritdoc}
      */
-    public function loadUserBookmarks(int $userId, int $offset = 0, int $limit = -1): array
-    {
-        $this->logger->logCall(__METHOD__, [
-            'userId' => $userId,
-            'offset' => $offset,
-            'limit' => $limit,
-        ]);
-
-        return $this->persistenceHandler->bookmarkHandler()->loadUserBookmarks($userId, $offset, $limit);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function countUserBookmarks(int $userId): int
-    {
-        $this->logger->logCall(__METHOD__, [
-            'userId' => $userId,
-        ]);
-
-        return $this->persistenceHandler->bookmarkHandler()->countUserBookmarks($userId);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function locationSwapped(int $location1Id, int $location2Id): void
-    {
+    public function locationSwapped(
+        int $location1Id,
+        int $location2Id
+    ): void {
         $this->logger->logCall(__METHOD__, [
             'location1Id' => $location1Id,
             'location2Id' => $location2Id,

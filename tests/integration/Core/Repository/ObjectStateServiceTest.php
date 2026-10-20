@@ -62,7 +62,7 @@ class ObjectStateServiceTest extends BaseTestCase
     /**
      * testNewObjectStateGroupCreateStructValues.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroupCreateStruct $objectStateGroupCreate
+     * @param ObjectStateGroupCreateStruct $objectStateGroupCreate
      */
     #[Depends('testNewObjectStateGroupCreateStruct')]
     public function testNewObjectStateGroupCreateStructValues(ObjectStateGroupCreateStruct $objectStateGroupCreate): void
@@ -102,7 +102,7 @@ class ObjectStateServiceTest extends BaseTestCase
     /**
      * testNewObjectStateGroupUpdateStructValues.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroupUpdateStruct $objectStateGroupUpdate
+     * @param ObjectStateGroupUpdateStruct $objectStateGroupUpdate
      */
     #[Depends('testNewObjectStateGroupUpdateStruct')]
     public function testNewObjectStateGroupUpdateStructValues(ObjectStateGroupUpdateStruct $objectStateGroupUpdate): void
@@ -144,7 +144,7 @@ class ObjectStateServiceTest extends BaseTestCase
     /**
      * testNewObjectStateCreateStructValues.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateCreateStruct $objectStateCreate
+     * @param ObjectStateCreateStruct $objectStateCreate
      */
     #[Depends('testNewObjectStateCreateStruct')]
     public function testNewObjectStateCreateStructValues(ObjectStateCreateStruct $objectStateCreate): void
@@ -185,7 +185,7 @@ class ObjectStateServiceTest extends BaseTestCase
     /**
      * testNewObjectStateUpdateStructValues.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateUpdateStruct $objectStateUpdate
+     * @param ObjectStateUpdateStruct $objectStateUpdate
      */
     #[Depends('testNewObjectStateUpdateStruct')]
     public function testNewObjectStateUpdateStructValues(ObjectStateUpdateStruct $objectStateUpdate): void
@@ -241,7 +241,7 @@ class ObjectStateServiceTest extends BaseTestCase
     /**
      * testCreateObjectStateGroupStructValues.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup $createdObjectStateGroup
+     * @param ObjectStateGroup $createdObjectStateGroup
      */
     #[Depends('testCreateObjectStateGroup')]
     public function testCreateObjectStateGroupStructValues(ObjectStateGroup $createdObjectStateGroup): void
@@ -431,7 +431,7 @@ class ObjectStateServiceTest extends BaseTestCase
      * Creates a set of object state groups and returns an array of all
      * existing group identifiers after creation.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup[]
+     * @return ObjectStateGroup[]
      */
     protected function createObjectStateGroups()
     {
@@ -473,8 +473,11 @@ class ObjectStateServiceTest extends BaseTestCase
      * @param array $loadedObjects
      * @param string $class
      */
-    protected function assertObjectsLoadedByIdentifiers(array $expectedIdentifiers, array $loadedObjects, $class)
-    {
+    protected function assertObjectsLoadedByIdentifiers(
+        array $expectedIdentifiers,
+        array $loadedObjects,
+        $class
+    ) {
         foreach ($loadedObjects as $loadedObject) {
             if (!isset($expectedIdentifiers[$loadedObject->identifier])) {
                 self::fail(
@@ -763,8 +766,13 @@ class ObjectStateServiceTest extends BaseTestCase
             $allObjectGroups
         ) = $testData;
 
-        $this->assertStructPropertiesCorrect(
-            $groupUpdateStruct,
+        $this->assertPropertiesCorrect(
+            [
+                'identifier' => $groupUpdateStruct->identifier,
+                'mainLanguageCode' => $groupUpdateStruct->defaultLanguageCode,
+                'names' => $groupUpdateStruct->names,
+                'descriptions' => $groupUpdateStruct->descriptions,
+            ],
             $updatedObjectStateGroup
         );
 
@@ -934,8 +942,14 @@ class ObjectStateServiceTest extends BaseTestCase
             $createdObjectState
         ) = $testData;
 
-        $this->assertStructPropertiesCorrect(
-            $objectStateCreateStruct,
+        $this->assertPropertiesCorrect(
+            [
+                'identifier' => $objectStateCreateStruct->identifier,
+                'priority' => $objectStateCreateStruct->priority,
+                'mainLanguageCode' => $objectStateCreateStruct->defaultLanguageCode,
+                'names' => $objectStateCreateStruct->names,
+                'descriptions' => $objectStateCreateStruct->descriptions,
+            ],
             $createdObjectState
         );
 
@@ -1032,7 +1046,7 @@ class ObjectStateServiceTest extends BaseTestCase
     /**
      * testLoadObjectStateStructValues.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState $loadedObjectState
+     * @param ObjectState $loadedObjectState
      */
     #[Depends('testLoadObjectState')]
     public function testLoadObjectStateStructValues(ObjectState $loadedObjectState): void
@@ -1128,7 +1142,7 @@ class ObjectStateServiceTest extends BaseTestCase
         );
 
         foreach ($objectStateGroups as $objectStateGroup) {
-            $languageCode = $expectedLanguageCode === null ? $objectStateGroup->defaultLanguageCode : $expectedLanguageCode;
+            $languageCode = $expectedLanguageCode === null ? $objectStateGroup->mainLanguageCode : $expectedLanguageCode;
 
             self::assertEquals(
                 $objectStateGroup->getName($languageCode),
@@ -1164,7 +1178,7 @@ class ObjectStateServiceTest extends BaseTestCase
         );
 
         if ($expectedLanguageCode === null) {
-            $expectedLanguageCode = $loadedObjectStateGroup->defaultLanguageCode;
+            $expectedLanguageCode = $loadedObjectStateGroup->mainLanguageCode;
         }
 
         self::assertEquals(
@@ -1194,13 +1208,13 @@ class ObjectStateServiceTest extends BaseTestCase
         $objectStateService = $repository->getObjectStateService();
 
         $objectStateData = $this->testCreateObjectState();
-        /** @see \Ibexa\Tests\Integration\Core\Repository\ObjectStateServiceTest::testCreateObjectState */
+        /** @see ObjectStateServiceTest::testCreateObjectState */
         $objectState = $objectStateData[2];
-        /** @var \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState $objectState */
+        /** @var ObjectState $objectState */
         $loadedObjectState = $objectStateService->loadObjectState($objectState->id, $prioritizedLanguages);
 
         if ($expectedLanguageCode === null) {
-            $expectedLanguageCode = $objectState->defaultLanguageCode;
+            $expectedLanguageCode = $objectState->mainLanguageCode;
         }
 
         self::assertEquals(
@@ -1222,8 +1236,10 @@ class ObjectStateServiceTest extends BaseTestCase
      * @param string|null $expectedLanguageCode
      */
     #[DataProvider('getPrioritizedLanguagesList')]
-    public function testLoadObjectStatesWithPrioritizedLanguagesList($languageCodes, $expectedLanguageCode): void
-    {
+    public function testLoadObjectStatesWithPrioritizedLanguagesList(
+        $languageCodes,
+        $expectedLanguageCode
+    ): void {
         $repository = $this->getRepository();
         $objectStateService = $repository->getObjectStateService();
 
@@ -1575,7 +1591,7 @@ class ObjectStateServiceTest extends BaseTestCase
         );
         self::assertEquals('sindelfingen', $initialObjectState->identifier);
         self::assertEquals(['eng-GB' => 'Sindelfingen'], $initialObjectState->names);
-        self::assertEquals('eng-GB', $initialObjectState->defaultLanguageCode);
+        self::assertEquals('eng-GB', $initialObjectState->mainLanguageCode);
     }
 
     /**
@@ -1764,12 +1780,12 @@ class ObjectStateServiceTest extends BaseTestCase
     /**
      * Create Object State within the given Object State Group.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroup $objectStateGroup
+     * @param ObjectStateGroup $objectStateGroup
      * @param string $identifier
      * @param array $names multi-language names
      * @param array $descriptions multi-language descriptions
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectState
+     * @return ObjectState
      */
     private function createObjectState(
         ObjectStateGroup $objectStateGroup,

@@ -23,7 +23,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final class SettingService extends SettingServiceDecorator
 {
-    /** @var \Symfony\Contracts\EventDispatcher\EventDispatcherInterface */
+    /** @var EventDispatcherInterface */
     private $eventDispatcher;
 
     public function __construct(
@@ -57,8 +57,10 @@ final class SettingService extends SettingServiceDecorator
         return $setting;
     }
 
-    public function updateSetting(Setting $setting, SettingUpdateStruct $settingUpdateStruct): Setting
-    {
+    public function updateSetting(
+        Setting $setting,
+        SettingUpdateStruct $settingUpdateStruct
+    ): Setting {
         $eventData = [
             $setting,
             $settingUpdateStruct,

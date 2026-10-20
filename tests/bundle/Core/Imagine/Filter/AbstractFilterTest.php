@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 class AbstractFilterTest extends TestCase
 {
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\AbstractFilter */
+    /** @var AbstractFilter */
     protected $filter;
 
     protected function setUp(): void
@@ -36,8 +36,10 @@ class AbstractFilterTest extends TestCase
     }
 
     #[DataProvider('getSetOptionNoDefaulValueProvider')]
-    public function testGetSetOptionNoDefaultValue($optionName, $value): void
-    {
+    public function testGetSetOptionNoDefaultValue(
+        $optionName,
+        $value
+    ): void {
         self::assertFalse($this->filter->hasOption($optionName));
         self::assertNull($this->filter->getOption($optionName));
         $this->filter->setOption($optionName, $value);
@@ -61,8 +63,11 @@ class AbstractFilterTest extends TestCase
     }
 
     #[DataProvider('getSetOptionWithDefaulValueProvider')]
-    public function testGetSetOptionWithDefaultValue($optionName, $value, $defaultValue): void
-    {
+    public function testGetSetOptionWithDefaultValue(
+        $optionName,
+        $value,
+        $defaultValue
+    ): void {
         self::assertFalse($this->filter->hasOption($optionName));
         self::assertSame($defaultValue, $this->filter->getOption($optionName, $defaultValue));
         $this->filter->setOption($optionName, $value);

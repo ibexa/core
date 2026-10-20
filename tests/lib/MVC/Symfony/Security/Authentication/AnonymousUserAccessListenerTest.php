@@ -29,17 +29,17 @@ use Symfony\Component\Security\Http\Firewall\AccessListener;
 
 final class AnonymousUserAccessListenerTest extends TestCase
 {
-    private MockObject&PermissionResolver $permissionResolver;
+    private MockObject & PermissionResolver $permissionResolver;
 
     private AccessListener $innerListener;
 
-    private MockObject&Security $security;
+    private MockObject & Security $security;
 
     private AnonymousUserAccessListener $listener;
 
-    private MockObject&AccessDecisionManagerInterface $accessDecisionManager;
+    private MockObject & AccessDecisionManagerInterface $accessDecisionManager;
 
-    private MockObject&AccessMapInterface $accessMap;
+    private MockObject & AccessMapInterface $accessMap;
 
     /** @var array<mixed, mixed> */
     private array $patterns = [null, null];
@@ -52,8 +52,7 @@ final class AnonymousUserAccessListenerTest extends TestCase
         $this->accessMap = $this->createMock(AccessMapInterface::class);
         $this->accessDecisionManager = $this->createMock(AccessDecisionManagerInterface::class);
 
-        $token = new class() extends AbstractToken {
-        };
+        $token = new class() extends AbstractToken {};
         $tokenStorage = new TokenStorage();
         $tokenStorage->setToken($token);
 
@@ -107,7 +106,7 @@ final class AnonymousUserAccessListenerTest extends TestCase
         );
 
         $this->permissionResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('canUser')
             ->with('user', 'login', $siteAccess)
             ->willReturn(true);
@@ -126,7 +125,7 @@ final class AnonymousUserAccessListenerTest extends TestCase
         );
 
         $this->permissionResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('canUser')
             ->with('user', 'login', $siteAccess)
             ->willReturn(false);
@@ -148,7 +147,7 @@ final class AnonymousUserAccessListenerTest extends TestCase
         );
 
         $this->permissionResolver
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('canUser');
 
         $this->listener->authenticate($event);
@@ -160,7 +159,7 @@ final class AnonymousUserAccessListenerTest extends TestCase
 
         // The short-circuit must not even consult the access map.
         $this->accessMap
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('getPatterns');
 
         self::assertFalse($this->listener->supports($request));
@@ -256,14 +255,14 @@ final class AnonymousUserAccessListenerTest extends TestCase
         $this->mockAccessMapGetPatterns();
 
         $this->permissionResolver
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('canUser');
 
         // Prime `_access_control_attributes` via the transparent supports() path.
         $listener->supports($request);
 
         $this->accessDecisionManager
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('decide')
             ->willReturn(false);
 
@@ -293,7 +292,7 @@ final class AnonymousUserAccessListenerTest extends TestCase
         $this->patterns = [[AuthenticatedVoter::PUBLIC_ACCESS], null];
         $event = $this->prepareForAccessListenerTests();
 
-        $this->accessDecisionManager->expects(self::once())
+        $this->accessDecisionManager->expects($this->once())
             ->method('decide')
             ->willReturn(true);
 
@@ -314,7 +313,7 @@ final class AnonymousUserAccessListenerTest extends TestCase
         $request = new Request([], [], ['siteaccess' => $siteAccess]);
 
         $this->permissionResolver
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('canUser')
             ->with('user', 'login', $siteAccess)
             ->willReturn(true);
@@ -333,7 +332,7 @@ final class AnonymousUserAccessListenerTest extends TestCase
     private function mockAccessMapGetPatterns(): void
     {
         $this->accessMap
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getPatterns')
             ->willReturnCallback(function (): array {
                 return $this->patterns;
@@ -356,7 +355,7 @@ final class AnonymousUserAccessListenerTest extends TestCase
         );
     }
 
-    private function createSecurityForFirewall(string $firewallName): MockObject&Security
+    private function createSecurityForFirewall(string $firewallName): MockObject & Security
     {
         $security = $this->createMock(Security::class);
         $security

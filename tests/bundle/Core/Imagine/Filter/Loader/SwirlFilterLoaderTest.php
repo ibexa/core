@@ -11,14 +11,15 @@ use Ibexa\Bundle\Core\Imagine\Filter\FilterInterface;
 use Ibexa\Bundle\Core\Imagine\Filter\Loader\SwirlFilterLoader;
 use Imagine\Image\ImageInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class SwirlFilterLoaderTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $filter;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\Loader\SwirlFilterLoader */
+    /** @var SwirlFilterLoader */
     private $loader;
 
     protected function setUp(): void
@@ -32,14 +33,14 @@ class SwirlFilterLoaderTest extends TestCase
     {
         $image = self::createStub(ImageInterface::class);
         $this->filter
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('setOption');
 
         $this->filter
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('apply')
             ->with($image)
-            ->will(self::returnValue($image));
+            ->will($this->returnValue($image));
 
         self::assertSame($image, $this->loader->load($image));
     }
@@ -49,15 +50,15 @@ class SwirlFilterLoaderTest extends TestCase
     {
         $image = self::createStub(ImageInterface::class);
         $this->filter
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('setOption')
             ->with('degrees', $degrees);
 
         $this->filter
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('apply')
             ->with($image)
-            ->will(self::returnValue($image));
+            ->will($this->returnValue($image));
 
         self::assertSame($image, $this->loader->load($image, [$degrees]));
     }

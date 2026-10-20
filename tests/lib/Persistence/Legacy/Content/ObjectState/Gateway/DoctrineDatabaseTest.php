@@ -9,6 +9,7 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Content\ObjectState\Gateway;
 
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group;
+use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
@@ -20,14 +21,14 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Database gateway to test.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway\DoctrineDatabase
+     * @var DoctrineDatabase
      */
     protected $databaseGateway;
 
     /**
      * Language mask generator.
      *
-     * @var \Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
+     * @var MaskGenerator
      */
     protected $languageMaskGenerator;
 
@@ -471,7 +472,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Returns an object state fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState
+     * @return ObjectState
      */
     protected function getObjectStateFixture()
     {
@@ -488,7 +489,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     /**
      * Returns an object state group fixture.
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group
+     * @return Group
      */
     protected function getObjectStateGroupFixture()
     {

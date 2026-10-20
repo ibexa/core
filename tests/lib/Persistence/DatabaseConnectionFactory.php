@@ -11,6 +11,7 @@ namespace Ibexa\Tests\Core\Persistence;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Tools\DsnParser;
 
 /**
@@ -42,7 +43,7 @@ class DatabaseConnectionFactory
      *
      * An associative array mapping database URL to a Connection object.
      *
-     * @var \Doctrine\DBAL\Connection[]
+     * @var Connection[]
      */
     private static ?array $connectionPool = null;
 
@@ -69,7 +70,7 @@ class DatabaseConnectionFactory
     /**
      * Connect to a database described by URL (a.k.a. DSN).
      *
-     * @throws \Doctrine\DBAL\Exception if connection failed
+     * @throws Exception if connection failed
      */
     public function createConnection(string $databaseURL): Connection
     {

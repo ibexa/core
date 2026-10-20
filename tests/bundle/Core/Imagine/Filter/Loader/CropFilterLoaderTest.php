@@ -12,14 +12,15 @@ use Imagine\Exception\InvalidArgumentException;
 use Imagine\Image\ImageInterface;
 use Liip\ImagineBundle\Imagine\Filter\Loader\LoaderInterface;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class CropFilterLoaderTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $innerLoader;
 
-    /** @var \Ibexa\Bundle\Core\Imagine\Filter\Loader\CropFilterLoader */
+    /** @var CropFilterLoader */
     private $loader;
 
     protected function setUp(): void
@@ -61,10 +62,10 @@ class CropFilterLoaderTest extends TestCase
 
         $image = self::createStub(ImageInterface::class);
         $this->innerLoader
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('load')
             ->with($image, ['size' => [$width, $height], 'start' => [$offsetX, $offsetY]])
-            ->will(self::returnValue($image));
+            ->will($this->returnValue($image));
 
         self::assertSame($image, $this->loader->load($image, [$width, $height, $offsetX, $offsetY]));
     }

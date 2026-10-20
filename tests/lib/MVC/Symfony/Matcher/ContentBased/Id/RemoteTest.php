@@ -7,6 +7,7 @@
 
 namespace Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\Id;
 
+use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Remote;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Remote as RemoteIdMatcher;
 use Ibexa\Core\MVC\Symfony\Matcher\ContentBased\MultipleValued;
 use Ibexa\Tests\Core\MVC\Symfony\Matcher\ContentBased\BaseTestCase;
@@ -17,7 +18,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 #[CoversClass(MultipleValued::class)]
 class RemoteTest extends BaseTestCase
 {
-    /** @var \Ibexa\Core\MVC\Symfony\Matcher\ContentBased\Id\Remote */
+    /** @var Remote */
     private $matcher;
 
     protected function setUp(): void
@@ -31,8 +32,11 @@ class RemoteTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchLocationProvider')]
-    public function testMatchLocation($matchingConfig, string $remoteId, $expectedResult): void
-    {
+    public function testMatchLocation(
+        $matchingConfig,
+        string $remoteId,
+        $expectedResult
+    ): void {
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame($expectedResult, $this->matcher->matchLocation($this->getLocationMock(['remoteId' => $remoteId])));
     }
@@ -71,8 +75,11 @@ class RemoteTest extends BaseTestCase
      * @param bool $expectedResult
      */
     #[DataProvider('matchContentInfoProvider')]
-    public function testMatchContentInfo($matchingConfig, string $remoteId, $expectedResult): void
-    {
+    public function testMatchContentInfo(
+        $matchingConfig,
+        string $remoteId,
+        $expectedResult
+    ): void {
         $this->matcher->setMatchingConfig($matchingConfig);
         self::assertSame($expectedResult, $this->matcher->matchContentInfo($this->getContentInfoMock(['remoteId' => $remoteId])));
     }

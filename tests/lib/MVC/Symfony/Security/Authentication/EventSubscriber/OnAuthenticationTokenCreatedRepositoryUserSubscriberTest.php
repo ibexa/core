@@ -45,7 +45,7 @@ final class OnAuthenticationTokenCreatedRepositoryUserSubscriberTest extends Tes
     ): void {
         $permissionResolver = $this->createMock(PermissionResolver::class);
         $permissionResolver
-            ->expects($isPermissionResolverInvoked === true ? self::once() : self::never())
+            ->expects($isPermissionResolverInvoked === true ? $this->once() : $this->never())
             ->method('setCurrentUserReference');
 
         $subscriber = new OnAuthenticationTokenCreatedRepositoryUserSubscriber($permissionResolver);
@@ -56,7 +56,7 @@ final class OnAuthenticationTokenCreatedRepositoryUserSubscriberTest extends Tes
     }
 
     /**
-     * @return iterable<string, array{\Symfony\Component\Security\Core\User\UserInterface, bool}>
+     * @return iterable<string, array{UserInterface, bool}>
      */
     public static function dataProviderForTestSettingCurrentUserReference(): iterable
     {

@@ -14,18 +14,19 @@ use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ContentPreviewHelperTest extends TestCase
 {
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $eventDispatcher;
 
-    /** @var \PHPUnit\Framework\MockObject\MockObject */
+    /** @var MockObject */
     private $siteAccessRouter;
 
-    /** @var \Ibexa\Core\Helper\ContentPreviewHelper */
+    /** @var ContentPreviewHelper */
     private $previewHelper;
 
     protected function setUp(): void
@@ -42,14 +43,14 @@ class ContentPreviewHelperTest extends TestCase
         $newSiteAccess = new SiteAccess($newSiteAccessName);
 
         $this->siteAccessRouter
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('matchByName')
             ->with(self::equalTo($newSiteAccessName))
             ->willReturn($newSiteAccess);
 
         $event = new ScopeChangeEvent($newSiteAccess);
         $this->eventDispatcher
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('dispatch')
             ->with(self::equalTo($event), MVCEvents::CONFIG_SCOPE_CHANGE);
 
@@ -66,7 +67,7 @@ class ContentPreviewHelperTest extends TestCase
         $originalSiteAccess = new SiteAccess('foo', 'bar');
         $event = new ScopeChangeEvent($originalSiteAccess);
         $this->eventDispatcher
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('dispatch')
             ->with(self::equalTo($event), MVCEvents::CONFIG_SCOPE_RESTORE);
 

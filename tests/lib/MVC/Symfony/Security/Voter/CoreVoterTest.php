@@ -13,13 +13,14 @@ use Ibexa\Core\MVC\Symfony\Controller\Content\ViewController;
 use Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute;
 use Ibexa\Core\MVC\Symfony\Security\Authorization\Voter\CoreVoter;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 class CoreVoterTest extends TestCase
 {
-    /** @var \Ibexa\Contracts\Core\Repository\PermissionResolver|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var PermissionResolver|MockObject */
     private $permissionResolver;
 
     protected function setUp(): void
@@ -29,8 +30,10 @@ class CoreVoterTest extends TestCase
     }
 
     #[DataProvider('supportsAttributeProvider')]
-    public function testSupportsAttribute($attribute, $expectedResult): void
-    {
+    public function testSupportsAttribute(
+        $attribute,
+        $expectedResult
+    ): void {
         $voter = new CoreVoter($this->permissionResolver);
         self::assertSame($expectedResult, $voter->supportsAttribute($attribute));
     }
@@ -115,18 +118,21 @@ class CoreVoterTest extends TestCase
     }
 
     #[DataProvider('voteProvider')]
-    public function testVote(Attribute $attribute, $repositoryCanUser, $expectedResult): void
-    {
+    public function testVote(
+        Attribute $attribute,
+        $repositoryCanUser,
+        $expectedResult
+    ): void {
         $voter = new CoreVoter($this->permissionResolver);
         if ($repositoryCanUser !== null) {
             $this->permissionResolver
-                ->expects(self::once())
+                ->expects($this->once())
                 ->method('hasAccess')
                 ->with($attribute->module, $attribute->function)
-                ->will(self::returnValue($repositoryCanUser));
+                ->will($this->returnValue($repositoryCanUser));
         } else {
             $this->permissionResolver
-                ->expects(self::never())
+                ->expects($this->never())
                 ->method('hasAccess');
         }
 

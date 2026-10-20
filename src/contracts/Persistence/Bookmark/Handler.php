@@ -9,15 +9,16 @@ declare(strict_types=1);
 namespace Ibexa\Contracts\Core\Persistence\Bookmark;
 
 use Ibexa\Contracts\Core\Persistence\Content\Location;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 
 interface Handler
 {
     /**
      * Create a new bookmark.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Bookmark\CreateStruct $createStruct
+     * @param CreateStruct $createStruct
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark
+     * @return Bookmark
      */
     public function create(CreateStruct $createStruct): Bookmark;
 
@@ -26,7 +27,7 @@ interface Handler
      *
      * @param int $bookmarkId
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function delete(int $bookmarkId): void;
 
@@ -36,9 +37,12 @@ interface Handler
      * @param int $userId
      * @param array $locationIds
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark[]
+     * @return Bookmark[]
      */
-    public function loadByUserIdAndLocationId(int $userId, array $locationIds): array;
+    public function loadByUserIdAndLocationId(
+        int $userId,
+        array $locationIds
+    ): array;
 
     /**
      * Get user ids who have bookmarked given location.
@@ -48,30 +52,6 @@ interface Handler
     public function loadUserIdsByLocation(Location $location): array;
 
     /**
-     * Loads bookmarks owned by user.
-     *
-     * @deprecated 4.6.33 The "Handler::loadUserBookmarks()" method is deprecated, will be removed in 6.0.0. Use "LocationService::find()" and "Criterion\Location\IsBookmarked" instead.
-     *
-     * @param int $userId
-     * @param int $offset the start offset for paging
-     * @param int $limit the number of bookmarked locations returned
-     *
-     * @return \Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark[]
-     */
-    public function loadUserBookmarks(int $userId, int $offset = 0, int $limit = -1): array;
-
-    /**
-     * Count bookmarks owned by user.
-     *
-     * @deprecated 4.6.33 The "Handler::countUserBookmarks()" method is deprecated, will be removed in 6.0.0. Use "LocationService::count()" and "Criterion\Location\IsBookmarked" instead.
-     *
-     * @param int $userId
-     *
-     * @return int
-     */
-    public function countUserBookmarks(int $userId): int;
-
-    /**
      * Notifies the underlying engine that a location was swapped.
      *
      * This method triggers the change of the bookmarked locations.
@@ -79,5 +59,8 @@ interface Handler
      * @param int $location1Id ID of first location
      * @param int $location2Id ID of second location
      */
-    public function locationSwapped(int $location1Id, int $location2Id): void;
+    public function locationSwapped(
+        int $location1Id,
+        int $location2Id
+    ): void;
 }

@@ -32,7 +32,7 @@ final class EntityManagerFactoryTest extends TestCase
 
     private EntityManagerInterface & MockObject $entityManager;
 
-    /** @phpstan-var \Symfony\Component\DependencyInjection\ServiceLocator<\Doctrine\ORM\EntityManagerInterface> & \PHPUnit\Framework\MockObject\MockObject */
+    /** @phpstan-var ServiceLocator<EntityManagerInterface>&MockObject */
     private ServiceLocator & MockObject $serviceLocator;
 
     public function setUp(): void
@@ -138,7 +138,7 @@ final class EntityManagerFactoryTest extends TestCase
     }
 
     /**
-     * @phpstan-return \Symfony\Component\DependencyInjection\ServiceLocator<\Doctrine\ORM\EntityManagerInterface> & \PHPUnit\Framework\MockObject\MockObject
+     * @phpstan-return ServiceLocator<EntityManagerInterface> & MockObject
      */
     protected function getServiceLocator(): ServiceLocator & MockObject
     {

@@ -43,11 +43,11 @@ class UserGroupTest extends TestCase
         $contentMock = $this->createMock(Content::class);
         $versionInfoMock = $this->createMock(VersionInfo::class);
 
-        $contentMock->expects(self::once())
+        $contentMock->expects($this->once())
             ->method('getVersionInfo')
             ->willReturn($versionInfoMock);
 
-        $versionInfoMock->expects(self::once())
+        $versionInfoMock->expects($this->once())
             ->method('getName')
             ->willReturn($name);
 
@@ -74,6 +74,7 @@ class UserGroupTest extends TestCase
         $object = new UserGroup();
         $properties = $object->attributes();
         self::assertNotContains('internalFields', $properties, 'Internal property found ');
+        self::assertNotContains('content', $properties, 'Internal property found ');
         self::assertContains('id', $properties, 'Property not found ');
         self::assertContains('fields', $properties, 'Property not found ');
         self::assertContains('versionInfo', $properties, 'Property not found ');
@@ -101,6 +102,15 @@ class UserGroupTest extends TestCase
         $userGroup = new UserGroup();
         $userGroup->parentId = 42;
         self::fail('Succeeded setting read only property');
+    }
+
+    public function testContentPropertyIsNotExposed(): void
+    {
+        $userGroup = new UserGroup(['content' => self::createStub(Content::class)]);
+        self::assertFalse($userGroup->__isset('content'));
+
+        $this->expectException(PropertyNotFoundException::class);
+        $userGroup->__get('content');
     }
 
     /**

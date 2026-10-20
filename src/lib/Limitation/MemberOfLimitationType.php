@@ -28,7 +28,7 @@ final class MemberOfLimitationType extends AbstractPersistenceLimitationType imp
     public const SELF_USER_GROUP = -1;
 
     /**
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function acceptValue(APILimitationValue $limitationValue): void
     {
@@ -88,8 +88,12 @@ final class MemberOfLimitationType extends AbstractPersistenceLimitationType imp
         return new MemberOfLimitation(['limitationValues' => $limitationValues]);
     }
 
-    public function evaluate(APILimitationValue $value, APIUserReference $currentUser, object $object, ?array $targets = null): ?bool
-    {
+    public function evaluate(
+        APILimitationValue $value,
+        APIUserReference $currentUser,
+        object $object,
+        ?array $targets = null
+    ): ?bool {
         if (!$value instanceof MemberOfLimitation) {
             throw new InvalidArgumentException(
                 '$value',
@@ -124,18 +128,23 @@ final class MemberOfLimitationType extends AbstractPersistenceLimitationType imp
         return self::ACCESS_DENIED;
     }
 
-    public function getCriterion(APILimitationValue $value, APIUserReference $currentUser): CriterionInterface
-    {
+    public function getCriterion(
+        APILimitationValue $value,
+        APIUserReference $currentUser
+    ): CriterionInterface {
         throw new NotImplementedException('Member of Limitation Criterion');
     }
 
-    public function valueSchema(): array|int
+    public function valueSchema(): array | int
     {
         throw new NotImplementedException(__METHOD__);
     }
 
-    private function evaluateUser(MemberOfLimitation $value, User $object, APIUserReference $currentUser): bool
-    {
+    private function evaluateUser(
+        MemberOfLimitation $value,
+        User $object,
+        APIUserReference $currentUser
+    ): bool {
         if (empty($value->limitationValues)) {
             return self::ACCESS_DENIED;
         }
@@ -172,8 +181,11 @@ final class MemberOfLimitationType extends AbstractPersistenceLimitationType imp
         return self::ACCESS_DENIED;
     }
 
-    private function evaluateUserGroup(MemberOfLimitation $value, UserGroup $userGroup, APIUserReference $currentUser): bool
-    {
+    private function evaluateUserGroup(
+        MemberOfLimitation $value,
+        UserGroup $userGroup,
+        APIUserReference $currentUser
+    ): bool {
         $limitationValuesUserGroupsIdList = $value->limitationValues;
         if (in_array(self::SELF_USER_GROUP, $limitationValuesUserGroupsIdList)) {
             $limitationValuesUserGroupsIdList = $this->getCurrentUserGroupsIdList($currentUser);

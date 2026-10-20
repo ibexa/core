@@ -24,5 +24,8 @@ interface CriterionQueryBuilder
      *
      * @return string|null string injected as WHERE constraints, null to skip injecting.
      */
-    public function buildQueryConstraint(FilteringQueryBuilder $queryBuilder, FilteringCriterion $criterion): ?string;
+    public function buildQueryConstraint(
+        FilteringQueryBuilder $queryBuilder,
+        FilteringCriterion $criterion
+    ): ?string;
 }

@@ -8,8 +8,10 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\ContentValidationException;
+use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardTranslationResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardUpdateStruct;
@@ -28,7 +30,7 @@ class URLWildcardServiceTest extends BaseTestCase
     /**
      * Test for the create() method.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard
+     * @return URLWildcard
      */
     public function testCreate()
     {
@@ -52,7 +54,7 @@ class URLWildcardServiceTest extends BaseTestCase
     /**
      * Test for the create() method.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard $urlWildcard
+     * @param URLWildcard $urlWildcard
      */
     #[Depends('testCreate')]
     public function testCreateSetsPropertiesOnURLWildcard(URLWildcard $urlWildcard): void
@@ -155,7 +157,7 @@ class URLWildcardServiceTest extends BaseTestCase
     /**
      * Test for the load() method.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard
+     * @return URLWildcard
      */
     #[Depends('testCreate')]
     public function testLoad()
@@ -183,7 +185,7 @@ class URLWildcardServiceTest extends BaseTestCase
     /**
      * Test for the load() method.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard $urlWildcard
+     * @param URLWildcard $urlWildcard
      */
     #[Depends('testLoad')]
     public function testLoadSetsPropertiesOnURLWildcard(URLWildcard $urlWildcard): void
@@ -201,7 +203,7 @@ class URLWildcardServiceTest extends BaseTestCase
     /**
      * Test for the load() method.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcard $urlWildcard
+     * @param URLWildcard $urlWildcard
      */
     #[Depends('testLoad')]
     public function testLoadThrowsNotFoundException(URLWildcard $urlWildcard): void
@@ -219,9 +221,9 @@ class URLWildcardServiceTest extends BaseTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
      */
     public function testUpdate(): void
     {
@@ -380,7 +382,7 @@ class URLWildcardServiceTest extends BaseTestCase
     /**
      * Test for the translate() method.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardTranslationResult
+     * @return URLWildcardTranslationResult
      */
     #[Depends('testCreate')]
     public function testTranslate()
@@ -408,7 +410,7 @@ class URLWildcardServiceTest extends BaseTestCase
     /**
      * Test for the translate() method.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\URLWildcardTranslationResult $result
+     * @param URLWildcardTranslationResult $result
      */
     #[Depends('testTranslate')]
     public function testTranslateSetsPropertiesOnTranslationResult(URLWildcardTranslationResult $result): void

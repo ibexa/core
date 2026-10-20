@@ -11,6 +11,7 @@ namespace Ibexa\Tests\Bundle\IO\EventListener;
 use DateTime;
 use Ibexa\Bundle\IO\BinaryStreamResponse;
 use Ibexa\Bundle\IO\EventListener\StreamFileListener;
+use Ibexa\Contracts\Core\Repository\Exceptions\Exception;
 use Ibexa\Core\IO\IOConfigProvider;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
@@ -40,7 +41,7 @@ final class StreamFileListenerTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testDoesNotRespondToNonIoUri(): void
     {
@@ -49,7 +50,7 @@ final class StreamFileListenerTest extends TestCase
 
         $this->configureIoUrlPrefix('var/test/storage');
         $this->ioServiceMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('loadBinaryFileByUri');
 
         $this->eventListener->onKernelRequest($event);
@@ -58,7 +59,7 @@ final class StreamFileListenerTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testDoesNotRespondToNoIoRequest(): void
     {
@@ -67,7 +68,7 @@ final class StreamFileListenerTest extends TestCase
 
         $this->configureIoUrlPrefix('http://foo.com/var/test/storage');
         $this->ioServiceMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('loadBinaryFileByUri');
 
         $this->eventListener->onKernelRequest($event);
@@ -76,7 +77,7 @@ final class StreamFileListenerTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testRespondsToIoUri(): void
     {
@@ -88,7 +89,7 @@ final class StreamFileListenerTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testRespondsToIoRequest(): void
     {
@@ -107,8 +108,10 @@ final class StreamFileListenerTest extends TestCase
             ->willReturn($urlPrefix);
     }
 
-    protected function createRequest(string $semanticPath, string $host = 'localhost'): Request
-    {
+    protected function createRequest(
+        string $semanticPath,
+        string $host = 'localhost'
+    ): Request {
         $request = Request::create(sprintf('http://%s%s', $host, $semanticPath));
         $request->attributes->set('semanticPathinfo', $semanticPath);
 
@@ -125,10 +128,13 @@ final class StreamFileListenerTest extends TestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
-    private function assertOnKernelRequestResponse(Request $request, string $urlPrefix, string $binaryFileUri): void
-    {
+    private function assertOnKernelRequestResponse(
+        Request $request,
+        string $urlPrefix,
+        string $binaryFileUri
+    ): void {
         $this->configureIoUrlPrefix($urlPrefix);
 
         $event = $this->createEvent($request);
@@ -136,7 +142,7 @@ final class StreamFileListenerTest extends TestCase
         $binaryFile = new BinaryFile(['mtime' => new DateTime()]);
 
         $this->ioServiceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadBinaryFileByUri')
             ->with($binaryFileUri)
             ->willReturn($binaryFile)

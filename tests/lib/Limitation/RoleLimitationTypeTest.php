@@ -103,7 +103,7 @@ final class RoleLimitationTypeTest extends Base
         $contentHandlerMock = $this->createMock(ContentHandlerInterface::class);
 
         if ($limitation->limitationValues !== null) {
-            $matcher = self::any();
+            $matcher = $this->any();
             $userHandlerMock->expects($matcher)
                 ->method('loadRole')->willReturnCallback(static function (...$parameters) use ($matcher): void {
                     if ($matcher->numberOfInvocations() === 1) {
@@ -122,7 +122,7 @@ final class RoleLimitationTypeTest extends Base
         }
 
         if ($limitation->limitationValues !== null) {
-            $matcher = self::any();
+            $matcher = $this->any();
             $contentHandlerMock->expects($matcher)
                 ->method('loadContentInfo')->willReturnCallback(static function (...$parameters) use ($matcher): void {
                     if ($matcher->numberOfInvocations() === 1) {
@@ -144,12 +144,14 @@ final class RoleLimitationTypeTest extends Base
     }
 
     #[DataProvider('providerForTestValidateError')]
-    public function testValidateError(UserRoleLimitation $limitation, int $errorCount): void
-    {
+    public function testValidateError(
+        UserRoleLimitation $limitation,
+        int $errorCount
+    ): void {
         $userHandlerMock = $this->createMock(UserHandlerInterface::class);
 
         if ($limitation->limitationValues !== null) {
-            $matcher = self::exactly(2);
+            $matcher = $this->exactly(2);
             $userHandlerMock->expects($matcher)
                 ->method('loadRole')->willReturnCallback(static function (...$parameters) use ($matcher): ?Role {
                     if ($matcher->numberOfInvocations() === 1) {

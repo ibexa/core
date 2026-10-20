@@ -10,28 +10,32 @@ namespace Ibexa\Tests\Core\IO\IOMetadataHandler;
 use DateTime;
 use Ibexa\Contracts\Core\IO\BinaryFile as SPIBinaryFile;
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct as SPIBinaryFileCreateStruct;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
+use Ibexa\Core\IO\IOMetadataHandler;
 use Ibexa\Core\IO\IOMetadataHandler\Flysystem;
+use League\Flysystem\FilesystemOperator;
 use League\Flysystem\UnableToRetrieveMetadata;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class FlysystemTest extends TestCase
 {
-    /** @var \Ibexa\Core\IO\IOMetadataHandler|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var IOMetadataHandler|MockObject */
     private $handler;
 
-    /** @var \League\Flysystem\FilesystemOperator|\PHPUnit\Framework\MockObject\MockObject */
+    /** @var FilesystemOperator|MockObject */
     private $filesystem;
 
     protected function setUp(): void
     {
-        $this->filesystem = $this->createMock(\League\Flysystem\FilesystemOperator::class);
+        $this->filesystem = $this->createMock(FilesystemOperator::class);
         $this->handler = new Flysystem($this->filesystem);
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
+     * @throws NotFoundException
      */
     public function testCreate(): void
     {
@@ -47,13 +51,13 @@ class FlysystemTest extends TestCase
         $expectedSpiBinaryFile->mtime = new DateTime('@1307155200');
 
         $this->filesystem
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('fileSize')
             ->with($spiCreateStruct->id)
             ->willReturn(123);
 
         $this->filesystem
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('lastModified')
             ->with($spiCreateStruct->id)
             ->willReturn(1307155200);
@@ -66,7 +70,7 @@ class FlysystemTest extends TestCase
 
     public function testDelete(): void
     {
-        $this->filesystem->expects(self::never())->method('delete');
+        $this->filesystem->expects($this->never())->method('delete');
         $this->handler->delete('prefix/my/file.png');
     }
 
@@ -79,13 +83,13 @@ class FlysystemTest extends TestCase
         $expectedSpiBinaryFile->mtime = new DateTime('@1307155200');
 
         $this->filesystem
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('fileSize')
             ->with($filePath)
             ->willReturn(123);
 
         $this->filesystem
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('lastModified')
             ->with($filePath)
             ->willReturn(1307155200);
@@ -100,7 +104,7 @@ class FlysystemTest extends TestCase
     {
         $notExistentPath = 'prefix/my/file.png';
         $this->filesystem
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('fileSize')
             ->with($notExistentPath)
             ->willThrowException(UnableToRetrieveMetadata::fileSize($notExistentPath));
@@ -111,10 +115,12 @@ class FlysystemTest extends TestCase
     }
 
     #[DataProvider('getDataForFileExists')]
-    public function testExists(string $filePath, bool $exists): void
-    {
+    public function testExists(
+        string $filePath,
+        bool $exists
+    ): void {
         $this->filesystem
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('fileExists')
             ->with($filePath)
             // Note: test proper proxying of Flysystem call as this is a unit test
@@ -135,7 +141,7 @@ class FlysystemTest extends TestCase
     {
         $fileName = 'file.txt';
         $this->filesystem
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('mimeType')
             ->with($fileName)
             // Note: test proper proxying of Flysystem call as this is a unit test
@@ -149,7 +155,7 @@ class FlysystemTest extends TestCase
         // test this actually doesn't call Flysystem's FilesystemOperator::deleteDirectory
         // (see \Ibexa\Core\IO\IOMetadataHandler\Flysystem::deleteDirectory for more details)
         $this->filesystem
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('deleteDirectory');
 
         $this->handler->deleteDirectory('some/path');

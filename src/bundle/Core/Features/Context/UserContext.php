@@ -11,13 +11,17 @@ use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Step\Given;
 use Behat\Step\Then;
-use Ibexa\Contracts\Core\Repository\Exceptions as ApiExceptions;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\UserService;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
+use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 use Webmozart\Assert\Assert as Assertion;
 
 /**
@@ -37,14 +41,16 @@ class UserContext implements Context
     public const USERGROUP_ROOT_SUBTREE = '/1/5/';
     public const USERGROUP_CONTENT_IDENTIFIER = 'user_group';
 
-    /** @var \Ibexa\Contracts\Core\Repository\UserService */
+    /** @var UserService */
     protected $userService;
 
-    /** @var \Ibexa\Contracts\Core\Repository\SearchService */
+    /** @var SearchService */
     protected $searchService;
 
-    public function __construct(UserService $userService, SearchService $searchService)
-    {
+    public function __construct(
+        UserService $userService,
+        SearchService $searchService
+    ) {
         $this->userService = $userService;
         $this->searchService = $searchService;
     }
@@ -57,11 +63,13 @@ class UserContext implements Context
      *
      * @return \Ibexa\Core\Repository\Values\User\User found
      */
-    public function searchUserByLogin($username, $parentGroupId = null)
-    {
+    public function searchUserByLogin(
+        $username,
+        $parentGroupId = null
+    ) {
         try {
             $user = $this->userService->loadUserByLogin($username);
-        } catch (ApiExceptions\NotFoundException $e) {
+        } catch (NotFoundException $e) {
             return null;
         }
 
@@ -87,13 +95,15 @@ class UserContext implements Context
      * @param string $name name of User Group to search for
      * @param int|null $parentLocationId (optional) parent location id to search in
      *
-     * @phpstan-return list<\Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit<\Ibexa\Contracts\Core\Repository\Values\Content\Content>>
+     * @phpstan-return list<SearchHit<Content>>
      *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidCriterionArgumentException
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * @throws InvalidCriterionArgumentException
+     * @throws InvalidArgumentException
      */
-    public function searchUserGroups(string $name, ?int $parentLocationId = null): array
-    {
+    public function searchUserGroups(
+        string $name,
+        ?int $parentLocationId = null
+    ): array {
         $criterionArray = [
             new Criterion\Subtree(self::USERGROUP_ROOT_SUBTREE),
             new Criterion\ContentTypeIdentifier(self::USERGROUP_CONTENT_IDENTIFIER),
@@ -114,12 +124,17 @@ class UserContext implements Context
      * @param string $username username of the user to create
      * @param string $email email address of user to create
      * @param string $password account password for user to create
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserGroup $parentGroup
+     * @param UserGroup $parentGroup
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
+     * @return User
      */
-    protected function createUser($username, $email, $password, $parentGroup = null, $fields = [])
-    {
+    protected function createUser(
+        $username,
+        $email,
+        $password,
+        $parentGroup = null,
+        $fields = []
+    ) {
         $userCreateStruct = $this->userService->newUserCreateStruct(
             $username,
             $email,
@@ -153,12 +168,14 @@ class UserContext implements Context
      * Create new User Group inside existing parent User Group.
      *
      * @param string $name  User Group name
-     * @param \Ibexa\Contracts\Core\Repository\Values\User\UserGroup $parentGroup  (optional) parent user group, defaults to UserGroup "/Users"
+     * @param UserGroup $parentGroup  (optional) parent user group, defaults to UserGroup "/Users"
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\UserGroup
+     * @return UserGroup
      */
-    public function createUserGroup($name, $parentGroup = null)
-    {
+    public function createUserGroup(
+        $name,
+        $parentGroup = null
+    ) {
         if (!$parentGroup) {
             $parentGroup = $this->userService->loadUserGroup(self::USERGROUP_ROOT_CONTENT_ID);
         }
@@ -177,10 +194,14 @@ class UserContext implements Context
      * @param string $password User's password
      * @param string $parentGroupName (optional) name of the parent group to check
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
+     * @return User
      */
-    public function ensureUserExists($username, $email, $password, $parentGroupName = null)
-    {
+    public function ensureUserExists(
+        $username,
+        $email,
+        $password,
+        $parentGroupName = null
+    ) {
         if ($parentGroupName) {
             $parentSearchHits = $this->searchUserGroups($parentGroupName);
 
@@ -224,8 +245,10 @@ class UserContext implements Context
      * @param string $username          User name
      * @param string $parentGroupName   (optional) name of the parent group to check
      */
-    public function ensureUserDoesntExist($username, $parentGroupName = null)
-    {
+    public function ensureUserDoesntExist(
+        $username,
+        $parentGroupName = null
+    ) {
         $user = null;
         if ($parentGroupName) {
             // find matching Parent Group name
@@ -243,14 +266,14 @@ class UserContext implements Context
         } else {
             try {
                 $user = $this->userService->loadUserByLogin($username);
-            } catch (ApiExceptions\NotFoundException $e) {
+            } catch (NotFoundException $e) {
                 // nothing to do
             }
         }
         if ($user) {
             try {
                 $this->userService->deleteUser($user);
-            } catch (ApiExceptions\NotFoundException $e) {
+            } catch (NotFoundException $e) {
                 // nothing to do
             }
         }
@@ -264,8 +287,10 @@ class UserContext implements Context
      *
      * @return bool true if it exists, false if user or group don't exist
      */
-    public function checkUserExistenceByUsername($username, $parentGroupName = null): bool
-    {
+    public function checkUserExistenceByUsername(
+        $username,
+        $parentGroupName = null
+    ): bool {
         if ($parentGroupName) {
             // find parent group name
             $searchResults = $this->searchUserGroups($parentGroupName);
@@ -290,8 +315,10 @@ class UserContext implements Context
      *
      * @return bool true if it exists, false if not
      */
-    public function checkUserExistenceByEmail($email, $parentGroupName = null): bool
-    {
+    public function checkUserExistenceByEmail(
+        $email,
+        $parentGroupName = null
+    ): bool {
         $existingUsers = $this->userService->loadUsersByEmail($email);
         if (count($existingUsers) == 0) {
             return false;
@@ -310,8 +337,11 @@ class UserContext implements Context
         return false;
     }
 
-    public function createPasswordHash($login, $password, $type)
-    {
+    public function createPasswordHash(
+        $login,
+        $password,
+        $type
+    ) {
         switch ($type) {
             case 2:
                 /* PASSWORD_HASH_MD5_USER */
@@ -345,8 +375,11 @@ class UserContext implements Context
      * Ensures a user exists with given username/email/password, creating a new one if necessary.
      */
     #[Given('there is a User with name :username, email :email and password :password')]
-    public function iHaveUserWithUsernameEmailAndPassword(string $username, string $email, string $password): void
-    {
+    public function iHaveUserWithUsernameEmailAndPassword(
+        string $username,
+        string $email,
+        string $password
+    ): void {
         $this->ensureUserExists($username, $email, $password);
     }
 
@@ -354,8 +387,10 @@ class UserContext implements Context
      * Ensures a user with username ':username' exists as a child of ':parentGroup' user group, can create either one.
      */
     #[Given('there is a User with name :username in :parentGroup group')]
-    public function iHaveUserInGroup(string $username, string $parentGroupName): void
-    {
+    public function iHaveUserInGroup(
+        string $username,
+        string $parentGroupName
+    ): void {
         $email = $this->findNonExistingUserEmail($username);
         $password = $username;
         $user = $this->ensureUserExists($username, $email, $password, $parentGroupName);
@@ -364,11 +399,15 @@ class UserContext implements Context
     /**
      * Ensures a user with given username/email/password as a child of ':parentGroup' user group, can create either one.
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\User
+     * @return User
      */
     #[Given('there is a User with name :username, email :email and password :password in :parentGroup group')]
-    public function iHaveUserWithUsernameEmailAndPasswordInGroup(string $username, string $email, string $password, string $parentGroupName): User
-    {
+    public function iHaveUserWithUsernameEmailAndPasswordInGroup(
+        string $username,
+        string $email,
+        string $password,
+        string $parentGroupName
+    ): User {
         return $this->ensureUserExists($username, $email, $password, $parentGroupName);
     }
 
@@ -385,8 +424,10 @@ class UserContext implements Context
      * Makes sure a user with username ':username' doesn't exist as a chield of group ':parentGroup', removing it if necessary.
      */
     #[Given('there isn\'t a User with name :username in :parentGroup group')]
-    public function iDontHaveUserInGroup(string $username, string $parentGroup): void
-    {
+    public function iDontHaveUserInGroup(
+        string $username,
+        string $parentGroup
+    ): void {
         $this->ensureUserDoesntExist($username, $parentGroup);
     }
 
@@ -438,8 +479,10 @@ class UserContext implements Context
      */
     #[Then('User with name :username exists in group :parentGroup')]
     #[Then('User with name :username exists in :parentGroup group')]
-    public function assertUserWithNameExistsInGroup(string $username, string $parentGroup): void
-    {
+    public function assertUserWithNameExistsInGroup(
+        string $username,
+        string $parentGroup
+    ): void {
         Assertion::true(
             $this->checkUserExistenceByUsername($username, $parentGroup),
             "Couldn't find User with name '$username' in parent group '$parentGroup'."
@@ -451,8 +494,10 @@ class UserContext implements Context
      */
     #[Then('User with name :username doesn\'t exist in group :parentGroup')]
     #[Then('User with name :username doesn\'t exist in :parentGroup group')]
-    public function assertUserWithNameDoesntExistInGroup(string $username, string $parentGroup): void
-    {
+    public function assertUserWithNameDoesntExistInGroup(
+        string $username,
+        string $parentGroup
+    ): void {
         Assertion::false(
             $this->checkUserExistenceByUsername($username, $parentGroup),
             "User with name '$username' was found in parent group '$parentGroup'."
@@ -468,8 +513,10 @@ class UserContext implements Context
      *      | Administrator users   |
      */
     #[Then('User with name :username doesn\'t exist in the following groups:')]
-    public function assertUserWithNameDoesntExistInGroups(string $username, TableNode $table): void
-    {
+    public function assertUserWithNameDoesntExistInGroups(
+        string $username,
+        TableNode $table
+    ): void {
         $groups = $table->getTable();
         array_shift($groups);
         foreach ($groups as $group) {
@@ -491,8 +538,10 @@ class UserContext implements Context
      */
     #[Then('User with name :username has the following fields:')]
     #[Then('User with name :username exists with the following fields:')]
-    public function assertUserWithNameExistsWithFields(string $username, TableNode $table): void
-    {
+    public function assertUserWithNameExistsWithFields(
+        string $username,
+        TableNode $table
+    ): void {
         Assertion::true(
             $this->checkUserExistenceByUsername($username),
             "Couldn't find User with name '$username'."

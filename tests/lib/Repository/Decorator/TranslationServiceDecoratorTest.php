@@ -18,8 +18,7 @@ class TranslationServiceDecoratorTest extends TestCase
 {
     protected function createDecorator(MockObject $service): TranslationService
     {
-        return new class($service) extends TranslationServiceDecorator {
-        };
+        return new class($service) extends TranslationServiceDecorator {};
     }
 
     protected function createServiceMock(): MockObject
@@ -37,7 +36,7 @@ class TranslationServiceDecoratorTest extends TestCase
             'random_value_5ced05ce16efc3.57825052',
         ];
 
-        $serviceMock->expects(self::once())->method('translate')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('translate')->with(...$parameters);
 
         $decoratedService->translate(...$parameters);
     }
@@ -52,7 +51,7 @@ class TranslationServiceDecoratorTest extends TestCase
             'random_value_5ced05ce16f065.78328330',
         ];
 
-        $serviceMock->expects(self::once())->method('translateString')->with(...$parameters);
+        $serviceMock->expects($this->once())->method('translateString')->with(...$parameters);
 
         $decoratedService->translateString(...$parameters);
     }

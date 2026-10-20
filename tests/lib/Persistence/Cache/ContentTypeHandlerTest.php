@@ -412,20 +412,20 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTestCase
 
         $handlerMethodName = $this->getHandlerMethodName();
 
-        $this->loggerMock->expects(self::once())->method('logCall');
+        $this->loggerMock->expects($this->once())->method('logCall');
 
         $innerHandler = $this->createMock($this->getHandlerClassName());
         $this->persistenceHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method($handlerMethodName)
             ->willReturn($innerHandler);
 
         $innerHandler
-            ->expects(self::once())
+            ->expects($this->once())
             ->method($method)
             ->with(...$arguments)
             ->willReturn(null);
-        $matcher = self::exactly(3);
+        $matcher = $this->exactly(3);
 
         $this->cacheIdentifierGeneratorMock
             ->expects($matcher)
@@ -454,7 +454,7 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTestCase
 
                 return null;
             });
-        $matcher = self::exactly(3);
+        $matcher = $this->exactly(3);
 
         $this->cacheIdentifierGeneratorMock
             ->expects($matcher)
@@ -485,18 +485,18 @@ class ContentTypeHandlerTest extends AbstractInMemoryCacheHandlerTestCase
             });
 
         $this->cacheMock
-            ->expects(!empty($tags) ? self::once() : self::never())
+            ->expects(!empty($tags) ? $this->once() : $this->never())
             ->method('invalidateTags')
             ->with($tags);
 
         $this->cacheMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getItem')
             ->with($cacheItem->getKey())
             ->willReturn($cacheItem);
 
         $this->cacheMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('deleteItems')
             ->with(['ibx-ctlbg-3', 'ibx-ctlbg-4'])
             ->willReturn(true);

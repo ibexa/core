@@ -21,8 +21,10 @@ class LegacyPathGeneratorTest extends TestCase
      * @param mixed $expectedPath
      */
     #[DataProvider('provideStoragePathForFieldData')]
-    public function testGetStoragePathForField($data, $expectedPath): void
-    {
+    public function testGetStoragePathForField(
+        $data,
+        $expectedPath
+    ): void {
         $pathGenerator = new LegacyPathGenerator();
 
         self::assertEquals(

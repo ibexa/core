@@ -41,8 +41,10 @@ class BinaryFileLister extends MigrationHandler implements FileListerInterface
         return count($this->fileList);
     }
 
-    public function loadMetadataList(?int $limit = null, ?int $offset = null): array
-    {
+    public function loadMetadataList(
+        ?int $limit = null,
+        ?int $offset = null
+    ): array {
         $metadataList = [];
         $fileLimitList = new LimitIterator($this->fileList, $offset ?? 0, $limit ?? -1);
 

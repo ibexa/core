@@ -22,20 +22,26 @@ class CatalogueMapperFileWriter extends FileWriter
 {
     private const string XLF_FILE_NAME_REGEX_PATTERN = '/\.[-_a-z]+\.xlf$/i';
 
-    /** @var \JMS\TranslationBundle\Translation\LoaderManager */
+    /** @var LoaderManager */
     private $loaderManager;
 
-    /** @var \JMS\TranslationBundle\Translation\FileWriter */
+    /** @var FileWriter */
     private $innerFileWriter;
 
-    public function __construct(FileWriter $innerFileWriter, LoaderManager $loaderManager)
-    {
+    public function __construct(
+        FileWriter $innerFileWriter,
+        LoaderManager $loaderManager
+    ) {
         $this->loaderManager = $loaderManager;
         $this->innerFileWriter = $innerFileWriter;
     }
 
-    public function write(MessageCatalogue $catalogue, $domain, $filePath, $format)
-    {
+    public function write(
+        MessageCatalogue $catalogue,
+        $domain,
+        $filePath,
+        $format
+    ) {
         $newCatalogue = new MessageCatalogue();
         $newCatalogue->setLocale($catalogue->getLocale());
 
@@ -45,7 +51,7 @@ class CatalogueMapperFileWriter extends FileWriter
             }
 
             $domainMessageCollection = $catalogue->getDomain($catalogueDomainString);
-            /** @var \JMS\TranslationBundle\Model\Message $message */
+            /** @var Message $message */
             foreach ($domainMessageCollection->all() as $message) {
                 if ($message->getDomain() !== $domain) {
                     continue;
@@ -91,10 +97,13 @@ class CatalogueMapperFileWriter extends FileWriter
      * @param $domain
      * @param $format
      *
-     * @return \JMS\TranslationBundle\Model\MessageCatalogue
+     * @return MessageCatalogue
      */
-    private function loadEnglishCatalogue($foreignFilePath, $domain, $format)
-    {
+    private function loadEnglishCatalogue(
+        $foreignFilePath,
+        $domain,
+        $format
+    ) {
         return $this->loaderManager->loadFile(
             $this->getEnglishFilePath($foreignFilePath),
             $format,

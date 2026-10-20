@@ -10,12 +10,15 @@ namespace Ibexa\Core\Repository\Mapper;
 use DateTime;
 use Ibexa\Contracts\Core\Persistence\Content as SPIContent;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo as SPIContentInfo;
+use Ibexa\Contracts\Core\Persistence\Content\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as ContentHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
+use Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct as SPILocationCreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Relation as SPIRelation;
+use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Persistence\Content\Type as SPIContentType;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as TypeHandler;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo as SPIVersionInfo;
@@ -25,6 +28,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location as APILocation;
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
@@ -54,25 +58,25 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
     public const MAX_LOCATION_PRIORITY = 2147483647;
     public const MIN_LOCATION_PRIORITY = -2147483648;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Handler */
+    /** @var Handler */
     protected $contentHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Location\Handler */
+    /** @var LocationHandler */
     protected $locationHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Type\Handler */
+    /** @var TypeHandler */
     protected $contentTypeHandler;
 
-    /** @var \Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper */
+    /** @var ContentTypeDomainMapper */
     protected $contentTypeDomainMapper;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Content\Language\Handler */
+    /** @var LanguageHandler */
     protected $contentLanguageHandler;
 
-    /** @var \Ibexa\Core\FieldType\FieldTypeRegistry */
+    /** @var FieldTypeRegistry */
     protected $fieldTypeRegistry;
 
-    /** @var \Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\ThumbnailStrategy */
+    /** @var ThumbnailStrategy */
     private $thumbnailStrategy;
 
     public function __construct(
@@ -100,12 +104,12 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
     /**
      * Builds a Content domain object from value object.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content $spiContent
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType $contentType
+     * @param SPIContent $spiContent
+     * @param ContentType $contentType
      * @param array $prioritizedLanguages Prioritized language codes to filter fields on
      * @param string|null $fieldAlwaysAvailableLanguage Language code fallback if a given field is not found in $prioritizedLanguages
      *
-     * @return \Ibexa\Core\Repository\Values\Content\Content
+     * @return Content
      */
     public function buildContentDomainObject(
         SPIContent $spiContent,
@@ -155,12 +159,12 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
     /**
      * Builds a Content domain object from value object returned from persistence.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content $spiContent
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Type $spiContentType
+     * @param SPIContent $spiContent
+     * @param Type $spiContentType
      * @param array<int, string> $prioritizedLanguages Prioritized language codes to filter fields on
      * @param string|null $fieldAlwaysAvailableLanguage Language code fallback if a given field is not found in $prioritizedLanguages
      *
-     * @return \Ibexa\Core\Repository\Values\Content\Content
+     * @return Content
      */
     public function buildContentDomainObjectFromPersistence(
         SPIContent $spiContent,
@@ -177,7 +181,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
      * Builds a Content proxy object (lazy loaded, loads as soon as used).
      */
     public function buildContentProxy(
-        SPIContent\ContentInfo $info,
+        SPIContentInfo $info,
         array $prioritizedLanguages = [],
         bool $useAlwaysAvailable = true
     ): APIContent {
@@ -191,11 +195,11 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
     /**
      * Builds a list of Content proxy objects (lazy loaded, loads all as soon as one of them loads).
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\ContentInfo[] $infoList
+     * @param SPIContentInfo[] $infoList
      * @param string[] $prioritizedLanguages
      * @param bool $useAlwaysAvailable
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content[]
+     * @return APIContent[]
      */
     public function buildContentProxyList(
         array $infoList,
@@ -217,30 +221,19 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
     /**
      * Returns an array of domain fields created from given array of SPI fields.
      *
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType On invalid $contentType
-     *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Field[] $spiFields
-     * @param \Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType|\Ibexa\Contracts\Core\Persistence\Content\Type $contentType
+     * @param SPIContent\Field[] $spiFields
      * @param string[] $prioritizedLanguages A language priority, filters returned fields and is used as prioritized language code on
      *                         returned value object. If not given all languages are returned.
      * @param string|null $alwaysAvailableLanguage Language code fallback if a given field is not found in $prioritizedLanguages
      *
-     * @return array<\Ibexa\Contracts\Core\Repository\Values\Content\Field>
+     * @return array<Field>
      */
     public function buildDomainFields(
         array $spiFields,
-        $contentType,
+        ContentType $contentType,
         array $prioritizedLanguages = [],
         ?string $alwaysAvailableLanguage = null
     ): array {
-        if ($contentType instanceof SPIContentType) {
-            $contentType = $this->mapPersistenceContentTypeToApi($contentType, $prioritizedLanguages, __METHOD__);
-        }
-
-        if (!$contentType instanceof ContentType) {
-            throw new InvalidArgumentType('$contentType', 'SPI ContentType | API ContentType');
-        }
-
         $fieldDefinitionsMap = [];
         foreach ($contentType->getFieldDefinitions() as $fieldDefinition) {
             $fieldDefinitionsMap[$fieldDefinition->getId()] = $fieldDefinition;
@@ -300,13 +293,15 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
     /**
      * Builds a VersionInfo domain object from value object returned from persistence.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\VersionInfo $spiVersionInfo
+     * @param SPIVersionInfo $spiVersionInfo
      * @param array $prioritizedLanguages
      *
-     * @return \Ibexa\Core\Repository\Values\Content\VersionInfo
+     * @return VersionInfo
      */
-    public function buildVersionInfoDomainObject(SPIVersionInfo $spiVersionInfo, array $prioritizedLanguages = [])
-    {
+    public function buildVersionInfoDomainObject(
+        SPIVersionInfo $spiVersionInfo,
+        array $prioritizedLanguages = []
+    ) {
         // Map SPI statuses to API
         switch ($spiVersionInfo->status) {
             case SPIVersionInfo::STATUS_ARCHIVED:
@@ -354,9 +349,9 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
     /**
      * Builds a ContentInfo domain object from value object returned from persistence.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\ContentInfo $spiContentInfo
+     * @param SPIContentInfo $spiContentInfo
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo
+     * @return ContentInfo
      */
     public function buildContentInfoDomainObject(SPIContentInfo $spiContentInfo)
     {
@@ -408,9 +403,9 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
     /**
      * Builds API Relation object from provided SPI Relation object.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Relation $spiRelation
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $sourceContentInfo
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo $destinationContentInfo
+     * @param SPIRelation $spiRelation
+     * @param ContentInfo $sourceContentInfo
+     * @param ContentInfo $destinationContentInfo
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\Relation
      */
@@ -443,24 +438,6 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
         );
     }
 
-    /**
-     * @deprecated Since 7.2, use buildLocationWithContent(), buildLocation() or (private) mapLocation() instead.
-     */
-    public function buildLocationDomainObject(
-        SPILocation $spiLocation,
-        ?SPIContentInfo $contentInfo = null
-    ) {
-        if ($contentInfo === null) {
-            return $this->buildLocation($spiLocation);
-        }
-
-        return $this->mapLocation(
-            $spiLocation,
-            $this->buildContentInfoDomainObject($contentInfo),
-            $this->buildContentProxy($contentInfo)
-        );
-    }
-
     public function buildLocation(
         SPILocation $spiLocation,
         array $prioritizedLanguages = [],
@@ -481,11 +458,11 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Location $spiLocation
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Content|null $content
-     * @param \Ibexa\Contracts\Core\Persistence\Content\ContentInfo|null $spiContentInfo
+     * @param SPILocation $spiLocation
+     * @param APIContent|null $content
+     * @param SPIContentInfo|null $spiContentInfo
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location
+     * @return APILocation
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
@@ -518,9 +495,9 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
     /**
      * Builds API Location object for tree root.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Location $spiLocation
+     * @param SPILocation $spiLocation
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location
+     * @return APILocation
      */
     private function buildRootLocation(SPILocation $spiLocation): APILocation
     {
@@ -596,13 +573,15 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
      *
      * Loading of Content objects are done in bulk.
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult $result SPI search result with SPI ContentInfo items as hits
+     * @param SearchResult $result SPI search result with SPI ContentInfo items as hits
      * @param array $languageFilter
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\ContentInfo[] ContentInfo we did not find content for is returned.
+     * @return SPIContentInfo[] ContentInfo we did not find content for is returned.
      */
-    public function buildContentDomainObjectsOnSearchResult(SearchResult $result, array $languageFilter)
-    {
+    public function buildContentDomainObjectsOnSearchResult(
+        SearchResult $result,
+        array $languageFilter
+    ) {
         if (empty($result->searchHits)) {
             return [];
         }
@@ -612,7 +591,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
         $translations = $languageFilter['languages'] ?? [];
         $useAlwaysAvailable = $languageFilter['useAlwaysAvailable'] ?? true;
         foreach ($result->searchHits as $hit) {
-            /** @var \Ibexa\Contracts\Core\Persistence\Content\ContentInfo $info */
+            /** @var SPIContentInfo $info */
             $info = $hit->valueObject;
             $contentIds[] = $info->id;
             $contentTypeIds[] = $info->contentTypeId;
@@ -657,13 +636,15 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
      * This is done in order to be able to:
      * Load ContentInfo objects in bulk, generate proxy objects for Content that will loaded in bulk on-demand (on use).
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult $result SPI search result with SPI Location items as hits
+     * @param SearchResult $result SPI search result with SPI Location items as hits
      * @param array $languageFilter
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Location[] Locations we did not find content info for is returned.
+     * @return SPILocation[] Locations we did not find content info for is returned.
      */
-    public function buildLocationDomainObjectsOnSearchResult(SearchResult $result, array $languageFilter)
-    {
+    public function buildLocationDomainObjectsOnSearchResult(
+        SearchResult $result,
+        array $languageFilter
+    ) {
         if (empty($result->searchHits)) {
             return [];
         }
@@ -703,14 +684,14 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      *
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct $locationCreateStruct
-     * @param \Ibexa\Contracts\Core\Repository\Values\Content\Location $parentLocation
+     * @param LocationCreateStruct $locationCreateStruct
+     * @param APILocation $parentLocation
      * @param mixed $mainLocation
      * @param mixed $contentId
      * @param mixed $contentVersionNo
      * @param bool $isContentHidden
      *
-     * @return \Ibexa\Contracts\Core\Persistence\Content\Location\CreateStruct
+     * @return CreateStruct
      */
     public function buildSPILocationCreateStruct(
         $locationCreateStruct,
@@ -840,8 +821,10 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
      * @param mixed $list
      * @param string $argumentName
      */
-    public function validateTranslatedList($list, $argumentName)
-    {
+    public function validateTranslatedList(
+        $list,
+        $argumentName
+    ) {
         if (!is_array($list)) {
             throw new InvalidArgumentType($argumentName, 'array', $list);
         }
@@ -863,7 +846,7 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
      *
      * @param int $timestamp
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function getDateTime($timestamp)
     {
@@ -890,40 +873,12 @@ class ContentDomainMapper extends ProxyAwareDomainMapper implements LoggerAwareI
     /**
      * Returns true if given location is a tree root.
      *
-     * @param \Ibexa\Contracts\Core\Persistence\Content\Location $spiLocation
+     * @param SPILocation $spiLocation
      *
      * @return bool
      */
     private function isRootLocation(SPILocation $spiLocation): bool
     {
         return $spiLocation->id === $spiLocation->parentId;
-    }
-
-    /**
-     * @param string[] $prioritizedLanguages
-     */
-    private function mapPersistenceContentTypeToApi(
-        SPIContentType $contentType,
-        array $prioritizedLanguages,
-        string $methodName
-    ): ContentType {
-        trigger_deprecation(
-            'ibexa/core',
-            '4.6',
-            sprintf(
-                'Passing %s instead of %s as 2nd argument of %s() method is deprecated and will cause a fatal error in 5.0. ' .
-                'Build %s using %s::buildContentTypeDomainObject prior passing it to the method',
-                SPIContentType::class,
-                ContentType::class,
-                $methodName,
-                ContentType::class,
-                ContentTypeDomainMapper::class
-            )
-        );
-
-        return $this->contentTypeDomainMapper->buildContentTypeDomainObject(
-            $contentType,
-            $prioritizedLanguages
-        );
     }
 }

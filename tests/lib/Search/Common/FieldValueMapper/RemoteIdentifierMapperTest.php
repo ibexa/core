@@ -22,7 +22,7 @@ use Psr\Log\LoggerInterface;
 #[CoversClass(RemoteIdentifierMapper::class)]
 final class RemoteIdentifierMapperTest extends TestCase
 {
-    /** @var \Ibexa\Core\Search\Common\FieldValueMapper\RemoteIdentifierMapper */
+    /** @var RemoteIdentifierMapper */
     private $mapper;
 
     protected function setUp(): void
@@ -33,8 +33,10 @@ final class RemoteIdentifierMapperTest extends TestCase
     }
 
     #[DataProvider('getDataForTestCanMap')]
-    public function testCanMap(Field $field, bool $canMap): void
-    {
+    public function testCanMap(
+        Field $field,
+        bool $canMap
+    ): void {
         self::assertSame($canMap, $this->mapper->canMap($field));
     }
 
@@ -62,8 +64,10 @@ final class RemoteIdentifierMapperTest extends TestCase
     }
 
     #[DataProvider('getDataForTestMap')]
-    public function testMap(Field $field, string $expectedMappedValue): void
-    {
+    public function testMap(
+        Field $field,
+        string $expectedMappedValue
+    ): void {
         self::assertSame($expectedMappedValue, $this->mapper->map($field));
     }
 

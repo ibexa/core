@@ -15,10 +15,10 @@ use Ibexa\Contracts\Core\Search\Handler as SearchHandler;
  */
 abstract class AbstractSearchEventSubscriber
 {
-    /** @var \Ibexa\Contracts\Core\Search\Handler */
+    /** @var SearchHandler */
     protected $searchHandler;
 
-    /** @var \Ibexa\Contracts\Core\Persistence\Handler */
+    /** @var PersistenceHandler */
     protected $persistenceHandler;
 
     public function __construct(

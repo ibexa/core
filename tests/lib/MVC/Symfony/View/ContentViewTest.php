@@ -27,8 +27,10 @@ class ContentViewTest extends AbstractViewTestCase
     private $valueParams = ['content' => null];
 
     #[DataProvider('constructProvider')]
-    public function testConstruct($templateIdentifier, array $params): void
-    {
+    public function testConstruct(
+        $templateIdentifier,
+        array $params
+    ): void {
         $contentView = new ContentView($templateIdentifier, $params);
         self::assertSame($templateIdentifier, $contentView->getTemplateIdentifier());
         self::assertSame($this->valueParams + $params, $contentView->getParameters());
@@ -78,8 +80,11 @@ class ContentViewTest extends AbstractViewTestCase
         ];
     }
 
-    protected function createViewUnderTest($template = null, array $parameters = [], $viewType = 'full'): View
-    {
+    protected function createViewUnderTest(
+        $template = null,
+        array $parameters = [],
+        $viewType = 'full'
+    ): View {
         return new ContentView($template, $parameters, $viewType);
     }
 
