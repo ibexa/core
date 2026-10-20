@@ -11,6 +11,7 @@ namespace Ibexa\Core\Repository;
 use Ibexa\Contracts\Core\Persistence\Bookmark\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Bookmark\Handler as BookmarkHandler;
 use Ibexa\Contracts\Core\Repository\BookmarkService as BookmarkServiceInterface;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\Exception as RepositoryException;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\Values\Bookmark\BookmarkList;
@@ -95,7 +96,7 @@ class BookmarkService implements BookmarkServiceInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @throws BadStateException
      */
     public function loadBookmarks(
         int $offset = 0,
