@@ -43,7 +43,7 @@ final class ConfigurationDumper
         $bundlesMetadata = $this->containerBuilder->getParameter('kernel.bundles_metadata');
         $rootPath = $this->getProjectDirectory() . '/';
         foreach ($webpackConfigNames as $configName => $configFiles) {
-            $paths = $this->locateConfigurationFiles($bundlesMetadata, $configFiles, $rootPath);
+            $paths = $this->locateConfigurationFiles($bundlesMetadata, array_keys($configFiles), $rootPath);
             $this->dumpConfigurationPaths(
                 $configName,
                 $rootPath . self::ENCORE_TARGET_PATH,
@@ -54,7 +54,7 @@ final class ConfigurationDumper
 
     /**
      * @param array<string, array{path: string, namespace: string}> $bundlesMetadata
-     * @param array<string, array{}> $configFiles
+     * @param list<string> $configFiles
      *
      * @return array<string>
      */
@@ -64,7 +64,7 @@ final class ConfigurationDumper
         string $rootPath
     ): array {
         $paths = [];
-        foreach (array_keys($configFiles) as $configFile) {
+        foreach ($configFiles as $configFile) {
             $finder = $this->createFinder($bundlesMetadata, $configFile, $rootPath);
 
             /** @var SplFileInfo $fileInfo */
