@@ -63,7 +63,7 @@ class DynamicallyConfiguredMatcherFactoryDecoratorTest extends TestCase
     {
         return [
             [
-                'location_view',
+                'content_view',
                 null,
                 null,
                 [
