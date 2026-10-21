@@ -1,0 +1,1 @@
+ALTER TABLE ibexa_content_type_field_definition_ml DROP FOREIGN KEY ibexa_content_type_field_definition_ml_lang_fk;
