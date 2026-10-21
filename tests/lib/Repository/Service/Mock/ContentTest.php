@@ -3105,6 +3105,75 @@ class ContentTest extends BaseServiceMockTest
         $this->partlyMockedContentService->createContent($contentCreateStruct, []);
     }
 
+    public function testCreateContentWithRollbackOnError(): void
+    {
+        $this->expectException(\Error::class);
+        $this->expectExceptionMessage('Store failed');
+
+        $fieldDefinitions = [
+            new FieldDefinition(
+                [
+                    'id' => 'fieldDefinitionId',
+                    'fieldTypeIdentifier' => 'fieldTypeIdentifier',
+                    'isTranslatable' => false,
+                    'identifier' => 'identifier',
+                    'isRequired' => false,
+                    'defaultValue' => new ValueStub('defaultValue'),
+                ]
+            ),
+        ];
+
+        $contentCreateStruct = $this->assertForTestCreateContentNonRedundantFieldSet(
+            'eng-US',
+            [],
+            [],
+            $fieldDefinitions,
+            [],
+            false,
+            // Do not execute test
+            false
+        );
+
+        $repositoryMock = $this->getRepositoryMock();
+        $repositoryMock->expects(self::never())->method('commit');
+        $repositoryMock->expects(self::once())->method('rollback');
+
+        $contentHandlerMock = $this->getPersistenceMock()->contentHandler();
+        self::assertInstanceOf(MockObject::class, $contentHandlerMock);
+        $contentHandlerMock->expects(self::once())
+            ->method('create')
+            ->with(self::anything())
+            ->willThrowException(new \Error('Store failed'));
+
+        $this->partlyMockedContentService->createContent($contentCreateStruct, []);
+    }
+
+    public function testDeleteTranslationRollsBackAndRethrowsError(): void
+    {
+        $error = new \Error('Loading versions failed');
+        $contentService = $this->getPartlyMockedContentService(['loadVersions']);
+        $contentService
+            ->expects(self::once())
+            ->method('loadVersions')
+            ->willThrowException($error);
+
+        $repositoryMock = $this->getRepositoryMock();
+        $repositoryMock->expects(self::once())->method('beginTransaction');
+        $repositoryMock->expects(self::never())->method('commit');
+        $repositoryMock->expects(self::once())->method('rollback');
+
+        try {
+            $contentService->deleteTranslation(
+                new ContentInfo(['id' => 42, 'mainLanguageCode' => 'eng-GB']),
+                'ger-DE'
+            );
+            self::fail('Error thrown while deleting the translation was not rethrown');
+        } catch (\Error $e) {
+            // not wrapped in BadStateException like exceptions are
+            self::assertSame($error, $e);
+        }
+    }
+
     public function providerForTestUpdateContentThrowsBadStateException()
     {
         return [

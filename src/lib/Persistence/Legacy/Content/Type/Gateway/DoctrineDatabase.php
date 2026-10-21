@@ -30,6 +30,7 @@ use Ibexa\Core\Persistence\Legacy\Content\MultilingualStorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
 use Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway as SharedGateway;
+use Throwable;
 
 use function sprintf;
 
@@ -1492,7 +1493,7 @@ final class DoctrineDatabase extends Gateway
             $this->cleanupAssociations();
 
             $this->connection->commit();
-        } catch (DBALException $e) {
+        } catch (Throwable $e) {
             $this->connection->rollBack();
 
             throw $e;
