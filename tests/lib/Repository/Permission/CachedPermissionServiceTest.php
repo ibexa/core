@@ -165,12 +165,12 @@ class CachedPermissionServiceTest extends TestCase
         $criterionMock = $this->createMock(Criterion::class);
 
         $this->getPermissionResolverMock(['sudo'])
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('sudo')
             ->willThrowException(new \Error('sudo callback failure'));
 
         $this->getPermissionCriterionResolverMock(['getPermissionsCriterion'])
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('getPermissionsCriterion')
             ->with('content', 'read')
             ->willReturn($criterionMock);

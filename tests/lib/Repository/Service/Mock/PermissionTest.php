@@ -232,7 +232,7 @@ class PermissionTest extends BaseServiceMockTest
     {
         $userHandlerMock = $this->createMock(UserHandler::class);
         $userHandlerMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('loadRoleAssignmentsByGroupId')
             ->with(10, true)
             ->willReturn([]);
