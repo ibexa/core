@@ -244,12 +244,12 @@ class PermissionTest extends BaseServiceMockTest
             ->with(10, true)
             ->willReturn([]);
 
-        $configResolver = $this->createStub(ConfigResolverInterface::class);
+        $configResolver = self::createStub(ConfigResolverInterface::class);
         $configResolver->method('getParameter')->willReturn(10);
 
         $service = new PermissionResolver(
-            $this->createStub(RoleDomainMapper::class),
-            $this->createStub(LimitationService::class),
+            self::createStub(RoleDomainMapper::class),
+            self::createStub(LimitationService::class),
             $userHandlerMock,
             $configResolver,
             ['dummy-module' => ['dummy-function' => ['dummy-limitation' => true]]]
@@ -260,7 +260,7 @@ class PermissionTest extends BaseServiceMockTest
                 static function (): void {
                     throw new \Error('sudo callback failure');
                 },
-                $this->createStub(Repository::class)
+                self::createStub(Repository::class)
             );
             self::fail('Error thrown inside sudo() was not rethrown');
         } catch (\Error $e) {
