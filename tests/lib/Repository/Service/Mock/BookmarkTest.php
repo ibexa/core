@@ -266,21 +266,37 @@ class BookmarkTest extends BaseServiceMockTest
         $this->createBookmarkService()->loadBookmarks(5, -1);
     }
 
-    public function testLoadBookmarksThrowsInvalidArgumentExceptionOnNegativeOffset(): void
+    /**
+     * @group legacy
+     */
+    public function testLoadBookmarksTreatsNegativeOffsetAsNoOffset(): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Filtering slice offset needs to be >=0, got -1');
+        $this->expectDeprecation(
+            'Since ibexa/core 4.6.33: Passing a negative $offset to ' .
+            'Ibexa\Core\Repository\BookmarkService::loadBookmarks() is deprecated and will throw in 6.0. ' .
+            'Pass 0 to start from the first bookmark instead'
+        );
+
+        $locationServiceMock = $this->createMock(LocationService::class);
+        $locationServiceMock
+            ->expects(self::once())
+            ->method('find')
+            ->with(self::callback(static function (Filter $filter): bool {
+                return $filter->getOffset() === 0 && $filter->getLimit() === 10;
+            }))
+            ->willReturn(new LocationList());
 
         $repository = $this->getRepositoryMock();
         $repository
-            ->expects(self::never())
-            ->method('getLocationService');
+            ->expects(self::any())
+            ->method('getLocationService')
+            ->willReturn($locationServiceMock);
 
-        // setUp() requires getCurrentUserReference() to be called at least once, and the
-        // argument is rejected before anything reaches the Query Builder which would call it
+        // See testLoadBookmarks(): setUp() requires getCurrentUserReference() to be called at
+        // least once, and the Query Builder which would call it is never reached here
         $repository->getPermissionResolver()->getCurrentUserReference();
 
-        $this->createBookmarkService()->loadBookmarks(-1, 25);
+        $this->createBookmarkService()->loadBookmarks(-1, 10);
     }
 
     public function testLocationShouldNotBeBookmarked()
