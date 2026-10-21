@@ -70,7 +70,10 @@ class DefaultRouter extends Router implements RequestMatcherInterface, SiteAcces
             $request = $request->duplicate();
             $request->server->set(
                 'REQUEST_URI',
-                $request->attributes->get('semanticPathinfo')
+                implode('/', array_map(
+                    'rawurlencode',
+                    explode('/', $request->attributes->get('semanticPathinfo'))
+                ))
             );
         }
 
