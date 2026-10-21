@@ -93,7 +93,7 @@ final class ContentTest extends TestCase
     public function testObjectProperties(): void
     {
         $object = new Content(['internalFields' => []]);
-        $properties = $object->attributes();
+        $properties = (fn (): array => $this->getProperties())->call($object);
         self::assertNotContains('internalFields', $properties, 'Internal property found ');
         self::assertContains('id', $properties, 'Property not found ');
         self::assertContains('fields', $properties, 'Property not found ');

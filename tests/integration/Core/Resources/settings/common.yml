@@ -38,7 +38,7 @@ services:
         class: Ibexa\Tests\Integration\Core\Repository\Common\SlugConverter
         arguments:
             - '@Ibexa\Core\Persistence\TransformationProcessor\PreprocessedBased'
-            - []
+            - { transformation: urlalias }
 
     # Configure serializer required  Generic Field Type
     ezpublish.field_type.ezgeneric.value_serializer.symfony.normalizer:

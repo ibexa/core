@@ -88,7 +88,6 @@ final class LegacyTestContainerBuilder extends ContainerBuilder
         $loader->load('storage_engines/legacy.yml');
         $loader->load('storage_engines/shortcuts.yml');
         $loader->load('settings.yml');
-        $loader->load('utils.yml');
         $loader->load('policies.yml');
         $loader->load('events.yml');
         $loader->load('thumbnails.yml');

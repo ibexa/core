@@ -526,8 +526,8 @@ class ContextualizerTest extends TestCase
                 $group2 => [$siteaccess],
             ],
         ];
-        $testIdHash = 'location_view';
-        $locationView1 = [
+        $testIdHash = 'content_view';
+        $contentView1 = [
             'full' => [
                 'Wizard' => [
                     'template' => 'wizard.html.twig',
@@ -538,7 +538,7 @@ class ContextualizerTest extends TestCase
             ],
         ];
 
-        $locationView2 = [
+        $contentView2 = [
             'full' => [
                 'Dwarve' => [
                     'template' => 'dwarve.html.twig',
@@ -549,7 +549,7 @@ class ContextualizerTest extends TestCase
             ],
         ];
 
-        $locationView3 = [
+        $contentView3 = [
             'full' => [
                 'Moredhel' => [
                     'template' => 'moredhel.html.twig',
@@ -559,7 +559,7 @@ class ContextualizerTest extends TestCase
                 ],
             ],
         ];
-        $locationView4 = [
+        $contentView4 = [
             'full' => [
                 'Moredhel' => [
                     'template' => 'moredhel2.html.twig',
@@ -570,7 +570,7 @@ class ContextualizerTest extends TestCase
             ],
         ];
 
-        $locationView12 = [
+        $contentView12 = [
             'full' => [
                 'Wizard' => [
                     'template' => 'wizard.html.twig',
@@ -584,7 +584,7 @@ class ContextualizerTest extends TestCase
             ],
         ];
 
-        $locationView123 = [
+        $contentView123 = [
             'full' => [
                 'Wizard' => [
                     'template' => 'wizard.html.twig',
@@ -601,7 +601,7 @@ class ContextualizerTest extends TestCase
             ],
         ];
 
-        $locationView1234 = [
+        $contentView1234 = [
             'full' => [
                 'Wizard' => [
                     'template' => 'wizard.html.twig',
@@ -621,7 +621,7 @@ class ContextualizerTest extends TestCase
             ],
         ];
 
-        $locationView21 = [
+        $contentView21 = [
             'full' => [
                 'Dwarve' => [
                     'template' => 'dwarve.html.twig',
@@ -881,14 +881,14 @@ class ContextualizerTest extends TestCase
                 $testIdHash,
                 $siteaccess,
                 [$group1, $group2],
-                $locationView1,
+                $contentView1,
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [],
                 ],
                 ContextualizerInterface::MERGE_FROM_SECOND_LEVEL,
-                $locationView1,
+                $contentView1,
             ],
             [
                 // everything in global scope
@@ -896,13 +896,13 @@ class ContextualizerTest extends TestCase
                 $siteaccess,
                 [$group1, $group2],
                 [],
-                $locationView1,
+                $contentView1,
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [],
                 ],
                 ContextualizerInterface::MERGE_FROM_SECOND_LEVEL,
-                $locationView1,
+                $contentView1,
             ],
             [
                 // everything in a group
@@ -914,11 +914,11 @@ class ContextualizerTest extends TestCase
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [
-                        $group1 => [$testIdHash => $locationView1],
+                        $group1 => [$testIdHash => $contentView1],
                     ],
                 ],
                 ContextualizerInterface::MERGE_FROM_SECOND_LEVEL,
-                $locationView1,
+                $contentView1,
             ],
             [
                 // everything in a siteaccess
@@ -930,11 +930,11 @@ class ContextualizerTest extends TestCase
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [
-                        $siteaccess => [$testIdHash => $locationView1],
+                        $siteaccess => [$testIdHash => $contentView1],
                     ],
                 ],
                 ContextualizerInterface::MERGE_FROM_SECOND_LEVEL,
-                $locationView1,
+                $contentView1,
             ],
 
             [
@@ -942,16 +942,16 @@ class ContextualizerTest extends TestCase
                 $testIdHash,
                 $siteaccess,
                 [$group1, $group2],
-                $locationView1,
+                $contentView1,
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [
-                        $group1 => [$testIdHash => $locationView2],
+                        $group1 => [$testIdHash => $contentView2],
                     ],
                 ],
                 ContextualizerInterface::MERGE_FROM_SECOND_LEVEL,
-                $locationView12,
+                $contentView12,
             ],
             [
                 // one group + global scope
@@ -959,50 +959,50 @@ class ContextualizerTest extends TestCase
                 $siteaccess,
                 [$group1, $group2],
                 [],
-                $locationView1,
+                $contentView1,
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [
-                        $group1 => [$testIdHash => $locationView2],
+                        $group1 => [$testIdHash => $contentView2],
                     ],
                 ],
                 ContextualizerInterface::MERGE_FROM_SECOND_LEVEL,
-                $locationView21,
+                $contentView21,
             ],
             [
                 // default scope + two groups
                 $testIdHash,
                 $siteaccess,
                 [$group1, $group2],
-                $locationView1,
+                $contentView1,
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [
-                        $group1 => [$testIdHash => $locationView2],
-                        $group2 => [$testIdHash => $locationView3],
+                        $group1 => [$testIdHash => $contentView2],
+                        $group2 => [$testIdHash => $contentView3],
                     ],
                 ],
                 ContextualizerInterface::MERGE_FROM_SECOND_LEVEL,
-                $locationView123,
+                $contentView123,
             ],
             [
                 // default scope + two groups + siteaccess
                 $testIdHash,
                 $siteaccess,
                 [$group1, $group2],
-                $locationView1,
+                $contentView1,
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [
-                        $group1 => [$testIdHash => $locationView2],
-                        $group2 => [$testIdHash => $locationView3],
-                        $siteaccess => [$testIdHash => $locationView4],
+                        $group1 => [$testIdHash => $contentView2],
+                        $group2 => [$testIdHash => $contentView3],
+                        $siteaccess => [$testIdHash => $contentView4],
                     ],
                 ],
                 ContextualizerInterface::MERGE_FROM_SECOND_LEVEL,
-                $locationView1234,
+                $contentView1234,
             ],
             [
                 // two groups
@@ -1014,12 +1014,12 @@ class ContextualizerTest extends TestCase
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [
-                        $group1 => [$testIdHash => $locationView1],
-                        $group2 => [$testIdHash => $locationView2],
+                        $group1 => [$testIdHash => $contentView1],
+                        $group2 => [$testIdHash => $contentView2],
                     ],
                 ],
                 ContextualizerInterface::MERGE_FROM_SECOND_LEVEL,
-                $locationView12,
+                $contentView12,
             ],
             [
                 // two groups + global scope
@@ -1027,16 +1027,16 @@ class ContextualizerTest extends TestCase
                 $siteaccess,
                 [$group1, $group2],
                 [],
-                $locationView3,
+                $contentView3,
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [
-                        $group1 => [$testIdHash => $locationView1],
-                        $group2 => [$testIdHash => $locationView2],
+                        $group1 => [$testIdHash => $contentView1],
+                        $group2 => [$testIdHash => $contentView2],
                     ],
                 ],
                 ContextualizerInterface::MERGE_FROM_SECOND_LEVEL,
-                $locationView123,
+                $contentView123,
             ],
             [
                 // two groups + siteaccess + global scope
@@ -1044,17 +1044,17 @@ class ContextualizerTest extends TestCase
                 $siteaccess,
                 [$group1, $group2],
                 [],
-                $locationView4,
+                $contentView4,
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [
-                        $group1 => [$testIdHash => $locationView1],
-                        $group2 => [$testIdHash => $locationView2],
-                        $siteaccess => [$testIdHash => $locationView3],
+                        $group1 => [$testIdHash => $contentView1],
+                        $group2 => [$testIdHash => $contentView2],
+                        $siteaccess => [$testIdHash => $contentView3],
                     ],
                 ],
                 ContextualizerInterface::MERGE_FROM_SECOND_LEVEL,
-                $locationView1234,
+                $contentView1234,
             ],
 
             [
@@ -1067,47 +1067,47 @@ class ContextualizerTest extends TestCase
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [
-                        $siteaccess => [$testIdHash => $locationView3],
-                        $group1 => [$testIdHash => $locationView1],
-                        $group2 => [$testIdHash => $locationView2],
+                        $siteaccess => [$testIdHash => $contentView3],
+                        $group1 => [$testIdHash => $contentView1],
+                        $group2 => [$testIdHash => $contentView2],
                     ],
                 ],
                 ContextualizerInterface::MERGE_FROM_SECOND_LEVEL,
-                $locationView123,
+                $contentView123,
             ],
             [
                 // default scope + group + siteaccess
                 $testIdHash,
                 $siteaccess,
                 [$group1, $group2],
-                $locationView1,
+                $contentView1,
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [
-                        $group1 => [$testIdHash => $locationView2],
-                        $siteaccess => [$testIdHash => $locationView3],
+                        $group1 => [$testIdHash => $contentView2],
+                        $siteaccess => [$testIdHash => $contentView3],
                     ],
                 ],
                 ContextualizerInterface::MERGE_FROM_SECOND_LEVEL,
-                $locationView123,
+                $contentView123,
             ],
             [
                 // default scope + group + siteaccess + global scope
                 $testIdHash,
                 $siteaccess,
                 [$group1, $group2],
-                $locationView1,
-                $locationView4,
+                $contentView1,
+                $contentView4,
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [
-                        $group1 => [$testIdHash => $locationView2],
-                        $siteaccess => [$testIdHash => $locationView3],
+                        $group1 => [$testIdHash => $contentView2],
+                        $siteaccess => [$testIdHash => $contentView3],
                     ],
                 ],
                 ContextualizerInterface::MERGE_FROM_SECOND_LEVEL,
-                $locationView1234,
+                $contentView1234,
             ],
             [
                 // global scope + group + siteaccess
@@ -1115,32 +1115,32 @@ class ContextualizerTest extends TestCase
                 $siteaccess,
                 [$group1, $group2],
                 [],
-                $locationView3,
+                $contentView3,
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [
-                        $group2 => [$testIdHash => $locationView1],
-                        $siteaccess => [$testIdHash => $locationView2],
+                        $group2 => [$testIdHash => $contentView1],
+                        $siteaccess => [$testIdHash => $contentView2],
                     ],
                 ],
                 ContextualizerInterface::MERGE_FROM_SECOND_LEVEL,
-                $locationView123,
+                $contentView123,
             ],
             [
                 // default scope + group +  global
                 $testIdHash,
                 $siteaccess,
                 [$group1, $group2],
-                $locationView1,
-                $locationView3,
+                $contentView1,
+                $contentView3,
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [
-                        $group2 => [$testIdHash => $locationView2],
+                        $group2 => [$testIdHash => $contentView2],
                     ],
                 ],
                 ContextualizerInterface::MERGE_FROM_SECOND_LEVEL,
-                $locationView123,
+                $contentView123,
             ],
             //
             // MERGING HASH TESTS without MERGE_FROM_SECOND_LEVEL, the result
@@ -1151,14 +1151,14 @@ class ContextualizerTest extends TestCase
                 $testIdHash,
                 $siteaccess,
                 [$group1, $group2],
-                $locationView1,
+                $contentView1,
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [],
                 ],
                 0,
-                $locationView1,
+                $contentView1,
             ],
             [
                 // everything in global scope
@@ -1166,13 +1166,13 @@ class ContextualizerTest extends TestCase
                 $siteaccess,
                 [$group1, $group2],
                 [],
-                $locationView1,
+                $contentView1,
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [],
                 ],
                 0,
-                $locationView1,
+                $contentView1,
             ],
             [
                 // everything in a group
@@ -1184,11 +1184,11 @@ class ContextualizerTest extends TestCase
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [
-                        $group1 => [$testIdHash => $locationView1],
+                        $group1 => [$testIdHash => $contentView1],
                     ],
                 ],
                 0,
-                $locationView1,
+                $contentView1,
             ],
             [
                 // everything in a siteaccess
@@ -1200,27 +1200,27 @@ class ContextualizerTest extends TestCase
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [
-                        $siteaccess => [$testIdHash => $locationView1],
+                        $siteaccess => [$testIdHash => $contentView1],
                     ],
                 ],
                 0,
-                $locationView1,
+                $contentView1,
             ],
             [
                 // default scope + one group
                 $testIdHash,
                 $siteaccess,
                 [$group1, $group2],
-                $locationView1,
+                $contentView1,
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [
-                        $group1 => [$testIdHash => $locationView2],
+                        $group1 => [$testIdHash => $contentView2],
                     ],
                 ],
                 0,
-                $locationView2,
+                $contentView2,
             ],
             [
                 // one group + global scope
@@ -1228,67 +1228,67 @@ class ContextualizerTest extends TestCase
                 $siteaccess,
                 [$group1, $group2],
                 [],
-                $locationView1,
+                $contentView1,
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [
-                        $group1 => [$testIdHash => $locationView2],
+                        $group1 => [$testIdHash => $contentView2],
                     ],
                 ],
                 0,
-                $locationView1,
+                $contentView1,
             ],
             [
                 // default scope + two groups
                 $testIdHash,
                 $siteaccess,
                 [$group1, $group2],
-                $locationView1,
+                $contentView1,
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [
-                        $group1 => [$testIdHash => $locationView2],
-                        $group2 => [$testIdHash => $locationView3],
+                        $group1 => [$testIdHash => $contentView2],
+                        $group2 => [$testIdHash => $contentView3],
                     ],
                 ],
                 0,
-                $locationView3,
+                $contentView3,
             ],
             [
                 // default scope + two groups + siteaccess
                 $testIdHash,
                 $siteaccess,
                 [$group1, $group2],
-                $locationView1,
+                $contentView1,
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [
-                        $group1 => [$testIdHash => $locationView2],
-                        $group2 => [$testIdHash => $locationView3],
-                        $siteaccess => [$testIdHash => $locationView4],
+                        $group1 => [$testIdHash => $contentView2],
+                        $group2 => [$testIdHash => $contentView3],
+                        $siteaccess => [$testIdHash => $contentView4],
                     ],
                 ],
                 0,
-                $locationView4,
+                $contentView4,
             ],
             [
                 // default scope + two groups + global scope
                 $testIdHash,
                 $siteaccess,
                 [$group1, $group2],
-                $locationView1,
-                $locationView4,
+                $contentView1,
+                $contentView4,
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [
-                        $group1 => [$testIdHash => $locationView2],
-                        $group2 => [$testIdHash => $locationView3],
+                        $group1 => [$testIdHash => $contentView2],
+                        $group2 => [$testIdHash => $contentView3],
                     ],
                 ],
                 0,
-                $locationView4,
+                $contentView4,
             ],
             [
                 // two groups
@@ -1300,12 +1300,12 @@ class ContextualizerTest extends TestCase
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [
-                        $group1 => [$testIdHash => $locationView1],
-                        $group2 => [$testIdHash => $locationView2],
+                        $group1 => [$testIdHash => $contentView1],
+                        $group2 => [$testIdHash => $contentView2],
                     ],
                 ],
                 0,
-                $locationView2,
+                $contentView2,
             ],
             [
                 // two groups + global scope
@@ -1313,16 +1313,16 @@ class ContextualizerTest extends TestCase
                 $siteaccess,
                 [$group1, $group2],
                 [],
-                $locationView3,
+                $contentView3,
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [
-                        $group1 => [$testIdHash => $locationView1],
-                        $group2 => [$testIdHash => $locationView2],
+                        $group1 => [$testIdHash => $contentView1],
+                        $group2 => [$testIdHash => $contentView2],
                     ],
                 ],
                 0,
-                $locationView3,
+                $contentView3,
             ],
             [
                 // two groups + siteaccess
@@ -1334,13 +1334,13 @@ class ContextualizerTest extends TestCase
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [
-                        $siteaccess => [$testIdHash => $locationView3],
-                        $group1 => [$testIdHash => $locationView1],
-                        $group2 => [$testIdHash => $locationView2],
+                        $siteaccess => [$testIdHash => $contentView3],
+                        $group1 => [$testIdHash => $contentView1],
+                        $group2 => [$testIdHash => $contentView2],
                     ],
                 ],
                 0,
-                $locationView3,
+                $contentView3,
             ],
             [
                 // two groups + siteaccess + global scope
@@ -1348,34 +1348,34 @@ class ContextualizerTest extends TestCase
                 $siteaccess,
                 [$group1, $group2],
                 [],
-                $locationView4,
+                $contentView4,
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [
-                        $siteaccess => [$testIdHash => $locationView3],
-                        $group1 => [$testIdHash => $locationView1],
-                        $group2 => [$testIdHash => $locationView2],
+                        $siteaccess => [$testIdHash => $contentView3],
+                        $group1 => [$testIdHash => $contentView1],
+                        $group2 => [$testIdHash => $contentView2],
                     ],
                 ],
                 0,
-                $locationView4,
+                $contentView4,
             ],
             [
                 // default scope + group + siteaccess
                 $testIdHash,
                 $siteaccess,
                 [$group1, $group2],
-                $locationView1,
+                $contentView1,
                 [],
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [
-                        $group1 => [$testIdHash => $locationView2],
-                        $siteaccess => [$testIdHash => $locationView3],
+                        $group1 => [$testIdHash => $contentView2],
+                        $siteaccess => [$testIdHash => $contentView3],
                     ],
                 ],
                 0,
-                $locationView3,
+                $contentView3,
             ],
             [
                 // global scope + group + siteaccess
@@ -1383,32 +1383,32 @@ class ContextualizerTest extends TestCase
                 $siteaccess,
                 [$group1, $group2],
                 [],
-                $locationView3,
+                $contentView3,
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [
-                        $group2 => [$testIdHash => $locationView1],
-                        $siteaccess => [$testIdHash => $locationView2],
+                        $group2 => [$testIdHash => $contentView1],
+                        $siteaccess => [$testIdHash => $contentView2],
                     ],
                 ],
                 0,
-                $locationView3,
+                $contentView3,
             ],
             [
                 // default scope + group +  global
                 $testIdHash,
                 $siteaccess,
                 [$group1, $group2],
-                $locationView1,
-                $locationView3,
+                $contentView1,
+                $contentView3,
                 [
                     'siteaccess' => $siteaccessConfig,
                     self::SA_NODE_NAME => [
-                        $group2 => [$testIdHash => $locationView2],
+                        $group2 => [$testIdHash => $contentView2],
                     ],
                 ],
                 0,
-                $locationView3,
+                $contentView3,
             ],
         ];
 

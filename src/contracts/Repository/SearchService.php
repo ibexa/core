@@ -86,8 +86,7 @@ interface SearchService
      *
      * To use with {@see SearchService::supports()}.
      *
-     * WARNING: This feature is considered experimental given it is not completely clear what it is supposed to do. Feature
-     * might be deprecated in the future.
+     * @experimental It is not completely clear yet what this feature is supposed to do, so it might be dropped in the future.
      */
     public const CAPABILITY_SUGGEST = 32;
 

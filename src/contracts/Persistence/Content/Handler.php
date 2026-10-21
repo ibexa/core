@@ -331,12 +331,12 @@ interface Handler
      *
      * @param int $relationId
      * @param int $type value of {@see RelationType}
-     * @param ?int $destinationContentId Content id to invalidate cache tag related to content reverse relations count
+     * @param int $destinationContentId Content id to invalidate cache tag related to content reverse relations count
      */
     public function removeRelation(
         $relationId,
         $type,
-        ?int $destinationContentId = null
+        int $destinationContentId
     );
 
     /**

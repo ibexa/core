@@ -13,6 +13,7 @@ use Ibexa\Core\Persistence\TransformationProcessor;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 use ReflectionClass;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
@@ -24,6 +25,20 @@ class SlugConverterConfigurationPassTest extends AbstractCompilerPassTestCase
     protected function registerCompilerPass(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new SlugConverterConfigurationPass());
+    }
+
+    public function testThrowsWhenTransformationIsNotSet(): void
+    {
+        $definition = new Definition(SlugConverter::class);
+        $definition->setArgument(0, self::createStub(TransformationProcessor::class));
+        $definition->setArgument(1, []);
+        $this->setDefinition(SlugConverter::class, $definition);
+        $this->setParameter('ibexa.url_alias.slug_converter', []);
+
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage("The 'ibexa.url_alias.slug_converter.transformation' setting is required. Set it to one of: 'urlalias', 'urlalias_iri', 'urlalias_compat', 'urlalias_lowercase'");
+
+        $this->compile();
     }
 
     /**

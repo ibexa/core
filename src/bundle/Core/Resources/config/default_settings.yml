@@ -9,7 +9,6 @@ parameters:
     ###
 
     # Content/Location view
-    ibexa.site_access.config.default.location_view: {}
     ibexa.site_access.config.default.content_view: {}
     ibexa.site_access.config.default.block_view: {}
 
