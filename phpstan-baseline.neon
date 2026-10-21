@@ -4861,12 +4861,6 @@ parameters:
 			path: src/bundle/IO/BinaryStreamResponse.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\IO\\BinaryStreamResponse\:\:__construct\(\) has parameter \$headers with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/bundle/IO/BinaryStreamResponse.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\IO\\BinaryStreamResponse\:\:getContent\(\) should return string\|false but returns null\.$#'
 			identifier: return.type
 			count: 1
@@ -4885,12 +4879,6 @@ parameters:
 			path: src/bundle/IO/BinaryStreamResponse.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\IO\\BinaryStreamResponse\:\:setAutoLastModified\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/bundle/IO/BinaryStreamResponse.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\IO\\BinaryStreamResponse\:\:setContent\(\) has parameter \$content with no type specified\.$#'
 			identifier: missingType.parameter
 			count: 1
@@ -4903,38 +4891,8 @@ parameters:
 			path: src/bundle/IO/BinaryStreamResponse.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\IO\\BinaryStreamResponse\:\:setFile\(\) should return Symfony\\Component\\HttpFoundation\\BinaryFileResponse but returns \$this\(Ibexa\\Bundle\\IO\\BinaryStreamResponse\)\.$#'
-			identifier: return.type
-			count: 1
-			path: src/bundle/IO/BinaryStreamResponse.php
-
-		-
-			message: '#^PHPDoc tag @param references unknown parameter\: \$autoEtag$#'
-			identifier: parameter.notFound
-			count: 2
-			path: src/bundle/IO/BinaryStreamResponse.php
-
-		-
 			message: '#^Parameter \#1 \$date of method Symfony\\Component\\HttpFoundation\\Response\:\:setLastModified\(\) expects DateTimeInterface\|null, DateTime\|false given\.$#'
 			identifier: argument.type
-			count: 1
-			path: src/bundle/IO/BinaryStreamResponse.php
-
-		-
-			message: '#^Parameter \#1 \$file of method Ibexa\\Bundle\\IO\\BinaryStreamResponse\:\:setFile\(\) expects SplFileInfo\|string, Ibexa\\Core\\IO\\Values\\BinaryFile given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/bundle/IO/BinaryStreamResponse.php
-
-		-
-			message: '#^Parameter \#1 \$string of function substr expects string, string\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/bundle/IO/BinaryStreamResponse.php
-
-		-
-			message: '#^Property Ibexa\\Bundle\\IO\\BinaryStreamResponse\:\:\$file \(Ibexa\\Core\\IO\\Values\\BinaryFile\) does not accept SplFileInfo\|string\.$#'
-			identifier: assign.propertyType
 			count: 1
 			path: src/bundle/IO/BinaryStreamResponse.php
 
@@ -5167,6 +5125,18 @@ parameters:
 			path: src/bundle/IO/DependencyInjection/ConfigurationFactory.php
 
 		-
+			message: '#^Method Ibexa\\Bundle\\IO\\DependencyInjection\\ConfigurationFactory\\BinarydataHandler\\Flysystem\:\:addConfiguration\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/bundle/IO/DependencyInjection/ConfigurationFactory/BinarydataHandler/Flysystem.php
+
+		-
+			message: '#^Method Ibexa\\Bundle\\IO\\DependencyInjection\\ConfigurationFactory\\BinarydataHandler\\Flysystem\:\:configureHandler\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/bundle/IO/DependencyInjection/ConfigurationFactory/BinarydataHandler/Flysystem.php
+
+		-
 			message: '#^Method Ibexa\\Bundle\\IO\\DependencyInjection\\ConfigurationFactory\\Flysystem\:\:addConfiguration\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -5365,13 +5335,13 @@ parameters:
 			path: src/bundle/IO/Migration/FileLister/FileRowReaderInterface.php
 
 		-
-			message: '#^PHPDoc tag @param has invalid value \(VariationPathGenerator\)\: Unexpected token "\\n     \* ", expected variable at offset 228 on line 6$#'
+			message: '#^PHPDoc tag @param has invalid value \(FilterConfiguration\)\: Unexpected token "\\n     \* ", expected variable at offset 262 on line 7$#'
 			identifier: phpDoc.parseError
 			count: 1
 			path: src/bundle/IO/Migration/FileLister/ImageFileLister.php
 
 		-
-			message: '#^PHPDoc tag @param has invalid value \(FilterConfiguration\)\: Unexpected token "\\n     \* ", expected variable at offset 262 on line 7$#'
+			message: '#^PHPDoc tag @param has invalid value \(VariationPathGenerator\)\: Unexpected token "\\n     \* ", expected variable at offset 228 on line 6$#'
 			identifier: phpDoc.parseError
 			count: 1
 			path: src/bundle/IO/Migration/FileLister/ImageFileLister.php
@@ -12693,7 +12663,7 @@ parameters:
 		-
 			message: '#^Parameter \#2 \$previous of class Ibexa\\Core\\IO\\Exception\\BinaryFileNotFoundException constructor expects Exception\|null, League\\Flysystem\\FilesystemException given\.$#'
 			identifier: argument.type
-			count: 3
+			count: 4
 			path: src/lib/IO/IOBinarydataHandler/Flysystem.php
 
 		-
@@ -12985,14 +12955,14 @@ parameters:
 			path: src/lib/IO/MimeTypeDetector/FileInfo.php
 
 		-
-			message: '#^Property Ibexa\\Core\\IO\\MimeTypeDetector\\FileInfo\:\:\$fileInfo \(finfo\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
+			message: '#^Method Ibexa\\Core\\IO\\MimeTypeDetector\\FileInfo\:\:getFromPath\(\) should return string but returns string\|false\.$#'
+			identifier: return.type
 			count: 1
 			path: src/lib/IO/MimeTypeDetector/FileInfo.php
 
 		-
-			message: '#^Method Ibexa\\Core\\IO\\MimeTypeDetector\\FileInfo\:\:getFromPath\(\) should return string but returns string\|false\.$#'
-			identifier: return.type
+			message: '#^Property Ibexa\\Core\\IO\\MimeTypeDetector\\FileInfo\:\:\$fileInfo \(finfo\) in isset\(\) is not nullable\.$#'
+			identifier: isset.property
 			count: 1
 			path: src/lib/IO/MimeTypeDetector/FileInfo.php
 
@@ -33551,7 +33521,6 @@ parameters:
 			identifier: argument.type
 			count: 4
 			path: tests/integration/Core/Repository/ContentServiceTest.php
-
 
 		-
 			message: '#^Parameter \#1 \$locations of method Ibexa\\Tests\\Integration\\Core\\Repository\\ContentServiceTest\:\:filterHiddenLocations\(\) expects array\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\>, iterable\<Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Location\> given\.$#'
@@ -69374,6 +69343,12 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/ContentTest.php
 
 		-
+			message: '#^Call to new Ibexa\\Core\\Repository\\ContentService\(\) on a separate line has no effect\.$#'
+			identifier: new.resultUnused
+			count: 1
+			path: tests/lib/Repository/Service/Mock/ContentTest.php
+
+		-
 			message: '#^Cannot access offset mixed on Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Field\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
@@ -69382,12 +69357,6 @@ parameters:
 		-
 			message: '#^Cannot access offset string on Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Field\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: tests/lib/Repository/Service/Mock/ContentTest.php
-
-		-
-			message: '#^Call to new Ibexa\\Core\\Repository\\ContentService\(\) on a separate line has no effect\.$#'
-			identifier: new.resultUnused
 			count: 1
 			path: tests/lib/Repository/Service/Mock/ContentTest.php
 
