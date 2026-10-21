@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository\Permission;
 
-use Exception;
 use Ibexa\Contracts\Core\Repository\PermissionCriterionResolver as APIPermissionCriterionResolver;
 use Ibexa\Contracts\Core\Repository\PermissionResolver as APIPermissionResolver;
 use Ibexa\Contracts\Core\Repository\PermissionService;
@@ -154,14 +153,10 @@ class CachedPermissionService implements PermissionService
     ) {
         ++$this->sudoNestingLevel;
         try {
-            $returnValue = $this->innerPermissionResolver->sudo($callback, $outerRepository);
-        } catch (Exception $e) {
+            return $this->innerPermissionResolver->sudo($callback, $outerRepository);
+        } finally {
             --$this->sudoNestingLevel;
-            throw $e;
         }
-        --$this->sudoNestingLevel;
-
-        return $returnValue;
     }
 
     public function getQueryPermissionsCriterion(): Criterion
