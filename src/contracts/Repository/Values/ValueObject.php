@@ -39,7 +39,6 @@ abstract class ValueObject
     /**
      * Returns list of available properties' names.
      *
-     * {@internal Used by {@see ValueObject::attributes()}.}
      * Override to add dynamic properties.
      *
      * @uses ValueObject::__isset()
