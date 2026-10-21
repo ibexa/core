@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\QueryType\BuiltIn\SortClausesFactoryInterface;
 use Ibexa\Core\QueryType\QueryType;
 use Ibexa\Core\Repository\Values\Content\Location;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 
 abstract class AbstractQueryTypeTest extends TestCase
@@ -23,13 +23,13 @@ abstract class AbstractQueryTypeTest extends TestCase
     protected const ROOT_LOCATION_ID = 2;
     protected const ROOT_LOCATION_PATH_STRING = '/1/2/';
 
-    /** @var Repository|MockObject */
+    /** @var Repository&Stub */
     private $repository;
 
-    /** @var ConfigResolverInterface|MockObject */
+    /** @var ConfigResolverInterface&Stub */
     private $configResolver;
 
-    /** @var SortClausesFactoryInterface|MockObject */
+    /** @var SortClausesFactoryInterface&Stub */
     private $sortClausesFactory;
 
     /** @var QueryType */
@@ -42,22 +42,27 @@ abstract class AbstractQueryTypeTest extends TestCase
             'pathString' => self::ROOT_LOCATION_PATH_STRING,
         ]);
 
-        $locationService = $this->createMock(LocationService::class);
+        $locationService = $this->createStub(LocationService::class);
         $locationService
             ->method('loadLocation')
-            ->with(self::ROOT_LOCATION_ID)
-            ->willReturn($rootLocation);
+            ->willReturnMap([
+                [self::ROOT_LOCATION_ID, null, null, $rootLocation],
+            ]);
 
-        $this->repository = $this->createMock(Repository::class);
+        $this->repository = $this->createStub(Repository::class);
         $this->repository->method('getLocationService')->willReturn($locationService);
+        $this->repository
+            ->method('sudo')
+            ->willReturnCallback(fn (callable $callback) => $callback($this->repository));
 
-        $this->configResolver = $this->createMock(ConfigResolverInterface::class);
+        $this->configResolver = $this->createStub(ConfigResolverInterface::class);
         $this->configResolver
             ->method('getParameter')
-            ->with('content.tree_root.location_id')
-            ->willReturn(self::ROOT_LOCATION_ID);
+            ->willReturnMap([
+                ['content.tree_root.location_id', null, null, self::ROOT_LOCATION_ID],
+            ]);
 
-        $this->sortClausesFactory = $this->createMock(SortClausesFactoryInterface::class);
+        $this->sortClausesFactory = $this->createStub(SortClausesFactoryInterface::class);
 
         $this->queryType = $this->createQueryType(
             $this->repository,
