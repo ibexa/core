@@ -10,7 +10,6 @@ namespace Ibexa\Core\Repository;
 
 use DateTime;
 use DateTimeInterface;
-use Exception;
 use Ibexa\Contracts\Core\Persistence\URL\Handler as URLHandler;
 use Ibexa\Contracts\Core\Persistence\URL\URL as SPIUrl;
 use Ibexa\Contracts\Core\Persistence\URL\URLUpdateStruct as SPIUrlUpdateStruct;
@@ -28,6 +27,7 @@ use Ibexa\Contracts\Core\Repository\Values\URL\UsageSearchResult;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
+use Throwable;
 
 class URLService implements URLServiceInterface
 {
@@ -101,7 +101,7 @@ class URLService implements URLServiceInterface
         try {
             $this->urlHandler->updateUrl($url->id, $updateStruct);
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }

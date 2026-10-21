@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository;
 
-use Exception;
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard as SPIUrlWildcard;
 use Ibexa\Contracts\Core\Persistence\Content\UrlWildcard\Handler;
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
@@ -25,6 +24,7 @@ use Ibexa\Core\Base\Exceptions\ContentValidationException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
+use Throwable;
 
 /**
  * URLAlias service.
@@ -102,7 +102,7 @@ class URLWildcardService implements URLWildcardServiceInterface
                 $forward
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -134,7 +134,7 @@ class URLWildcardService implements URLWildcardServiceInterface
             );
 
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -159,7 +159,7 @@ class URLWildcardService implements URLWildcardServiceInterface
                 $urlWildcard->id
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }

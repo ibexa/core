@@ -23,6 +23,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\DTO\SwappedLocationProperties;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\DTO\UrlAliasForSwappedLocation;
+use Throwable;
 
 /**
  * The UrlAlias Handler provides nice urls management.
@@ -1203,7 +1204,7 @@ class Handler implements UrlAliasHandlerInterface
             $this->transactionHandler->commit();
 
             return $totalCount;
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             $this->transactionHandler->rollback();
             throw $e;
         }

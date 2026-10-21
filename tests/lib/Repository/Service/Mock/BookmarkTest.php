@@ -132,6 +132,30 @@ class BookmarkTest extends BaseServiceMockTest
         $this->createBookmarkService()->createBookmark($location);
     }
 
+    public function testCreateBookmarkWithRollbackOnError(): void
+    {
+        $this->expectException(\Error::class);
+
+        $location = $this->createLocation(self::LOCATION_ID);
+
+        $this->assertLocationIsLoaded($location);
+
+        $this->bookmarkHandler
+            ->expects(self::once())
+            ->method('loadByUserIdAndLocationId')
+            ->with(self::CURRENT_USER_ID, [self::LOCATION_ID])
+            ->willReturn([]);
+
+        $this->assertTransactionIsRollback(function (): void {
+            $this->bookmarkHandler
+                ->expects(self::once())
+                ->method('create')
+                ->willThrowException(new \Error('persistence failure'));
+        });
+
+        $this->createBookmarkService()->createBookmark($location);
+    }
+
     /**
      * @covers \Ibexa\Contracts\Core\Repository\BookmarkService::deleteBookmark
      */
