@@ -166,7 +166,7 @@ interface URLAliasService
      * @throws NotFoundException
      *
      * @param string $id
-     * @param bool|null $showAllTranslations If enabled will include all alias as if they where always available.
+     * @param bool|null $showAllTranslations If enabled will include all aliases as if they were always available.
      *
      * @return URLAlias
      */
