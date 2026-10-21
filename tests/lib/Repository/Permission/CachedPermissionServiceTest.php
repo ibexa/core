@@ -29,6 +29,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Repository\Permission\CachedPermissionService;
+use Ibexa\Core\Repository\Permission\PermissionResolver as CorePermissionResolver;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -162,31 +163,33 @@ class CachedPermissionServiceTest extends TestCase
 
     public function testGetPermissionsCriterionIsCachedAfterSudoError(): void
     {
-        $criterionMock = $this->createMock(Criterion::class);
+        $criterion = self::createStub(Criterion::class);
 
-        $this->getPermissionResolverMock(['sudo'])
+        $innerPermissionResolver = $this->createMock(CorePermissionResolver::class);
+        $innerPermissionResolver
             ->expects($this->once())
             ->method('sudo')
             ->willThrowException(new \Error('sudo callback failure'));
 
-        $this->getPermissionCriterionResolverMock(['getPermissionsCriterion'])
+        $permissionCriterionResolver = $this->createMock(PermissionCriterionResolver::class);
+        $permissionCriterionResolver
             ->expects($this->once())
             ->method('getPermissionsCriterion')
             ->with('content', 'read')
-            ->willReturn($criterionMock);
+            ->willReturn($criterion);
 
-        $cachedService = $this->getCachedPermissionService();
+        $cachedService = new CachedPermissionService($innerPermissionResolver, $permissionCriterionResolver);
 
         try {
-            $cachedService->sudo(static function (): void {}, $this->createMock(Repository::class));
+            $cachedService->sudo(static function (): void {}, self::createStub(Repository::class));
             self::fail('Error thrown inside sudo() was not rethrown');
         } catch (\Error $e) {
             self::assertSame('sudo callback failure', $e->getMessage());
         }
 
         // outside of sudo() the content/read criterion is cached, so the inner resolver is hit once
-        self::assertSame($criterionMock, $cachedService->getPermissionsCriterion('content', 'read'));
-        self::assertSame($criterionMock, $cachedService->getPermissionsCriterion('content', 'read'));
+        self::assertSame($criterion, $cachedService->getPermissionsCriterion('content', 'read'));
+        self::assertSame($criterion, $cachedService->getPermissionsCriterion('content', 'read'));
     }
 
     /**
