@@ -266,6 +266,23 @@ class BookmarkTest extends BaseServiceMockTest
         $this->createBookmarkService()->loadBookmarks(5, -1);
     }
 
+    public function testLoadBookmarksThrowsInvalidArgumentExceptionOnNegativeOffset(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Filtering slice offset needs to be >=0, got -1');
+
+        $repository = $this->getRepositoryMock();
+        $repository
+            ->expects(self::never())
+            ->method('getLocationService');
+
+        // setUp() requires getCurrentUserReference() to be called at least once, and the
+        // argument is rejected before anything reaches the Query Builder which would call it
+        $repository->getPermissionResolver()->getCurrentUserReference();
+
+        $this->createBookmarkService()->loadBookmarks(-1, 25);
+    }
+
     public function testLocationShouldNotBeBookmarked()
     {
         $this->bookmarkHandler
