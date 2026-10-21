@@ -145,7 +145,10 @@ class URLAliasServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $parameters = ['random_value_5ced05ce0f4839.47843200'];
+        $parameters = [
+            'random_value_5ced05ce0f4839.47843200',
+            true,
+        ];
 
         $serviceMock->expects($this->once())->method('load')->with(...$parameters);
 

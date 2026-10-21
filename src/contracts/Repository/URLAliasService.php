@@ -156,7 +156,7 @@ interface URLAliasService
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException
      *
      * @param string $id
-     * @param bool|null $showAllTranslations If enabled will include all alias as if they where always available.
+     * @param bool|null $showAllTranslations If enabled will include all aliases as if they were always available.
      *
      * @return \Ibexa\Contracts\Core\Repository\Values\Content\URLAlias
      */
