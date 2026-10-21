@@ -418,15 +418,10 @@ class PermissionResolver implements PermissionResolverInterface
     ) {
         ++$this->sudoNestingLevel;
         try {
-            $returnValue = $callback($outerRepository);
-        } catch (Exception $e) {
+            return $callback($outerRepository);
+        } finally {
             --$this->sudoNestingLevel;
-            throw $e;
         }
-
-        --$this->sudoNestingLevel;
-
-        return $returnValue;
     }
 
     /**
