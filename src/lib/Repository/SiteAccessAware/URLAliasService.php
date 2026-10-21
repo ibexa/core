@@ -108,8 +108,10 @@ class URLAliasService implements URLAliasServiceInterface
         );
     }
 
-    public function load(string $id, ?bool $showAllTranslations = null): URLAlias
-    {
+    public function load(
+        string $id,
+        ?bool $showAllTranslations = null
+    ): URLAlias {
         return $this->service->load($id, $showAllTranslations);
     }
 

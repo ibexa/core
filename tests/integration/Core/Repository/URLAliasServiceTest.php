@@ -227,7 +227,7 @@ class URLAliasServiceTest extends BaseTest
             false
         );
 
-        /** @var \Ibexa\Core\Repository\SiteAccessAware\Language\LanguageResolver $languageResolver */
+        /** @var LanguageResolver $languageResolver */
         $languageResolver = $this->getSetupFactory()->getServiceContainer()->get(LanguageResolver::class);
         $languageResolver->setShowAllTranslations(true);
 

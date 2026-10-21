@@ -170,7 +170,10 @@ interface URLAliasService
      *
      * @return URLAlias
      */
-    public function load(string $id, ?bool $showAllTranslations = null): URLAlias;
+    public function load(
+        string $id,
+        ?bool $showAllTranslations = null
+    ): URLAlias;
 
     /**
      * Refresh all system URL aliases for the given Location (and historize outdated if needed).

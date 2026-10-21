@@ -742,8 +742,10 @@ class URLAliasService implements URLAliasServiceInterface
      *
      * @return URLAlias
      */
-    public function load(string $id, ?bool $showAllTranslations = null): URLAlias
-    {
+    public function load(
+        string $id,
+        ?bool $showAllTranslations = null
+    ): URLAlias {
         $spiUrlAlias = $this->urlAliasHandler->loadUrlAlias($id);
         $path = $this->extractPath(
             $spiUrlAlias,
