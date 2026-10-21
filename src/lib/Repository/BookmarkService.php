@@ -102,6 +102,20 @@ class BookmarkService implements BookmarkServiceInterface
         int $offset = 0,
         int $limit = 25
     ): BookmarkList {
+        if ($offset < 0) {
+            trigger_deprecation(
+                'ibexa/core',
+                '4.6.33',
+                sprintf(
+                    'Passing a negative $offset to %s() is deprecated and will throw in 6.0. ' .
+                    'Pass 0 to start from the first bookmark instead',
+                    __METHOD__
+                )
+            );
+
+            $offset = 0;
+        }
+
         if ($limit < 0) {
             trigger_deprecation(
                 'ibexa/core',
