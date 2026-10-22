@@ -55,8 +55,12 @@ final class ConvertPostgreSqlSerialColumnsToIdentityMigration extends AbstractSq
             return;
         }
 
-        // The table is missing only in a dry run, which doesn't execute the migrations before this one
-        if (!$schema->hasTable('ibexa_content') || $this->areColumnsConverted($schema)) {
+        $this->skipIf(
+            !$schema->hasTable('ibexa_content'),
+            'ibexa_content doesn\'t exist yet: the migrations creating it don\'t execute in a dry run.'
+        );
+
+        if ($this->areColumnsConverted($schema)) {
             return;
         }
 
