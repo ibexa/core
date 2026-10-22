@@ -57,6 +57,13 @@ final class ConvertMariaDbJsonColumnsTo6_0Migration extends AbstractSqlMigration
             return;
         }
 
+        foreach (array_keys(self::JSON_COLUMNS) as $tableName) {
+            $this->skipIf(
+                !$schema->hasTable($tableName),
+                sprintf('%s doesn\'t exist yet: the migrations creating it don\'t execute in a dry run.', $tableName)
+            );
+        }
+
         if ($this->areColumnsConverted($schema)) {
             return;
         }

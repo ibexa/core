@@ -55,6 +55,11 @@ final class ConvertPostgreSqlSerialColumnsToIdentityMigration extends AbstractSq
             return;
         }
 
+        $this->skipIf(
+            !$schema->hasTable('ibexa_content'),
+            'ibexa_content doesn\'t exist yet: the migrations creating it don\'t execute in a dry run.'
+        );
+
         if ($this->areColumnsConverted($schema)) {
             return;
         }
