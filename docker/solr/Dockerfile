@@ -8,7 +8,8 @@ RUN adduser --disabled-password user
 USER user
 WORKDIR /home/user
 RUN git clone --depth=1 --branch "${SOLR_BUNDLE_BRANCH}" https://github.com/ibexa/solr.git solr
-RUN ./solr/bin/generate-solr-config.sh --destination-dir=config --solr-version="${SOLR_VERSION}"
+# For Solr 9+ the generator also writes solr.xml two levels above the destination, keep it inside config/
+RUN ./solr/bin/generate-solr-config.sh --destination-dir=config/template/conf --solr-version="${SOLR_VERSION}"
 
 FROM solr:${SOLR_VERSION}
 LABEL org.opencontainers.image.source=https://github.com/ibexa/core/blob/6.0/docker/solr/Dockerfile
@@ -17,5 +18,5 @@ LABEL org.opencontainers.image.licenses=GPL-2.0-only
 USER root
 RUN rm -rf server/solr/configsets/_default/conf/*
 USER solr
-COPY --from=builder /home/user/config server/solr/configsets/_default/conf
+COPY --from=builder /home/user/config/template/conf server/solr/configsets/_default/conf
 CMD ["solr-precreate", "collection1"]
