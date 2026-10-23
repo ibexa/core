@@ -29,6 +29,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Ibexa\Core\Repository\Permission\CachedPermissionService;
+use Ibexa\Core\Repository\Permission\PermissionResolver as CorePermissionResolver;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -158,6 +159,37 @@ class CachedPermissionServiceTest extends TestCase
             ->getMockBuilder(UserReference::class)
             ->getMockForAbstractClass();
         $cachedService->setCurrentUserReference($userRef);
+    }
+
+    public function testGetPermissionsCriterionIsCachedAfterSudoError(): void
+    {
+        $criterion = self::createStub(Criterion::class);
+
+        $innerPermissionResolver = $this->createMock(CorePermissionResolver::class);
+        $innerPermissionResolver
+            ->expects($this->once())
+            ->method('sudo')
+            ->willThrowException(new \Error('sudo callback failure'));
+
+        $permissionCriterionResolver = $this->createMock(PermissionCriterionResolver::class);
+        $permissionCriterionResolver
+            ->expects($this->once())
+            ->method('getPermissionsCriterion')
+            ->with('content', 'read')
+            ->willReturn($criterion);
+
+        $cachedService = new CachedPermissionService($innerPermissionResolver, $permissionCriterionResolver);
+
+        try {
+            $cachedService->sudo(static function (): void {}, self::createStub(Repository::class));
+            self::fail('Error thrown inside sudo() was not rethrown');
+        } catch (\Error $e) {
+            self::assertSame('sudo callback failure', $e->getMessage());
+        }
+
+        // outside of sudo() the content/read criterion is cached, so the inner resolver is hit once
+        self::assertSame($criterion, $cachedService->getPermissionsCriterion('content', 'read'));
+        self::assertSame($criterion, $cachedService->getPermissionsCriterion('content', 'read'));
     }
 
     /**
