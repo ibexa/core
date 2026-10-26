@@ -8,6 +8,7 @@
 namespace Ibexa\Core\Persistence\Legacy\Content\UrlAlias;
 
 use Ibexa\Core\Persistence\TransformationProcessor;
+use InvalidArgumentException;
 
 /**
  * URL slug converter.
@@ -187,14 +188,14 @@ class SlugConverter
      * @param TransformationProcessor $transformationProcessor
      * @param array $configuration must contain the 'transformation' key
      *
-     * @throws \InvalidArgumentException if the 'transformation' key is missing in $configuration
+     * @throws InvalidArgumentException if the 'transformation' key is missing in $configuration
      */
     public function __construct(
         TransformationProcessor $transformationProcessor,
         array $configuration
     ) {
         if (empty($configuration['transformation'])) {
-            throw new \InvalidArgumentException("The 'transformation' key of the slug converter configuration is required.");
+            throw new InvalidArgumentException("The 'transformation' key of the slug converter configuration is required.");
         }
 
         $this->transformationProcessor = $transformationProcessor;
