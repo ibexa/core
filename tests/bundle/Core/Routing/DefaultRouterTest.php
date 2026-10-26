@@ -110,6 +110,7 @@ class DefaultRouterTest extends TestCase
 
         $router = $this->generateRouter(['getMatcher']);
         $router
+            ->expects(self::once())
             ->method('getMatcher')
             ->willReturn(new UrlMatcher($routes, new RequestContext()));
 
