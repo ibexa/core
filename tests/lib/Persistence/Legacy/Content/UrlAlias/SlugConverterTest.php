@@ -221,7 +221,10 @@ final class SlugConverterTest extends TestCase
                 "$transformationsDirectory/search.tr.result.php",
             ]
         );
-        $slugConverter = new SlugConverter($transformationProcessor, ['transformation' => 'urlalias']);
+        $slugConverter = new SlugConverter(
+            $transformationProcessor,
+            ['transformation' => 'urlalias']
+        );
 
         self::assertEquals(
             $expected,
