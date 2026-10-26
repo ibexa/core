@@ -286,7 +286,7 @@ class UserService implements UserServiceInterface
 
         $searchQuery->sortClauses = $location->getSortClauses();
 
-        return $this->repository->getSearchService()->findLocations($searchQuery, [], false);
+        return $this->repository->getSearchService()->findLocations($searchQuery);
     }
 
     /**
