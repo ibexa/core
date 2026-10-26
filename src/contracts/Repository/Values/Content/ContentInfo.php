@@ -111,8 +111,6 @@ class ContentInfo extends ValueObject
 
     /**
      * Status of the content.
-     *
-     * Replaces deprecated API\ContentInfo::$published.
      */
     protected int $status;
 

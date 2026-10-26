@@ -39,7 +39,6 @@ abstract class ValueObject
     /**
      * Returns list of available properties' names.
      *
-     * {@internal Used by {@see ValueObject::attributes()}.}
      * Override to add dynamic properties.
      *
      * @uses ValueObject::__isset()
@@ -159,59 +158,5 @@ abstract class ValueObject
     public static function __set_state(array $array)
     {
         return new static($array);
-    }
-
-    /**
-     * Internal function for Legacy template engine compatibility to get property value.
-     *
-     * @internal
-     *
-     * @deprecated Since 5.0, available purely for legacy eZTemplate compatibility
-     *
-     * @uses ValueObject::__get()
-     *
-     * @param string $property
-     *
-     * @return mixed
-     */
-    final public function attribute($property)
-    {
-        return $this->__get($property);
-    }
-
-    /**
-     * Internal function for Legacy template engine compatibility to get properties.
-     *
-     * @internal
-     *
-     * @deprecated Since 5.0, available purely for legacy eZTemplate compatibility
-     *
-     * @uses ValueObject::getProperties()
-     * @uses ValueObject::__isset()
-     *
-     * @return array
-     */
-    final public function attributes()
-    {
-        return $this->getProperties();
-    }
-
-    /**
-     * Internal function for Legacy template engine compatibility to check existence of property.
-     *
-     * @internal
-     *
-     * @deprecated Since 5.0, available purely for legacy eZTemplate compatibility
-     *
-     * @uses ValueObject::__isset()
-     *
-     * @param string $property
-     *
-     * @return bool
-     */
-    #[SerializerIgnore]
-    final public function hasAttribute($property)
-    {
-        return $this->__isset($property);
     }
 }

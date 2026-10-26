@@ -63,6 +63,13 @@ abstract class Type extends FieldType
         return $this->getEmptyValue();
     }
 
+    public function valuesEqual(
+        Value $value1,
+        Value $value2
+    ): bool {
+        return $this->toHash($value1) === $this->toHash($value2);
+    }
+
     public function toHash(Value $value): ?array
     {
         if ($this->isEmptyValue($value)) {

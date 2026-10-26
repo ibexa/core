@@ -41,7 +41,7 @@ EOT;
             ],
             'ibexa' => [
                 'repositories' => [
-                    'my_repository' => ['engine' => 'legacy', 'connection' => 'default'],
+                    'my_repository' => ['storage' => ['engine' => 'legacy', 'connection' => 'default']],
                 ],
                 'system' => [
                     'foo' => [
@@ -76,8 +76,9 @@ doctrine:
 ibexa:
     repositories:
         my_repository:
-            engine: legacy
-            connection: default
+            storage:
+                engine: legacy
+                connection: default
     system:
         foo:
             repository: my_repository

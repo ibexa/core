@@ -1543,12 +1543,6 @@ parameters:
 			path: src/bundle/Core/EventListener/BackgroundIndexingTerminateListener.php
 
 		-
-			message: '#^Cannot call method getName\(\) on Symfony\\Component\\Console\\Command\\Command\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/bundle/Core/EventListener/BackwardCompatibleCommandListener.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\EventListener\\CacheViewResponseListener\:\:configureCache\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -4471,12 +4465,6 @@ parameters:
 			path: src/contracts/Repository/Values/UserPreference/UserPreferenceList.php
 
 		-
-			message: '#^Method Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject\:\:attributes\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/contracts/Repository/Values/ValueObject.php
-
-		-
 			message: '#^Parameter \#2 \$value of method Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject\:\:__set\(\) expects string, null given\.$#'
 			identifier: argument.type
 			count: 1
@@ -4597,12 +4585,6 @@ parameters:
 			path: src/lib/Base/Container/Compiler/GenericFieldTypeConverterPass.php
 
 		-
-			message: '#^Class Ibexa\\Core\\Base\\Container\\Compiler\\TaggedServiceIdsIterator\\BackwardCompatibleIterator implements generic interface IteratorAggregate but does not specify its types\: TKey, TValue$#'
-			identifier: missingType.generics
-			count: 1
-			path: src/lib/Base/Container/Compiler/TaggedServiceIdsIterator/BackwardCompatibleIterator.php
-
-		-
 			message: '#^Call to an undefined method Symfony\\Component\\DependencyInjection\\Container\:\:getResources\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -4667,18 +4649,6 @@ parameters:
 			identifier: assign.propertyType
 			count: 1
 			path: src/lib/Base/ServiceContainer.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Base\\Utils\\DeprecationWarner\:\:log\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Base/Utils/DeprecationWarner.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Base\\Utils\\DeprecationWarnerInterface\:\:log\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Base/Utils/DeprecationWarnerInterface.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Event\\TokenService\:\:getToken\(\) should return Ibexa\\Contracts\\Core\\Repository\\Values\\Token\\Token but returns Ibexa\\Contracts\\Core\\Repository\\Values\\Token\\Token\|string\.$#'
@@ -6865,54 +6835,6 @@ parameters:
 			path: src/lib/MVC/Symfony/Controller/Content/QueryController.php
 
 		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Controller\\Content\\ViewController\:\:handleViewException\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/Content/ViewController.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Controller\\Content\\ViewController\:\:handleViewException\(\) has parameter \$contentId with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/Content/ViewController.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Controller\\Content\\ViewController\:\:handleViewException\(\) has parameter \$locationId with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/Content/ViewController.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Controller\\Content\\ViewController\:\:handleViewException\(\) has parameter \$params with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/Content/ViewController.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Controller\\Content\\ViewController\:\:handleViewException\(\) has parameter \$viewType with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/Content/ViewController.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Controller\\Content\\ViewController\:\:performAccessChecks\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/Content/ViewController.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Controller\\Content\\ViewController\:\:renderContent\(\) has parameter \$params with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/Content/ViewController.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Controller\\Content\\ViewController\:\:renderLocation\(\) has parameter \$params with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/MVC/Symfony/Controller/Content/ViewController.php
-
-		-
 			message: '#^Call to an undefined method object\:\:getCurrentRequest\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -6965,36 +6887,6 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: src/lib/MVC/Symfony/Controller/SecurityController.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Event\\APIContentExceptionEvent\:\:__construct\(\) has parameter \$contentMeta with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/MVC/Symfony/Event/APIContentExceptionEvent.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Event\\APIContentExceptionEvent\:\:getContentMeta\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/MVC/Symfony/Event/APIContentExceptionEvent.php
-
-		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Event\\APIContentExceptionEvent\:\:setContentView\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/MVC/Symfony/Event/APIContentExceptionEvent.php
-
-		-
-			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\Event\\APIContentExceptionEvent\:\:\$contentMeta type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/MVC/Symfony/Event/APIContentExceptionEvent.php
-
-		-
-			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\Event\\APIContentExceptionEvent\:\:\$contentView \(Ibexa\\Core\\MVC\\Symfony\\View\\View\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: src/lib/MVC/Symfony/Event/APIContentExceptionEvent.php
 
 		-
 			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\Event\\PostSiteAccessMatchEvent\:\:__construct\(\) has parameter \$requestType with no type specified\.$#'
@@ -18973,7 +18865,7 @@ parameters:
 			path: tests/bundle/Core/DependencyInjection/Configuration/SiteAccessAware/ContextualizerTest.php
 
 		-
-			message: '#^Offset ''heyho'' on array\{siteaccess\: array\{list\: array\{''krondor''\}, groups\: array\{midkemia\: array\{''krondor''\}, triagia\: array\{''krondor''\}\}\}, heyho\: array\{\}\|array\{krondor\: array\{location_view\: array\{full\: array\{Wizard\: array\{template\: ''wizard\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer\.html\.twig''\}\}\}\}\}\|array\{krondor\: array\{wizards\: array\{''Kulgan'', ''Macros the Black'', ''Pug'', ''Rogen'', ''William''\}\}\}\|array\{midkemia\: array\{location_view\: array\{full\: array\{Dwarve\: array\{template\: ''dwarve\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer2\.html\.twig''\}\}\}\}, krondor\: array\{location_view\: array\{full\: array\{Moredhel\: array\{template\: ''moredhel\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer3\.html\.twig''\}\}\}\}\}\|array\{midkemia\: array\{location_view\: array\{full\: array\{Dwarve\: array\{template\: ''dwarve\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer2\.html\.twig''\}\}\}\}, triagia\?\: array\{location_view\: array\{full\: array\{Moredhel\: array\{template\: ''moredhel\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer3\.html\.twig''\}\}\}\}, krondor\?\: array\{location_view\: array\{full\: array\{Moredhel\: array\{template\: ''moredhel2\.html\.twig''\}, Warrior\: array\{template\: ''warrior\.html\.twig''\}\}\}\}\}\|array\{midkemia\: array\{wizards\: array\{''Kulgan'', ''Macros the Black''\}\}\}\|array\{midkemia\: array\{wizards\: array\{''Macros the Black''\}\}, triagia\: array\{wizards\: array\{''Pug'', ''William'', ''Kulgan''\}\|array\{''Pug''\}\}, krondor\: array\{wizards\: array\{''Rogen'', ''Pug'', ''Rogen'', ''Macros the Black''\}\|array\{0\: ''Rogen'', 1\?\: ''Pug''\}\}\}\|array\{midkemia\: array\{wizards\: array\{''Pug'', ''Rogen'', ''William''\}\}\}\|array\{midkemia\: array\{wizards\: array\{0\: ''Pug'', 1\?\: ''Rogen''\}\}, triagia\: array\{wizards\: array\{''Rogen''\}\}\|array\{wizards\: array\{''William''\}\}, krondor\?\: array\{wizards\: array\{''William''\}\}\}\|array\{midkemia\?\: array\{location_view\: array\{full\: array\{Wizard\: array\{template\: ''wizard\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer\.html\.twig''\}\}\}\}, triagia\?\: array\{location_view\: array\{full\: array\{Dwarve\: array\{template\: ''dwarve\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer2\.html\.twig''\}\}\}\}, krondor\?\: array\{location_view\: array\{full\: array\{Moredhel\: array\{template\: ''moredhel\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer3\.html\.twig''\}\}\}\}\}\|array\{triagia\: array\{location_view\: array\{full\: array\{Wizard\: array\{template\: ''wizard\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer\.html\.twig''\}\}\}\}, krondor\: array\{location_view\: array\{full\: array\{Dwarve\: array\{template\: ''dwarve\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer2\.html\.twig''\}\}\}\}\}\|array\{triagia\: array\{wizards\: array\{''Kulgan'', ''Macros the Black'', ''Pug'', ''Rogen'', ''William''\}\}\}\} in isset\(\) always exists and is not nullable\.$#'
+			message: '#^Offset ''heyho'' on array\{siteaccess\: array\{list\: array\{''krondor''\}, groups\: array\{midkemia\: array\{''krondor''\}, triagia\: array\{''krondor''\}\}\}, heyho\: array\{\}\|array\{krondor\: array\{content_view\: array\{full\: array\{Wizard\: array\{template\: ''wizard\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer\.html\.twig''\}\}\}\}\}\|array\{krondor\: array\{wizards\: array\{''Kulgan'', ''Macros the Black'', ''Pug'', ''Rogen'', ''William''\}\}\}\|array\{midkemia\: array\{content_view\: array\{full\: array\{Dwarve\: array\{template\: ''dwarve\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer2\.html\.twig''\}\}\}\}, krondor\: array\{content_view\: array\{full\: array\{Moredhel\: array\{template\: ''moredhel\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer3\.html\.twig''\}\}\}\}\}\|array\{midkemia\: array\{content_view\: array\{full\: array\{Dwarve\: array\{template\: ''dwarve\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer2\.html\.twig''\}\}\}\}, triagia\?\: array\{content_view\: array\{full\: array\{Moredhel\: array\{template\: ''moredhel\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer3\.html\.twig''\}\}\}\}, krondor\?\: array\{content_view\: array\{full\: array\{Moredhel\: array\{template\: ''moredhel2\.html\.twig''\}, Warrior\: array\{template\: ''warrior\.html\.twig''\}\}\}\}\}\|array\{midkemia\: array\{wizards\: array\{''Kulgan'', ''Macros the Black''\}\}\}\|array\{midkemia\: array\{wizards\: array\{''Macros the Black''\}\}, triagia\: array\{wizards\: array\{''Pug'', ''William'', ''Kulgan''\}\|array\{''Pug''\}\}, krondor\: array\{wizards\: array\{''Rogen'', ''Pug'', ''Rogen'', ''Macros the Black''\}\|array\{0\: ''Rogen'', 1\?\: ''Pug''\}\}\}\|array\{midkemia\: array\{wizards\: array\{''Pug'', ''Rogen'', ''William''\}\}\}\|array\{midkemia\: array\{wizards\: array\{0\: ''Pug'', 1\?\: ''Rogen''\}\}, triagia\: array\{wizards\: array\{''Rogen''\}\}\|array\{wizards\: array\{''William''\}\}, krondor\?\: array\{wizards\: array\{''William''\}\}\}\|array\{midkemia\?\: array\{content_view\: array\{full\: array\{Wizard\: array\{template\: ''wizard\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer\.html\.twig''\}\}\}\}, triagia\?\: array\{content_view\: array\{full\: array\{Dwarve\: array\{template\: ''dwarve\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer2\.html\.twig''\}\}\}\}, krondor\?\: array\{content_view\: array\{full\: array\{Moredhel\: array\{template\: ''moredhel\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer3\.html\.twig''\}\}\}\}\}\|array\{triagia\: array\{content_view\: array\{full\: array\{Wizard\: array\{template\: ''wizard\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer\.html\.twig''\}\}\}\}, krondor\: array\{content_view\: array\{full\: array\{Dwarve\: array\{template\: ''dwarve\.html\.twig''\}, Sorcerer\: array\{template\: ''sorcerer2\.html\.twig''\}\}\}\}\}\|array\{triagia\: array\{wizards\: array\{''Kulgan'', ''Macros the Black'', ''Pug'', ''Rogen'', ''William''\}\}\}\} in isset\(\) always exists and is not nullable\.$#'
 			identifier: isset.offset
 			count: 1
 			path: tests/bundle/Core/DependencyInjection/Configuration/SiteAccessAware/ContextualizerTest.php
@@ -19089,7 +18981,7 @@ parameters:
 		-
 			message: '#^Parameter \#2 \$array of static method PHPUnit\\Framework\\Assert\:\:assertArrayHasKey\(\) expects array\<mixed\>\|ArrayAccess\<\(int\|string\), mixed\>, array\|bool\|float\|int\|string\|null given\.$#'
 			identifier: argument.type
-			count: 2
+			count: 1
 			path: tests/bundle/Core/DependencyInjection/IbexaCoreExtensionTest.php
 
 		-
@@ -19223,30 +19115,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: tests/bundle/Core/EventListener/BackgroundIndexingTerminateListenerTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\EventListener\\BackwardCompatibleCommandListenerTest\:\:createBackwardCompatibleCommand\(\) has parameter \$aliases with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/bundle/Core/EventListener/BackwardCompatibleCommandListenerTest.php
-
-		-
-			message: '#^Method Symfony\\Component\\Console\\Command\\Command@anonymous/tests/bundle/Core/EventListener/BackwardCompatibleCommandListenerTest\.php\:118\:\:__construct\(\) has parameter \$deprecatedAliases with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/bundle/Core/EventListener/BackwardCompatibleCommandListenerTest.php
-
-		-
-			message: '#^PHPDoc tag @return with type Ibexa\\Bundle\\Core\\Command\\BackwardCompatibleCommand\|Symfony\\Component\\Console\\Command\\Command is not subtype of native type Symfony\\Component\\Console\\Command\\Command\.$#'
-			identifier: return.phpDocType
-			count: 1
-			path: tests/bundle/Core/EventListener/BackwardCompatibleCommandListenerTest.php
-
-		-
-			message: '#^Parameter \#1 \$string of function trim expects string, string\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: tests/bundle/Core/EventListener/BackwardCompatibleCommandListenerTest.php
 
 		-
 			message: '#^Argument of an invalid type PHPUnit\\Framework\\MockObject\\MockObject supplied for foreach, only iterables are supported\.$#'
@@ -28991,18 +28859,6 @@ parameters:
 			identifier: return.missing
 			count: 1
 			path: tests/lib/Base/Container/Compiler/Stubs/GatewayBasedStorageHandler.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Base\\Container\\Compiler\\TaggedServiceIdsIterator\\DeprecationErrorCollector\:\:getErrors\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/Base/Container/Compiler/TaggedServiceIdsIterator/DeprecationErrorCollector.php
-
-		-
-			message: '#^Property Ibexa\\Tests\\Core\\Base\\Container\\Compiler\\TaggedServiceIdsIterator\\DeprecationErrorCollector\:\:\$errors type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/Base/Container/Compiler/TaggedServiceIdsIterator/DeprecationErrorCollector.php
 
 		-
 			message: '#^Call to an undefined method Ibexa\\Contracts\\Core\\Collection\\CollectionInterface\:\:filter\(\)\.$#'

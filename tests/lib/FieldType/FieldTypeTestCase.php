@@ -7,7 +7,6 @@
 
 namespace Ibexa\Tests\Core\FieldType;
 
-use Ibexa\Contracts\Core\FieldType\Comparable;
 use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
 use Ibexa\Core\Persistence\TransformationProcessor;
@@ -16,7 +15,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 abstract class FieldTypeTestCase extends BaseFieldTypeTestCase
 {
-    private FieldType & Comparable $fieldTypeUnderTest;
+    private FieldType $fieldTypeUnderTest;
 
     protected function getTransformationProcessorMock(): TransformationProcessor & MockObject
     {
@@ -39,9 +38,9 @@ abstract class FieldTypeTestCase extends BaseFieldTypeTestCase
         yield from static::provideInputForFromHash();
     }
 
-    abstract protected function createFieldTypeUnderTest(): FieldType & Comparable;
+    abstract protected function createFieldTypeUnderTest(): FieldType;
 
-    protected function getFieldTypeUnderTest(): FieldType & Comparable
+    protected function getFieldTypeUnderTest(): FieldType
     {
         if (!isset($this->fieldTypeUnderTest)) {
             $this->fieldTypeUnderTest = $this->createFieldTypeUnderTest();

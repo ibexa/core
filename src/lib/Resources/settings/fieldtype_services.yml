@@ -1,8 +1,4 @@
 services:
-    # Deprecated since eZ Publish 5.4. Use Ibexa\Core\FieldType\Image\IO\Legacy instead.
-    ibexa.field_type.ibexa_image.io:
-        alias: Ibexa\Core\FieldType\Image\IO\Legacy
-
     # Custom IOService with a proxy that handles the legacy prefix (images-versioned)
     Ibexa\Core\FieldType\Image\IO\Legacy:
         class: Ibexa\Core\FieldType\Image\IO\Legacy

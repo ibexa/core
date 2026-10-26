@@ -41,9 +41,6 @@ system:
                 filters:
                     - { name: geometry/scaledownonly, params: [200, 200] }
 
-imagemagick:
-    enabled: false
-
 http_cache:
     purge_type: local
 
