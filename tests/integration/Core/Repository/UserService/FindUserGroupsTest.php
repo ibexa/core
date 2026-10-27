@@ -152,6 +152,18 @@ final class FindUserGroupsTest extends AbstractFindTestCase
         self::assertSame(count($expectedIds), $userGroupList->getTotalCount());
     }
 
+    public function testFindUserGroupsAlwaysPerformsCount(): void
+    {
+        $userGroupList = $this->getIbexaTestCore()->getUserService()->findUserGroups(new Query([
+            'filter' => new Criterion\ContentId($this->getIds(self::CREATED_USER_GROUPS)),
+            'limit' => 1,
+            'performCount' => false,
+        ]));
+
+        self::assertSame($this->getIds(['groupA']), $this->extractIds($userGroupList));
+        self::assertSame(4, $userGroupList->getTotalCount());
+    }
+
     public function testFindUserGroupsReturnsOnlyReadableUserGroups(): void
     {
         $this->loginAsUserLimitedToGroupASubtree();

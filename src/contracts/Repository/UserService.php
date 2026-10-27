@@ -409,6 +409,7 @@ interface UserService
      * Finds users matching the given content query, using the search engine.
      *
      * The query filter is limited to the user content types, and the content ID is added as the last sort clause.
+     * The count is always performed, regardless of {@see Query::$performCount}.
      * Only users the current user is allowed to read are returned and counted.
      * Without a query, the first 25 users sorted by ID are returned.
      *
@@ -427,6 +428,7 @@ interface UserService
      * Finds user groups matching the given content query, using the search engine.
      *
      * The query filter is limited to the user group content type, and the content ID is added as the last sort clause.
+     * The count is always performed, regardless of {@see Query::$performCount}.
      * Only user groups the current user is allowed to read are returned and counted.
      * Without a query, the first 25 user groups sorted by ID are returned.
      *

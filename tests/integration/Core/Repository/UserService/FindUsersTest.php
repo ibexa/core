@@ -188,6 +188,18 @@ final class FindUsersTest extends AbstractFindTestCase
         self::assertSame($expectedIds, $this->extractIds($userList));
     }
 
+    public function testFindUsersAlwaysPerformsCount(): void
+    {
+        $userList = $this->getIbexaTestCore()->getUserService()->findUsers(new Query([
+            'filter' => new Criterion\ParentLocationId($this->mainLocationIds['groupA']),
+            'limit' => 1,
+            'performCount' => false,
+        ]));
+
+        self::assertSame($this->getIds(['alice']), $this->extractIds($userList));
+        self::assertSame(3, $userList->getTotalCount());
+    }
+
     public function testFindUsersDoesNotChangeTheGivenQuery(): void
     {
         $filter = new Criterion\UserLogin('alice');
@@ -197,6 +209,7 @@ final class FindUsersTest extends AbstractFindTestCase
 
         self::assertSame($filter, $query->filter);
         self::assertSame([], $query->sortClauses);
+        self::assertTrue($query->performCount);
     }
 
     public function testFindUsersReturnsOnlyReadableUsers(): void

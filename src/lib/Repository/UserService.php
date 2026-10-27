@@ -1182,7 +1182,8 @@ class UserService implements UserServiceInterface
 
     /**
      * Searches content of the given content type(s) matching the query, sorted with the content ID as the last
-     * sort clause, so the order is always deterministic.
+     * sort clause, so the order is always deterministic. The count is always performed, so the lists can report
+     * their total count.
      *
      * @param string[] $prioritizedLanguages
      *
@@ -1200,6 +1201,7 @@ class UserService implements UserServiceInterface
             ? new CriterionLogicalAnd([$contentTypeCriterion, $query->filter])
             : $contentTypeCriterion;
         $query->sortClauses[] = new SortClauseContentId();
+        $query->performCount = true;
 
         return $this->repository->getSearchService()->findContentInfo(
             $query,
