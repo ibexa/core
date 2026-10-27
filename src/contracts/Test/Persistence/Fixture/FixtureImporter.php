@@ -39,6 +39,15 @@ final class FixtureImporter
         'ibexa_object_state_group_language',
     ];
 
+    /**
+     * Join tables referencing "ibexa_language" (ON DELETE RESTRICT), keyed to the table owning their rows.
+     */
+    private const LANGUAGE_TRANSLATION_TABLES = [
+        'ibexa_content_translation' => 'ibexa_content',
+        'ibexa_content_version_translation' => 'ibexa_content_version',
+        'ibexa_url_alias_ml_translation' => 'ibexa_url_alias_ml',
+    ];
+
     /** @var array<string, string|null> */
     private static array $resetSequenceStatements = [];
 
@@ -68,7 +77,9 @@ final class FixtureImporter
             array_keys($data),
             fn (string $table): bool => $this->tableExists($table)
         ));
+        $detachedTranslations = [];
         if (!$fixture instanceof AppendOnlyFixture) {
+            $detachedTranslations = $this->detachLanguageTranslations($tablesList);
             // truncate all tables, even the ones initially empty (some tests are affected by this)
             $this->truncateTables(array_reverse($tablesList));
         }
@@ -93,7 +104,62 @@ final class FixtureImporter
             $this->resetSequences($tablesList);
         }
 
+        $this->reattachLanguageTranslations($detachedTranslations);
         $this->backfillLanguageBitmaskColumns($nonEmptyTablesData);
+    }
+
+    /**
+     * A fixture replacing the languages can't truncate "ibexa_language" while the translation rows
+     * of tables it leaves alone (e.g. the base fixture's URL aliases) still reference it. Take them
+     * out first, so reattachLanguageTranslations() can put back the ones whose language is still
+     * there, the same rows the legacy bitmask columns kept. Rows of tables the fixture replaces are
+     * dropped, backfillLanguageBitmaskColumns() rebuilds those.
+     *
+     * @param string[] $tablesList
+     *
+     * @return array<string, list<array<string, mixed>>>
+     *
+     * @throws Exception
+     */
+    private function detachLanguageTranslations(array $tablesList): array
+    {
+        if (!in_array('ibexa_language', $tablesList, true)) {
+            return [];
+        }
+
+        $detached = [];
+        foreach (self::LANGUAGE_TRANSLATION_TABLES as $table => $ownerTable) {
+            if (!$this->tableExists($table)) {
+                continue;
+            }
+            if (!in_array($ownerTable, $tablesList, true)) {
+                $detached[$table] = $this->connection->fetchAllAssociative('SELECT * FROM ' . $table);
+            }
+            $this->connection->executeStatement('DELETE FROM ' . $table);
+        }
+
+        return $detached;
+    }
+
+    /**
+     * @param array<string, list<array<string, mixed>>> $detachedTranslations
+     *
+     * @throws Exception
+     */
+    private function reattachLanguageTranslations(array $detachedTranslations): void
+    {
+        if (empty($detachedTranslations)) {
+            return;
+        }
+
+        $validLanguageIds = $this->loadValidLanguageIds();
+        foreach ($detachedTranslations as $table => $rows) {
+            foreach ($rows as $row) {
+                if (in_array((int)$row['language_id'], $validLanguageIds, true)) {
+                    $this->connection->insert($table, $row);
+                }
+            }
+        }
     }
 
     /**
