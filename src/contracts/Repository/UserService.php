@@ -16,11 +16,10 @@ use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordValidationContext;
-use Ibexa\Contracts\Core\Repository\Values\User\Query\UserGroupQuery;
-use Ibexa\Contracts\Core\Repository\Values\User\Query\UserQuery;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\UserCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
@@ -407,36 +406,38 @@ interface UserService
     ): iterable;
 
     /**
-     * Finds users matching the given query.
+     * Finds users matching the given content query, using the search engine.
      *
-     * Only users the current user is allowed to read are returned and counted. A criterion referencing
-     * a user group which does not exist or cannot be read results in an empty list.
-     * Without a query, the first {@see UserQuery::DEFAULT_LIMIT}
-     * users sorted by ID are returned.
+     * The query filter is limited to the user content types, and the content ID is added as the last sort clause.
+     * Only users the current user is allowed to read are returned and counted.
+     * Without a query, the first 25 users sorted by ID are returned.
      *
-     * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned objects.
+     * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned
+     *                                       objects. Users not available in any of them (and not always available)
+     *                                       are neither returned nor counted.
      *
-     * @throws InvalidArgumentException if the query is not supported
+     * @throws InvalidArgumentException if the query is not supported by the search engine
      */
     public function findUsers(
-        ?UserQuery $query = null,
+        ?Query $query = null,
         array $prioritizedLanguages = []
     ): UserList;
 
     /**
-     * Finds user groups matching the given query.
+     * Finds user groups matching the given content query, using the search engine.
      *
-     * Only user groups the current user is allowed to read are returned and counted. A criterion referencing
-     * a user or user group which does not exist or cannot be read results in an empty list.
-     * Without a query, the first {@see UserGroupQuery::DEFAULT_LIMIT}
-     * user groups sorted by ID are returned.
+     * The query filter is limited to the user group content type, and the content ID is added as the last sort clause.
+     * Only user groups the current user is allowed to read are returned and counted.
+     * Without a query, the first 25 user groups sorted by ID are returned.
      *
-     * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned objects.
+     * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned
+     *                                       objects. User groups not available in any of them (and not always
+     *                                       available) are neither returned nor counted.
      *
-     * @throws InvalidArgumentException if the query is not supported
+     * @throws InvalidArgumentException if the query is not supported by the search engine
      */
     public function findUserGroups(
-        ?UserGroupQuery $query = null,
+        ?Query $query = null,
         array $prioritizedLanguages = []
     ): UserGroupList;
 

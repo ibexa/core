@@ -10,10 +10,9 @@ namespace Ibexa\Tests\Core\Repository\SiteAccessAware;
 use DateInterval;
 use DateTime;
 use Ibexa\Contracts\Core\Repository\UserService as APIService;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordValidationContext;
-use Ibexa\Contracts\Core\Repository\Values\User\Query\UserGroupQuery;
-use Ibexa\Contracts\Core\Repository\Values\User\Query\UserQuery;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroupList;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroupUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserList;
@@ -105,8 +104,8 @@ class UserServiceTest extends AbstractServiceTestCase
             ['loadUserGroupsOfUser', [$user, 50, 50, self::LANG_ARG], [$userGroup], 3],
             ['loadUsersOfUserGroup', [$userGroup, 50, 50, self::LANG_ARG], [$user], 3],
             ['loadUserByToken', ['43ir43jrt43', self::LANG_ARG], $user, 1],
-            ['findUsers', [new UserQuery(), self::LANG_ARG], new UserList(1, [$user]), 1],
-            ['findUserGroups', [new UserGroupQuery(), self::LANG_ARG], new UserGroupList(1, [$userGroup]), 1],
+            ['findUsers', [new Query(), self::LANG_ARG], new UserList(1, [$user]), 1],
+            ['findUserGroups', [new Query(), self::LANG_ARG], new UserGroupList(1, [$userGroup]), 1],
         ];
     }
 }

@@ -32,8 +32,8 @@ abstract class AbstractFindTestCase extends RepositoryTestCase
     /** @var array<string, int> content IDs of the created users and user groups, by alias */
     protected array $ids = [];
 
-    /** @var array<string, UserGroup> */
-    private array $userGroups = [];
+    /** @var array<string, int> main Location IDs of the created users and user groups, by alias */
+    protected array $mainLocationIds = [];
 
     protected function setUp(): void
     {
@@ -78,9 +78,7 @@ abstract class AbstractFindTestCase extends RepositoryTestCase
         $roleService->publishRoleDraft($roleDraft);
         $role = $roleService->loadRole($roleDraft->id);
 
-        $groupALocation = $locationService->loadLocation(
-            $this->userGroups['groupA']->getVersionInfo()->getContentInfo()->getMainLocationId() ?? 0
-        );
+        $groupALocation = $locationService->loadLocation($this->mainLocationIds['groupA']);
 
         $restrictedUser = $this->createUser('restricted', 'Restricted', 'User');
         $roleService->assignRoleToUser(
@@ -103,7 +101,7 @@ abstract class AbstractFindTestCase extends RepositoryTestCase
 
         $userGroup = $userService->createUserGroup($createStruct, $parentGroup);
         $this->ids[$alias] = $userGroup->getId();
-        $this->userGroups[$alias] = $userGroup;
+        $this->mainLocationIds[$alias] = $userGroup->getVersionInfo()->getContentInfo()->getMainLocationId() ?? 0;
 
         return $userGroup;
     }
@@ -123,6 +121,7 @@ abstract class AbstractFindTestCase extends RepositoryTestCase
         }
 
         $this->ids[$alias] = $user->getId();
+        $this->mainLocationIds[$alias] = $user->getVersionInfo()->getContentInfo()->getMainLocationId() ?? 0;
 
         return $user;
     }

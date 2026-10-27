@@ -11,12 +11,11 @@ namespace Ibexa\Tests\Core\Repository\Decorator;
 use Ibexa\Contracts\Core\Repository\Decorator\UserServiceDecorator;
 use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ParentLocationId;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\UserLogin;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordValidationContext;
-use Ibexa\Contracts\Core\Repository\Values\User\Query\Criterion\User\Login;
-use Ibexa\Contracts\Core\Repository\Values\User\Query\Criterion\UserGroup\ParentUserGroupId;
-use Ibexa\Contracts\Core\Repository\Values\User\Query\UserGroupQuery;
-use Ibexa\Contracts\Core\Repository\Values\User\Query\UserQuery;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\UserCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
@@ -380,7 +379,7 @@ class UserServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $query = new UserQuery(new Login('admin'));
+        $query = new Query(['filter' => new UserLogin('admin')]);
         $languages = [self::EXAMPLE_LANGUAGE_CODE];
         $userList = new UserList(1, [self::createStub(User::class)]);
 
@@ -398,7 +397,7 @@ class UserServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $query = new UserGroupQuery(new ParentUserGroupId(self::EXAMPLE_USER_GROUP_ID));
+        $query = new Query(['filter' => new ParentLocationId(self::EXAMPLE_USER_GROUP_ID)]);
         $languages = [self::EXAMPLE_LANGUAGE_CODE];
         $userGroupList = new UserGroupList(1, [self::createStub(UserGroup::class)]);
 

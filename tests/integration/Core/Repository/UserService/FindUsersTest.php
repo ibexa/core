@@ -9,16 +9,10 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\UserService;
 
 use Closure;
-use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
-use Ibexa\Contracts\Core\Repository\Values\User\Query\Criterion\User\Email;
-use Ibexa\Contracts\Core\Repository\Values\User\Query\Criterion\User\LogicalAnd;
-use Ibexa\Contracts\Core\Repository\Values\User\Query\Criterion\User\Login;
-use Ibexa\Contracts\Core\Repository\Values\User\Query\Criterion\User\UserGroupId;
-use Ibexa\Contracts\Core\Repository\Values\User\Query\Criterion\User\UserId;
-use Ibexa\Contracts\Core\Repository\Values\User\Query\SortClause;
-use Ibexa\Contracts\Core\Repository\Values\User\Query\SortClause\Id;
-use Ibexa\Contracts\Core\Repository\Values\User\Query\UserCriterionInterface;
-use Ibexa\Contracts\Core\Repository\Values\User\Query\UserQuery;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\UserList;
 
@@ -43,17 +37,17 @@ final class FindUsersTest extends AbstractFindTestCase
     }
 
     /**
-     * @param Closure(array<string, int>): UserCriterionInterface $criterionFactory
+     * @param Closure(array<string, int>, array<string, int>): CriterionInterface $filterFactory
      * @param list<string> $expectedAliases
      *
-     * @dataProvider provideForTestFindUsersByCriterion
+     * @dataProvider provideForTestFindUsersByFilter
      */
-    public function testFindUsersByCriterion(
-        Closure $criterionFactory,
+    public function testFindUsersByFilter(
+        Closure $filterFactory,
         array $expectedAliases
     ): void {
         $userList = $this->getIbexaTestCore()->getUserService()->findUsers(
-            new UserQuery($criterionFactory($this->ids))
+            new Query(['filter' => $filterFactory($this->ids, $this->mainLocationIds)])
         );
 
         $expectedIds = $this->getIds($expectedAliases);
@@ -64,111 +58,69 @@ final class FindUsersTest extends AbstractFindTestCase
     }
 
     /**
-     * @return iterable<string, array{Closure(array<string, int>): UserCriterionInterface, list<string>}>
+     * @return iterable<string, array{Closure(array<string, int>, array<string, int>): CriterionInterface, list<string>}>
      */
-    public static function provideForTestFindUsersByCriterion(): iterable
+    public static function provideForTestFindUsersByFilter(): iterable
     {
-        yield 'user id' => [
-            static fn (array $ids): UserCriterionInterface => new UserId($ids['alice']),
-            ['alice'],
-        ];
-
-        yield 'user ids' => [
-            static fn (array $ids): UserCriterionInterface => new UserId([$ids['alice'], $ids['carol']]),
+        yield 'content ids' => [
+            static fn (array $ids): CriterionInterface => new Criterion\ContentId([$ids['alice'], $ids['carol']]),
             ['alice', 'carol'],
         ];
 
-        yield 'login' => [
-            static fn (): UserCriterionInterface => new Login('bob'),
-            ['bob'],
+        yield 'content id of a user group' => [
+            static fn (array $ids): CriterionInterface => new Criterion\ContentId($ids['groupA']),
+            [],
         ];
 
         yield 'logins' => [
-            static fn (): UserCriterionInterface => new Login(['bob', 'carol']),
+            static fn (): CriterionInterface => new Criterion\UserLogin(['bob', 'carol']),
             ['bob', 'carol'],
         ];
 
         yield 'email' => [
-            static fn (): UserCriterionInterface => new Email('carol@mail.invalid'),
+            static fn (): CriterionInterface => new Criterion\UserEmail('carol@mail.invalid'),
             ['carol'],
         ];
 
-        yield 'emails' => [
-            static fn (): UserCriterionInterface => new Email(['carol@mail.invalid', 'dave@mail.invalid']),
-            ['carol', 'dave'],
-        ];
-
-        yield 'user group id' => [
-            static fn (array $ids): UserCriterionInterface => new UserGroupId($ids['groupA']),
+        yield 'parent Location of a user group with users and sub-groups' => [
+            static fn (array $ids, array $locationIds): CriterionInterface => new Criterion\ParentLocationId(
+                $locationIds['groupA']
+            ),
             ['alice', 'bob', 'dave'],
         ];
 
-        yield 'user group id of a user assigned to it as a non-main Location' => [
-            static fn (array $ids): UserCriterionInterface => new UserGroupId($ids['groupB']),
+        yield 'parent Location of a user group holding a non-main Location of a user' => [
+            static fn (array $ids, array $locationIds): CriterionInterface => new Criterion\ParentLocationId(
+                $locationIds['groupB']
+            ),
             ['bob', 'carol'],
         ];
 
-        yield 'user group id with no direct users' => [
-            static fn (array $ids): UserCriterionInterface => new UserGroupId($ids['groupA2']),
-            [],
-        ];
-
-        yield 'logical and of user group id and logins' => [
-            static fn (array $ids): UserCriterionInterface => new LogicalAnd([
-                new UserGroupId($ids['groupB']),
-                new Login(['alice', 'bob', 'carol']),
+        yield 'parent Location and logins' => [
+            static fn (array $ids, array $locationIds): CriterionInterface => new Criterion\LogicalAnd([
+                new Criterion\ParentLocationId($locationIds['groupB']),
+                new Criterion\UserLogin(['alice', 'bob', 'carol']),
             ]),
             ['bob', 'carol'],
         ];
 
-        yield 'nested logical and' => [
-            static fn (array $ids): UserCriterionInterface => new LogicalAnd([
-                new Email(['alice@mail.invalid', 'bob@mail.invalid', 'erin@mail.invalid']),
-                new LogicalAnd([
-                    new UserGroupId($ids['groupA']),
-                    new UserId([$ids['bob'], $ids['erin']]),
-                ]),
-            ]),
-            ['bob'],
-        ];
-
-        yield 'empty logical and' => [
-            static fn (array $ids): UserCriterionInterface => new LogicalAnd([
-                new LogicalAnd([]),
-                new UserGroupId($ids['groupA1']),
-            ]),
-            ['erin'],
-        ];
-
-        yield 'non-existent user id' => [
-            static fn (): UserCriterionInterface => new UserId(self::NON_EXISTENT_ID),
-            [],
-        ];
-
-        yield 'empty list of logins' => [
-            static fn (): UserCriterionInterface => new Login([]),
-            [],
-        ];
-
-        yield 'non-existent user group id' => [
-            static fn (): UserCriterionInterface => new UserGroupId(self::NON_EXISTENT_ID),
-            [],
-        ];
-
-        yield 'user group id pointing to a user' => [
-            static fn (array $ids): UserCriterionInterface => new UserGroupId($ids['alice']),
+        yield 'match none' => [
+            static fn (): CriterionInterface => new Criterion\MatchNone(),
             [],
         ];
     }
 
-    public function testUserAssignedToMultipleGroupsIsReturnedOnce(): void
+    public function testUserWithSeveralLocationsIsReturnedOnce(): void
     {
-        $userList = $this->getIbexaTestCore()->getUserService()->findUsers(
-            new UserQuery(new Login(['bob']), [], 0, null)
-        );
+        $userList = $this->getIbexaTestCore()->getUserService()->findUsers(new Query([
+            'filter' => new Criterion\ParentLocationId([
+                $this->mainLocationIds['groupA'],
+                $this->mainLocationIds['groupB'],
+            ]),
+        ]));
 
-        self::assertSame([$this->ids['bob']], $this->extractIds($userList));
-        self::assertSame(1, $userList->getTotalCount());
+        self::assertSame($this->getIds(['alice', 'bob', 'carol', 'dave']), $this->extractIds($userList));
+        self::assertSame(4, $userList->getTotalCount());
     }
 
     /**
@@ -178,72 +130,73 @@ final class FindUsersTest extends AbstractFindTestCase
      */
     public function testPagination(
         int $offset,
-        ?int $limit,
+        int $limit,
         array $expectedAliases
     ): void {
-        $userList = $this->getIbexaTestCore()->getUserService()->findUsers(
-            new UserQuery(new UserGroupId($this->ids['groupA']), [], $offset, $limit)
-        );
+        $userList = $this->getIbexaTestCore()->getUserService()->findUsers(new Query([
+            'filter' => new Criterion\ParentLocationId($this->mainLocationIds['groupA']),
+            'offset' => $offset,
+            'limit' => $limit,
+        ]));
 
         self::assertSame($this->getIds($expectedAliases), $this->extractIds($userList));
         self::assertSame(3, $userList->getTotalCount());
     }
 
     /**
-     * @return iterable<string, array{int, ?int, list<string>}>
+     * @return iterable<string, array{int, int, list<string>}>
      */
     public static function provideForTestPagination(): iterable
     {
         yield 'first page' => [0, 2, ['alice', 'bob']];
         yield 'last page' => [2, 2, ['dave']];
         yield 'offset past the end' => [10, 2, []];
-        yield 'no limit' => [1, null, ['bob', 'dave']];
         yield 'count only' => [0, 0, []];
-    }
-
-    public function testPagesDoNotOverlap(): void
-    {
-        $userService = $this->getIbexaTestCore()->getUserService();
-
-        $collectedIds = [];
-        for ($offset = 0; $offset < 10; $offset += 3) {
-            $collectedIds = [
-                ...$collectedIds,
-                ...$this->extractIds($userService->findUsers(new UserQuery(null, [], $offset, 3))),
-            ];
-        }
-
-        $allIds = $this->extractIds($userService->findUsers(new UserQuery(null, [], 0, null)));
-
-        self::assertSame($allIds, $collectedIds);
     }
 
     /**
      * @testWith ["ascending"]
      *           ["descending"]
      */
-    public function testSortById(string $direction): void
+    public function testSortByContentId(string $direction): void
     {
-        $userList = $this->getIbexaTestCore()->getUserService()->findUsers(
-            new UserQuery(new Login(self::CREATED_USERS), [new Id($direction)])
-        );
+        $userList = $this->getIbexaTestCore()->getUserService()->findUsers(new Query([
+            'filter' => new Criterion\UserLogin(self::CREATED_USERS),
+            'sortClauses' => [new SortClause\ContentId($direction)],
+        ]));
 
         $expectedIds = $this->getIds(self::CREATED_USERS);
         sort($expectedIds);
-        if ($direction === SortClause::SORT_DESC) {
+        if ($direction === Query::SORT_DESC) {
             $expectedIds = array_reverse($expectedIds);
         }
 
         self::assertSame($expectedIds, $this->extractIds($userList));
     }
 
-    public function testSortByIdDescendingWithUserGroupCriterion(): void
+    public function testContentIdIsTheTieBreakOfTheGivenSortClauses(): void
     {
-        $userList = $this->getIbexaTestCore()->getUserService()->findUsers(
-            new UserQuery(new UserGroupId($this->ids['groupA']), [new Id(SortClause::SORT_DESC)])
-        );
+        // all the created users are in the same Section, so the order is decided by the content ID
+        $userList = $this->getIbexaTestCore()->getUserService()->findUsers(new Query([
+            'filter' => new Criterion\UserLogin(self::CREATED_USERS),
+            'sortClauses' => [new SortClause\SectionIdentifier()],
+        ]));
 
-        self::assertSame($this->getIds(['dave', 'bob', 'alice']), $this->extractIds($userList));
+        $expectedIds = $this->getIds(self::CREATED_USERS);
+        sort($expectedIds);
+
+        self::assertSame($expectedIds, $this->extractIds($userList));
+    }
+
+    public function testFindUsersDoesNotChangeTheGivenQuery(): void
+    {
+        $filter = new Criterion\UserLogin('alice');
+        $query = new Query(['filter' => $filter]);
+
+        $this->getIbexaTestCore()->getUserService()->findUsers($query);
+
+        self::assertSame($filter, $query->filter);
+        self::assertSame([], $query->sortClauses);
     }
 
     public function testFindUsersReturnsOnlyReadableUsers(): void
@@ -252,21 +205,9 @@ final class FindUsersTest extends AbstractFindTestCase
 
         $userList = $this->getIbexaTestCore()->getUserService()->findUsers();
 
-        // "bob" has its main Location in "groupA", "carol" and the fixture users are outside "groupA" subtree
+        // "bob" has a Location in "groupA", "carol" and the fixture users are outside "groupA" subtree
         self::assertSame($this->getIds(['alice', 'bob', 'dave', 'erin']), $this->extractIds($userList));
         self::assertSame(4, $userList->getTotalCount());
-    }
-
-    public function testFindUsersByUnreadableUserGroupReturnsEmptyResult(): void
-    {
-        $this->loginAsUserLimitedToGroupASubtree();
-
-        $userList = $this->getIbexaTestCore()->getUserService()->findUsers(
-            new UserQuery(new UserGroupId($this->ids['groupB']))
-        );
-
-        self::assertSame([], $this->extractIds($userList));
-        self::assertSame(0, $userList->getTotalCount());
     }
 
     public function testFindUsersAsAnonymousUser(): void
@@ -278,18 +219,6 @@ final class FindUsersTest extends AbstractFindTestCase
         // anonymous users can read the content of the Standard section only
         self::assertSame([], $this->extractIds($userList));
         self::assertSame(0, $userList->getTotalCount());
-    }
-
-    public function testFindUsersWithUserGroupCriterionUsedTwiceThrowsException(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        $this->getIbexaTestCore()->getUserService()->findUsers(
-            new UserQuery(new LogicalAnd([
-                new UserGroupId($this->ids['groupA']),
-                new UserGroupId($this->ids['groupB']),
-            ]))
-        );
     }
 
     /**

@@ -9,14 +9,10 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\UserService;
 
 use Closure;
-use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
-use Ibexa\Contracts\Core\Repository\Values\User\Query\Criterion\UserGroup\LogicalAnd;
-use Ibexa\Contracts\Core\Repository\Values\User\Query\Criterion\UserGroup\ParentUserGroupId;
-use Ibexa\Contracts\Core\Repository\Values\User\Query\Criterion\UserGroup\UserId;
-use Ibexa\Contracts\Core\Repository\Values\User\Query\SortClause;
-use Ibexa\Contracts\Core\Repository\Values\User\Query\SortClause\Id;
-use Ibexa\Contracts\Core\Repository\Values\User\Query\UserGroupCriterionInterface;
-use Ibexa\Contracts\Core\Repository\Values\User\Query\UserGroupQuery;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroupList;
 
@@ -27,6 +23,7 @@ final class FindUserGroupsTest extends AbstractFindTestCase
 {
     private const FIXTURE_USER_GROUP_IDS = [self::MAIN_USER_GROUP_ID, 11, self::ADMINISTRATOR_USERS_GROUP_ID, 13, 42, 59];
     private const CREATED_USER_GROUPS = ['groupA', 'groupA1', 'groupA2', 'groupB'];
+    private const MAIN_USER_GROUP_LOCATION_ID = 5;
 
     public function testFindUserGroupsWithoutQueryReturnsAllUserGroupsSortedById(): void
     {
@@ -41,17 +38,17 @@ final class FindUserGroupsTest extends AbstractFindTestCase
     }
 
     /**
-     * @param Closure(array<string, int>): UserGroupCriterionInterface $criterionFactory
+     * @param Closure(array<string, int>, array<string, int>): CriterionInterface $filterFactory
      * @param list<string> $expectedAliases
      *
-     * @dataProvider provideForTestFindUserGroupsByCriterion
+     * @dataProvider provideForTestFindUserGroupsByFilter
      */
-    public function testFindUserGroupsByCriterion(
-        Closure $criterionFactory,
+    public function testFindUserGroupsByFilter(
+        Closure $filterFactory,
         array $expectedAliases
     ): void {
         $userGroupList = $this->getIbexaTestCore()->getUserService()->findUserGroups(
-            new UserGroupQuery($criterionFactory($this->ids))
+            new Query(['filter' => $filterFactory($this->ids, $this->mainLocationIds)])
         );
 
         $expectedIds = $this->getIds($expectedAliases);
@@ -62,75 +59,45 @@ final class FindUserGroupsTest extends AbstractFindTestCase
     }
 
     /**
-     * @return iterable<string, array{Closure(array<string, int>): UserGroupCriterionInterface, list<string>}>
+     * @return iterable<string, array{Closure(array<string, int>, array<string, int>): CriterionInterface, list<string>}>
      */
-    public static function provideForTestFindUserGroupsByCriterion(): iterable
+    public static function provideForTestFindUserGroupsByFilter(): iterable
     {
-        yield 'user id of a user assigned to a single group' => [
-            static fn (array $ids): UserGroupCriterionInterface => new UserId($ids['erin']),
-            ['groupA1'],
+        yield 'content id of a user' => [
+            static fn (array $ids): CriterionInterface => new Criterion\ContentId($ids['alice']),
+            [],
         ];
 
-        yield 'user id of a user assigned to multiple groups' => [
-            static fn (array $ids): UserGroupCriterionInterface => new UserId($ids['bob']),
-            ['groupA', 'groupB'],
-        ];
-
-        yield 'parent user group id' => [
-            static fn (array $ids): UserGroupCriterionInterface => new ParentUserGroupId($ids['groupA']),
+        yield 'parent Location of a user group with users and sub-groups' => [
+            static fn (array $ids, array $locationIds): CriterionInterface => new Criterion\ParentLocationId(
+                $locationIds['groupA']
+            ),
             ['groupA1', 'groupA2'],
         ];
 
-        yield 'parent user group id with no sub-groups' => [
-            static fn (array $ids): UserGroupCriterionInterface => new ParentUserGroupId($ids['groupB']),
+        yield 'parent Location of a user group with no sub-groups' => [
+            static fn (array $ids, array $locationIds): CriterionInterface => new Criterion\ParentLocationId(
+                $locationIds['groupB']
+            ),
             [],
         ];
 
-        yield 'logical and of parent user group id and user id' => [
-            static fn (array $ids): UserGroupCriterionInterface => new LogicalAnd([
-                new ParentUserGroupId($ids['groupA']),
-                new UserId($ids['erin']),
-            ]),
-            ['groupA1'],
-        ];
-
-        yield 'nested logical and' => [
-            static fn (array $ids): UserGroupCriterionInterface => new LogicalAnd([
-                new LogicalAnd([]),
-                new LogicalAnd([new ParentUserGroupId(self::MAIN_USER_GROUP_ID)]),
-                new UserId($ids['bob']),
+        yield 'Locations of user groups' => [
+            static fn (array $ids, array $locationIds): CriterionInterface => new Criterion\LocationId([
+                $locationIds['groupA'],
+                $locationIds['groupB'],
+                $locationIds['alice'],
             ]),
             ['groupA', 'groupB'],
         ];
 
-        yield 'non-existent user id' => [
-            static fn (): UserGroupCriterionInterface => new UserId(self::NON_EXISTENT_ID),
-            [],
+        yield 'parent Location and Locations' => [
+            static fn (array $ids, array $locationIds): CriterionInterface => new Criterion\LogicalAnd([
+                new Criterion\ParentLocationId(self::MAIN_USER_GROUP_LOCATION_ID),
+                new Criterion\LocationId([$locationIds['groupA'], $locationIds['groupA1']]),
+            ]),
+            ['groupA'],
         ];
-
-        yield 'user id pointing to a user group' => [
-            static fn (array $ids): UserGroupCriterionInterface => new UserId($ids['groupA1']),
-            [],
-        ];
-
-        yield 'non-existent parent user group id' => [
-            static fn (): UserGroupCriterionInterface => new ParentUserGroupId(self::NON_EXISTENT_ID),
-            [],
-        ];
-
-        yield 'parent user group id pointing to a user' => [
-            static fn (array $ids): UserGroupCriterionInterface => new ParentUserGroupId($ids['alice']),
-            [],
-        ];
-    }
-
-    public function testFindUserGroupsOfFixtureUser(): void
-    {
-        $userGroupList = $this->getIbexaTestCore()->getUserService()->findUserGroups(
-            new UserGroupQuery(new UserId(self::ADMIN_USER_ID))
-        );
-
-        self::assertSame([self::ADMINISTRATOR_USERS_GROUP_ID], $this->extractIds($userGroupList));
     }
 
     /**
@@ -140,62 +107,49 @@ final class FindUserGroupsTest extends AbstractFindTestCase
      */
     public function testPagination(
         int $offset,
-        ?int $limit,
+        int $limit,
         array $expectedAliases
     ): void {
-        $userGroupList = $this->getIbexaTestCore()->getUserService()->findUserGroups(
-            new UserGroupQuery(new UserId($this->ids['bob']), [], $offset, $limit)
-        );
+        $userGroupList = $this->getIbexaTestCore()->getUserService()->findUserGroups(new Query([
+            'filter' => new Criterion\ContentId($this->getIds(self::CREATED_USER_GROUPS)),
+            'offset' => $offset,
+            'limit' => $limit,
+        ]));
 
         self::assertSame($this->getIds($expectedAliases), $this->extractIds($userGroupList));
-        self::assertSame(2, $userGroupList->getTotalCount());
+        self::assertSame(4, $userGroupList->getTotalCount());
     }
 
     /**
-     * @return iterable<string, array{int, ?int, list<string>}>
+     * @return iterable<string, array{int, int, list<string>}>
      */
     public static function provideForTestPagination(): iterable
     {
-        yield 'first page' => [0, 1, ['groupA']];
-        yield 'last page' => [1, 1, ['groupB']];
-        yield 'offset past the end' => [5, 1, []];
-        yield 'no limit' => [0, null, ['groupA', 'groupB']];
+        yield 'first page' => [0, 3, ['groupA', 'groupA1', 'groupA2']];
+        yield 'last page' => [3, 3, ['groupB']];
+        yield 'offset past the end' => [10, 3, []];
         yield 'count only' => [0, 0, []];
-    }
-
-    public function testPaginationWithParentUserGroupCriterion(): void
-    {
-        $userService = $this->getIbexaTestCore()->getUserService();
-        $criterion = new ParentUserGroupId(self::MAIN_USER_GROUP_ID);
-
-        $allIds = $this->extractIds($userService->findUserGroups(new UserGroupQuery($criterion, [], 0, null)));
-        $firstPage = $userService->findUserGroups(new UserGroupQuery($criterion, [], 0, 4));
-        $secondPage = $userService->findUserGroups(new UserGroupQuery($criterion, [], 4, 4));
-
-        // Members, Administrator users, Editors, Anonymous users, Partners, groupA, groupB
-        self::assertCount(7, $allIds);
-        self::assertSame(7, $firstPage->getTotalCount());
-        self::assertSame(7, $secondPage->getTotalCount());
-        self::assertSame($allIds, [...$this->extractIds($firstPage), ...$this->extractIds($secondPage)]);
     }
 
     /**
      * @testWith ["ascending"]
      *           ["descending"]
      */
-    public function testSortById(string $direction): void
+    public function testSortByContentId(string $direction): void
     {
-        $userGroupList = $this->getIbexaTestCore()->getUserService()->findUserGroups(
-            new UserGroupQuery(new ParentUserGroupId(self::MAIN_USER_GROUP_ID), [new Id($direction)], 0, null)
-        );
+        $userGroupList = $this->getIbexaTestCore()->getUserService()->findUserGroups(new Query([
+            'filter' => new Criterion\ParentLocationId(self::MAIN_USER_GROUP_LOCATION_ID),
+            'sortClauses' => [new SortClause\ContentId($direction)],
+        ]));
 
         $expectedIds = [11, self::ADMINISTRATOR_USERS_GROUP_ID, 13, 42, 59, ...$this->getIds(['groupA', 'groupB'])];
         sort($expectedIds);
-        if ($direction === SortClause::SORT_DESC) {
+        if ($direction === Query::SORT_DESC) {
             $expectedIds = array_reverse($expectedIds);
         }
 
         self::assertSame($expectedIds, $this->extractIds($userGroupList));
+        self::assertSame(count($expectedIds), $userGroupList->getTotalCount());
     }
 
     public function testFindUserGroupsReturnsOnlyReadableUserGroups(): void
@@ -206,46 +160,6 @@ final class FindUserGroupsTest extends AbstractFindTestCase
 
         self::assertSame($this->getIds(['groupA', 'groupA1', 'groupA2']), $this->extractIds($userGroupList));
         self::assertSame(3, $userGroupList->getTotalCount());
-    }
-
-    public function testFindUserGroupsOfUserReturnsOnlyReadableUserGroups(): void
-    {
-        $this->loginAsUserLimitedToGroupASubtree();
-
-        $userGroupList = $this->getIbexaTestCore()->getUserService()->findUserGroups(
-            new UserGroupQuery(new UserId($this->ids['bob']))
-        );
-
-        self::assertSame($this->getIds(['groupA']), $this->extractIds($userGroupList));
-        self::assertSame(1, $userGroupList->getTotalCount());
-    }
-
-    public function testFindUserGroupsByUnreadableReferencesReturnsEmptyResult(): void
-    {
-        $this->loginAsUserLimitedToGroupASubtree();
-        $userService = $this->getIbexaTestCore()->getUserService();
-
-        $byUnreadableUser = $userService->findUserGroups(new UserGroupQuery(new UserId($this->ids['carol'])));
-        $byUnreadableParent = $userService->findUserGroups(
-            new UserGroupQuery(new ParentUserGroupId(self::MAIN_USER_GROUP_ID))
-        );
-
-        self::assertSame(0, $byUnreadableUser->getTotalCount());
-        self::assertSame([], $this->extractIds($byUnreadableUser));
-        self::assertSame(0, $byUnreadableParent->getTotalCount());
-        self::assertSame([], $this->extractIds($byUnreadableParent));
-    }
-
-    public function testFindUserGroupsWithParentUserGroupCriterionUsedTwiceThrowsException(): void
-    {
-        $this->expectException(InvalidArgumentException::class);
-
-        $this->getIbexaTestCore()->getUserService()->findUserGroups(
-            new UserGroupQuery(new LogicalAnd([
-                new ParentUserGroupId($this->ids['groupA']),
-                new LogicalAnd([new ParentUserGroupId($this->ids['groupB'])]),
-            ]))
-        );
     }
 
     /**
