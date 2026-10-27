@@ -968,6 +968,36 @@ class URLAliasServiceTest extends BaseTest
     }
 
     /**
+     * @return iterable<string, array{string}>
+     */
+    public static function providerForTestLookUpThrowsNotFoundExceptionForVirtualAlias(): iterable
+    {
+        yield 'direct parent' => ['/red/blue'];
+        yield 'top level ancestor' => ['/red'];
+    }
+
+    /**
+     * Test for the lookUp() method.
+     *
+     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::lookUp()
+     *
+     * @dataProvider providerForTestLookUpThrowsNotFoundExceptionForVirtualAlias
+     */
+    public function testLookUpThrowsNotFoundExceptionForVirtualAlias(string $url): void
+    {
+        $repository = $this->getRepository();
+        $locationService = $repository->getLocationService();
+        $urlAliasService = $repository->getURLAliasService();
+
+        $location = $locationService->loadLocation($this->generateId('location', 5));
+        $urlAliasService->createUrlAlias($location, '/red/blue/green', 'eng-GB');
+
+        $this->expectException(NotFoundException::class);
+
+        $urlAliasService->lookup($url);
+    }
+
+    /**
      * Test for the lookUp() method.
      *
      * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::lookUp($url, $languageCode)
