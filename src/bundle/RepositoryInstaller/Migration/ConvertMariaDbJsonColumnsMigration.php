@@ -27,8 +27,8 @@ use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
  */
 final class ConvertMariaDbJsonColumnsMigration extends AbstractSqlMigration implements IbexaMigrationInterface
 {
-    /** The columns sql/convert-json-columns-mariadb.sql converts, by table. */
-    private const JSON_COLUMNS = [
+    /** The JSON column sql/convert-json-columns-mariadb.sql converts in each table, by table name. */
+    private const JSON_TABLE_TO_COLUMN = [
         'ibexa_setting' => 'value',
     ];
 
@@ -69,7 +69,7 @@ final class ConvertMariaDbJsonColumnsMigration extends AbstractSqlMigration impl
      */
     private function areColumnsConverted(): bool
     {
-        foreach (self::JSON_COLUMNS as $tableName => $columnName) {
+        foreach (self::JSON_TABLE_TO_COLUMN as $tableName => $columnName) {
             $hasJsonCheck = $this->connection->fetchOne(
                 'SELECT 1 FROM information_schema.CHECK_CONSTRAINTS'
                 . ' WHERE CONSTRAINT_SCHEMA = DATABASE() AND TABLE_NAME = ? AND CHECK_CLAUSE = ?',
