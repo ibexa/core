@@ -667,6 +667,9 @@ class URLAliasService implements URLAliasServiceInterface
         $url = $this->cleanUrl($url);
 
         $spiUrlAlias = $this->urlAliasHandler->lookup($url);
+        if ($spiUrlAlias->type === SPIURLAlias::VIRTUAL) {
+            throw new NotFoundException('URLAlias', $url);
+        }
 
         list($path, $languageCodes) = $this->matchPath($spiUrlAlias, $url, $languageCode);
         if ($path === false || !$this->isPathLoadable($spiUrlAlias->pathData, $languageCodes)) {
