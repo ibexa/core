@@ -245,11 +245,12 @@ class RelationListConverter implements Converter
             $fieldSettings['selectionDefaultLocation'] = (int)$defaultLocation->getAttribute('node-id');
         }
 
-        if (!($constraints = $dom->getElementsByTagName('constraints'))) {
+        $constraints = $dom->getElementsByTagName('constraints')->item(0);
+        if ($constraints === null) {
             return;
         }
 
-        foreach ($constraints->item(0)->getElementsByTagName('allowed-class') as $allowedClass) {
+        foreach ($constraints->getElementsByTagName('allowed-class') as $allowedClass) {
             $fieldSettings['selectionContentTypes'][] = $allowedClass->getAttribute('contentclass-identifier');
         }
 

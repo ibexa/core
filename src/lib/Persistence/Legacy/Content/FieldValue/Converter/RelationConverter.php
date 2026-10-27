@@ -182,11 +182,12 @@ class RelationConverter implements Converter
             $fieldSettings['rootDefaultLocation'] = (bool)$rootDefaultLocation->getAttribute('value');
         }
 
-        if (!($constraints = $dom->getElementsByTagName('constraints'))) {
+        $constraints = $dom->getElementsByTagName('constraints')->item(0);
+        if ($constraints === null) {
             return;
         }
 
-        foreach ($constraints->item(0)->getElementsByTagName('allowed-class') as $allowedClass) {
+        foreach ($constraints->getElementsByTagName('allowed-class') as $allowedClass) {
             $fieldSettings['selectionContentTypes'][] = $allowedClass->getAttribute('contentclass-identifier');
         }
     }
