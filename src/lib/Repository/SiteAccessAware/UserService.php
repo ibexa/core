@@ -12,13 +12,16 @@ use Ibexa\Contracts\Core\Repository\LanguageResolver;
 use Ibexa\Contracts\Core\Repository\UserService as UserServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordValidationContext;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\UserCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroupCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\User\UserGroupList;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroupUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\User\UserList;
 use Ibexa\Contracts\Core\Repository\Values\User\UserTokenUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserUpdateStruct;
 
@@ -208,6 +211,26 @@ class UserService implements UserServiceInterface
         $prioritizedLanguages = $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages);
 
         return $this->service->loadUsersOfUserGroup($userGroup, $offset, $limit, $prioritizedLanguages);
+    }
+
+    public function findUsers(
+        Filter $filter,
+        ?array $prioritizedLanguages = null
+    ): UserList {
+        return $this->service->findUsers(
+            $filter,
+            $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages)
+        );
+    }
+
+    public function findUserGroups(
+        Filter $filter,
+        ?array $prioritizedLanguages = null
+    ): UserGroupList {
+        return $this->service->findUserGroups(
+            $filter,
+            $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages)
+        );
     }
 
     public function loadUserByToken(

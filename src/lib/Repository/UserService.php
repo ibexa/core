@@ -25,6 +25,7 @@ use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\UserService as UserServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentList;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
@@ -33,16 +34,21 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeId
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LocationId as CriterionLocationId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd as CriterionLogicalAnd;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ParentLocationId as CriterionParentLocationId;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\ContentId as SortClauseContentId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
+use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordValidationContext;
 use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
 use Ibexa\Contracts\Core\Repository\Values\User\UserCreateStruct as APIUserCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup as APIUserGroup;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroupCreateStruct as APIUserGroupCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\User\UserGroupList;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroupUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\User\UserList;
 use Ibexa\Contracts\Core\Repository\Values\User\UserTokenUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserUpdateStruct;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
@@ -1127,6 +1133,66 @@ class UserService implements UserServiceInterface
         }
 
         return $users;
+    }
+
+    public function findUsers(
+        Filter $filter,
+        array $prioritizedLanguages = []
+    ): UserList {
+        $contentList = $this->findContent(
+            $filter,
+            new CriterionContentTypeIdentifier($this->getUserContentTypeIdentifiers()),
+            $prioritizedLanguages
+        );
+
+        return new UserList(
+            $contentList->getTotalCount(),
+            array_map(
+                fn (APIContent $content): APIUser => $this->loadUser($content->getId(), $prioritizedLanguages),
+                iterator_to_array($contentList, false),
+            ),
+        );
+    }
+
+    public function findUserGroups(
+        Filter $filter,
+        array $prioritizedLanguages = []
+    ): UserGroupList {
+        $contentList = $this->findContent(
+            $filter,
+            new CriterionContentTypeId((int)$this->settings['userGroupClassID']),
+            $prioritizedLanguages
+        );
+
+        return new UserGroupList(
+            $contentList->getTotalCount(),
+            array_map(
+                $this->buildDomainUserGroupObject(...),
+                iterator_to_array($contentList, false),
+            ),
+        );
+    }
+
+    /**
+     * Filters content of the given content type(s), sorted with the content ID as the last sort clause, so the order
+     * is always deterministic.
+     *
+     * @param string[] $prioritizedLanguages
+     */
+    private function findContent(
+        Filter $filter,
+        FilteringCriterion $contentTypeCriterion,
+        array $prioritizedLanguages
+    ): ContentList {
+        $filter = clone $filter;
+        $filter
+            ->andWithCriterion($contentTypeCriterion)
+            ->withSortClause(new SortClauseContentId());
+
+        return $this->repository->getContentService()->find(
+            $filter,
+            $prioritizedLanguages !== [] ? $prioritizedLanguages : null
+        );
     }
 
     /**

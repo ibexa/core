@@ -17,13 +17,16 @@ use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordValidationContext;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\UserCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroupCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\User\UserGroupList;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroupUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\User\UserList;
 use Ibexa\Contracts\Core\Repository\Values\User\UserTokenUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserUpdateStruct;
 
@@ -401,6 +404,38 @@ interface UserService
         int $limit = 25,
         array $prioritizedLanguages = []
     ): iterable;
+
+    /**
+     * Finds users matching the given filter, using Repository filtering.
+     *
+     * The filter is limited to the user content types, and the content ID is added as the last sort clause.
+     * Only users the current user is allowed to read are returned and counted.
+     * As in {@see ContentService::find()}, a filter limit of 0 means no limit.
+     *
+     * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned
+     *                                       objects. Users not available in any of them (and not always available)
+     *                                       are neither returned nor counted.
+     */
+    public function findUsers(
+        Filter $filter,
+        array $prioritizedLanguages = []
+    ): UserList;
+
+    /**
+     * Finds user groups matching the given filter, using Repository filtering.
+     *
+     * The filter is limited to the user group content type, and the content ID is added as the last sort clause.
+     * Only user groups the current user is allowed to read are returned and counted.
+     * As in {@see ContentService::find()}, a filter limit of 0 means no limit.
+     *
+     * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned
+     *                                       objects. User groups not available in any of them (and not always
+     *                                       available) are neither returned nor counted.
+     */
+    public function findUserGroups(
+        Filter $filter,
+        array $prioritizedLanguages = []
+    ): UserGroupList;
 
     /**
      * Checks if Content is a user.
