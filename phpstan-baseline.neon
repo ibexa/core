@@ -18391,12 +18391,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/NullConverter.php
 
 		-
-			message: '#^Cannot call method getElementsByTagName\(\) on DOMElement\|null\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/RelationConverter.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\FieldValue\\Converter\\RelationConverter\:\:toFieldDefinition\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -18446,12 +18440,6 @@ parameters:
 
 		-
 			message: '#^Cannot call method fetchAll\(\) on Doctrine\\DBAL\\ForwardCompatibility\\Result\|int\|string\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/RelationListConverter.php
-
-		-
-			message: '#^Cannot call method getElementsByTagName\(\) on DOMElement\|null\.$#'
 			identifier: method.nonObject
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/FieldValue/Converter/RelationListConverter.php
@@ -31088,12 +31076,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\Routing\\UrlAliasRouterTest\:\:testMatchRequestResourceCaseRedirectWithRootLocation\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/Routing/UrlAliasRouterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\Routing\\UrlAliasRouterTest\:\:testMatchRequestVirtualCaseRedirectWithRootLocation\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: tests/bundle/Core/Routing/UrlAliasRouterTest.php
@@ -56595,18 +56577,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Routing\\UrlAliasRouterTest\:\:testMatchRequestResourceWithRedirect\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/MVC/Symfony/Routing/UrlAliasRouterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Routing\\UrlAliasRouterTest\:\:testMatchRequestVirtual\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/MVC/Symfony/Routing/UrlAliasRouterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Routing\\UrlAliasRouterTest\:\:testMatchRequestVirtualWithCaseRedirect\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: tests/lib/MVC/Symfony/Routing/UrlAliasRouterTest.php
