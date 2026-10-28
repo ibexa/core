@@ -29,8 +29,8 @@ use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
  */
 final class ConvertMariaDbJsonColumnsTo6_0Migration extends AbstractSqlMigration implements IbexaMigrationInterface
 {
-    /** The columns sql/convert-json-columns-to-6-0-mariadb.sql converts, by table. */
-    private const array JSON_COLUMNS = [
+    /** The JSON column sql/convert-json-columns-to-6-0-mariadb.sql converts in each table, by table name. */
+    private const array JSON_TABLE_TO_COLUMN = [
         'ibexa_setting' => 'value',
     ];
 
@@ -57,6 +57,13 @@ final class ConvertMariaDbJsonColumnsTo6_0Migration extends AbstractSqlMigration
             return;
         }
 
+        foreach (array_keys(self::JSON_TABLE_TO_COLUMN) as $tableName) {
+            $this->skipIf(
+                !$schema->hasTable($tableName),
+                sprintf('%s doesn\'t exist yet: the migrations creating it don\'t execute in a dry run.', $tableName)
+            );
+        }
+
         if ($this->areColumnsConverted($schema)) {
             return;
         }
@@ -70,7 +77,7 @@ final class ConvertMariaDbJsonColumnsTo6_0Migration extends AbstractSqlMigration
      */
     private function areColumnsConverted(Schema $schema): bool
     {
-        foreach (self::JSON_COLUMNS as $tableName => $columnName) {
+        foreach (self::JSON_TABLE_TO_COLUMN as $tableName => $columnName) {
             $column = $schema->getTable($tableName)->getColumn($columnName);
 
             if (!$column->getType() instanceof JsonType || $column->getComment() !== '') {
