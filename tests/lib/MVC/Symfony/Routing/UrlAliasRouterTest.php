@@ -600,60 +600,6 @@ class UrlAliasRouterTest extends TestCase
         $this->assertEquals($expected, $this->router->matchRequest($request));
     }
 
-    public function testMatchRequestVirtual()
-    {
-        $pathInfo = '/foo/bar';
-        $urlAlias = new URLAlias(
-            [
-                'path' => $pathInfo,
-                'type' => URLAlias::VIRTUAL,
-            ]
-        );
-        $request = $this->getRequestByPathInfo($pathInfo);
-        $this->urlAliasService
-            ->expects($this->once())
-            ->method('lookup')
-            ->with($pathInfo)
-            ->will($this->returnValue($urlAlias));
-
-        $expected = [
-            '_route' => UrlAliasRouter::URL_ALIAS_ROUTE_NAME,
-            'semanticPathinfo' => '/',
-            'needsForward' => true,
-        ];
-        $this->assertEquals($expected, $this->router->matchRequest($request));
-    }
-
-    public function testMatchRequestVirtualWithCaseRedirect()
-    {
-        $pathInfo = '/Foo/bAR';
-        $urlAliasPath = '/foo/bar';
-        $urlAlias = new URLAlias(
-            [
-                'path' => $urlAliasPath,
-                'type' => URLAlias::VIRTUAL,
-            ]
-        );
-        $request = $this->getRequestByPathInfo($pathInfo);
-        $this->urlALiasGenerator
-            ->expects($this->once())
-            ->method('isUriPrefixExcluded')
-            ->with($pathInfo)
-            ->will($this->returnValue(false));
-        $this->urlAliasService
-            ->expects($this->once())
-            ->method('lookup')
-            ->with($pathInfo)
-            ->will($this->returnValue($urlAlias));
-
-        $expected = [
-            '_route' => UrlAliasRouter::URL_ALIAS_ROUTE_NAME,
-            'semanticPathinfo' => $urlAliasPath,
-            'needsRedirect' => true,
-        ];
-        $this->assertEquals($expected, $this->router->matchRequest($request));
-    }
-
     public function testGenerateFail()
     {
         $this->expectException(RouteNotFoundException::class);

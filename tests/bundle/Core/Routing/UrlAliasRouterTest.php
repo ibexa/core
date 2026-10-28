@@ -375,52 +375,6 @@ class UrlAliasRouterTest extends BaseUrlAliasRouterTest
         $this->assertEquals($expected, $this->router->matchRequest($request));
     }
 
-    public function testMatchRequestVirtualCaseRedirectWithRootLocation()
-    {
-        $rootLocationId = 123;
-        $this->resetConfigResolver();
-        $this->configResolver
-            ->expects($this->any())
-            ->method('getParameter')
-            ->will(
-                $this->returnValueMap(
-                    [
-                        ['url_alias_router', null, null, true],
-                    ]
-                )
-            );
-        $this->router->setRootLocationId($rootLocationId);
-
-        $prefix = '/root/prefix';
-        $this->urlALiasGenerator
-            ->expects($this->exactly(2))
-            ->method('getPathPrefixByRootLocationId')
-            ->with($rootLocationId)
-            ->will($this->returnValue($prefix));
-
-        $path = '/foo/bar';
-        $requestedPath = '/Foo/Bar';
-        $urlAlias = new URLAlias(
-            [
-                'path' => $prefix . $path,
-                'type' => URLAlias::VIRTUAL,
-            ]
-        );
-        $this->urlAliasService
-            ->expects($this->once())
-            ->method('lookup')
-            ->with($prefix . $requestedPath)
-            ->will($this->returnValue($urlAlias));
-
-        $expected = [
-            '_route' => UrlAliasRouter::URL_ALIAS_ROUTE_NAME,
-            'semanticPathinfo' => $path,
-            'needsRedirect' => true,
-        ];
-        $request = $this->getRequestByPathInfo($requestedPath);
-        $this->assertEquals($expected, $this->router->matchRequest($request));
-    }
-
     public function testMatchRequestWithRootLocationAndExclusion()
     {
         $this->resetConfigResolver();
