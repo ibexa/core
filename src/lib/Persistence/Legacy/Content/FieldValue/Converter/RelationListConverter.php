@@ -246,12 +246,10 @@ class RelationListConverter implements Converter
         }
 
         $constraints = $dom->getElementsByTagName('constraints')->item(0);
-        if ($constraints === null) {
-            return;
-        }
-
-        foreach ($constraints->getElementsByTagName('allowed-class') as $allowedClass) {
-            $fieldSettings['selectionContentTypes'][] = $allowedClass->getAttribute('contentclass-identifier');
+        if ($constraints !== null) {
+            foreach ($constraints->getElementsByTagName('allowed-class') as $allowedClass) {
+                $fieldSettings['selectionContentTypes'][] = $allowedClass->getAttribute('contentclass-identifier');
+            }
         }
 
         // read validators configuration from storage
