@@ -2532,25 +2532,29 @@ class UrlAliasTest extends BaseServiceMockTest
 
         $urlAliasService = $this->getPartlyMockedURLAliasServiceService();
 
-        $this->urlAliasHandler->method('lookup')->willReturn(
-            new SPIUrlAlias(
-                [
-                    'type' => SPIUrlAlias::VIRTUAL,
-                    'pathData' => [
-                        [
-                            'always-available' => false,
-                            'translations' => ['eng-GB' => 'red'],
+        $this->urlAliasHandler
+            ->expects(self::once())
+            ->method('lookup')
+            ->with('red/blue')
+            ->willReturn(
+                new SPIUrlAlias(
+                    [
+                        'type' => SPIUrlAlias::VIRTUAL,
+                        'pathData' => [
+                            [
+                                'always-available' => false,
+                                'translations' => ['eng-GB' => 'red'],
+                            ],
+                            [
+                                'always-available' => false,
+                                'translations' => ['eng-GB' => 'blue'],
+                            ],
                         ],
-                        [
-                            'always-available' => false,
-                            'translations' => ['eng-GB' => 'blue'],
-                        ],
-                    ],
-                    'languageCodes' => ['eng-GB'],
-                    'alwaysAvailable' => false,
-                ]
-            )
-        );
+                        'languageCodes' => ['eng-GB'],
+                        'alwaysAvailable' => false,
+                    ]
+                )
+            );
 
         $urlAliasService->lookup('red/blue');
     }
