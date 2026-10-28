@@ -7,10 +7,8 @@
 
 namespace Ibexa\Bundle\Core\EventListener;
 
-use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\View\CachableView;
-use Ibexa\Core\MVC\Symfony\View\LocationValueView;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -45,10 +43,6 @@ class CacheViewResponseListener implements EventSubscriberInterface
         }
 
         $response = $event->getResponse();
-
-        if ($view instanceof LocationValueView && ($location = $view->getLocation()) instanceof Location) {
-            $response->headers->set('X-Location-Id', $location->id, false);
-        }
 
         $response->setPublic();
 

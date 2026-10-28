@@ -238,15 +238,7 @@ Can be "local", "http" or a valid symfony service id:
 - If "http" is used, a full HTTP PURGE/BAN is done to a real reverse proxy (Varnish, ..) depending on your config
 - If custom symfony service id is used, then check documentation on that service for how it behaves and how you need to configure your system for it.
 
-If ezplatform-http-cache package is enabled (default as of 1.12 and up), then go to documentation on this package for further
-info on how it supports multiple response tagging, purges and allow plugins for custom purge types.
-
-If that is not enabled, then the (deprecated as of 1.8) default BAN based system will be used instead.
-Where ressponses can be tagged by a single  X-Location-Id header, and for purges a single Http BAN request will be sent,
-where X-Location-Id header consists of a Regexp containing locationIds to ban.
-  BAN Examples:
-   - (123|456|789) => Purge locations #123, #456, #789.
-   - .* => Purge all locations.
+Response tagging, purging and custom purge types are provided by the ibexa/http-cache package, see its documentation.
 EOT;
 
         $rootNode
