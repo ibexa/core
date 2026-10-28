@@ -1000,6 +1000,26 @@ class URLAliasServiceTest extends BaseTest
     /**
      * Test for the lookUp() method.
      *
+     * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::lookUp()
+     */
+    public function testLookUpResolvesNestedCustomAlias(): void
+    {
+        $repository = $this->getRepository();
+        $locationService = $repository->getLocationService();
+        $urlAliasService = $repository->getURLAliasService();
+
+        $location = $locationService->loadLocation($this->generateId('location', 5));
+        $urlAliasService->createUrlAlias($location, '/red/blue/green', 'eng-GB');
+
+        $alias = $urlAliasService->lookup('/red/blue/green');
+
+        self::assertSame(URLAlias::LOCATION, $alias->type);
+        self::assertEquals($location->id, $alias->destination);
+    }
+
+    /**
+     * Test for the lookUp() method.
+     *
      * @covers \Ibexa\Contracts\Core\Repository\URLAliasService::lookUp($url, $languageCode)
      */
     public function testLookUpThrowsNotFoundExceptionWithLanguageFilter()
