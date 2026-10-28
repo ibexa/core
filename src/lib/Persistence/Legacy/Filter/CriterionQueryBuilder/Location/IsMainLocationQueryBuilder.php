@@ -22,15 +22,14 @@ final class IsMainLocationQueryBuilder extends BaseLocationCriterionQueryBuilder
         return $criterion instanceof IsMainLocation;
     }
 
-    public function buildQueryConstraint(
+    protected function buildLocationConstraint(
         FilteringQueryBuilder $queryBuilder,
-        FilteringCriterion $criterion
-    ): ?string {
+        FilteringCriterion $criterion,
+        string $locationAlias
+    ): string {
         /** @var IsMainLocation $criterion */
-        parent::buildQueryConstraint($queryBuilder, $criterion);
-
         return $criterion->value[0] === IsMainLocation::MAIN
-            ? 'location.node_id = location.main_node_id'
-            : 'location.node_id <> location.main_node_id';
+            ? "{$locationAlias}.node_id = {$locationAlias}.main_node_id"
+            : "{$locationAlias}.node_id <> {$locationAlias}.main_node_id";
     }
 }

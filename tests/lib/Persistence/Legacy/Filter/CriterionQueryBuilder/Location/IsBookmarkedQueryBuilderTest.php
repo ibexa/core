@@ -26,7 +26,7 @@ final class IsBookmarkedQueryBuilderTest extends BaseCriterionVisitorQueryBuilde
 
     private const BOOKMARK_EXISTS_SUBQUERY = 'SELECT 1 FROM ' . DoctrineDatabase::TABLE_BOOKMARKS . ' bookmark WHERE '
         . '(bookmark.' . DoctrineDatabase::COLUMN_USER_ID . ' = :dcValue%1$d)'
-        . ' AND (bookmark.' . DoctrineDatabase::COLUMN_LOCATION_ID . ' = location.node_id)';
+        . ' AND (bookmark.' . DoctrineDatabase::COLUMN_LOCATION_ID . ' = filter_location.node_id)';
 
     /**
      * @return iterable<string, array{FilteringCriterion, string, array<string, int>}>
@@ -37,13 +37,13 @@ final class IsBookmarkedQueryBuilderTest extends BaseCriterionVisitorQueryBuilde
     {
         yield 'IsBookmarked(true)' => [
             new Criterion\Location\IsBookmarked(true),
-            sprintf('EXISTS (%s)', sprintf(self::BOOKMARK_EXISTS_SUBQUERY, 1)),
+            self::buildContentFilteringLocationConstraint(sprintf('EXISTS (%s)', sprintf(self::BOOKMARK_EXISTS_SUBQUERY, 1))),
             ['dcValue1' => self::CURRENT_USER_ID],
         ];
 
         yield 'IsBookmarked(false)' => [
             new Criterion\Location\IsBookmarked(false),
-            sprintf('NOT EXISTS (%s)', sprintf(self::BOOKMARK_EXISTS_SUBQUERY, 1)),
+            self::buildContentFilteringLocationConstraint(sprintf('NOT EXISTS (%s)', sprintf(self::BOOKMARK_EXISTS_SUBQUERY, 1))),
             ['dcValue1' => self::CURRENT_USER_ID],
         ];
 
@@ -55,9 +55,9 @@ final class IsBookmarkedQueryBuilderTest extends BaseCriterionVisitorQueryBuilde
                 ]
             ),
             sprintf(
-                '(EXISTS (%s)) OR (NOT EXISTS (%s))',
-                sprintf(self::BOOKMARK_EXISTS_SUBQUERY, 1),
-                sprintf(self::BOOKMARK_EXISTS_SUBQUERY, 2)
+                '(%s) OR (%s)',
+                self::buildContentFilteringLocationConstraint(sprintf('EXISTS (%s)', sprintf(self::BOOKMARK_EXISTS_SUBQUERY, 1))),
+                self::buildContentFilteringLocationConstraint(sprintf('NOT EXISTS (%s)', sprintf(self::BOOKMARK_EXISTS_SUBQUERY, 2)))
             ),
             ['dcValue1' => self::CURRENT_USER_ID, 'dcValue2' => self::CURRENT_USER_ID],
         ];

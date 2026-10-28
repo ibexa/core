@@ -25,18 +25,17 @@ final class SubtreeQueryBuilder extends BaseLocationCriterionQueryBuilder
         return $criterion instanceof Subtree;
     }
 
-    public function buildQueryConstraint(
+    protected function buildLocationConstraint(
         FilteringQueryBuilder $queryBuilder,
-        FilteringCriterion $criterion
-    ): ?string {
+        FilteringCriterion $criterion,
+        string $locationAlias
+    ): string {
         /** @var Subtree $criterion */
-        parent::buildQueryConstraint($queryBuilder, $criterion);
-
         $expressionBuilder = $queryBuilder->expr();
         $statements = array_map(
-            static function (string $pathString) use ($queryBuilder, $expressionBuilder): string {
+            static function (string $pathString) use ($queryBuilder, $expressionBuilder, $locationAlias): string {
                 return $expressionBuilder->like(
-                    'location.path_string',
+                    "{$locationAlias}.path_string",
                     $queryBuilder->createNamedParameter($pathString . '%', ParameterType::STRING)
                 );
             },

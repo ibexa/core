@@ -26,15 +26,14 @@ final class PriorityQueryBuilder extends BaseLocationCriterionQueryBuilder
     /**
      * @throws Exception
      */
-    public function buildQueryConstraint(
+    protected function buildLocationConstraint(
         FilteringQueryBuilder $queryBuilder,
-        FilteringCriterion $criterion
-    ): ?string {
+        FilteringCriterion $criterion,
+        string $locationAlias
+    ): string {
         /** @var Priority $criterion */
-        parent::buildQueryConstraint($queryBuilder, $criterion);
-
         return $queryBuilder->buildOperatorBasedCriterionConstraint(
-            'location.priority',
+            "{$locationAlias}.priority",
             $criterion->value,
             $criterion->operator
         );

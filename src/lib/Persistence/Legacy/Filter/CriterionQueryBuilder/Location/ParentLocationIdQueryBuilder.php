@@ -23,15 +23,14 @@ final class ParentLocationIdQueryBuilder extends BaseLocationCriterionQueryBuild
         return $criterion instanceof ParentLocationId;
     }
 
-    public function buildQueryConstraint(
+    protected function buildLocationConstraint(
         FilteringQueryBuilder $queryBuilder,
-        FilteringCriterion $criterion
-    ): ?string {
+        FilteringCriterion $criterion,
+        string $locationAlias
+    ): string {
         /** @var ParentLocationId $criterion */
-        parent::buildQueryConstraint($queryBuilder, $criterion);
-
         return $queryBuilder->expr()->in(
-            'location.parent_node_id',
+            "{$locationAlias}.parent_node_id",
             $queryBuilder->createNamedParameter(
                 $criterion->value,
                 Connection::PARAM_INT_ARRAY

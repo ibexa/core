@@ -24,17 +24,17 @@ final class VisibilityQueryBuilder extends BaseLocationCriterionQueryBuilder
         return $criterion instanceof Visibility;
     }
 
-    public function buildQueryConstraint(
+    protected function buildLocationConstraint(
         FilteringQueryBuilder $queryBuilder,
-        FilteringCriterion $criterion
-    ): ?string {
+        FilteringCriterion $criterion,
+        string $locationAlias
+    ): string {
         /** @var Visibility $criterion */
-        parent::buildQueryConstraint($queryBuilder, $criterion);
-
         $expressionBuilder = $queryBuilder->expr();
         $columnsExpressions = $this->getVisibilityColumnsExpressions(
             $queryBuilder,
-            $criterion->value[0]
+            $criterion->value[0],
+            $locationAlias
         );
 
         return $criterion->value[0] === Visibility::VISIBLE
@@ -44,17 +44,18 @@ final class VisibilityQueryBuilder extends BaseLocationCriterionQueryBuilder
 
     private function getVisibilityColumnsExpressions(
         QueryBuilder $queryBuilder,
-        int $visibleFlag
+        int $visibleFlag,
+        string $locationAlias
     ): array {
         $expressionBuilder = $queryBuilder->expr();
 
         return [
             $expressionBuilder->eq(
-                'location.is_hidden',
+                "{$locationAlias}.is_hidden",
                 $queryBuilder->createNamedParameter($visibleFlag, ParameterType::INTEGER)
             ),
             $expressionBuilder->eq(
-                'location.is_invisible',
+                "{$locationAlias}.is_invisible",
                 $queryBuilder->createNamedParameter($visibleFlag, ParameterType::INTEGER)
             ),
         ];

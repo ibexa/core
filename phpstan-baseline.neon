@@ -14143,12 +14143,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Content/Type/IdentifierQueryBuilder.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Filter\\CriterionQueryBuilder\\Location\\AncestorQueryBuilder\:\:buildQueryConstraint\(\) never returns null so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Location/AncestorQueryBuilder.php
-
-		-
 			message: '#^Parameter \#1 \$callback of function array_map expects \(callable\(bool\|float\|int\|string\)\: mixed\)\|null, Closure\(string\)\: array\<int\<0, max\>, int\> given\.$#'
 			identifier: argument.type
 			count: 1
@@ -14161,22 +14155,10 @@ parameters:
 			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Location/AncestorQueryBuilder.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Filter\\CriterionQueryBuilder\\Location\\DepthQueryBuilder\:\:buildQueryConstraint\(\) never returns null so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Location/DepthQueryBuilder.php
-
-		-
 			message: '#^Parameter \#2 \$criterionValue of method Ibexa\\Contracts\\Core\\Persistence\\Filter\\Doctrine\\FilteringQueryBuilder\:\:buildOperatorBasedCriterionConstraint\(\) expects array, array\<bool\|float\|int\|string\>\|bool\|float\|int\|string given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Location/DepthQueryBuilder.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Filter\\CriterionQueryBuilder\\Location\\IdQueryBuilder\:\:buildQueryConstraint\(\) never returns null so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Location/IdQueryBuilder.php
 
 		-
 			message: '#^Cannot access offset 0 on array\<bool\|float\|int\|string\>\|bool\|float\|int\|string\.$#'
@@ -14185,40 +14167,10 @@ parameters:
 			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Location/IsMainLocationQueryBuilder.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Filter\\CriterionQueryBuilder\\Location\\IsMainLocationQueryBuilder\:\:buildQueryConstraint\(\) never returns null so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Location/IsMainLocationQueryBuilder.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Filter\\CriterionQueryBuilder\\Location\\ParentLocationIdQueryBuilder\:\:buildQueryConstraint\(\) never returns null so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Location/ParentLocationIdQueryBuilder.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Filter\\CriterionQueryBuilder\\Location\\PriorityQueryBuilder\:\:buildQueryConstraint\(\) never returns null so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Location/PriorityQueryBuilder.php
-
-		-
 			message: '#^Parameter \#2 \$criterionValue of method Ibexa\\Contracts\\Core\\Persistence\\Filter\\Doctrine\\FilteringQueryBuilder\:\:buildOperatorBasedCriterionConstraint\(\) expects array, array\<bool\|float\|int\|string\>\|bool\|float\|int\|string given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Location/PriorityQueryBuilder.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Filter\\CriterionQueryBuilder\\Location\\RemoteIdQueryBuilder\:\:buildQueryConstraint\(\) never returns null so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Location/RemoteIdQueryBuilder.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Filter\\CriterionQueryBuilder\\Location\\SubtreeQueryBuilder\:\:buildQueryConstraint\(\) never returns null so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
-			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Location/SubtreeQueryBuilder.php
 
 		-
 			message: '#^Parameter \#1 \$callback of function array_map expects \(callable\(bool\|float\|int\|string\)\: mixed\)\|null, Closure\(string\)\: string given\.$#'
@@ -14236,12 +14188,6 @@ parameters:
 			message: '#^Cannot access offset 0 on array\<bool\|float\|int\|string\>\|bool\|float\|int\|string\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 2
-			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Location/VisibilityQueryBuilder.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Filter\\CriterionQueryBuilder\\Location\\VisibilityQueryBuilder\:\:buildQueryConstraint\(\) never returns null so it can be removed from the return type\.$#'
-			identifier: return.unusedType
-			count: 1
 			path: src/lib/Persistence/Legacy/Filter/CriterionQueryBuilder/Location/VisibilityQueryBuilder.php
 
 		-

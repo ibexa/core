@@ -26,15 +26,14 @@ final class DepthQueryBuilder extends BaseLocationCriterionQueryBuilder
     /**
      * @throws Exception
      */
-    public function buildQueryConstraint(
+    protected function buildLocationConstraint(
         FilteringQueryBuilder $queryBuilder,
-        FilteringCriterion $criterion
-    ): ?string {
+        FilteringCriterion $criterion,
+        string $locationAlias
+    ): string {
         /** @var Depth $criterion */
-        parent::buildQueryConstraint($queryBuilder, $criterion);
-
         return $queryBuilder->buildOperatorBasedCriterionConstraint(
-            'location.depth',
+            "{$locationAlias}.depth",
             $criterion->value,
             $criterion->operator
         );

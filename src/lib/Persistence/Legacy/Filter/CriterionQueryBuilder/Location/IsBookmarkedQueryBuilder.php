@@ -41,12 +41,11 @@ final class IsBookmarkedQueryBuilder extends BaseLocationCriterionQueryBuilder
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
-    public function buildQueryConstraint(
+    protected function buildLocationConstraint(
         FilteringQueryBuilder $queryBuilder,
-        FilteringCriterion $criterion
+        FilteringCriterion $criterion,
+        string $locationAlias
     ): string {
-        parent::buildQueryConstraint($queryBuilder, $criterion);
-
         $isBookmarked = $criterion->value[0] ?? null;
         if (!is_bool($isBookmarked)) {
             throw new InvalidArgumentException(
@@ -70,7 +69,7 @@ final class IsBookmarkedQueryBuilder extends BaseLocationCriterionQueryBuilder
                 ),
                 $queryBuilder->expr()->eq(
                     self::ALIAS . '.' . DoctrineDatabase::COLUMN_LOCATION_ID,
-                    'location.node_id'
+                    "{$locationAlias}.node_id"
                 )
             )
         );

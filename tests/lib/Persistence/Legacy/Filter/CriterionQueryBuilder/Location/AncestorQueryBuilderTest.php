@@ -23,13 +23,13 @@ class AncestorQueryBuilderTest extends BaseCriterionVisitorQueryBuilderTestCase
     {
         yield 'Ancestor=/1/2/' => [
             new Ancestor('/1/2/'),
-            'location.node_id IN (:dcValue1)',
+            self::buildContentFilteringLocationConstraint('filter_location.node_id IN (:dcValue1)'),
             ['dcValue1' => [1, 2]],
         ];
 
         yield 'Ancestor IN (/1/2/, /1/4/10/' => [
             new Ancestor(['/1/2/', '/1/4/10/']),
-            'location.node_id IN (:dcValue1)',
+            self::buildContentFilteringLocationConstraint('filter_location.node_id IN (:dcValue1)'),
             ['dcValue1' => [1, 2, 4, 10]],
         ];
     }

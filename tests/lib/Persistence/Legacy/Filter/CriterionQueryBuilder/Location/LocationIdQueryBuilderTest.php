@@ -21,7 +21,7 @@ final class LocationIdQueryBuilderTest extends BaseCriterionVisitorQueryBuilderT
     {
         yield 'Location ID=1' => [
             new Criterion\LocationId(1),
-            'location.node_id IN (:dcValue1)',
+            self::buildContentFilteringLocationConstraint('filter_location.node_id IN (:dcValue1)'),
             ['dcValue1' => [1]],
         ];
 
@@ -32,7 +32,7 @@ final class LocationIdQueryBuilderTest extends BaseCriterionVisitorQueryBuilderT
                     new Criterion\LocationId(2),
                 ]
             ),
-            '(location.node_id IN (:dcValue1)) OR (location.node_id IN (:dcValue2))',
+            '(' . self::buildContentFilteringLocationConstraint('filter_location.node_id IN (:dcValue1)') . ') OR (' . self::buildContentFilteringLocationConstraint('filter_location.node_id IN (:dcValue2)') . ')',
             ['dcValue1' => [1], 'dcValue2' => [2]],
         ];
     }

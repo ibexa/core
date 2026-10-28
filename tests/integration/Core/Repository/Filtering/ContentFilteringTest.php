@@ -22,14 +22,18 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
+use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringSortClause;
 use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ObjectState\ObjectStateGroupCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Core\FieldType\Keyword;
 use Ibexa\Tests\Core\Repository\Filtering\TestContentProvider;
 use IteratorAggregate;
 
+use function array_filter;
 use function array_map;
+use function array_values;
 use function count;
 use function iterator_to_array;
 use function sprintf;
@@ -468,15 +472,120 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
     ): void {
         $parentFolder = $this->contentProvider->createSharedContentStructure();
         $filter = $this->buildFilter($filterFactory, $parentFolder);
-        $this->assertFoundContentItemsByRemoteIds(
-            $this->find($filter, []),
-            $expectedContentRemoteIds
+        $contentList = $this->find($filter, []);
+
+        $this->assertFoundContentItemsByRemoteIds($contentList, $expectedContentRemoteIds);
+        self::assertSame(count($expectedContentRemoteIds), $contentList->getTotalCount());
+        self::assertCount(count($expectedContentRemoteIds), iterator_to_array($contentList));
+    }
+
+    /**
+     * Location criteria match any Location of a Content item, as in Content search.
+     *
+     * @dataProvider getDataForTestLocationCriteriaMatchContentSearch
+     *
+     * @throws \Exception
+     */
+    public function testLocationCriteriaMatchContentSearch(callable $filterFactory): void
+    {
+        $parentFolder = $this->contentProvider->createSharedContentStructure();
+        $filter = $this->buildFilter($filterFactory, $parentFolder);
+
+        $this->compareWithSearchResults($filter, $this->find($filter));
+    }
+
+    /**
+     * @return iterable<string, array{callable(Content): Filter}>
+     */
+    public function getDataForTestLocationCriteriaMatchContentSearch(): iterable
+    {
+        $criteria = [
+            'ParentLocationId' => static fn (Content $parentFolder): FilteringCriterion => new Criterion\ParentLocationId(2),
+            'LocationId' => static fn (Content $parentFolder): FilteringCriterion => new Criterion\LocationId(
+                self::getMainLocationId($parentFolder)
+            ),
+            'Subtree' => static fn (Content $parentFolder): FilteringCriterion => new Criterion\Subtree('/1/2/'),
+            'Visibility' => static fn (Content $parentFolder): FilteringCriterion => new Criterion\Visibility(
+                Criterion\Visibility::VISIBLE
+            ),
+            'NOT ParentLocationId' => static fn (Content $parentFolder): FilteringCriterion => new Criterion\LogicalNot(
+                new Criterion\ParentLocationId(2)
+            ),
+        ];
+
+        foreach ($criteria as $name => $criterionFactory) {
+            yield $name => [
+                static fn (Content $parentFolder): Filter => (new Filter())
+                    ->withCriterion($criterionFactory($parentFolder))
+                    ->andWithCriterion(self::buildNestedFoldersCriterion())
+                    ->withSortClause(new SortClause\ContentId(Query::SORT_ASC)),
+            ];
+        }
+    }
+
+    /**
+     * A Subtree limitation grants access through any Location of a Content item, also a secondary one.
+     *
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
+     */
+    public function testFindByUserWithSubtreeLimitationOnSecondaryLocation(): void
+    {
+        $repository = $this->getRepository();
+        $locationService = $repository->getLocationService();
+        $this->contentProvider->createSharedContentStructure();
+
+        $folder2ContentInfo = $repository->getContentService()->loadContentInfoByRemoteId(
+            TestContentProvider::CONTENT_REMOTE_IDS['folder2']
         );
+        $secondaryLocations = array_values(array_filter(
+            iterator_to_array($locationService->loadLocations($folder2ContentInfo)),
+            static fn (Location $location): bool => $location->id !== $folder2ContentInfo->getMainLocationId()
+        ));
+        self::assertCount(1, $secondaryLocations);
+
+        $user = $this->createUserWithPolicies(
+            uniqid('editor', true),
+            [
+                [
+                    'module' => 'content',
+                    'function' => 'read',
+                    'limitations' => [
+                        new Limitation\SubtreeLimitation(
+                            ['limitationValues' => [$secondaryLocations[0]->getPathString()]]
+                        ),
+                    ],
+                ],
+            ]
+        );
+        $repository->getPermissionResolver()->setCurrentUserReference($user);
+
+        $this->assertFoundContentItemsByRemoteIds(
+            $this->find(new Filter(self::buildNestedFoldersCriterion()), []),
+            [TestContentProvider::CONTENT_REMOTE_IDS['folder2']]
+        );
+    }
+
+    private static function getMainLocationId(Content $content): int
+    {
+        $mainLocationId = $content->getContentInfo()->getMainLocationId();
+        self::assertNotNull($mainLocationId);
+
+        return $mainLocationId;
+    }
+
+    private static function buildNestedFoldersCriterion(): Criterion\RemoteId
+    {
+        return new Criterion\RemoteId([
+            TestContentProvider::CONTENT_REMOTE_IDS['folder1'],
+            TestContentProvider::CONTENT_REMOTE_IDS['folder2'],
+        ]);
     }
 
     public function getDataForTestFindContentWithLocationCriterion(): iterable
     {
-        yield 'Content items with secondary Location ignored in content filtering, sorted by Content ID' => [
+        yield 'Content items with secondary Location, sorted by Content ID' => [
             static function (Content $parentFolder): Filter {
                 return (new Filter())
                     ->withCriterion(
@@ -486,7 +595,46 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
                     )
                     ->withSortClause(new SortClause\ContentId(Query::SORT_ASC));
             },
-            [],
+            [TestContentProvider::CONTENT_REMOTE_IDS['folder2']],
+        ];
+
+        yield 'Folders with any Location under Home, matched by a secondary Location' => [
+            static function (Content $parentFolder): Filter {
+                return (new Filter())
+                    ->withCriterion(new Criterion\ParentLocationId(2))
+                    ->andWithCriterion(self::buildNestedFoldersCriterion())
+                    ->withSortClause(new SortClause\ContentId(Query::SORT_ASC));
+            },
+            [TestContentProvider::CONTENT_REMOTE_IDS['folder2']],
+        ];
+
+        yield 'Folders without any Location under Home' => [
+            static function (Content $parentFolder): Filter {
+                return (new Filter())
+                    ->withCriterion(new Criterion\LogicalNot(new Criterion\ParentLocationId(2)))
+                    ->andWithCriterion(self::buildNestedFoldersCriterion())
+                    ->withSortClause(new SortClause\ContentId(Query::SORT_ASC));
+            },
+            [TestContentProvider::CONTENT_REMOTE_IDS['folder1']],
+        ];
+
+        yield 'Folders matched by their main and secondary Locations, sorted by Location depth' => [
+            static function (Content $parentFolder): Filter {
+                return (new Filter())
+                    ->withCriterion(
+                        new Criterion\LogicalOr([
+                            new Criterion\ParentLocationId(2),
+                            new Criterion\ParentLocationId(self::getMainLocationId($parentFolder)),
+                        ])
+                    )
+                    ->andWithCriterion(self::buildNestedFoldersCriterion())
+                    ->withSortClause(new SortClause\Location\Depth(Query::SORT_ASC))
+                    ->withSortClause(new SortClause\ContentId(Query::SORT_ASC));
+            },
+            [
+                TestContentProvider::CONTENT_REMOTE_IDS['folder1'],
+                TestContentProvider::CONTENT_REMOTE_IDS['folder2'],
+            ],
         ];
 
         yield 'Folders with Location, sorted by Content ID' => [

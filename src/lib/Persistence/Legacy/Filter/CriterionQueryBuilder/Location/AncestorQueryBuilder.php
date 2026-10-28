@@ -30,13 +30,12 @@ final class AncestorQueryBuilder extends BaseLocationCriterionQueryBuilder
         return $criterion instanceof Ancestor;
     }
 
-    public function buildQueryConstraint(
+    protected function buildLocationConstraint(
         FilteringQueryBuilder $queryBuilder,
-        FilteringCriterion $criterion
-    ): ?string {
+        FilteringCriterion $criterion,
+        string $locationAlias
+    ): string {
         /** @var Ancestor $criterion */
-        parent::buildQueryConstraint($queryBuilder, $criterion);
-
         // extract numerical IDs from $criterion->value e.g. = ['/1/2/', '/1/4/10/']
         $locationIDs = array_merge(
             ...array_map(
@@ -51,7 +50,7 @@ final class AncestorQueryBuilder extends BaseLocationCriterionQueryBuilder
         );
 
         return $queryBuilder->expr()->in(
-            'location.node_id',
+            "{$locationAlias}.node_id",
             $queryBuilder->createNamedParameter(
                 array_values(array_unique($locationIDs)),
                 Connection::PARAM_INT_ARRAY

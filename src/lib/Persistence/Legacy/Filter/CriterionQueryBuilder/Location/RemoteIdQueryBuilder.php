@@ -23,15 +23,14 @@ final class RemoteIdQueryBuilder extends BaseLocationCriterionQueryBuilder
         return $criterion instanceof LocationRemoteId;
     }
 
-    public function buildQueryConstraint(
+    protected function buildLocationConstraint(
         FilteringQueryBuilder $queryBuilder,
-        FilteringCriterion $criterion
-    ): ?string {
+        FilteringCriterion $criterion,
+        string $locationAlias
+    ): string {
         /** @var LocationRemoteId $criterion */
-        parent::buildQueryConstraint($queryBuilder, $criterion);
-
         return $queryBuilder->expr()->in(
-            'location.remote_id',
+            "{$locationAlias}.remote_id",
             $queryBuilder->createNamedParameter(
                 $criterion->value,
                 Connection::PARAM_STR_ARRAY

@@ -13,6 +13,7 @@ use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
+use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder;
 use Ibexa\Core\Persistence\Legacy\Filter\CriterionVisitor;
 use PHPUnit\Framework\TestCase;
@@ -78,7 +79,19 @@ abstract class BaseCriterionVisitorQueryBuilderTestCase extends TestCase
         );
     }
 
-    private function getQueryBuilder(): FilteringQueryBuilder
+    /**
+     * Wraps a Location constraint the way it is used in Content filtering, i.e. matching any Location.
+     */
+    protected static function buildContentFilteringLocationConstraint(string $locationConstraint): string
+    {
+        return sprintf(
+            'content.id IN (SELECT filter_location.contentobject_id FROM %s filter_location WHERE %s)',
+            LocationGateway::CONTENT_TREE_TABLE,
+            $locationConstraint
+        );
+    }
+
+    protected function getQueryBuilder(): FilteringQueryBuilder
     {
         $connectionMock = $this->createMock(Connection::class);
         $connectionMock
