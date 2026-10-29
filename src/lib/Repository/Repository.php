@@ -401,7 +401,8 @@ class Repository implements RepositoryInterface
             $this,
             $this->persistenceHandler->contentLanguageHandler(),
             $this->getPermissionResolver(),
-            $this->serviceSettings['language']
+            $this->serviceSettings['language'],
+            $this->configResolver
         );
 
         return $this->languageService;

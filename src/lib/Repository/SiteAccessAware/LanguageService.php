@@ -10,34 +10,26 @@ namespace Ibexa\Core\Repository\SiteAccessAware;
 use Ibexa\Contracts\Core\Repository\LanguageService as LanguageServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\LanguageCreateStruct;
-use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 
 /**
  * LanguageService for SiteAccessAware layer.
  *
- * Hands over calls to aggregated service, except for the default language code,
- * which is resolved from the "languages" setting of the current SiteAccess.
+ * Currently does nothing but hand over calls to aggregated service.
  */
 class LanguageService implements LanguageServiceInterface
 {
     /** @var LanguageServiceInterface */
     protected $service;
 
-    /** @var ConfigResolverInterface|null */
-    protected $configResolver;
-
     /**
-     * Construct service object from aggregated service and ConfigResolver.
+     * Construct service object from aggregated service.
      *
      * @param LanguageServiceInterface $service
-     * @param ConfigResolverInterface|null $configResolver
      */
     public function __construct(
-        LanguageServiceInterface $service,
-        ?ConfigResolverInterface $configResolver = null
+        LanguageServiceInterface $service
     ) {
         $this->service = $service;
-        $this->configResolver = $configResolver;
     }
 
     public function createLanguage(LanguageCreateStruct $languageCreateStruct): Language
@@ -94,13 +86,6 @@ class LanguageService implements LanguageServiceInterface
 
     public function getDefaultLanguageCode(): string
     {
-        if ($this->configResolver !== null && $this->configResolver->hasParameter('languages')) {
-            $languageCodes = $this->configResolver->getParameter('languages');
-            if (is_array($languageCodes) && !empty($languageCodes)) {
-                return (string)reset($languageCodes);
-            }
-        }
-
         return $this->service->getDefaultLanguageCode();
     }
 

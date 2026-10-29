@@ -67,7 +67,6 @@ services:
     Ibexa\Core\Repository\SiteAccessAware\LanguageService:
         arguments:
             - '@Ibexa\Core\Event\LanguageService'
-            - '@ibexa.config.resolver'
 
     Ibexa\Core\Repository\SiteAccessAware\NotificationService:
         arguments:
