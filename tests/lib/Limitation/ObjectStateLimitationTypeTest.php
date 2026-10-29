@@ -172,10 +172,15 @@ class ObjectStateLimitationTypeTest extends Base
                 'object' => new ContentInfo(['id' => 1, 'mainLocationId' => 2, 'published' => true]),
                 'expected' => false,
             ],
-            'ContentCreateStruct, with access' => [
-                'limitation' => new ObjectStateLimitation(['limitationValues' => [1, 3]]),
+            'ContentCreateStruct, Limitation on the default (lowest priority) States, with access' => [
+                'limitation' => new ObjectStateLimitation(['limitationValues' => [2, 4]]),
                 'object' => new ContentCreateStruct(),
                 'expected' => true,
+            ],
+            'ContentCreateStruct, Limitation on non-default States, no access' => [
+                'limitation' => new ObjectStateLimitation(['limitationValues' => [1, 3]]),
+                'object' => new ContentCreateStruct(),
+                'expected' => false,
             ],
         ];
     }
@@ -211,6 +216,14 @@ class ObjectStateLimitationTypeTest extends Base
             $this->objectStateHandlerMock
                 ->method('loadObjectStates')
                 ->willReturnMap($this->loadObjectStatesMap);
+
+            // States with priority 0 in $this->loadObjectStatesMap
+            $this->objectStateHandlerMock
+                ->method('loadDefaultObjectState')
+                ->willReturnMap([
+                    [1, new ObjectState(['id' => 2, 'priority' => 0])],
+                    [2, new ObjectState(['id' => 4, 'priority' => 0])],
+                ]);
 
             $this->objectStateHandlerMock
                 ->method('getContentState')

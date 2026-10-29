@@ -196,6 +196,48 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
         }
     }
 
+    public function testLoadDefaultObjectStateReturnsLowestPriorityRegardlessOfOrder(): void
+    {
+        $default = new ObjectState(['id' => 1, 'priority' => 0]);
+
+        $gateway = $this->createMock(Gateway::class);
+        $gateway->expects($this->once())
+            ->method('loadObjectStateListData')
+            ->with(2)
+            ->willReturn([[]]);
+
+        $mapper = $this->createMock(Mapper::class);
+        $mapper->expects($this->once())
+            ->method('createObjectStateListFromData')
+            ->with([[]])
+            ->willReturn([
+                new ObjectState(['id' => 3, 'priority' => 2]),
+                $default,
+                new ObjectState(['id' => 2, 'priority' => 1]),
+            ]);
+
+        self::assertSame($default, (new Handler($gateway, $mapper))->loadDefaultObjectState(2));
+    }
+
+    public function testLoadDefaultObjectStateThrowsNotFoundExceptionForGroupWithoutStates(): void
+    {
+        $gateway = $this->createMock(Gateway::class);
+        $gateway->expects($this->once())
+            ->method('loadObjectStateListData')
+            ->with(2)
+            ->willReturn([]);
+
+        $mapper = $this->createMock(Mapper::class);
+        $mapper->expects($this->once())
+            ->method('createObjectStateListFromData')
+            ->with([])
+            ->willReturn([]);
+
+        $this->expectException(NotFoundException::class);
+
+        (new Handler($gateway, $mapper))->loadDefaultObjectState(2);
+    }
+
     public function testUpdateGroup(): void
     {
         $handler = $this->getObjectStateHandler();
