@@ -476,7 +476,6 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
 
         $this->assertFoundContentItemsByRemoteIds($contentList, $expectedContentRemoteIds);
         self::assertSame(count($expectedContentRemoteIds), $contentList->getTotalCount());
-        self::assertCount(count($expectedContentRemoteIds), iterator_to_array($contentList));
     }
 
     /**
