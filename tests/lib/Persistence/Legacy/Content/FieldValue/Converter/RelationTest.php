@@ -69,4 +69,74 @@ EOT;
             $actualStorageFieldDefinition
         );
     }
+
+    /**
+     * @group fieldType
+     * @group relation
+     *
+     * @dataProvider provideDataForToFieldDefinition
+     *
+     * @param array<string, mixed> $expectedFieldSettings
+     */
+    public function testToFieldDefinition(
+        string $dataText5,
+        array $expectedFieldSettings
+    ): void {
+        $storageFieldDefinition = new StorageFieldDefinition();
+        $storageFieldDefinition->dataInt1 = Type::SELECTION_BROWSE;
+        $storageFieldDefinition->dataInt2 = 0;
+        $storageFieldDefinition->dataText5 = $dataText5;
+
+        $actualFieldDefinition = new PersistenceFieldDefinition();
+
+        $this->converter->toFieldDefinition($storageFieldDefinition, $actualFieldDefinition);
+
+        self::assertEquals(
+            $expectedFieldSettings,
+            $actualFieldDefinition->fieldTypeConstraints->fieldSettings
+        );
+    }
+
+    /**
+     * @return iterable<string, array{string, array<string, mixed>}>
+     */
+    public static function provideDataForToFieldDefinition(): iterable
+    {
+        yield 'with allowed classes' => [
+            <<<EOT
+<?xml version="1.0" encoding="utf-8"?>
+<related-objects><constraints><allowed-class contentclass-identifier="forum"/><allowed-class contentclass-identifier="folder"/></constraints><selection_type value="1"/><root_default_location value="1"/><contentobject-placement node-id="54321"/></related-objects>
+EOT,
+            [
+                'selectionMethod' => Type::SELECTION_DROPDOWN,
+                'selectionRoot' => 54321,
+                'selectionContentTypes' => ['forum', 'folder'],
+                'rootDefaultLocation' => true,
+            ],
+        ];
+
+        yield 'with empty constraints' => [
+            <<<EOT
+<?xml version="1.0" encoding="utf-8"?>
+<related-objects><constraints/><selection_type value="1"/><contentobject-placement node-id="54321"/></related-objects>
+EOT,
+            [
+                'selectionMethod' => Type::SELECTION_DROPDOWN,
+                'selectionRoot' => 54321,
+                'selectionContentTypes' => [],
+            ],
+        ];
+
+        yield 'without constraints' => [
+            <<<EOT
+<?xml version="1.0" encoding="utf-8"?>
+<related-objects><selection_type value="1"/><contentobject-placement node-id="54321"/></related-objects>
+EOT,
+            [
+                'selectionMethod' => Type::SELECTION_DROPDOWN,
+                'selectionRoot' => 54321,
+                'selectionContentTypes' => [],
+            ],
+        ];
+    }
 }

@@ -244,12 +244,11 @@ class RelationListConverter implements Converter
             $fieldSettings['selectionDefaultLocation'] = (int)$defaultLocation->getAttribute('node-id');
         }
 
-        if (!($constraints = $dom->getElementsByTagName('constraints'))) {
-            return;
-        }
-
-        foreach ($constraints->item(0)->getElementsByTagName('allowed-class') as $allowedClass) {
-            $fieldSettings['selectionContentTypes'][] = $allowedClass->getAttribute('contentclass-identifier');
+        $constraints = $dom->getElementsByTagName('constraints')->item(0);
+        if ($constraints !== null) {
+            foreach ($constraints->getElementsByTagName('allowed-class') as $allowedClass) {
+                $fieldSettings['selectionContentTypes'][] = $allowedClass->getAttribute('contentclass-identifier');
+            }
         }
 
         // read validators configuration from storage
