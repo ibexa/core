@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
+use Error;
 use Exception;
 use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
 use Ibexa\Contracts\Core\Persistence\Bookmark\CreateStruct;
@@ -134,7 +135,7 @@ class BookmarkTest extends BaseServiceMockTest
 
     public function testCreateBookmarkWithRollbackOnError(): void
     {
-        $this->expectException(\Error::class);
+        $this->expectException(Error::class);
 
         $location = $this->createLocation(self::LOCATION_ID);
 
@@ -150,7 +151,7 @@ class BookmarkTest extends BaseServiceMockTest
             $this->bookmarkHandler
                 ->expects(self::once())
                 ->method('create')
-                ->willThrowException(new \Error('persistence failure'));
+                ->willThrowException(new Error('persistence failure'));
         });
 
         $this->createBookmarkService()->createBookmark($location);

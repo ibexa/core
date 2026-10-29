@@ -7,6 +7,7 @@
 
 namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
+use Error;
 use Exception;
 use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
@@ -3107,7 +3108,7 @@ class ContentTest extends BaseServiceMockTest
 
     public function testCreateContentWithRollbackOnError(): void
     {
-        $this->expectException(\Error::class);
+        $this->expectException(Error::class);
         $this->expectExceptionMessage('Store failed');
 
         $fieldDefinitions = [
@@ -3143,14 +3144,14 @@ class ContentTest extends BaseServiceMockTest
         $contentHandlerMock->expects(self::once())
             ->method('create')
             ->with(self::anything())
-            ->willThrowException(new \Error('Store failed'));
+            ->willThrowException(new Error('Store failed'));
 
         $this->partlyMockedContentService->createContent($contentCreateStruct, []);
     }
 
     public function testDeleteTranslationRollsBackAndRethrowsError(): void
     {
-        $error = new \Error('Loading versions failed');
+        $error = new Error('Loading versions failed');
         $contentService = $this->getPartlyMockedContentService(['loadVersions']);
         $contentService
             ->expects(self::once())
@@ -3168,7 +3169,7 @@ class ContentTest extends BaseServiceMockTest
                 'ger-DE'
             );
             self::fail('Error thrown while deleting the translation was not rethrown');
-        } catch (\Error $e) {
+        } catch (Error $e) {
             // not wrapped in BadStateException like exceptions are
             self::assertSame($error, $e);
         }
