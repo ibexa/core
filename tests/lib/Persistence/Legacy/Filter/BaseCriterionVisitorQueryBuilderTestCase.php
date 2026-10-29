@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\Persistence\Legacy\Filter;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Query\Expression\ExpressionBuilder;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
@@ -99,6 +100,9 @@ abstract class BaseCriterionVisitorQueryBuilderTestCase extends TestCase
             ->willReturn(
                 new ExpressionBuilder($connectionMock)
             );
+        $connectionMock
+            ->method('getDatabasePlatform')
+            ->willReturn(new MySQLPlatform());
 
         return new FilteringQueryBuilder($connectionMock);
     }
