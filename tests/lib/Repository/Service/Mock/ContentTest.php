@@ -3175,6 +3175,65 @@ class ContentTest extends BaseServiceMockTest
         }
     }
 
+    public function testDeleteTranslationFromDraftDoesNotRollBackCommittedTransactionOnError(): void
+    {
+        $contentInfo = new ContentInfo(['id' => 42, 'mainLanguageCode' => 'eng-GB']);
+        $versionInfo = new VersionInfo([
+            'contentInfo' => $contentInfo,
+            'versionNo' => 2,
+            'status' => APIVersionInfo::STATUS_DRAFT,
+            'languageCodes' => ['eng-GB', 'ger-DE'],
+        ]);
+        $spiContent = new SPIContent([
+            'versionInfo' => new SPIVersionInfo(['contentInfo' => new SPIContentInfo(['contentTypeId' => 7])]),
+        ]);
+        $contentType = new ContentType();
+
+        $this->getPermissionResolverMock()
+            ->expects(self::once())
+            ->method('canUser')
+            ->with('content', 'edit', $contentInfo)
+            ->willReturn(true);
+
+        /** @var MockObject $contentHandlerMock */
+        $contentHandlerMock = $this->getPersistenceMock()->contentHandler();
+        $contentHandlerMock
+            ->expects(self::once())
+            ->method('deleteTranslationFromDraft')
+            ->with(42, 2, 'ger-DE')
+            ->willReturn($spiContent);
+
+        $contentTypeServiceMock = $this->getContentTypeServiceMock();
+        $contentTypeServiceMock
+            ->expects(self::once())
+            ->method('loadContentType')
+            ->with(7)
+            ->willReturn($contentType);
+
+        $repositoryMock = $this->getRepositoryMock();
+        $repositoryMock->expects(self::once())->method('beginTransaction');
+        $repositoryMock->expects(self::once())->method('commit');
+        $repositoryMock->expects(self::never())->method('rollback');
+        $repositoryMock
+            ->expects(self::once())
+            ->method('getContentTypeService')
+            ->willReturn($contentTypeServiceMock);
+
+        $error = new Error('Building the domain object failed');
+        $this->getContentDomainMapperMock()
+            ->expects(self::once())
+            ->method('buildContentDomainObject')
+            ->with($spiContent, $contentType)
+            ->willThrowException($error);
+
+        try {
+            $this->getPartlyMockedContentService()->deleteTranslationFromDraft($versionInfo, 'ger-DE');
+            self::fail('Error thrown after committing the translation removal was not rethrown');
+        } catch (Error $e) {
+            self::assertSame($error, $e);
+        }
+    }
+
     public function providerForTestUpdateContentThrowsBadStateException()
     {
         return [

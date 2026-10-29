@@ -2579,13 +2579,6 @@ class ContentService implements ContentServiceInterface
                 $languageCode
             );
             $this->repository->commit();
-
-            return $this->contentDomainMapper->buildContentDomainObject(
-                $spiContent,
-                $this->repository->getContentTypeService()->loadContentType(
-                    $spiContent->versionInfo->contentInfo->contentTypeId
-                )
-            );
         } catch (APINotFoundException $e) {
             // avoid wrapping expected NotFoundException in BadStateException handled below
             $this->repository->rollback();
@@ -2598,6 +2591,14 @@ class ContentService implements ContentServiceInterface
             $this->repository->rollback();
             throw $e;
         }
+
+        // built after the try, the transaction is already committed and there is nothing to roll back
+        return $this->contentDomainMapper->buildContentDomainObject(
+            $spiContent,
+            $this->repository->getContentTypeService()->loadContentType(
+                $spiContent->versionInfo->contentInfo->contentTypeId
+            )
+        );
     }
 
     /**
