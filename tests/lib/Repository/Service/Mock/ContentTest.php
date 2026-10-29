@@ -3119,28 +3119,24 @@ class ContentTest extends BaseServiceMockTest
 
     public function testDeleteTranslationRollsBackAndRethrowsError(): void
     {
-        $error = new Error('Loading versions failed');
+        // not wrapped in BadStateException like exceptions are
+        $this->expectException(Error::class);
+        $this->expectExceptionMessage('Loading versions failed');
+
+        $contentInfo = new ContentInfo(['id' => 42, 'mainLanguageCode' => 'eng-GB']);
         $contentService = $this->getPartlyMockedContentService(['loadVersions']);
         $contentService
             ->expects(self::once())
             ->method('loadVersions')
-            ->willThrowException($error);
+            ->with($contentInfo)
+            ->willThrowException(new Error('Loading versions failed'));
 
         $repositoryMock = $this->getRepositoryMock();
         $repositoryMock->expects(self::once())->method('beginTransaction');
         $repositoryMock->expects(self::never())->method('commit');
         $repositoryMock->expects(self::once())->method('rollback');
 
-        try {
-            $contentService->deleteTranslation(
-                new ContentInfo(['id' => 42, 'mainLanguageCode' => 'eng-GB']),
-                'ger-DE'
-            );
-            self::fail('Error thrown while deleting the translation was not rethrown');
-        } catch (Error $e) {
-            // not wrapped in BadStateException like exceptions are
-            self::assertSame($error, $e);
-        }
+        $contentService->deleteTranslation($contentInfo, 'ger-DE');
     }
 
     public function testDeleteTranslationFromDraftDoesNotRollBackCommittedTransactionOnError(): void
