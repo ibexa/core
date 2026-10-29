@@ -69998,12 +69998,6 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/ContentTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\ContentTest\:\:testCreateContentWithRollback\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Service/Mock/ContentTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\ContentTest\:\:testDeleteContent\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1

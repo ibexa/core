@@ -62,6 +62,7 @@ use Ibexa\Core\Repository\Values\ContentType\FieldDefinitionCollection;
 use Ibexa\Core\Repository\Values\User\UserReference;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
 use PHPUnit\Framework\MockObject\MockObject;
+use Throwable;
 
 /**
  * Mock test case for Content service.
@@ -3059,12 +3060,13 @@ class ContentTest extends BaseServiceMockTest
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::getDefaultObjectStates
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent
      *
-     * @dataProvider providerForTestCreateContentThrowsContentValidationExceptionTranslation
+     * @dataProvider providerForTestCreateContentWithRollback
      */
-    public function testCreateContentWithRollback()
+    public function testCreateContentWithRollback(Throwable $throwable): void
     {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Store failed');
+        // expectExceptionObject() only accepts \Exception
+        $this->expectException(get_class($throwable));
+        $this->expectExceptionMessage($throwable->getMessage());
 
         $fieldDefinitions = [
             new FieldDefinition(
@@ -3100,53 +3102,19 @@ class ContentTest extends BaseServiceMockTest
         $contentHandlerMock->expects($this->once())
             ->method('create')
             ->with($this->anything())
-            ->will($this->throwException(new Exception('Store failed')));
+            ->willThrowException($throwable);
 
         // Execute
         $this->partlyMockedContentService->createContent($contentCreateStruct, []);
     }
 
-    public function testCreateContentWithRollbackOnError(): void
+    /**
+     * @return iterable<string, array{Throwable}>
+     */
+    public static function providerForTestCreateContentWithRollback(): iterable
     {
-        $this->expectException(Error::class);
-        $this->expectExceptionMessage('Store failed');
-
-        $fieldDefinitions = [
-            new FieldDefinition(
-                [
-                    'id' => 'fieldDefinitionId',
-                    'fieldTypeIdentifier' => 'fieldTypeIdentifier',
-                    'isTranslatable' => false,
-                    'identifier' => 'identifier',
-                    'isRequired' => false,
-                    'defaultValue' => new ValueStub('defaultValue'),
-                ]
-            ),
-        ];
-
-        $contentCreateStruct = $this->assertForTestCreateContentNonRedundantFieldSet(
-            'eng-US',
-            [],
-            [],
-            $fieldDefinitions,
-            [],
-            false,
-            // Do not execute test
-            false
-        );
-
-        $repositoryMock = $this->getRepositoryMock();
-        $repositoryMock->expects(self::never())->method('commit');
-        $repositoryMock->expects(self::once())->method('rollback');
-
-        $contentHandlerMock = $this->getPersistenceMock()->contentHandler();
-        self::assertInstanceOf(MockObject::class, $contentHandlerMock);
-        $contentHandlerMock->expects(self::once())
-            ->method('create')
-            ->with(self::anything())
-            ->willThrowException(new Error('Store failed'));
-
-        $this->partlyMockedContentService->createContent($contentCreateStruct, []);
+        yield 'exception' => [new Exception('Store failed')];
+        yield 'error' => [new Error('Store failed')];
     }
 
     public function testDeleteTranslationRollsBackAndRethrowsError(): void
