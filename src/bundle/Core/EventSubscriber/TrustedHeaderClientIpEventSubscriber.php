@@ -15,16 +15,6 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 final class TrustedHeaderClientIpEventSubscriber implements EventSubscriberInterface
 {
-    private const PLATFORM_SH_TRUSTED_HEADER_CLIENT_IP = 'X-Client-IP';
-
-    private ?string $trustedHeaderName;
-
-    public function __construct(
-        ?string $trustedHeaderName
-    ) {
-        $this->trustedHeaderName = $trustedHeaderName;
-    }
-
     public static function getSubscribedEvents(): array
     {
         return [
@@ -35,29 +25,16 @@ final class TrustedHeaderClientIpEventSubscriber implements EventSubscriberInter
     public function onKernelRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
-
-        $trustedProxies = Request::getTrustedProxies();
         $trustedHeaderSet = Request::getTrustedHeaderSet();
 
-        $trustedHeaderName = $this->trustedHeaderName;
-        if (null === $trustedHeaderName && $this->isPlatformShProxy($request)) {
-            $trustedHeaderName = self::PLATFORM_SH_TRUSTED_HEADER_CLIENT_IP;
-        }
-
-        if (null === $trustedHeaderName) {
+        // -1 means framework.trusted_proxies is not configured; passing it on would trust every forwarded header
+        if ($trustedHeaderSet === -1) {
             return;
         }
 
-        $trustedClientIp = $request->headers->get($trustedHeaderName);
-
-        if (null !== $trustedClientIp) {
-            if ($trustedHeaderSet !== -1) {
-                $trustedHeaderSet |= Request::HEADER_X_FORWARDED_FOR;
-            }
-            $request->headers->set('X_FORWARDED_FOR', $trustedClientIp);
+        if ($this->isPlatformShProxy($request) && $request->headers->get('Client-Cdn') === 'fastly') {
+            Request::setTrustedProxies(['REMOTE_ADDR'], $trustedHeaderSet);
         }
-
-        Request::setTrustedProxies($trustedProxies, $trustedHeaderSet);
     }
 
     private function isPlatformShProxy(Request $request): bool
