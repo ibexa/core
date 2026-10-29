@@ -24,6 +24,7 @@ use function sprintf;
  */
 abstract class BaseLocationCriterionQueryBuilder implements CriterionQueryBuilder
 {
+    private const string LOCATION_FILTERING_LOCATION_ALIAS = 'location';
     private const string CONTENT_FILTERING_LOCATION_ALIAS = 'filter_location';
 
     public function buildQueryConstraint(
@@ -31,7 +32,11 @@ abstract class BaseLocationCriterionQueryBuilder implements CriterionQueryBuilde
         FilteringCriterion $criterion
     ): ?string {
         if ($this->isLocationFilteringContext($queryBuilder)) {
-            return $this->buildLocationConstraint($queryBuilder, $criterion, 'location');
+            return $this->buildLocationConstraint(
+                $queryBuilder,
+                $criterion,
+                self::LOCATION_FILTERING_LOCATION_ALIAS
+            );
         }
 
         // Built as a plain string: DBAL 3 QueryBuilder::getSQL() requires a database platform,
@@ -57,7 +62,7 @@ abstract class BaseLocationCriterionQueryBuilder implements CriterionQueryBuilde
     {
         $fromParts = $queryBuilder->getQueryPart('from');
         foreach ($fromParts as $fromPart) {
-            if (($fromPart['alias'] ?? null) === 'location') {
+            if (($fromPart['alias'] ?? null) === self::LOCATION_FILTERING_LOCATION_ALIAS) {
                 return true;
             }
         }
