@@ -19,15 +19,14 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
 {
-    private const PLATFORM_SH_TRUSTED_HEADER_CLIENT_IP = 'X-Client-IP';
-
     private ?string $originalRemoteAddr;
-
-    private const PROXY_IP = '127.100.100.1';
 
     private const REAL_CLIENT_IP = '98.76.123.234';
 
-    private const CUSTOM_CLIENT_IP = '234.123.78.98';
+    // framework.trusted_headers default
+    private const TRUSTED_HEADER_SET = Request::HEADER_X_FORWARDED_FOR
+        | Request::HEADER_X_FORWARDED_PORT
+        | Request::HEADER_X_FORWARDED_PROTO;
 
     /**
      * @param array<mixed> $data
@@ -45,7 +44,7 @@ final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
     protected function setUp(): void
     {
         $_SERVER['REMOTE_ADDR'] = null;
-        Request::setTrustedProxies([], -1);
+        Request::setTrustedProxies([], self::TRUSTED_HEADER_SET);
     }
 
     protected function tearDown(): void
@@ -56,114 +55,78 @@ final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
     public function getTrustedHeaderEventSubscriberTestData(): array
     {
         return [
-            'default behaviour' => [
-                self::REAL_CLIENT_IP,
-                self::REAL_CLIENT_IP,
+            'request from random client received on non-Upsun platform' => [
+                false,
+                [],
+                [],
             ],
-            'use custom header name with valid value' => [
-                self::REAL_CLIENT_IP,
-                self::PROXY_IP,
-                'X-Custom-Header',
-                ['X-Custom-Header' => self::REAL_CLIENT_IP],
+            'request from random client, forging Client-Cdn received on non-Upsun platform' => [
+                false,
+                ['Client-Cdn' => 'fastly'],
+                [],
             ],
-            'use custom header name without valid value' => [
-                self::PROXY_IP,
-                self::PROXY_IP,
-                'X-Custom-Header',
-            ],
-            'use custom header value without custom header name' => [
-                self::PROXY_IP,
-                self::PROXY_IP,
-                null,
-                ['X-Custom-Header' => self::REAL_CLIENT_IP],
-            ],
-            'default platform.sh behaviour' => [
-                self::REAL_CLIENT_IP,
-                self::PROXY_IP,
-                null,
-                ['X-Client-IP' => self::REAL_CLIENT_IP],
+            'request from random client received on Upsun platform' => [
+                false,
+                [],
                 ['PLATFORM_RELATIONSHIPS' => true],
             ],
-            'use custom header name without valid value on platform.sh' => [
-                self::PROXY_IP,
-                self::PROXY_IP,
-                'X-Custom-Header',
-                [self::PLATFORM_SH_TRUSTED_HEADER_CLIENT_IP => self::REAL_CLIENT_IP],
-                ['PLATFORM_RELATIONSHIPS' => true],
-            ],
-            'use custom header with valid value on platform.sh' => [
-                self::CUSTOM_CLIENT_IP,
-                self::PROXY_IP,
-                'X-Custom-Header',
-                [
-                    self::PLATFORM_SH_TRUSTED_HEADER_CLIENT_IP => self::REAL_CLIENT_IP,
-                    'X-Custom-Header' => self::CUSTOM_CLIENT_IP,
-                ],
-                ['PLATFORM_RELATIONSHIPS' => true],
-            ],
-            'use valid value without custom header name on platform.sh' => [
-                self::REAL_CLIENT_IP,
-                self::PROXY_IP,
-                null,
-                [
-                    self::PLATFORM_SH_TRUSTED_HEADER_CLIENT_IP => self::REAL_CLIENT_IP,
-                    'X-Custom-Header' => self::CUSTOM_CLIENT_IP,
-                ],
+            'request via Fastly received on Upsun platform' => [
+                true,
+                ['Client-Cdn' => 'fastly'],
                 ['PLATFORM_RELATIONSHIPS' => true],
             ],
         ];
-    }
-
-    public function testTrustedHeaderEventSubscriberWithoutTrustedProxy(): void
-    {
-        $_SERVER['REMOTE_ADDR'] = self::PROXY_IP;
-
-        $eventDispatcher = new EventDispatcher();
-        $eventDispatcher->addSubscriber(
-            new TrustedHeaderClientIpEventSubscriber('X-Custom-Header')
-        );
-
-        $request = Request::create('/', 'GET', [], [], [], array_merge(
-            $_SERVER,
-            ['PLATFORM_RELATIONSHIPS' => true],
-        ));
-        $request->headers->add([
-            'X-Custom-Header' => self::REAL_CLIENT_IP,
-        ]);
-
-        $event = $eventDispatcher->dispatch(new RequestEvent(
-            self::createMock(KernelInterface::class),
-            $request,
-            HttpKernelInterface::MAIN_REQUEST
-        ), KernelEvents::REQUEST);
-
-        /** @var Request $request */
-        $request = $event->getRequest();
-
-        self::assertEquals(self::PROXY_IP, $request->getClientIp());
     }
 
     /**
      * @dataProvider getTrustedHeaderEventSubscriberTestData
      */
     public function testTrustedHeaderEventSubscriberWithTrustedProxy(
-        string $expectedIp,
-        string $remoteAddrIp,
-        ?string $trustedHeaderName = null,
+        bool $isFromTrustedProxy,
         array $headers = [],
         array $server = []
     ): void {
-        $_SERVER['REMOTE_ADDR'] = $remoteAddrIp;
-        Request::setTrustedProxies(['REMOTE_ADDR'], Request::getTrustedHeaderSet());
+        $request = $this->dispatchRequestEvent($headers, $server);
+
+        self::assertEquals($isFromTrustedProxy, $request->isFromTrustedProxy());
+        self::assertSame(self::TRUSTED_HEADER_SET, Request::getTrustedHeaderSet());
+    }
+
+    public function testTrustedHeaderEventSubscriberWithoutTrustedProxiesConfigured(): void
+    {
+        // framework.trusted_proxies not configured, so Symfony never sets a trusted header set
+        Request::setTrustedProxies([], -1);
+
+        $request = $this->dispatchRequestEvent(
+            [
+                'Client-Cdn' => 'fastly',
+                'X-Forwarded-Host' => 'forged.example.com',
+            ],
+            ['PLATFORM_RELATIONSHIPS' => true]
+        );
+
+        self::assertFalse($request->isFromTrustedProxy());
+        self::assertSame('localhost', $request->getHost());
+    }
+
+    /**
+     * @param array<string, string> $headers
+     * @param array<string, mixed> $server
+     */
+    private function dispatchRequestEvent(
+        array $headers,
+        array $server
+    ): Request {
+        $_SERVER['REMOTE_ADDR'] = self::REAL_CLIENT_IP;
 
         $eventDispatcher = new EventDispatcher();
         $eventDispatcher->addSubscriber(
-            new TrustedHeaderClientIpEventSubscriber($trustedHeaderName)
+            new TrustedHeaderClientIpEventSubscriber()
         );
 
         $request = Request::create('/', 'GET', [], [], [], array_merge(
             $server,
-            ['REMOTE_ADDR' => $remoteAddrIp],
+            ['REMOTE_ADDR' => self::REAL_CLIENT_IP],
         ));
         $request->headers->add($headers);
 
@@ -173,9 +136,6 @@ final class TrustedHeaderClientIpEventSubscriberTest extends TestCase
             HttpKernelInterface::MAIN_REQUEST
         ), KernelEvents::REQUEST);
 
-        /** @var Request $request */
-        $request = $event->getRequest();
-
-        self::assertEquals($expectedIp, $request->getClientIp());
+        return $event->getRequest();
     }
 }
