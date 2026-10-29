@@ -280,4 +280,58 @@ EOT;
             $actualFieldDefinition
         );
     }
+
+    /**
+     * @group fieldType
+     * @group relationlist
+     *
+     * @dataProvider provideDataForToFieldDefinitionWithoutAllowedClasses
+     */
+    public function testToFieldDefinitionWithoutAllowedClasses(string $dataText5): void
+    {
+        $storageFieldDefinition = new StorageFieldDefinition();
+        $storageFieldDefinition->dataText5 = $dataText5;
+
+        $actualFieldDefinition = new PersistenceFieldDefinition();
+
+        $this->converter->toFieldDefinition($storageFieldDefinition, $actualFieldDefinition);
+
+        self::assertEquals(
+            new FieldTypeConstraints(
+                [
+                    'fieldSettings' => [
+                        'selectionMethod' => Type::SELECTION_DROPDOWN,
+                        'selectionDefaultLocation' => 54321,
+                        'selectionContentTypes' => [],
+                    ],
+                    'validators' => [
+                        'RelationListValueValidator' => [
+                            'selectionLimit' => 3,
+                        ],
+                    ],
+                ]
+            ),
+            $actualFieldDefinition->fieldTypeConstraints
+        );
+    }
+
+    /**
+     * @return iterable<string, array{string}>
+     */
+    public static function provideDataForToFieldDefinitionWithoutAllowedClasses(): iterable
+    {
+        yield 'with empty constraints' => [
+            <<<EOT
+<?xml version="1.0" encoding="utf-8"?>
+<related-objects><constraints/><selection_type value="1"/><contentobject-placement node-id="54321"/><selection_limit value="3"/></related-objects>
+EOT,
+        ];
+
+        yield 'without constraints' => [
+            <<<EOT
+<?xml version="1.0" encoding="utf-8"?>
+<related-objects><selection_type value="1"/><contentobject-placement node-id="54321"/><selection_limit value="3"/></related-objects>
+EOT,
+        ];
+    }
 }
