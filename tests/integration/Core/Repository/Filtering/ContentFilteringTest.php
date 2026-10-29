@@ -566,6 +566,70 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
         );
     }
 
+    /**
+     * Location sort clauses use the main Location of a Content item, even if its secondary Location
+     * has a different depth.
+     *
+     * @dataProvider getDataForTestFindSortedByLocationDepth
+     *
+     * @param list<string> $expectedContentRemoteIds
+     *
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
+     */
+    public function testFindSortedByLocationDepth(
+        string $sortDirection,
+        array $expectedContentRemoteIds
+    ): void {
+        $this->contentProvider->createSharedContentStructure();
+        $filter = (new Filter())
+            ->withCriterion(new Criterion\RemoteId([
+                TestContentProvider::CONTENT_REMOTE_IDS['parent'],
+                TestContentProvider::CONTENT_REMOTE_IDS['folder1'],
+                TestContentProvider::CONTENT_REMOTE_IDS['folder2'],
+            ]))
+            ->withSortClause(new SortClause\Location\Depth($sortDirection))
+            ->withSortClause(new SortClause\ContentId(Query::SORT_ASC));
+        $contentList = $this->find($filter, []);
+
+        self::assertSame(
+            $expectedContentRemoteIds,
+            array_map(
+                static fn (Content $content): string => $content->getContentInfo()->remoteId,
+                iterator_to_array($contentList)
+            )
+        );
+        self::assertSame(count($expectedContentRemoteIds), $contentList->getTotalCount());
+    }
+
+    /**
+     * Main Locations: parent folder at depth 2, both nested folders at depth 3.
+     * The secondary Location of folder2 is at depth 2.
+     *
+     * @return iterable<string, array{string, list<string>}>
+     */
+    public function getDataForTestFindSortedByLocationDepth(): iterable
+    {
+        yield 'ascending' => [
+            Query::SORT_ASC,
+            [
+                TestContentProvider::CONTENT_REMOTE_IDS['parent'],
+                TestContentProvider::CONTENT_REMOTE_IDS['folder1'],
+                TestContentProvider::CONTENT_REMOTE_IDS['folder2'],
+            ],
+        ];
+
+        yield 'descending' => [
+            Query::SORT_DESC,
+            [
+                TestContentProvider::CONTENT_REMOTE_IDS['folder1'],
+                TestContentProvider::CONTENT_REMOTE_IDS['folder2'],
+                TestContentProvider::CONTENT_REMOTE_IDS['parent'],
+            ],
+        ];
+    }
+
     private static function getMainLocationId(Content $content): int
     {
         $mainLocationId = $content->getContentInfo()->getMainLocationId();
@@ -617,7 +681,7 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
             [TestContentProvider::CONTENT_REMOTE_IDS['folder1']],
         ];
 
-        yield 'Folders matched by their main and secondary Locations, sorted by Location depth' => [
+        yield 'Folders matched by several Locations, returned once, sorted by Content ID' => [
             static function (Content $parentFolder): Filter {
                 return (new Filter())
                     ->withCriterion(
@@ -627,7 +691,6 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
                         ])
                     )
                     ->andWithCriterion(self::buildNestedFoldersCriterion())
-                    ->withSortClause(new SortClause\Location\Depth(Query::SORT_ASC))
                     ->withSortClause(new SortClause\ContentId(Query::SORT_ASC));
             },
             [
