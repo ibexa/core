@@ -16,8 +16,9 @@ use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ParentLocationId;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordValidationContext;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
@@ -406,40 +407,43 @@ interface UserService
     ): iterable;
 
     /**
-     * Finds users matching the given content query, using the search engine.
+     * Finds users matching the given filter, using Location filtering ({@see LocationService::find()}).
      *
-     * The query filter is limited to the user content types, and the content ID is added as the last sort clause.
-     * The count is always performed, regardless of {@see Query::$performCount}.
-     * Only users the current user is allowed to read are returned and counted.
-     * Without a query, the first 25 users sorted by ID are returned.
+     * Each user is matched through exactly one of its Locations: the Location directly under the main Location of
+     * the given user group (its direct members, also those assigned through a secondary Location), or the main
+     * Location without a user group. Location criteria of the filter and the `content/read` permission are evaluated
+     * on that Location, so each user is returned and counted once.
+     *
+     * The filter is limited to the user content types, and the content ID is added as the last sort clause.
+     * Only users the current user is allowed to read are returned and counted. A user group without a main Location
+     * has no members. As in {@see LocationService::find()}, a filter limit of 0 means no limit.
      *
      * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned
      *                                       objects. Users not available in any of them (and not always available)
      *                                       are neither returned nor counted.
-     *
-     * @throws InvalidArgumentException if the query is not supported by the search engine
      */
     public function findUsers(
-        ?Query $query = null,
+        Filter $filter,
+        ?UserGroup $userGroup = null,
         array $prioritizedLanguages = []
     ): UserList;
 
     /**
-     * Finds user groups matching the given content query, using the search engine.
+     * Finds user groups matching the given filter, using content filtering ({@see ContentService::find()}).
      *
-     * The query filter is limited to the user group content type, and the content ID is added as the last sort clause.
-     * The count is always performed, regardless of {@see Query::$performCount}.
+     * Location criteria of the filter are evaluated on the main Location of a user group, so e.g. {@see ParentLocationId}
+     * with the main Location of a user group matches its subgroups, consistently with {@see UserGroup::$parentId}.
+     *
+     * The filter is limited to the user group content type, and the content ID is added as the last sort clause.
      * Only user groups the current user is allowed to read are returned and counted.
-     * Without a query, the first 25 user groups sorted by ID are returned.
+     * As in {@see ContentService::find()}, a filter limit of 0 means no limit.
      *
      * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned
      *                                       objects. User groups not available in any of them (and not always
      *                                       available) are neither returned nor counted.
-     *
-     * @throws InvalidArgumentException if the query is not supported by the search engine
      */
     public function findUserGroups(
-        ?Query $query = null,
+        Filter $filter,
         array $prioritizedLanguages = []
     ): UserGroupList;
 

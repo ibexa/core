@@ -25,22 +25,21 @@ use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\UserService as UserServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
-use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeId as CriterionContentTypeId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier as CriterionContentTypeIdentifier;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Location\IsMainLocation as CriterionIsMainLocation;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LocationId as CriterionLocationId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd as CriterionLogicalAnd;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ParentLocationId as CriterionParentLocationId;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\ContentId as SortClauseContentId;
-use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
+use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordValidationContext;
 use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
@@ -1137,76 +1136,79 @@ class UserService implements UserServiceInterface
     }
 
     public function findUsers(
-        ?Query $query = null,
+        Filter $filter,
+        ?APIUserGroup $userGroup = null,
         array $prioritizedLanguages = []
     ): UserList {
-        $searchResult = $this->findContentInfo(
-            $query,
-            new CriterionContentTypeIdentifier($this->getUserContentTypeIdentifiers()),
-            $prioritizedLanguages
+        if ($userGroup === null) {
+            // the main Location only, so each user is matched once
+            $locationCriterion = new CriterionIsMainLocation(CriterionIsMainLocation::MAIN);
+        } else {
+            $mainLocationId = $userGroup->getVersionInfo()->getContentInfo()->getMainLocationId();
+            if ($mainLocationId === null) {
+                return new UserList(0, []);
+            }
+
+            // a content item can't have two Locations under the same parent, so each member is matched once
+            $locationCriterion = new CriterionParentLocationId($mainLocationId);
+        }
+
+        $locationList = $this->repository->getLocationService()->find(
+            $this->buildFindFilter(
+                $filter,
+                new CriterionContentTypeIdentifier($this->getUserContentTypeIdentifiers()),
+                $locationCriterion,
+            ),
+            $prioritizedLanguages !== [] ? $prioritizedLanguages : null
         );
 
         return new UserList(
-            $searchResult->totalCount ?? 0,
+            $locationList->getTotalCount(),
             array_map(
-                fn (SearchHit $searchHit): APIUser => $this->loadUser(
-                    $searchHit->valueObject->getId(),
+                fn (Location $location): APIUser => $this->loadUser(
+                    $location->getContentInfo()->getId(),
                     $prioritizedLanguages
                 ),
-                $searchResult->searchHits,
+                iterator_to_array($locationList, false),
             ),
         );
     }
 
     public function findUserGroups(
-        ?Query $query = null,
+        Filter $filter,
         array $prioritizedLanguages = []
     ): UserGroupList {
-        $searchResult = $this->findContentInfo(
-            $query,
-            new CriterionContentTypeId((int)$this->settings['userGroupClassID']),
-            $prioritizedLanguages
+        $contentList = $this->repository->getContentService()->find(
+            $this->buildFindFilter(
+                $filter,
+                new CriterionContentTypeId((int)$this->settings['userGroupClassID']),
+            ),
+            $prioritizedLanguages !== [] ? $prioritizedLanguages : null
         );
 
         return new UserGroupList(
-            $searchResult->totalCount ?? 0,
+            $contentList->getTotalCount(),
             array_map(
-                fn (SearchHit $searchHit): APIUserGroup => $this->loadUserGroup(
-                    $searchHit->valueObject->getId(),
-                    $prioritizedLanguages
-                ),
-                $searchResult->searchHits,
+                $this->buildDomainUserGroupObject(...),
+                iterator_to_array($contentList, false),
             ),
         );
     }
 
     /**
-     * Searches content of the given content type(s) matching the query, sorted with the content ID as the last
-     * sort clause, so the order is always deterministic. The count is always performed, so the lists can report
-     * their total count.
-     *
-     * @param string[] $prioritizedLanguages
-     *
-     * @return SearchResult<ContentInfo>
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     * Returns a copy of the filter with the given criteria added, sorted with the content ID as the last sort clause,
+     * so the order is always deterministic.
      */
-    private function findContentInfo(
-        ?Query $query,
-        CriterionInterface $contentTypeCriterion,
-        array $prioritizedLanguages
-    ): SearchResult {
-        $query = $query !== null ? clone $query : new Query();
-        $query->filter = $query->filter !== null
-            ? new CriterionLogicalAnd([$contentTypeCriterion, $query->filter])
-            : $contentTypeCriterion;
-        $query->sortClauses[] = new SortClauseContentId();
-        $query->performCount = true;
+    private function buildFindFilter(
+        Filter $filter,
+        FilteringCriterion ...$criteria
+    ): Filter {
+        $filter = clone $filter;
+        foreach ($criteria as $criterion) {
+            $filter->andWithCriterion($criterion);
+        }
 
-        return $this->repository->getSearchService()->findContentInfo(
-            $query,
-            ['languages' => $prioritizedLanguages, 'useAlwaysAvailable' => true]
-        );
+        return $filter->withSortClause(new SortClauseContentId());
     }
 
     /**

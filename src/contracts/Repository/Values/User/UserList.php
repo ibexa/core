@@ -31,7 +31,7 @@ final readonly class UserList implements IteratorAggregate, TotalCountAwareInter
     ) {}
 
     /**
-     * Returns the total number of users matching the query (and readable by the current user), regardless of offset and limit.
+     * Returns the total number of users matching the filter (and readable by the current user), regardless of offset and limit.
      *
      * @phpstan-return int<0, max>
      */

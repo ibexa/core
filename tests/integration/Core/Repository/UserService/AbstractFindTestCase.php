@@ -65,26 +65,27 @@ abstract class AbstractFindTestCase extends RepositoryTestCase
     }
 
     /**
-     * Logs in a new user (assigned to the main "Users" group) allowed to read content in the subtree of "groupA" only.
+     * Logs in a new user (assigned to the main "Users" group) allowed to read content in the subtree of the given
+     * user group only.
      */
-    protected function loginAsUserLimitedToGroupASubtree(): void
+    protected function loginAsUserLimitedToSubtreeOf(string $userGroupAlias): void
     {
         $roleService = $this->getIbexaTestCore()->getRoleService();
         $locationService = $this->getIbexaTestCore()->getLocationService();
 
-        $roleCreateStruct = $roleService->newRoleCreateStruct('read_group_a_subtree');
+        $roleCreateStruct = $roleService->newRoleCreateStruct('read_' . $userGroupAlias . '_subtree');
         $roleCreateStruct->addPolicy($roleService->newPolicyCreateStruct('content', 'read'));
         $roleDraft = $roleService->createRole($roleCreateStruct);
         $roleService->publishRoleDraft($roleDraft);
         $role = $roleService->loadRole($roleDraft->id);
 
-        $groupALocation = $locationService->loadLocation($this->mainLocationIds['groupA']);
+        $userGroupLocation = $locationService->loadLocation($this->mainLocationIds[$userGroupAlias]);
 
         $restrictedUser = $this->createUser('restricted', 'Restricted', 'User');
         $roleService->assignRoleToUser(
             $role,
             $restrictedUser,
-            new SubtreeLimitation(['limitationValues' => [$groupALocation->getPathString()]])
+            new SubtreeLimitation(['limitationValues' => [$userGroupLocation->getPathString()]])
         );
 
         $this->getIbexaTestCore()->getPermissionResolver()->setCurrentUserReference($restrictedUser);

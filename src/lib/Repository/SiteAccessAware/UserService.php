@@ -11,8 +11,8 @@ namespace Ibexa\Core\Repository\SiteAccessAware;
 use Ibexa\Contracts\Core\Repository\LanguageResolver;
 use Ibexa\Contracts\Core\Repository\UserService as UserServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordValidationContext;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
@@ -214,21 +214,23 @@ class UserService implements UserServiceInterface
     }
 
     public function findUsers(
-        ?Query $query = null,
+        Filter $filter,
+        ?UserGroup $userGroup = null,
         ?array $prioritizedLanguages = null
     ): UserList {
         return $this->service->findUsers(
-            $query,
+            $filter,
+            $userGroup,
             $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages)
         );
     }
 
     public function findUserGroups(
-        ?Query $query = null,
+        Filter $filter,
         ?array $prioritizedLanguages = null
     ): UserGroupList {
         return $this->service->findUserGroups(
-            $query,
+            $filter,
             $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages)
         );
     }

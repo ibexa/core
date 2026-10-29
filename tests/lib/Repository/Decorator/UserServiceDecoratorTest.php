@@ -11,10 +11,10 @@ namespace Ibexa\Tests\Core\Repository\Decorator;
 use Ibexa\Contracts\Core\Repository\Decorator\UserServiceDecorator;
 use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ParentLocationId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\UserLogin;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordValidationContext;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\UserCreateStruct;
@@ -379,17 +379,18 @@ class UserServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $query = new Query(['filter' => new UserLogin('admin')]);
+        $filter = new Filter(new UserLogin('admin'));
+        $userGroup = self::createStub(UserGroup::class);
         $languages = [self::EXAMPLE_LANGUAGE_CODE];
         $userList = new UserList(1, [self::createStub(User::class)]);
 
         $serviceMock
             ->expects(self::once())
             ->method('findUsers')
-            ->with($query, $languages)
+            ->with($filter, $userGroup, $languages)
             ->willReturn($userList);
 
-        self::assertSame($userList, $decoratedService->findUsers($query, $languages));
+        self::assertSame($userList, $decoratedService->findUsers($filter, $userGroup, $languages));
     }
 
     public function testFindUserGroupsDecorator(): void
@@ -397,17 +398,17 @@ class UserServiceDecoratorTest extends TestCase
         $serviceMock = $this->createServiceMock();
         $decoratedService = $this->createDecorator($serviceMock);
 
-        $query = new Query(['filter' => new ParentLocationId(self::EXAMPLE_USER_GROUP_ID)]);
+        $filter = new Filter(new ParentLocationId(self::EXAMPLE_USER_GROUP_ID));
         $languages = [self::EXAMPLE_LANGUAGE_CODE];
         $userGroupList = new UserGroupList(1, [self::createStub(UserGroup::class)]);
 
         $serviceMock
             ->expects(self::once())
             ->method('findUserGroups')
-            ->with($query, $languages)
+            ->with($filter, $languages)
             ->willReturn($userGroupList);
 
-        self::assertSame($userGroupList, $decoratedService->findUserGroups($query, $languages));
+        self::assertSame($userGroupList, $decoratedService->findUserGroups($filter, $languages));
     }
 
     public function testIsUserDecorator()

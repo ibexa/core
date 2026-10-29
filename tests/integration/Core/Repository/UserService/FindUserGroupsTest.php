@@ -11,8 +11,9 @@ namespace Ibexa\Tests\Integration\Core\Repository\UserService;
 use Closure;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
+use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
+use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroupList;
 
@@ -25,9 +26,9 @@ final class FindUserGroupsTest extends AbstractFindTestCase
     private const CREATED_USER_GROUPS = ['groupA', 'groupA1', 'groupA2', 'groupB'];
     private const MAIN_USER_GROUP_LOCATION_ID = 5;
 
-    public function testFindUserGroupsWithoutQueryReturnsAllUserGroupsSortedById(): void
+    public function testFindUserGroupsWithoutCriterionReturnsAllUserGroupsSortedById(): void
     {
-        $userGroupList = $this->getIbexaTestCore()->getUserService()->findUserGroups();
+        $userGroupList = $this->getIbexaTestCore()->getUserService()->findUserGroups(new Filter());
 
         $expectedIds = [...self::FIXTURE_USER_GROUP_IDS, ...$this->getIds(self::CREATED_USER_GROUPS)];
         sort($expectedIds);
@@ -38,17 +39,17 @@ final class FindUserGroupsTest extends AbstractFindTestCase
     }
 
     /**
-     * @param Closure(array<string, int>, array<string, int>): CriterionInterface $filterFactory
+     * @param Closure(array<string, int>, array<string, int>): FilteringCriterion $criterionFactory
      * @param list<string> $expectedAliases
      *
-     * @dataProvider provideForTestFindUserGroupsByFilter
+     * @dataProvider provideForTestFindUserGroupsByCriterion
      */
-    public function testFindUserGroupsByFilter(
-        Closure $filterFactory,
+    public function testFindUserGroupsByCriterion(
+        Closure $criterionFactory,
         array $expectedAliases
     ): void {
         $userGroupList = $this->getIbexaTestCore()->getUserService()->findUserGroups(
-            new Query(['filter' => $filterFactory($this->ids, $this->mainLocationIds)])
+            new Filter($criterionFactory($this->ids, $this->mainLocationIds))
         );
 
         $expectedIds = $this->getIds($expectedAliases);
@@ -59,31 +60,36 @@ final class FindUserGroupsTest extends AbstractFindTestCase
     }
 
     /**
-     * @return iterable<string, array{Closure(array<string, int>, array<string, int>): CriterionInterface, list<string>}>
+     * @return iterable<string, array{Closure(array<string, int>, array<string, int>): FilteringCriterion, list<string>}>
      */
-    public static function provideForTestFindUserGroupsByFilter(): iterable
+    public static function provideForTestFindUserGroupsByCriterion(): iterable
     {
         yield 'content id of a user' => [
-            static fn (array $ids): CriterionInterface => new Criterion\ContentId($ids['alice']),
+            static fn (array $ids): FilteringCriterion => new Criterion\ContentId($ids['alice']),
             [],
         ];
 
         yield 'parent Location of a user group with users and sub-groups' => [
-            static fn (array $ids, array $locationIds): CriterionInterface => new Criterion\ParentLocationId(
+            static fn (array $ids, array $locationIds): FilteringCriterion => new Criterion\ParentLocationId(
                 $locationIds['groupA']
             ),
             ['groupA1', 'groupA2'],
         ];
 
         yield 'parent Location of a user group with no sub-groups' => [
-            static fn (array $ids, array $locationIds): CriterionInterface => new Criterion\ParentLocationId(
+            static fn (array $ids, array $locationIds): FilteringCriterion => new Criterion\ParentLocationId(
                 $locationIds['groupB']
             ),
             [],
         ];
 
+        yield 'content ids of user groups (the user groups of a user)' => [
+            static fn (array $ids): FilteringCriterion => new Criterion\ContentId([$ids['groupA'], $ids['groupB']]),
+            ['groupA', 'groupB'],
+        ];
+
         yield 'Locations of user groups' => [
-            static fn (array $ids, array $locationIds): CriterionInterface => new Criterion\LocationId([
+            static fn (array $ids, array $locationIds): FilteringCriterion => new Criterion\LocationId([
                 $locationIds['groupA'],
                 $locationIds['groupB'],
                 $locationIds['alice'],
@@ -92,7 +98,7 @@ final class FindUserGroupsTest extends AbstractFindTestCase
         ];
 
         yield 'parent Location and Locations' => [
-            static fn (array $ids, array $locationIds): CriterionInterface => new Criterion\LogicalAnd([
+            static fn (array $ids, array $locationIds): FilteringCriterion => new Criterion\LogicalAnd([
                 new Criterion\ParentLocationId(self::MAIN_USER_GROUP_LOCATION_ID),
                 new Criterion\LocationId([$locationIds['groupA'], $locationIds['groupA1']]),
             ]),
@@ -110,11 +116,10 @@ final class FindUserGroupsTest extends AbstractFindTestCase
         int $limit,
         array $expectedAliases
     ): void {
-        $userGroupList = $this->getIbexaTestCore()->getUserService()->findUserGroups(new Query([
-            'filter' => new Criterion\ContentId($this->getIds(self::CREATED_USER_GROUPS)),
-            'offset' => $offset,
-            'limit' => $limit,
-        ]));
+        $filter = new Filter(new Criterion\ContentId($this->getIds(self::CREATED_USER_GROUPS)));
+        $filter->sliceBy($limit, $offset);
+
+        $userGroupList = $this->getIbexaTestCore()->getUserService()->findUserGroups($filter);
 
         self::assertSame($this->getIds($expectedAliases), $this->extractIds($userGroupList));
         self::assertSame(4, $userGroupList->getTotalCount());
@@ -128,7 +133,7 @@ final class FindUserGroupsTest extends AbstractFindTestCase
         yield 'first page' => [0, 3, ['groupA', 'groupA1', 'groupA2']];
         yield 'last page' => [3, 3, ['groupB']];
         yield 'offset past the end' => [10, 3, []];
-        yield 'count only' => [0, 0, []];
+        yield 'no limit' => [0, 0, self::CREATED_USER_GROUPS];
     }
 
     /**
@@ -137,10 +142,10 @@ final class FindUserGroupsTest extends AbstractFindTestCase
      */
     public function testSortByContentId(string $direction): void
     {
-        $userGroupList = $this->getIbexaTestCore()->getUserService()->findUserGroups(new Query([
-            'filter' => new Criterion\ParentLocationId(self::MAIN_USER_GROUP_LOCATION_ID),
-            'sortClauses' => [new SortClause\ContentId($direction)],
-        ]));
+        $userGroupList = $this->getIbexaTestCore()->getUserService()->findUserGroups(new Filter(
+            new Criterion\ParentLocationId(self::MAIN_USER_GROUP_LOCATION_ID),
+            [new SortClause\ContentId($direction)]
+        ));
 
         $expectedIds = [11, self::ADMINISTRATOR_USERS_GROUP_ID, 13, 42, 59, ...$this->getIds(['groupA', 'groupB'])];
         sort($expectedIds);
@@ -152,23 +157,11 @@ final class FindUserGroupsTest extends AbstractFindTestCase
         self::assertSame(count($expectedIds), $userGroupList->getTotalCount());
     }
 
-    public function testFindUserGroupsAlwaysPerformsCount(): void
-    {
-        $userGroupList = $this->getIbexaTestCore()->getUserService()->findUserGroups(new Query([
-            'filter' => new Criterion\ContentId($this->getIds(self::CREATED_USER_GROUPS)),
-            'limit' => 1,
-            'performCount' => false,
-        ]));
-
-        self::assertSame($this->getIds(['groupA']), $this->extractIds($userGroupList));
-        self::assertSame(4, $userGroupList->getTotalCount());
-    }
-
     public function testFindUserGroupsReturnsOnlyReadableUserGroups(): void
     {
-        $this->loginAsUserLimitedToGroupASubtree();
+        $this->loginAsUserLimitedToSubtreeOf('groupA');
 
-        $userGroupList = $this->getIbexaTestCore()->getUserService()->findUserGroups();
+        $userGroupList = $this->getIbexaTestCore()->getUserService()->findUserGroups(new Filter());
 
         self::assertSame($this->getIds(['groupA', 'groupA1', 'groupA2']), $this->extractIds($userGroupList));
         self::assertSame(3, $userGroupList->getTotalCount());

@@ -10,8 +10,8 @@ namespace Ibexa\Contracts\Core\Repository\Decorator;
 
 use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordValidationContext;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
@@ -196,17 +196,18 @@ abstract class UserServiceDecorator implements UserService
     }
 
     public function findUsers(
-        ?Query $query = null,
+        Filter $filter,
+        ?UserGroup $userGroup = null,
         array $prioritizedLanguages = []
     ): UserList {
-        return $this->innerService->findUsers($query, $prioritizedLanguages);
+        return $this->innerService->findUsers($filter, $userGroup, $prioritizedLanguages);
     }
 
     public function findUserGroups(
-        ?Query $query = null,
+        Filter $filter,
         array $prioritizedLanguages = []
     ): UserGroupList {
-        return $this->innerService->findUserGroups($query, $prioritizedLanguages);
+        return $this->innerService->findUserGroups($filter, $prioritizedLanguages);
     }
 
     public function isUser(Content $content): bool
