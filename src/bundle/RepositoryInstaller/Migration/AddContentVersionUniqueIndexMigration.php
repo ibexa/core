@@ -10,9 +10,9 @@ namespace Ibexa\Bundle\RepositoryInstaller\Migration;
 
 use DateTimeImmutable;
 use Doctrine\DBAL\Schema\Schema;
-use Ibexa\Contracts\DoctrineMigrations\Migrations\AbstractSqlMigration;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationInterface;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
+use Ibexa\InternalContracts\DoctrineMigrations\Migrations\AbstractSqlMigration;
 
 /**
  * Core's part of the 5.0 to 6.0 schema change (IBX-12078), converted from ibexa/installer's
