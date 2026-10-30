@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Integration\Core\Repository;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SectionLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 
 /**
@@ -100,6 +101,54 @@ class UserServiceAuthorizationTest extends BaseTest
         // This call will fail with an "UnauthorizedException"
         $userService->loadSubUserGroups($userGroup);
         /* END: Use Case */
+    }
+
+    /**
+     * Test for the loadSubUserGroups() method.
+     *
+     * @covers \Ibexa\Contracts\Core\Repository\UserService::loadSubUserGroups()
+     *
+     * @depends Ibexa\Tests\Integration\Core\Repository\UserServiceTest::testLoadSubUserGroups
+     */
+    public function testLoadSubUserGroupsSkipsSubGroupsUserCannotRead(): void
+    {
+        $repository = $this->getRepository();
+        $userService = $repository->getUserService();
+        $sectionService = $repository->getSectionService();
+
+        $sectionCreateStruct = $sectionService->newSectionCreateStruct();
+        $sectionCreateStruct->identifier = 'restricted_user_groups';
+        $sectionCreateStruct->name = 'Restricted user groups';
+        $restrictedSection = $sectionService->createSection($sectionCreateStruct);
+
+        $parentGroup = $this->createUserGroup('Parent', $userService->loadUserGroup(4));
+        $this->createUserGroup('Readable', $parentGroup);
+        $restrictedGroup = $this->createUserGroup('Restricted', $parentGroup);
+        $sectionService->assignSection($restrictedGroup->contentInfo, $restrictedSection);
+
+        $user = $this->createUserWithPolicies(
+            'users_section_reader',
+            [
+                [
+                    'module' => 'content',
+                    'function' => 'read',
+                    'limitations' => [
+                        new SectionLimitation([
+                            'limitationValues' => [$sectionService->loadSectionByIdentifier('users')->id],
+                        ]),
+                    ],
+                ],
+            ]
+        );
+        $this->refreshSearch($repository);
+        $repository->getPermissionResolver()->setCurrentUserReference($user);
+
+        $subUserGroupNames = [];
+        foreach ($userService->loadSubUserGroups($userService->loadUserGroup($parentGroup->id)) as $subUserGroup) {
+            $subUserGroupNames[] = $subUserGroup->contentInfo->name;
+        }
+
+        self::assertSame(['Readable'], $subUserGroupNames);
     }
 
     /**
@@ -521,6 +570,18 @@ class UserServiceAuthorizationTest extends BaseTest
         /* END: Inline */
 
         return $userGroup;
+    }
+
+    private function createUserGroup(
+        string $name,
+        UserGroup $parentUserGroup
+    ): UserGroup {
+        $userService = $this->getRepository()->getUserService();
+
+        $userGroupCreate = $userService->newUserGroupCreateStruct('eng-GB');
+        $userGroupCreate->setField('name', $name);
+
+        return $userService->createUserGroup($userGroupCreate, $parentUserGroup);
     }
 }
 
