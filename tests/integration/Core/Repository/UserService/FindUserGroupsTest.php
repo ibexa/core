@@ -16,7 +16,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
-use Ibexa\Contracts\Core\Repository\Values\User\UserGroupList;
 
 /**
  * @covers \Ibexa\Contracts\Core\Repository\UserService::findUserGroups
@@ -237,17 +236,6 @@ final class FindUserGroupsTest extends AbstractFindTestCase
         return $userService->createUserGroup(
             $userGroupCreateStruct,
             $userService->loadUserGroup($this->ids['groupB'])
-        );
-    }
-
-    /**
-     * @return list<int>
-     */
-    private function extractIds(UserGroupList $userGroupList): array
-    {
-        return array_map(
-            static fn (UserGroup $userGroup): int => $userGroup->getId(),
-            $userGroupList->getUserGroups()
         );
     }
 }

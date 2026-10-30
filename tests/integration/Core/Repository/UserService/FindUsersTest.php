@@ -18,7 +18,6 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
-use Ibexa\Contracts\Core\Repository\Values\User\UserList;
 
 /**
  * @covers \Ibexa\Contracts\Core\Repository\UserService::findUsers
@@ -377,13 +376,5 @@ final class FindUsersTest extends AbstractFindTestCase
     private function loadUserGroup(string $alias): UserGroup
     {
         return $this->getIbexaTestCore()->getUserService()->loadUserGroup($this->ids[$alias]);
-    }
-
-    /**
-     * @return list<int>
-     */
-    private function extractIds(UserList $userList): array
-    {
-        return array_map(static fn (User $user): int => $user->getId(), $userList->getUsers());
     }
 }

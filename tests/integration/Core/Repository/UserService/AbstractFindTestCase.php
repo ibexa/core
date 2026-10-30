@@ -11,6 +11,8 @@ namespace Ibexa\Tests\Integration\Core\Repository\UserService;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\SubtreeLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
+use Ibexa\Contracts\Core\Repository\Values\User\UserGroupList;
+use Ibexa\Contracts\Core\Repository\Values\User\UserList;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 
 /**
@@ -64,6 +66,17 @@ abstract class AbstractFindTestCase extends RepositoryTestCase
     protected function getIds(array $aliases): array
     {
         return array_map(fn (string $alias): int => $this->ids[$alias], $aliases);
+    }
+
+    /**
+     * @return list<int>
+     */
+    protected function extractIds(UserList | UserGroupList $list): array
+    {
+        return array_map(
+            static fn (User | UserGroup $item): int => $item->getId(),
+            iterator_to_array($list, false)
+        );
     }
 
     /**
