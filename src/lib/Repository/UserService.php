@@ -1183,7 +1183,7 @@ class UserService implements UserServiceInterface
         $contentList = $this->repository->getContentService()->find(
             $this->buildFindFilter(
                 $filter,
-                new CriterionContentTypeId((int)$this->settings['userGroupClassID']),
+                new CriterionContentTypeId($this->settings['userGroupClassID']),
                 // requires a Location, so trashed user groups are excluded
                 new CriterionIsMainLocation(CriterionIsMainLocation::MAIN),
             ),
