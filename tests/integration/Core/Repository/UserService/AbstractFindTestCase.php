@@ -21,7 +21,8 @@ use Ibexa\Tests\Integration\Core\RepositoryTestCase;
  *   - group "groupA2"
  * - group "groupB": users "bob", "carol"
  *
- * Users "bob" and "carol" have their main Location in "groupA" and "groupB" respectively.
+ * Users "bob" and "carol" have their main Location in "groupA" and "groupB" respectively. "bob" is assigned to "groupB"
+ * after "carol" is created, so in "groupB" the Location order differs from the content ID order.
  */
 abstract class AbstractFindTestCase extends RepositoryTestCase
 {
@@ -47,11 +48,12 @@ abstract class AbstractFindTestCase extends RepositoryTestCase
         $this->createUserGroupWithAlias('groupA2', $groupA);
         $groupB = $this->createUserGroupWithAlias('groupB', $mainGroup);
 
-        $this->createUserWithAlias('alice', [$groupA]);
-        $this->createUserWithAlias('bob', [$groupA, $groupB]);
-        $this->createUserWithAlias('carol', [$groupB]);
-        $this->createUserWithAlias('dave', [$groupA]);
-        $this->createUserWithAlias('erin', [$groupA1]);
+        $this->createUserWithAlias('alice', $groupA);
+        $bob = $this->createUserWithAlias('bob', $groupA);
+        $this->createUserWithAlias('carol', $groupB);
+        $userService->assignUserToUserGroup($bob, $groupB);
+        $this->createUserWithAlias('dave', $groupA);
+        $this->createUserWithAlias('erin', $groupA1);
     }
 
     /**
@@ -107,19 +109,11 @@ abstract class AbstractFindTestCase extends RepositoryTestCase
         return $userGroup;
     }
 
-    /**
-     * @param non-empty-list<UserGroup> $userGroups
-     */
     private function createUserWithAlias(
         string $alias,
-        array $userGroups
+        UserGroup $userGroup
     ): User {
-        $userService = $this->getIbexaTestCore()->getUserService();
-
-        $user = $this->createUser($alias, ucfirst($alias), 'Doe', $userGroups[0]);
-        foreach (array_slice($userGroups, 1) as $userGroup) {
-            $userService->assignUserToUserGroup($user, $userGroup);
-        }
+        $user = $this->createUser($alias, ucfirst($alias), 'Doe', $userGroup);
 
         $this->ids[$alias] = $user->getId();
         $this->mainLocationIds[$alias] = $user->getVersionInfo()->getContentInfo()->getMainLocationId() ?? 0;

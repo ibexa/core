@@ -230,16 +230,14 @@ final class FindUsersTest extends AbstractFindTestCase
 
     public function testContentIdIsTheTieBreakOfTheGivenSortClauses(): void
     {
-        // all the created users are in the same Section, so the order is decided by the content ID
-        $userList = $this->getIbexaTestCore()->getUserService()->findUsers(new Filter(
-            new Criterion\UserLogin(self::CREATED_USERS),
-            [new SortClause\SectionIdentifier()]
-        ));
+        // both users are in the same Section, so the order is decided by the content ID, although in "groupB" the
+        // Location of "bob" was created after the one of "carol"
+        $userList = $this->getIbexaTestCore()->getUserService()->findUsers(
+            new Filter(null, [new SortClause\SectionIdentifier()]),
+            $this->loadUserGroup('groupB')
+        );
 
-        $expectedIds = $this->getIds(self::CREATED_USERS);
-        sort($expectedIds);
-
-        self::assertSame($expectedIds, $this->extractIds($userList));
+        self::assertSame($this->getIds(['bob', 'carol']), $this->extractIds($userList));
     }
 
     public function testFindUsersDoesNotChangeTheGivenFilter(): void
