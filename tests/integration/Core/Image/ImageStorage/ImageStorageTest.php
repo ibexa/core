@@ -17,16 +17,22 @@ use Ibexa\Core\FieldType\Image\AliasCleanerInterface;
 use Ibexa\Core\FieldType\Image\ImageStorage;
 use Ibexa\Core\FieldType\Image\ImageStorage\Gateway;
 use Ibexa\Core\FieldType\Image\ImageStorage\Gateway\DoctrineStorage;
+use Ibexa\Core\FieldType\Image\IO\Legacy as LegacyImageIOService;
 use Ibexa\Core\FieldType\Image\PathGenerator;
+use Ibexa\Core\FieldType\Image\PathGenerator\LegacyPathGenerator;
 use Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator;
 use Ibexa\Core\IO\Exception\InvalidBinaryFileIdException;
+use Ibexa\Core\IO\FilePathNormalizer\Flysystem;
 use Ibexa\Core\IO\FilePathNormalizerInterface;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\MetadataHandler;
+use Ibexa\Core\IO\UrlRedecorator;
 use Ibexa\Core\IO\UrlRedecoratorInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
+use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
 use Ibexa\Tests\Integration\Core\BaseCoreFieldTypeIntegrationTest;
+use League\Flysystem\WhitespacePathNormalizer;
 use PHPUnit\Framework\MockObject\MockObject;
 
 final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTest
@@ -248,6 +254,180 @@ final class ImageStorageTest extends BaseCoreFieldTypeIntegrationTest
         $this->storage->storeFieldData($versionInfo, $field, $this->getContext());
 
         self::assertSame(1, $this->gateway->countImageReferences($binaryFile->uri));
+    }
+
+    /**
+     * @dataProvider providerOfFieldData
+     */
+    public function testStoreFieldDataWithEditedImageWithinSameVersionChangesPath(
+        VersionInfo $versionInfo,
+        Field $field
+    ): void {
+        $storage = $this->createImageStorageOnCleanDatabase();
+
+        $initialImage = $this->storeImage($storage, $versionInfo, $field);
+        $this->replaceImage($field, __DIR__ . '/image-edited.jpg', $initialImage);
+        $image = $this->storeImage($storage, $versionInfo, $field);
+
+        self::assertNotSame($initialImage->id, $image->id);
+        self::assertStringEndsWith('/5e324cbbbd16-image.jpg', $image->id);
+    }
+
+    /**
+     * @dataProvider providerOfFieldData
+     */
+    public function testStoreFieldDataWithUnchangedImageWithinSameVersionKeepsImage(
+        VersionInfo $versionInfo,
+        Field $field
+    ): void {
+        $storage = $this->createImageStorageOnCleanDatabase();
+
+        $initialImage = $this->storeImage($storage, $versionInfo, $field);
+        $this->replaceImage($field, __DIR__ . '/image.jpg', $initialImage);
+        $image = $this->storeImage($storage, $versionInfo, $field);
+
+        self::assertSame($initialImage->id, $image->id);
+        $this->assertImageIsStored($image);
+    }
+
+    /**
+     * @dataProvider providerOfFieldData
+     */
+    public function testStoreFieldDataWithEditedImageWithinSameVersionRemovesReplacedImage(
+        VersionInfo $versionInfo,
+        Field $field
+    ): void {
+        $storage = $this->createImageStorageOnCleanDatabase();
+
+        $initialImage = $this->storeImage($storage, $versionInfo, $field);
+        $this->aliasCleaner
+            ->expects(self::once())
+            ->method('removeAliases')
+            ->with($initialImage->id);
+        $this->replaceImage($field, __DIR__ . '/image-edited.jpg', $initialImage);
+        $image = $this->storeImage($storage, $versionInfo, $field);
+
+        $this->assertImageIsRemoved($initialImage);
+        $this->assertImageIsStored($image);
+    }
+
+    /**
+     * @dataProvider providerOfFieldData
+     */
+    public function testStoreFieldDataWithEditedImageWithinSameVersionKeepsImageUsedByAnotherVersion(
+        VersionInfo $versionInfo,
+        Field $field
+    ): void {
+        $storage = $this->createImageStorageOnCleanDatabase();
+
+        $initialImage = $this->storeImage($storage, $versionInfo, $field);
+        $this->getDatabaseConnection()->insert('ezcontentobject_attribute', [
+            'id' => $field->id,
+            'version' => $versionInfo->versionNo + 1,
+            'data_type_string' => 'ezimage',
+            'data_text' => sprintf(
+                '<?xml version="1.0"?><ezimage dirpath="%s" url="%s"/>',
+                dirname($initialImage->id),
+                $this->getService(UrlRedecorator::class)->redecorateFromSource($initialImage->uri)
+            ),
+        ]);
+        $this->replaceImage($field, __DIR__ . '/image-edited.jpg', $initialImage);
+        $this->storeImage($storage, $versionInfo, $field);
+
+        $this->assertImageIsStored($initialImage);
+    }
+
+    /**
+     * @dataProvider providerOfFieldData
+     */
+    public function testStoreFieldDataWithNewImageKeepsImagesOfOtherVersions(
+        VersionInfo $versionInfo,
+        Field $field
+    ): void {
+        $storage = $this->createImageStorageOnCleanDatabase();
+
+        $previousVersionImage = $this->storeImage($storage, $versionInfo, $field);
+        $versionInfo->versionNo = 2;
+        $field->versionNo = 2;
+        $this->replaceImage($field, __DIR__ . '/image-edited.jpg', $previousVersionImage);
+        $this->storeImage($storage, $versionInfo, $field);
+
+        $this->assertImageIsStored($previousVersionImage);
+    }
+
+    private function storeImage(
+        ImageStorage $storage,
+        VersionInfo $versionInfo,
+        Field $field
+    ): BinaryFile {
+        $storage->storeFieldData($versionInfo, $field, $this->getContext());
+
+        self::assertIsArray($field->value->data);
+
+        return new BinaryFile([
+            'id' => $field->value->data['id'],
+            'uri' => $field->value->data['uri'],
+        ]);
+    }
+
+    private function replaceImage(
+        Field $field,
+        string $inputUri,
+        BinaryFile $storedImage
+    ): void {
+        $field->value = new FieldValue([
+            'externalData' => [
+                'id' => null,
+                'inputUri' => $inputUri,
+                'fileName' => basename($storedImage->id),
+                'alternativeText' => null,
+            ],
+        ]);
+    }
+
+    private function assertImageIsStored(BinaryFile $image): void
+    {
+        self::assertTrue($this->getService(LegacyImageIOService::class)->exists($image->id));
+        self::assertSame(1, $this->getService(DoctrineStorage::class)->countImageReferences($image->uri));
+    }
+
+    private function assertImageIsRemoved(BinaryFile $image): void
+    {
+        self::assertFalse($this->getService(LegacyImageIOService::class)->exists($image->id));
+        self::assertSame(0, $this->getService(DoctrineStorage::class)->countImageReferences($image->uri));
+    }
+
+    private function createImageStorageOnCleanDatabase(): ImageStorage
+    {
+        $this->getRepository(true);
+
+        $slugConverter = $this->createStub(SlugConverter::class);
+        $slugConverter->method('convert')->willReturnArgument(0);
+
+        return new ImageStorage(
+            $this->getService(DoctrineStorage::class),
+            $this->getService(LegacyImageIOService::class),
+            $this->getService(LegacyPathGenerator::class),
+            $this->imageSizeMetadataHandler,
+            $this->aliasCleaner,
+            new Flysystem($slugConverter, new WhitespacePathNormalizer()),
+            $this->fileExtensionBlackListValidator
+        );
+    }
+
+    /**
+     * @template T of object
+     *
+     * @param class-string<T> $className
+     *
+     * @return T
+     */
+    private function getService(string $className): object
+    {
+        $service = $this->getSetupFactory()->getServiceContainer()->get($className);
+        self::assertInstanceOf($className, $service);
+
+        return $service;
     }
 
     private function runCommonStoreFieldDataMocks(Field $field): BinaryFile
