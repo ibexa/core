@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository;
 
-use Exception;
 use Ibexa\Contracts\Core\Persistence\Bookmark\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Bookmark\Handler as BookmarkHandler;
 use Ibexa\Contracts\Core\Repository\BookmarkService as BookmarkServiceInterface;
@@ -23,6 +22,7 @@ use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use Throwable;
 
 class BookmarkService implements BookmarkServiceInterface
 {
@@ -62,7 +62,7 @@ class BookmarkService implements BookmarkServiceInterface
         try {
             $this->bookmarkHandler->create($createStruct);
             $this->repository->commit();
-        } catch (Exception $ex) {
+        } catch (Throwable $ex) {
             $this->repository->rollback();
             throw $ex;
         }
@@ -88,7 +88,7 @@ class BookmarkService implements BookmarkServiceInterface
         try {
             $this->bookmarkHandler->delete(reset($bookmarks)->id);
             $this->repository->commit();
-        } catch (Exception $ex) {
+        } catch (Throwable $ex) {
             $this->repository->rollback();
             throw $ex;
         }

@@ -17,6 +17,7 @@ use Ibexa\Contracts\Core\Repository\UserPreferenceService as UserPreferenceServi
 use Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreference as APIUserPreference;
 use Ibexa\Contracts\Core\Repository\Values\UserPreference\UserPreferenceList;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Throwable;
 
 class UserPreferenceService implements UserPreferenceServiceInterface
 {
@@ -96,7 +97,7 @@ class UserPreferenceService implements UserPreferenceServiceInterface
                 $this->userPreferenceHandler->setUserPreference($spiSetStruct);
             }
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
