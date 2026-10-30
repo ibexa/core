@@ -17,6 +17,7 @@ use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Language;
 use Ibexa\Contracts\Core\Repository\Values\Content\LanguageCreateStruct;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
@@ -39,6 +40,8 @@ class LanguageService implements LanguageServiceInterface
     /** @var PermissionResolver */
     private $permissionResolver;
 
+    private ?ConfigResolverInterface $configResolver;
+
     /**
      * Setups service with reference to repository object that created it & corresponding handler.
      *
@@ -50,11 +53,13 @@ class LanguageService implements LanguageServiceInterface
         RepositoryInterface $repository,
         Handler $languageHandler,
         PermissionResolver $permissionResolver,
-        array $settings = []
+        array $settings = [],
+        ?ConfigResolverInterface $configResolver = null
     ) {
         $this->repository = $repository;
         $this->languageHandler = $languageHandler;
         $this->permissionResolver = $permissionResolver;
+        $this->configResolver = $configResolver;
         // Union makes sure default settings are ignored if provided in argument
         $this->settings = $settings + [
             'languages' => ['eng-GB'],
@@ -365,17 +370,25 @@ class LanguageService implements LanguageServiceInterface
      */
     public function getDefaultLanguageCode(): string
     {
-        return $this->settings['languages'][0];
+        return $this->getPrioritizedLanguageCodeList()[0];
     }
 
     /**
      * Returns a configured list of prioritized languageCodes.
      *
+     * The "languages" setting is read on each call, as the Repository can be built before the SiteAccess is matched.
      *
      * @return string[]
      */
     public function getPrioritizedLanguageCodeList()
     {
+        if ($this->configResolver !== null && $this->configResolver->hasParameter('languages')) {
+            $languageCodes = $this->configResolver->getParameter('languages');
+            if (is_array($languageCodes) && !empty($languageCodes)) {
+                return array_values($languageCodes);
+            }
+        }
+
         return $this->settings['languages'];
     }
 
