@@ -308,6 +308,49 @@ final class FindUsersTest extends AbstractFindTestCase
         $userService->findUsers(new Filter(), $userGroup);
     }
 
+    /**
+     * @param list<string> $prioritizedLanguages
+     * @param list<string> $expectedLogins
+     *
+     * @dataProvider provideForTestFindUsersInPrioritizedLanguages
+     */
+    public function testFindUsersInPrioritizedLanguages(
+        array $prioritizedLanguages,
+        array $expectedLogins
+    ): void {
+        $userIds = [
+            'always_available' => $this->createEnglishUser('always_available', true)->getId(),
+            'not_always_available' => $this->createEnglishUser('not_always_available', false)->getId(),
+        ];
+
+        $userList = $this->getIbexaTestCore()->getUserService()->findUsers(
+            new Filter(new Criterion\ContentId(array_values($userIds))),
+            null,
+            $prioritizedLanguages
+        );
+
+        $expectedIds = array_map(static fn (string $login): int => $userIds[$login], $expectedLogins);
+
+        self::assertSame($expectedIds, $this->extractIds($userList));
+        self::assertSame(count($expectedIds), $userList->getTotalCount());
+    }
+
+    /**
+     * @return iterable<string, array{list<string>, list<string>}>
+     */
+    public static function provideForTestFindUsersInPrioritizedLanguages(): iterable
+    {
+        yield 'a language the users are not translated to' => [
+            ['eng-US'],
+            ['always_available'],
+        ];
+
+        yield 'languages including the one the users are translated to' => [
+            ['eng-US', 'eng-GB'],
+            ['always_available', 'not_always_available'],
+        ];
+    }
+
     public function testFindUsersAsAnonymousUser(): void
     {
         $this->getIbexaTestCore()->setAnonymousUser();
@@ -317,6 +360,20 @@ final class FindUsersTest extends AbstractFindTestCase
         // anonymous users can read the content of the Standard section only
         self::assertSame([], $this->extractIds($userList));
         self::assertSame(0, $userList->getTotalCount());
+    }
+
+    private function createEnglishUser(
+        string $login,
+        bool $alwaysAvailable
+    ): User {
+        $userService = $this->getIbexaTestCore()->getUserService();
+
+        $userCreateStruct = $userService->newUserCreateStruct($login, "$login@mail.invalid", 'secret', 'eng-GB');
+        $userCreateStruct->alwaysAvailable = $alwaysAvailable;
+        $userCreateStruct->setField('first_name', $login);
+        $userCreateStruct->setField('last_name', 'Doe');
+
+        return $userService->createUser($userCreateStruct, [$this->loadUserGroup('groupB')]);
     }
 
     private function loadUserGroup(string $alias): UserGroup
