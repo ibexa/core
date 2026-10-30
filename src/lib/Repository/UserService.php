@@ -30,11 +30,13 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentId as CriterionContentId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeId as CriterionContentTypeId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier as CriterionContentTypeIdentifier;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Location\IsMainLocation as CriterionIsMainLocation;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LocationId as CriterionLocationId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd as CriterionLogicalAnd;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\MatchNone as CriterionMatchNone;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ParentLocationId as CriterionParentLocationId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\ContentId as SortClauseContentId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
@@ -1168,15 +1170,20 @@ class UserService implements UserServiceInterface
 
     public function findUserGroups(
         Filter $filter,
+        ?APIUser $user = null,
         array $prioritizedLanguages = []
     ): UserGroupList {
+        $criteria = [
+            new CriterionContentTypeId($this->settings['userGroupClassID']),
+            // requires a Location, so trashed user groups are excluded
+            new CriterionIsMainLocation(CriterionIsMainLocation::MAIN),
+        ];
+        if ($user !== null) {
+            $criteria[] = $this->buildUserGroupsOfUserCriterion($user);
+        }
+
         $contentList = $this->repository->getContentService()->find(
-            $this->buildFindFilter(
-                $filter,
-                new CriterionContentTypeId($this->settings['userGroupClassID']),
-                // requires a Location, so trashed user groups are excluded
-                new CriterionIsMainLocation(CriterionIsMainLocation::MAIN),
-            ),
+            $this->buildFindFilter($filter, ...$criteria),
             $prioritizedLanguages !== [] ? $prioritizedLanguages : null
         );
 
@@ -1211,6 +1218,36 @@ class UserService implements UserServiceInterface
         $this->assertNothingMissingFromFoundPage('user groups', $missingUserGroupIds);
 
         return new UserGroupList($contentList->getTotalCount(), $userGroups);
+    }
+
+    /**
+     * Matches the content items holding the parent Locations of the user's Locations the current user is allowed to
+     * read, i.e. the user groups the user is directly assigned to.
+     *
+     * @throws NotFoundException
+     * @throws UnauthorizedException
+     */
+    private function buildUserGroupsOfUserCriterion(APIUser $user): FilteringCriterion
+    {
+        // load the user again, so the current user is allowed to read it and its Locations are up to date
+        $contentInfo = $this->repository->getContentService()->loadContentInfo($user->id);
+        if (!$contentInfo->isPublished()) {
+            return new CriterionMatchNone();
+        }
+
+        $parentLocationIds = [];
+        foreach ($this->repository->getLocationService()->loadLocations($contentInfo) as $location) {
+            if ($location->parentLocationId !== null) {
+                $parentLocationIds[] = $location->parentLocationId;
+            }
+        }
+
+        $userGroupIds = array_map(
+            static fn (SPILocation $location): int => $location->contentId,
+            array_values(iterator_to_array($this->locationHandler->loadList(array_values(array_unique($parentLocationIds)))))
+        );
+
+        return $userGroupIds !== [] ? new CriterionContentId($userGroupIds) : new CriterionMatchNone();
     }
 
     /**

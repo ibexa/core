@@ -400,15 +400,16 @@ class UserServiceDecoratorTest extends TestCase
 
         $filter = new Filter(new ParentLocationId(self::EXAMPLE_USER_GROUP_ID));
         $languages = [self::EXAMPLE_LANGUAGE_CODE];
+        $user = self::createStub(User::class);
         $userGroupList = new UserGroupList(1, [self::createStub(UserGroup::class)]);
 
         $serviceMock
             ->expects(self::once())
             ->method('findUserGroups')
-            ->with($filter, $languages)
+            ->with($filter, $user, $languages)
             ->willReturn($userGroupList);
 
-        self::assertSame($userGroupList, $decoratedService->findUserGroups($filter, $languages));
+        self::assertSame($userGroupList, $decoratedService->findUserGroups($filter, $user, $languages));
     }
 
     public function testIsUserDecorator()

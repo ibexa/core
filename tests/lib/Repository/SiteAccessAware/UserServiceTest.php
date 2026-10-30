@@ -105,7 +105,7 @@ class UserServiceTest extends AbstractServiceTestCase
             ['loadUsersOfUserGroup', [$userGroup, 50, 50, self::LANG_ARG], [$user], 3],
             ['loadUserByToken', ['43ir43jrt43', self::LANG_ARG], $user, 1],
             ['findUsers', [new Filter(), $userGroup, self::LANG_ARG], new UserList(1, [$user]), 2],
-            ['findUserGroups', [new Filter(), self::LANG_ARG], new UserGroupList(1, [$userGroup]), 1],
+            ['findUserGroups', [new Filter(), $user, self::LANG_ARG], new UserGroupList(1, [$userGroup]), 2],
         ];
     }
 }

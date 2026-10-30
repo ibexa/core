@@ -205,9 +205,10 @@ abstract class UserServiceDecorator implements UserService
 
     public function findUserGroups(
         Filter $filter,
+        ?User $user = null,
         array $prioritizedLanguages = []
     ): UserGroupList {
-        return $this->innerService->findUserGroups($filter, $prioritizedLanguages);
+        return $this->innerService->findUserGroups($filter, $user, $prioritizedLanguages);
     }
 
     public function isUser(Content $content): bool

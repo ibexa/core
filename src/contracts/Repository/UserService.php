@@ -442,15 +442,21 @@ interface UserService
      * Only user groups the current user is allowed to read are returned and counted. User groups without a main
      * Location (e.g. trashed ones) are neither returned nor counted. As in {@see ContentService::find()}, a filter limit of 0 means no limit.
      *
+     * With a user, only the user groups it is directly assigned to are matched: the content items holding the parent
+     * Locations of its Locations the current user is allowed to read, as in {@see loadUserGroupsOfUser()}.
+     *
      * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned
      *                                       objects. User groups not available in any of them (and not always
      *                                       available) are neither returned nor counted.
      *
+     * @throws NotFoundException if the given user does not exist
+     * @throws UnauthorizedException if the current user is not allowed to read the given user
      * @throws BadStateException if user groups matched by the filter were deleted or changed before they could be
      *                           loaded
      */
     public function findUserGroups(
         Filter $filter,
+        ?User $user = null,
         array $prioritizedLanguages = []
     ): UserGroupList;
 

@@ -9,12 +9,15 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\UserService;
 
 use Closure;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\TrashService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
+use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 
 /**
@@ -107,6 +110,78 @@ final class FindUserGroupsTest extends AbstractFindTestCase
     }
 
     /**
+     * @param (Closure(array<string, int>): FilteringCriterion)|null $criterionFactory
+     * @param list<string> $expectedAliases
+     *
+     * @dataProvider provideForTestFindUserGroupsOfUser
+     */
+    public function testFindUserGroupsOfUser(
+        string $userAlias,
+        ?Closure $criterionFactory,
+        array $expectedAliases
+    ): void {
+        $userGroupList = $this->getIbexaTestCore()->getUserService()->findUserGroups(
+            new Filter($criterionFactory !== null ? $criterionFactory($this->ids) : null),
+            $this->loadUser($userAlias)
+        );
+
+        $expectedIds = $this->getIds($expectedAliases);
+        sort($expectedIds);
+
+        self::assertSame($expectedIds, $this->extractIds($userGroupList));
+        self::assertSame(count($expectedIds), $userGroupList->getTotalCount());
+    }
+
+    /**
+     * @return iterable<string, array{string, (Closure(array<string, int>): FilteringCriterion)|null, list<string>}>
+     */
+    public static function provideForTestFindUserGroupsOfUser(): iterable
+    {
+        yield 'direct user group, not its parent' => ['erin', null, ['groupA1']];
+
+        yield 'user groups of the main and a secondary Location' => ['bob', null, ['groupA', 'groupB']];
+
+        yield 'content ids' => [
+            'bob',
+            static fn (array $ids): FilteringCriterion => new Criterion\ContentId([$ids['groupB'], $ids['groupA1']]),
+            ['groupB'],
+        ];
+    }
+
+    public function testFindUserGroupsOfUserChecksPermissionsOnEachLocation(): void
+    {
+        $user = $this->loadUser('bob');
+        $this->loginAsUserLimitedToSubtreeOf('groupB');
+
+        $userGroupList = $this->getIbexaTestCore()->getUserService()->findUserGroups(new Filter(), $user);
+
+        // "bob" is readable through its secondary Location, in "groupB", but not through its main one, in "groupA"
+        self::assertSame($this->getIds(['groupB']), $this->extractIds($userGroupList));
+        self::assertSame(1, $userGroupList->getTotalCount());
+    }
+
+    public function testFindUserGroupsOfUnreadableUserThrowsUnauthorizedException(): void
+    {
+        $user = $this->loadUser('alice');
+        $this->loginAsUserLimitedToSubtreeOf('groupB');
+
+        $this->expectException(UnauthorizedException::class);
+
+        $this->getIbexaTestCore()->getUserService()->findUserGroups(new Filter(), $user);
+    }
+
+    public function testFindUserGroupsOfDeletedUserThrowsNotFoundException(): void
+    {
+        $userService = $this->getIbexaTestCore()->getUserService();
+        $user = $this->loadUser('carol');
+        $userService->deleteUser($user);
+
+        $this->expectException(NotFoundException::class);
+
+        $userService->findUserGroups(new Filter(), $user);
+    }
+
+    /**
      * @param list<string> $expectedAliases
      *
      * @dataProvider provideForTestPagination
@@ -184,6 +259,7 @@ final class FindUserGroupsTest extends AbstractFindTestCase
 
         $userGroupList = $this->getIbexaTestCore()->getUserService()->findUserGroups(
             new Filter(new Criterion\ContentId(array_values($userGroupIds))),
+            null,
             $prioritizedLanguages
         );
 
@@ -221,6 +297,11 @@ final class FindUserGroupsTest extends AbstractFindTestCase
 
         self::assertSame($this->getIds(['groupA', 'groupA1', 'groupB']), $this->extractIds($userGroupList));
         self::assertSame(3, $userGroupList->getTotalCount());
+    }
+
+    private function loadUser(string $alias): User
+    {
+        return $this->getIbexaTestCore()->getUserService()->loadUser($this->ids[$alias]);
     }
 
     private function createEnglishUserGroup(

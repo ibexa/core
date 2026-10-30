@@ -227,10 +227,12 @@ class UserService implements UserServiceInterface
 
     public function findUserGroups(
         Filter $filter,
+        ?User $user = null,
         ?array $prioritizedLanguages = null
     ): UserGroupList {
         return $this->service->findUserGroups(
             $filter,
+            $user,
             $this->languageResolver->getPrioritizedLanguages($prioritizedLanguages)
         );
     }
