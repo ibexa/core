@@ -33,8 +33,6 @@ final readonly class UserGroupList implements IteratorAggregate, TotalCountAware
     ) {}
 
     /**
-     * Returns the total number of user groups matching the filter (and readable by the current user), regardless of offset and limit.
-     *
      * @phpstan-return int<0, max>
      */
     public function getTotalCount(): int
