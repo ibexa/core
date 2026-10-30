@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\UserService;
 
 use Closure;
+use Ibexa\Contracts\Core\Repository\TrashService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
@@ -164,6 +165,20 @@ final class FindUserGroupsTest extends AbstractFindTestCase
         $userGroupList = $this->getIbexaTestCore()->getUserService()->findUserGroups(new Filter());
 
         self::assertSame($this->getIds(['groupA', 'groupA1', 'groupA2']), $this->extractIds($userGroupList));
+        self::assertSame(3, $userGroupList->getTotalCount());
+    }
+
+    public function testFindUserGroupsSkipsTrashedUserGroups(): void
+    {
+        $this->getIbexaTestCore()->getServiceByClassName(TrashService::class)->trash(
+            $this->getIbexaTestCore()->getLocationService()->loadLocation($this->mainLocationIds['groupA2'])
+        );
+
+        $userGroupList = $this->getIbexaTestCore()->getUserService()->findUserGroups(
+            new Filter(new Criterion\ContentId($this->getIds(self::CREATED_USER_GROUPS)))
+        );
+
+        self::assertSame($this->getIds(['groupA', 'groupA1', 'groupB']), $this->extractIds($userGroupList));
         self::assertSame(3, $userGroupList->getTotalCount());
     }
 

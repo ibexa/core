@@ -1184,6 +1184,8 @@ class UserService implements UserServiceInterface
             $this->buildFindFilter(
                 $filter,
                 new CriterionContentTypeId((int)$this->settings['userGroupClassID']),
+                // requires a Location, so trashed user groups are excluded
+                new CriterionIsMainLocation(CriterionIsMainLocation::MAIN),
             ),
             $prioritizedLanguages !== [] ? $prioritizedLanguages : null
         );

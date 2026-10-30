@@ -438,8 +438,8 @@ interface UserService
      * with the main Location of a user group matches its subgroups, consistently with {@see UserGroup::$parentId}.
      *
      * The filter is limited to the user group content type, and the content ID is added as the last sort clause.
-     * Only user groups the current user is allowed to read are returned and counted.
-     * As in {@see ContentService::find()}, a filter limit of 0 means no limit.
+     * Only user groups the current user is allowed to read are returned and counted. User groups without a main
+     * Location (e.g. trashed ones) are neither returned nor counted. As in {@see ContentService::find()}, a filter limit of 0 means no limit.
      *
      * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned
      *                                       objects. User groups not available in any of them (and not always
