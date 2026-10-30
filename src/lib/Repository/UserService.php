@@ -12,6 +12,7 @@ use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Exception;
+use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler;
 use Ibexa\Contracts\Core\Persistence\User as SPIUser;
 use Ibexa\Contracts\Core\Persistence\User\Handler;
@@ -25,24 +26,33 @@ use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\UserService as UserServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentId as CriterionContentId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeId as CriterionContentTypeId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier as CriterionContentTypeIdentifier;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Location\IsMainLocation as CriterionIsMainLocation;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LocationId as CriterionLocationId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LogicalAnd as CriterionLogicalAnd;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\MatchNone as CriterionMatchNone;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ParentLocationId as CriterionParentLocationId;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause\ContentId as SortClauseContentId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
+use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
+use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordValidationContext;
 use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
 use Ibexa\Contracts\Core\Repository\Values\User\UserCreateStruct as APIUserCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup as APIUserGroup;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroupCreateStruct as APIUserGroupCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\User\UserGroupList;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroupUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\User\UserList;
 use Ibexa\Contracts\Core\Repository\Values\User\UserTokenUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserUpdateStruct;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
@@ -496,32 +506,8 @@ class UserService implements UserServiceInterface
     ): APIUser {
         /** @var APIContent $content */
         $content = $this->repository->getContentService()->internalLoadContentById($userId, $prioritizedLanguages);
-        // Get spiUser value from Field Value
-        foreach ($content->getFields() as $field) {
-            $fieldValue = $field->getValue();
-            if (!$fieldValue instanceof UserValue) {
-                continue;
-            }
 
-            $value = $fieldValue;
-            $spiUser = new SPIUser();
-            $spiUser->id = $value->contentId;
-            $spiUser->login = $value->login;
-            $spiUser->email = $value->email;
-            $spiUser->hashAlgorithm = $value->passwordHashType;
-            $spiUser->passwordHash = $value->passwordHash;
-            $spiUser->passwordUpdatedAt = $value->passwordUpdatedAt ? $value->passwordUpdatedAt->getTimestamp() : null;
-            $spiUser->isEnabled = $value->enabled;
-            $spiUser->maxLogin = $value->maxLogin;
-            break;
-        }
-
-        // If for some reason not found, load it
-        if (!isset($spiUser)) {
-            $spiUser = $this->userHandler->load($userId);
-        }
-
-        return $this->buildDomainUserObject($spiUser, $content);
+        return $this->buildUserFromContent($content);
     }
 
     /**
@@ -1127,6 +1113,213 @@ class UserService implements UserServiceInterface
         }
 
         return $users;
+    }
+
+    public function findUsers(
+        Filter $filter,
+        ?APIUserGroup $userGroup = null,
+        array $prioritizedLanguages = []
+    ): UserList {
+        if ($userGroup === null) {
+            // the main Location only, so each user is matched once
+            $locationCriterion = new CriterionIsMainLocation(CriterionIsMainLocation::MAIN);
+        } else {
+            // load the group again, so the current user is allowed to read it and its main Location is up to date
+            $userGroup = $this->loadUserGroup($userGroup->id);
+            $mainLocationId = $userGroup->getVersionInfo()->getContentInfo()->getMainLocationId();
+            if ($mainLocationId === null) {
+                return new UserList(0, []);
+            }
+
+            // a content item can't have two Locations under the same parent, so each member is matched once
+            $locationCriterion = new CriterionParentLocationId($mainLocationId);
+        }
+
+        $locationList = $this->repository->getLocationService()->find(
+            $this->buildFindFilter(
+                $filter,
+                new CriterionContentTypeIdentifier($this->getUserContentTypeIdentifiers()),
+                $locationCriterion,
+            ),
+            $prioritizedLanguages !== [] ? $prioritizedLanguages : null
+        );
+
+        $contentInfoList = array_map(
+            static fn (Location $location): ContentInfo => $location->getContentInfo(),
+            iterator_to_array($locationList, false)
+        );
+        $contentItems = $this->repository->getContentService()->loadContentListByContentInfo(
+            $contentInfoList,
+            $prioritizedLanguages
+        );
+
+        $users = [];
+        $missingUserIds = [];
+        foreach ($contentInfoList as $contentInfo) {
+            if (!isset($contentItems[$contentInfo->getId()])) {
+                $missingUserIds[] = $contentInfo->getId();
+                continue;
+            }
+
+            $users[] = $this->buildUserFromContent($contentItems[$contentInfo->getId()]);
+        }
+        $this->assertNothingMissingFromFoundPage('users', $missingUserIds);
+
+        return new UserList($locationList->getTotalCount(), $users);
+    }
+
+    public function findUserGroups(
+        Filter $filter,
+        ?APIUser $user = null,
+        array $prioritizedLanguages = []
+    ): UserGroupList {
+        $criteria = [
+            new CriterionContentTypeId($this->settings['userGroupClassID']),
+            // requires a Location, so trashed user groups are excluded
+            new CriterionIsMainLocation(CriterionIsMainLocation::MAIN),
+        ];
+        if ($user !== null) {
+            $criteria[] = $this->buildUserGroupsOfUserCriterion($user);
+        }
+
+        $contentList = $this->repository->getContentService()->find(
+            $this->buildFindFilter($filter, ...$criteria),
+            $prioritizedLanguages !== [] ? $prioritizedLanguages : null
+        );
+
+        $contentItems = iterator_to_array($contentList, false);
+        $mainLocations = iterator_to_array($this->locationHandler->loadList(array_values(array_filter(array_map(
+            static fn (APIContent $content): ?int => $content->getContentInfo()->getMainLocationId(),
+            $contentItems
+        )))));
+        $parentLocations = iterator_to_array($this->locationHandler->loadList(array_values(array_unique(array_map(
+            static fn (SPILocation $location): int => $location->parentId,
+            $mainLocations
+        )))));
+
+        $userGroups = [];
+        $missingUserGroupIds = [];
+        foreach ($contentItems as $content) {
+            $mainLocationId = $content->getContentInfo()->getMainLocationId();
+            $parentLocationId = $mainLocationId !== null ? ($mainLocations[$mainLocationId] ?? null)?->parentId : null;
+            $parentLocation = $parentLocationId !== null ? ($parentLocations[$parentLocationId] ?? null) : null;
+            if ($parentLocation === null) {
+                $missingUserGroupIds[] = $content->getId();
+                continue;
+            }
+
+            $userGroups[] = new UserGroup(
+                [
+                    'content' => $content,
+                    'parentId' => $parentLocation->contentId,
+                ]
+            );
+        }
+        $this->assertNothingMissingFromFoundPage('user groups', $missingUserGroupIds);
+
+        return new UserGroupList($contentList->getTotalCount(), $userGroups);
+    }
+
+    /**
+     * Matches the content items holding the parent Locations of the user's Locations the current user is allowed to
+     * read, i.e. the user groups the user is directly assigned to.
+     *
+     * @throws NotFoundException
+     * @throws UnauthorizedException
+     */
+    private function buildUserGroupsOfUserCriterion(APIUser $user): FilteringCriterion
+    {
+        // load the user again, so the current user is allowed to read it and its Locations are up to date
+        $contentInfo = $this->repository->getContentService()->loadContentInfo($user->id);
+        if (!$contentInfo->isPublished()) {
+            return new CriterionMatchNone();
+        }
+
+        $parentLocationIds = [];
+        foreach ($this->repository->getLocationService()->loadLocations($contentInfo) as $location) {
+            if ($location->parentLocationId !== null) {
+                $parentLocationIds[] = $location->parentLocationId;
+            }
+        }
+
+        $userGroupIds = array_map(
+            static fn (SPILocation $location): int => $location->contentId,
+            array_values(iterator_to_array($this->locationHandler->loadList(array_values(array_unique($parentLocationIds)))))
+        );
+
+        return $userGroupIds !== [] ? new CriterionContentId($userGroupIds) : new CriterionMatchNone();
+    }
+
+    /**
+     * Fails instead of returning a page shorter than the limit, and inconsistent with the total count, when items
+     * matched by the filter were deleted or changed before they could be loaded.
+     *
+     * @param list<int> $missingIds
+     *
+     * @throws BadStateException
+     */
+    private function assertNothingMissingFromFoundPage(
+        string $itemsName,
+        array $missingIds
+    ): void {
+        if ($missingIds === []) {
+            return;
+        }
+
+        throw new BadStateException(
+            '$filter',
+            sprintf(
+                '%s %s matched the filter but were deleted or changed before they could be loaded. Retry the call.',
+                $itemsName,
+                implode(', ', $missingIds)
+            )
+        );
+    }
+
+    /**
+     * Returns a copy of the filter with the given criteria added, sorted with the content ID as the last sort clause,
+     * so the order is always deterministic.
+     */
+    private function buildFindFilter(
+        Filter $filter,
+        FilteringCriterion ...$criteria
+    ): Filter {
+        $filter = clone $filter;
+        foreach ($criteria as $criterion) {
+            $filter->andWithCriterion($criterion);
+        }
+
+        return $filter->withSortClause(new SortClauseContentId());
+    }
+
+    private function buildUserFromContent(APIContent $content): APIUser
+    {
+        // Get spiUser value from Field Value
+        foreach ($content->getFields() as $field) {
+            $fieldValue = $field->getValue();
+            if (!$fieldValue instanceof UserValue) {
+                continue;
+            }
+
+            $value = $fieldValue;
+            $spiUser = new SPIUser();
+            $spiUser->id = $value->contentId;
+            $spiUser->login = $value->login;
+            $spiUser->email = $value->email;
+            $spiUser->hashAlgorithm = $value->passwordHashType;
+            $spiUser->passwordHash = $value->passwordHash;
+            $spiUser->passwordUpdatedAt = $value->passwordUpdatedAt ? $value->passwordUpdatedAt->getTimestamp() : null;
+            $spiUser->isEnabled = $value->enabled;
+            $spiUser->maxLogin = $value->maxLogin;
+            break;
+        }
+
+        // If for some reason not found, load it
+        if (!isset($spiUser)) {
+            $spiUser = $this->userHandler->load($content->getId());
+        }
+
+        return $this->buildDomainUserObject($spiUser, $content);
     }
 
     /**

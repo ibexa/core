@@ -16,14 +16,18 @@ use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ParentLocationId;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordInfo;
 use Ibexa\Contracts\Core\Repository\Values\User\PasswordValidationContext;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\UserCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroup;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroupCreateStruct;
+use Ibexa\Contracts\Core\Repository\Values\User\UserGroupList;
 use Ibexa\Contracts\Core\Repository\Values\User\UserGroupUpdateStruct;
+use Ibexa\Contracts\Core\Repository\Values\User\UserList;
 use Ibexa\Contracts\Core\Repository\Values\User\UserTokenUpdateStruct;
 use Ibexa\Contracts\Core\Repository\Values\User\UserUpdateStruct;
 
@@ -401,6 +405,60 @@ interface UserService
         int $limit = 25,
         array $prioritizedLanguages = []
     ): iterable;
+
+    /**
+     * Finds users matching the given filter, using Location filtering ({@see LocationService::find()}).
+     *
+     * Each user is matched through exactly one of its Locations: the Location directly under the main Location of
+     * the given user group (its direct members, also those assigned through a secondary Location), or the main
+     * Location without a user group. Location criteria of the filter and the `content/read` permission are evaluated
+     * on that Location, so each user is returned and counted once.
+     *
+     * The filter is limited to the user content types, and the content ID is added as the last sort clause.
+     * Only users the current user is allowed to read are returned and counted. A user group without a main Location
+     * has no members. As in {@see LocationService::find()}, a filter limit of 0 means no limit.
+     *
+     * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned
+     *                                       objects. Users not available in any of them (and not always available)
+     *                                       are neither returned nor counted.
+     *
+     * @throws NotFoundException if the given user group does not exist
+     * @throws UnauthorizedException if the current user is not allowed to read the given user group
+     * @throws BadStateException if users matched by the filter were deleted or changed before they could be loaded
+     */
+    public function findUsers(
+        Filter $filter,
+        ?UserGroup $userGroup = null,
+        array $prioritizedLanguages = []
+    ): UserList;
+
+    /**
+     * Finds user groups matching the given filter, using content filtering ({@see ContentService::find()}).
+     *
+     * Location criteria of the filter are evaluated on the main Location of a user group, so e.g. {@see ParentLocationId}
+     * with the main Location of a user group matches its subgroups, consistently with {@see UserGroup::$parentId}.
+     *
+     * The filter is limited to the user group content type, and the content ID is added as the last sort clause.
+     * Only user groups the current user is allowed to read are returned and counted. User groups without a main
+     * Location (e.g. trashed ones) are neither returned nor counted. As in {@see ContentService::find()}, a filter limit of 0 means no limit.
+     *
+     * With a user, only the user groups it is directly assigned to are matched: the content items holding the parent
+     * Locations of its Locations the current user is allowed to read, as in {@see loadUserGroupsOfUser()}.
+     *
+     * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned
+     *                                       objects. User groups not available in any of them (and not always
+     *                                       available) are neither returned nor counted.
+     *
+     * @throws NotFoundException if the given user does not exist
+     * @throws UnauthorizedException if the current user is not allowed to read the given user
+     * @throws BadStateException if user groups matched by the filter were deleted or changed before they could be
+     *                           loaded
+     */
+    public function findUserGroups(
+        Filter $filter,
+        ?User $user = null,
+        array $prioritizedLanguages = []
+    ): UserGroupList;
 
     /**
      * Checks if Content is a user.
