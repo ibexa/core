@@ -1,0 +1,1 @@
+ALTER TABLE ibexa_content_version_translation DROP FOREIGN KEY ibexa_content_version_translation_language_fk;

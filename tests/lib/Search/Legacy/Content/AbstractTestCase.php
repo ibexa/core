@@ -15,6 +15,7 @@ use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
+use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper\ResolveVirtualFieldSubscriber;
 use Ibexa\Core\Persistence\Legacy\Content\StorageRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway\DoctrineDatabase as ContentTypeGateway;
@@ -91,16 +92,19 @@ class AbstractTestCase extends LanguageAwareTestCase
     protected function getContentTypeHandler(): SPIContentTypeHandler
     {
         if (!isset($this->contentTypeHandler)) {
+            $contentTypeGateway = new ContentTypeGateway(
+                $this->getDatabaseConnection(),
+                $this->getSharedGateway(),
+                $this->getLanguageHandler(),
+                $this->getCriterionVisitor()
+            );
+
             $this->contentTypeHandler = new ContentTypeHandler(
-                new ContentTypeGateway(
-                    $this->getDatabaseConnection(),
-                    $this->getSharedGateway(),
-                    $this->getLanguageMaskGenerator(),
-                    $this->getCriterionVisitor()
-                ),
+                $contentTypeGateway,
                 new ContentTypeMapper(
                     $this->getConverterRegistry(),
-                    $this->getLanguageMaskGenerator(),
+                    $contentTypeGateway,
+                    $this->getLanguageHandler(),
                     self::createStub(StorageDispatcherInterface::class),
                     $this->getFieldTypeAliasResolver(),
                 ),
@@ -111,6 +115,13 @@ class AbstractTestCase extends LanguageAwareTestCase
         }
 
         return $this->contentTypeHandler;
+    }
+
+    protected function getLanguageGateway(): \Ibexa\Core\Persistence\Legacy\Content\Language\Gateway
+    {
+        return new DoctrineDatabase(
+            $this->getDatabaseConnection()
+        );
     }
 
     protected function getConverterRegistry()
