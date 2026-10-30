@@ -21,6 +21,8 @@ use IteratorAggregate;
 final readonly class UserList implements IteratorAggregate, TotalCountAwareInterface
 {
     /**
+     * @internal for internal use by Repository
+     *
      * @phpstan-param int<0, max> $totalCount
      *
      * @param list<User> $users
