@@ -14,15 +14,15 @@ use Ibexa\Contracts\Core\Persistence\Handler;
 use Ibexa\Contracts\Core\Repository\BookmarkService;
 use Ibexa\Contracts\Core\Repository\TrashService;
 use Ibexa\Contracts\Core\Test\IbexaTestKernel;
-use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;
 use Ibexa\Contracts\Test\Core\IbexaTestKernel as BaseIbexaTestKernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Loads the same fixture set {@see IbexaTestKernel} (the package-internal
- * kernel predating ibexa/test-core) already used, instead of the shared kernel's own generic default,
- * so tests already calibrated against it keep passing unchanged.
+ * kernel predating ibexa/test-core) already used, through `ibexa.test.fixture_files`. It's imported
+ * after the shared kernel's generic baseline and replaces it, as the importer truncates the tables it
+ * imports first, so tests already calibrated against it keep passing unchanged.
  *
  * Registers DAMADoctrineTestBundle so mutating tests can run without reimporting schema/fixtures
  * before each one: DAMA wraps each test in a transaction that's rolled back afterwards, layered on
@@ -37,6 +37,12 @@ final class TestKernel extends BaseIbexaTestKernel
         });
 
         parent::registerContainerConfiguration($loader);
+
+        $loader->load(static function (ContainerBuilder $container): void {
+            $container->setParameter('ibexa.test.fixture_files', [
+                __DIR__ . '/Repository/_fixtures/Legacy/data/test_data.yaml',
+            ]);
+        });
     }
 
     public function registerBundles(): iterable
@@ -54,10 +60,5 @@ final class TestKernel extends BaseIbexaTestKernel
         yield TrashService::class;
         yield BookmarkService::class;
         yield Handler::class;
-    }
-
-    public function getFixtures(): iterable
-    {
-        yield new YamlFixture(__DIR__ . '/Repository/_fixtures/Legacy/data/test_data.yaml');
     }
 }
