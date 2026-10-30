@@ -1144,6 +1144,8 @@ class UserService implements UserServiceInterface
             // the main Location only, so each user is matched once
             $locationCriterion = new CriterionIsMainLocation(CriterionIsMainLocation::MAIN);
         } else {
+            // load the group again, so the current user is allowed to read it and its main Location is up to date
+            $userGroup = $this->loadUserGroup($userGroup->id);
             $mainLocationId = $userGroup->getVersionInfo()->getContentInfo()->getMainLocationId();
             if ($mainLocationId === null) {
                 return new UserList(0, []);

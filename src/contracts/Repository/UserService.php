@@ -421,6 +421,9 @@ interface UserService
      * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned
      *                                       objects. Users not available in any of them (and not always available)
      *                                       are neither returned nor counted.
+     *
+     * @throws NotFoundException if the given user group does not exist
+     * @throws UnauthorizedException if the current user is not allowed to read the given user group
      */
     public function findUsers(
         Filter $filter,

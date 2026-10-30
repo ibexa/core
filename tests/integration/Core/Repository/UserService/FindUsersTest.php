@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\UserService;
 
 use Closure;
+use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
@@ -283,6 +285,27 @@ final class FindUsersTest extends AbstractFindTestCase
         // "bob" is readable through its secondary Location, in "groupB"
         self::assertSame($this->getIds(['bob', 'carol']), $this->extractIds($userList));
         self::assertSame(2, $userList->getTotalCount());
+    }
+
+    public function testFindUsersOfUnreadableUserGroupThrowsUnauthorizedException(): void
+    {
+        $userGroup = $this->loadUserGroup('groupA');
+        $this->loginAsUserLimitedToSubtreeOf('groupB');
+
+        $this->expectException(UnauthorizedException::class);
+
+        $this->getIbexaTestCore()->getUserService()->findUsers(new Filter(), $userGroup);
+    }
+
+    public function testFindUsersOfDeletedUserGroupThrowsNotFoundException(): void
+    {
+        $userService = $this->getIbexaTestCore()->getUserService();
+        $userGroup = $this->loadUserGroup('groupA2');
+        $userService->deleteUserGroup($userGroup);
+
+        $this->expectException(NotFoundException::class);
+
+        $userService->findUsers(new Filter(), $userGroup);
     }
 
     public function testFindUsersAsAnonymousUser(): void
