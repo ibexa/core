@@ -57,6 +57,25 @@ class ImageThumbnailStrategy implements FieldTypeBasedThumbnailStrategy, LoggerA
         ?APIVersionInfo $versionInfo = null
     ): ?Thumbnail {
         try {
+            return $this->createThumbnail($field, $versionInfo);
+        } catch (Exception $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Unlike {@see getThumbnail()}, throws the exception which prevented the thumbnail from being generated.
+     * The failure is logged before the exception is rethrown.
+     *
+     * @internal
+     *
+     * @throws Exception
+     */
+    public function createThumbnail(
+        Field $field,
+        ?APIVersionInfo $versionInfo = null
+    ): Thumbnail {
+        try {
             /** @var ImageVariation $variation */
             $variation = $this->variationHandler->getVariation(
                 $field,
@@ -77,7 +96,7 @@ class ImageThumbnailStrategy implements FieldTypeBasedThumbnailStrategy, LoggerA
                 ]
             );
 
-            return null;
+            throw $e;
         } catch (Exception $e) {
             $this->logger->warning(
                 sprintf(
@@ -92,7 +111,7 @@ class ImageThumbnailStrategy implements FieldTypeBasedThumbnailStrategy, LoggerA
                 ]
             );
 
-            return null;
+            throw $e;
         }
 
         return new Thumbnail([
