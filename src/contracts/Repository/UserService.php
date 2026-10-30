@@ -424,6 +424,7 @@ interface UserService
      *
      * @throws NotFoundException if the given user group does not exist
      * @throws UnauthorizedException if the current user is not allowed to read the given user group
+     * @throws BadStateException if users matched by the filter were deleted or changed before they could be loaded
      */
     public function findUsers(
         Filter $filter,
@@ -444,6 +445,9 @@ interface UserService
      * @param string[] $prioritizedLanguages Used as prioritized language code on translated properties of returned
      *                                       objects. User groups not available in any of them (and not always
      *                                       available) are neither returned nor counted.
+     *
+     * @throws BadStateException if user groups matched by the filter were deleted or changed before they could be
+     *                           loaded
      */
     public function findUserGroups(
         Filter $filter,

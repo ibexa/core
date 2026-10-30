@@ -12,6 +12,7 @@ use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Exception;
+use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler;
 use Ibexa\Contracts\Core\Persistence\User as SPIUser;
 use Ibexa\Contracts\Core\Persistence\User\Handler;
@@ -25,6 +26,7 @@ use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\UserService as UserServiceInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
@@ -502,32 +504,8 @@ class UserService implements UserServiceInterface
     ): APIUser {
         /** @var APIContent $content */
         $content = $this->repository->getContentService()->internalLoadContentById($userId, $prioritizedLanguages);
-        // Get spiUser value from Field Value
-        foreach ($content->getFields() as $field) {
-            $fieldValue = $field->getValue();
-            if (!$fieldValue instanceof UserValue) {
-                continue;
-            }
 
-            $value = $fieldValue;
-            $spiUser = new SPIUser();
-            $spiUser->id = $value->contentId;
-            $spiUser->login = $value->login;
-            $spiUser->email = $value->email;
-            $spiUser->hashAlgorithm = $value->passwordHashType;
-            $spiUser->passwordHash = $value->passwordHash;
-            $spiUser->passwordUpdatedAt = $value->passwordUpdatedAt ? $value->passwordUpdatedAt->getTimestamp() : null;
-            $spiUser->isEnabled = $value->enabled;
-            $spiUser->maxLogin = $value->maxLogin;
-            break;
-        }
-
-        // If for some reason not found, load it
-        if (!isset($spiUser)) {
-            $spiUser = $this->userHandler->load($userId);
-        }
-
-        return $this->buildDomainUserObject($spiUser, $content);
+        return $this->buildUserFromContent($content);
     }
 
     /**
@@ -1164,16 +1142,28 @@ class UserService implements UserServiceInterface
             $prioritizedLanguages !== [] ? $prioritizedLanguages : null
         );
 
-        return new UserList(
-            $locationList->getTotalCount(),
-            array_map(
-                fn (Location $location): APIUser => $this->loadUser(
-                    $location->getContentInfo()->getId(),
-                    $prioritizedLanguages
-                ),
-                iterator_to_array($locationList, false),
-            ),
+        $contentInfoList = array_map(
+            static fn (Location $location): ContentInfo => $location->getContentInfo(),
+            iterator_to_array($locationList, false)
         );
+        $contentItems = $this->repository->getContentService()->loadContentListByContentInfo(
+            $contentInfoList,
+            $prioritizedLanguages
+        );
+
+        $users = [];
+        $missingUserIds = [];
+        foreach ($contentInfoList as $contentInfo) {
+            if (!isset($contentItems[$contentInfo->getId()])) {
+                $missingUserIds[] = $contentInfo->getId();
+                continue;
+            }
+
+            $users[] = $this->buildUserFromContent($contentItems[$contentInfo->getId()]);
+        }
+        $this->assertNothingMissingFromFoundPage('users', $missingUserIds);
+
+        return new UserList($locationList->getTotalCount(), $users);
     }
 
     public function findUserGroups(
@@ -1190,12 +1180,62 @@ class UserService implements UserServiceInterface
             $prioritizedLanguages !== [] ? $prioritizedLanguages : null
         );
 
-        return new UserGroupList(
-            $contentList->getTotalCount(),
-            array_map(
-                $this->buildDomainUserGroupObject(...),
-                iterator_to_array($contentList, false),
-            ),
+        $contentItems = iterator_to_array($contentList, false);
+        $mainLocations = iterator_to_array($this->locationHandler->loadList(array_values(array_filter(array_map(
+            static fn (APIContent $content): ?int => $content->getContentInfo()->getMainLocationId(),
+            $contentItems
+        )))));
+        $parentLocations = iterator_to_array($this->locationHandler->loadList(array_values(array_unique(array_map(
+            static fn (SPILocation $location): int => $location->parentId,
+            $mainLocations
+        )))));
+
+        $userGroups = [];
+        $missingUserGroupIds = [];
+        foreach ($contentItems as $content) {
+            $mainLocationId = $content->getContentInfo()->getMainLocationId();
+            $parentLocationId = $mainLocationId !== null ? ($mainLocations[$mainLocationId] ?? null)?->parentId : null;
+            $parentLocation = $parentLocationId !== null ? ($parentLocations[$parentLocationId] ?? null) : null;
+            if ($parentLocation === null) {
+                $missingUserGroupIds[] = $content->getId();
+                continue;
+            }
+
+            $userGroups[] = new UserGroup(
+                [
+                    'content' => $content,
+                    'parentId' => $parentLocation->contentId,
+                ]
+            );
+        }
+        $this->assertNothingMissingFromFoundPage('user groups', $missingUserGroupIds);
+
+        return new UserGroupList($contentList->getTotalCount(), $userGroups);
+    }
+
+    /**
+     * Fails instead of returning a page shorter than the limit, and inconsistent with the total count, when items
+     * matched by the filter were deleted or changed before they could be loaded.
+     *
+     * @param list<int> $missingIds
+     *
+     * @throws BadStateException
+     */
+    private function assertNothingMissingFromFoundPage(
+        string $itemsName,
+        array $missingIds
+    ): void {
+        if ($missingIds === []) {
+            return;
+        }
+
+        throw new BadStateException(
+            '$filter',
+            sprintf(
+                '%s %s matched the filter but were deleted or changed before they could be loaded. Retry the call.',
+                $itemsName,
+                implode(', ', $missingIds)
+            )
         );
     }
 
@@ -1213,6 +1253,36 @@ class UserService implements UserServiceInterface
         }
 
         return $filter->withSortClause(new SortClauseContentId());
+    }
+
+    private function buildUserFromContent(APIContent $content): APIUser
+    {
+        // Get spiUser value from Field Value
+        foreach ($content->getFields() as $field) {
+            $fieldValue = $field->getValue();
+            if (!$fieldValue instanceof UserValue) {
+                continue;
+            }
+
+            $value = $fieldValue;
+            $spiUser = new SPIUser();
+            $spiUser->id = $value->contentId;
+            $spiUser->login = $value->login;
+            $spiUser->email = $value->email;
+            $spiUser->hashAlgorithm = $value->passwordHashType;
+            $spiUser->passwordHash = $value->passwordHash;
+            $spiUser->passwordUpdatedAt = $value->passwordUpdatedAt ? $value->passwordUpdatedAt->getTimestamp() : null;
+            $spiUser->isEnabled = $value->enabled;
+            $spiUser->maxLogin = $value->maxLogin;
+            break;
+        }
+
+        // If for some reason not found, load it
+        if (!isset($spiUser)) {
+            $spiUser = $this->userHandler->load($content->getId());
+        }
+
+        return $this->buildDomainUserObject($spiUser, $content);
     }
 
     /**
