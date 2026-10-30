@@ -33,7 +33,7 @@ jobs:
                     composer run-script check-cs -- --format=checkstyle | cs2pr
 
     tests:
-        name: Unit tests & SQLite integration tests
+        name: Unit tests & SQLite integration tests (${{ matrix.php }}, ${{ matrix.flysystem }}${{ !matrix.schema_builder_event && ', Doctrine Migrations' || '' }})
         runs-on: "ubuntu-26.04"
         timeout-minutes: 15
 
@@ -46,6 +46,14 @@ jobs:
                 flysystem:
                     - 'league/flysystem:^2.5'
                     - 'league/flysystem:^3.36'
+                # true = legacy, event-driven SchemaBuilderEvent path; false = the coexisting
+                # Doctrine Migrations path, run once, on the newest PHP.
+                schema_builder_event:
+                    - true
+                include:
+                    -   php: '8.4'
+                        flysystem: 'league/flysystem:^3.36'
+                        schema_builder_event: false
 
         steps:
             -   uses: actions/checkout@v7
@@ -70,9 +78,11 @@ jobs:
 
             -   name: Run integration test suite
                 run: composer run-script integration
+                env:
+                    IBEXA_TEST_SCHEMA_BUILDER_EVENT_ENABLED: ${{ matrix.schema_builder_event && '1' || '0' }}
 
     integration-tests-postgres:
-        name: PostgreSQL integration tests
+        name: PostgreSQL integration tests (${{ matrix.php }}, ${{ matrix.image }}${{ !matrix.schema_builder_event && ', Doctrine Migrations' || '' }})
         needs: tests
         services:
             postgres:
@@ -100,6 +110,14 @@ jobs:
                 image:
                     - 'postgres:14'
                     - 'postgres:18'
+                # true = legacy, event-driven SchemaBuilderEvent path; false = the coexisting
+                # Doctrine Migrations path, run once, on the newest PHP and the oldest PostgreSQL.
+                schema_builder_event:
+                    - true
+                include:
+                    -   php: '8.4'
+                        image: 'postgres:14'
+                        schema_builder_event: false
 
         steps:
             -   uses: actions/checkout@v7
@@ -121,9 +139,10 @@ jobs:
                     DATABASE_URL: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb?server_version=10"
                     # Required by old repository tests
                     DATABASE: "pgsql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/testdb"
+                    IBEXA_TEST_SCHEMA_BUILDER_EVENT_ENABLED: ${{ matrix.schema_builder_event && '1' || '0' }}
 
     integration-tests-mysql:
-        name: MySQL integration tests
+        name: MySQL integration tests (${{ matrix.php }}, ${{ matrix.image }}${{ !matrix.schema_builder_event && ', Doctrine Migrations' || '' }})
         needs: tests
         services:
             mysql:
@@ -153,6 +172,14 @@ jobs:
                 image:
                     - 'mysql:8.0'
                     - 'mysql:8.4'
+                # true = legacy, event-driven SchemaBuilderEvent path; false = the coexisting
+                # Doctrine Migrations path, run once, on the newest PHP and the oldest MySQL.
+                schema_builder_event:
+                    - true
+                include:
+                    -   php: '8.4'
+                        image: 'mysql:8.0'
+                        schema_builder_event: false
 
         steps:
             -   uses: actions/checkout@v7
@@ -173,6 +200,7 @@ jobs:
                 env:
                     DATABASE_URL: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
                     DATABASE: "mysql://mysql:mysql@127.0.0.1:${{ job.services.mysql.ports[3306] }}/testdb"
+                    IBEXA_TEST_SCHEMA_BUILDER_EVENT_ENABLED: ${{ matrix.schema_builder_event && '1' || '0' }}
 
     solr-integration:
         name: "Solr integration tests"
