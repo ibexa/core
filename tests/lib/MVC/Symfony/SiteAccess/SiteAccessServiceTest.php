@@ -63,6 +63,30 @@ class SiteAccessServiceTest extends TestCase
         self::assertNull($this->createService()->getCurrent());
     }
 
+    public function testGetCurrentReturnsInitialSiteAccessUntilOneIsMatched(): void
+    {
+        $initialSiteAccess = new SiteAccess('default', SiteAccess::MATCHING_TYPE_UNINITIALIZED);
+        $service = $this->createService(null, $initialSiteAccess);
+
+        self::assertSame($initialSiteAccess, $service->getCurrent());
+
+        $matchedSiteAccess = new SiteAccess('site');
+        $service->onSiteAccessMatch($this->createSiteAccessMatchEvent($matchedSiteAccess, HttpKernelInterface::MAIN_REQUEST));
+
+        self::assertSame($matchedSiteAccess, $service->getCurrent());
+    }
+
+    public function testRestoreSiteAccessNeverDropsTheInitialSiteAccess(): void
+    {
+        $initialSiteAccess = new SiteAccess('default', SiteAccess::MATCHING_TYPE_UNINITIALIZED);
+        $service = $this->createService(null, $initialSiteAccess);
+
+        $service->changeSiteAccess(new SiteAccess('preview'));
+
+        self::assertSame($initialSiteAccess, $service->restoreSiteAccess());
+        self::assertSame($initialSiteAccess, $service->restoreSiteAccess());
+    }
+
     public function testOnSiteAccessMatchResetsStackOnMainRequest(): void
     {
         $service = $this->createService();
@@ -279,10 +303,12 @@ class SiteAccessServiceTest extends TestCase
         );
     }
 
-    private function createService(?EventDispatcherInterface $eventDispatcher = null): SiteAccessService
-    {
+    private function createService(
+        ?EventDispatcherInterface $eventDispatcher = null,
+        ?SiteAccess $initialSiteAccess = null
+    ): SiteAccessService {
         $eventDispatcher ??= new EventDispatcher();
-        $service = new SiteAccessService($this->provider, $this->configResolver, $eventDispatcher);
+        $service = new SiteAccessService($this->provider, $this->configResolver, $eventDispatcher, $initialSiteAccess);
         $eventDispatcher->addSubscriber($service);
 
         return $service;

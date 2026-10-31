@@ -14,8 +14,6 @@ use Ibexa\Bundle\Core\DependencyInjection\IbexaCoreExtension;
 use Ibexa\Bundle\IO\DependencyInjection\ConfigurationFactory;
 use Ibexa\Bundle\IO\DependencyInjection\IbexaIOExtension;
 use Ibexa\Core\IO\UrlDecorator\AbsolutePrefix;
-use Ibexa\Core\MVC\Symfony\SiteAccess;
-use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService;
 use Ibexa\Tests\Integration\Core\Repository\Container\Compiler\SetAllServicesPublicPass;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use Symfony\Component\DependencyInjection\Definition;
@@ -89,10 +87,6 @@ class IbexaIOExtensionTest extends AbstractExtensionTestCase
             Yaml::parseFile(self::FIXTURES_DIR . '/url_prefix_test_config.yaml')['ibexa']
         );
         $this->buildMinimalContainerForUrlPrefixTest();
-
-        $siteAccessService = $this->container->get(SiteAccessService::class);
-        self::assertInstanceOf(SiteAccessService::class, $siteAccessService);
-        $siteAccessService->changeSiteAccess(new SiteAccess('site'));
 
         $decorator = $this->container->get(AbsolutePrefix::class);
 
