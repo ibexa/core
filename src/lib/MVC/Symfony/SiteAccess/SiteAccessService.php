@@ -34,11 +34,17 @@ class SiteAccessService implements SiteAccessServiceInterface, EventSubscriberIn
 
     private bool $isDispatchingInternally = false;
 
+    /**
+     * @param SiteAccess|null $siteAccess reported as current until a SiteAccess is matched or changed to
+     */
     public function __construct(
         private readonly SiteAccessProviderInterface $provider,
         private readonly ConfigResolverInterface $configResolver,
-        private readonly EventDispatcherInterface $eventDispatcher
-    ) {}
+        private readonly EventDispatcherInterface $eventDispatcher,
+        ?SiteAccess $siteAccess = null
+    ) {
+        $this->siteAccessStack = $siteAccess !== null ? [$siteAccess] : [];
+    }
 
     public static function getSubscribedEvents(): array
     {
@@ -129,16 +135,7 @@ class SiteAccessService implements SiteAccessServiceInterface, EventSubscriberIn
 
     public function getCurrent(): ?SiteAccess
     {
-        if ($this->siteAccessStack === []) {
-            return null;
-        }
-
-        // Defensive: a SiteAccess with an "uninitialized" matcher (see
-        // SiteAccess::MATCHING_TYPE_UNINITIALIZED) is not a real current SiteAccess even if it
-        // somehow ended up on the stack — surface it as null rather than a misleading value.
-        $current = end($this->siteAccessStack);
-
-        return $current->matchingType !== SiteAccess::MATCHING_TYPE_UNINITIALIZED ? $current : null;
+        return $this->siteAccessStack !== [] ? end($this->siteAccessStack) : null;
     }
 
     public function changeSiteAccess(SiteAccess $siteAccess): SiteAccess

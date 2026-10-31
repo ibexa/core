@@ -112,6 +112,7 @@ services:
             - '@ibexa.siteaccess.provider'
             - '@ibexa.config.resolver'
             - '@event_dispatcher'
+            - '@Ibexa\Core\MVC\Symfony\SiteAccess'
         tags:
             - { name: kernel.event_subscriber }
 
