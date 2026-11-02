@@ -113,8 +113,10 @@ final class CleanupRoleLimitationValuesCommand extends Command
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
-    {
+    protected function execute(
+        InputInterface $input,
+        OutputInterface $output
+    ): int {
         // We don't load repo services before execute() to avoid loading before SiteAccess is set.
         $roleService = $this->repository->getRoleService();
         $userService = $this->repository->getUserService();
@@ -142,10 +144,12 @@ final class CleanupRoleLimitationValuesCommand extends Command
     }
 
     /**
-     * @return \Ibexa\Bundle\Core\Command\Role\DanglingLimitationValues[]
+     * @return DanglingLimitationValues[]
      */
-    private function collectFindings(RoleService $roleService, OutputInterface $output): array
-    {
+    private function collectFindings(
+        RoleService $roleService,
+        OutputInterface $output
+    ): array {
         $findings = [];
         foreach ($roleService->loadRoles() as $role) {
             foreach ($role->getPolicies() as $policy) {
@@ -210,8 +214,10 @@ final class CleanupRoleLimitationValuesCommand extends Command
     /**
      * Reports what --fix would do, and asks before writing unless --force was given.
      */
-    private function confirmFix(InputInterface $input, OutputInterface $output): bool
-    {
+    private function confirmFix(
+        InputInterface $input,
+        OutputInterface $output
+    ): bool {
         if (!$input->getOption('fix')) {
             $output->writeln('');
             $output->writeln('<comment>Re-run with --fix to remove the values listed above.</comment>');
@@ -236,10 +242,12 @@ final class CleanupRoleLimitationValuesCommand extends Command
     }
 
     /**
-     * @param \Ibexa\Bundle\Core\Command\Role\DanglingLimitationValues[] $findings
+     * @param DanglingLimitationValues[] $findings
      */
-    private function renderFindings(OutputInterface $output, array $findings): void
-    {
+    private function renderFindings(
+        OutputInterface $output,
+        array $findings
+    ): void {
         // A Policy is removed when any one of its Limitations is left without values, so the flag
         // has to be decided per Policy rather than per finding.
         $removesPolicy = [];
@@ -267,10 +275,12 @@ final class CleanupRoleLimitationValuesCommand extends Command
     }
 
     /**
-     * @param \Ibexa\Bundle\Core\Command\Role\DanglingLimitationValues[] $findings
+     * @param DanglingLimitationValues[] $findings
      */
-    private function fix(OutputInterface $output, array $findings): int
-    {
+    private function fix(
+        OutputInterface $output,
+        array $findings
+    ): int {
         $roleService = $this->repository->getRoleService();
 
         $findingsByRoleId = [];
@@ -341,9 +351,9 @@ final class CleanupRoleLimitationValuesCommand extends Command
     }
 
     /**
-     * @param array<int, \Ibexa\Bundle\Core\Command\Role\DanglingLimitationValues[]> $findingsByPolicyId
+     * @param array<int, DanglingLimitationValues[]> $findingsByPolicyId
      *
-     * @return \Ibexa\Bundle\Core\Command\Role\DanglingLimitationValues[]
+     * @return DanglingLimitationValues[]
      */
     private function findUnrepairable(array $findingsByPolicyId): array
     {
@@ -360,12 +370,16 @@ final class CleanupRoleLimitationValuesCommand extends Command
     }
 
     /**
-     * @param array<int, \Ibexa\Bundle\Core\Command\Role\DanglingLimitationValues[]> $findingsByPolicyId
+     * @param array<int, DanglingLimitationValues[]> $findingsByPolicyId
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
-    private function applyToDraft(RoleDraft $roleDraft, array $findingsByPolicyId, Role $role, int $roleId): void
-    {
+    private function applyToDraft(
+        RoleDraft $roleDraft,
+        array $findingsByPolicyId,
+        Role $role,
+        int $roleId
+    ): void {
         $roleService = $this->repository->getRoleService();
 
         foreach ($roleDraft->getPolicies() as $policyDraft) {
@@ -405,12 +419,14 @@ final class CleanupRoleLimitationValuesCommand extends Command
     }
 
     /**
-     * @param \Ibexa\Bundle\Core\Command\Role\DanglingLimitationValues[] $findings
+     * @param DanglingLimitationValues[] $findings
      *
-     * @return \Ibexa\Contracts\Core\Repository\Values\User\Limitation[]
+     * @return Limitation[]
      */
-    private function pruneLimitations(Policy $policyDraft, array $findings): array
-    {
+    private function pruneLimitations(
+        Policy $policyDraft,
+        array $findings
+    ): array {
         $prunedByIdentifier = [];
         foreach ($findings as $finding) {
             $prunedByIdentifier[$finding->getLimitation()->getIdentifier()] = $finding->getPrunedValues();
@@ -437,8 +453,8 @@ final class CleanupRoleLimitationValuesCommand extends Command
     /**
      * @return array<array{key: string|null, value: mixed}>
      *
-     * @throws \Ibexa\Core\Base\Exceptions\NotFound\LimitationNotFoundException if the Limitation type is not configured
-     * @throws \Ibexa\Core\Base\Exceptions\InvalidArgumentType if the values are in a shape this command cannot
+     * @throws LimitationNotFoundException if the Limitation type is not configured
+     * @throws InvalidArgumentType if the values are in a shape this command cannot
      *         take apart one value at a time
      */
     private function findDanglingValues(Limitation $limitation): array
@@ -462,8 +478,10 @@ final class CleanupRoleLimitationValuesCommand extends Command
     /**
      * @return array<array{key: null, value: mixed}>
      */
-    private function findDanglingInList(Type $limitationType, Limitation $limitation): array
-    {
+    private function findDanglingInList(
+        Type $limitationType,
+        Limitation $limitation
+    ): array {
         $danglingValues = [];
         foreach ($limitation->limitationValues as $value) {
             if ($this->namesMissingEntity($limitationType, $this->withValues($limitation, [$value]))) {
@@ -480,8 +498,10 @@ final class CleanupRoleLimitationValuesCommand extends Command
      *
      * @return array<array{key: string, value: mixed}>
      */
-    private function findDanglingUnderKeys(Type $limitationType, Limitation $limitation): array
-    {
+    private function findDanglingUnderKeys(
+        Type $limitationType,
+        Limitation $limitation
+    ): array {
         $limitationValues = $limitation->limitationValues;
         $emptied = array_map(
             static function ($values) {
@@ -511,8 +531,10 @@ final class CleanupRoleLimitationValuesCommand extends Command
      *
      * @param array<mixed> $limitationValues
      */
-    private function withValues(Limitation $limitation, array $limitationValues): Limitation
-    {
+    private function withValues(
+        Limitation $limitation,
+        array $limitationValues
+    ): Limitation {
         $copy = clone $limitation;
         $copy->limitationValues = $limitationValues;
 
@@ -523,8 +545,10 @@ final class CleanupRoleLimitationValuesCommand extends Command
      * Checked one value at a time, so the offending one is known without reading it back out of the
      * error message, where the %value% placeholder is not substituted cleanly.
      */
-    private function namesMissingEntity(Type $limitationType, Limitation $limitation): bool
-    {
+    private function namesMissingEntity(
+        Type $limitationType,
+        Limitation $limitation
+    ): bool {
         $limitationType->acceptValue($limitation);
 
         foreach ($limitationType->validate($limitation) as $validationError) {

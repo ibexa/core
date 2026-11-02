@@ -30,8 +30,12 @@ final class DanglingLimitationValues
      * @param array<array{key: string|null, value: mixed}> $danglingValues each value, and the key it
      *        sits under for Limitations whose values are a map of lists rather than a plain list
      */
-    public function __construct(Role $role, Policy $policy, Limitation $limitation, array $danglingValues)
-    {
+    public function __construct(
+        Role $role,
+        Policy $policy,
+        Limitation $limitation,
+        array $danglingValues
+    ) {
         $this->role = $role;
         $this->policy = $policy;
         $this->limitation = $limitation;

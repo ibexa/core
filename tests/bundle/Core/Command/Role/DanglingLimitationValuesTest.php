@@ -99,8 +99,11 @@ final class DanglingLimitationValuesTest extends TestCase
      *
      * @dataProvider providerForTestCannotPreserveGrants
      */
-    public function testCannotPreserveGrants(array $limitationValues, array $danglingValues, bool $expected): void
-    {
+    public function testCannotPreserveGrants(
+        array $limitationValues,
+        array $danglingValues,
+        bool $expected
+    ): void {
         self::assertSame($expected, $this->buildFinding($limitationValues, $danglingValues)->cannotPreserveGrants());
     }
 
@@ -190,8 +193,10 @@ final class DanglingLimitationValuesTest extends TestCase
      *
      * @dataProvider providerForTestHoldsNoValues
      */
-    public function testHoldsNoValues(array $limitationValues, bool $expected): void
-    {
+    public function testHoldsNoValues(
+        array $limitationValues,
+        bool $expected
+    ): void {
         self::assertSame($expected, DanglingLimitationValues::holdsNoValues($limitationValues));
     }
 
@@ -211,8 +216,10 @@ final class DanglingLimitationValuesTest extends TestCase
      * @param array<mixed> $limitationValues
      * @param array<array{key: string|null, value: mixed}> $danglingValues
      */
-    private function buildFinding(array $limitationValues, array $danglingValues): DanglingLimitationValues
-    {
+    private function buildFinding(
+        array $limitationValues,
+        array $danglingValues
+    ): DanglingLimitationValues {
         return new DanglingLimitationValues(
             new Role(['id' => 99, 'identifier' => 'probe_role']),
             new Policy(['id' => 859, 'module' => 'content', 'function' => 'read']),

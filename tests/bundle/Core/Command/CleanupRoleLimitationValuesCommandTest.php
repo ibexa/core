@@ -37,7 +37,7 @@ final class CleanupRoleLimitationValuesCommandTest extends TestCase
 {
     private const MISSING_ENTITY_MESSAGE = "limitationValues[%key%] => '%value%' does not exist in the backend";
 
-    /** @var \Ibexa\Contracts\Core\Repository\RoleService&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var RoleService&MockObject */
     private $roleService;
 
     protected function setUp(): void
@@ -184,8 +184,11 @@ final class CleanupRoleLimitationValuesCommandTest extends TestCase
         self::assertStringContainsString('No dangling Policy Limitation values found', $tester->getDisplay());
     }
 
-    private function givenDraftFor(Role $role, int $policyId, Limitation $limitation): void
-    {
+    private function givenDraftFor(
+        Role $role,
+        int $policyId,
+        Limitation $limitation
+    ): void {
         // RoleDraft routes every property to its inner Role, so the draft Policies go in there
         $roleDraft = new RoleDraftStub([
             'innerRole' => new Role([
@@ -214,9 +217,9 @@ final class CleanupRoleLimitationValuesCommandTest extends TestCase
     }
 
     /**
-     * @param iterable<string, \Ibexa\Contracts\Core\Repository\Values\User\Limitation> $limitations
+     * @param iterable<string, Limitation> $limitations
      *
-     * @return \Generator<string, \Ibexa\Contracts\Core\Repository\Values\User\Limitation>
+     * @return \Generator<string, Limitation>
      */
     private function asIterator(iterable $limitations): iterable
     {
@@ -258,8 +261,12 @@ final class CleanupRoleLimitationValuesCommandTest extends TestCase
         $this->roleService->method('getLimitationType')->willReturn($limitationType);
     }
 
-    private function buildRole(int $roleId, string $identifier, int $policyId, Limitation $limitation): Role
-    {
+    private function buildRole(
+        int $roleId,
+        string $identifier,
+        int $policyId,
+        Limitation $limitation
+    ): Role {
         return new Role([
             'id' => $roleId,
             'identifier' => $identifier,
@@ -279,8 +286,10 @@ final class CleanupRoleLimitationValuesCommandTest extends TestCase
      * @param array<string, bool|string> $input
      * @param string[] $answers
      */
-    private function execute(array $input, array $answers = []): CommandTester
-    {
+    private function execute(
+        array $input,
+        array $answers = []
+    ): CommandTester {
         $tester = new CommandTester(new CleanupRoleLimitationValuesCommand($this->buildRepository()));
         if ($answers !== []) {
             $tester->setInputs($answers);
@@ -291,7 +300,7 @@ final class CleanupRoleLimitationValuesCommandTest extends TestCase
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\Repository\Repository&\PHPUnit\Framework\MockObject\MockObject
+     * @return Repository&MockObject
      */
     private function buildRepository(): MockObject
     {
