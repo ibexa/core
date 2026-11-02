@@ -36,11 +36,11 @@ use Throwable;
 final class CleanupRoleLimitationValuesCommand extends Command
 {
     public const BEFORE_RUNNING_HINTS = <<<EOT
-<error>Before you continue:</error>
-- Make sure to back up your database.
-- Take the installation offline. The database should not be modified while the script is being executed.
-- Run this command in production environment using <info>--env=prod</info>
-EOT;
+        <error>Before you continue:</error>
+        - Make sure to back up your database.
+        - Take the installation offline. The database should not be modified while the script is being executed.
+        - Run this command in production environment using <info>--env=prod</info>
+        EOT;
 
     private const DEFAULT_REPOSITORY_USER = 'admin';
 
@@ -92,24 +92,24 @@ EOT;
             )
             ->setHelp(
                 <<<EOT
-The command <info>%command.name%</info> finds Policy Limitation values which name an entity that no
-longer exists, for instance a Content Type Limitation left behind by ContentTypeService::deleteContentType().
-Such values never grant anything, but they make RoleService::copyRole() reject the Role.
+                    The command <info>%command.name%</info> finds Policy Limitation values which name an entity that no
+                    longer exists, for instance a Content Type Limitation left behind by ContentTypeService::deleteContentType().
+                    Such values never grant anything, but they make RoleService::copyRole() reject the Role.
 
-Without <info>--fix</info> the command only reports what it finds.
+                    Without <info>--fix</info> the command only reports what it finds.
 
-A Policy whose Limitation would be left without any value is removed rather than emptied. Saving it
-empty drops the Limitation from the Policy and leaves the Policy granted on everything, while
-removing the Policy changes nothing: a Limitation whose every value is dangling already grants nothing.
+                    A Policy whose Limitation would be left without any value is removed rather than emptied. Saving it
+                    empty drops the Limitation from the Policy and leaves the Policy granted on everything, while
+                    removing the Policy changes nothing: a Limitation whose every value is dangling already grants nothing.
 
-A Limitation holding lists of values under keys, such as UserPermissions, is only reported and never
-changed when one of those lists would be left empty as that would be treated as "no restriction on that dimension".
+                    A Limitation holding lists of values under keys, such as UserPermissions, is only reported and never
+                    changed when one of those lists would be left empty as that would be treated as "no restriction on that dimension".
 
-SiteAccess Limitation values are stored as an unsigned CRC32 of the SiteAccess name, so the report shows
-a number rather than a name.
+                    SiteAccess Limitation values are stored as an unsigned CRC32 of the SiteAccess name, so the report shows
+                    a number rather than a name.
 
-{$beforeRunningHints}
-EOT
+                    {$beforeRunningHints}
+                    EOT
             );
     }
 
@@ -129,13 +129,13 @@ EOT
         if ($findings === []) {
             $output->writeln('<info>No dangling Policy Limitation values found.</info>');
 
-            return 0;
+            return Command::SUCCESS;
         }
 
         $this->renderFindings($output, $findings);
 
         if (!$this->confirmFix($input, $output)) {
-            return 0;
+            return Command::SUCCESS;
         }
 
         return $this->fix($output, $findings);
@@ -337,7 +337,7 @@ EOT
             $output->writeln(sprintf('<info>Role "%s" (%d) updated.</info>', $role->identifier, $roleId));
         }
 
-        return $failed ? 1 : 0;
+        return $failed ? Command::FAILURE : Command::SUCCESS;
     }
 
     /**
