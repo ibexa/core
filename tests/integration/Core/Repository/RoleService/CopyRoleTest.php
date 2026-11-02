@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Core\Repository\RoleService;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\Exception;
 use Ibexa\Contracts\Core\Repository\Exceptions\LimitationValidationException;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Role;
@@ -27,7 +28,7 @@ final class CopyRoleTest extends RepositoryTestCase
     private const NONEXISTENT_CONTENT_TYPE_ID = 99999;
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testCopyRoleWithLimitationValueOfDeletedContentType(): void
     {
@@ -55,7 +56,7 @@ final class CopyRoleTest extends RepositoryTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     public function testCopyRoleValidatesPoliciesAddedToRoleCopyStruct(): void
     {
@@ -84,7 +85,7 @@ final class CopyRoleTest extends RepositoryTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     private function createContentType(): int
     {
@@ -114,7 +115,7 @@ final class CopyRoleTest extends RepositoryTestCase
     }
 
     /**
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\Exception
+     * @throws Exception
      */
     private function createRoleWithContentTypeLimitation(int $contentTypeId): Role
     {
