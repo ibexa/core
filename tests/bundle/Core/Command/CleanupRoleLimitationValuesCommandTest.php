@@ -27,6 +27,7 @@ use Ibexa\Core\Repository\Values\User\PolicyUpdateStruct;
 use Ibexa\Core\Repository\Values\User\Role;
 use Ibexa\Core\Repository\Values\User\RoleDraft as RoleDraftStub;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -132,7 +133,7 @@ final class CleanupRoleLimitationValuesCommandTest extends TestCase
         $this->givenRoles([$this->buildRole(99, 'probe_role', 859, $limitation)]);
         $this->givenLimitationTypeRejecting(['8']);
         $this->roleService->method('loadRole')->willReturn($this->buildRole(99, 'probe_role', 859, $limitation));
-        $this->roleService->method('loadRoleDraftByRoleId')->willReturn($this->createMock(RoleDraft::class));
+        $this->roleService->method('loadRoleDraftByRoleId')->willReturn($this->createStub(RoleDraft::class));
 
         $this->roleService->expects(self::never())->method('createRoleDraft');
         $this->roleService->expects(self::never())->method('publishRoleDraft');
@@ -246,7 +247,7 @@ final class CleanupRoleLimitationValuesCommandTest extends TestCase
      */
     private function givenLimitationTypeRejecting(array $rejected): void
     {
-        $limitationType = $this->createMock(Type::class);
+        $limitationType = $this->createStub(Type::class);
         $limitationType->method('validate')->willReturnCallback(
             static function (Limitation $limitation) use ($rejected): array {
                 $values = $limitation->limitationValues;
@@ -305,17 +306,17 @@ final class CleanupRoleLimitationValuesCommandTest extends TestCase
     }
 
     /**
-     * @return Repository&MockObject
+     * @return Repository&Stub
      */
-    private function buildRepository(): MockObject
+    private function buildRepository(): Stub
     {
-        $userService = $this->createMock(UserService::class);
-        $userService->method('loadUserByLogin')->willReturn($this->createMock(User::class));
+        $userService = $this->createStub(UserService::class);
+        $userService->method('loadUserByLogin')->willReturn($this->createStub(User::class));
 
-        $repository = $this->createMock(Repository::class);
+        $repository = $this->createStub(Repository::class);
         $repository->method('getRoleService')->willReturn($this->roleService);
         $repository->method('getUserService')->willReturn($userService);
-        $repository->method('getPermissionResolver')->willReturn($this->createMock(PermissionResolver::class));
+        $repository->method('getPermissionResolver')->willReturn($this->createStub(PermissionResolver::class));
 
         return $repository;
     }
