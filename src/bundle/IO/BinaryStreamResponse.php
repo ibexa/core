@@ -175,8 +175,6 @@ class BinaryStreamResponse extends Response
     public function sendContent(): static
     {
         if (!$this->isSuccessful()) {
-            parent::sendContent();
-
             return $this;
         }
 
@@ -246,6 +244,8 @@ class BinaryStreamResponse extends Response
                 $this->setStatusCode(
                     Response::HTTP_REQUESTED_RANGE_NOT_SATISFIABLE
                 );
+                $this->headers->set('Content-Range', sprintf('bytes */%s', $fileSize));
+                $this->headers->set('Content-Length', '0');
             } else {
                 $this->maxlen = $end - $start + 1;
                 $this->offset = $start;
