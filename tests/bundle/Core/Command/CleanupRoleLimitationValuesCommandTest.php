@@ -113,11 +113,15 @@ final class CleanupRoleLimitationValuesCommandTest extends TestCase
         $role = $this->buildRole(99, 'probe_role', 859, $limitation);
         $this->givenRoles([$role]);
         $this->givenLimitationTypeRejecting(['8']);
-        $this->givenDraftFor($role, 859, $limitation);
+        $roleDraft = $this->givenDraftFor($role, 859, $limitation);
+        $draftWithoutPolicy = $this->createStub(RoleDraft::class);
 
         $this->roleService->expects(self::never())->method('updatePolicyByRoleDraft');
-        $this->roleService->expects(self::once())->method('removePolicyByRoleDraft');
-        $this->roleService->expects(self::once())->method('publishRoleDraft');
+        $this->roleService->expects(self::once())
+            ->method('removePolicyByRoleDraft')
+            ->with($roleDraft, self::anything())
+            ->willReturn($draftWithoutPolicy);
+        $this->roleService->expects(self::once())->method('publishRoleDraft')->with($draftWithoutPolicy);
 
         self::assertSame(0, $this->execute(['--fix' => true, '--force' => true])->getStatusCode());
     }
@@ -188,7 +192,7 @@ final class CleanupRoleLimitationValuesCommandTest extends TestCase
         Role $role,
         int $policyId,
         Limitation $limitation
-    ): void {
+    ): RoleDraft {
         // RoleDraft routes every property to its inner Role, so the draft Policies go in there
         $roleDraft = new RoleDraftStub([
             'innerRole' => new Role([
@@ -213,7 +217,8 @@ final class CleanupRoleLimitationValuesCommandTest extends TestCase
         $this->roleService->method('loadRoleDraftByRoleId')
             ->willThrowException(new NotFoundException('RoleDraft', $role->id));
         $this->roleService->method('createRoleDraft')->willReturn($roleDraft);
-        $this->roleService->method('removePolicyByRoleDraft')->willReturn($roleDraft);
+
+        return $roleDraft;
     }
 
     /**
