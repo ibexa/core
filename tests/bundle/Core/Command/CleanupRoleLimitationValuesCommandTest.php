@@ -38,7 +38,7 @@ final class CleanupRoleLimitationValuesCommandTest extends TestCase
     private const MISSING_ENTITY_MESSAGE = "limitationValues[%key%] => '%value%' does not exist in the backend";
 
     /** @var RoleService&MockObject */
-    private $roleService;
+    private RoleService $roleService;
 
     protected function setUp(): void
     {
