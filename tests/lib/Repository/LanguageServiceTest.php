@@ -22,9 +22,7 @@ final class LanguageServiceTest extends TestCase
 {
     public function testGetDefaultLanguageCodeReturnsFirstConfiguredLanguage(): void
     {
-        $configResolver = $this->createStub(ConfigResolverInterface::class);
-        $configResolver->method('hasParameter')->willReturn(true);
-        $configResolver->method('getParameter')->willReturn(['pol-PL', 'eng-GB']);
+        $configResolver = $this->createConfigResolver(['pol-PL', 'eng-GB']);
 
         $languageService = $this->createLanguageService(['languages' => ['ger-DE']], $configResolver);
 
@@ -35,9 +33,15 @@ final class LanguageServiceTest extends TestCase
     public function testGetDefaultLanguageCodeReadsLanguagesSettingOnEachCall(): void
     {
         // The Repository can be built before the SiteAccess is matched, when "languages" is still empty
-        $configResolver = $this->createStub(ConfigResolverInterface::class);
-        $configResolver->method('hasParameter')->willReturn(true);
-        $configResolver->method('getParameter')->willReturnOnConsecutiveCalls([], ['pol-PL']);
+        $configResolver = $this->createMock(ConfigResolverInterface::class);
+        $configResolver->expects(self::exactly(2))
+            ->method('hasParameter')
+            ->with('languages')
+            ->willReturn(true);
+        $configResolver->expects(self::exactly(2))
+            ->method('getParameter')
+            ->with('languages')
+            ->willReturnOnConsecutiveCalls([], ['pol-PL']);
 
         $languageService = $this->createLanguageService([], $configResolver);
 
@@ -48,7 +52,7 @@ final class LanguageServiceTest extends TestCase
     public function testGetDefaultLanguageCodeDoesNotReadUndefinedLanguagesSetting(): void
     {
         $configResolver = $this->createMock(ConfigResolverInterface::class);
-        $configResolver->method('hasParameter')->with('languages')->willReturn(false);
+        $configResolver->expects(self::once())->method('hasParameter')->with('languages')->willReturn(false);
         $configResolver->expects(self::never())->method('getParameter');
 
         $languageService = $this->createLanguageService(['languages' => ['ger-DE']], $configResolver);
@@ -60,7 +64,7 @@ final class LanguageServiceTest extends TestCase
      * @dataProvider provideForGetDefaultLanguageCodeFallsBackToSettings
      *
      * @param array<string, mixed> $settings
-     * @param string[]|null $configuredLanguageCodes null when no ConfigResolver is given
+     * @param list<string>|null $configuredLanguageCodes null when no ConfigResolver is given
      */
     public function testGetDefaultLanguageCodeFallsBackToSettings(
         array $settings,
@@ -69,9 +73,7 @@ final class LanguageServiceTest extends TestCase
     ): void {
         $configResolver = null;
         if ($configuredLanguageCodes !== null) {
-            $configResolver = $this->createStub(ConfigResolverInterface::class);
-            $configResolver->method('hasParameter')->willReturn(true);
-            $configResolver->method('getParameter')->willReturn($configuredLanguageCodes);
+            $configResolver = $this->createConfigResolver($configuredLanguageCodes);
         }
 
         $languageService = $this->createLanguageService($settings, $configResolver);
@@ -80,13 +82,25 @@ final class LanguageServiceTest extends TestCase
     }
 
     /**
-     * @return iterable<string, array{array<string, mixed>, string[]|null, string}>
+     * @return iterable<string, array{array<string, mixed>, list<string>|null, string}>
      */
     public static function provideForGetDefaultLanguageCodeFallsBackToSettings(): iterable
     {
         yield 'no config resolver' => [['languages' => ['ger-DE']], null, 'ger-DE'];
         yield 'empty languages setting' => [['languages' => ['ger-DE']], [], 'ger-DE'];
         yield 'empty languages setting and no languages in settings' => [[], [], 'eng-GB'];
+    }
+
+    /**
+     * @param list<string> $languageCodes
+     */
+    private function createConfigResolver(array $languageCodes): ConfigResolverInterface
+    {
+        $configResolver = $this->createStub(ConfigResolverInterface::class);
+        $configResolver->method('hasParameter')->willReturnMap([['languages', null, null, true]]);
+        $configResolver->method('getParameter')->willReturnMap([['languages', null, null, $languageCodes]]);
+
+        return $configResolver;
     }
 
     /**
