@@ -385,7 +385,7 @@ class UserServiceDecoratorTest extends TestCase
         $userList = new UserList(1, [self::createStub(User::class)]);
 
         $serviceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('findUsers')
             ->with($filter, $userGroup, $languages)
             ->willReturn($userList);
@@ -404,7 +404,7 @@ class UserServiceDecoratorTest extends TestCase
         $userGroupList = new UserGroupList(1, [self::createStub(UserGroup::class)]);
 
         $serviceMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('findUserGroups')
             ->with($filter, $user, $languages)
             ->willReturn($userGroupList);
