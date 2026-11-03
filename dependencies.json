@@ -1,0 +1,17 @@
+{
+    "recipesEndpoint": "",
+    "packages": [
+        {
+            "requirement": "dev-ibx-13047-behat-4-stable as 6.0.x-dev",
+            "repositoryUrl": "git@github.com:ibexa/behat.git",
+            "package": "ibexa/behat",
+            "shouldBeAddedAsVCS": false
+        },
+        {
+            "requirement": "dev-ibx-13047-behat-4-stable as 6.0.x-dev",
+            "repositoryUrl": "git@github.com:ibexa/admin-ui.git",
+            "package": "ibexa/admin-ui",
+            "shouldBeAddedAsVCS": false
+        }
+    ]
+}
