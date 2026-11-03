@@ -26107,12 +26107,6 @@ parameters:
 			path: tests/integration/Core/Repository/PermissionResolverTest.php
 
 		-
-			message: '#^Access to protected property Ibexa\\Contracts\\Core\\Repository\\Values\\User\\LookupPolicyLimitations\:\:\$policy\.$#'
-			identifier: property.protected
-			count: 3
-			path: tests/integration/Core/Repository/PermissionResolverTest.php
-
-		-
 			message: '#^Cannot access property \$text on Ibexa\\Contracts\\Core\\FieldType\\Value\|null\.$#'
 			identifier: property.nonObject
 			count: 2
