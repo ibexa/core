@@ -1,0 +1,58 @@
+<?php
+
+/**
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
+declare(strict_types=1);
+
+namespace Ibexa\Contracts\Core\Repository\Values\User;
+
+use ArrayIterator;
+use Ibexa\Contracts\Core\Repository\Collections\TotalCountAwareInterface;
+use Ibexa\Contracts\Core\Repository\UserService;
+use IteratorAggregate;
+
+/**
+ * A page of user groups returned by {@see UserService::findUserGroups()}.
+ *
+ * @implements \IteratorAggregate<int, \Ibexa\Contracts\Core\Repository\Values\User\UserGroup>
+ */
+final readonly class UserGroupList implements IteratorAggregate, TotalCountAwareInterface
+{
+    /**
+     * @internal for internal use by Repository
+     *
+     * @phpstan-param int<0, max> $totalCount
+     *
+     * @param list<UserGroup> $userGroups
+     */
+    public function __construct(
+        private int $totalCount,
+        private array $userGroups
+    ) {}
+
+    /**
+     * @phpstan-return int<0, max>
+     */
+    public function getTotalCount(): int
+    {
+        return $this->totalCount;
+    }
+
+    /**
+     * @return list<UserGroup>
+     */
+    public function getUserGroups(): array
+    {
+        return $this->userGroups;
+    }
+
+    /**
+     * @return ArrayIterator<int, UserGroup>
+     */
+    public function getIterator(): ArrayIterator
+    {
+        return new ArrayIterator($this->userGroups);
+    }
+}
