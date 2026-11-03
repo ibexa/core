@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 
@@ -20,7 +21,7 @@ trait LegacyFieldTypeIdentifierTestTrait
      * Sets `ibexa_content_field.data_type_string` to a legacy alias, leaving `ibexa_class_attribute` untouched.
      *
      * @throws \ErrorException
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     protected function downgradeFieldTypeIdentifierToLegacyAlias(
         string $legacyAlias,
