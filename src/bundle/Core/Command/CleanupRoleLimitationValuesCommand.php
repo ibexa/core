@@ -301,7 +301,7 @@ final class CleanupRoleLimitationValuesCommand extends Command
                         $finding->getLimitation()->getIdentifier(),
                         $finding->getPolicy()->id,
                         $role->identifier,
-                        $roleId,
+                        $role->id,
                         implode(', ', $finding->getLabels())
                     ));
                 }
@@ -311,12 +311,12 @@ final class CleanupRoleLimitationValuesCommand extends Command
             }
 
             try {
-                $roleService->loadRoleDraftByRoleId($roleId);
+                $roleService->loadRoleDraftByRoleId($role->id);
 
                 $output->writeln(sprintf(
                     '<comment>Role "%s" (%d) already has a draft and was skipped. Publish or delete that draft, then re-run.</comment>',
                     $role->identifier,
-                    $roleId
+                    $role->id
                 ));
                 $failed = true;
 
@@ -328,7 +328,7 @@ final class CleanupRoleLimitationValuesCommand extends Command
             $roleDraft = $roleService->createRoleDraft($role);
 
             try {
-                $this->applyToDraft($roleDraft, $findingsByPolicyId, $role, $roleId);
+                $this->applyToDraft($roleDraft, $findingsByPolicyId, $role);
             } catch (Throwable $e) {
                 // The Role keeps its Policies as they were, but the draft would block a re-run
                 $roleService->deleteRoleDraft($roleDraft);
@@ -336,7 +336,7 @@ final class CleanupRoleLimitationValuesCommand extends Command
                 $output->writeln(sprintf(
                     '<error>Role "%s" (%d) was left unchanged: %s</error>',
                     $role->identifier,
-                    $roleId,
+                    $role->id,
                     $e->getMessage()
                 ));
                 $failed = true;
@@ -344,7 +344,7 @@ final class CleanupRoleLimitationValuesCommand extends Command
                 continue;
             }
 
-            $output->writeln(sprintf('<info>Role "%s" (%d) updated.</info>', $role->identifier, $roleId));
+            $output->writeln(sprintf('<info>Role "%s" (%d) updated.</info>', $role->identifier, $role->id));
         }
 
         return $failed ? Command::FAILURE : Command::SUCCESS;
@@ -377,8 +377,7 @@ final class CleanupRoleLimitationValuesCommand extends Command
     private function applyToDraft(
         RoleDraft $roleDraft,
         array $findingsByPolicyId,
-        Role $role,
-        int $roleId
+        Role $role
     ): void {
         $roleService = $this->repository->getRoleService();
 
@@ -391,7 +390,7 @@ final class CleanupRoleLimitationValuesCommand extends Command
                         'Policy %d of Role "%s" (%d) is not a draft Policy',
                         $policyDraft->id,
                         $role->identifier,
-                        $roleId
+                        $role->id
                     )
                 );
             }
@@ -424,7 +423,7 @@ final class CleanupRoleLimitationValuesCommand extends Command
      * @return Limitation[]
      */
     private function pruneLimitations(
-        Policy $policyDraft,
+        PolicyDraft $policyDraft,
         array $findings
     ): array {
         $prunedByIdentifier = [];
