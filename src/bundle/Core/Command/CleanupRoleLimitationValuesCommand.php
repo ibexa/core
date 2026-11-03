@@ -126,7 +126,11 @@ final class CleanupRoleLimitationValuesCommand extends Command
             $userService->loadUserByLogin($input->getOption('user'))
         );
 
-        $findings = $this->collectFindings($roleService, $output);
+        ['findings' => $findings, 'skipped' => $skipped] = $this->scan($roleService);
+
+        foreach ($skipped as $message) {
+            $output->writeln($message);
+        }
 
         if ($findings === []) {
             $output->writeln('<info>No dangling Policy Limitation values found.</info>');
@@ -144,17 +148,16 @@ final class CleanupRoleLimitationValuesCommand extends Command
     }
 
     /**
-     * @return DanglingLimitationValues[]
+     * @return array{findings: DanglingLimitationValues[], skipped: string[]}
      */
-    private function collectFindings(
-        RoleService $roleService,
-        OutputInterface $output
-    ): array {
+    private function scan(RoleService $roleService): array
+    {
         $findings = [];
+        $skipped = [];
         foreach ($roleService->loadRoles() as $role) {
             foreach ($role->getPolicies() as $policy) {
                 foreach ($policy->getLimitations() as $limitation) {
-                    $finding = $this->buildFinding($role, $policy, $limitation, $output);
+                    $finding = $this->buildFinding($role, $policy, $limitation, $skipped);
                     if ($finding !== null) {
                         $findings[] = $finding;
                     }
@@ -162,27 +165,29 @@ final class CleanupRoleLimitationValuesCommand extends Command
             }
         }
 
-        return $findings;
+        return ['findings' => $findings, 'skipped' => $skipped];
     }
 
     /**
      * Null both when the Limitation holds no dangling values and when it cannot be checked, in which
-     * case the reason is reported.
+     * case the reason is appended to $skipped.
+     *
+     * @param string[] $skipped
      */
     private function buildFinding(
         Role $role,
         Policy $policy,
         Limitation $limitation,
-        OutputInterface $output
+        array &$skipped
     ): ?DanglingLimitationValues {
         try {
             $danglingValues = $this->findDanglingValues($limitation);
         } catch (LimitationNotFoundException $e) {
-            $this->reportSkipped($output, $role, $policy, $limitation, 'no Limitation type is configured for it');
+            $skipped[] = $this->describeSkipped($role, $policy, $limitation, 'no Limitation type is configured for it');
 
             return null;
         } catch (Throwable $e) {
-            $this->reportSkipped($output, $role, $policy, $limitation, $e->getMessage());
+            $skipped[] = $this->describeSkipped($role, $policy, $limitation, $e->getMessage());
 
             return null;
         }
@@ -192,14 +197,13 @@ final class CleanupRoleLimitationValuesCommand extends Command
             : new DanglingLimitationValues($role, $policy, $limitation, $danglingValues);
     }
 
-    private function reportSkipped(
-        OutputInterface $output,
+    private function describeSkipped(
         Role $role,
         Policy $policy,
         Limitation $limitation,
         string $reason
-    ): void {
-        $output->writeln(sprintf(
+    ): string {
+        return sprintf(
             '<comment>Limitation "%s" on Policy %s/%s (%d) of Role "%s" (%d) was skipped: %s</comment>',
             $limitation->getIdentifier(),
             $policy->module,
@@ -208,7 +212,7 @@ final class CleanupRoleLimitationValuesCommand extends Command
             $role->identifier,
             $role->id,
             $reason
-        ));
+        );
     }
 
     /**

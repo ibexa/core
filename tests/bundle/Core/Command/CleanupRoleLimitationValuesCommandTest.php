@@ -19,6 +19,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation
 use Ibexa\Contracts\Core\Repository\Values\User\RoleDraft;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Base\Exceptions\NotFound\LimitationNotFoundException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\FieldType\ValidationError;
 use Ibexa\Core\Repository\Values\User\Policy;
@@ -176,6 +177,24 @@ final class CleanupRoleLimitationValuesCommandTest extends TestCase
 
         self::assertSame(0, $tester->getStatusCode());
         self::assertStringContainsString('Nothing was changed', $tester->getDisplay());
+    }
+
+    public function testReportsLimitationItCannotCheckAndChangesNothing(): void
+    {
+        $limitation = new ContentTypeLimitation(['limitationValues' => ['8']]);
+        $this->givenRoles([$this->buildRole(99, 'probe_role', 859, $limitation)]);
+        $this->roleService->method('getLimitationType')
+            ->willThrowException(new LimitationNotFoundException(Limitation::CONTENTTYPE));
+
+        $this->roleService->expects(self::never())->method('createRoleDraft');
+
+        $tester = $this->execute(['--fix' => true, '--force' => true]);
+
+        self::assertSame(0, $tester->getStatusCode());
+        self::assertStringContainsString(
+            'was skipped: no Limitation type is configured for it',
+            $tester->getDisplay()
+        );
     }
 
     public function testReportsNothingWhenEveryValueResolves(): void
