@@ -70,8 +70,10 @@ final class ImageAssetTest extends RepositoryTestCase
         $this->assertAssetRelationIsCleared($assetContent);
     }
 
-    private function createAssetContent(ContentType $contentType, Content $destinationContent): Content
-    {
+    private function createAssetContent(
+        ContentType $contentType,
+        Content $destinationContent
+    ): Content {
         $struct = $this->contentService->newContentCreateStruct($contentType, 'eng-GB');
         $struct->setField('asset', new AssetValue(
             $destinationContent->getId(),

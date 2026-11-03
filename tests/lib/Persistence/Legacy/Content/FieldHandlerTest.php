@@ -973,8 +973,10 @@ class FieldHandlerTest extends LanguageAwareTestCase
     /**
      * @param array<string, int[]> $fieldIdsByType
      */
-    private function mockGetFieldIdsByType(array $fieldIdsByType, ?string $languageCode = null): void
-    {
+    private function mockGetFieldIdsByType(
+        array $fieldIdsByType,
+        ?string $languageCode = null
+    ): void {
         $arguments = [self::equalTo(42), self::equalTo(2)];
         if (null !== $languageCode) {
             $arguments[] = self::equalTo($languageCode);
