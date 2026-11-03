@@ -8,20 +8,28 @@
 namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
 use Exception;
+use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
 use Ibexa\Contracts\Core\Persistence\User\Handler as PersistenceUserHandler;
 use Ibexa\Contracts\Core\Persistence\User\RoleAssignment;
 use Ibexa\Contracts\Core\Repository\ContentService as APIContentService;
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\UserService as APIUserService;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo as APIContentInfo;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentList;
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationList;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo as APIVersionInfo;
+use Ibexa\Contracts\Core\Repository\Values\Filter\Filter;
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Contracts\Core\Repository\Values\User\User as APIUser;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Repository\User\PasswordValidatorInterface;
 use Ibexa\Core\Repository\UserService;
+use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -79,6 +87,56 @@ class UserTest extends BaseServiceMockTest
 
         $this->expectExceptionObject($exception);
         $userService->deleteUser($user);
+    }
+
+    public function testFindUsersFailsWhenUsersOfThePageCannotBeLoaded(): void
+    {
+        $locationService = self::createStub(LocationService::class);
+        $locationService->method('find')->willReturn(new LocationList([
+            'totalCount' => 3,
+            'locations' => [
+                new Location(['contentInfo' => new APIContentInfo(['id' => 10])]),
+                new Location(['contentInfo' => new APIContentInfo(['id' => 11])]),
+            ],
+        ]));
+
+        // the users were deleted between finding their Locations and loading their content
+        $contentService = self::createStub(APIContentService::class);
+        $contentService->method('loadContentListByContentInfo')->willReturn([]);
+
+        $repository = $this->getRepositoryMock();
+        $repository->method('getLocationService')->willReturn($locationService);
+        $repository->method('getContentService')->willReturn($contentService);
+
+        $this->expectException(BadStateException::class);
+        $this->expectExceptionMessage(
+            'users 10, 11 matched the filter but were deleted or changed before they could be loaded'
+        );
+
+        $this->createUserService()->findUsers(new Filter());
+    }
+
+    public function testFindUserGroupsFailsWhenUserGroupsOfThePageCannotBeLoaded(): void
+    {
+        $contentService = self::createStub(APIContentService::class);
+        $contentService->method('find')->willReturn(new ContentList(3, [
+            $this->createUserGroupContentStub(20, 200),
+            $this->createUserGroupContentStub(21, 210),
+        ]));
+        $this->getRepositoryMock()->method('getContentService')->willReturn($contentService);
+
+        // the main Location of user group 21 was deleted between finding the user groups and loading their Locations
+        $this->getPersistenceMockHandler('Content\\Location\\Handler')->method('loadList')->willReturnMap([
+            [[200, 210], null, true, [200 => new SPILocation(['id' => 200, 'parentId' => 5])]],
+            [[5], null, true, [5 => new SPILocation(['id' => 5, 'contentId' => 4])]],
+        ]);
+
+        $this->expectException(BadStateException::class);
+        $this->expectExceptionMessage(
+            'user groups 21 matched the filter but were deleted or changed before they could be loaded'
+        );
+
+        $this->createUserService()->findUserGroups(new Filter());
     }
 
     /**
@@ -144,5 +202,34 @@ class UserTest extends BaseServiceMockTest
 
         $repository->expects(self::once())->method('beginTransaction');
         $repository->expects(self::once())->method('getContentService')->willReturn($contentService);
+    }
+
+    private function createUserService(): UserService
+    {
+        $configResolver = self::createStub(ConfigResolverInterface::class);
+        $configResolver->method('getParameter')->willReturn(['user']);
+
+        return new UserService(
+            $this->getRepositoryMock(),
+            $this->getPermissionResolverMock(),
+            $this->getPersistenceMock()->userHandler(),
+            $this->getPersistenceMock()->locationHandler(),
+            self::createStub(PasswordHashService::class),
+            self::createStub(PasswordValidatorInterface::class),
+            $configResolver
+        );
+    }
+
+    private function createUserGroupContentStub(
+        int $contentId,
+        int $mainLocationId
+    ): APIContent {
+        $content = self::createStub(APIContent::class);
+        $content->method('getId')->willReturn($contentId);
+        $content->method('getContentInfo')->willReturn(
+            new APIContentInfo(['id' => $contentId, 'mainLocationId' => $mainLocationId])
+        );
+
+        return $content;
     }
 }
