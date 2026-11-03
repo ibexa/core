@@ -109,6 +109,33 @@ final class CleanupRoleLimitationValuesCommandTest extends TestCase
         self::assertSame(['4'], $updated[Limitation::CONTENTTYPE]->limitationValues);
     }
 
+    public function testFixKeepsAnAlreadyEmptyValueListAsItIs(): void
+    {
+        // "roles" is empty to begin with, so pruning "user_groups" does not widen anything:
+        // --fix must never leave a list empty that was not empty already.
+        $limitation = new ContentTypeLimitation(
+            ['limitationValues' => ['roles' => [], 'user_groups' => ['11', '15']]]
+        );
+        $role = $this->buildRole(14, 'Company admin', 401, $limitation);
+        $this->givenRoles([$role]);
+        $this->givenLimitationTypeRejecting(['15']);
+        $this->givenDraftFor($role, 401, $limitation);
+
+        $policyUpdateStruct = new PolicyUpdateStruct();
+        $this->roleService->method('newPolicyUpdateStruct')->willReturn($policyUpdateStruct);
+
+        $this->roleService->expects(self::never())->method('removePolicyByRoleDraft');
+        $this->roleService->expects(self::once())->method('updatePolicyByRoleDraft');
+
+        self::assertSame(0, $this->execute(['--fix' => true, '--force' => true])->getStatusCode());
+
+        $updated = iterator_to_array($this->asIterator($policyUpdateStruct->getLimitations()));
+        self::assertSame(
+            ['roles' => [], 'user_groups' => ['11']],
+            $updated[Limitation::CONTENTTYPE]->limitationValues
+        );
+    }
+
     public function testFixRemovesAPolicyWhoseEveryValueIsDangling(): void
     {
         $limitation = new ContentTypeLimitation(['limitationValues' => ['8']]);
