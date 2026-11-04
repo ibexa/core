@@ -14,6 +14,7 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Sequence;
 use Doctrine\ORM\Configuration;
@@ -66,15 +67,18 @@ final class OrmEntitiesSchemaSubscriberTest extends TestCase
         );
     }
 
+    /**
+     * Compared, rather than by their SQL, as a table added to the schema lists the index backing a
+     * foreign key after the other ones.
+     */
     #[DataProvider('providePlatforms')]
     public function testAddsTablesOfListedEntitiesAsSchemaToolGeneratesThem(AbstractPlatform $platform): void
     {
         $schema = $this->dispatch(new Schema());
 
-        self::assertSame(
-            $this->getCreateTablesSql($this->getSchemaToolSchema(), $platform),
-            $this->getCreateTablesSql($schema, $platform),
-        );
+        $diff = (new Comparator($platform))->compareSchemas($this->getSchemaToolSchema(), $schema);
+
+        self::assertSame([], $platform->getAlterSchemaSQL($diff));
     }
 
     /**
@@ -141,16 +145,6 @@ final class OrmEntitiesSchemaSubscriberTest extends TestCase
             static fn (string $class): ClassMetadata => $metadataFactory->getMetadataFor($class),
             self::ENTITY_CLASSES,
         ));
-    }
-
-    /**
-     * @return list<string>
-     */
-    private function getCreateTablesSql(
-        Schema $schema,
-        AbstractPlatform $platform
-    ): array {
-        return $platform->getCreateTablesSQL($schema->getTables());
     }
 
     /**
