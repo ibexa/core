@@ -71,14 +71,13 @@ final readonly class OrmEntitiesSchemaSubscriber implements EventSubscriberInter
             $classMetadata,
         );
 
-        $targetSchema = $event->getSchema();
         foreach ($ormSchema->getTables() as $ormTable) {
             $tableName = $ormTable->getObjectName()->toString();
             if (!in_array($tableName, $ownTableNames, true)) {
                 continue;
             }
 
-            if ($targetSchema->hasTable($tableName)) {
+            if ($event->hasTable($tableName)) {
                 continue;
             }
 
@@ -98,7 +97,7 @@ final readonly class OrmEntitiesSchemaSubscriber implements EventSubscriberInter
                 continue;
             }
 
-            if ($targetSchema->hasSequence($sequenceName)) {
+            if ($event->hasSequence($sequenceName)) {
                 continue;
             }
 
