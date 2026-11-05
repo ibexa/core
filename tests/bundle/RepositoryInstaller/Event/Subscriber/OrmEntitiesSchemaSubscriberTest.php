@@ -17,6 +17,7 @@ use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Sequence;
+use Doctrine\DBAL\Schema\Table;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,13 +27,16 @@ use Doctrine\ORM\Tools\Event\GenerateSchemaEventArgs;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\ToolEvents;
 use Ibexa\Bundle\RepositoryInstaller\Event\Subscriber\OrmEntitiesSchemaSubscriber;
-use Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface;
 use Ibexa\Contracts\DoctrineSchema\Event\SchemaBuilderEvent;
+use Ibexa\Contracts\DoctrineSchema\SchemaBuilderEvents;
+use Ibexa\Contracts\DoctrineSchema\SchemaImporterInterface;
+use Ibexa\DoctrineSchema\Builder\SchemaBuilder;
 use Ibexa\Tests\Bundle\RepositoryInstaller\Event\Subscriber\Fixtures\Entity\Category;
 use Ibexa\Tests\Bundle\RepositoryInstaller\Event\Subscriber\Fixtures\Entity\Item;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Uses a real (SQLite, in-memory) entity manager over XML-mapped fixture entities, since the
@@ -74,7 +78,7 @@ final class OrmEntitiesSchemaSubscriberTest extends TestCase
     #[DataProvider('providePlatforms')]
     public function testAddsTablesOfListedEntitiesAsSchemaToolGeneratesThem(AbstractPlatform $platform): void
     {
-        $schema = $this->dispatch(new Schema());
+        $schema = $this->buildSchema();
 
         $diff = (new Comparator($platform))->compareSchemas($this->getSchemaToolSchema(), $schema);
 
@@ -94,7 +98,7 @@ final class OrmEntitiesSchemaSubscriberTest extends TestCase
 
     public function testAddsSequencesOfListedEntitiesAsSchemaToolGeneratesThem(): void
     {
-        $schema = $this->dispatch(new Schema());
+        $schema = $this->buildSchema();
 
         self::assertSame(
             $this->getCreateSequencesSql($this->getSchemaToolSchema()),
@@ -113,7 +117,7 @@ final class OrmEntitiesSchemaSubscriberTest extends TestCase
             }
         });
 
-        $schema = $this->dispatch(new Schema());
+        $schema = $this->buildSchema();
 
         self::assertTrue($schema->hasTable('test_orm_item'));
         self::assertFalse($schema->hasTable('test_orm_foreign'));
@@ -123,10 +127,12 @@ final class OrmEntitiesSchemaSubscriberTest extends TestCase
 
     public function testLeavesTablesAlreadyInTheSchemaUntouched(): void
     {
-        $schema = new Schema();
-        $schema->createTable('test_orm_category')->addColumn('legacy_id', 'integer');
-
-        $schema = $this->dispatch($schema);
+        $schema = $this->buildSchema(
+            Table::editor()
+                ->setUnquotedName('test_orm_category')
+                ->setColumns(Column::editor()->setUnquotedName('legacy_id')->setTypeName('integer')->create())
+                ->create()
+        );
 
         $columnNames = array_map(
             static fn (Column $column): string => $column->getName(),
@@ -162,12 +168,26 @@ final class OrmEntitiesSchemaSubscriberTest extends TestCase
         );
     }
 
-    private function dispatch(Schema $schema): Schema
+    /**
+     * Builds the schema with the subscriber, after another one added the given tables.
+     */
+    private function buildSchema(Table ...$existingTables): Schema
     {
-        $event = new SchemaBuilderEvent(self::createStub(SchemaBuilderInterface::class), $schema);
+        $eventDispatcher = new EventDispatcher();
+        $eventDispatcher->addListener(
+            SchemaBuilderEvents::BUILD_SCHEMA,
+            static function (SchemaBuilderEvent $event) use ($existingTables): void {
+                foreach ($existingTables as $table) {
+                    $event->addTable($table);
+                }
+            },
+            300,
+        );
+        $eventDispatcher->addSubscriber(new OrmEntitiesSchemaSubscriber($this->entityManager, self::ENTITY_CLASSES));
 
-        (new OrmEntitiesSchemaSubscriber($this->entityManager, self::ENTITY_CLASSES))->onBuildSchema($event);
-
-        return $event->getSchema();
+        return (new SchemaBuilder(
+            $eventDispatcher,
+            self::createStub(SchemaImporterInterface::class),
+        ))->buildSchema();
     }
 }
