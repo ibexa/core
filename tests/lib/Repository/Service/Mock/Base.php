@@ -104,12 +104,16 @@ abstract class Base extends TestCase
      * Get Real repository with mocked dependencies.
      *
      * @param array $serviceSettings If set then non shared instance of Repository is returned
+     * @param ConfigResolverInterface|null $configResolver If set then non shared instance of Repository is returned
      *
      * @return APIRepository
      */
-    protected function getRepository(array $serviceSettings = [])
-    {
-        if ($this->repository === null || !empty($serviceSettings)) {
+    protected function getRepository(
+        array $serviceSettings = [],
+        ?ConfigResolverInterface $configResolver = null
+    ) {
+        $isShared = empty($serviceSettings) && $configResolver === null;
+        if ($this->repository === null || !$isShared) {
             $repository = new Repository(
                 $this->getPersistenceMock(),
                 $this->getSPIMockHandler('Search\\Handler'),
@@ -130,13 +134,13 @@ abstract class Base extends TestCase
                 $this->getContentFilteringHandlerMock(),
                 $this->getLocationFilteringHandlerMock(),
                 $this->createMock(PasswordValidatorInterface::class),
-                $this->createMock(ConfigResolverInterface::class),
+                $configResolver ?? $this->createMock(ConfigResolverInterface::class),
                 $this->createMock(NameSchemaServiceInterface::class),
                 new ContentCollector(),
                 $serviceSettings,
             );
 
-            if (!empty($serviceSettings)) {
+            if (!$isShared) {
                 return $repository;
             }
 
