@@ -18,7 +18,7 @@ trait LegacyFieldTypeIdentifierTestTrait
     abstract protected function getRawDatabaseConnection(): Connection;
 
     /**
-     * Sets `ibexa_content_field.data_type_string` to a legacy alias, leaving `ibexa_class_attribute` untouched.
+     * Sets `ibexa_content_field.data_type_string` to a legacy alias, leaving `ibexa_content_type_field_definition` untouched.
      *
      * @throws \ErrorException
      * @throws Exception
