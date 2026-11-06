@@ -250,6 +250,11 @@ final class FixtureImporter
                     continue;
                 }
                 $mask = (int)$row['lang_mask'];
+                $this->connection->executeStatement(
+                    'UPDATE ibexa_url_alias_ml SET is_always_available = :alwaysAvailable WHERE parent = :parent AND text_md5 = :textMd5',
+                    ['alwaysAvailable' => ($mask & 1) === 1, 'parent' => $row['parent'], 'textMd5' => $row['text_md5']],
+                    ['alwaysAvailable' => ParameterType::BOOLEAN, 'parent' => ParameterType::INTEGER, 'textMd5' => ParameterType::STRING]
+                );
                 foreach ($this->extractLanguageIds($mask, $validLanguageIds) as $languageId) {
                     $this->connection->executeStatement(
                         'INSERT INTO ibexa_url_alias_ml_translation (parent, text_md5, language_id) VALUES (:parent, :textMd5, :languageId)',
