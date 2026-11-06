@@ -321,7 +321,7 @@ class Type extends FieldType implements TranslationContainerInterface
     public function getRelations(SPIValue $fieldValue): array
     {
         $relations = [];
-        if ($fieldValue->destinationContentId !== null) {
+        if ($fieldValue->destinationContentId !== null && !$this->isTargetDeleted((int)$fieldValue->destinationContentId)) {
             $relations[Relation::ASSET] = [$fieldValue->destinationContentId];
         }
 

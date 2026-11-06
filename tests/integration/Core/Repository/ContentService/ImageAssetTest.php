@@ -82,6 +82,11 @@ final class ImageAssetTest extends RepositoryTestCase
             $value = $published->getFieldValue('asset');
             self::assertInstanceOf(AssetValue::class, $value);
             self::assertNull($value->destinationContentId);
+            self::assertSame(0, $this->contentService->countRelations($published->getVersionInfo()));
+            self::assertEquals(0, $this->getIbexaTestCore()->getServiceByClassName(Connection::class)->fetchOne(
+                'SELECT COUNT(*) FROM ezcontentobject_link WHERE to_contentobject_id = :id',
+                ['id' => $destinationContentId]
+            ));
         }
     }
 

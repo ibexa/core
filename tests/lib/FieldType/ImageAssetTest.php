@@ -534,7 +534,7 @@ class ImageAssetTest extends FieldTypeTest
      */
     public function testGetRelations()
     {
-        $destinationContentId = 7;
+        $destinationContentId = self::DESTINATION_CONTENT_ID;
         $fieldType = $this->createFieldTypeUnderTest();
 
         $this->assertEquals(
@@ -543,6 +543,21 @@ class ImageAssetTest extends FieldTypeTest
             ],
             $fieldType->getRelations($fieldType->acceptValue($destinationContentId))
         );
+    }
+
+    public function testGetRelationsSkipsMissingTarget(): void
+    {
+        $destinationContentId = 7;
+        $contentHandler = $this->createMock(SPIContentHandler::class);
+        $contentHandler
+            ->expects($this->once())
+            ->method('loadContentInfo')
+            ->with($destinationContentId)
+            ->willThrowException(new NotFoundException('Content', $destinationContentId));
+
+        $fieldType = new ImageAsset\Type($this->contentServiceMock, $this->assetMapperMock, $contentHandler);
+
+        $this->assertSame([], $fieldType->getRelations(new ImageAsset\Value($destinationContentId)));
     }
 }
 
