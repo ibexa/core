@@ -116,12 +116,22 @@ final class DoctrineDatabase extends Gateway
                         ),
                         ParameterType::INTEGER
                     ),
+                    'always_available' => $query->createPositionalParameter(
+                        $struct->alwaysAvailable,
+                        ParameterType::BOOLEAN
+                    ),
                 ]
             );
 
         $query->executeStatement();
 
-        return (int)$this->connection->lastInsertId();
+        $contentId = (int)$this->connection->lastInsertId();
+        $this->insertContentTranslations(
+            $contentId,
+            $this->collectFieldLanguageCodes($struct->fields, $initialLanguageCode)
+        );
+
+        return $contentId;
     }
 
     public function insertVersion(
@@ -171,12 +181,122 @@ final class DoctrineDatabase extends Gateway
                         ),
                         ParameterType::INTEGER
                     ),
+                    'always_available' => $query->createPositionalParameter(
+                        $versionInfo->contentInfo->alwaysAvailable,
+                        ParameterType::BOOLEAN
+                    ),
                 ]
             );
 
         $query->executeStatement();
 
-        return (int)$this->connection->lastInsertId();
+        $versionId = (int)$this->connection->lastInsertId();
+        $this->insertVersionTranslations(
+            $versionId,
+            $this->collectFieldLanguageCodes($fields, $versionInfo->initialLanguageCode)
+        );
+
+        return $versionId;
+    }
+
+    /**
+     * Collects the unique language codes a Content/Version's fields are written in, always
+     * including $initialLanguageCode, for populating "ibexa_content_translation"/
+     * "ibexa_content_version_translation".
+     *
+     * @param Field[] $fields
+     *
+     * @return string[]
+     */
+    private function collectFieldLanguageCodes(
+        array $fields,
+        string $initialLanguageCode
+    ): array {
+        $languageCodes = [$initialLanguageCode => true];
+        foreach ($fields as $field) {
+            $languageCodes[$field->languageCode] = true;
+        }
+
+        return array_keys($languageCodes);
+    }
+
+    /**
+     * @param string[] $languageCodes
+     */
+    private function insertContentTranslations(
+        int $contentId,
+        array $languageCodes
+    ): void {
+        foreach (array_unique($languageCodes) as $languageCode) {
+            $languageId = $this->languageHandler->loadByLanguageCode($languageCode)->id;
+            $this->connection->executeStatement(
+                'INSERT INTO ibexa_content_translation (content_id, language_id) VALUES (:contentId, :languageId)',
+                ['contentId' => $contentId, 'languageId' => $languageId],
+                ['contentId' => ParameterType::INTEGER, 'languageId' => ParameterType::INTEGER]
+            );
+        }
+    }
+
+    /**
+     * @param string[] $languageCodes
+     */
+    private function insertVersionTranslations(
+        int $versionId,
+        array $languageCodes
+    ): void {
+        foreach (array_unique($languageCodes) as $languageCode) {
+            $languageId = $this->languageHandler->loadByLanguageCode($languageCode)->id;
+            $this->connection->executeStatement(
+                'INSERT INTO ibexa_content_version_translation (content_version_id, language_id) VALUES (:versionId, :languageId)',
+                ['versionId' => $versionId, 'languageId' => $languageId],
+                ['versionId' => ParameterType::INTEGER, 'languageId' => ParameterType::INTEGER]
+            );
+        }
+    }
+
+    /**
+     * Adds $languageCodes to Version $versionId's translations, leaving any already present
+     * untouched - mirrors updateVersion()'s additive bit-OR merge onto "language_mask".
+     *
+     * @param string[] $languageCodes
+     */
+    private function addVersionTranslationsIfMissing(
+        int $versionId,
+        array $languageCodes
+    ): void {
+        foreach (array_unique($languageCodes) as $languageCode) {
+            $languageId = $this->languageHandler->loadByLanguageCode($languageCode)->id;
+            $this->connection->executeStatement(
+                'INSERT INTO ibexa_content_version_translation (content_version_id, language_id)
+                 SELECT :versionId, :languageId
+                 WHERE NOT EXISTS (
+                     SELECT 1 FROM ibexa_content_version_translation
+                     WHERE content_version_id = :versionId AND language_id = :languageId
+                 )',
+                ['versionId' => $versionId, 'languageId' => $languageId],
+                ['versionId' => ParameterType::INTEGER, 'languageId' => ParameterType::INTEGER]
+            );
+        }
+    }
+
+    /**
+     * Replaces Content $contentId's translations with exactly $languageCodes - mirrors
+     * updateContent()'s publish-time replace of "language_mask" with the newly published
+     * version's language set (not a union with whatever the content previously had).
+     *
+     * @param string[] $languageCodes
+     */
+    private function replaceContentTranslations(
+        int $contentId,
+        array $languageCodes
+    ): void {
+        $this->connection->executeStatement(
+            'DELETE FROM ibexa_content_translation WHERE content_id = :contentId',
+            ['contentId' => $contentId],
+            ['contentId' => ParameterType::INTEGER]
+        );
+
+        $this->insertContentTranslations($contentId, $languageCodes);
     }
 
     public function updateContent(
@@ -232,13 +352,18 @@ final class DoctrineDatabase extends Gateway
         }
 
         if ($prePublishVersionInfo !== null) {
+            $alwaysAvailable = $struct->alwaysAvailable ?? $prePublishVersionInfo->contentInfo->alwaysAvailable;
             $mask = $this->languageMaskGenerator->generateLanguageMaskFromLanguageCodes(
                 $prePublishVersionInfo->languageCodes,
-                $struct->alwaysAvailable ?? $prePublishVersionInfo->contentInfo->alwaysAvailable
+                $alwaysAvailable
             );
             $query->set(
                 'language_mask',
                 $query->createNamedParameter($mask, ParameterType::INTEGER, ':languageMask')
+            );
+            $query->set(
+                'always_available',
+                $query->createNamedParameter($alwaysAvailable, ParameterType::BOOLEAN, ':alwaysAvailable')
             );
             $hasSetClause = true;
         }
@@ -257,6 +382,10 @@ final class DoctrineDatabase extends Gateway
         // Handle alwaysAvailable flag update separately as it's a more complex task and has impact on several tables
         if (isset($struct->alwaysAvailable) || isset($struct->mainLanguageId)) {
             $this->updateAlwaysAvailableFlag($contentId, $struct->alwaysAvailable);
+        }
+
+        if ($prePublishVersionInfo !== null) {
+            $this->replaceContentTranslations($contentId, $prePublishVersionInfo->languageCodes);
         }
     }
 
@@ -306,6 +435,24 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('version_no', $versionNo, ParameterType::INTEGER);
 
         $query->executeStatement();
+
+        $versionId = $this->connection->createQueryBuilder()
+            ->select('id')
+            ->from(self::CONTENT_VERSION_TABLE)
+            ->where('contentobject_id = :content_id')
+            ->andWhere('version = :version_no')
+            ->setParameter('content_id', $contentId, ParameterType::INTEGER)
+            ->setParameter('version_no', $versionNo, ParameterType::INTEGER)
+            ->executeQuery()
+            ->fetchOne();
+
+        $this->addVersionTranslationsIfMissing(
+            (int)$versionId,
+            $this->collectFieldLanguageCodes(
+                $struct->fields,
+                $this->languageHandler->load($struct->initialLanguageId)->languageCode
+            )
+        );
     }
 
     public function updateAlwaysAvailableFlag(
@@ -344,7 +491,11 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $expr = $query->expr();
         $query
-            ->update(self::CONTENT_ITEM_TABLE);
+            ->update(self::CONTENT_ITEM_TABLE)
+            ->set(
+                'always_available',
+                $query->createNamedParameter($alwaysAvailable, ParameterType::BOOLEAN, ':alwaysAvailable')
+            );
         $this
             ->setLanguageMaskForUpdateQuery($alwaysAvailable, $query, 'language_mask')
             ->where(
@@ -754,7 +905,7 @@ final class DoctrineDatabase extends Gateway
                 'c.published AS content_published',
                 'c.status AS content_status',
                 'c.name AS content_name',
-                'c.language_mask AS content_language_mask',
+                'c.always_available AS content_always_available',
                 'c.is_hidden AS content_is_hidden',
                 'v.id AS content_version_id',
                 'v.version AS content_version_version',
@@ -762,7 +913,7 @@ final class DoctrineDatabase extends Gateway
                 'v.creator_id AS content_version_creator_id',
                 'v.created AS content_version_created',
                 'v.status AS content_version_status',
-                'v.language_mask AS content_version_language_mask',
+                'v.always_available AS content_version_always_available',
                 'v.initial_language_id AS content_version_initial_language_id',
                 'a.id AS content_field_id',
                 'a.content_type_field_definition_id AS content_field_content_type_field_definition_id',
@@ -2039,7 +2190,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Remove language from language_mask of ibexa_content.
+     * Remove language from ibexa_content_translation and the language_mask of ibexa_content.
      *
      * @param int $contentId
      * @param int $languageId
@@ -2050,36 +2201,41 @@ final class DoctrineDatabase extends Gateway
         $contentId,
         $languageId
     ) {
+        $hasOtherLanguages = (bool)$this->connection->fetchOne(
+            'SELECT 1 FROM ibexa_content_translation WHERE content_id = :contentId AND language_id != :languageId',
+            ['contentId' => $contentId, 'languageId' => $languageId],
+            ['contentId' => ParameterType::INTEGER, 'languageId' => ParameterType::INTEGER]
+        );
+
+        // most likely somehow it was the last remaining translation
+        if (!$hasOtherLanguages) {
+            throw new BadStateException(
+                '$languageCode',
+                'The provided translation is the only translation in this version'
+            );
+        }
+
         $query = $this->connection->createQueryBuilder();
         $query->update(Gateway::CONTENT_ITEM_TABLE)
             // parameter for bitwise operation has to be placed verbatim (w/o binding) for this to work cross-DBMS
             ->set('language_mask', 'language_mask & ~ ' . $languageId)
             ->set('modified', ':now')
             ->where('id = :contentId')
-            ->andWhere(
-                // make sure removed translation is not the last one (incl. alwaysAvailable)
-                $query->expr()->and(
-                    'language_mask & ~ ' . $languageId . ' <> 0',
-                    'language_mask & ~ ' . $languageId . ' <> 1'
-                )
-            )
             ->setParameter('now', time())
             ->setParameter('contentId', $contentId)
         ;
+        $query->executeStatement();
 
-        $rowCount = $query->executeStatement();
-
-        // no rows updated means that most likely somehow it was the last remaining translation
-        if ($rowCount === 0) {
-            throw new BadStateException(
-                '$languageCode',
-                'The provided translation is the only translation in this version'
-            );
-        }
+        $this->connection->executeStatement(
+            'DELETE FROM ibexa_content_translation WHERE content_id = :contentId AND language_id = :languageId',
+            ['contentId' => $contentId, 'languageId' => $languageId],
+            ['contentId' => ParameterType::INTEGER, 'languageId' => ParameterType::INTEGER]
+        );
     }
 
     /**
-     * Remove language from language_mask of ibexa_content_version and update initialLanguageId
+     * Remove language from ibexa_content_version_translation and the language_mask of ibexa_content_version,
+     * and update initialLanguageId
      * if it matches the removed one.
      *
      * @param int|null $versionNo optional, if specified, apply to this Version only.
@@ -2092,8 +2248,9 @@ final class DoctrineDatabase extends Gateway
         ?int $versionNo = null
     ) {
         $contentTable = Gateway::CONTENT_ITEM_TABLE;
+        $versionTable = Gateway::CONTENT_VERSION_TABLE;
         $query = $this->connection->createQueryBuilder();
-        $query->update(Gateway::CONTENT_VERSION_TABLE)
+        $query->update($versionTable)
             // parameter for bitwise operation has to be placed verbatim (w/o binding) for this to work cross-DBMS
             ->set('language_mask', 'language_mask & ~ ' . $languageId)
             ->set('modified', ':now')
@@ -2107,10 +2264,7 @@ final class DoctrineDatabase extends Gateway
             ->where('contentobject_id = :contentId')
             ->andWhere(
                 // make sure removed translation is not the last one (incl. alwaysAvailable)
-                $query->expr()->and(
-                    'language_mask & ~ ' . $languageId . ' <> 0',
-                    'language_mask & ~ ' . $languageId . ' <> 1'
-                )
+                "EXISTS (SELECT 1 FROM ibexa_content_version_translation cvt WHERE cvt.content_version_id = {$versionTable}.id AND cvt.language_id != :languageId)"
             )
             ->setParameter('now', time())
             ->setParameter('contentId', $contentId)
@@ -2124,15 +2278,57 @@ final class DoctrineDatabase extends Gateway
             ;
         }
 
-        $rowCount = $query->executeStatement();
+        // Checked as its own query rather than via the UPDATE's affected-row count: MySQL's PDO
+        // driver reports "rows changed", not "rows matched", by default - if a version's
+        // "modified"/"initial_language_id" happen to already hold the values being set (e.g. two
+        // operations landing within the same time() second), MySQL reports 0 affected rows even
+        // though the WHERE/EXISTS clause matched, which would incorrectly look like "no other
+        // translation exists" here.
+        $hasOtherLanguagesQuery = $this->connection->createQueryBuilder();
+        $hasOtherLanguagesQuery
+            ->select('1')
+            ->from($versionTable)
+            ->where('contentobject_id = :contentId')
+            ->andWhere(
+                "EXISTS (SELECT 1 FROM ibexa_content_version_translation cvt WHERE cvt.content_version_id = {$versionTable}.id AND cvt.language_id != :languageId)"
+            )
+            ->setParameter('contentId', $contentId)
+            ->setParameter('languageId', $languageId)
+        ;
 
-        // no rows updated means that most likely somehow it was the last remaining translation
-        if ($rowCount === 0) {
+        if (null !== $versionNo) {
+            $hasOtherLanguagesQuery
+                ->andWhere('version = :versionNo')
+                ->setParameter('versionNo', $versionNo)
+            ;
+        }
+
+        $hasOtherLanguages = (bool)$hasOtherLanguagesQuery->executeQuery()->fetchOne();
+
+        // most likely somehow it was the last remaining translation
+        if (!$hasOtherLanguages) {
             throw new BadStateException(
                 '$languageCode',
                 'The provided translation is the only translation in this version'
             );
         }
+
+        $query->executeStatement();
+
+        $deleteQuery = 'DELETE FROM ibexa_content_version_translation
+             WHERE language_id = :languageId
+             AND content_version_id IN (
+                 SELECT id FROM ibexa_content_version WHERE contentobject_id = :contentId'
+            . (null !== $versionNo ? ' AND version = :versionNo' : '') . ')';
+
+        $deleteParams = ['contentId' => $contentId, 'languageId' => $languageId];
+        $deleteTypes = ['contentId' => ParameterType::INTEGER, 'languageId' => ParameterType::INTEGER];
+        if (null !== $versionNo) {
+            $deleteParams['versionNo'] = $versionNo;
+            $deleteTypes['versionNo'] = ParameterType::INTEGER;
+        }
+
+        $this->connection->executeStatement($deleteQuery, $deleteParams, $deleteTypes);
     }
 
     /**
