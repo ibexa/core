@@ -3,7 +3,7 @@ services:
         class: Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway\DoctrineDatabase
         arguments:
             - '@ibexa.api.storage_engine.legacy.connection'
-            - '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
+            - '@ibexa.spi.persistence.legacy.language.handler'
 
     Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway\ExceptionConversion:
         class: Ibexa\Core\Persistence\Legacy\Content\ObjectState\Gateway\ExceptionConversion
