@@ -7,6 +7,7 @@
 
 namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
 
 /**
@@ -115,6 +116,20 @@ class RepositoryTest extends BaseServiceMockTest
         );
 
         $mockedRepository->rollback();
+    }
+
+    /**
+     * @covers \Ibexa\Core\Repository\Repository::getContentLanguageService
+     */
+    public function testGetContentLanguageServiceUsesConfiguredLanguages(): void
+    {
+        $configResolver = $this->createStub(ConfigResolverInterface::class);
+        $configResolver->method('hasParameter')->willReturnMap([['languages', null, null, true]]);
+        $configResolver->method('getParameter')->willReturnMap([['languages', null, null, ['pol-PL', 'eng-GB']]]);
+
+        $repository = $this->getRepository(['languages' => ['ger-DE']], $configResolver);
+
+        self::assertSame('pol-PL', $repository->getContentLanguageService()->getDefaultLanguageCode());
     }
 }
 
