@@ -29,7 +29,6 @@ services:
             - '@Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway'
             - '@Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase\QueryBuilder'
             - '@ibexa.spi.persistence.legacy.language.handler'
-            - '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
 
     Ibexa\Core\Persistence\Legacy\Content\Gateway\ExceptionConversion:
         class: Ibexa\Core\Persistence\Legacy\Content\Gateway\ExceptionConversion
