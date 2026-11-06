@@ -11,19 +11,21 @@ namespace Ibexa\Tests\Core\Repository;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Schema as DoctrineSchema;
-use Doctrine\DBAL\Schema\SchemaConfig;
+use Ibexa\Bundle\RepositoryInstaller\Event\Subscriber\BuildSchemaSubscriber;
 use Ibexa\Contracts\DoctrineSchema\Exception\InvalidConfigurationException;
 use Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface;
+use Ibexa\DoctrineSchema\Builder\SchemaBuilder;
 use Ibexa\DoctrineSchema\Database\DbPlatform\PostgreSqlDbPlatform;
 use Ibexa\DoctrineSchema\Database\DbPlatform\SqliteDbPlatform;
 use Ibexa\DoctrineSchema\Database\DbPlatformFactory;
 use Ibexa\DoctrineSchema\Importer\SchemaImporter;
 use RuntimeException;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Legacy database Schema Importer for database integration tests.
  *
- * @uses \Ibexa\DoctrineSchema\Importer\SchemaImporter
+ * @uses \Ibexa\DoctrineSchema\Builder\SchemaBuilder
  *
  * @internal For internal use by the Repository test cases.
  */
@@ -61,17 +63,14 @@ final class LegacySchemaImporter
             throw new RuntimeException("The schema file path {$schemaFilePath} does not exist");
         }
 
-        $importer = new SchemaImporter();
+        // Tests have to generate the same DDL an installation does, so the schema is built
+        // the way an installation builds it: by the schema builder, with core's subscriber.
+        $eventDispatcher = new EventDispatcher();
+        $eventDispatcher->addSubscriber(new BuildSchemaSubscriber($schemaFilePath));
+        $schemaBuilder = new SchemaBuilder($eventDispatcher, new SchemaImporter(), $this->defaultTableOptions);
         try {
             $databasePlatform = $this->getIbexaDatabasePlatform();
-            // Tests have to generate the same DDL an installation does, so the schema carries
-            // the same default table options SchemaBuilder applies in production.
-            $schemaConfig = new SchemaConfig();
-            $schemaConfig->setDefaultTableOptions($this->defaultTableOptions);
-            $schema = $importer->importFromFile(
-                $schemaFilePath,
-                new DoctrineSchema([], [], $schemaConfig)
-            );
+            $schema = $schemaBuilder->buildSchema();
             $statements = array_merge(
                 $this->getDropSqlStatementsForExistingSchema(
                     $schema,

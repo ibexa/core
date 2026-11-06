@@ -8,8 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\RepositoryInstaller\Event\Subscriber;
 
-use Doctrine\DBAL\Schema\Table;
-use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Tools\SchemaTool;
@@ -73,17 +71,19 @@ final readonly class OrmEntitiesSchemaSubscriber implements EventSubscriberInter
             $classMetadata,
         );
 
-        $targetSchema = $event->getSchema();
         foreach ($ormSchema->getTables() as $ormTable) {
-            if (!in_array($ormTable->getName(), $ownTableNames, true)) {
+            $tableName = $ormTable->getObjectName()->toString();
+            if (!in_array($tableName, $ownTableNames, true)) {
                 continue;
             }
 
-            if ($targetSchema->hasTable($ormTable->getName())) {
+            if ($event->hasTable($tableName)) {
                 continue;
             }
 
-            $this->copyTable($ormTable, $targetSchema->createTable($ormTable->getName()));
+            // The ORM schema gives its tables its connection's default table options, while the
+            // SchemaBuilderEvent schema's own apply to all the other tables
+            $event->getSchemaEditor()->addTable($ormTable->edit()->setOptions([])->create());
         }
 
         $ownSequenceNames = array_filter(array_map(
@@ -92,77 +92,16 @@ final readonly class OrmEntitiesSchemaSubscriber implements EventSubscriberInter
         ));
 
         foreach ($ormSchema->getSequences() as $sequence) {
-            if (!in_array($sequence->getName(), $ownSequenceNames, true)) {
+            $sequenceName = $sequence->getObjectName()->toString();
+            if (!in_array($sequenceName, $ownSequenceNames, true)) {
                 continue;
             }
 
-            if ($targetSchema->hasSequence($sequence->getName())) {
+            if ($event->hasSequence($sequenceName)) {
                 continue;
             }
 
-            $targetSchema->createSequence(
-                $sequence->getName(),
-                $sequence->getAllocationSize(),
-                $sequence->getInitialValue(),
-            );
-        }
-    }
-
-    /**
-     * Doctrine\DBAL\Schema\Schema has no public API to transplant an existing Table between two
-     * Schema instances (Schema::_addTable() is protected), so each aspect is copied individually
-     * through Table's own public API -- the same approach ibexa/doctrine-schema's own
-     * SchemaImporter uses when building a table from a parsed Yaml array, just reading from an
-     * already-built Table here instead.
-     */
-    private function copyTable(
-        Table $source,
-        Table $target
-    ): void {
-        foreach ($source->getColumns() as $column) {
-            $options = [
-                'length' => $column->getLength(),
-                'precision' => $column->getPrecision(),
-                'scale' => $column->getScale(),
-                'unsigned' => $column->getUnsigned(),
-                'fixed' => $column->getFixed(),
-                'notnull' => $column->getNotnull(),
-                'default' => $column->getDefault(),
-                'autoincrement' => $column->getAutoincrement(),
-                'columnDefinition' => $column->getColumnDefinition(),
-                'comment' => $column->getComment(),
-            ];
-            if ($column->getPlatformOptions() !== []) {
-                $options['platformOptions'] = $column->getPlatformOptions();
-            }
-            $target->addColumn($column->getName(), Type::getTypeRegistry()->lookupName($column->getType()), $options);
-        }
-
-        $primaryKey = $source->getPrimaryKey();
-        if ($primaryKey !== null) {
-            $target->setPrimaryKey($primaryKey->getUnquotedColumns());
-        }
-
-        foreach ($source->getIndexes() as $index) {
-            if ($index->isPrimary()) {
-                continue;
-            }
-
-            if ($index->isUnique()) {
-                $target->addUniqueIndex($index->getUnquotedColumns(), $index->getName(), $index->getOptions());
-            } else {
-                $target->addIndex($index->getUnquotedColumns(), $index->getName(), $index->getFlags(), $index->getOptions());
-            }
-        }
-
-        foreach ($source->getForeignKeys() as $foreignKey) {
-            $target->addForeignKeyConstraint(
-                $foreignKey->getForeignTableName(),
-                array_values($foreignKey->getUnquotedLocalColumns()),
-                array_values($foreignKey->getUnquotedForeignColumns()),
-                $foreignKey->getOptions(),
-                $foreignKey->getName(),
-            );
+            $event->getSchemaEditor()->addSequence($sequence);
         }
     }
 }
