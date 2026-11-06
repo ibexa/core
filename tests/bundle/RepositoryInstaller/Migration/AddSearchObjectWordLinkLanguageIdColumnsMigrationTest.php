@@ -24,6 +24,9 @@ final class AddSearchObjectWordLinkLanguageIdColumnsMigrationTest extends TestCa
     {
         parent::setUp();
 
+        $this->getDatabaseConnection()->executeStatement(
+            'ALTER TABLE ibexa_search_object_word_link ADD COLUMN language_mask INTEGER DEFAULT 0 NOT NULL'
+        );
         foreach ([1 => 3, 5001 => 4] as $id => $languageMask) {
             $this->getDatabaseConnection()->insert(
                 'ibexa_search_object_word_link',
