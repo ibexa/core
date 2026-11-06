@@ -16,6 +16,7 @@ use Ibexa\Bundle\RepositoryInstaller\Migration\BackfillLanguageTranslationsMigra
 use Ibexa\Bundle\RepositoryInstaller\Migration\ConvertMariaDbJsonColumnsMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\ConvertMariaDbJsonColumnsTo6_0Migration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\ConvertPostgreSqlSerialColumnsToIdentityMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\DropLanguageBitmaskColumnsMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\FixLegacyIdentifiersMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\ImportDataMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\InstallSchemaMigration;
@@ -23,6 +24,7 @@ use Ibexa\Bundle\RepositoryInstaller\Migration\RecreateMariaDbBookmarkForeignKey
 use Ibexa\Bundle\RepositoryInstaller\Migration\RemoveStateAssignLocationLimitationsMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\RenamePostgreSqlPrimaryKeysMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\RenameSchemaTo5_0Migration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\StripAlwaysAvailableBitFromLanguageIdsMigration;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationTag;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
@@ -101,7 +103,15 @@ return static function (ContainerConfigurator $configurator): void {
         ->arg('$connection', service('ibexa.persistence.connection'))
         ->tag(IbexaMigrationTag::TAG);
 
+    $services->set(DropLanguageBitmaskColumnsMigration::class)
+        ->arg('$connection', service('ibexa.persistence.connection'))
+        ->tag(IbexaMigrationTag::TAG);
+
     $services->set(BackfillLanguageTranslationsMigration::class)
+        ->arg('$connection', service('ibexa.persistence.connection'))
+        ->tag(IbexaMigrationTag::TAG);
+
+    $services->set(StripAlwaysAvailableBitFromLanguageIdsMigration::class)
         ->arg('$connection', service('ibexa.persistence.connection'))
         ->tag(IbexaMigrationTag::TAG);
 };

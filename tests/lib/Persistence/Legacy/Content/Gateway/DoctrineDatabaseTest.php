@@ -77,7 +77,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'current_version' => '1',
                     'initial_language_id' => '2',
                     'remote_id' => 'some_remote_id',
-                    'language_mask' => '3',
                     'always_available' => '1',
                     'modified' => '0',
                     'published' => '0',
@@ -94,7 +93,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'current_version',
                     'initial_language_id',
                     'remote_id',
-                    'language_mask',
                     'always_available',
                     'modified',
                     'published',
@@ -203,7 +201,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'status' => '0',
                     'workflow_event_pos' => '0',
                     'version' => '1',
-                    'language_mask' => '5',
                     'always_available' => '1',
                     'initial_language_id' => '4',
                     // Not needed, according to field mapping document
@@ -220,7 +217,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'status',
                     'workflow_event_pos',
                     'version',
-                    'language_mask',
                     'always_available',
                     'initial_language_id'
                 )->from(Gateway::CONTENT_VERSION_TABLE)
@@ -480,7 +476,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'data_text' => 'Test text',
                     'data_type_string' => 'ibexa_string',
                     'language_code' => self::ENG_GB,
-                    'language_id' => '5',
+                    'language_id' => '4',
                     'sort_key_int' => '23',
                     'sort_key_string' => 'Test',
                     'version' => '1',
@@ -1463,58 +1459,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ->from(Gateway::CONTENT_ITEM_TABLE)
                 ->where('id = 103')
         );
-
-        $query = $connection->createQueryBuilder();
-        self::assertQueryResult(
-            [['id' => 2]],
-            $query
-                ->select('language_mask')
-                ->from(Gateway::CONTENT_ITEM_TABLE)
-                ->where(
-                    $query->expr()->eq(
-                        'id',
-                        $query->createPositionalParameter(103, ParameterType::INTEGER)
-                    )
-                )
-        );
-
-        $query = $connection->createQueryBuilder();
-        self::assertQueryResult(
-            [['language_id' => 2]],
-            $query
-                ->select(
-                    'language_id'
-                )->from(
-                    Gateway::CONTENT_NAME_TABLE
-                )->where(
-                    $query->expr()->and(
-                        $query->expr()->eq(
-                            'contentobject_id',
-                            $query->createPositionalParameter(103, ParameterType::INTEGER)
-                        ),
-                        $query->expr()->eq(
-                            'content_version',
-                            $query->createPositionalParameter(1, ParameterType::INTEGER)
-                        )
-                    )
-                )
-        );
-
-        $query = $connection->createQueryBuilder();
-        self::assertQueryResult(
-            [
-                ['language_id' => 2],
-            ],
-            $query
-                ->select('DISTINCT language_id')
-                ->from(Gateway::CONTENT_FIELD_TABLE)
-                ->where(
-                    $query->expr()->and(
-                        $query->expr()->eq('contentobject_id', $query->createNamedParameter(103, ParameterType::INTEGER)),
-                        $query->expr()->eq('version', $query->createNamedParameter(1, ParameterType::INTEGER))
-                    )
-                )
-        );
     }
 
     /**
@@ -1538,60 +1482,6 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 ->from(Gateway::CONTENT_ITEM_TABLE)
                 ->where('id = 102')
         );
-
-        $expectedLanguageId = 3;
-        self::assertQueryResult(
-            [['id' => $expectedLanguageId]],
-            $connection->createQueryBuilder()
-                ->select('language_mask')
-                ->from(Gateway::CONTENT_ITEM_TABLE)
-                ->where('id = 102')
-        );
-
-        $versionNo = 1;
-        $query = $this->getDatabaseConnection()->createQueryBuilder();
-        self::assertQueryResult(
-            [
-                ['language_id' => $expectedLanguageId],
-            ],
-            $query
-                ->select('language_id')
-                ->from(Gateway::CONTENT_NAME_TABLE)
-                ->where(
-                    $query->expr()->and(
-                        $query->expr()->eq(
-                            'contentobject_id',
-                            $query->createPositionalParameter($contentId, ParameterType::INTEGER)
-                        ),
-                        $query->expr()->eq(
-                            'content_version',
-                            $query->createPositionalParameter($versionNo, ParameterType::INTEGER)
-                        )
-                    )
-                )
-        );
-
-        $query = $this->getDatabaseConnection()->createQueryBuilder();
-        self::assertQueryResult(
-            [
-                ['language_id' => $expectedLanguageId],
-            ],
-            $query
-                ->select('DISTINCT language_id')
-                ->from(Gateway::CONTENT_FIELD_TABLE)
-                ->where(
-                    $query->expr()->and(
-                        $query->expr()->eq(
-                            'contentobject_id',
-                            $query->createPositionalParameter($contentId, ParameterType::INTEGER)
-                        ),
-                        $query->expr()->eq(
-                            'version',
-                            $query->createPositionalParameter($versionNo, ParameterType::INTEGER)
-                        )
-                    )
-                )
-        );
     }
 
     /**
@@ -1614,9 +1504,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->updateContent(4, $contentMetadataUpdateStruct);
 
         self::assertQueryResult(
-            [['id' => 7]],
+            [['always_available' => 1]],
             $this->getDatabaseConnection()->createQueryBuilder()->select(
-                'language_mask'
+                'always_available'
             )->from(
                 Gateway::CONTENT_ITEM_TABLE
             )->where(
@@ -1624,12 +1514,14 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             )
         );
 
+        // ibexa_content_field.language_id is no longer touched by an always-available cascade -
+        // it retains its original (fixture) values, unchanged, for both versions.
         $this->assertContentVersionAttributesLanguages(
             4,
             2,
             [
                 ['id' => '7', 'language_id' => 2],
-                ['id' => '8', 'language_id' => 5],
+                ['id' => '8', 'language_id' => 4],
             ]
         );
 
@@ -1638,7 +1530,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             1,
             [
                 ['id' => '7', 'language_id' => 2],
-                ['id' => '8', 'language_id' => 5],
+                ['id' => '8', 'language_id' => 4],
             ]
         );
     }
@@ -1663,9 +1555,9 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->updateContent(4, $contentMetadataUpdateStruct);
 
         self::assertQueryResult(
-            [['id' => 6]],
+            [['always_available' => 0]],
             $this->getDatabaseConnection()->createQueryBuilder()->select(
-                'language_mask'
+                'always_available'
             )->from(
                 Gateway::CONTENT_ITEM_TABLE
             )->where(
@@ -1673,6 +1565,8 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             )
         );
 
+        // ibexa_content_field.language_id is no longer touched by an always-available cascade -
+        // it retains its original (fixture) values, unchanged, for both versions.
         $this->assertContentVersionAttributesLanguages(
             4,
             2,
@@ -1687,7 +1581,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             1,
             [
                 ['id' => '7', 'language_id' => 2],
-                ['id' => '8', 'language_id' => 5],
+                ['id' => '8', 'language_id' => 4],
             ]
         );
     }
@@ -1934,8 +1828,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 $connection,
                 $this->getSharedGateway(),
                 new DoctrineDatabase\QueryBuilder($connection),
-                $this->getLanguageHandler(),
-                $this->getLanguageMaskGenerator()
+                $this->getLanguageHandler()
             );
         }
 

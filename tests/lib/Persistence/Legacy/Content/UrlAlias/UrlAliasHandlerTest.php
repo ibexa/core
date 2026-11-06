@@ -19,7 +19,6 @@ use Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase as ContentGat
 use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase as LanguageGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Handler as LanguageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Mapper as LanguageMapper;
-use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase as DoctrineDatabaseLocation;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway as UrlAliasGateway;
@@ -5310,8 +5309,7 @@ class UrlAliasHandlerTest extends TestCase
             $connection,
             $this->getSharedGateway(),
             new ContentGateway\QueryBuilder($connection),
-            $languageHandler,
-            new LanguageMaskGenerator($languageHandler)
+            $languageHandler
         );
 
         return new Handler(

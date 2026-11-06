@@ -135,7 +135,7 @@ class MapperTest extends LanguageAwareTestCase
                 'ibexa_object_state_language_mask' => 3,
                 'ibexa_object_state_priority' => 0,
                 'ibexa_object_state_language_description' => '',
-                'ibexa_object_state_language_language_id' => 3,
+                'ibexa_object_state_language_language_id' => 2,
                 'ibexa_object_state_language_name' => 'Not locked',
             ],
         ];
@@ -155,7 +155,7 @@ class MapperTest extends LanguageAwareTestCase
                 'ibexa_object_state_group_identifier' => 'ibexa_lock',
                 'ibexa_object_state_group_language_mask' => 3,
                 'ibexa_object_state_group_language_description' => '',
-                'ibexa_object_state_group_language_language_id' => 3,
+                'ibexa_object_state_group_language_language_id' => 2,
                 'ibexa_object_state_group_language_real_language_id' => 2,
                 'ibexa_object_state_group_language_name' => 'Lock',
             ],
