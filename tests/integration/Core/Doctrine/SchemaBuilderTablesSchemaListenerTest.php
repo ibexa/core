@@ -12,6 +12,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 use Ibexa\Bundle\Core\Doctrine\SchemaBuilderTablesSchemaListener;
+use Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface;
 use Ibexa\Contracts\Core\Test\IbexaKernelTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 
@@ -67,6 +68,18 @@ final class SchemaBuilderTablesSchemaListenerTest extends IbexaKernelTestCase
 
         self::assertTrue($connection->createSchemaManager()->tablesExist(['ibexa_test_unmanaged_table']));
         self::assertTrue($connection->createSchemaManager()->tablesExist(['ibexa_content']));
+    }
+
+    /**
+     * The path ibexa:install takes: OrmEntitiesSchemaSubscriber runs SchemaTool inside buildSchema(),
+     * which fires postGenerateSchema, which calls buildSchema() again.
+     */
+    public function testBuildSchemaWithOrmEntitiesSubscriberReturnsLegacyAndEntityTables(): void
+    {
+        $schema = self::getServiceByClassName(SchemaBuilderInterface::class)->buildSchema();
+
+        self::assertTrue($schema->hasTable('ibexa_content'));
+        self::assertTrue($schema->hasTable(SchemaBuilderListenerTestKernel::MANAGED_TABLE));
     }
 
     /**
