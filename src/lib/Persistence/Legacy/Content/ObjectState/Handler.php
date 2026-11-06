@@ -132,6 +132,22 @@ class Handler implements BaseObjectStateHandler
         return $this->objectStateMapper->createObjectStateListFromData($data);
     }
 
+    public function loadDefaultObjectState(int $groupId): ObjectState
+    {
+        $defaultState = null;
+        foreach ($this->loadObjectStates($groupId) as $state) {
+            if ($defaultState === null || $state->priority < $defaultState->priority) {
+                $defaultState = $state;
+            }
+        }
+
+        if ($defaultState === null) {
+            throw new NotFoundException('ObjectState', ['groupId' => $groupId]);
+        }
+
+        return $defaultState;
+    }
+
     /**
      * Updates an object state group.
      *
@@ -312,8 +328,10 @@ class Handler implements BaseObjectStateHandler
             ++$priority;
         }
 
-        $remainingStates = $this->loadObjectStates($objectState->groupId);
-        $this->objectStateGateway->updateObjectStateLinks($objectState->id, current($remainingStates)->id);
+        $this->objectStateGateway->updateObjectStateLinks(
+            $objectState->id,
+            $this->loadDefaultObjectState($objectState->groupId)->id
+        );
     }
 
     /**

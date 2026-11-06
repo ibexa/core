@@ -6058,26 +6058,12 @@ class ContentTest extends BaseServiceMockTest
             ->method('loadAllGroups')
             ->will($this->returnValue($objectStateGroups));
 
-        $loadObjectStatesMatcher = $this->exactly(2);
-        $objectStateHandlerMock->expects($loadObjectStatesMatcher)
-            ->method('loadObjectStates')
-            ->willReturnCallback(static function ($groupId) use ($loadObjectStatesMatcher): array {
-                if ($loadObjectStatesMatcher->numberOfInvocations() === 1) {
-                    self::assertSame(10, $groupId);
-
-                    return [
-                        new SPIObjectState(['id' => 11, 'groupId' => 10]),
-                        new SPIObjectState(['id' => 12, 'groupId' => 10]),
-                    ];
-                }
-
-                self::assertSame(20, $groupId);
-
-                return [
-                    new SPIObjectState(['id' => 21, 'groupId' => 20]),
-                    new SPIObjectState(['id' => 22, 'groupId' => 20]),
-                ];
-            });
+        $objectStateHandlerMock->expects($this->exactly(2))
+            ->method('loadDefaultObjectState')
+            ->willReturnMap([
+                [10, new SPIObjectState(['id' => 11, 'groupId' => 10])],
+                [20, new SPIObjectState(['id' => 21, 'groupId' => 20])],
+            ]);
     }
 
     protected function mockSetDefaultObjectStates()

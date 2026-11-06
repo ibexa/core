@@ -21,6 +21,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ObjectStateLimitation
 use Ibexa\Contracts\Core\Repository\Values\User\User;
 use Ibexa\Core\Limitation\ObjectStateLimitationType;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
 
 #[CoversClass(ObjectStateLimitation::class)]
@@ -238,6 +239,59 @@ class ObjectStateLimitationTest extends BaseLimitationTestCase
             $lockGroup,
             $notLockedState
         );
+    }
+
+    /**
+     * @return iterable<string, array{int, bool}>
+     */
+    public static function providerForPublishOnContentCreateStruct(): iterable
+    {
+        yield 'not_locked' => [self::OBJECT_STATE_NOT_LOCKED_STATE_ID, true];
+        yield 'locked' => [self::OBJECT_STATE_LOCKED_STATE_ID, false];
+    }
+
+    /**
+     * New Content gets the default (lowest priority) State, so evaluating the ContentCreateStruct
+     * must give the same answer as evaluating the Content once it's created.
+     *
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
+     */
+    #[DataProvider('providerForPublishOnContentCreateStruct')]
+    public function testPublishOnContentCreateStructMatchesCreatedContent(
+        int $objectStateId,
+        bool $expected
+    ): void {
+        $repository = $this->getRepository();
+        $contentService = $repository->getContentService();
+        $permissionResolver = $repository->getPermissionResolver();
+
+        $contentCreate = $contentService->newContentCreateStruct(
+            $repository->getContentTypeService()->loadContentTypeByIdentifier('folder'),
+            'eng-GB'
+        );
+        $contentCreate->setField('name', 'Test folder');
+        $locationCreate = $repository->getLocationService()->newLocationCreateStruct(2);
+        $draft = $contentService->createContent($contentCreate, [$locationCreate]);
+
+        $this->loginAsUser(
+            $this->createUserWithPolicies(
+                uniqid('test', true),
+                [
+                    [
+                        'module' => 'content',
+                        'function' => 'publish',
+                        'limitations' => [
+                            new ObjectStateLimitation(['limitationValues' => [$objectStateId]]),
+                        ],
+                    ],
+                ]
+            )
+        );
+
+        self::assertSame($expected, $permissionResolver->canUser('content', 'publish', $contentCreate, [$locationCreate]));
+        self::assertSame($expected, $permissionResolver->canUser('content', 'publish', $draft));
     }
 
     /**
