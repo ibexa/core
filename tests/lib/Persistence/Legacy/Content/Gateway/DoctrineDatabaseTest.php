@@ -44,6 +44,29 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     protected $databaseGateway;
 
     /**
+     * None of this file's fixtures populate "ibexa_content_language", but insertContentObject()/
+     * insertVersion()/updateVersion() now also write to "ibexa_content_translation"/
+     * "ibexa_content_version_translation", which FK-reference it - seed the same 3 languages
+     * LanguageHandlerMock already pretends exist, so those inserts don't violate the constraint.
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        foreach ($this->getLanguageHandler()->loadAll() as $language) {
+            $this->getDatabaseConnection()->insert(
+                'ibexa_content_language',
+                [
+                    'id' => $language->id,
+                    'locale' => $language->languageCode,
+                    'name' => $language->name,
+                    'disabled' => 0,
+                ]
+            );
+        }
+    }
+
+    /**
      * @todo Fix not available fields
      */
     public function testInsertContentObject(): void
@@ -64,6 +87,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'initial_language_id' => '2',
                     'remote_id' => 'some_remote_id',
                     'language_mask' => '3',
+                    'always_available' => '1',
                     'modified' => '0',
                     'published' => '0',
                     'status' => ContentInfo::STATUS_DRAFT,
@@ -80,6 +104,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'initial_language_id',
                     'remote_id',
                     'language_mask',
+                    'always_available',
                     'modified',
                     'published',
                     'status'
@@ -188,6 +213,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'workflow_event_pos' => '0',
                     'version' => '1',
                     'language_mask' => '5',
+                    'always_available' => '1',
                     'initial_language_id' => '4',
                     // Not needed, according to field mapping document
                     // 'user_id',
@@ -204,6 +230,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                     'workflow_event_pos',
                     'version',
                     'language_mask',
+                    'always_available',
                     'initial_language_id'
                 )->from(Gateway::CONTENT_VERSION_TABLE)
         );
@@ -1438,6 +1465,14 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->updateAlwaysAvailableFlag(103, false);
 
         $connection = $this->getDatabaseConnection();
+        self::assertQueryResult(
+            [['always_available' => 0]],
+            $connection->createQueryBuilder()
+                ->select('always_available')
+                ->from(Gateway::CONTENT_ITEM_TABLE)
+                ->where('id = 103')
+        );
+
         $query = $connection->createQueryBuilder();
         self::assertQueryResult(
             [['id' => 2]],
@@ -1505,6 +1540,14 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $gateway->updateAlwaysAvailableFlag($contentId, true);
 
         $connection = $this->getDatabaseConnection();
+        self::assertQueryResult(
+            [['always_available' => 1]],
+            $connection->createQueryBuilder()
+                ->select('always_available')
+                ->from(Gateway::CONTENT_ITEM_TABLE)
+                ->where('id = 102')
+        );
+
         $expectedLanguageId = 3;
         self::assertQueryResult(
             [['id' => $expectedLanguageId]],

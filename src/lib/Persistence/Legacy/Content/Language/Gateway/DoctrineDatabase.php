@@ -212,6 +212,71 @@ final class DoctrineDatabase extends Gateway
         return (int)$query->executeQuery()->fetchOne();
     }
 
+    /**
+     * @param int[] $contentIds
+     *
+     * @return array<int, int[]>
+     */
+    public function loadContentTranslations(array $contentIds): array
+    {
+        return $this->loadTranslations('ibexa_content_translation', 'content_id', $contentIds);
+    }
+
+    /**
+     * @param int[] $versionIds
+     *
+     * @return array<int, int[]>
+     */
+    public function loadVersionTranslations(array $versionIds): array
+    {
+        return $this->loadTranslations('ibexa_content_version_translation', 'content_version_id', $versionIds);
+    }
+
+    /**
+     * @param int[] $ids
+     *
+     * @return array<int, int[]>
+     */
+    private function loadTranslations(
+        string $tableName,
+        string $idColumn,
+        array $ids
+    ): array {
+        if (empty($ids)) {
+            return [];
+        }
+
+        // Explicit ORDER BY, not just "no ORDER BY happens to come out consistently": without one,
+        // PostgreSQL (unlike MySQL/InnoDB's PK-clustered storage) can pick a different scan
+        // strategy - and therefore a different per-id row order - depending on how many ids are in
+        // this call's IN() list. Different call sites batch different numbers of ids at once (e.g.
+        // the Legacy Search Engine loads a whole result page in one call, while another caller might
+        // batch differently), so relying on incidental order would make language_id ordering
+        // inconsistent between them on Postgres specifically, even though every call goes through
+        // this exact same method.
+        $query = $this->connection->createQueryBuilder();
+        $rows = $query
+            ->select($idColumn, 'language_id')
+            ->from($tableName)
+            ->where(
+                $query->expr()->in(
+                    $idColumn,
+                    $query->createNamedParameter($ids, ArrayParameterType::INTEGER, ':ids')
+                )
+            )
+            ->orderBy($idColumn)
+            ->addOrderBy('language_id')
+            ->executeQuery()
+            ->fetchAllAssociative();
+
+        $translations = [];
+        foreach ($rows as $row) {
+            $translations[(int)$row[$idColumn]][] = (int)$row['language_id'];
+        }
+
+        return $translations;
+    }
+
     private function getDatabasePlatform(): AbstractPlatform
     {
         try {

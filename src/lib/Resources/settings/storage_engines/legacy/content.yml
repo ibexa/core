@@ -12,6 +12,7 @@ services:
             - '@ibexa.spi.persistence.legacy.content_type.handler'
             - '@Symfony\Contracts\EventDispatcher\EventDispatcherInterface'
             - '@Ibexa\Core\FieldType\FieldTypeAliasResolverInterface'
+            - '@ibexa.persistence.legacy.language.gateway'
 
     Ibexa\Core\Persistence\Legacy\Content\Mapper\ResolveVirtualFieldSubscriber:
         arguments:

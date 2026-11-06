@@ -84,19 +84,33 @@ VALUES (1031216928, 14, 1, 1033922106, 14, 'Content'),
        (1031216941, 14, 2, 1033922113, 14, 'Users'),
        (1032009743, 14, 3, 1033922120, 14, 'Media');
 
-INSERT INTO `ibexa_content` (`content_type_id`, `current_version`, `id`, `initial_language_id`, `language_mask`, `modified`, `name`, `owner_id`, `published`, `remote_id`, `section_id`, `status`)
-VALUES (1,9,1,2,3,1448889046,'Ibexa Platform',14,1448889046,'9459d3c29e15006e45197295722c7ade',1,1),
-       (3,1,4,2,3,1033917596,'Users',14,1033917596,'f5c88a2209584891056f987fd965b0ba',2,1),
-       (4,2,10,2,3,1072180405,'Anonymous User',14,1033920665,'faaeb9be3bd98ed09f606fc16d144eca',2,1),
-       (3,1,11,2,3,1033920746,'Guest accounts',14,1033920746,'5f7f0bdb3381d6a461d8c29ff53d908f',2,1),
-       (3,1,12,2,3,1033920775,'Administrator users',14,1033920775,'9b47a45624b023b1a76c73b74d704acf',2,1),
-       (3,1,13,2,3,1033920794,'Editors',14,1033920794,'3c160cca19fb135f83bd02d911f04db2',2,1),
-       (4,3,14,2,3,1301062024,'Administrator User',14,1033920830,'1bb4fe25487f05527efa8bfd394cecc7',2,1),
-       (1,1,41,2,3,1060695457,'Media',14,1060695457,'a6e35cbcb7cd6ae4b691f3eee30cd262',3,1),
-       (3,1,42,2,3,1072180330,'Anonymous users',14,1072180330,'15b256dbea2ae72418ff5facc999e8f9',2,1),
-       (1,1,49,2,3,1080220197,'Images',14,1080220197,'e7ff633c6b8e0fd3531e74c6e712bead',3,1),
-       (1,1,50,2,3,1080220220,'Files',14,1080220220,'732a5acd01b51a6fe6eab448ad4138a9',3,1),
-       (1,1,51,2,3,1080220233,'Multimedia',14,1080220233,'09082deb98662a104f325aaa8c4933d3',3,1);
+INSERT INTO `ibexa_content` (`content_type_id`, `current_version`, `id`, `initial_language_id`, `language_mask`, `always_available`, `modified`, `name`, `owner_id`, `published`, `remote_id`, `section_id`, `status`)
+VALUES (1,9,1,2,3,1,1448889046,'Ibexa Platform',14,1448889046,'9459d3c29e15006e45197295722c7ade',1,1),
+       (3,1,4,2,3,1,1033917596,'Users',14,1033917596,'f5c88a2209584891056f987fd965b0ba',2,1),
+       (4,2,10,2,3,1,1072180405,'Anonymous User',14,1033920665,'faaeb9be3bd98ed09f606fc16d144eca',2,1),
+       (3,1,11,2,3,1,1033920746,'Guest accounts',14,1033920746,'5f7f0bdb3381d6a461d8c29ff53d908f',2,1),
+       (3,1,12,2,3,1,1033920775,'Administrator users',14,1033920775,'9b47a45624b023b1a76c73b74d704acf',2,1),
+       (3,1,13,2,3,1,1033920794,'Editors',14,1033920794,'3c160cca19fb135f83bd02d911f04db2',2,1),
+       (4,3,14,2,3,1,1301062024,'Administrator User',14,1033920830,'1bb4fe25487f05527efa8bfd394cecc7',2,1),
+       (1,1,41,2,3,1,1060695457,'Media',14,1060695457,'a6e35cbcb7cd6ae4b691f3eee30cd262',3,1),
+       (3,1,42,2,3,1,1072180330,'Anonymous users',14,1072180330,'15b256dbea2ae72418ff5facc999e8f9',2,1),
+       (1,1,49,2,3,1,1080220197,'Images',14,1080220197,'e7ff633c6b8e0fd3531e74c6e712bead',3,1),
+       (1,1,50,2,3,1,1080220220,'Files',14,1080220220,'732a5acd01b51a6fe6eab448ad4138a9',3,1),
+       (1,1,51,2,3,1,1080220233,'Multimedia',14,1080220233,'09082deb98662a104f325aaa8c4933d3',3,1);
+
+INSERT INTO `ibexa_content_translation` (`content_id`, `language_id`)
+VALUES (1,2),
+       (4,2),
+       (10,2),
+       (11,2),
+       (12,2),
+       (13,2),
+       (14,2),
+       (41,2),
+       (42,2),
+       (49,2),
+       (50,2),
+       (51,2);
 
 INSERT INTO `ibexa_content_field` (`attribute_original_id`, `content_type_field_definition_id`, `contentobject_id`, `data_float`, `data_int`, `data_text`, `data_type_string`, `id`, `language_code`, `language_id`, `sort_key_int`, `sort_key_string`, `version`)
 VALUES (0,4,1,NULL,NULL,'Ibexa Platform','ibexa_string',1,'eng-GB',3,0,'ibexa platform',9),
@@ -169,19 +183,33 @@ VALUES (0,1,1,0,0,0,1,1448999778,1,1,'','/1/',0,'629709ba256fe317c3ddcee35453a96
        (50,1,1,2,0,0,52,1081860720,52,43,'media/files','/1/43/52/',0,'0b113a208f7890f9ad3c24444ff5988c',9,1),
        (51,1,1,2,0,0,53,1081860720,53,43,'media/multimedia','/1/43/53/',0,'4f18b82c75f10aad476cae5adf98c11f',9,1);
 
-INSERT INTO `ibexa_content_version` (`contentobject_id`, `created`, `creator_id`, `id`, `initial_language_id`, `language_mask`, `modified`, `status`, `user_id`, `version`, `workflow_event_pos`)
-VALUES (4,0,14,4,2,3,0,1,0,1,1),
-       (11,1033920737,14,439,2,3,1033920746,1,0,1,0),
-       (12,1033920760,14,440,2,3,1033920775,1,0,1,0),
-       (13,1033920786,14,441,2,3,1033920794,1,0,1,0),
-       (41,1060695450,14,472,2,3,1060695457,1,0,1,0),
-       (42,1072180278,14,473,2,3,1072180330,1,0,1,0),
-       (10,1072180337,14,474,2,3,1072180405,1,0,2,0),
-       (49,1080220181,14,488,2,3,1080220197,1,0,1,0),
-       (50,1080220211,14,489,2,3,1080220220,1,0,1,0),
-       (51,1080220225,14,490,2,3,1080220233,1,0,1,0),
-       (14,1301061783,14,499,2,3,1301062024,1,0,3,0),
-       (1,1448889045,14,506,2,3,1448889046,1,0,9,0);
+INSERT INTO `ibexa_content_version` (`contentobject_id`, `created`, `creator_id`, `id`, `initial_language_id`, `language_mask`, `always_available`, `modified`, `status`, `user_id`, `version`, `workflow_event_pos`)
+VALUES (4,0,14,4,2,3,1,0,1,0,1,1),
+       (11,1033920737,14,439,2,3,1,1033920746,1,0,1,0),
+       (12,1033920760,14,440,2,3,1,1033920775,1,0,1,0),
+       (13,1033920786,14,441,2,3,1,1033920794,1,0,1,0),
+       (41,1060695450,14,472,2,3,1,1060695457,1,0,1,0),
+       (42,1072180278,14,473,2,3,1,1072180330,1,0,1,0),
+       (10,1072180337,14,474,2,3,1,1072180405,1,0,2,0),
+       (49,1080220181,14,488,2,3,1,1080220197,1,0,1,0),
+       (50,1080220211,14,489,2,3,1,1080220220,1,0,1,0),
+       (51,1080220225,14,490,2,3,1,1080220233,1,0,1,0),
+       (14,1301061783,14,499,2,3,1,1301062024,1,0,3,0),
+       (1,1448889045,14,506,2,3,1,1448889046,1,0,9,0);
+
+INSERT INTO `ibexa_content_version_translation` (`content_version_id`, `language_id`)
+VALUES (4,2),
+       (439,2),
+       (440,2),
+       (441,2),
+       (472,2),
+       (473,2),
+       (474,2),
+       (488,2),
+       (489,2),
+       (490,2),
+       (499,2),
+       (506,2);
 
 INSERT INTO `ibexa_node_assignment` (`contentobject_id`, `contentobject_version`, `from_node_id`, `id`, `is_main`, `op_code`, `parent_node`, `parent_remote_id`, `remote_id`, `sort_field`, `sort_order`, `priority`, `is_hidden`)
 VALUES (8,2,0,4,1,2,5,'','0',1,1,0,0),
@@ -280,9 +308,42 @@ VALUES ('nop:','nop',1,17,0,0,1,17,0,'media2','50e2736330de124f6edea9b008556fe6'
        ('eznode:51','eznode',1,32,0,0,1,18,17,'images','59b514174bffe4ae402b3d63aad79fe0');
 
 INSERT INTO `ibexa_url_alias_ml_incr` (`id`)
-VALUES (1), (2), (3), (4), (5), (6), (7), (8), (9), (10), (11), (12), (13), (14), (15), (16), (17),
-       (18), (19), (20), (21), (22), (24), (25), (26), (27), (28), (29), (30), (31), (32), (33),
-       (34), (35), (36), (37);
+VALUES (1),
+       (2),
+       (3),
+       (4),
+       (5),
+       (6),
+       (7),
+       (8),
+       (9),
+       (10),
+       (11),
+       (12),
+       (13),
+       (14),
+       (15),
+       (16),
+       (17),
+       (18),
+       (19),
+       (20),
+       (21),
+       (22),
+       (24),
+       (25),
+       (26),
+       (27),
+       (28),
+       (29),
+       (30),
+       (31),
+       (32),
+       (33),
+       (34),
+       (35),
+       (36),
+       (37);
 
 INSERT INTO `ibexa_user` (`contentobject_id`, `email`, `login`, `password_hash`, `password_hash_type`)
 VALUES (10,'anonymous@link.invalid','anonymous','$2y$10$35gOSQs6JK4u4whyERaeUuVeQBi2TUBIZIfP7HEj7sfz.MxvTuOeC',7),
