@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
+use Error;
 use Exception;
 use Ibexa\Contracts\Core\Persistence\Bookmark\Bookmark;
 use Ibexa\Contracts\Core\Persistence\Bookmark\CreateStruct;
@@ -22,7 +23,9 @@ use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Repository\Values\User\UserReference;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
+use Throwable;
 
 #[CoversClass(BookmarkService::class)]
 class BookmarkTest extends BaseServiceMockTest
@@ -101,9 +104,21 @@ class BookmarkTest extends BaseServiceMockTest
         $this->createBookmarkService()->createBookmark($location);
     }
 
-    public function testCreateBookmarkWithRollback(): void
+    /**
+     * @return iterable<string, array{Throwable}>
+     */
+    public static function providerForTestCreateBookmarkWithRollback(): iterable
     {
-        $this->expectException(Exception::class);
+        yield 'exception' => [new Exception('persistence failure')];
+        yield 'error' => [new Error('persistence failure')];
+    }
+
+    #[DataProvider('providerForTestCreateBookmarkWithRollback')]
+    public function testCreateBookmarkWithRollback(Throwable $throwable): void
+    {
+        // expectExceptionObject() only accepts \Exception
+        $this->expectException($throwable::class);
+        $this->expectExceptionMessage($throwable->getMessage());
 
         $location = $this->createLocation(self::LOCATION_ID);
 
@@ -115,11 +130,11 @@ class BookmarkTest extends BaseServiceMockTest
             ->with(self::CURRENT_USER_ID, [self::LOCATION_ID])
             ->willReturn([]);
 
-        $this->assertTransactionIsRollback(function (): void {
+        $this->assertTransactionIsRollback(function () use ($throwable): void {
             $this->bookmarkHandler
                 ->expects($this->once())
                 ->method('create')
-                ->willThrowException(self::createStub(Exception::class));
+                ->willThrowException($throwable);
         });
 
         $this->createBookmarkService()->createBookmark($location);

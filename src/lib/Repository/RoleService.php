@@ -49,6 +49,7 @@ use Ibexa\Core\Repository\Values\User\PolicyUpdateStruct;
 use Ibexa\Core\Repository\Values\User\Role;
 use Ibexa\Core\Repository\Values\User\RoleCopyStruct;
 use Ibexa\Core\Repository\Values\User\RoleCreateStruct;
+use Throwable;
 
 /**
  * This service provides methods for managing Roles and Policies.
@@ -143,7 +144,7 @@ class RoleService implements RoleServiceInterface
         try {
             $spiRole = $this->userHandler->createRole($spiRoleCreateStruct);
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -183,7 +184,7 @@ class RoleService implements RoleServiceInterface
             try {
                 $spiRole = $this->userHandler->createRoleDraft($role->id);
                 $this->repository->commit();
-            } catch (Exception $e) {
+            } catch (Throwable $e) {
                 $this->repository->rollback();
                 throw $e;
             }
@@ -242,7 +243,7 @@ class RoleService implements RoleServiceInterface
         try {
             $spiRole = $this->userHandler->copyRole($spiRoleCopyStruct);
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -362,7 +363,7 @@ class RoleService implements RoleServiceInterface
                 )
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -429,7 +430,7 @@ class RoleService implements RoleServiceInterface
         try {
             $this->userHandler->addPolicyByRoleDraft($loadedRoleDraft->id, $spiPolicy);
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -531,7 +532,7 @@ class RoleService implements RoleServiceInterface
         try {
             $this->userHandler->updatePolicy($spiPolicy);
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -559,7 +560,7 @@ class RoleService implements RoleServiceInterface
         try {
             $this->userHandler->deleteRole($loadedRoleDraft->id, Role::STATUS_DRAFT);
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -596,7 +597,7 @@ class RoleService implements RoleServiceInterface
         try {
             $this->userHandler->publishRoleDraft($loadedRoleDraft->id);
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -698,7 +699,7 @@ class RoleService implements RoleServiceInterface
         try {
             $this->userHandler->deleteRole($loadedRole->id);
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -751,7 +752,7 @@ class RoleService implements RoleServiceInterface
                 $limitation
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -804,7 +805,7 @@ class RoleService implements RoleServiceInterface
                 $limitation
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -832,7 +833,7 @@ class RoleService implements RoleServiceInterface
         try {
             $this->userHandler->removeRoleAssignment($spiRoleAssignment->id);
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -1324,7 +1325,7 @@ class RoleService implements RoleServiceInterface
         try {
             $this->userHandler->deletePolicy($policy->id, $policy->roleId);
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }

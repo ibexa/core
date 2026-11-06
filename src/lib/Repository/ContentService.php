@@ -74,6 +74,7 @@ use Ibexa\Core\Repository\Values\Content\ContentUpdateStruct;
 use Ibexa\Core\Repository\Values\Content\Location;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Throwable;
 
 use function count;
 use function sprintf;
@@ -850,7 +851,7 @@ class ContentService implements ContentServiceInterface
             }
 
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -1030,7 +1031,7 @@ class ContentService implements ContentServiceInterface
             }
 
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -1109,7 +1110,7 @@ class ContentService implements ContentServiceInterface
                 $affectedLocations[] = $spiLocation->id;
             }
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -1195,7 +1196,7 @@ class ContentService implements ContentServiceInterface
                 $context,
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -1466,7 +1467,7 @@ class ContentService implements ContentServiceInterface
                 $existingRelations
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -1529,7 +1530,7 @@ class ContentService implements ContentServiceInterface
             $this->copyNonTranslatableFieldsFromPublishedVersion($content);
             $content = $this->internalPublishVersion($content->getVersionInfo(), null, $translations);
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -1884,7 +1885,7 @@ class ContentService implements ContentServiceInterface
             }
 
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -2007,7 +2008,7 @@ class ContentService implements ContentServiceInterface
                 $destinationLocationCreateStruct
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -2292,7 +2293,7 @@ class ContentService implements ContentServiceInterface
                 )
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -2366,7 +2367,7 @@ class ContentService implements ContentServiceInterface
                 }
             }
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -2468,6 +2469,9 @@ class ContentService implements ContentServiceInterface
             $this->repository->rollback();
             // cover generic unexpected exception to fulfill API promise on @throws
             throw new BadStateException('$contentInfo', 'Translation removal failed', $e);
+        } catch (Throwable $e) {
+            $this->repository->rollback();
+            throw $e;
         }
     }
 
@@ -2542,13 +2546,6 @@ class ContentService implements ContentServiceInterface
                 $languageCode
             );
             $this->repository->commit();
-
-            return $this->contentDomainMapper->buildContentDomainObject(
-                $spiContent,
-                $this->repository->getContentTypeService()->loadContentType(
-                    $spiContent->versionInfo->contentInfo->contentTypeId
-                )
-            );
         } catch (APINotFoundException $e) {
             // avoid wrapping expected NotFoundException in BadStateException handled below
             $this->repository->rollback();
@@ -2557,7 +2554,18 @@ class ContentService implements ContentServiceInterface
             $this->repository->rollback();
             // cover generic unexpected exception to fulfill API promise on @throws
             throw new BadStateException('$contentInfo', 'Could not remove the translation', $e);
+        } catch (Throwable $e) {
+            $this->repository->rollback();
+            throw $e;
         }
+
+        // built after the try, the transaction is already committed and there is nothing to roll back
+        return $this->contentDomainMapper->buildContentDomainObject(
+            $spiContent,
+            $this->repository->getContentTypeService()->loadContentType(
+                $spiContent->versionInfo->contentInfo->contentTypeId
+            )
+        );
     }
 
     /**
@@ -2599,7 +2607,7 @@ class ContentService implements ContentServiceInterface
                 $locationHandler->setInvisible($childLocation->id);
             }
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -2643,7 +2651,7 @@ class ContentService implements ContentServiceInterface
                 $locationHandler->setVisible($childLocation->id);
             }
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }

@@ -7,7 +7,6 @@
 
 namespace Ibexa\Core\Repository;
 
-use Exception;
 use Ibexa\Contracts\Core\Persistence\Content\Language as SPILanguage;
 use Ibexa\Contracts\Core\Persistence\Content\Language\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler;
@@ -21,6 +20,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 use LogicException;
+use Throwable;
 
 /**
  * Language service, used for language operations.
@@ -108,7 +108,7 @@ class LanguageService implements LanguageServiceInterface
         try {
             $createdLanguage = $this->languageHandler->create($createStruct);
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -155,7 +155,7 @@ class LanguageService implements LanguageServiceInterface
         try {
             $this->languageHandler->update($updateLanguageStruct);
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -193,7 +193,7 @@ class LanguageService implements LanguageServiceInterface
         try {
             $this->languageHandler->update($updateLanguageStruct);
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -231,7 +231,7 @@ class LanguageService implements LanguageServiceInterface
         try {
             $this->languageHandler->update($updateLanguageStruct);
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -348,7 +348,7 @@ class LanguageService implements LanguageServiceInterface
         } catch (LogicException $e) {
             $this->repository->rollback();
             throw new InvalidArgumentException('language', $e->getMessage(), $e);
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
