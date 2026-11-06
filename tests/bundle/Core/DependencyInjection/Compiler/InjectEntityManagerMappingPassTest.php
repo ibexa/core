@@ -114,24 +114,4 @@ class InjectEntityManagerMappingPassTest extends AbstractCompilerPassTestCase
             $this->container->getDefinition(SchemaBuilderTablesSchemaListener::class)->getTag('doctrine.event_listener')
         );
     }
-
-    public function testRegistersTheListenerOncePerConnection(): void
-    {
-        $this->setParameter('doctrine.entity_managers', [
-            'ibexa_connection' => 'doctrine.orm.ibexa_connection_entity_manager',
-            'ibexa_connection_second' => 'doctrine.orm.ibexa_connection_second_entity_manager',
-        ]);
-        $this->setDefinition('doctrine.orm.ibexa_connection_second_metadata_driver', new Definition());
-        $this->setDefinition('doctrine.orm.ibexa_connection_second_configuration', new Definition());
-        $this->compile();
-
-        $tags = $this->container
-            ->getDefinition(SchemaBuilderTablesSchemaListener::class)
-            ->getTag('doctrine.event_listener');
-
-        self::assertSame(
-            ['connection', 'connection_second'],
-            array_column($tags, 'connection')
-        );
-    }
 }

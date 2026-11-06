@@ -15,7 +15,7 @@ use Doctrine\Migrations\Version\MigrationPlanCalculator;
 use Ibexa\Bundle\RepositoryInstaller\Bootstrapper\DoctrineMigrationsSchemaHook;
 use Ibexa\Bundle\RepositoryInstaller\Migration\TaggedMigrationsRunner;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -30,7 +30,7 @@ final class DoctrineMigrationsSchemaHookTest extends TestCase
     public function testInstallSchemaOptionDefaultsToFalse(): void
     {
         $hook = new DoctrineMigrationsSchemaHook(
-            $this->createRunner($this->createMock(MetadataStorage::class))
+            $this->createRunner(self::createStub(MetadataStorage::class))
         );
 
         self::assertFalse($this->resolve($hook, [])[DoctrineMigrationsSchemaHook::OPTION_INSTALL_SCHEMA]);
@@ -57,9 +57,9 @@ final class DoctrineMigrationsSchemaHookTest extends TestCase
     }
 
     /**
-     * @param MetadataStorage&MockObject $metadataStorage
+     * @param MetadataStorage&Stub $metadataStorage
      */
-    private function createRunner(MockObject $metadataStorage): TaggedMigrationsRunner
+    private function createRunner(Stub $metadataStorage): TaggedMigrationsRunner
     {
         // An empty migration list makes run() stop right after ensureInitialized(), so no
         // connection, executor or plan is needed to tell "ran" from "didn't run" apart.

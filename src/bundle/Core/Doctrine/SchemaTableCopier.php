@@ -22,9 +22,11 @@ use Doctrine\DBAL\Types\Type;
 final class SchemaTableCopier
 {
     /**
-     * @param AbstractPlatform|null $comparedWithIntrospectionOn when given, the copy is
-     *        normalised so that it compares equal to what schema introspection returns on this platform
-     *        (and the table options are copied too). Without it the table is copied verbatim.
+     * @param AbstractPlatform|null $comparedWithIntrospectionOn Without it the table is copied verbatim.
+     *        With it, the copy is made to compare equal to what schema introspection returns on that
+     *        platform, which changes three things: int/float column defaults become strings,
+     *        index "lengths" are cast to int (or dropped when the platform has no prefix indexes),
+     *        and the table options (engine, charset...) are copied too.
      */
     public static function copy(
         Table $source,

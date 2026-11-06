@@ -12,8 +12,8 @@ use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 use Ibexa\Bundle\Core\Doctrine\SchemaBuilderTablesSchemaListener;
-use Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface;
 use Ibexa\Contracts\Core\Test\IbexaKernelTestCase;
+use Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 /**

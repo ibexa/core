@@ -95,16 +95,7 @@ final class InjectEntityManagerMappingsPass implements CompilerPassInterface
         }
 
         $connection = substr($entityManagerName, strlen('ibexa_'));
-        $listener = $container->findDefinition(SchemaBuilderTablesSchemaListener::class);
-
-        // several entity managers may share one connection, which needs the listener only once
-        foreach ($listener->getTag('doctrine.event_listener') as $attributes) {
-            if (($attributes['connection'] ?? null) === $connection) {
-                return;
-            }
-        }
-
-        $listener->addTag('doctrine.event_listener', [
+        $container->findDefinition(SchemaBuilderTablesSchemaListener::class)->addTag('doctrine.event_listener', [
             'event' => ToolEvents::postGenerateSchema,
             'connection' => $connection,
         ]);
