@@ -29,6 +29,7 @@ final class BackfillLanguageTranslationsMigrationTest extends TestCase
         );
 
         $connection = $this->getDatabaseConnection();
+        $connection->executeStatement('ALTER TABLE ibexa_language RENAME TO ibexa_content_language');
         $connection->executeStatement('ALTER TABLE ibexa_content ADD COLUMN language_mask INTEGER DEFAULT 0 NOT NULL');
         $connection->executeStatement('ALTER TABLE ibexa_content_version ADD COLUMN language_mask INTEGER DEFAULT 0 NOT NULL');
         $connection->executeStatement('ALTER TABLE ibexa_url_alias_ml ADD COLUMN lang_mask INTEGER DEFAULT 0 NOT NULL');
@@ -51,6 +52,16 @@ final class BackfillLanguageTranslationsMigrationTest extends TestCase
                 'language_mask' => $languageMask,
             ]);
         }
+    }
+
+    protected function tearDown(): void
+    {
+        $connection = $this->getDatabaseConnection();
+        if ($connection->createSchemaManager()->tablesExist(['ibexa_content_language'])) {
+            $connection->executeStatement('ALTER TABLE ibexa_content_language RENAME TO ibexa_language');
+        }
+
+        parent::tearDown();
     }
 
     public function testBackfillsAlwaysAvailableAndTranslations(): void
