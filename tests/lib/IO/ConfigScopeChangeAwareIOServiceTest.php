@@ -11,9 +11,11 @@ namespace Ibexa\Tests\Core\IO;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\IO\ConfigScopeChangeAwareIOService;
 use Ibexa\Core\IO\IOServiceInterface;
+use Ibexa\Core\IO\RangeAwareIOServiceInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
 use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
+use Ibexa\Tests\Core\IO\Stream\NonSeekableStreamWrapper;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -257,6 +259,43 @@ final class ConfigScopeChangeAwareIOServiceTest extends TestCase
         $fileInputStream = $this->innerIOService->getFileInputStream($binaryFile);
 
         $this->assertEquals($expectedFileInputStream, $fileInputStream);
+    }
+
+    public function testGetFileInputStreamRangeDelegatesToRangeAwareInnerService(): void
+    {
+        $innerIOService = $this->createMock(RangeAwareIOServiceInterface::class);
+        $innerIOService
+            ->expects(self::once())
+            ->method('setPrefix')
+            ->with(self::PREFIX);
+        $ioService = new ConfigScopeChangeAwareIOService(
+            $this->configResolver,
+            $innerIOService,
+            self::PREFIX_PARAMETER_NAME
+        );
+        $binaryFile = new BinaryFile(['id' => 'my/path.mp4']);
+        $resource = fopen('php://memory', 'rb');
+
+        $innerIOService
+            ->expects(self::once())
+            ->method('getFileInputStreamRange')
+            ->with($binaryFile, 100, 50)
+            ->willReturn($resource);
+
+        self::assertSame($resource, $ioService->getFileInputStreamRange($binaryFile, 100, 50));
+    }
+
+    public function testGetFileInputStreamRangeFallsBackForNonRangeAwareInnerService(): void
+    {
+        $binaryFile = new BinaryFile(['id' => 'my/path.mp4']);
+
+        $this->innerIOService
+            ->expects(self::once())
+            ->method('getFileInputStream')
+            ->with($binaryFile)
+            ->willReturn(NonSeekableStreamWrapper::open('0123456789'));
+
+        self::assertSame('456789', stream_get_contents($this->ioService->getFileInputStreamRange($binaryFile, 4)));
     }
 
     public function testDeleteBinaryFile(): void

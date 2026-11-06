@@ -10,11 +10,12 @@ namespace Ibexa\Core\IO;
 
 use Ibexa\Contracts\Core\MVC\EventSubscriber\ConfigScopeChangeSubscriber;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Core\IO\Stream\StreamSeeker;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
 use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
 
-class ConfigScopeChangeAwareIOService implements IOServiceInterface, ConfigScopeChangeSubscriber
+class ConfigScopeChangeAwareIOService implements RangeAwareIOServiceInterface, ConfigScopeChangeSubscriber
 {
     /** @var ConfigResolverInterface */
     private $configResolver;
@@ -96,6 +97,21 @@ class ConfigScopeChangeAwareIOService implements IOServiceInterface, ConfigScope
     public function getFileInputStream(BinaryFile $binaryFile)
     {
         return $this->innerIOService->getFileInputStream($binaryFile);
+    }
+
+    public function getFileInputStreamRange(
+        BinaryFile $binaryFile,
+        int $offset,
+        ?int $length = null
+    ) {
+        if ($this->innerIOService instanceof RangeAwareIOServiceInterface) {
+            return $this->innerIOService->getFileInputStreamRange($binaryFile, $offset, $length);
+        }
+
+        $resource = $this->innerIOService->getFileInputStream($binaryFile);
+        StreamSeeker::seek($resource, $offset);
+
+        return $resource;
     }
 
     public function deleteBinaryFile(BinaryFile $binaryFile): void
