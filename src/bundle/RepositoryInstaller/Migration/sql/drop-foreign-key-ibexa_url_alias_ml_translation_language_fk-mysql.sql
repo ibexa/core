@@ -1,0 +1,1 @@
+ALTER TABLE ibexa_url_alias_ml_translation DROP FOREIGN KEY ibexa_url_alias_ml_translation_language_fk;
