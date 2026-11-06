@@ -5366,7 +5366,7 @@ class UrlAliasHandlerTest extends TestCase
         if (!isset($this->locationGateway)) {
             $this->locationGateway = new DoctrineDatabaseLocation(
                 $this->getDatabaseConnection(),
-                $this->getLanguageMaskGenerator(),
+                $this->getLanguageHandler(),
                 $this->getTrashCriteriaConverterDependency(),
                 $this->getTrashSortClauseConverterDependency(),
                 $this->getLimitedCountQueryBuilderDependency()

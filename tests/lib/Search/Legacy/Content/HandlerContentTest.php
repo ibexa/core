@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\SortClause;
 use Ibexa\Core\Persistence;
 use Ibexa\Core\Persistence\Legacy\Content\FieldHandler;
+use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway as LanguageGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Search\Legacy\Content;
@@ -231,6 +232,7 @@ class HandlerContentTest extends AbstractTestCase
                     $this->getContentTypeHandler(),
                     $this->getEventDispatcher(),
                     $this->getFieldTypeAliasResolver(),
+                    $this->createMock(LanguageGateway::class),
                 ]
             )
             ->onlyMethods(['extractContentInfoFromRows'])
