@@ -7,6 +7,7 @@
 
 namespace Ibexa\Tests\Core\Repository\Service\Mock;
 
+use Error;
 use Exception;
 use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
@@ -61,6 +62,7 @@ use Ibexa\Core\Repository\Values\ContentType\FieldDefinitionCollection;
 use Ibexa\Core\Repository\Values\User\UserReference;
 use Ibexa\Tests\Core\Repository\Service\Mock\Base as BaseServiceMockTest;
 use PHPUnit\Framework\MockObject\MockObject;
+use Throwable;
 
 /**
  * Mock test case for Content service.
@@ -3058,12 +3060,13 @@ class ContentTest extends BaseServiceMockTest
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::getDefaultObjectStates
      * @covers \Ibexa\Contracts\Core\Repository\ContentService::createContent
      *
-     * @dataProvider providerForTestCreateContentThrowsContentValidationExceptionTranslation
+     * @dataProvider providerForTestCreateContentWithRollback
      */
-    public function testCreateContentWithRollback()
+    public function testCreateContentWithRollback(Throwable $throwable): void
     {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Store failed');
+        // expectExceptionObject() only accepts \Exception
+        $this->expectException(get_class($throwable));
+        $this->expectExceptionMessage($throwable->getMessage());
 
         $fieldDefinitions = [
             new FieldDefinition(
@@ -3099,10 +3102,100 @@ class ContentTest extends BaseServiceMockTest
         $contentHandlerMock->expects($this->once())
             ->method('create')
             ->with($this->anything())
-            ->will($this->throwException(new Exception('Store failed')));
+            ->willThrowException($throwable);
 
         // Execute
         $this->partlyMockedContentService->createContent($contentCreateStruct, []);
+    }
+
+    /**
+     * @return iterable<string, array{Throwable}>
+     */
+    public static function providerForTestCreateContentWithRollback(): iterable
+    {
+        yield 'exception' => [new Exception('Store failed')];
+        yield 'error' => [new Error('Store failed')];
+    }
+
+    public function testDeleteTranslationRollsBackAndRethrowsError(): void
+    {
+        // not wrapped in BadStateException like exceptions are
+        $this->expectException(Error::class);
+        $this->expectExceptionMessage('Loading versions failed');
+
+        $contentInfo = new ContentInfo(['id' => 42, 'mainLanguageCode' => 'eng-GB']);
+        $contentService = $this->getPartlyMockedContentService(['loadVersions']);
+        $contentService
+            ->expects(self::once())
+            ->method('loadVersions')
+            ->with($contentInfo)
+            ->willThrowException(new Error('Loading versions failed'));
+
+        $repositoryMock = $this->getRepositoryMock();
+        $repositoryMock->expects(self::once())->method('beginTransaction');
+        $repositoryMock->expects(self::never())->method('commit');
+        $repositoryMock->expects(self::once())->method('rollback');
+
+        $contentService->deleteTranslation($contentInfo, 'ger-DE');
+    }
+
+    public function testDeleteTranslationFromDraftDoesNotRollBackCommittedTransactionOnError(): void
+    {
+        $contentInfo = new ContentInfo(['id' => 42, 'mainLanguageCode' => 'eng-GB']);
+        $versionInfo = new VersionInfo([
+            'contentInfo' => $contentInfo,
+            'versionNo' => 2,
+            'status' => APIVersionInfo::STATUS_DRAFT,
+            'languageCodes' => ['eng-GB', 'ger-DE'],
+        ]);
+        $spiContent = new SPIContent([
+            'versionInfo' => new SPIVersionInfo(['contentInfo' => new SPIContentInfo(['contentTypeId' => 7])]),
+        ]);
+        $contentType = new ContentType();
+
+        $this->getPermissionResolverMock()
+            ->expects(self::once())
+            ->method('canUser')
+            ->with('content', 'edit', $contentInfo)
+            ->willReturn(true);
+
+        /** @var MockObject $contentHandlerMock */
+        $contentHandlerMock = $this->getPersistenceMock()->contentHandler();
+        $contentHandlerMock
+            ->expects(self::once())
+            ->method('deleteTranslationFromDraft')
+            ->with(42, 2, 'ger-DE')
+            ->willReturn($spiContent);
+
+        $contentTypeServiceMock = $this->getContentTypeServiceMock();
+        $contentTypeServiceMock
+            ->expects(self::once())
+            ->method('loadContentType')
+            ->with(7)
+            ->willReturn($contentType);
+
+        $repositoryMock = $this->getRepositoryMock();
+        $repositoryMock->expects(self::once())->method('beginTransaction');
+        $repositoryMock->expects(self::once())->method('commit');
+        $repositoryMock->expects(self::never())->method('rollback');
+        $repositoryMock
+            ->expects(self::once())
+            ->method('getContentTypeService')
+            ->willReturn($contentTypeServiceMock);
+
+        $error = new Error('Building the domain object failed');
+        $this->getContentDomainMapperMock()
+            ->expects(self::once())
+            ->method('buildContentDomainObject')
+            ->with($spiContent, $contentType)
+            ->willThrowException($error);
+
+        try {
+            $this->getPartlyMockedContentService()->deleteTranslationFromDraft($versionInfo, 'ger-DE');
+            self::fail('Error thrown after committing the translation removal was not rethrown');
+        } catch (Error $e) {
+            self::assertSame($error, $e);
+        }
     }
 
     public function providerForTestUpdateContentThrowsBadStateException()
