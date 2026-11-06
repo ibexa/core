@@ -515,6 +515,33 @@ class DoctrineStorage extends Gateway
 
         return (bool)$statement->fetchOne();
     }
+
+    /**
+     * @return string[]
+     *
+     * @throws \Doctrine\DBAL\Driver\Exception
+     * @throws Exception
+     */
+    public function getImageReferenceUris(int $fieldId): array
+    {
+        $selectQuery = $this->connection->createQueryBuilder();
+        $selectQuery
+            ->select($this->connection->quoteIdentifier('filepath'))
+            ->from($this->connection->quoteIdentifier(self::IMAGE_FILE_TABLE))
+            ->where(
+                $selectQuery->expr()->eq(
+                    $this->connection->quoteIdentifier('contentobject_attribute_id'),
+                    ':field_id'
+                )
+            )
+            ->setParameter(':field_id', $fieldId, ParameterType::INTEGER)
+        ;
+
+        return array_map(
+            [$this->redecorator, 'redecorateFromTarget'],
+            $selectQuery->execute()->fetchFirstColumn()
+        );
+    }
 }
 
 class_alias(DoctrineStorage::class, 'eZ\Publish\Core\FieldType\Image\ImageStorage\Gateway\DoctrineStorage');
