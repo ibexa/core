@@ -23,6 +23,8 @@ use PHPUnit\Framework\Attributes\CoversClass;
 #[CoversClass(SchemaBuilderTablesSchemaListener::class)]
 final class SchemaBuilderTablesSchemaListenerTest extends IbexaKernelTestCase
 {
+    private const MIGRATIONS_TABLE = 'doctrine_migration_versions';
+
     protected static function getKernelClass(): string
     {
         return SchemaBuilderListenerTestKernel::class;
@@ -40,10 +42,14 @@ final class SchemaBuilderTablesSchemaListenerTest extends IbexaKernelTestCase
 
         // SQLite alters a table by copying it to a __temp__ table, dropping and re-creating it:
         // that is not a lost table.
+        // Doctrine Migrations' own metadata table is in no schema and is no ORM entity. In real
+        // doctrine:schema:update / doctrine:schema:validate runs DoctrineMigrationsBundle's
+        // SchemaFilterListener hides it, but SchemaTool is used directly here, outside a console
+        // command, so that listener is not active.
         $dropped = $created = [];
         foreach ($sql as $statement) {
             if (preg_match('/^DROP TABLE (\S+)/', $statement, $matches) === 1) {
-                if (!str_starts_with($matches[1], '__temp__')) {
+                if (!str_starts_with($matches[1], '__temp__') && $matches[1] !== self::MIGRATIONS_TABLE) {
                     $dropped[] = $matches[1];
                 }
             } elseif (preg_match('/^CREATE TABLE (\S+)/', $statement, $matches) === 1) {
@@ -66,8 +72,14 @@ final class SchemaBuilderTablesSchemaListenerTest extends IbexaKernelTestCase
         $connection = self::getServiceByClassName(Connection::class);
         $connection->executeStatement('CREATE TABLE ibexa_test_unmanaged_table (id INTEGER NOT NULL)');
 
-        self::assertTrue($connection->createSchemaManager()->tablesExist(['ibexa_test_unmanaged_table']));
-        self::assertTrue($connection->createSchemaManager()->tablesExist(['ibexa_content']));
+        // This test runs on its own kernel, so DAMA does not roll the table back: drop it explicitly
+        // or it leaks into the shared database and SchemaAlignmentTest.
+        try {
+            self::assertTrue($connection->createSchemaManager()->tablesExist(['ibexa_test_unmanaged_table']));
+            self::assertTrue($connection->createSchemaManager()->tablesExist(['ibexa_content']));
+        } finally {
+            $connection->executeStatement('DROP TABLE ibexa_test_unmanaged_table');
+        }
     }
 
     /**
