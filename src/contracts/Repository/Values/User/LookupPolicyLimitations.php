@@ -14,7 +14,7 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
  * This class represents a result of lookup limitation for module and function in the context of current User.
  *
  * @property-read Policy $policy
- * @property-read Limitation[] $limitations
+ * @property-read list<Limitation> $limitations
  */
 final class LookupPolicyLimitations extends ValueObject
 {
