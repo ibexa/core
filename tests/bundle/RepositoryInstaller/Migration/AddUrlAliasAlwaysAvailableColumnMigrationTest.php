@@ -22,6 +22,7 @@ final class AddUrlAliasAlwaysAvailableColumnMigrationTest extends TestCase
     public function testBackfillsTheFlagInChunksById(): void
     {
         $connection = $this->getDatabaseConnection();
+        $connection->executeStatement('ALTER TABLE ibexa_url_alias_ml ADD COLUMN lang_mask INTEGER DEFAULT 0 NOT NULL');
         foreach ([1 => ['foo', 'acbd18db4cc2f85cedef654fccc4a4d8', 3], 5001 => ['bar', '37b51d194a7513e45b56f6524f2d51f2', 2]] as $id => [$text, $textMd5, $langMask]) {
             $connection->insert('ibexa_url_alias_ml', [
                 'parent' => 0,

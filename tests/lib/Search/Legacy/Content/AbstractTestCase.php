@@ -124,8 +124,7 @@ class AbstractTestCase extends LanguageAwareTestCase
             $connection,
             $this->getSharedGateway(),
             new Gateway\DoctrineDatabase\QueryBuilder($connection),
-            $this->getLanguageHandler(),
-            $this->getLanguageMaskGenerator()
+            $this->getLanguageHandler()
         );
     }
 

@@ -50,7 +50,6 @@ final class DoctrineDatabase extends Gateway
         'is_original' => ParameterType::INTEGER,
         'action' => ParameterType::STRING,
         'action_type' => ParameterType::STRING,
-        'lang_mask' => ParameterType::INTEGER,
         'text' => ParameterType::STRING,
         'parent' => ParameterType::INTEGER,
         'text_md5' => ParameterType::STRING,
@@ -421,13 +420,6 @@ final class DoctrineDatabase extends Gateway
         int $languageId
     ): void {
         $this->connection->executeStatement(
-            'UPDATE ' . $this->connection->quoteSingleIdentifier($this->table) . '
-             SET lang_mask = lang_mask & ~ ' . $languageId . '
-             WHERE parent = :parent AND text_md5 = :textMd5',
-            ['parent' => $parentId, 'textMd5' => $textMD5],
-            ['parent' => ParameterType::INTEGER, 'textMd5' => ParameterType::STRING]
-        );
-        $this->connection->executeStatement(
             'DELETE FROM ' . self::TRANSLATION_TABLE . ' WHERE parent = :parent AND text_md5 = :textMd5 AND language_id = :languageId',
             ['parent' => $parentId, 'textMd5' => $textMD5, 'languageId' => $languageId],
             ['parent' => ParameterType::INTEGER, 'textMd5' => ParameterType::STRING, 'languageId' => ParameterType::INTEGER]
@@ -517,7 +509,6 @@ final class DoctrineDatabase extends Gateway
     ): void {
         $languageIds = $values['language_ids'] ?? null;
         unset($values['language_ids']);
-        $values = $this->withLanguageMask($values, $languageIds, $parentId, $textMD5);
 
         $query = $this->connection->createQueryBuilder();
         $query->update($this->connection->quoteSingleIdentifier($this->table));
@@ -605,7 +596,6 @@ final class DoctrineDatabase extends Gateway
 
         $languageIds = $values['language_ids'] ?? null;
         unset($values['language_ids']);
-        $values = $this->withLanguageMask($values, $languageIds);
 
         $query = $this->connection->createQueryBuilder();
         $query->insert($this->connection->quoteSingleIdentifier($this->table));
@@ -626,45 +616,6 @@ final class DoctrineDatabase extends Gateway
         }
 
         return (int)$values['id'];
-    }
-
-    /**
-     * Keeps the legacy "lang_mask" in step with the row's translations and "is_always_available",
-     * for as long as the language bitmask is still around.
-     *
-     * @param array<string, mixed> $values
-     * @param int[]|null $languageIds
-     *
-     * @return array<string, mixed>
-     */
-    private function withLanguageMask(
-        array $values,
-        ?array $languageIds,
-        ?int $parentId = null,
-        ?string $textMD5 = null
-    ): array {
-        if (null === $languageIds && !array_key_exists('is_always_available', $values)) {
-            return $values;
-        }
-
-        $existing = null !== $parentId && null !== $textMD5;
-        $languageIds ??= $existing ? $this->loadTranslationLanguageIds($parentId, $textMD5) : [];
-        $alwaysAvailable = array_key_exists('is_always_available', $values)
-            ? (bool)$values['is_always_available']
-            : $existing && (bool)$this->connection->fetchOne(
-                'SELECT is_always_available FROM ' . $this->connection->quoteSingleIdentifier($this->table)
-                . ' WHERE parent = :parent AND text_md5 = :textMd5',
-                ['parent' => $parentId, 'textMd5' => $textMD5],
-                ['parent' => ParameterType::INTEGER, 'textMd5' => ParameterType::STRING]
-            );
-
-        $languageMask = $alwaysAvailable ? 1 : 0;
-        foreach ($languageIds as $languageId) {
-            $languageMask |= (int)$languageId;
-        }
-        $values['lang_mask'] = $languageMask;
-
-        return $values;
     }
 
     /**
@@ -1093,15 +1044,6 @@ final class DoctrineDatabase extends Gateway
         int $languageId,
         array $actions
     ): void {
-        $query = $this->connection->createQueryBuilder();
-        $query
-            ->update($this->connection->quoteSingleIdentifier($this->table))
-            // parameter for bitwise operation has to be placed verbatim (w/o binding) for this to work cross-DBMS
-            ->set('lang_mask', 'lang_mask & ~ ' . $languageId)
-            ->where('action IN (:actions)')
-            ->setParameter('actions', $actions, ArrayParameterType::STRING);
-        $query->executeStatement();
-
         $this->connection->executeStatement(
             'DELETE FROM ' . self::TRANSLATION_TABLE . '
              WHERE language_id = :languageId

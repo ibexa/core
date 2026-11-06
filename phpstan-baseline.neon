@@ -11047,42 +11047,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Language/Mapper.php
 
 		-
-			message: '#^Call to function is_int\(\) with 2\|int\<4, max\> will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Language/MaskGenerator.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGenerator\:\:extractLanguageCodesFromMask\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Language/MaskGenerator.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGenerator\:\:extractLanguageIdsFromMask\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Language/MaskGenerator.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGenerator\:\:isLanguageAlwaysAvailable\(\) has parameter \$languages with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Language/MaskGenerator.php
-
-		-
-			message: '#^Parameter \#1 \$array of function array_keys expects array, iterable\<Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\> given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Language/MaskGenerator.php
-
-		-
-			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGenerator\:\:\$languageHandler \(Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\Handler\) does not accept Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\\Handler\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Language/MaskGenerator.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Location\\Gateway\:\:getBasicNodeData\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -32557,66 +32521,6 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/Language/LanguageHandlerTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGeneratorTest\:\:getLanguageHandler\(\) should return Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\Handler but returns Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\\Handler\.$#'
-			identifier: return.type
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGeneratorTest\:\:getLanguageIndicatorData\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGeneratorTest\:\:isAlwaysAvailableProvider\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGeneratorTest\:\:languageIdsFromMaskProvider\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGeneratorTest\:\:removeAlwaysAvailableFlagProvider\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGeneratorTest\:\:testExtractLanguageIdsFromMask\(\) has parameter \$expectedResult with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGeneratorTest\:\:testRemoveAlwaysAvailableFlag\(\) has parameter \$expectedResult with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGeneratorTest\:\:testRemoveAlwaysAvailableFlag\(\) has parameter \$langMask with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
-
-		-
-			message: '#^Offset string might not exist on array\{\}\|array\{eng\-US\?\: Ibexa\\Contracts\\Core\\Persistence\\Content\\Language, eng\-GB\?\: Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\}\.$#'
-			identifier: offsetAccess.notFound
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
-
-		-
-			message: '#^Property Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\LanguageAwareTestCase\:\:\$languageHandler \(Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\\Handler\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Language/MaskGeneratorTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\LanguageAwareTestCase\:\:getFullTextSearchConfiguration\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -32630,12 +32534,6 @@ parameters:
 
 		-
 			message: '#^Property Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\LanguageAwareTestCase\:\:\$languageHandler \(Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\\Handler\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/LanguageAwareTestCase.php
-
-		-
-			message: '#^Property Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\LanguageAwareTestCase\:\:\$languageMaskGenerator \(Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\MaskGenerator\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/LanguageAwareTestCase.php

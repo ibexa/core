@@ -29,6 +29,9 @@ final class BackfillLanguageTranslationsMigrationTest extends TestCase
         );
 
         $connection = $this->getDatabaseConnection();
+        $connection->executeStatement('ALTER TABLE ibexa_content ADD COLUMN language_mask INTEGER DEFAULT 0 NOT NULL');
+        $connection->executeStatement('ALTER TABLE ibexa_content_version ADD COLUMN language_mask INTEGER DEFAULT 0 NOT NULL');
+        $connection->executeStatement('ALTER TABLE ibexa_url_alias_ml ADD COLUMN lang_mask INTEGER DEFAULT 0 NOT NULL');
         foreach ([1 => 2, 2 => 7] as $id => $languageMask) {
             $connection->insert('ibexa_content', [
                 'id' => $id,

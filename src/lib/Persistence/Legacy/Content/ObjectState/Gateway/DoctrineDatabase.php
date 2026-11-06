@@ -156,22 +156,12 @@ final class DoctrineDatabase extends Gateway
                         ParameterType::INTEGER
                     ),
                     'default_language_id' => $query->createPositionalParameter(
-                        $this->generateLanguageIndicator(
-                            $objectState->defaultLanguage,
-                            false
-                        ),
+                        $this->languageHandler->loadByLanguageCode($objectState->defaultLanguage)->id,
                         ParameterType::INTEGER
                     ),
                     'identifier' => $query->createPositionalParameter(
                         $objectState->identifier,
                         ParameterType::STRING
-                    ),
-                    'language_mask' => $query->createPositionalParameter(
-                        $this->generateLanguageMask(
-                            $objectState->languageCodes,
-                            true
-                        ),
-                        ParameterType::INTEGER
                     ),
                     'priority' => $query->createPositionalParameter(
                         $objectState->priority,
@@ -202,16 +192,13 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * @param string[] $languageCodes
-     *
      * @throws NotFoundException
      */
     private function updateObjectStateCommonFields(
         string $tableName,
         int $id,
         string $identifier,
-        string $defaultLanguageCode,
-        array $languageCodes
+        string $defaultLanguageCode
     ): void {
         $query = $this->connection->createQueryBuilder();
         $query
@@ -219,10 +206,7 @@ final class DoctrineDatabase extends Gateway
             ->set(
                 'default_language_id',
                 $query->createPositionalParameter(
-                    $this->generateLanguageIndicator(
-                        $defaultLanguageCode,
-                        false
-                    ),
+                    $this->languageHandler->loadByLanguageCode($defaultLanguageCode)->id,
                     ParameterType::INTEGER
                 )
             )
@@ -231,16 +215,6 @@ final class DoctrineDatabase extends Gateway
                 $query->createPositionalParameter(
                     $identifier,
                     ParameterType::STRING
-                )
-            )
-            ->set(
-                'language_mask',
-                $query->createPositionalParameter(
-                    $this->generateLanguageMask(
-                        $languageCodes,
-                        true
-                    ),
-                    ParameterType::INTEGER
                 )
             )
             ->where(
@@ -260,8 +234,7 @@ final class DoctrineDatabase extends Gateway
             self::OBJECT_STATE_TABLE,
             $objectState->id,
             $objectState->identifier,
-            $objectState->defaultLanguage,
-            $objectState->languageCodes
+            $objectState->defaultLanguage
         );
 
         // And then refresh object state translations
@@ -369,22 +342,12 @@ final class DoctrineDatabase extends Gateway
             ->values(
                 [
                     'default_language_id' => $query->createPositionalParameter(
-                        $this->generateLanguageIndicator(
-                            $objectStateGroup->defaultLanguage,
-                            false
-                        ),
+                        $this->languageHandler->loadByLanguageCode($objectStateGroup->defaultLanguage)->id,
                         ParameterType::INTEGER
                     ),
                     'identifier' => $query->createPositionalParameter(
                         $objectStateGroup->identifier,
                         ParameterType::STRING
-                    ),
-                    'language_mask' => $query->createPositionalParameter(
-                        $this->generateLanguageMask(
-                            $objectStateGroup->languageCodes,
-                            true
-                        ),
-                        ParameterType::INTEGER
                     ),
                 ]
             )
@@ -404,8 +367,7 @@ final class DoctrineDatabase extends Gateway
             self::OBJECT_STATE_GROUP_TABLE,
             $objectStateGroup->id,
             $objectStateGroup->identifier,
-            $objectStateGroup->defaultLanguage,
-            $objectStateGroup->languageCodes
+            $objectStateGroup->defaultLanguage
         );
 
         // And then refresh group translations
@@ -526,7 +488,6 @@ final class DoctrineDatabase extends Gateway
                 'state.group_id AS ibexa_object_state_group_id',
                 'state.id AS ibexa_object_state_id',
                 'state.identifier AS ibexa_object_state_identifier',
-                'state.language_mask AS ibexa_object_state_language_mask',
                 'state.priority AS ibexa_object_state_priority',
                 // Object state language
                 'lang.description AS ibexa_object_state_language_description',
@@ -556,7 +517,6 @@ final class DoctrineDatabase extends Gateway
                 'state_group.default_language_id AS ibexa_object_state_group_default_language_id',
                 'state_group.id AS ibexa_object_state_group_id',
                 'state_group.identifier AS ibexa_object_state_group_identifier',
-                'state_group.language_mask AS ibexa_object_state_group_language_mask',
                 // Object state group language
                 'state_group_lang.description AS ibexa_object_state_group_language_description',
                 'state_group_lang.language_id AS ibexa_object_state_group_language_language_id',
@@ -600,10 +560,7 @@ final class DoctrineDatabase extends Gateway
                             ParameterType::STRING
                         ),
                         'language_id' => $query->createPositionalParameter(
-                            $this->generateLanguageIndicator(
-                                $languageCode,
-                                $languageCode === $objectState->defaultLanguage
-                            ),
+                            $this->languageHandler->loadByLanguageCode($languageCode)->id,
                             ParameterType::INTEGER
                         ),
                     ]
@@ -654,16 +611,13 @@ final class DoctrineDatabase extends Gateway
             )
         ;
         foreach ($objectStateGroup->languageCodes as $languageCode) {
-            $languageId = $this->generateLanguageIndicator(
-                $languageCode,
-                $languageCode === $objectStateGroup->defaultLanguage
-            );
+            $languageId = $this->languageHandler->loadByLanguageCode($languageCode)->id;
             $query
                 ->setParameter('contentobject_state_group_id', $objectStateGroup->id, ParameterType::INTEGER)
                 ->setParameter('description', $objectStateGroup->description[$languageCode], ParameterType::STRING)
                 ->setParameter('name', $objectStateGroup->name[$languageCode], ParameterType::STRING)
                 ->setParameter('language_id', $languageId, ParameterType::INTEGER)
-                ->setParameter('real_language_id', $languageId & ~1, ParameterType::INTEGER);
+                ->setParameter('real_language_id', $languageId, ParameterType::INTEGER);
 
             $query->executeStatement();
         }
@@ -758,32 +712,5 @@ final class DoctrineDatabase extends Gateway
             );
 
         $query->executeStatement();
-    }
-
-    /**
-     * The language id, with the legacy "always available" bit for as long as the language bitmask is around.
-     */
-    private function generateLanguageIndicator(
-        string $languageCode,
-        bool $alwaysAvailable
-    ): int {
-        return $this->languageHandler->loadByLanguageCode($languageCode)->id | ($alwaysAvailable ? 1 : 0);
-    }
-
-    /**
-     * Keeps the legacy "language_mask" up to date for as long as the language bitmask is around.
-     *
-     * @param string[] $languageCodes
-     */
-    private function generateLanguageMask(
-        array $languageCodes,
-        bool $alwaysAvailable
-    ): int {
-        $languageMask = $alwaysAvailable ? 1 : 0;
-        foreach ($languageCodes as $languageCode) {
-            $languageMask |= $this->languageHandler->loadByLanguageCode($languageCode)->id;
-        }
-
-        return $languageMask;
     }
 }
