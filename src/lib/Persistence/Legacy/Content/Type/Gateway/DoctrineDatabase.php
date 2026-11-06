@@ -60,7 +60,6 @@ final class DoctrineDatabase extends Gateway
             'identifier',
             'initial_language_id',
             'is_container',
-            'language_mask',
             'remote_id',
             'serialized_description_list',
             'serialized_name_list',
@@ -295,9 +294,7 @@ final class DoctrineDatabase extends Gateway
                             ParameterType::INTEGER
                         ),
                         'language_id' => $query->createPositionalParameter(
-                            // the legacy "always available" bit stays until the language bitmask goes
-                            $this->languageHandler->loadByLanguageCode($language)->id
-                                | (($languages['always-available'] ?? null) === $language ? 1 : 0),
+                            $this->languageHandler->loadByLanguageCode($language)->id,
                             ParameterType::INTEGER
                         ),
                         'language_locale' => $query->createPositionalParameter(
@@ -418,35 +415,11 @@ final class DoctrineDatabase extends Gateway
             'url_alias_name' => [$type->urlAliasSchema, ParameterType::STRING],
             'contentobject_name' => [$type->nameSchema, ParameterType::STRING],
             'is_container' => [(int)$type->isContainer, ParameterType::INTEGER],
-            'language_mask' => [
-                $this->generateLanguageMask(
-                    $type->languageCodes,
-                    array_key_exists('always-available', $type->name)
-                ),
-                ParameterType::INTEGER,
-            ],
             'initial_language_id' => [$type->initialLanguageId, ParameterType::INTEGER],
             'sort_field' => [$type->sortField, ParameterType::INTEGER],
             'sort_order' => [$type->sortOrder, ParameterType::INTEGER],
             'always_available' => [(int)$type->defaultAlwaysAvailable, ParameterType::INTEGER],
         ];
-    }
-
-    /**
-     * Keeps the legacy "language_mask" up to date for as long as the language bitmask is around.
-     *
-     * @param string[] $languageCodes
-     */
-    private function generateLanguageMask(
-        array $languageCodes,
-        bool $alwaysAvailable
-    ): int {
-        $languageMask = $alwaysAvailable ? 1 : 0;
-        foreach ($languageCodes as $languageCode) {
-            $languageMask |= $this->languageHandler->loadByLanguageCode($languageCode)->id;
-        }
-
-        return $languageMask;
     }
 
     public function insertGroupAssignment(

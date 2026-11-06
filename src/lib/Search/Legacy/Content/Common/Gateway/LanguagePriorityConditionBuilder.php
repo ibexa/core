@@ -22,12 +22,6 @@ use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
  */
 final readonly class LanguagePriorityConditionBuilder
 {
-    /**
-     * Pre-computed integer constant which, when combined with a bit-wise AND, removes the
-     * always-available bit from a language id.
-     */
-    private const int REMOVE_ALWAYS_AVAILABLE_BIT_OPERAND = -2;
-
     public function __construct(
         private Connection $connection,
         private LanguageHandler $languageHandler
@@ -44,13 +38,6 @@ final readonly class LanguagePriorityConditionBuilder
         string $mainLanguageIdColumn = 'c.initial_language_id',
         string $alwaysAvailableColumn = 'c.always_available'
     ): string {
-        // Field language ids still carry the legacy "always available" bit until it's stripped
-        // together with the language bitmask - compare them without it.
-        $languageIdColumn = $this->connection->getDatabasePlatform()->getBitAndComparisonExpression(
-            $languageIdColumn,
-            (string)self::REMOVE_ALWAYS_AVAILABLE_BIT_OPERAND
-        );
-
         return $query->expr()->eq(
             $languageIdColumn,
             $this->buildMatchedLanguageExpression(

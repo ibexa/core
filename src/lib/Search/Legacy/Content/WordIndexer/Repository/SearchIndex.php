@@ -181,10 +181,6 @@ class SearchIndex
                         $integerValue,
                         ParameterType::INTEGER
                     ),
-                    'language_mask' => $query->createPositionalParameter(
-                        $languageId | ($isMainAndAlwaysAvailable ? 1 : 0),
-                        ParameterType::INTEGER
-                    ),
                     'language_id' => $query->createPositionalParameter(
                         $languageId,
                         ParameterType::INTEGER
