@@ -113,6 +113,19 @@ class AbstractTestCase extends LanguageAwareTestCase
         return $this->contentTypeHandler;
     }
 
+    protected function getContentGateway(): Gateway
+    {
+        $connection = $this->getDatabaseConnection();
+
+        return new Gateway\DoctrineDatabase(
+            $connection,
+            $this->getSharedGateway(),
+            new Gateway\DoctrineDatabase\QueryBuilder($connection),
+            $this->getLanguageHandler(),
+            $this->getLanguageMaskGenerator()
+        );
+    }
+
     protected function getConverterRegistry()
     {
         if (!isset($this->converterRegistry)) {
