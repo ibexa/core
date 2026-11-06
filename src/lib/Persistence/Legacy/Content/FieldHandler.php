@@ -14,6 +14,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Contracts\Core\Persistence\Content\UpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
+use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use Ibexa\Core\Persistence\FieldTypeRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Handler;
 
@@ -60,27 +61,22 @@ class FieldHandler
      */
     protected $fieldTypes;
 
-    /**
-     * Creates a new Field Handler.
-     *
-     * @param Gateway $contentGateway
-     * @param Mapper $mapper
-     * @param StorageHandler $storageHandler
-     * @param LanguageHandler $languageHandler
-     * @param FieldTypeRegistry $fieldTypeRegistry
-     */
+    private FieldTypeAliasResolverInterface $fieldTypeAliasResolver;
+
     public function __construct(
         Gateway $contentGateway,
         Mapper $mapper,
         StorageHandler $storageHandler,
         LanguageHandler $languageHandler,
-        FieldTypeRegistry $fieldTypeRegistry
+        FieldTypeRegistry $fieldTypeRegistry,
+        FieldTypeAliasResolverInterface $fieldTypeAliasResolver
     ) {
         $this->contentGateway = $contentGateway;
         $this->mapper = $mapper;
         $this->storageHandler = $storageHandler;
         $this->languageHandler = $languageHandler;
         $this->fieldTypeRegistry = $fieldTypeRegistry;
+        $this->fieldTypeAliasResolver = $fieldTypeAliasResolver;
     }
 
     /**
@@ -481,7 +477,11 @@ class FieldHandler
         $contentId,
         VersionInfo $versionInfo
     ) {
-        foreach ($this->contentGateway->getFieldIdsByType($contentId, $versionInfo->versionNo) as $fieldType => $ids) {
+        $fieldTypeIdsMap = $this->resolveFieldTypeIdentifiers(
+            $this->contentGateway->getFieldIdsByType($contentId, $versionInfo->versionNo)
+        );
+
+        foreach ($fieldTypeIdsMap as $fieldType => $ids) {
             $this->storageHandler->deleteFieldData($fieldType, $versionInfo, $ids);
         }
         $this->contentGateway->deleteFields($contentId, $versionInfo->versionNo);
@@ -501,10 +501,12 @@ class FieldHandler
     ) {
         foreach ($versions as $versionInfo) {
             // FT-specific implementations require VersionInfo to delete data
-            $fieldTypeIdsMap = $this->contentGateway->getFieldIdsByType(
-                $versionInfo->contentInfo->id,
-                $versionInfo->versionNo,
-                $languageCode
+            $fieldTypeIdsMap = $this->resolveFieldTypeIdentifiers(
+                $this->contentGateway->getFieldIdsByType(
+                    $versionInfo->contentInfo->id,
+                    $versionInfo->versionNo,
+                    $languageCode
+                )
             );
 
             foreach ($fieldTypeIdsMap as $fieldType => $ids) {
@@ -525,10 +527,12 @@ class FieldHandler
         VersionInfo $versionInfo,
         $languageCode
     ) {
-        $fieldTypeIdsMap = $this->contentGateway->getFieldIdsByType(
-            $versionInfo->contentInfo->id,
-            $versionInfo->versionNo,
-            $languageCode
+        $fieldTypeIdsMap = $this->resolveFieldTypeIdentifiers(
+            $this->contentGateway->getFieldIdsByType(
+                $versionInfo->contentInfo->id,
+                $versionInfo->versionNo,
+                $languageCode
+            )
         );
         foreach ($fieldTypeIdsMap as $fieldType => $ids) {
             $this->storageHandler->deleteFieldData($fieldType, $versionInfo, $ids);
@@ -538,5 +542,27 @@ class FieldHandler
             $versionInfo->contentInfo->id,
             $versionInfo->versionNo
         );
+    }
+
+    /**
+     * @param array<string, int[]> $fieldTypeIdsMap
+     *
+     * @return array<string, int[]>
+     */
+    private function resolveFieldTypeIdentifiers(array $fieldTypeIdsMap): array
+    {
+        $resolvedFieldTypeIdsMap = [];
+        foreach ($fieldTypeIdsMap as $fieldTypeIdentifier => $ids) {
+            $resolvedFieldTypeIdentifier = $this->fieldTypeAliasResolver->resolveIdentifier(
+                $fieldTypeIdentifier
+            );
+
+            $resolvedFieldTypeIdsMap[$resolvedFieldTypeIdentifier] = array_merge(
+                $resolvedFieldTypeIdsMap[$resolvedFieldTypeIdentifier] ?? [],
+                $ids
+            );
+        }
+
+        return $resolvedFieldTypeIdsMap;
     }
 }
