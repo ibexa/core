@@ -76,6 +76,11 @@ class Type extends FieldType implements TranslationContainerInterface
                 (int)$fieldValue->destinationContentId
             );
         } catch (NotFoundException $e) {
+            if (!$this->isTargetDeleted((int)$fieldValue->destinationContentId)) {
+                // the content exists but has no published version: not a stale reference
+                throw $e;
+            }
+
             // target was permanently deleted, the reference is stale: only a required field cannot live with it
             return $fieldDefinition->isRequired
                 ? [
@@ -149,15 +154,22 @@ class Type extends FieldType implements TranslationContainerInterface
      */
     public function toPersistenceValue(SPIValue $value): PersistenceValue
     {
-        if (!$this->isEmptyValue($value)) {
-            try {
-                $this->handler->loadContentInfo($value->destinationContentId);
-            } catch (NotFoundException $e) {
-                $value = $this->getEmptyValue();
-            }
+        if (!$this->isEmptyValue($value) && $this->isTargetDeleted((int)$value->destinationContentId)) {
+            $value = $this->getEmptyValue();
         }
 
         return parent::toPersistenceValue($value);
+    }
+
+    private function isTargetDeleted(int $destinationContentId): bool
+    {
+        try {
+            $this->handler->loadContentInfo($destinationContentId);
+        } catch (NotFoundException $e) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

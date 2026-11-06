@@ -300,12 +300,37 @@ class ImageAssetTest extends FieldTypeTest
             ->expects($this->never())
             ->method('isAsset');
 
-        $validationErrors = $this->getFieldTypeUnderTest()->validate(
+        $contentHandler = $this->createMock(SPIContentHandler::class);
+        $contentHandler
+            ->expects($this->once())
+            ->method('loadContentInfo')
+            ->with($destinationContentId)
+            ->willThrowException(new NotFoundException('Content', $destinationContentId));
+
+        $fieldType = new ImageAsset\Type($this->contentServiceMock, $this->assetMapperMock, $contentHandler);
+
+        $validationErrors = $fieldType->validate(
             new CoreFieldDefinition(['isRequired' => $isRequired]),
             new ImageAsset\Value($destinationContentId)
         );
 
         $this->assertEquals($expectedValidationErrors, $validationErrors);
+    }
+
+    public function testValidateRethrowsWhenTargetExistsWithoutPublishedVersion(): void
+    {
+        $this->contentServiceMock
+            ->expects($this->once())
+            ->method('loadContent')
+            ->with(self::DESTINATION_CONTENT_ID)
+            ->willThrowException(new NotFoundException('Content', self::DESTINATION_CONTENT_ID));
+
+        $this->expectException(NotFoundException::class);
+
+        $this->getFieldTypeUnderTest()->validate(
+            new CoreFieldDefinition(['isRequired' => false]),
+            new ImageAsset\Value(self::DESTINATION_CONTENT_ID)
+        );
     }
 
     /**
