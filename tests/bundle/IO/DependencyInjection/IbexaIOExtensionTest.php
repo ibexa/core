@@ -16,6 +16,8 @@ use Ibexa\Bundle\IO\DependencyInjection\IbexaIOExtension;
 use Ibexa\Core\IO\UrlDecorator\AbsolutePrefix;
 use Ibexa\Tests\Integration\Core\Repository\Container\Compiler\SetAllServicesPublicPass;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Yaml\Yaml;
 
 class IbexaIOExtensionTest extends AbstractExtensionTestCase
@@ -101,6 +103,7 @@ class IbexaIOExtensionTest extends AbstractExtensionTestCase
         $this->container->setParameter('kernel.debug', true);
         $this->container->setParameter('kernel.project_dir', self::FIXTURES_DIR);
         $this->container->setParameter('kernel.cache_dir', self::FIXTURES_DIR . '/cache');
+        $this->container->setDefinition('event_dispatcher', new Definition(EventDispatcher::class));
 
         $this->container->addCompilerPass(new ChainConfigResolverPass());
         $this->container->addCompilerPass(new SetAllServicesPublicPass());

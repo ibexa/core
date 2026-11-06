@@ -68,8 +68,7 @@ services:
             - '@ibexa.cache_pool'
             - '@router.request_context'
             - '@Ibexa\Core\Persistence\Cache\Identifier\CacheIdentifierGeneratorInterface'
-        calls:
-            - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
+            - '@Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface'
 
     ibexa.image_alias.imagine.alias_generator:
         class: Ibexa\Bundle\Core\Imagine\AliasGenerator

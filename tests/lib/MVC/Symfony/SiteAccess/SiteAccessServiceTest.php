@@ -11,14 +11,21 @@ namespace Ibexa\Tests\Core\MVC\Symfony\SiteAccess;
 use ArrayIterator;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Core\MVC\Symfony\Event\PostSiteAccessMatchEvent;
 use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Provider\StaticSiteAccessProvider;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class SiteAccessServiceTest extends TestCase
 {
@@ -26,10 +33,10 @@ class SiteAccessServiceTest extends TestCase
     private const UNDEFINED_SA_NAME = 'undefined_sa';
     private const SA_GROUP = 'group';
 
-    /** @var SiteAccessProviderInterface|MockObject */
+    /** @var SiteAccessProviderInterface&MockObject */
     private $provider;
 
-    /** @var ConfigResolverInterface|MockObject */
+    /** @var ConfigResolverInterface&MockObject */
     private $configResolver;
 
     /** @var SiteAccess */
@@ -51,27 +58,63 @@ class SiteAccessServiceTest extends TestCase
         $this->configResolverParameters = $this->getConfigResolverParameters();
     }
 
-    public function testGetCurrentSiteAccess(): void
+    public function testGetCurrentIsNullInitially(): void
     {
-        $service = new SiteAccessService(
-            self::createStub(SiteAccessProviderInterface::class),
-            self::createStub(ConfigResolverInterface::class)
-        );
+        self::assertNull($this->createService()->getCurrent());
+    }
 
-        self::assertNull($service->getCurrent());
+    public function testGetCurrentReturnsInitialSiteAccessUntilOneIsMatched(): void
+    {
+        $initialSiteAccess = new SiteAccess('default', SiteAccess::MATCHING_TYPE_UNINITIALIZED);
+        $service = $this->createService(null, $initialSiteAccess);
+
+        self::assertSame($initialSiteAccess, $service->getCurrent());
+
+        $matchedSiteAccess = new SiteAccess('site');
+        $service->onSiteAccessMatch($this->createSiteAccessMatchEvent($matchedSiteAccess, HttpKernelInterface::MAIN_REQUEST));
+
+        self::assertSame($matchedSiteAccess, $service->getCurrent());
+    }
+
+    public function testRestoreSiteAccessNeverDropsTheInitialSiteAccess(): void
+    {
+        $initialSiteAccess = new SiteAccess('default', SiteAccess::MATCHING_TYPE_UNINITIALIZED);
+        $service = $this->createService(null, $initialSiteAccess);
+
+        $service->changeSiteAccess(new SiteAccess('preview'));
+
+        self::assertSame($initialSiteAccess, $service->restoreSiteAccess());
+        self::assertSame($initialSiteAccess, $service->restoreSiteAccess());
+    }
+
+    public function testOnSiteAccessMatchResetsStackOnMainRequest(): void
+    {
+        $service = $this->createService();
 
         $siteAccess = new SiteAccess('default');
-        $service->setSiteAccess($siteAccess);
-        self::assertSame($siteAccess, $service->getCurrent());
+        $service->onSiteAccessMatch($this->createSiteAccessMatchEvent($siteAccess, HttpKernelInterface::MAIN_REQUEST));
 
-        $service->setSiteAccess(null);
-        self::assertNull($service->getCurrent());
+        self::assertSame($siteAccess, $service->getCurrent());
+    }
+
+    public function testOnSiteAccessMatchIsNoopOnSubRequest(): void
+    {
+        $service = $this->createService();
+
+        $mainSiteAccess = new SiteAccess('main');
+        $service->onSiteAccessMatch($this->createSiteAccessMatchEvent($mainSiteAccess, HttpKernelInterface::MAIN_REQUEST));
+
+        $subRequestSiteAccess = new SiteAccess('sub_request');
+        $service->onSiteAccessMatch($this->createSiteAccessMatchEvent($subRequestSiteAccess, HttpKernelInterface::SUB_REQUEST));
+
+        self::assertSame($mainSiteAccess, $service->getCurrent());
     }
 
     public function testGetSubscribedEvents(): void
     {
         self::assertSame(
             [
+                MVCEvents::SITEACCESS => 'onSiteAccessMatch',
                 MVCEvents::CONFIG_SCOPE_CHANGE => 'onConfigScopeChange',
                 MVCEvents::CONFIG_SCOPE_RESTORE => 'onConfigScopeRestore',
             ],
@@ -79,77 +122,121 @@ class SiteAccessServiceTest extends TestCase
         );
     }
 
-    public function testOnConfigScopeChangeMakesGetCurrentReflectTheNewSiteAccess(): void
+    public function testChangeSiteAccessPushesAndReturnsTheGivenSiteAccess(): void
     {
-        $service = new SiteAccessService(
-            self::createStub(SiteAccessProviderInterface::class),
-            self::createStub(ConfigResolverInterface::class)
-        );
+        $service = $this->createService();
 
         $baseSiteAccess = new SiteAccess('base');
-        $service->setSiteAccess($baseSiteAccess);
+        $service->onSiteAccessMatch($this->createSiteAccessMatchEvent($baseSiteAccess, HttpKernelInterface::MAIN_REQUEST));
 
         $previewSiteAccess = new SiteAccess('preview');
-        $service->onConfigScopeChange(new ScopeChangeEvent($previewSiteAccess));
-
+        self::assertSame($previewSiteAccess, $service->changeSiteAccess($previewSiteAccess));
         self::assertSame($previewSiteAccess, $service->getCurrent());
     }
 
-    public function testOnConfigScopeRestoreBringsBackThePreviousSiteAccess(): void
+    public function testChangeSiteAccessDispatchesEventWithoutTriggeringTheDeprecatedHandler(): void
     {
-        $service = new SiteAccessService(
-            self::createStub(SiteAccessProviderInterface::class),
-            self::createStub(ConfigResolverInterface::class)
-        );
+        $eventDispatcher = new EventDispatcher();
+        $service = $this->createService($eventDispatcher);
 
-        $baseSiteAccess = new SiteAccess('base');
-        $service->setSiteAccess($baseSiteAccess);
+        $dispatchedEvents = [];
+        $eventDispatcher->addListener(MVCEvents::CONFIG_SCOPE_CHANGE, static function (ScopeChangeEvent $event) use (&$dispatchedEvents): void {
+            $dispatchedEvents[] = $event->getSiteAccess();
+        });
 
         $previewSiteAccess = new SiteAccess('preview');
-        $service->onConfigScopeChange(new ScopeChangeEvent($previewSiteAccess));
-        $service->onConfigScopeRestore(new ScopeChangeEvent($baseSiteAccess));
+        $service->changeSiteAccess($previewSiteAccess);
 
+        // The event is still dispatched for other, unrelated listeners to observe...
+        self::assertSame([$previewSiteAccess], $dispatchedEvents);
+        // ...but the stack was mutated exactly once by changeSiteAccess() itself, proving
+        // the service's own onConfigScopeChange() (which would push a 2nd time) did not react.
+        self::assertSame($previewSiteAccess, $service->getCurrent());
+    }
+
+    public function testRestoreSiteAccessPopsStackAndReturnsThePreviousSiteAccess(): void
+    {
+        $service = $this->createService();
+
+        $baseSiteAccess = new SiteAccess('base');
+        $service->onSiteAccessMatch($this->createSiteAccessMatchEvent($baseSiteAccess, HttpKernelInterface::MAIN_REQUEST));
+
+        $previewSiteAccess = new SiteAccess('preview');
+        $service->changeSiteAccess($previewSiteAccess);
+
+        self::assertSame($baseSiteAccess, $service->restoreSiteAccess());
         self::assertSame($baseSiteAccess, $service->getCurrent());
     }
 
-    public function testOnConfigScopeRestoreNeverDropsTheBaseSiteAccess(): void
+    public function testRestoreSiteAccessNeverDropsBelowTheBaseSiteAccess(): void
     {
-        $service = new SiteAccessService(
-            self::createStub(SiteAccessProviderInterface::class),
-            self::createStub(ConfigResolverInterface::class)
-        );
+        $service = $this->createService();
 
         $baseSiteAccess = new SiteAccess('base');
-        $service->setSiteAccess($baseSiteAccess);
+        $service->onSiteAccessMatch($this->createSiteAccessMatchEvent($baseSiteAccess, HttpKernelInterface::MAIN_REQUEST));
 
-        $service->onConfigScopeRestore(new ScopeChangeEvent($baseSiteAccess));
-
+        self::assertSame($baseSiteAccess, $service->restoreSiteAccess());
         self::assertSame($baseSiteAccess, $service->getCurrent());
     }
 
-    public function testNestedConfigScopeChangesAndRestoresRoundTripLikeAStack(): void
+    public function testRestoreSiteAccessReturnsNullWhenStackIsEmpty(): void
     {
-        $service = new SiteAccessService(
-            self::createStub(SiteAccessProviderInterface::class),
-            self::createStub(ConfigResolverInterface::class)
-        );
+        self::assertNull($this->createService()->restoreSiteAccess());
+    }
+
+    public function testNestedChangeSiteAccessAndRestoreSiteAccessRoundTripLikeAStack(): void
+    {
+        $service = $this->createService();
 
         $baseSiteAccess = new SiteAccess('base');
-        $service->setSiteAccess($baseSiteAccess);
+        $service->onSiteAccessMatch($this->createSiteAccessMatchEvent($baseSiteAccess, HttpKernelInterface::MAIN_REQUEST));
 
         $firstSiteAccess = new SiteAccess('first');
         $secondSiteAccess = new SiteAccess('second');
 
-        $service->onConfigScopeChange(new ScopeChangeEvent($firstSiteAccess));
+        $service->changeSiteAccess($firstSiteAccess);
         self::assertSame($firstSiteAccess, $service->getCurrent());
 
-        $service->onConfigScopeChange(new ScopeChangeEvent($secondSiteAccess));
+        $service->changeSiteAccess($secondSiteAccess);
         self::assertSame($secondSiteAccess, $service->getCurrent());
 
-        $service->onConfigScopeRestore(new ScopeChangeEvent($firstSiteAccess));
-        self::assertSame($firstSiteAccess, $service->getCurrent());
+        self::assertSame($firstSiteAccess, $service->restoreSiteAccess());
+        self::assertSame($baseSiteAccess, $service->restoreSiteAccess());
+    }
 
-        $service->onConfigScopeRestore(new ScopeChangeEvent($baseSiteAccess));
+    #[IgnoreDeprecations]
+    public function testOnConfigScopeChangeReactsToAManuallyDispatchedEventAndTriggersDeprecation(): void
+    {
+        $this->expectUserDeprecationMessage('Since ibexa/core 6.0: Dispatching ' . ScopeChangeEvent::class . ' manually under MVCEvents::CONFIG_SCOPE_CHANGE is deprecated and will no longer be reflected by ' . SiteAccessService::class . '::getCurrent() in 7.0. Call ' . SiteAccessServiceInterface::class . '::changeSiteAccess() instead.');
+
+        $eventDispatcher = new EventDispatcher();
+        $service = $this->createService($eventDispatcher);
+
+        $baseSiteAccess = new SiteAccess('base');
+        $service->onSiteAccessMatch($this->createSiteAccessMatchEvent($baseSiteAccess, HttpKernelInterface::MAIN_REQUEST));
+
+        $previewSiteAccess = new SiteAccess('preview');
+        $eventDispatcher->dispatch(new ScopeChangeEvent($previewSiteAccess), MVCEvents::CONFIG_SCOPE_CHANGE);
+
+        self::assertSame($previewSiteAccess, $service->getCurrent());
+    }
+
+    #[IgnoreDeprecations]
+    public function testOnConfigScopeRestoreReactsToAManuallyDispatchedEventAndTriggersDeprecation(): void
+    {
+        $this->expectUserDeprecationMessage('Since ibexa/core 6.0: Dispatching ' . ScopeChangeEvent::class . ' manually under MVCEvents::CONFIG_SCOPE_RESTORE is deprecated and will no longer be reflected by ' . SiteAccessService::class . '::getCurrent() in 7.0. Call ' . SiteAccessServiceInterface::class . '::restoreSiteAccess() instead.');
+
+        $eventDispatcher = new EventDispatcher();
+        $service = $this->createService($eventDispatcher);
+
+        $baseSiteAccess = new SiteAccess('base');
+        $service->onSiteAccessMatch($this->createSiteAccessMatchEvent($baseSiteAccess, HttpKernelInterface::MAIN_REQUEST));
+
+        $previewSiteAccess = new SiteAccess('preview');
+        $service->changeSiteAccess($previewSiteAccess);
+
+        $eventDispatcher->dispatch(new ScopeChangeEvent($baseSiteAccess), MVCEvents::CONFIG_SCOPE_RESTORE);
+
         self::assertSame($baseSiteAccess, $service->getCurrent());
     }
 
@@ -161,7 +248,8 @@ class SiteAccessServiceTest extends TestCase
         );
         $service = new SiteAccessService(
             $staticSiteAccessProvider,
-            self::createStub(ConfigResolverInterface::class)
+            self::createStub(ConfigResolverInterface::class),
+            new EventDispatcher()
         );
 
         self::assertEquals(
@@ -178,7 +266,8 @@ class SiteAccessServiceTest extends TestCase
         );
         $service = new SiteAccessService(
             $staticSiteAccessProvider,
-            self::createStub(ConfigResolverInterface::class)
+            self::createStub(ConfigResolverInterface::class),
+            new EventDispatcher()
         );
 
         $this->expectException(NotFoundException::class);
@@ -214,10 +303,30 @@ class SiteAccessServiceTest extends TestCase
         );
     }
 
+    private function createService(
+        ?EventDispatcherInterface $eventDispatcher = null,
+        ?SiteAccess $initialSiteAccess = null
+    ): SiteAccessService {
+        $eventDispatcher ??= new EventDispatcher();
+        $service = new SiteAccessService($this->provider, $this->configResolver, $eventDispatcher, $initialSiteAccess);
+        $eventDispatcher->addSubscriber($service);
+
+        return $service;
+    }
+
+    private function createSiteAccessMatchEvent(
+        SiteAccess $siteAccess,
+        int $requestType
+    ): PostSiteAccessMatchEvent {
+        return new PostSiteAccessMatchEvent($siteAccess, new Request(), $requestType);
+    }
+
     private function getSiteAccessService(): SiteAccessService
     {
-        $siteAccessService = new SiteAccessService($this->provider, $this->configResolver);
-        $siteAccessService->setSiteAccess($this->siteAccess);
+        $siteAccessService = $this->createService();
+        $siteAccessService->onSiteAccessMatch(
+            $this->createSiteAccessMatchEvent($this->siteAccess, HttpKernelInterface::MAIN_REQUEST)
+        );
 
         return $siteAccessService;
     }
