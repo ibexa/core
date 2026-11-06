@@ -39,6 +39,7 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 use Ibexa\Core\Repository\ProxyFactory\ProxyDomainMapperInterface;
 use Ibexa\Core\Repository\Values\Content\TrashItem;
+use Throwable;
 
 /**
  * Trash service, used for managing trashed content.
@@ -153,7 +154,7 @@ class TrashService implements TrashServiceInterface
             $spiTrashItem = $this->persistenceHandler->trashHandler()->trashSubtree($location->id);
             $this->persistenceHandler->urlAliasHandler()->locationDeleted($location->id);
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -229,7 +230,7 @@ class TrashService implements TrashServiceInterface
             }
 
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -260,7 +261,7 @@ class TrashService implements TrashServiceInterface
             $this->repository->commit();
 
             return $result;
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -293,7 +294,7 @@ class TrashService implements TrashServiceInterface
             $this->repository->commit();
 
             return $trashItemDeleteResult;
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }

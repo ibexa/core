@@ -23,6 +23,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
+use Throwable;
 
 /**
  * @internal Type-hint URLAliasServiceInterface instead.
@@ -106,7 +107,7 @@ class URLAliasService implements URLAliasServiceInterface
                 $e->getMessage(),
                 $e
             );
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -190,7 +191,7 @@ class URLAliasService implements URLAliasServiceInterface
         } catch (ForbiddenException $e) {
             $this->repository->rollback();
             throw new InvalidArgumentException('$path', $e->getMessage(), $e);
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -624,7 +625,7 @@ class URLAliasService implements URLAliasServiceInterface
         try {
             $this->urlAliasHandler->removeURLAliases($spiUrlAliasList);
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -795,7 +796,7 @@ class URLAliasService implements URLAliasServiceInterface
             );
 
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }

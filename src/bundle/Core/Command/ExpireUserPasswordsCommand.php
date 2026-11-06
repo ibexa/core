@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Command;
 
-use Exception;
 use Ibexa\Contracts\Core\Persistence\User\Handler;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\ContentTypeService;
@@ -24,6 +23,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Throwable;
 
 final class ExpireUserPasswordsCommand extends Command
 {
@@ -186,7 +186,7 @@ EOT
 
                 $processedUsersCount += count($contentList->getIterator());
             } while ($processedUsersCount < $totalCount);
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             $output->writeln(
                 '<error>Something went wrong. See the exception below, '

@@ -69206,12 +69206,6 @@ parameters:
 			path: tests/lib/Repository/Service/Mock/BookmarkTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\BookmarkTest\:\:testCreateBookmarkWithRollback\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Service/Mock/BookmarkTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\BookmarkTest\:\:testDeleteBookmarkExisting\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -69987,12 +69981,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\ContentTest\:\:testCreateContentWithLocationsDuplicateUnderParent\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Service/Mock/ContentTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\ContentTest\:\:testCreateContentWithRollback\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: tests/lib/Repository/Service/Mock/ContentTest.php
