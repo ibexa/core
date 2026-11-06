@@ -47,7 +47,13 @@ final class ImportDataMigration extends AbstractSqlMigration implements IbexaMig
         // renamed), so it always exists once the baseline has run -- there, only the actual
         // bootstrap row (the root content object always has id = 1) distinguishes "not yet
         // imported" from "already imported".
-        if (!$schema->hasTable('ezcontentobject') || $this->connection->fetchOne('SELECT 1 FROM ezcontentobject WHERE id = 1') !== false) {
+        // In a dry run on an empty database, core's InstallSchemaMigration hasn't created "ezcontentobject" yet:
+        // neither name exists, which a legacy install never leaves, so the import is still to come.
+        $isEmptyDatabaseDryRun = $this->isDryRun()
+            && !$schema->hasTable('ezcontentobject')
+            && !$schema->hasTable('ibexa_content');
+        if (!$isEmptyDatabaseDryRun
+            && (!$schema->hasTable('ezcontentobject') || $this->connection->fetchOne('SELECT 1 FROM ezcontentobject WHERE id = 1') !== false)) {
             return;
         }
 
