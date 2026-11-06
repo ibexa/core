@@ -300,14 +300,7 @@ class ImageAssetTest extends FieldTypeTest
             ->expects($this->never())
             ->method('isAsset');
 
-        $contentHandler = $this->createMock(SPIContentHandler::class);
-        $contentHandler
-            ->expects($this->once())
-            ->method('loadContentInfo')
-            ->with($destinationContentId)
-            ->willThrowException(new NotFoundException('Content', $destinationContentId));
-
-        $fieldType = new ImageAsset\Type($this->contentServiceMock, $this->assetMapperMock, $contentHandler);
+        $fieldType = $this->createFieldTypeWithDeletedTarget($destinationContentId);
 
         $validationErrors = $fieldType->validate(
             new CoreFieldDefinition(['isRequired' => $isRequired]),
@@ -356,14 +349,7 @@ class ImageAssetTest extends FieldTypeTest
     public function testToPersistenceValueDropsMissingTarget(): void
     {
         $destinationContentId = 7;
-        $contentHandler = $this->createMock(SPIContentHandler::class);
-        $contentHandler
-            ->expects($this->once())
-            ->method('loadContentInfo')
-            ->with($destinationContentId)
-            ->willThrowException(new NotFoundException('Content', $destinationContentId));
-
-        $fieldType = new ImageAsset\Type($this->contentServiceMock, $this->assetMapperMock, $contentHandler);
+        $fieldType = $this->createFieldTypeWithDeletedTarget($destinationContentId);
 
         $persistenceValue = $fieldType->toPersistenceValue(
             new ImageAsset\Value($destinationContentId, 'alt text')
@@ -548,16 +534,19 @@ class ImageAssetTest extends FieldTypeTest
     public function testGetRelationsSkipsMissingTarget(): void
     {
         $destinationContentId = 7;
-        $contentHandler = $this->createMock(SPIContentHandler::class);
-        $contentHandler
-            ->expects($this->once())
-            ->method('loadContentInfo')
-            ->with($destinationContentId)
-            ->willThrowException(new NotFoundException('Content', $destinationContentId));
-
-        $fieldType = new ImageAsset\Type($this->contentServiceMock, $this->assetMapperMock, $contentHandler);
+        $fieldType = $this->createFieldTypeWithDeletedTarget($destinationContentId);
 
         $this->assertSame([], $fieldType->getRelations(new ImageAsset\Value($destinationContentId)));
+    }
+
+    private function createFieldTypeWithDeletedTarget(int $destinationContentId): ImageAsset\Type
+    {
+        $contentHandler = $this->createStub(SPIContentHandler::class);
+        $contentHandler
+            ->method('loadContentInfo')
+            ->willThrowException(new NotFoundException('Content', $destinationContentId));
+
+        return new ImageAsset\Type($this->contentServiceMock, $this->assetMapperMock, $contentHandler);
     }
 }
 
