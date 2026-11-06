@@ -337,9 +337,9 @@ services:
             $defaultConnection: '%doctrine.default_connection%'
             $entityManagers: '%doctrine.entity_managers%'
 
-    Ibexa\Bundle\Core\Doctrine\ManagedTablesSchemaAssetFilter:
+    Ibexa\Bundle\Core\Doctrine\SchemaBuilderTablesSchemaListener:
         arguments:
-            $managerRegistry: '@doctrine'
+            $schemaBuilder: '@Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface'
 
     Ibexa\Bundle\Core\Translation\Policy\PolicyTranslationDefinitionProvider: ~
 
