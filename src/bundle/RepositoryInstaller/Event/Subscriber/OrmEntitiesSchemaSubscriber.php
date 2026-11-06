@@ -83,7 +83,7 @@ final readonly class OrmEntitiesSchemaSubscriber implements EventSubscriberInter
 
             // The ORM schema gives its tables its connection's default table options, while the
             // SchemaBuilderEvent schema's own apply to all the other tables
-            $event->addTable($ormTable->edit()->setOptions([])->create());
+            $event->getSchemaEditor()->addTable($ormTable->edit()->setOptions([])->create());
         }
 
         $ownSequenceNames = array_filter(array_map(
@@ -101,7 +101,7 @@ final readonly class OrmEntitiesSchemaSubscriber implements EventSubscriberInter
                 continue;
             }
 
-            $event->addSequence($sequence);
+            $event->getSchemaEditor()->addSequence($sequence);
         }
     }
 }

@@ -178,7 +178,7 @@ final class OrmEntitiesSchemaSubscriberTest extends TestCase
             SchemaBuilderEvents::BUILD_SCHEMA,
             static function (SchemaBuilderEvent $event) use ($existingTables): void {
                 foreach ($existingTables as $table) {
-                    $event->addTable($table);
+                    $event->getSchemaEditor()->addTable($table);
                 }
             },
             300,
