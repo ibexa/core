@@ -13,7 +13,6 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Schema as DoctrineSchema;
 use Doctrine\DBAL\Schema\SchemaConfig;
 use Ibexa\Contracts\DoctrineSchema\Exception\InvalidConfigurationException;
-use Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface;
 use Ibexa\DoctrineSchema\Database\DbPlatform\PostgreSqlDbPlatform;
 use Ibexa\DoctrineSchema\Database\DbPlatform\SqliteDbPlatform;
 use Ibexa\DoctrineSchema\Database\DbPlatformFactory;
@@ -32,8 +31,6 @@ final class LegacySchemaImporter
     /** @var Connection */
     private $connection;
 
-    private SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass;
-
     /** @var array<string, mixed> */
     private array $defaultTableOptions;
 
@@ -42,11 +39,9 @@ final class LegacySchemaImporter
      */
     public function __construct(
         Connection $connection,
-        SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass,
         array $defaultTableOptions
     ) {
         $this->connection = $connection;
-        $this->schemaAssetsFilterBypass = $schemaAssetsFilterBypass;
         $this->defaultTableOptions = $defaultTableOptions;
     }
 
@@ -99,17 +94,8 @@ final class LegacySchemaImporter
         Connection $connection
     ): array {
         // This test bootstrap re-imports schema against a database that may
-        // already have it from a previous test class, so it needs to see
-        // every pre-existing table, including ones with no Doctrine ORM
-        // entity behind them, to correctly drop them before recreating the
-        // full schema below. Bypass whichever schema assets filter is
-        // configured on this connection (e.g. ManagedTablesSchemaAssetFilter,
-        // which deliberately hides non-entity tables from
-        // doctrine:schema:update) for this one listing.
-        $existingSchema = $this->schemaAssetsFilterBypass->call(
-            $connection,
-            static fn (): DoctrineSchema => $connection->createSchemaManager()->introspectSchema()
-        );
+        // already have it from a previous test class.
+        $existingSchema = $connection->createSchemaManager()->introspectSchema();
 
         $statements = [];
         // reverse table order for clean-up (due to FKs)
