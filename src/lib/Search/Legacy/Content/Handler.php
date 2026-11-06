@@ -21,6 +21,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchResult;
 use Ibexa\Contracts\Core\Search\VersatileHandler as SearchHandlerInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway as LanguageGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Search\Legacy\Content\Location\Gateway as LocationGateway;
@@ -101,6 +102,8 @@ class Handler implements SearchHandlerInterface
      */
     protected $mapper;
 
+    private LanguageGateway $languageGateway;
+
     public function __construct(
         Gateway $gateway,
         LocationGateway $locationGateway,
@@ -108,7 +111,8 @@ class Handler implements SearchHandlerInterface
         ContentMapper $contentMapper,
         LocationMapper $locationMapper,
         LanguageHandler $languageHandler,
-        FullTextMapper $mapper
+        FullTextMapper $mapper,
+        LanguageGateway $languageGateway
     ) {
         $this->gateway = $gateway;
         $this->locationGateway = $locationGateway;
@@ -117,6 +121,7 @@ class Handler implements SearchHandlerInterface
         $this->locationMapper = $locationMapper;
         $this->languageHandler = $languageHandler;
         $this->mapper = $mapper;
+        $this->languageGateway = $languageGateway;
     }
 
     public function findContent(
@@ -152,14 +157,19 @@ class Handler implements SearchHandlerInterface
             'main_tree_'
         );
 
+        $contentTranslations = $this->languageGateway->loadContentTranslations(
+            array_map(static fn (ContentInfo $contentInfo): int => $contentInfo->id, $contentInfoList)
+        );
+
         foreach ($contentInfoList as $index => $contentInfo) {
             /** @phpstan-var SearchHit<ContentInfo> $searchHit */
             $searchHit = new SearchHit();
             $searchHit->valueObject = $contentInfo;
             $searchHit->matchedTranslation = $this->extractMatchedLanguage(
-                $data['rows'][$index]['language_mask'],
+                $contentTranslations[$contentInfo->id] ?? [],
                 $data['rows'][$index]['initial_language_id'],
-                $languageFilter
+                $languageFilter,
+                (bool)$data['rows'][$index]['always_available']
             );
 
             $result->searchHits[] = $searchHit;
@@ -168,22 +178,29 @@ class Handler implements SearchHandlerInterface
         return $result;
     }
 
+    /**
+     * @param int[] $languageIds Language ids the content/version is translated into, as returned
+     *        by {@see LanguageGateway::loadContentTranslations()}/
+     *        loadVersionTranslations().
+     * @param array{languages?: string[]} $languageSettings
+     */
     protected function extractMatchedLanguage(
-        $languageMask,
-        $mainLanguageId,
-        $languageSettings
-    ) {
+        array $languageIds,
+        int $mainLanguageId,
+        array $languageSettings,
+        bool $alwaysAvailable = false
+    ): ?string {
         $languageList = !empty($languageSettings['languages']) ?
             $this->languageHandler->loadListByLanguageCodes($languageSettings['languages']) :
             [];
 
         foreach ($languageList as $language) {
-            if ($languageMask & $language->id) {
+            if (in_array($language->id, $languageIds, true)) {
                 return $language->languageCode;
             }
         }
 
-        if ($languageMask & 1 || empty($languageSettings['languages'])) {
+        if ($alwaysAvailable || empty($languageSettings['languages'])) {
             return $this->languageHandler->load($mainLanguageId)->languageCode;
         }
 
@@ -241,14 +258,19 @@ class Handler implements SearchHandlerInterface
         $result->totalCount = $data['count'] !== null ? (int)$data['count'] : null;
         $locationList = $this->locationMapper->createLocationsFromRows($data['rows']);
 
+        $contentTranslations = $this->languageGateway->loadContentTranslations(
+            array_map(static fn (Location $location): int => $location->contentId, $locationList)
+        );
+
         foreach ($locationList as $index => $location) {
             /** @phpstan-var SearchHit<Location> $searchHit */
             $searchHit = new SearchHit();
             $searchHit->valueObject = $location;
             $searchHit->matchedTranslation = $this->extractMatchedLanguage(
-                $data['rows'][$index]['language_mask'],
+                $contentTranslations[$location->contentId] ?? [],
                 $data['rows'][$index]['initial_language_id'],
-                $languageFilter
+                $languageFilter,
+                (bool)$data['rows'][$index]['always_available']
             );
 
             $result->searchHits[] = $searchHit;
