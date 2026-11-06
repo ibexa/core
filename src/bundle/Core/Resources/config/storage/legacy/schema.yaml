@@ -619,6 +619,7 @@ tables:
             lang_mask: { type: bigint, nullable: false, options: { default: '0' } }
             link: { type: integer, nullable: false, options: { default: '0' } }
             text: { type: text, nullable: false, length: 0 }
+            is_always_available: { type: boolean, nullable: false, options: { default: false } }
     ibexa_url_alias_ml_incr:
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
