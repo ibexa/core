@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\FieldType\ImageAsset;
 
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
+use Ibexa\Contracts\Core\Persistence\Content\FieldValue as PersistenceValue;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIContentHandler;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
@@ -70,9 +71,23 @@ class Type extends FieldType implements TranslationContainerInterface
             return $errors;
         }
 
-        $content = $this->contentService->loadContent(
-            (int)$fieldValue->destinationContentId
-        );
+        try {
+            $content = $this->contentService->loadContent(
+                (int)$fieldValue->destinationContentId
+            );
+        } catch (NotFoundException $e) {
+            // target was permanently deleted, the reference is stale: only a required field cannot live with it
+            return $fieldDefinition->isRequired
+                ? [
+                    new ValidationError(
+                        'Content with identifier %contentId% is not a valid asset target',
+                        null,
+                        ['%contentId%' => $fieldValue->destinationContentId],
+                        'destinationContentId'
+                    ),
+                ]
+                : [];
+        }
 
         if (!$this->assetMapper->isAsset($content)) {
             return [
@@ -125,6 +140,24 @@ class Type extends FieldType implements TranslationContainerInterface
         }
 
         return $versionInfo->names[$languageCode] ?? $versionInfo->names[$contentInfo->mainLanguageCode];
+    }
+
+    /**
+     * Drops a reference to a permanently deleted target, so it is not stored (and validated) again.
+     *
+     * @param Value $value
+     */
+    public function toPersistenceValue(SPIValue $value): PersistenceValue
+    {
+        if (!$this->isEmptyValue($value)) {
+            try {
+                $this->handler->loadContentInfo($value->destinationContentId);
+            } catch (NotFoundException $e) {
+                $value = $this->getEmptyValue();
+            }
+        }
+
+        return parent::toPersistenceValue($value);
     }
 
     /**

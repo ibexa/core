@@ -18,10 +18,12 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\FieldType\Image\Value;
 use Ibexa\Core\FieldType\ImageAsset;
 use Ibexa\Core\FieldType\ImageAsset\AssetMapper;
 use Ibexa\Core\FieldType\ValidationError;
+use Ibexa\Core\Repository\Values\ContentType\FieldDefinition as CoreFieldDefinition;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -275,6 +277,89 @@ class ImageAssetTest extends FieldTypeTest
                 'destinationContentId'
             ),
         ], $validationErrors);
+    }
+
+    /**
+     * @dataProvider provideDataForTestValidateMissingTarget
+     *
+     * @param array<ValidationError> $expectedValidationErrors
+     */
+    public function testValidateMissingTarget(
+        bool $isRequired,
+        array $expectedValidationErrors
+    ): void {
+        $destinationContentId = 7;
+
+        $this->contentServiceMock
+            ->expects($this->once())
+            ->method('loadContent')
+            ->with($destinationContentId)
+            ->willThrowException(new NotFoundException('Content', $destinationContentId));
+
+        $this->assetMapperMock
+            ->expects($this->never())
+            ->method('isAsset');
+
+        $validationErrors = $this->getFieldTypeUnderTest()->validate(
+            new CoreFieldDefinition(['isRequired' => $isRequired]),
+            new ImageAsset\Value($destinationContentId)
+        );
+
+        $this->assertEquals($expectedValidationErrors, $validationErrors);
+    }
+
+    /**
+     * @return iterable<string, array{bool, array<ValidationError>}>
+     */
+    public function provideDataForTestValidateMissingTarget(): iterable
+    {
+        yield 'optional field' => [false, []];
+
+        yield 'required field' => [
+            true,
+            [
+                new ValidationError(
+                    'Content with identifier %contentId% is not a valid asset target',
+                    null,
+                    ['%contentId%' => 7],
+                    'destinationContentId'
+                ),
+            ],
+        ];
+    }
+
+    public function testToPersistenceValueDropsMissingTarget(): void
+    {
+        $destinationContentId = 7;
+        $contentHandler = $this->createMock(SPIContentHandler::class);
+        $contentHandler
+            ->expects($this->once())
+            ->method('loadContentInfo')
+            ->with($destinationContentId)
+            ->willThrowException(new NotFoundException('Content', $destinationContentId));
+
+        $fieldType = new ImageAsset\Type($this->contentServiceMock, $this->assetMapperMock, $contentHandler);
+
+        $persistenceValue = $fieldType->toPersistenceValue(
+            new ImageAsset\Value($destinationContentId, 'alt text')
+        );
+
+        $this->assertSame(
+            ['destinationContentId' => null, 'alternativeText' => null],
+            $persistenceValue->data
+        );
+    }
+
+    public function testToPersistenceValueKeepsExistingTarget(): void
+    {
+        $persistenceValue = $this->getFieldTypeUnderTest()->toPersistenceValue(
+            new ImageAsset\Value(self::DESTINATION_CONTENT_ID, 'alt text')
+        );
+
+        $this->assertSame(
+            ['destinationContentId' => self::DESTINATION_CONTENT_ID, 'alternativeText' => 'alt text'],
+            $persistenceValue->data
+        );
     }
 
     /**
