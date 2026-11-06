@@ -358,7 +358,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $rows
         );
         self::assertCount(
-            50,
+            49,
             $rows[0]
         );
 
@@ -386,7 +386,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $rows
         );
         self::assertCount(
-            50,
+            49,
             $rows[0]
         );
     }
@@ -405,7 +405,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $rows
         );
         self::assertCount(
-            50,
+            49,
             $rows[0]
         );
     }
@@ -1154,7 +1154,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             $this->gateway = new DoctrineDatabase(
                 $this->getDatabaseConnection(),
                 $this->getSharedGateway(),
-                $this->getLanguageMaskGenerator(),
+                $this->getLanguageHandler(),
                 $this->getCriterionVisitor()
             );
         }
