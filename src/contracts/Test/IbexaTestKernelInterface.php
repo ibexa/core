@@ -18,6 +18,8 @@ use Ibexa\Contracts\Core\Test\Persistence\Fixture;
 interface IbexaTestKernelInterface
 {
     /**
+     * @deprecated 5.0.12 will be removed in 6.0.0. Use {@see \Ibexa\Contracts\Test\Core\IbexaTestCore::getAliasServiceId()} from ibexa/test-core instead.
+     *
      * @return string a service ID that service aliases will be registered as
      */
     public static function getAliasServiceId(string $id): string;
