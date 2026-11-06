@@ -41,6 +41,7 @@ use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Core\Persistence\Legacy\SharedGateway\Gateway as SharedGateway;
 use LogicException;
 use RuntimeException;
+use Throwable;
 
 /**
  * Doctrine database based content gateway.
@@ -1937,7 +1938,7 @@ final class DoctrineDatabase extends Gateway
             $this->deleteTranslationFromContentObject($contentId, $language->id);
 
             $this->connection->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->connection->rollBack();
             throw $e;
         }
@@ -1989,7 +1990,7 @@ final class DoctrineDatabase extends Gateway
             $this->deleteTranslationFromContentNames($contentId, $languageCode, $versionNo);
 
             $this->connection->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->connection->rollBack();
             throw $e;
         }

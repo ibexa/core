@@ -70,6 +70,7 @@ use Ibexa\Core\Repository\Values\User\UserCreateStruct;
 use Ibexa\Core\Repository\Values\User\UserGroup;
 use Ibexa\Core\Repository\Values\User\UserGroupCreateStruct;
 use Psr\Log\LoggerInterface;
+use Throwable;
 
 /**
  * This service provides methods for managing users and user groups.
@@ -178,7 +179,7 @@ class UserService implements UserServiceInterface
             $contentDraft = $contentService->createContent($userGroupCreateStruct, [$locationCreateStruct]);
             $publishedContent = $contentService->publishVersion($contentDraft->getVersionInfo());
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -318,7 +319,7 @@ class UserService implements UserServiceInterface
                 $loadedUserGroup->getVersionInfo()->getContentInfo()
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -362,7 +363,7 @@ class UserService implements UserServiceInterface
         try {
             $locationService->moveSubtree($userGroupMainLocation, $newParentMainLocation);
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -419,7 +420,7 @@ class UserService implements UserServiceInterface
             }
 
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -482,7 +483,7 @@ class UserService implements UserServiceInterface
             );
 
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -654,7 +655,7 @@ class UserService implements UserServiceInterface
             // User\Handler::delete call is currently used to clear cache only
             $this->userHandler->delete($loadedUser->id);
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -759,7 +760,7 @@ class UserService implements UserServiceInterface
             );
 
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -823,7 +824,7 @@ class UserService implements UserServiceInterface
             );
 
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -870,7 +871,7 @@ class UserService implements UserServiceInterface
                 )
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -889,7 +890,7 @@ class UserService implements UserServiceInterface
         try {
             $this->userHandler->expireUserToken($hash);
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -938,7 +939,7 @@ class UserService implements UserServiceInterface
                 $locationCreateStruct
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -984,7 +985,7 @@ class UserService implements UserServiceInterface
                     $this->repository->commit();
 
                     return;
-                } catch (Exception $e) {
+                } catch (Throwable $e) {
                     $this->repository->rollback();
                     throw $e;
                 }

@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository;
 
-use Exception;
 use Ibexa\Contracts\Core\Persistence\Content\Location\Handler as LocationHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Section as SPISection;
 use Ibexa\Contracts\Core\Persistence\Content\Section\Handler as SectionHandler;
@@ -31,6 +30,7 @@ use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
+use Throwable;
 
 use function array_filter;
 
@@ -124,7 +124,7 @@ class SectionService implements SectionServiceInterface
                 $sectionCreateStruct->identifier
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -182,7 +182,7 @@ class SectionService implements SectionServiceInterface
                 $sectionUpdateStruct->identifier ?: $loadedSection->identifier
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -316,7 +316,7 @@ class SectionService implements SectionServiceInterface
                 $loadedContentInfo->id
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -383,7 +383,7 @@ class SectionService implements SectionServiceInterface
                 $loadedSection->id
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -420,7 +420,7 @@ class SectionService implements SectionServiceInterface
         try {
             $this->sectionHandler->delete($loadedSection->id);
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }

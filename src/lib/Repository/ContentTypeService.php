@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository;
 
-use Exception;
 use Ibexa\Contracts\Core\FieldType\FieldType;
 use Ibexa\Contracts\Core\FieldType\FieldType as SPIFieldType;
 use Ibexa\Contracts\Core\Persistence\Content\Type as SPIContentType;
@@ -54,6 +53,7 @@ use Ibexa\Core\Repository\Mapper\ContentDomainMapper;
 use Ibexa\Core\Repository\Mapper\ContentTypeDomainMapper;
 use Ibexa\Core\Repository\Values\ContentType\ContentTypeCreateStruct;
 use Ibexa\Core\Repository\Values\ContentType\ContentTypeGroup;
+use Throwable;
 
 class ContentTypeService implements ContentTypeServiceInterface
 {
@@ -176,7 +176,7 @@ class ContentTypeService implements ContentTypeServiceInterface
                 $spiGroupCreateStruct
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -290,7 +290,7 @@ class ContentTypeService implements ContentTypeServiceInterface
                 $spiGroupUpdateStruct
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -330,7 +330,7 @@ class ContentTypeService implements ContentTypeServiceInterface
                 'Content type group contains content types',
                 $e
             );
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -700,7 +700,7 @@ class ContentTypeService implements ContentTypeServiceInterface
                 $spiContentTypeCreateStruct
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -905,7 +905,7 @@ class ContentTypeService implements ContentTypeServiceInterface
                     $contentType->id
                 );
                 $this->repository->commit();
-            } catch (Exception $e) {
+            } catch (Throwable $e) {
                 $this->repository->rollback();
                 throw $e;
             }
@@ -988,7 +988,7 @@ class ContentTypeService implements ContentTypeServiceInterface
                 )
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -1027,7 +1027,7 @@ class ContentTypeService implements ContentTypeServiceInterface
             );
 
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -1066,7 +1066,7 @@ class ContentTypeService implements ContentTypeServiceInterface
                 SPIContentType::STATUS_DEFINED
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -1111,7 +1111,7 @@ class ContentTypeService implements ContentTypeServiceInterface
                 $contentType->status
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -1162,7 +1162,7 @@ class ContentTypeService implements ContentTypeServiceInterface
                 'The provided content type group is the last group assigned to the content type',
                 $e
             );
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -1252,7 +1252,7 @@ class ContentTypeService implements ContentTypeServiceInterface
                 $spiFieldDefinition
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -1299,7 +1299,7 @@ class ContentTypeService implements ContentTypeServiceInterface
                 ),
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -1358,7 +1358,7 @@ class ContentTypeService implements ContentTypeServiceInterface
                 $spiFieldDefinition
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -1421,7 +1421,7 @@ class ContentTypeService implements ContentTypeServiceInterface
                 $loadedContentTypeDraft->id
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -1560,7 +1560,7 @@ class ContentTypeService implements ContentTypeServiceInterface
             );
 
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
