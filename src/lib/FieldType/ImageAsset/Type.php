@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\FieldType\ImageAsset;
 
 use Ibexa\Contracts\Core\FieldType\Value as SPIValue;
+use Ibexa\Contracts\Core\Persistence\Content\FieldValue as PersistenceValue;
 use Ibexa\Contracts\Core\Persistence\Content\Handler as SPIContentHandler;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
@@ -70,9 +71,28 @@ class Type extends FieldType implements TranslationContainerInterface
             return $errors;
         }
 
-        $content = $this->contentService->loadContent(
-            (int)$fieldValue->destinationContentId
-        );
+        try {
+            $content = $this->contentService->loadContent(
+                (int)$fieldValue->destinationContentId
+            );
+        } catch (NotFoundException $e) {
+            if (!$this->isTargetDeleted((int)$fieldValue->destinationContentId)) {
+                // the content exists but has no published version: not a stale reference
+                throw $e;
+            }
+
+            // target was permanently deleted, the reference is stale: only a required field cannot live with it
+            return $fieldDefinition->isRequired
+                ? [
+                    new ValidationError(
+                        'Content with identifier %contentId% does not exist',
+                        null,
+                        ['%contentId%' => $fieldValue->destinationContentId],
+                        'destinationContentId'
+                    ),
+                ]
+                : [];
+        }
 
         if (!$this->assetMapper->isAsset($content)) {
             return [
@@ -125,6 +145,32 @@ class Type extends FieldType implements TranslationContainerInterface
         }
 
         return $versionInfo->names[$languageCode] ?? $versionInfo->names[$contentInfo->mainLanguageCode];
+    }
+
+    /**
+     * Drops a reference to a permanently deleted target, so it is not stored (and validated) again.
+     * The alternative text is dropped with it, as it has nothing to describe anymore.
+     *
+     * @param Value $value
+     */
+    public function toPersistenceValue(SPIValue $value): PersistenceValue
+    {
+        if (!$this->isEmptyValue($value) && $this->isTargetDeleted((int)$value->destinationContentId)) {
+            $value = $this->getEmptyValue();
+        }
+
+        return parent::toPersistenceValue($value);
+    }
+
+    private function isTargetDeleted(int $destinationContentId): bool
+    {
+        try {
+            $this->handler->loadContentInfo($destinationContentId);
+        } catch (NotFoundException $e) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -276,7 +322,7 @@ class Type extends FieldType implements TranslationContainerInterface
     public function getRelations(SPIValue $fieldValue): array
     {
         $relations = [];
-        if ($fieldValue->destinationContentId !== null) {
+        if ($fieldValue->destinationContentId !== null && !$this->isTargetDeleted((int)$fieldValue->destinationContentId)) {
             $relations[Relation::ASSET] = [$fieldValue->destinationContentId];
         }
 

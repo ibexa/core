@@ -18,10 +18,12 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Relation;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\FieldType\Image\Value;
 use Ibexa\Core\FieldType\ImageAsset;
 use Ibexa\Core\FieldType\ImageAsset\AssetMapper;
 use Ibexa\Core\FieldType\ValidationError;
+use Ibexa\Core\Repository\Values\ContentType\FieldDefinition as CoreFieldDefinition;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -278,6 +280,100 @@ class ImageAssetTest extends FieldTypeTest
     }
 
     /**
+     * @dataProvider provideDataForTestValidateMissingTarget
+     *
+     * @param array<ValidationError> $expectedValidationErrors
+     */
+    public function testValidateMissingTarget(
+        bool $isRequired,
+        array $expectedValidationErrors
+    ): void {
+        $destinationContentId = 7;
+
+        $this->contentServiceMock
+            ->expects($this->once())
+            ->method('loadContent')
+            ->with($destinationContentId)
+            ->willThrowException(new NotFoundException('Content', $destinationContentId));
+
+        $this->assetMapperMock
+            ->expects($this->never())
+            ->method('isAsset');
+
+        $fieldType = $this->createFieldTypeWithDeletedTarget($destinationContentId);
+
+        $validationErrors = $fieldType->validate(
+            new CoreFieldDefinition(['isRequired' => $isRequired]),
+            new ImageAsset\Value($destinationContentId)
+        );
+
+        $this->assertEquals($expectedValidationErrors, $validationErrors);
+    }
+
+    public function testValidateRethrowsWhenTargetExistsWithoutPublishedVersion(): void
+    {
+        $this->contentServiceMock
+            ->expects($this->once())
+            ->method('loadContent')
+            ->with(self::DESTINATION_CONTENT_ID)
+            ->willThrowException(new NotFoundException('Content', self::DESTINATION_CONTENT_ID));
+
+        $this->expectException(NotFoundException::class);
+
+        $this->getFieldTypeUnderTest()->validate(
+            new CoreFieldDefinition(['isRequired' => false]),
+            new ImageAsset\Value(self::DESTINATION_CONTENT_ID)
+        );
+    }
+
+    /**
+     * @return iterable<string, array{bool, array<ValidationError>}>
+     */
+    public function provideDataForTestValidateMissingTarget(): iterable
+    {
+        yield 'optional field' => [false, []];
+
+        yield 'required field' => [
+            true,
+            [
+                new ValidationError(
+                    'Content with identifier %contentId% does not exist',
+                    null,
+                    ['%contentId%' => 7],
+                    'destinationContentId'
+                ),
+            ],
+        ];
+    }
+
+    public function testToPersistenceValueDropsMissingTarget(): void
+    {
+        $destinationContentId = 7;
+        $fieldType = $this->createFieldTypeWithDeletedTarget($destinationContentId);
+
+        $persistenceValue = $fieldType->toPersistenceValue(
+            new ImageAsset\Value($destinationContentId, 'alt text')
+        );
+
+        $this->assertSame(
+            ['destinationContentId' => null, 'alternativeText' => null],
+            $persistenceValue->data
+        );
+    }
+
+    public function testToPersistenceValueKeepsExistingTarget(): void
+    {
+        $persistenceValue = $this->getFieldTypeUnderTest()->toPersistenceValue(
+            new ImageAsset\Value(self::DESTINATION_CONTENT_ID, 'alt text')
+        );
+
+        $this->assertSame(
+            ['destinationContentId' => self::DESTINATION_CONTENT_ID, 'alternativeText' => 'alt text'],
+            $persistenceValue->data
+        );
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function provideValidDataForValidate(): array
@@ -424,7 +520,7 @@ class ImageAssetTest extends FieldTypeTest
      */
     public function testGetRelations()
     {
-        $destinationContentId = 7;
+        $destinationContentId = self::DESTINATION_CONTENT_ID;
         $fieldType = $this->createFieldTypeUnderTest();
 
         $this->assertEquals(
@@ -433,6 +529,24 @@ class ImageAssetTest extends FieldTypeTest
             ],
             $fieldType->getRelations($fieldType->acceptValue($destinationContentId))
         );
+    }
+
+    public function testGetRelationsSkipsMissingTarget(): void
+    {
+        $destinationContentId = 7;
+        $fieldType = $this->createFieldTypeWithDeletedTarget($destinationContentId);
+
+        $this->assertSame([], $fieldType->getRelations(new ImageAsset\Value($destinationContentId)));
+    }
+
+    private function createFieldTypeWithDeletedTarget(int $destinationContentId): ImageAsset\Type
+    {
+        $contentHandler = $this->createStub(SPIContentHandler::class);
+        $contentHandler
+            ->method('loadContentInfo')
+            ->willThrowException(new NotFoundException('Content', $destinationContentId));
+
+        return new ImageAsset\Type($this->contentServiceMock, $this->assetMapperMock, $contentHandler);
     }
 }
 
