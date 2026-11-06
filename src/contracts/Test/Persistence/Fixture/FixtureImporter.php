@@ -41,7 +41,7 @@ final class FixtureImporter
     ];
 
     /**
-     * Join tables referencing "ibexa_content_language" (ON DELETE RESTRICT), keyed to the table owning their rows.
+     * Join tables referencing "ibexa_language" (ON DELETE RESTRICT), keyed to the table owning their rows.
      */
     private const LANGUAGE_TRANSLATION_TABLES = [
         'ibexa_content_translation' => 'ibexa_content',
@@ -110,7 +110,7 @@ final class FixtureImporter
     }
 
     /**
-     * A fixture replacing the languages can't truncate "ibexa_content_language" while the translation rows
+     * A fixture replacing the languages can't truncate "ibexa_language" while the translation rows
      * of tables it leaves alone (e.g. the base fixture's URL aliases) still reference it. Take them
      * out first, so reattachLanguageTranslations() can put back the ones whose language is still
      * there, the same rows the legacy bitmask columns kept. Rows of tables the fixture replaces are
@@ -124,7 +124,7 @@ final class FixtureImporter
      */
     private function detachLanguageTranslations(array $tablesList): array
     {
-        if (!in_array('ibexa_content_language', $tablesList, true)) {
+        if (!in_array('ibexa_language', $tablesList, true)) {
             return [];
         }
 
@@ -350,20 +350,20 @@ final class FixtureImporter
      */
     private function loadValidLanguageIds(): array
     {
-        if (!$this->tableExists('ibexa_content_language')) {
+        if (!$this->tableExists('ibexa_language')) {
             return [];
         }
 
         return array_map(
             'intval',
-            $this->connection->fetchFirstColumn('SELECT id FROM ibexa_content_language')
+            $this->connection->fetchFirstColumn('SELECT id FROM ibexa_language')
         );
     }
 
     /**
      * Decodes real (non-always-available) language ids out of a legacy bitmask, restricted to ids
-     * actually present in ibexa_content_language (mirrors the old SQL backfill's implicit
-     * JOIN ibexa_content_language filter, needed since ibexa_content_translation's language_id has
+     * actually present in ibexa_language (mirrors the old SQL backfill's implicit
+     * JOIN ibexa_language filter, needed since ibexa_content_translation's language_id has
      * a real FK to it).
      *
      * @param int[] $validLanguageIds

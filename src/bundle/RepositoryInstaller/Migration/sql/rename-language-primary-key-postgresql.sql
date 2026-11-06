@@ -1,0 +1,1 @@
+ALTER TABLE ibexa_language RENAME CONSTRAINT ibexa_content_language_pkey TO ibexa_language_pkey;

@@ -30,6 +30,12 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
 
         $connection = $this->getDatabaseConnection();
 
+        // These commands hardcode "ibexa_content_language" (the name it still has at the point in
+        // the real migration sequence where they're used, before RenameLanguageTableMigration
+        // renames it to "ibexa_language") - rename it back after the fixture above (which inserts via
+        // the Gateway::CONTENT_LANGUAGE_TABLE constant, i.e. under the current name) has populated it.
+        $connection->executeStatement('ALTER TABLE ibexa_language RENAME TO ibexa_content_language');
+
         // These commands exist specifically for installs upgrading from before the language
         // bitmask columns were dropped - simulate that pre-drop schema state here, since the
         // current schema.yaml (and therefore this test's own bootstrapped schema) no longer has
@@ -90,6 +96,16 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
             'action_type' => 'eznode',
             'lang_mask' => 7,
         ], ['lang_mask' => ParameterType::INTEGER]);
+    }
+
+    protected function tearDown(): void
+    {
+        // The underlying SQLite connection is reused across tests (see
+        // DatabaseConnectionFactory's static connection pool) - restore the name the next test's
+        // schema.yaml-based setUp() expects to find.
+        $this->getDatabaseConnection()->executeStatement('ALTER TABLE ibexa_content_language RENAME TO ibexa_language');
+
+        parent::tearDown();
     }
 
     public function testBackfillPopulatesTranslationTablesFromMasks(): void
@@ -251,8 +267,9 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
     }
 
     /**
-     * Mirror image of simulateFullyMigratedSchema(): restores the pre-migration state the next
-     * test's setUp() expects to find, via the shared SQLite connection pool.
+     * Mirror image of simulateFullyMigratedSchema(): restores the pre-migration state this class's
+     * own tearDown() (and the next test's setUp(), via the shared SQLite connection pool) expect to
+     * find.
      */
     private function restorePreMigrationSchema(Connection $connection): void
     {

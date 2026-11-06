@@ -1,0 +1,1 @@
+ALTER INDEX ibexa_content_language_name RENAME TO ibexa_language_name;
