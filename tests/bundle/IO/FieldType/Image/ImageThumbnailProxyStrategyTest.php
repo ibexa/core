@@ -7,13 +7,14 @@
 
 namespace Ibexa\Tests\Bundle\IO\FieldType\Image;
 
+use Exception;
 use Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\ThumbnailStrategy;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Thumbnail;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\FieldType\Image\ImageThumbnailProxyStrategy;
 use Ibexa\Core\FieldType\Image\ImageThumbnailStrategy;
-use Ibexa\Core\MVC\Exception\SourceImageNotFoundException;
 use Ibexa\Core\Repository\ProxyFactory\ProxyGenerator;
 use Ibexa\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\Values\ContentType\ContentType;
@@ -57,7 +58,7 @@ final class ImageThumbnailProxyStrategyTest extends TestCase
 
         $this->imageThumbnailStrategyMock
             ->expects(self::once())
-            ->method('createThumbnail')
+            ->method('getThumbnail')
             ->with($this->field, $versionInfo)
             ->willReturn(new Thumbnail(['resource' => '/image.jpg']));
 
@@ -76,8 +77,8 @@ final class ImageThumbnailProxyStrategyTest extends TestCase
         $versionInfo = $this->createVersionInfo($contentType);
 
         $this->imageThumbnailStrategyMock
-            ->method('createThumbnail')
-            ->willThrowException(new SourceImageNotFoundException('image.jpg'));
+            ->method('getThumbnail')
+            ->willReturn(null);
 
         $this->contentThumbnailStrategyMock
             ->expects(self::once())
@@ -92,11 +93,9 @@ final class ImageThumbnailProxyStrategyTest extends TestCase
 
     public function testGetThumbnailThrowsExceptionIfFallbackThumbnailIsNull(): void
     {
-        $previous = new SourceImageNotFoundException('image.jpg');
-
         $this->imageThumbnailStrategyMock
-            ->method('createThumbnail')
-            ->willThrowException($previous);
+            ->method('getThumbnail')
+            ->willReturn(null);
 
         $this->contentThumbnailStrategyMock
             ->expects(self::once())
@@ -105,16 +104,32 @@ final class ImageThumbnailProxyStrategyTest extends TestCase
 
         $thumbnail = $this->strategy->getThumbnail($this->field, $this->createVersionInfo(new ContentType()));
 
+        $this->assertProxyInitializationFails($thumbnail, null);
+    }
+
+    public function testGetThumbnailThrowsExceptionWithFallbackExceptionAsPrevious(): void
+    {
+        $previous = new NotFoundException('ContentType', 1);
+
+        $this->imageThumbnailStrategyMock
+            ->method('getThumbnail')
+            ->willReturn(null);
+
+        $this->contentThumbnailStrategyMock
+            ->expects(self::once())
+            ->method('getThumbnail')
+            ->willThrowException($previous);
+
+        $thumbnail = $this->strategy->getThumbnail($this->field, $this->createVersionInfo(new ContentType()));
+
         $this->assertProxyInitializationFails($thumbnail, $previous);
     }
 
     public function testGetThumbnailThrowsExceptionIfVersionInfoIsNull(): void
     {
-        $previous = new SourceImageNotFoundException('image.jpg');
-
         $this->imageThumbnailStrategyMock
-            ->method('createThumbnail')
-            ->willThrowException($previous);
+            ->method('getThumbnail')
+            ->willReturn(null);
 
         $this->contentThumbnailStrategyMock
             ->expects(self::never())
@@ -122,7 +137,7 @@ final class ImageThumbnailProxyStrategyTest extends TestCase
 
         $thumbnail = $this->strategy->getThumbnail($this->field);
 
-        $this->assertProxyInitializationFails($thumbnail, $previous);
+        $this->assertProxyInitializationFails($thumbnail, null);
     }
 
     private function createVersionInfo(ContentType $contentType): VersionInfo
@@ -134,7 +149,7 @@ final class ImageThumbnailProxyStrategyTest extends TestCase
 
     private function assertProxyInitializationFails(
         Thumbnail $thumbnail,
-        SourceImageNotFoundException $previous
+        ?Exception $previous
     ): void {
         self::assertInstanceOf(LazyLoadingInterface::class, $thumbnail);
 

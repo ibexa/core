@@ -17,7 +17,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Repository\ProxyFactory\ProxyGeneratorInterface;
 use ProxyManager\Proxy\LazyLoadingInterface;
 use RuntimeException;
-use Throwable;
 
 final class ImageThumbnailProxyStrategy implements FieldTypeBasedThumbnailStrategy
 {
@@ -55,23 +54,30 @@ final class ImageThumbnailProxyStrategy implements FieldTypeBasedThumbnailStrate
         ) use ($field, $versionInfo): bool {
             $initializer = null;
 
-            try {
-                $wrappedObject = $this->imageThumbnailStrategy->createThumbnail($field, $versionInfo);
-            } catch (Exception $e) {
-                $wrappedObject = $this->getFallbackThumbnail($versionInfo);
+            $wrappedObject = $this->imageThumbnailStrategy->getThumbnail($field, $versionInfo);
+            if ($wrappedObject !== null) {
+                return true;
+            }
 
-                if ($wrappedObject === null) {
-                    throw new RuntimeException(
-                        sprintf(
-                            'Failed to prepare thumbnail for field "%s" (field type: "%s") using "%s" strategy.',
-                            $field->getId(),
-                            $field->getFieldTypeIdentifier(),
-                            get_debug_type($this->imageThumbnailStrategy),
-                        ),
-                        0,
-                        $e
-                    );
-                }
+            // The image strategy has already logged why it failed.
+            try {
+                $wrappedObject = $this->getFallbackThumbnail($versionInfo);
+                $previous = null;
+            } catch (Exception $e) {
+                $previous = $e;
+            }
+
+            if ($wrappedObject === null) {
+                throw new RuntimeException(
+                    sprintf(
+                        'Failed to prepare thumbnail for field "%s" (field type: "%s") using "%s" strategy.',
+                        $field->getId(),
+                        $field->getFieldTypeIdentifier(),
+                        get_debug_type($this->imageThumbnailStrategy),
+                    ),
+                    0,
+                    $previous
+                );
             }
 
             return true;
@@ -90,15 +96,11 @@ final class ImageThumbnailProxyStrategy implements FieldTypeBasedThumbnailStrate
             return null;
         }
 
-        try {
-            return $this->contentThumbnailStrategy->getThumbnail(
-                $versionInfo->getContentInfo()->getContentType(),
-                [],
-                $versionInfo
-            );
-        } catch (Throwable $e) {
-            return null;
-        }
+        return $this->contentThumbnailStrategy->getThumbnail(
+            $versionInfo->getContentInfo()->getContentType(),
+            [],
+            $versionInfo
+        );
     }
 }
 
