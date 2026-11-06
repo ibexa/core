@@ -384,7 +384,7 @@ class LanguageService implements LanguageServiceInterface
     {
         if ($this->configResolver !== null && $this->configResolver->hasParameter('languages')) {
             $languageCodes = $this->configResolver->getParameter('languages');
-            if (is_array($languageCodes) && !empty($languageCodes)) {
+            if (is_array($languageCodes) && $languageCodes !== []) {
                 return $languageCodes;
             }
         }
