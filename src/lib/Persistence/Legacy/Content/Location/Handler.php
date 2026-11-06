@@ -185,7 +185,7 @@ class Handler implements BaseLocationHandler
     /**
      * Returns an array of default content states with content state group id as key.
      *
-     * @return ObjectState[]
+     * @return array<int, ObjectState>
      */
     protected function getDefaultContentStates()
     {
