@@ -5,7 +5,7 @@
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 
-namespace Ibexa\Tests\Bundle\IO\FieldType\Image;
+namespace Ibexa\Tests\Core\FieldType\Image;
 
 use Exception;
 use Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\ThumbnailStrategy;
@@ -42,7 +42,7 @@ final class ImageThumbnailProxyStrategyTest extends TestCase
 
         $this->strategy = new ImageThumbnailProxyStrategy(
             $this->imageThumbnailStrategyMock,
-            new ProxyGenerator(__DIR__ . '/../../../../../var/proxy'),
+            new ProxyGenerator(__DIR__ . '/../../../../var/proxy'),
             $this->contentThumbnailStrategyMock,
         );
 
