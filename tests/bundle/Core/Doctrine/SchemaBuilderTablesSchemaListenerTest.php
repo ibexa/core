@@ -21,12 +21,11 @@ use Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 #[CoversClass(SchemaBuilderTablesSchemaListener::class)]
 final class SchemaBuilderTablesSchemaListenerTest extends TestCase
 {
-    private SchemaBuilderTablesSchemaListener $listener;
-
     public function testCopiesMissingTablesAndSequences(): void
     {
         $ibexaSchema = new Schema();
@@ -117,22 +116,47 @@ final class SchemaBuilderTablesSchemaListenerTest extends TestCase
         $ibexaSchema = new Schema();
         $ibexaSchema->createTable('ibexa_legacy')->addColumn('id', Types::INTEGER);
 
+        // replaced below; the builder's callback needs a reference to the listener that owns the builder
+        $listener = $this->createListener(new Schema());
         $schemaBuilder = $this->createMock(SchemaBuilderInterface::class);
         $schemaBuilder
             ->expects($this->once())
             ->method('buildSchema')
-            ->willReturnCallback(function () use ($ibexaSchema): Schema {
+            ->willReturnCallback(function () use ($ibexaSchema, &$listener): Schema {
                 // what OrmEntitiesSchemaSubscriber -> SchemaTool does while the schema is built
-                $this->dispatch($this->listener, new Schema(), new PostgreSQLPlatform());
+                $this->dispatch($listener, new Schema(), new PostgreSQLPlatform());
 
                 return $ibexaSchema;
             });
-        $this->listener = new SchemaBuilderTablesSchemaListener($schemaBuilder);
+        $listener = new SchemaBuilderTablesSchemaListener($schemaBuilder);
 
         $target = new Schema();
-        $this->dispatch($this->listener, $target, new PostgreSQLPlatform());
+        $this->dispatch($listener, $target, new PostgreSQLPlatform());
 
         self::assertTrue($target->hasTable('ibexa_legacy'));
+    }
+
+    public function testResetsRecursionGuardWhenBuildingTheSchemaFails(): void
+    {
+        $schemaBuilder = $this->createMock(SchemaBuilderInterface::class);
+        $schemaBuilder
+            ->expects($this->exactly(2))
+            ->method('buildSchema')
+            ->willReturnOnConsecutiveCalls(
+                $this->throwException(new RuntimeException('build failed')),
+                new Schema()
+            );
+        $listener = new SchemaBuilderTablesSchemaListener($schemaBuilder);
+
+        try {
+            $this->dispatch($listener, new Schema(), new PostgreSQLPlatform());
+            self::fail('Expected the build failure to propagate');
+        } catch (RuntimeException) {
+            // expected
+        }
+
+        // a stuck guard would make this return early, without calling buildSchema() a second time
+        $this->dispatch($listener, new Schema(), new PostgreSQLPlatform());
     }
 
     public function testBuildsAgainOnTheNextGeneration(): void
