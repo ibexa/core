@@ -9,6 +9,7 @@ declare(strict_types=1);
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddContentAlwaysAvailableColumnsMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddContentVersionUniqueIndexMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddLanguageTranslationTablesMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddSearchObjectWordLinkLanguageIdColumnsMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddUrlAliasMlLinkIndexMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\BackfillLanguageTranslationsMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\ConvertMariaDbJsonColumnsMigration;
@@ -88,6 +89,10 @@ return static function (ContainerConfigurator $configurator): void {
         ->tag(IbexaMigrationTag::TAG);
 
     $services->set(AddLanguageTranslationTablesMigration::class)
+        ->arg('$connection', service('ibexa.persistence.connection'))
+        ->tag(IbexaMigrationTag::TAG);
+
+    $services->set(AddSearchObjectWordLinkLanguageIdColumnsMigration::class)
         ->arg('$connection', service('ibexa.persistence.connection'))
         ->tag(IbexaMigrationTag::TAG);
 
