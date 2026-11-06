@@ -149,6 +149,7 @@ class Type extends FieldType implements TranslationContainerInterface
 
     /**
      * Drops a reference to a permanently deleted target, so it is not stored (and validated) again.
+     * The alternative text is dropped with it, as it has nothing to describe anymore.
      *
      * @param Value $value
      */
