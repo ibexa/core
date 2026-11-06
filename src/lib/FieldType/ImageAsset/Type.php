@@ -85,7 +85,7 @@ class Type extends FieldType implements TranslationContainerInterface
             return $fieldDefinition->isRequired
                 ? [
                     new ValidationError(
-                        'Content with identifier %contentId% is not a valid asset target',
+                        'Content with identifier %contentId% does not exist',
                         null,
                         ['%contentId%' => $fieldValue->destinationContentId],
                         'destinationContentId'

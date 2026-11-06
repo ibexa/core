@@ -344,7 +344,7 @@ class ImageAssetTest extends FieldTypeTest
             true,
             [
                 new ValidationError(
-                    'Content with identifier %contentId% is not a valid asset target',
+                    'Content with identifier %contentId% does not exist',
                     null,
                     ['%contentId%' => 7],
                     'destinationContentId'
