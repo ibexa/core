@@ -17,7 +17,6 @@ use Ibexa\Bundle\RepositoryInstaller\DependencyInjection\Compiler\RemoveTaggedMi
 use Ibexa\Bundle\RepositoryInstaller\Migration\Exception\MigrationFailedException;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationTag;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaOnlyDependencyFactory;
-use Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface;
 use Throwable;
 
 /**
@@ -50,14 +49,9 @@ final class TaggedMigrationsRunner
 {
     private DependencyFactory $dependencyFactory;
 
-    private SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass;
-
-    public function __construct(
-        DependencyFactory $dependencyFactory,
-        SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass
-    ) {
+    public function __construct(DependencyFactory $dependencyFactory)
+    {
         $this->dependencyFactory = $dependencyFactory;
-        $this->schemaAssetsFilterBypass = $schemaAssetsFilterBypass;
     }
 
     /**
@@ -81,7 +75,6 @@ final class TaggedMigrationsRunner
         $latestVersion = end($availableMigrations)->getVersion();
         $plan = $planCalculator->getPlanUntilVersion($latestVersion);
 
-        $connection = $this->dependencyFactory->getConnection();
         $migrator = $this->dependencyFactory->getMigrator();
         $migratorConfiguration = new MigratorConfiguration();
 
@@ -90,16 +83,10 @@ final class TaggedMigrationsRunner
             // One migration per migrate() call, so that a failure can name the migration it came
             // from - Doctrine's executor logs it, but rethrows the original error as it was.
             try {
-                // With the connection's schema assets filter lifted: it hides every table without an
-                // ORM entity behind it (i.e. nearly all of them) from the schema the executor
-                // introspects, which would make migrations' hasTable() guards think they don't exist.
                 /** @var array<string, Query[]> $queriesByVersion */
-                $queriesByVersion = $this->schemaAssetsFilterBypass->call(
-                    $connection,
-                    static fn (): array => $migrator->migrate(
-                        new MigrationPlanList([$migrationPlan], $plan->getDirection()),
-                        $migratorConfiguration
-                    )
+                $queriesByVersion = $migrator->migrate(
+                    new MigrationPlanList([$migrationPlan], $plan->getDirection()),
+                    $migratorConfiguration
                 );
             } catch (Throwable $e) {
                 throw new MigrationFailedException((string)$migrationPlan->getVersion(), $e);

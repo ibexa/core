@@ -10,7 +10,9 @@ namespace Ibexa\Bundle\Core\DependencyInjection\Compiler;
 
 use Doctrine\ORM\Mapping\Driver\AttributeDriver;
 use Doctrine\ORM\Mapping\Driver\SimplifiedXmlDriver;
-use Ibexa\Bundle\Core\Doctrine\ManagedTablesSchemaAssetFilter;
+use Doctrine\ORM\Tools\ToolEvents;
+use Ibexa\Bundle\Core\Doctrine\SchemaBuilderTablesSchemaListener;
+use Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface;
 use LogicException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -63,24 +65,20 @@ final class InjectEntityManagerMappingsPass implements CompilerPassInterface
     }
 
     /**
-     * Protects Ibexa's legacy (non-Doctrine-ORM) schema, sharing the same
+     * Keeps Ibexa's legacy (non-Doctrine-ORM) schema, sharing the same
      * connection as this entity manager, from being dropped by
      * doctrine:schema:update. ORM 3 always behaves as if --complete was
      * passed, dropping any table not backed by a registered ORM entity.
      *
-     * The filter is registered through DoctrineBundle's
-     * "doctrine.dbal.schema_filter" tag rather than by calling
-     * Configuration::setSchemaAssetsFilter() directly, because that setter is
-     * not additive: DoctrineBundle's own DbalSchemaFilterPass calls it as well,
-     * to install a SchemaAssetsFilterManager wrapping every tagged filter, so
-     * whichever pass ran last would silently discard the other one's filter -
-     * either dropping a project's own "doctrine.dbal.<connection>.schema_filter"
-     * configuration, or dropping the legacy schema protection. Going through
-     * the tag makes both apply: SchemaAssetsFilterManager rejects an asset as
-     * soon as any single filter rejects it.
+     * {@see SchemaBuilderTablesSchemaListener} adds those tables to the schema ORM generates
+     * (postGenerateSchema), so they exist on both sides of the comparison. It is registered as a
+     * "doctrine.event_listener" for the connection: in DoctrineBundle 3 an entity manager's
+     * event manager is the connection's, so every entity manager on that connection (including
+     * a project's own "default" one) is covered, not only the "ibexa_*" ones.
      *
-     * This requires the pass to run before DbalSchemaFilterPass, which is why
-     * IbexaCoreBundle registers it with a higher priority.
+     * This requires the pass to run before DoctrineBundle's
+     * RegisterEventListenersAndSubscribersPass, which is why IbexaCoreBundle registers it with a
+     * higher priority.
      */
     private function protectLegacySchemaFromOrmSchemaSync(
         string $entityManagerName,
@@ -90,17 +88,26 @@ final class InjectEntityManagerMappingsPass implements CompilerPassInterface
             return;
         }
 
-        $connection = substr($entityManagerName, strlen('ibexa_'));
-        $configurationId = sprintf('doctrine.dbal.%s_connection.configuration', $connection);
-
-        if (!$container->hasDefinition($configurationId)) {
+        // Without ibexa/doctrine-schema's bundle (e.g. in minimal test kernels) there is no
+        // legacy schema to add, and the listener must stay unused.
+        if (!$container->has(SchemaBuilderInterface::class)) {
             return;
         }
 
-        $container->findDefinition(ManagedTablesSchemaAssetFilter::class)->addTag(
-            'doctrine.dbal.schema_filter',
-            ['connection' => $connection]
-        );
+        $connection = substr($entityManagerName, strlen('ibexa_'));
+        $listener = $container->findDefinition(SchemaBuilderTablesSchemaListener::class);
+
+        // several entity managers may share one connection, which needs the listener only once
+        foreach ($listener->getTag('doctrine.event_listener') as $attributes) {
+            if (($attributes['connection'] ?? null) === $connection) {
+                return;
+            }
+        }
+
+        $listener->addTag('doctrine.event_listener', [
+            'event' => ToolEvents::postGenerateSchema,
+            'connection' => $connection,
+        ]);
     }
 
     private function createMetadataDriverDefinition(

@@ -9,7 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Bundle\Core\DependencyInjection\Compiler;
 
 use Ibexa\Bundle\Core\DependencyInjection\Compiler\InjectEntityManagerMappingsPass;
-use Ibexa\Bundle\Core\Doctrine\ManagedTablesSchemaAssetFilter;
+use Ibexa\Bundle\Core\Doctrine\SchemaBuilderTablesSchemaListener;
+use Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface;
 use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\AttributeEntityBundle\AttributeEntityBundle;
 use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\XmlEntityBundle\XmlEntityBundle;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractCompilerPassTestCase;
@@ -45,8 +46,8 @@ class InjectEntityManagerMappingPassTest extends AbstractCompilerPassTestCase
 
         $this->setDefinition('doctrine.orm.ibexa_connection_metadata_driver', new Definition());
         $this->setDefinition('doctrine.orm.ibexa_connection_configuration', new Definition());
-        $this->setDefinition('doctrine.dbal.connection_connection.configuration', new Definition());
-        $this->setDefinition(ManagedTablesSchemaAssetFilter::class, new Definition(ManagedTablesSchemaAssetFilter::class));
+        $this->setDefinition(SchemaBuilderTablesSchemaListener::class, new Definition(SchemaBuilderTablesSchemaListener::class));
+        $this->setDefinition(SchemaBuilderInterface::class, new Definition());
         $this->setParameter('doctrine.orm.metadata.attribute.class', 'Vendor/Doctrine/Metadata/Driver/AttributeDriver');
         $this->setParameter('doctrine.orm.metadata.xml.class', 'Vendor/Doctrine/Metadata/Driver/XmlDriver');
         $this->setParameter('kernel.bundles', self::BUNDLES);
@@ -97,25 +98,40 @@ class InjectEntityManagerMappingPassTest extends AbstractCompilerPassTestCase
         $this->compile();
 
         $this->assertContainerBuilderHasServiceDefinitionWithTag(
-            ManagedTablesSchemaAssetFilter::class,
-            'doctrine.dbal.schema_filter',
-            ['connection' => 'connection']
+            SchemaBuilderTablesSchemaListener::class,
+            'doctrine.event_listener',
+            ['event' => 'postGenerateSchema', 'connection' => 'connection']
         );
     }
 
-    /**
-     * The filter must not be installed with Configuration::setSchemaAssetsFilter(), as that
-     * would discard any filter set by DoctrineBundle's DbalSchemaFilterPass, and with it any
-     * "doctrine.dbal.<connection>.schema_filter" a project configured.
-     */
-    public function testDoesNotOverwriteTheConnectionSchemaAssetsFilter(): void
+    public function testDoesNotRegisterTheListenerWithoutSchemaBuilder(): void
     {
+        $this->container->removeDefinition(SchemaBuilderInterface::class);
         $this->compile();
 
-        $methodCalls = $this->container
-            ->getDefinition('doctrine.dbal.connection_connection.configuration')
-            ->getMethodCalls();
+        self::assertSame(
+            [],
+            $this->container->getDefinition(SchemaBuilderTablesSchemaListener::class)->getTag('doctrine.event_listener')
+        );
+    }
 
-        self::assertSame([], $methodCalls);
+    public function testRegistersTheListenerOncePerConnection(): void
+    {
+        $this->setParameter('doctrine.entity_managers', [
+            'ibexa_connection' => 'doctrine.orm.ibexa_connection_entity_manager',
+            'ibexa_connection_second' => 'doctrine.orm.ibexa_connection_second_entity_manager',
+        ]);
+        $this->setDefinition('doctrine.orm.ibexa_connection_second_metadata_driver', new Definition());
+        $this->setDefinition('doctrine.orm.ibexa_connection_second_configuration', new Definition());
+        $this->compile();
+
+        $tags = $this->container
+            ->getDefinition(SchemaBuilderTablesSchemaListener::class)
+            ->getTag('doctrine.event_listener');
+
+        self::assertSame(
+            ['connection', 'connection_second'],
+            array_column($tags, 'connection')
+        );
     }
 }
