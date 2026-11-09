@@ -32,6 +32,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccessGroup;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
@@ -251,6 +252,33 @@ final class SiteAccessMatchListenerTest extends TestCase
         $this->assertRequestHasSiteAccess($request, null, $siteAccess, HttpKernelInterface::SUB_REQUEST);
     }
 
+    public function testOnKernelRequestSubRequestDoesNotPushWhenSiteAccessListenerThrows(): void
+    {
+        $request = new Request();
+        $request->attributes->set('siteaccess', new SiteAccess('test'));
+        $exception = new RuntimeException('MVCEvents::SITEACCESS listener failed');
+
+        $this->eventDispatcher
+            ->expects($this->once())
+            ->method('dispatch')
+            ->willThrowException($exception);
+
+        $this->siteAccessService
+            ->expects($this->never())
+            ->method('changeSiteAccess');
+
+        try {
+            $this->listener->onKernelRequest(
+                new RequestEvent(self::createStub(HttpKernelInterface::class), $request, HttpKernelInterface::SUB_REQUEST)
+            );
+            self::fail('The MVCEvents::SITEACCESS listener exception should propagate');
+        } catch (RuntimeException $e) {
+            self::assertSame($exception, $e);
+        }
+
+        self::assertFalse($request->attributes->has(SiteAccessMatchListener::SITEACCESS_PUSHED_ATTRIBUTE));
+    }
+
     private function serializeSiteAccess(SiteAccess $siteAccess): string
     {
         return $this->getSerializer()->serialize($siteAccess, 'json');
@@ -310,6 +338,10 @@ final class SiteAccessMatchListenerTest extends TestCase
 
         $this->listener->onKernelRequest($event);
         self::assertSame($siteAccess, $request->attributes->get('siteaccess'));
+        self::assertSame(
+            $requestType === HttpKernelInterface::SUB_REQUEST,
+            $request->attributes->getBoolean(SiteAccessMatchListener::SITEACCESS_PUSHED_ATTRIBUTE)
+        );
     }
 
     /**

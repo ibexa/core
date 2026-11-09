@@ -59,9 +59,12 @@ final class SiteAccessRestoreListener implements EventSubscriberInterface
             return;
         }
 
-        // Mirrors the condition SiteAccessMatchListener used to decide whether to push, so the
-        // pop here only ever undoes what this exact sub-request pushed.
-        if ($event->getRequest()->attributes->get('siteaccess') instanceof SiteAccess) {
+        // Only undo what SiteAccessMatchListener pushed for this exact sub-request. A sub-request
+        // can carry a SiteAccess without one being pushed, e.g. when a MVCEvents::SITEACCESS
+        // listener threw, and popping then would drop the parent request's SiteAccess instead.
+        $attributes = $event->getRequest()->attributes;
+        if ($attributes->getBoolean(SiteAccessMatchListener::SITEACCESS_PUSHED_ATTRIBUTE)) {
+            $attributes->remove(SiteAccessMatchListener::SITEACCESS_PUSHED_ATTRIBUTE);
             $this->siteAccessService->restoreSiteAccess();
         }
 
