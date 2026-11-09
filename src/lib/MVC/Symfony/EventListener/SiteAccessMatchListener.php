@@ -29,6 +29,12 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class SiteAccessMatchListener implements EventSubscriberInterface
 {
+    /**
+     * Set on a sub-request once its SiteAccess has been pushed onto SiteAccessService, so
+     * SiteAccessRestoreListener only pops what was actually pushed.
+     */
+    public const string SITEACCESS_PUSHED_ATTRIBUTE = '_ibexa_siteaccess_pushed';
+
     protected SiteAccessRouter $siteAccessRouter;
 
     protected EventDispatcherInterface $eventDispatcher;
@@ -102,9 +108,10 @@ class SiteAccessMatchListener implements EventSubscriberInterface
             // for MAIN_REQUEST (see SiteAccessService::onSiteAccessMatch()); a sub-request's
             // SiteAccess is a nested change on top of that, so push it the same way any other
             // caller would, via changeSiteAccess(). SiteAccessRestoreListener pops it back off via
-            // restoreSiteAccess() once this sub-request finishes.
+            // restoreSiteAccess() once this sub-request finishes, but only if the marker is set.
             if ($event->getRequestType() === HttpKernelInterface::SUB_REQUEST) {
                 $this->siteAccessService->changeSiteAccess($siteaccess);
+                $request->attributes->set(self::SITEACCESS_PUSHED_ATTRIBUTE, true);
             }
         }
     }
