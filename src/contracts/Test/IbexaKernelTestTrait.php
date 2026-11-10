@@ -107,7 +107,7 @@ trait IbexaKernelTestTrait
             ));
         }
 
-        return $kernel::getAliasServiceId($id ?? $className);
+        return IbexaTestKernel::getAliasServiceId($id ?? $className);
     }
 
     protected static function getDoctrineConnection(): Connection
