@@ -865,7 +865,7 @@ class ContentService implements ContentServiceInterface
     /**
      * Returns an array of default content states with content state group id as key.
      *
-     * @return ObjectState[]
+     * @return array<int, ObjectState>
      */
     protected function getDefaultObjectStates(): array
     {
@@ -873,10 +873,10 @@ class ContentService implements ContentServiceInterface
         $objectStateHandler = $this->persistenceHandler->objectStateHandler();
 
         foreach ($objectStateHandler->loadAllGroups() as $objectStateGroup) {
-            foreach ($objectStateHandler->loadObjectStates($objectStateGroup->id) as $objectState) {
-                // Only register the first object state which is the default one.
-                $defaultObjectStatesMap[$objectStateGroup->id] = $objectState;
-                break;
+            try {
+                $defaultObjectStatesMap[$objectStateGroup->id] = $objectStateHandler->loadDefaultObjectState($objectStateGroup->id);
+            } catch (APINotFoundException) {
+                // group without states
             }
         }
 

@@ -185,17 +185,17 @@ class Handler implements BaseLocationHandler
     /**
      * Returns an array of default content states with content state group id as key.
      *
-     * @return ObjectState[]
+     * @return array<int, ObjectState>
      */
     protected function getDefaultContentStates()
     {
         $defaultObjectStatesMap = [];
 
         foreach ($this->objectStateHandler->loadAllGroups() as $objectStateGroup) {
-            foreach ($this->objectStateHandler->loadObjectStates($objectStateGroup->id) as $objectState) {
-                // Only register the first object state which is the default one.
-                $defaultObjectStatesMap[$objectStateGroup->id] = $objectState;
-                break;
+            try {
+                $defaultObjectStatesMap[$objectStateGroup->id] = $this->objectStateHandler->loadDefaultObjectState($objectStateGroup->id);
+            } catch (NotFoundException) {
+                // group without states
             }
         }
 
