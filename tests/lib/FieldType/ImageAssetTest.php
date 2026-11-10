@@ -220,6 +220,12 @@ class ImageAssetTest extends FieldTypeTest
                 ],
                 new ImageAsset\Value($destinationContentId, $alternativeText),
             ],
+            'hash without alternativeText' => [
+                [
+                    'destinationContentId' => $destinationContentId,
+                ],
+                new ImageAsset\Value($destinationContentId),
+            ],
         ];
     }
 
