@@ -24,6 +24,7 @@ use Ibexa\Contracts\Core\Repository\URLAliasService;
 use Ibexa\Contracts\Core\Repository\UserService;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
+use Ibexa\Contracts\Test\Core\IbexaTestCore;
 use Ibexa\Core\Repository\Values\User\UserReference;
 use Ibexa\Tests\Core\Repository\LegacySchemaImporter;
 use RuntimeException;
@@ -107,7 +108,7 @@ trait IbexaKernelTestTrait
             ));
         }
 
-        return IbexaTestKernel::getAliasServiceId($id ?? $className);
+        return IbexaTestCore::getAliasServiceId($id ?? $className);
     }
 
     protected static function getDoctrineConnection(): Connection
