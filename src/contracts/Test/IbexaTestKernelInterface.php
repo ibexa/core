@@ -13,10 +13,4 @@ namespace Ibexa\Contracts\Core\Test;
  *
  * @experimental
  */
-interface IbexaTestKernelInterface
-{
-    /**
-     * @return string a service ID that service aliases will be registered as
-     */
-    public static function getAliasServiceId(string $id): string;
-}
+interface IbexaTestKernelInterface {}
