@@ -36,16 +36,17 @@ final class PermissionAwareLocationResolver implements LocationResolver
      */
     public function resolveLocation(ContentInfo $contentInfo): Location
     {
-        try {
-            if (null === $contentInfo->mainLocationId) {
-                throw new CoreNotFoundException('location', $contentInfo->mainLocationId);
-            }
+        $mainLocationId = $contentInfo->getMainLocationId();
+        if (null === $mainLocationId) {
+            throw new CoreNotFoundException('location', $mainLocationId);
+        }
 
-            $location = $this->locationService->loadLocation($contentInfo->mainLocationId);
+        try {
+            $location = $this->locationService->loadLocation($mainLocationId);
         } catch (NotFoundException | UnauthorizedException $e) {
             // try different locations if main location is not accessible for the user
             $locations = $this->locationService->loadLocations($contentInfo);
-            if (empty($locations) || null === $contentInfo->mainLocationId) {
+            if (empty($locations)) {
                 throw $e;
             }
 

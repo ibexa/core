@@ -68854,12 +68854,6 @@ parameters:
 		-
 			message: '#^Call to an undefined method Ibexa\\Contracts\\Core\\Repository\\LocationService\:\:method\(\)\.$#'
 			identifier: method.notFound
-			count: 7
-			path: tests/lib/Repository/LocationResolver/PermissionAwareLocationResolverTest.php
-
-		-
-			message: '#^Call to an undefined method Ibexa\\Contracts\\Core\\Repository\\LocationService\:\:method\(\)\.$#'
-			identifier: method.notFound
 			count: 5
 			path: tests/lib/Repository/Mapper/ContentLocationMapper/DecoratedLocationServiceTest.php
 
