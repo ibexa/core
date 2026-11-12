@@ -17,6 +17,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Language;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway;
 use RuntimeException;
 
@@ -219,7 +220,7 @@ final class DoctrineDatabase extends Gateway
      */
     public function loadContentTranslations(array $contentIds): array
     {
-        return $this->loadTranslations('ibexa_content_translation', 'content_id', $contentIds);
+        return $this->loadTranslations(ContentGateway::CONTENT_TRANSLATION_TABLE, 'content_id', $contentIds);
     }
 
     /**
@@ -229,7 +230,7 @@ final class DoctrineDatabase extends Gateway
      */
     public function loadVersionTranslations(array $versionIds): array
     {
-        return $this->loadTranslations('ibexa_content_version_translation', 'content_version_id', $versionIds);
+        return $this->loadTranslations(ContentGateway::CONTENT_VERSION_TRANSLATION_TABLE, 'content_version_id', $versionIds);
     }
 
     /**
