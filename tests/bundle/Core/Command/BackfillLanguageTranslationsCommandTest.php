@@ -109,6 +109,8 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
                 )
             )
         );
+        self::assertSame([1 => false, 2 => true], $this->fetchAlwaysAvailable('ibexa_content'));
+        self::assertSame([1 => false, 2 => true], $this->fetchAlwaysAvailable('ibexa_content_version'));
     }
 
     public function testBackfillIsIdempotent(): void
@@ -188,6 +190,26 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
         );
     }
 
+    public function testVerifyDetectsWrongAlwaysAvailableFlagsAndFixesThem(): void
+    {
+        $connection = $this->getDatabaseConnection();
+        (new CommandTester(new BackfillLanguageTranslationsCommand($connection)))
+            ->execute(['--table' => 'content']);
+        $connection->update('ibexa_content', ['always_available' => 0], ['id' => 2]);
+
+        $tester = new CommandTester(new VerifyLanguageTranslationsCommand($connection));
+        $exitCode = $tester->execute(['--table' => 'content']);
+
+        self::assertSame(1, $exitCode);
+        self::assertStringContainsString('1 wrong always-available flag(s)', $tester->getDisplay());
+
+        $fixTester = new CommandTester(new VerifyLanguageTranslationsCommand($connection));
+        $fixExitCode = $fixTester->execute(['--table' => 'content', '--fix' => true]);
+
+        self::assertSame(0, $fixExitCode);
+        self::assertSame([1 => false, 2 => true], $this->fetchAlwaysAvailable('ibexa_content'));
+    }
+
     /**
      * Both commands are explicitly documented as usable standalone, outside of a migration run -
      * but a schema that already completed the language bitmask migration (or a fresh install,
@@ -255,6 +277,18 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
         $connection->executeStatement('ALTER TABLE ibexa_content ADD COLUMN language_mask INTEGER DEFAULT 0 NOT NULL');
         $connection->executeStatement('ALTER TABLE ibexa_content_version ADD COLUMN language_mask INTEGER DEFAULT 0 NOT NULL');
         $connection->executeStatement('ALTER TABLE ibexa_url_alias_ml ADD COLUMN lang_mask INTEGER DEFAULT 0 NOT NULL');
+    }
+
+    /**
+     * @return array<int, bool>
+     */
+    private function fetchAlwaysAvailable(string $table): array
+    {
+        $rows = $this->getDatabaseConnection()->fetchAllKeyValue(
+            "SELECT id, always_available FROM {$table} ORDER BY id"
+        );
+
+        return array_map(static fn (mixed $value): bool => (bool)$value, $rows);
     }
 
     /**
