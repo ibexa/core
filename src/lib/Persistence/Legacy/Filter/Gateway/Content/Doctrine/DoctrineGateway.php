@@ -15,7 +15,6 @@ use Ibexa\Contracts\Core\Persistence\Filter\Query\CountQueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Filter\SortClauseVisitor;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
-use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway as LanguageGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Filter\Gateway\Gateway;
 use Traversable;
@@ -60,8 +59,7 @@ final class DoctrineGateway implements Gateway
         private readonly Connection $connection,
         private readonly CriterionVisitor $criterionVisitor,
         private readonly SortClauseVisitor $sortClauseVisitor,
-        private readonly CountQueryBuilder $countQueryBuilder,
-        private readonly LanguageGateway $languageGateway
+        private readonly CountQueryBuilder $countQueryBuilder
     ) {}
 
     /**
@@ -281,36 +279,38 @@ final class DoctrineGateway implements Gateway
     }
 
     /**
-     * Bulk-fetches, for the same query constraints, which languages each matched content version is
-     * translated into - avoids the N+1 that would result from calling
-     * {@see LanguageGateway::loadVersionTranslations()} once per row in the data mapper instead.
-     *
-     * Deliberately reuses that same gateway method (batched with every matching version id at once)
-     * rather than reimplementing the query as a join against the main criteria query, like
-     * {@see bulkFetchVersionNames()}/{@see bulkFetchFieldValues()} above do: other callers (e.g. the
-     * Legacy Search Engine) also load translations through this same shared method, batched with
-     * their own, differently-sized id lists - reusing it here, rather than a bespoke query, is what
-     * guarantees every caller agrees on each version's language order.
+     * Fetches, for the same query constraints, the languages of each matched content version.
      *
      * @return array<int, int[]> Content version id => language ids
      */
     private function bulkFetchVersionTranslations(FilteringQueryBuilder $query): array
     {
         $query
-            // completely reset SELECT part to get only needed data
-            ->select('version.id AS content_version_id')
+            ->select('version.id AS content_version_id', 'version_languages.language_id')
             ->distinct()
-            // reset not needed parts, keeping FROM, other JOINs, and WHERE constraints
+            ->joinOnce(
+                'version',
+                ContentGateway::CONTENT_VERSION_TRANSLATION_TABLE,
+                'version_languages',
+                'version_languages.content_version_id = version.id'
+            )
             ->setMaxResults(null)
             ->setFirstResult(0)
             ->resetOrderBy();
 
-        $versionIds = array_map(
-            'intval',
-            $query->executeQuery()->fetchFirstColumn()
-        );
+        $translations = [];
+        foreach ($query->executeQuery()->iterateAssociative() as $row) {
+            $translations[(int)$row['content_version_id']][] = (int)$row['language_id'];
+        }
 
-        return $this->languageGateway->loadVersionTranslations($versionIds);
+        return array_map(
+            static function (array $languageIds): array {
+                sort($languageIds);
+
+                return $languageIds;
+            },
+            $translations
+        );
     }
 
     private function getColumns(): Traversable
