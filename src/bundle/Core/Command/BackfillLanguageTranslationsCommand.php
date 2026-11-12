@@ -20,27 +20,16 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Backfills "ibexa_content_translation", "ibexa_content_version_translation" and
- * "ibexa_url_alias_ml_translation" from the legacy "language_mask"/"lang_mask" bitmask columns
- * (step 2 of the language bitmask migration).
- *
- * A standard upgrade no longer needs to run this manually: {@see BackfillLanguageTranslationsMigration}
- * (in ibexa/core's RepositoryInstaller bundle) does the same chunked, idempotent backfill as part of
- * the regular `doctrine:migrations:migrate` sequence, before the migration that drops these columns.
- * This command remains available for a `--dry-run` preview of what a pending upgrade would do, or
- * for manual repair (together with `ibexa:languages:verify-translations`) outside of a migration run.
- *
- * The decomposition needs no PHP-side bit-walking or a recursive CTE: "ibexa_content_language"
- * already contains every valid bit value, so joining against it with a bitwise AND does the
- * decomposition in SQL directly.
+ * Backfills "always_available" and the language translation tables from the legacy language bitmask columns.
  */
 #[AsCommand(
     name: 'ibexa:languages:backfill-translations',
-    description: 'Backfills the language translation tables from the legacy language bitmask columns',
+    description: 'Backfills "always_available" and the language translation tables from the legacy language bitmask columns',
     help: <<<'EOT'
         The command <info>%command.name%</info> populates "ibexa_content_translation",
         "ibexa_content_version_translation" and "ibexa_url_alias_ml_translation" from the existing
-        "language_mask"/"lang_mask" bitmask columns. It is idempotent - already-backfilled rows are
+        "language_mask"/"lang_mask" bitmask columns, and sets "always_available" on "ibexa_content"
+        and "ibexa_content_version" from bit 0 of "language_mask". It is idempotent - already-backfilled rows are
         skipped - so it is safe to re-run, including after a partial/interrupted run.
 
         Run <info>ibexa:languages:verify-translations</info> afterward to confirm the backfill is complete.
@@ -104,7 +93,7 @@ final class BackfillLanguageTranslationsCommand
         bool $dryRun,
         OutputInterface $output
     ): void {
-        [$sourceTable, $pkColumn, $maskColumn, $insertSql] = match ($table) {
+        [$sourceTable, $pkColumn, $maskColumn, $insertSql, $alwaysAvailableColumn] = match ($table) {
             self::TABLE_CONTENT => [
                 'ibexa_content',
                 'id',
@@ -113,6 +102,7 @@ final class BackfillLanguageTranslationsCommand
                  SELECT c.id, l.id FROM ibexa_content c
                  JOIN %s l ON (c.language_mask & l.id) = l.id
                  WHERE c.id BETWEEN :from AND :to %s',
+                'always_available',
             ],
             self::TABLE_CONTENT_VERSION => [
                 'ibexa_content_version',
@@ -122,6 +112,7 @@ final class BackfillLanguageTranslationsCommand
                  SELECT v.id, l.id FROM ibexa_content_version v
                  JOIN %s l ON (v.language_mask & l.id) = l.id
                  WHERE v.id BETWEEN :from AND :to %s',
+                'always_available',
             ],
             self::TABLE_URL_ALIAS => [
                 'ibexa_url_alias_ml',
@@ -131,6 +122,7 @@ final class BackfillLanguageTranslationsCommand
                  SELECT u.parent, u.text_md5, l.id FROM ibexa_url_alias_ml u
                  JOIN %s l ON (u.lang_mask & l.id) = l.id
                  WHERE u.parent BETWEEN :from AND :to %s',
+                null,
             ],
             default => throw new InvalidArgumentException('table', "unknown table \"{$table}\"."),
         };
@@ -166,33 +158,52 @@ final class BackfillLanguageTranslationsCommand
         $output->writeln("<info>Backfilling {$sourceTable} ({$pkColumn} {$minId}..{$maxId}, batch size {$batchSize})...</info>");
 
         $insertSql = sprintf($insertSql, $this->insertIgnoreKeyword(), $languageTable, $this->onConflictClause());
+        $alwaysAvailableMismatch = "{$alwaysAvailableColumn} <> (({$maskColumn} & 1) = 1)";
         $totalInserted = 0;
+        $totalFlagged = 0;
 
         for ($from = $minId; $from <= $maxId; $from += $batchSize) {
             $to = min($from + $batchSize - 1, $maxId);
 
+            $flagged = 0;
             if ($dryRun) {
                 $inserted = (int)$this->connection->fetchOne(
                     $this->buildDryRunCountSql($table, $languageTable),
                     ['from' => $from, 'to' => $to]
                 );
+                if ($alwaysAvailableColumn !== null) {
+                    $flagged = (int)$this->connection->fetchOne(
+                        "SELECT COUNT(*) FROM {$sourceTable} WHERE {$pkColumn} BETWEEN :from AND :to AND {$alwaysAvailableMismatch}",
+                        ['from' => $from, 'to' => $to]
+                    );
+                }
             } else {
                 $inserted = $this->connection->executeStatement($insertSql, ['from' => $from, 'to' => $to]);
+                if ($alwaysAvailableColumn !== null) {
+                    $flagged = $this->connection->executeStatement(
+                        "UPDATE {$sourceTable} SET {$alwaysAvailableColumn} = (({$maskColumn} & 1) = 1)
+                         WHERE {$pkColumn} BETWEEN :from AND :to AND {$alwaysAvailableMismatch}",
+                        ['from' => $from, 'to' => $to]
+                    );
+                }
             }
 
             $totalInserted += $inserted;
+            $totalFlagged += $flagged;
             $output->writeln(
-                sprintf('  %d..%d: %d row(s)%s', $from, $to, $inserted, $dryRun ? ' (dry-run)' : ''),
+                sprintf('  %d..%d: %d row(s), %d always-available flag(s)%s', $from, $to, $inserted, $flagged, $dryRun ? ' (dry-run)' : ''),
                 OutputInterface::VERBOSITY_VERBOSE
             );
         }
 
         $output->writeln(sprintf(
-            '<info>%s%s: %d row(s) %s.</info>',
+            '<info>%s%s: %d row(s) %s, %d always-available flag(s) %s.</info>',
             $dryRun ? '[dry-run] ' : '',
             $sourceTable,
             $totalInserted,
-            $dryRun ? 'would be inserted' : 'inserted'
+            $dryRun ? 'would be inserted' : 'inserted',
+            $totalFlagged,
+            $dryRun ? 'would be updated' : 'updated'
         ));
     }
 
