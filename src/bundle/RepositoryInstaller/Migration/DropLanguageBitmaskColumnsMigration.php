@@ -79,6 +79,13 @@ final class DropLanguageBitmaskColumnsMigration extends AbstractSqlMigration imp
         'ibexa_url_alias_ml' => ['ibexa_url_alias_ml_translation', null],
     ];
 
+    /** @var array<string, array{0: string, 1: string}> */
+    private const array ALWAYS_AVAILABLE_CHECKS = [
+        self::CONTENT_TABLE => ['language_mask', 'always_available'],
+        'ibexa_content_version' => ['language_mask', 'always_available'],
+        'ibexa_url_alias_ml' => ['lang_mask', 'is_always_available'],
+    ];
+
     public function getDescription(): string
     {
         return 'Drops the language bitmask ("language_mask"/"lang_mask") columns, now that nothing reads them';
@@ -121,6 +128,7 @@ final class DropLanguageBitmaskColumnsMigration extends AbstractSqlMigration imp
         }
 
         $this->abortIfTranslationsNotBackfilled(array_keys($tablesStillCarryingMask));
+        $this->abortIfAlwaysAvailableNotBackfilled(array_keys($tablesStillCarryingMask));
 
         foreach (self::DROPS as $table => [$maskColumn, $indexName, $replaceIndex]) {
             if (!isset($tablesStillCarryingMask[$table])) {
@@ -226,6 +234,30 @@ final class DropLanguageBitmaskColumnsMigration extends AbstractSqlMigration imp
                 "real language bit with no matching row in \"{$translationTable}\" - run " .
                 '"ibexa:languages:backfill-translations" (and confirm ' .
                 '"ibexa:languages:verify-translations" reports clean) before this migration.'
+            );
+        }
+    }
+
+    /**
+     * Refuses to drop the mask columns while an always-available column disagrees with bit 0 of the mask.
+     *
+     * @param string[] $tablesStillCarryingMask
+     */
+    private function abortIfAlwaysAvailableNotBackfilled(array $tablesStillCarryingMask): void
+    {
+        foreach (self::ALWAYS_AVAILABLE_CHECKS as $table => [$maskColumn, $alwaysAvailableColumn]) {
+            if (!in_array($table, $tablesStillCarryingMask, true)) {
+                continue;
+            }
+
+            $mismatchCount = (int)$this->connection->fetchOne(
+                "SELECT COUNT(*) FROM {$table} WHERE {$alwaysAvailableColumn} <> (({$maskColumn} & 1) = 1)"
+            );
+
+            $this->abortIf(
+                $mismatchCount > 0,
+                "Refusing to drop \"{$maskColumn}\" from \"{$table}\": {$mismatchCount} row(s) have \"{$alwaysAvailableColumn}\" " .
+                'disagreeing with bit 0 of the mask - run "ibexa:languages:verify-translations --fix" before this migration.'
             );
         }
     }
