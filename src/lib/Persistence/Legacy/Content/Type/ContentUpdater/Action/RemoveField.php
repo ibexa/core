@@ -76,7 +76,13 @@ class RemoveField extends Action
 
         foreach ($versionNumbers as $versionNo) {
             $contentRows = $this->contentGateway->load($contentId, $versionNo);
-            $contentList = $this->contentMapper->extractContentFromRows($contentRows, $nameRows);
+            $contentList = $this->contentMapper->extractContentFromRows(
+                $contentRows,
+                $nameRows,
+                $this->contentGateway->loadVersionTranslations(
+                    array_map(static fn (array $row): int => (int)$row['content_version_id'], $contentRows)
+                )
+            );
             $content = $contentList[0];
             $versionFieldIdSet = [];
 

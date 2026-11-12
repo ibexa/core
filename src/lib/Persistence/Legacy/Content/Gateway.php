@@ -496,6 +496,24 @@ abstract class Gateway
     abstract public function loadVersionedNameData(array $rows): array;
 
     /**
+     * Loads the languages of the given Content items.
+     *
+     * @param int[] $contentIds
+     *
+     * @return array<int, int[]> Content id => language ids
+     */
+    abstract public function loadContentTranslations(array $contentIds): array;
+
+    /**
+     * Loads the languages of the given Content versions.
+     *
+     * @param int[] $versionIds
+     *
+     * @return array<int, int[]> Version id => language ids
+     */
+    abstract public function loadVersionTranslations(array $versionIds): array;
+
+    /**
      * Bulk-copy all relations meta data for a copied Content item.
      *
      * Is meant to be used during content copy, so assumes the following:

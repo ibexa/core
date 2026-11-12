@@ -24,7 +24,6 @@ use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
-use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway as LanguageGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Handler;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper\ResolveVirtualFieldSubscriber;
@@ -160,7 +159,6 @@ class MapperTest extends LanguageAwareTestCase
             $this->getContentTypeHandler(),
             $this->getEventDispatcher(),
             $this->getFieldTypeAliasResolver(),
-            $this->getLanguageGatewayStub(),
         );
         $res = $mapper->convertToStorageValue($field);
 
@@ -195,9 +193,8 @@ class MapperTest extends LanguageAwareTestCase
             $contentTypeHandlerMock,
             $this->getEventDispatcher(),
             $this->getFieldTypeAliasResolver(),
-            $this->getLanguageGatewayStub($rowsFixture),
         );
-        $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture);
+        $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture, $this->getVersionLanguageIds($rowsFixture));
 
         $expected = [$this->getContentExtractReference()];
 
@@ -236,9 +233,8 @@ class MapperTest extends LanguageAwareTestCase
             $contentTypeHandlerMock,
             $this->getEventDispatcher(),
             $this->getFieldTypeAliasResolver(),
-            $this->getLanguageGatewayStub($rowsFixture),
         );
-        $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture);
+        $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture, $this->getVersionLanguageIds($rowsFixture));
 
         $expectedContent = $this->getContentExtractReference();
         // Virtual "eznumber" fields (no data rows for this field definition at all) are
@@ -298,9 +294,8 @@ class MapperTest extends LanguageAwareTestCase
             $contentTypeHandlerMock,
             $this->getEventDispatcher(),
             $this->getFieldTypeAliasResolver(),
-            $this->getLanguageGatewayStub($rowsFixture),
         );
-        $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture);
+        $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture, $this->getVersionLanguageIds($rowsFixture));
 
         $expectedContent = $this->getContentExtractReference();
         $expectedContent->fields = array_values(
@@ -345,9 +340,8 @@ class MapperTest extends LanguageAwareTestCase
             $contentTypeHandlerMock,
             $this->getEventDispatcher(),
             $this->getFieldTypeAliasResolver(),
-            $this->getLanguageGatewayStub($rowsFixture),
         );
-        $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture);
+        $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture, $this->getVersionLanguageIds($rowsFixture));
 
         self::assertCount(
             2,
@@ -512,7 +506,6 @@ class MapperTest extends LanguageAwareTestCase
             $this->getContentTypeHandler(),
             $this->getEventDispatcher(),
             $this->getFieldTypeAliasResolver(),
-            $this->getLanguageGatewayStub(),
         );
         self::assertEquals($contentInfoReference, $mapper->extractContentInfoFromRow($fixtures, $prefix));
     }
@@ -673,43 +666,26 @@ class MapperTest extends LanguageAwareTestCase
             $this->getContentTypeHandler(),
             $this->getEventDispatcher(),
             $this->getFieldTypeAliasResolver(),
-            $this->getLanguageGatewayStub(),
         );
     }
 
     /**
-     * Builds a Language Gateway stub whose loadVersionTranslations() collects the distinct set of
-     * real (non-always-available) language ids each version's fields are written in from $rows -
-     * the relational replacement for decoding "content_version_language_mask".
-     *
-     * These fixtures predate "content_field_language_id" always being a pure id - some rows still
-     * carry the legacy "indicator" encoding (id with the always-available bit folded in), so mask
-     * it off the same way decoding "content_version_language_mask" used to (implicitly, by never
-     * testing bit 0).
-     *
      * @param array<array<string, scalar>> $rows
+     *
+     * @return array<int, int[]>
      */
-    protected function getLanguageGatewayStub(
-        array $rows = [],
-        string $prefix = 'content_'
-    ): LanguageGateway {
+    private function getVersionLanguageIds(array $rows): array
+    {
         $versionLanguageIds = [];
         foreach ($rows as $row) {
-            $versionId = (int)$row["{$prefix}version_id"];
-            $languageId = (int)$row["{$prefix}field_language_id"] & ~1;
-            if (!isset($versionLanguageIds[$versionId])) {
-                $versionLanguageIds[$versionId] = [];
-            }
-            if (!in_array($languageId, $versionLanguageIds[$versionId], true)) {
+            $versionId = (int)$row['content_version_id'];
+            $languageId = (int)$row['content_field_language_id'] & ~1;
+            if (!in_array($languageId, $versionLanguageIds[$versionId] ?? [], true)) {
                 $versionLanguageIds[$versionId][] = $languageId;
             }
         }
 
-        $gateway = $this->createMock(LanguageGateway::class);
-        $gateway->method('loadVersionTranslations')->willReturn($versionLanguageIds);
-        $gateway->method('loadContentTranslations')->willReturn([]);
-
-        return $gateway;
+        return $versionLanguageIds;
     }
 
     /**
