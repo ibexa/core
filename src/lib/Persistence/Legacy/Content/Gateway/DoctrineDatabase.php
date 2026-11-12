@@ -2251,6 +2251,37 @@ final class DoctrineDatabase extends Gateway
         $contentTable = Gateway::CONTENT_ITEM_TABLE;
         $versionTable = Gateway::CONTENT_VERSION_TABLE;
         $versionTranslationTable = Gateway::CONTENT_VERSION_TRANSLATION_TABLE;
+
+        $versionIdsQuery = $this->connection->createQueryBuilder();
+        $versionIdsQuery
+            ->select('id')
+            ->from($versionTable)
+            ->where('contentobject_id = :contentId')
+            ->andWhere(
+                // make sure removed translation is not the last one
+                "EXISTS (SELECT 1 FROM {$versionTranslationTable} cvt WHERE cvt.content_version_id = {$versionTable}.id AND cvt.language_id != :languageId)"
+            )
+            ->setParameter('contentId', $contentId, ParameterType::INTEGER)
+            ->setParameter('languageId', $languageId, ParameterType::INTEGER)
+        ;
+
+        if (null !== $versionNo) {
+            $versionIdsQuery
+                ->andWhere('version = :versionNo')
+                ->setParameter('versionNo', $versionNo, ParameterType::INTEGER)
+            ;
+        }
+
+        $versionIds = array_map('intval', $versionIdsQuery->executeQuery()->fetchFirstColumn());
+
+        // most likely somehow it was the last remaining translation
+        if ($versionIds === []) {
+            throw new BadStateException(
+                '$languageCode',
+                'The provided translation is the only translation in this version'
+            );
+        }
+
         $query = $this->connection->createQueryBuilder();
         $query->update($versionTable)
             // parameter for bitwise operation has to be placed verbatim (w/o binding) for this to work cross-DBMS
@@ -2263,74 +2294,19 @@ final class DoctrineDatabase extends Gateway
                 "THEN (SELECT initial_language_id AS main_language_id FROM $contentTable c WHERE c.id = :contentId) " .
                 'ELSE initial_language_id END'
             )
-            ->where('contentobject_id = :contentId')
-            ->andWhere(
-                // make sure removed translation is not the last one (incl. alwaysAvailable)
-                "EXISTS (SELECT 1 FROM {$versionTranslationTable} cvt WHERE cvt.content_version_id = {$versionTable}.id AND cvt.language_id != :languageId)"
-            )
+            ->where($query->expr()->in('id', ':versionIds'))
             ->setParameter('now', time())
             ->setParameter('contentId', $contentId)
             ->setParameter('languageId', $languageId)
+            ->setParameter('versionIds', $versionIds, ArrayParameterType::INTEGER)
         ;
-
-        if (null !== $versionNo) {
-            $query
-                ->andWhere('version = :versionNo')
-                ->setParameter('versionNo', $versionNo)
-            ;
-        }
-
-        // Checked as its own query rather than via the UPDATE's affected-row count: MySQL's PDO
-        // driver reports "rows changed", not "rows matched", by default - if a version's
-        // "modified"/"initial_language_id" happen to already hold the values being set (e.g. two
-        // operations landing within the same time() second), MySQL reports 0 affected rows even
-        // though the WHERE/EXISTS clause matched, which would incorrectly look like "no other
-        // translation exists" here.
-        $hasOtherLanguagesQuery = $this->connection->createQueryBuilder();
-        $hasOtherLanguagesQuery
-            ->select('1')
-            ->from($versionTable)
-            ->where('contentobject_id = :contentId')
-            ->andWhere(
-                "EXISTS (SELECT 1 FROM {$versionTranslationTable} cvt WHERE cvt.content_version_id = {$versionTable}.id AND cvt.language_id != :languageId)"
-            )
-            ->setParameter('contentId', $contentId)
-            ->setParameter('languageId', $languageId)
-        ;
-
-        if (null !== $versionNo) {
-            $hasOtherLanguagesQuery
-                ->andWhere('version = :versionNo')
-                ->setParameter('versionNo', $versionNo)
-            ;
-        }
-
-        $hasOtherLanguages = (bool)$hasOtherLanguagesQuery->executeQuery()->fetchOne();
-
-        // most likely somehow it was the last remaining translation
-        if (!$hasOtherLanguages) {
-            throw new BadStateException(
-                '$languageCode',
-                'The provided translation is the only translation in this version'
-            );
-        }
-
         $query->executeStatement();
 
-        $deleteQuery = "DELETE FROM {$versionTranslationTable}
-             WHERE language_id = :languageId
-             AND content_version_id IN (
-                 SELECT id FROM {$versionTable} WHERE contentobject_id = :contentId"
-            . (null !== $versionNo ? ' AND version = :versionNo' : '') . ')';
-
-        $deleteParams = ['contentId' => $contentId, 'languageId' => $languageId];
-        $deleteTypes = ['contentId' => ParameterType::INTEGER, 'languageId' => ParameterType::INTEGER];
-        if (null !== $versionNo) {
-            $deleteParams['versionNo'] = $versionNo;
-            $deleteTypes['versionNo'] = ParameterType::INTEGER;
-        }
-
-        $this->connection->executeStatement($deleteQuery, $deleteParams, $deleteTypes);
+        $this->connection->executeStatement(
+            "DELETE FROM {$versionTranslationTable} WHERE language_id = :languageId AND content_version_id IN (:versionIds)",
+            ['languageId' => $languageId, 'versionIds' => $versionIds],
+            ['languageId' => ParameterType::INTEGER, 'versionIds' => ArrayParameterType::INTEGER]
+        );
     }
 
     /**
