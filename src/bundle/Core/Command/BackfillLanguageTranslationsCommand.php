@@ -116,12 +116,12 @@ final class BackfillLanguageTranslationsCommand
             ],
             self::TABLE_URL_ALIAS => [
                 'ibexa_url_alias_ml',
-                'parent',
+                'id',
                 'lang_mask',
                 'INSERT %s INTO ibexa_url_alias_ml_translation (parent, text_md5, language_id)
                  SELECT u.parent, u.text_md5, l.id FROM ibexa_url_alias_ml u
                  JOIN %s l ON (u.lang_mask & l.id) = l.id
-                 WHERE u.parent BETWEEN :from AND :to %s',
+                 WHERE u.id BETWEEN :from AND :to %s',
                 null,
             ],
             default => throw new InvalidArgumentException('table', "unknown table \"{$table}\"."),
@@ -235,7 +235,7 @@ final class BackfillLanguageTranslationsCommand
                  )",
             self::TABLE_URL_ALIAS => "SELECT COUNT(*) FROM ibexa_url_alias_ml u
                  JOIN {$languageTable} l ON (u.lang_mask & l.id) = l.id
-                 WHERE u.parent BETWEEN :from AND :to
+                 WHERE u.id BETWEEN :from AND :to
                  AND NOT EXISTS (
                      SELECT 1 FROM ibexa_url_alias_ml_translation t
                      WHERE t.parent = u.parent AND t.text_md5 = u.text_md5 AND t.language_id = l.id

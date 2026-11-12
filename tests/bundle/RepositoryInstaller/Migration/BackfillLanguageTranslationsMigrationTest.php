@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Bundle\RepositoryInstaller\Migration;
 
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\Query\Query;
 use Ibexa\Bundle\RepositoryInstaller\Migration\BackfillLanguageTranslationsMigration;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\MigrationRunContext;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
@@ -70,15 +71,55 @@ final class BackfillLanguageTranslationsMigrationTest extends TestCase
         $this->assertBackfilled();
     }
 
-    private function runMigration(): void
+    public function testChunksUrlAliasesById(): void
+    {
+        $connection = $this->getDatabaseConnection();
+        foreach ([1 => ['foo', 'acbd18db4cc2f85cedef654fccc4a4d8'], 5001 => ['bar', '37b51d194a7513e45b56f6524f2d51f2']] as $id => [$text, $textMd5]) {
+            $connection->insert('ibexa_url_alias_ml', [
+                'parent' => 0,
+                'text_md5' => $textMd5,
+                'id' => $id,
+                'text' => $text,
+                'action' => 'eznode:' . $id,
+                'action_type' => 'eznode',
+                'lang_mask' => 7,
+            ], ['lang_mask' => ParameterType::INTEGER]);
+        }
+
+        $queries = $this->runMigration();
+
+        self::assertCount(
+            2,
+            array_filter(
+                $queries,
+                static fn (Query $query): bool => str_contains($query->getStatement(), 'ibexa_url_alias_ml_translation')
+            )
+        );
+        self::assertEquals(
+            [[1, 2], [1, 4], [5001, 2], [5001, 4]],
+            $connection->fetchAllNumeric(
+                'SELECT u.id, t.language_id FROM ibexa_url_alias_ml_translation t
+                 JOIN ibexa_url_alias_ml u ON u.parent = t.parent AND u.text_md5 = t.text_md5
+                 ORDER BY u.id, t.language_id'
+            )
+        );
+    }
+
+    /**
+     * @return Query[]
+     */
+    private function runMigration(): array
     {
         $connection = $this->getDatabaseConnection();
         $migration = new BackfillLanguageTranslationsMigration($connection, new NullLogger(), new MigrationRunContext());
         $migration->up(new Schema());
 
-        foreach ($migration->getSql() as $query) {
+        $queries = $migration->getSql();
+        foreach ($queries as $query) {
             $connection->executeStatement($query->getStatement(), $query->getParameters(), $query->getTypes());
         }
+
+        return $queries;
     }
 
     private function assertBackfilled(): void
