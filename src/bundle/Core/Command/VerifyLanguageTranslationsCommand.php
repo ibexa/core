@@ -15,9 +15,8 @@ use Ibexa\Bundle\RepositoryInstaller\Migration\BackfillLanguageTranslationsMigra
 use Ibexa\Bundle\RepositoryInstaller\Migration\DropLanguageBitmaskColumnsMigration;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -38,9 +37,20 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 #[AsCommand(
     name: 'ibexa:languages:verify-translations',
-    description: 'Verifies the language translation tables against the legacy language bitmask columns'
+    description: 'Verifies the language translation tables against the legacy language bitmask columns',
+    help: <<<'EOT'
+        The command <info>%command.name%</info> compares "ibexa_content_translation",
+        "ibexa_content_version_translation" and "ibexa_url_alias_ml_translation" against the
+        "language_mask"/"lang_mask" columns they were backfilled from, reporting:
+          - <comment>missing</comment>: a language bit set in the mask with no corresponding translation row
+          - <comment>orphaned</comment>: a translation row whose bit is no longer set in the mask
+
+        Exits non-zero if any drift is found and <info>--fix</info> was not passed. Run this after
+        <info>ibexa:languages:backfill-translations</info>, and again before relying on the translation
+        tables for anything - a clean report here is the precondition for every later migration step.
+        EOT,
 )]
-final class VerifyLanguageTranslationsCommand extends Command
+final class VerifyLanguageTranslationsCommand
 {
     private const string TABLE_CONTENT = 'content';
     private const string TABLE_CONTENT_VERSION = 'content_version';
@@ -159,53 +169,15 @@ final class VerifyLanguageTranslationsCommand extends Command
         };
     }
 
-    public function __construct(private readonly Connection $connection)
-    {
-        parent::__construct();
-    }
+    public function __construct(private readonly Connection $connection) {}
 
-    protected function configure(): void
-    {
-        $this
-            ->addOption(
-                'table',
-                't',
-                InputOption::VALUE_OPTIONAL,
-                sprintf(
-                    'Which table to verify: one of "%s", or "%s" for all of them.',
-                    implode('", "', self::VALID_TABLES),
-                    self::TABLE_ALL
-                ),
-                self::TABLE_ALL
-            )
-            ->addOption(
-                'fix',
-                null,
-                InputOption::VALUE_NONE,
-                'Insert missing rows and delete orphaned rows to bring the translation table back in sync.'
-            )
-            ->setHelp(
-                <<<EOT
-The command <info>%command.name%</info> compares "ibexa_content_translation",
-"ibexa_content_version_translation" and "ibexa_url_alias_ml_translation" against the
-"language_mask"/"lang_mask" columns they were backfilled from, reporting:
-  - <comment>missing</comment>: a language bit set in the mask with no corresponding translation row
-  - <comment>orphaned</comment>: a translation row whose bit is no longer set in the mask
-
-Exits non-zero if any drift is found and <info>--fix</info> was not passed. Run this after
-<info>ibexa:languages:backfill-translations</info>, and again before relying on the translation
-tables for anything - a clean report here is the precondition for every later migration step.
-EOT
-            );
-    }
-
-    protected function execute(
-        InputInterface $input,
-        OutputInterface $output
+    public function __invoke(
+        OutputInterface $output,
+        #[Option(description: 'Which table to verify: one of "content", "content_version", "url_alias", or "all" for all of them.', shortcut: 't')]
+        string $table = self::TABLE_ALL,
+        #[Option(description: 'Insert missing rows and delete orphaned rows to bring the translation table back in sync.')]
+        bool $fix = false,
     ): int {
-        $table = $input->getOption('table');
-        $fix = (bool)$input->getOption('fix');
-
         $tables = $table === self::TABLE_ALL ? self::VALID_TABLES : [$table];
         foreach ($tables as $singleTable) {
             if (!isset(self::SOURCE_TABLES[$singleTable])) {
@@ -229,18 +201,18 @@ EOT
         if ($clean) {
             $output->writeln('<info>All checked translation tables are in sync with their language masks.</info>');
 
-            return self::SUCCESS;
+            return Command::SUCCESS;
         }
 
         if ($fix) {
             $output->writeln('<info>Drift found and fixed.</info>');
 
-            return self::SUCCESS;
+            return Command::SUCCESS;
         }
 
         $output->writeln('<error>Drift found. Re-run with --fix to correct it.</error>');
 
-        return self::FAILURE;
+        return Command::FAILURE;
     }
 
     private function verifyTable(
