@@ -65,17 +65,17 @@ final class SchemaBuilderTablesSchemaListenerTest extends TestCase
             ->create();
 
         $target = Schema::editor()->create();
-        $this->dispatch($this->createListener($ibexaSchema), $target, new PostgreSQLPlatform());
+        $result = $this->dispatch($this->createListener($ibexaSchema), $target, new PostgreSQLPlatform());
 
-        self::assertTrue($target->hasTable('ibexa_legacy'));
-        $copy = $target->getTable('ibexa_legacy');
+        self::assertTrue($result->hasTable('ibexa_legacy'));
+        $copy = $result->getTable('ibexa_legacy');
         self::assertTrue($copy->hasColumn('id') && $copy->hasColumn('name'));
         self::assertSame(['id'], $this->toStrings($copy->getPrimaryKeyConstraint()?->getColumnNames() ?? []));
-        self::assertTrue($copy->getIndex('ibexa_legacy_name')->isUnique());
+        self::assertSame(IndexType::UNIQUE, $copy->getIndex('ibexa_legacy_name')->getType());
         self::assertSame('InnoDB', $copy->getOption('engine'));
-        self::assertTrue($target->hasSequence('ibexa_legacy_seq'));
-        self::assertSame(5, $target->getSequence('ibexa_legacy_seq')->getAllocationSize());
-        self::assertSame(10, $target->getSequence('ibexa_legacy_seq')->getInitialValue());
+        self::assertTrue($result->hasSequence('ibexa_legacy_seq'));
+        self::assertSame(5, $result->getSequence('ibexa_legacy_seq')->getAllocationSize());
+        self::assertSame(10, $result->getSequence('ibexa_legacy_seq')->getInitialValue());
     }
 
     public function testLeavesTablesAndSequencesAlreadyInTargetAlone(): void
@@ -90,11 +90,11 @@ final class SchemaBuilderTablesSchemaListenerTest extends TestCase
             ->addSequence(Sequence::editor()->setUnquotedName('shared_seq')->setAllocationSize(50)->create())
             ->create();
 
-        $this->dispatch($this->createListener($ibexaSchema), $target, new PostgreSQLPlatform());
+        $result = $this->dispatch($this->createListener($ibexaSchema), $target, new PostgreSQLPlatform());
 
-        self::assertTrue($target->getTable('shared')->hasColumn('from_orm'));
-        self::assertFalse($target->getTable('shared')->hasColumn('from_ibexa'));
-        self::assertSame(50, $target->getSequence('shared_seq')->getAllocationSize());
+        self::assertTrue($result->getTable('shared')->hasColumn('from_orm'));
+        self::assertFalse($result->getTable('shared')->hasColumn('from_ibexa'));
+        self::assertSame(50, $result->getSequence('shared_seq')->getAllocationSize());
     }
 
     /**
@@ -125,11 +125,11 @@ final class SchemaBuilderTablesSchemaListenerTest extends TestCase
             ->create();
 
         $target = Schema::editor()->create();
-        $this->dispatch($this->createListener($ibexaSchema), $target, $platform);
+        $result = $this->dispatch($this->createListener($ibexaSchema), $target, $platform);
 
         $lengths = array_map(
             static fn (IndexedColumn $column): ?int => $column->getLength(),
-            $target->getTable('indexed')->getIndex('indexed_name')->getIndexedColumns()
+            $result->getTable('indexed')->getIndex('indexed_name')->getIndexedColumns()
         );
         self::assertSame($expectedLengths, $lengths);
     }
@@ -159,9 +159,9 @@ final class SchemaBuilderTablesSchemaListenerTest extends TestCase
             ->create();
 
         $target = Schema::editor()->create();
-        $this->dispatch($this->createListener($ibexaSchema), $target, new PostgreSQLPlatform());
+        $result = $this->dispatch($this->createListener($ibexaSchema), $target, new PostgreSQLPlatform());
 
-        $copy = $target->getTable('defaults');
+        $copy = $result->getTable('defaults');
         self::assertSame('0', $copy->getColumn('int_col')->getDefault());
         self::assertSame('1.5', $copy->getColumn('float_col')->getDefault());
         self::assertSame('x', $copy->getColumn('string_col')->getDefault());
@@ -189,14 +189,31 @@ final class SchemaBuilderTablesSchemaListenerTest extends TestCase
             ->create();
 
         $target = Schema::editor()->create();
-        $this->dispatch($this->createListener($ibexaSchema), $target, new PostgreSQLPlatform());
+        $result = $this->dispatch($this->createListener($ibexaSchema), $target, new PostgreSQLPlatform());
 
-        $foreignKey = $target->getTable('child')->getForeignKey('fk_child_parent');
+        $foreignKey = $result->getTable('child')->getForeignKey('fk_child_parent');
         self::assertSame('parent', $foreignKey->getReferencedTableName()->toString());
         self::assertSame(['parent_id'], $this->toStrings($foreignKey->getReferencingColumnNames()));
         self::assertSame(['id'], $this->toStrings($foreignKey->getReferencedColumnNames()));
         self::assertSame(ReferentialAction::CASCADE, $foreignKey->getOnDeleteAction());
         self::assertSame(ReferentialAction::SET_NULL, $foreignKey->getOnUpdateAction());
+    }
+
+    public function testKeepsTargetContentWhenReplacingTheSchema(): void
+    {
+        $ibexaSchema = Schema::editor()->addTable($this->createTable('ibexa_legacy', 'id'))->create();
+
+        $target = Schema::editor()
+            ->addTable($this->createTable('orm_entity', 'id'))
+            ->addSequence(Sequence::editor()->setUnquotedName('orm_seq')->create())
+            ->create();
+
+        $result = $this->dispatch($this->createListener($ibexaSchema), $target, new PostgreSQLPlatform());
+
+        self::assertTrue($result->hasTable('orm_entity'));
+        self::assertTrue($result->hasTable('ibexa_legacy'));
+        self::assertTrue($result->hasSequence('orm_seq'));
+        self::assertFalse($target->hasTable('ibexa_legacy'), 'The original schema must not be mutated');
     }
 
     public function testDoesNotRecurseWhileBuildingTheSchema(): void
@@ -217,10 +234,9 @@ final class SchemaBuilderTablesSchemaListenerTest extends TestCase
             });
         $listener = new SchemaBuilderTablesSchemaListener($schemaBuilder);
 
-        $target = Schema::editor()->create();
-        $this->dispatch($listener, $target, new PostgreSQLPlatform());
+        $result = $this->dispatch($listener, Schema::editor()->create(), new PostgreSQLPlatform());
 
-        self::assertTrue($target->hasTable('ibexa_legacy'));
+        self::assertTrue($result->hasTable('ibexa_legacy'));
     }
 
     public function testResetsRecursionGuardWhenBuildingTheSchemaFails(): void
@@ -295,12 +311,15 @@ final class SchemaBuilderTablesSchemaListenerTest extends TestCase
         SchemaBuilderTablesSchemaListener $listener,
         Schema $target,
         AbstractPlatform $platform
-    ): void {
+    ): Schema {
         $connection = self::createStub(Connection::class);
         $connection->method('getDatabasePlatform')->willReturn($platform);
         $entityManager = self::createStub(EntityManagerInterface::class);
         $entityManager->method('getConnection')->willReturn($connection);
 
-        $listener->postGenerateSchema(new GenerateSchemaEventArgs($entityManager, $target));
+        $args = new GenerateSchemaEventArgs($entityManager, $target);
+        $listener->postGenerateSchema($args);
+
+        return $args->getSchema();
     }
 }

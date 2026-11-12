@@ -8,13 +8,10 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Doctrine;
 
-use Closure;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\ColumnEditor;
 use Doctrine\DBAL\Schema\Index\IndexedColumn;
 use Doctrine\DBAL\Schema\Name\UnqualifiedName;
-use Doctrine\DBAL\Schema\Schema;
-use Doctrine\DBAL\Schema\Sequence;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\ORM\Tools\Event\GenerateSchemaEventArgs;
 use Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface;
@@ -59,17 +56,21 @@ final class SchemaBuilderTablesSchemaListener
         $target = $args->getSchema();
         $platform = $args->getEntityManager()->getConnection()->getDatabasePlatform();
 
+        $editor = $target->edit();
+
         foreach ($ibexaSchema->getTables() as $table) {
             if (!$target->hasTable($table->getObjectName()->toString())) {
-                $this->addTable($target, $this->normalizeForIntrospection($table, $platform));
+                $editor->addTable($this->normalizeForIntrospection($table, $platform));
             }
         }
 
         foreach ($ibexaSchema->getSequences() as $sequence) {
             if (!$target->hasSequence($sequence->getObjectName()->toString())) {
-                $this->addSequence($target, $sequence);
+                $editor->addSequence($sequence);
             }
         }
+
+        $args->setSchema($editor->create());
     }
 
     /**
@@ -130,30 +131,5 @@ final class SchemaBuilderTablesSchemaListener
         }
 
         return false;
-    }
-
-    // ponytail: DBAL 4.5 deprecated every public way to add a table or sequence to an existing Schema
-    // (Schema::createTable()/createSequence() and the Table mutators needed to fill the result),
-    // and offers no editor-based alternative for a Schema we did not build: Schema::edit() ->
-    // SchemaEditor::create() returns a new Schema, but ORM's GenerateSchemaEventArgs holds the
-    // original one. So the protected Schema::_addTable()/_addSequence() (what createTable() itself
-    // ends in) are called from Schema's scope, which lets the table be built with the editor API.
-    // This is the only place to touch when DBAL 5 / ORM 4 let a listener replace or extend the schema.
-    private function addTable(
-        Schema $schema,
-        Table $table
-    ): void {
-        Closure::bind(static function () use ($schema, $table): void {
-            $schema->_addTable($table);
-        }, null, Schema::class)();
-    }
-
-    private function addSequence(
-        Schema $schema,
-        Sequence $sequence
-    ): void {
-        Closure::bind(static function () use ($schema, $sequence): void {
-            $schema->_addSequence($sequence);
-        }, null, Schema::class)();
     }
 }
