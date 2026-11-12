@@ -16,32 +16,7 @@ use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationInterface;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
 
 /**
- * Backfills "ibexa_content_translation", "ibexa_content_version_translation" and
- * "ibexa_url_alias_ml_translation" from the legacy "language_mask"/"lang_mask" bitmask columns
- * (step 2 of the language bitmask migration), so DropLanguageBitmaskColumnsMigration can safely
- * drop those columns afterward.
- *
- * Chunked by primary-key range via repeated {@see addSql()} calls, and executed non-transactionally
- * ({@see isTransactional()}), rather than as a single `INSERT ... SELECT` - "ibexa_content"/
- * "ibexa_content_version"/"ibexa_url_alias_ml" can hold tens of millions of rows on a mature
- * install, and one giant statement in one transaction risks an enormous undo log/WAL. With each
- * chunk committed independently, a failed/interrupted run only has to redo the (idempotent, cheap -
- * "INSERT IGNORE"/"ON CONFLICT DO NOTHING") already-completed chunks on retry, not roll everything
- * back. This still uses `addSql()` rather than executing directly, so `--dry-run` previews it like
- * any other migration instead of silently writing anyway.
- *
- * The decomposition needs no PHP-side bit-walking or a recursive CTE: "ibexa_content_language"
- * already contains every valid bit value, so joining against it with a bitwise AND does the
- * decomposition in SQL directly.
- *
- * The manual `ibexa:languages:backfill-translations`/`ibexa:languages:verify-translations` commands
- * remain available for a dry-run preview or manual repair, but running them separately is no longer
- * a required step before the drop migration - this migration already does the same job as part of
- * the standard migration sequence, during the same maintenance window.
- *
- * Guarded via the connection's schema manager rather than the injected $schema, because
- * TaggedMigrationsRunner (the "ibexa:install" path) invokes up() with an empty Schema, so
- * $schema->hasTable()/hasColumn() would always report false there.
+ * Backfills "always_available" and the language translation tables from the legacy language bitmask columns.
  */
 final class BackfillLanguageTranslationsMigration extends AbstractSqlMigration implements IbexaMigrationInterface
 {
@@ -49,7 +24,7 @@ final class BackfillLanguageTranslationsMigration extends AbstractSqlMigration i
 
     public function getDescription(): string
     {
-        return 'Backfills the language translation tables from the legacy language bitmask columns';
+        return 'Backfills "always_available" and the language translation tables from the legacy language bitmask columns';
     }
 
     public static function getTargetVersion(): string
@@ -76,6 +51,9 @@ final class BackfillLanguageTranslationsMigration extends AbstractSqlMigration i
             // doesn't exist - a project-only install without core's own content tables).
             return;
         }
+
+        $this->backfillAlwaysAvailable('ibexa_content');
+        $this->backfillAlwaysAvailable('ibexa_content_version');
 
         $this->backfillTable(
             'ibexa_content',
@@ -108,11 +86,36 @@ final class BackfillLanguageTranslationsMigration extends AbstractSqlMigration i
         );
     }
 
+    private function backfillAlwaysAvailable(string $sourceTable): void
+    {
+        $this->addChunkedSql(
+            $sourceTable,
+            'language_mask',
+            'id',
+            "UPDATE {$sourceTable} SET always_available = ((language_mask & 1) = 1)
+             WHERE id BETWEEN :from AND :to AND always_available <> ((language_mask & 1) = 1)"
+        );
+    }
+
     private function backfillTable(
         string $sourceTable,
         string $maskColumn,
         string $pkColumn,
         string $insertSqlTemplate
+    ): void {
+        $this->addChunkedSql(
+            $sourceTable,
+            $maskColumn,
+            $pkColumn,
+            sprintf($insertSqlTemplate, $this->insertIgnoreKeyword(), $this->onConflictClause())
+        );
+    }
+
+    private function addChunkedSql(
+        string $sourceTable,
+        string $maskColumn,
+        string $pkColumn,
+        string $sql
     ): void {
         $schemaManager = $this->connection->createSchemaManager();
         if (
@@ -137,12 +140,10 @@ final class BackfillLanguageTranslationsMigration extends AbstractSqlMigration i
         $minId = (int)$range['min_id'];
         $maxId = (int)$range['max_id'];
 
-        $insertSql = sprintf($insertSqlTemplate, $this->insertIgnoreKeyword(), $this->onConflictClause());
-
         for ($from = $minId; $from <= $maxId; $from += self::BATCH_SIZE) {
             $to = min($from + self::BATCH_SIZE - 1, $maxId);
             $this->addSql(
-                $insertSql,
+                $sql,
                 ['from' => $from, 'to' => $to],
                 ['from' => ParameterType::INTEGER, 'to' => ParameterType::INTEGER]
             );
