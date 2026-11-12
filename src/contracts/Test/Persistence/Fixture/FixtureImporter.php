@@ -25,14 +25,10 @@ use Ibexa\DoctrineSchema\Filter\SchemaAssetsFilterBypass;
  */
 final class FixtureImporter
 {
-    private Connection $connection;
-
-    private SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass;
-
     /**
      * Join tables referencing "ibexa_content_language" (ON DELETE RESTRICT), keyed to the table owning their rows.
      */
-    private const LANGUAGE_TRANSLATION_TABLES = [
+    private const array LANGUAGE_TRANSLATION_TABLES = [
         'ibexa_content_translation' => 'ibexa_content',
         'ibexa_content_version_translation' => 'ibexa_content_version',
         'ibexa_url_alias_ml_translation' => 'ibexa_url_alias_ml',
@@ -45,12 +41,9 @@ final class FixtureImporter
     private static array $existingColumnsByTable = [];
 
     public function __construct(
-        Connection $connection,
-        ?SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass = null
-    ) {
-        $this->connection = $connection;
-        $this->schemaAssetsFilterBypass = $schemaAssetsFilterBypass ?? new SchemaAssetsFilterBypass();
-    }
+        private readonly Connection $connection,
+        private readonly SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass = new SchemaAssetsFilterBypass()
+    ) {}
 
     /**
      * @throws Exception
