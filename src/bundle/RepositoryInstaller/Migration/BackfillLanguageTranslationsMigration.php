@@ -78,11 +78,11 @@ final class BackfillLanguageTranslationsMigration extends AbstractSqlMigration i
         $this->backfillTable(
             'ibexa_url_alias_ml',
             'lang_mask',
-            'parent',
+            'id',
             'INSERT %s INTO ibexa_url_alias_ml_translation (parent, text_md5, language_id)
              SELECT u.parent, u.text_md5, l.id FROM ibexa_url_alias_ml u
              JOIN ibexa_content_language l ON (u.lang_mask & l.id) = l.id
-             WHERE u.parent BETWEEN :from AND :to %s'
+             WHERE u.id BETWEEN :from AND :to %s'
         );
     }
 
