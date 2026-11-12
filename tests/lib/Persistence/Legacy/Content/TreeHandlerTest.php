@@ -52,7 +52,7 @@ class TreeHandlerTest extends TestCase
             ->expects($this->once())
             ->method('listVersions')
             ->with(self::equalTo(23))
-            ->will($this->returnValue([['content_version_version' => 2]]));
+            ->will($this->returnValue([['content_version_id' => 5, 'content_version_version' => 2]]));
 
         $this->getContentGatewayMock()
             ->expects($this->once())
@@ -60,10 +60,16 @@ class TreeHandlerTest extends TestCase
             ->with(self::equalTo([['id' => 23, 'version' => 2]]))
             ->will($this->returnValue([]));
 
+        $this->getContentGatewayMock()
+            ->expects($this->once())
+            ->method('loadVersionTranslations')
+            ->with([5])
+            ->willReturn([5 => [2]]);
+
         $this->getContentMapperMock()
             ->expects($this->once())
             ->method('extractVersionInfoListFromRows')
-            ->with(self::equalTo([['content_version_version' => 2]]), [])
+            ->with(self::equalTo([['content_version_id' => 5, 'content_version_version' => 2]]), [], [5 => [2]])
             ->will($this->returnValue([new VersionInfo()]));
 
         $versions = $this->getTreeHandler()->listVersions(23);
