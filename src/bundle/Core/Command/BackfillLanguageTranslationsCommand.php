@@ -15,9 +15,8 @@ use Ibexa\Contracts\DoctrineSchema\Database\DatabasePlatformName;
 use Ibexa\Contracts\DoctrineSchema\Database\DatabasePlatformResolver;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -37,9 +36,17 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 #[AsCommand(
     name: 'ibexa:languages:backfill-translations',
-    description: 'Backfills the language translation tables from the legacy language bitmask columns'
+    description: 'Backfills the language translation tables from the legacy language bitmask columns',
+    help: <<<'EOT'
+        The command <info>%command.name%</info> populates "ibexa_content_translation",
+        "ibexa_content_version_translation" and "ibexa_url_alias_ml_translation" from the existing
+        "language_mask"/"lang_mask" bitmask columns. It is idempotent - already-backfilled rows are
+        skipped - so it is safe to re-run, including after a partial/interrupted run.
+
+        Run <info>ibexa:languages:verify-translations</info> afterward to confirm the backfill is complete.
+        EOT,
 )]
-final class BackfillLanguageTranslationsCommand extends Command
+final class BackfillLanguageTranslationsCommand
 {
     private const int DEFAULT_BATCH_SIZE = 5000;
 
@@ -54,58 +61,17 @@ final class BackfillLanguageTranslationsCommand extends Command
         self::TABLE_URL_ALIAS,
     ];
 
-    public function __construct(private readonly Connection $connection)
-    {
-        parent::__construct();
-    }
+    public function __construct(private readonly Connection $connection) {}
 
-    protected function configure(): void
-    {
-        $this
-            ->addOption(
-                'table',
-                't',
-                InputOption::VALUE_OPTIONAL,
-                sprintf(
-                    'Which table to backfill: one of "%s", or "%s" for all of them.',
-                    implode('", "', self::VALID_TABLES),
-                    self::TABLE_ALL
-                ),
-                self::TABLE_ALL
-            )
-            ->addOption(
-                'batch-size',
-                null,
-                InputOption::VALUE_OPTIONAL,
-                'Number of primary-key values processed per batch.',
-                (string)self::DEFAULT_BATCH_SIZE
-            )
-            ->addOption(
-                'dry-run',
-                null,
-                InputOption::VALUE_NONE,
-                'Report how many rows would be inserted per batch without writing anything.'
-            )
-            ->setHelp(
-                <<<EOT
-The command <info>%command.name%</info> populates "ibexa_content_translation",
-"ibexa_content_version_translation" and "ibexa_url_alias_ml_translation" from the existing
-"language_mask"/"lang_mask" bitmask columns. It is idempotent - already-backfilled rows are
-skipped - so it is safe to re-run, including after a partial/interrupted run.
-
-Run <info>ibexa:languages:verify-translations</info> afterward to confirm the backfill is complete.
-EOT
-            );
-    }
-
-    protected function execute(
-        InputInterface $input,
-        OutputInterface $output
+    public function __invoke(
+        OutputInterface $output,
+        #[Option(description: 'Which table to backfill: one of "content", "content_version", "url_alias", or "all" for all of them.', shortcut: 't')]
+        string $table = self::TABLE_ALL,
+        #[Option(description: 'Number of primary-key values processed per batch.')]
+        int $batchSize = self::DEFAULT_BATCH_SIZE,
+        #[Option(description: 'Report how many rows would be inserted per batch without writing anything.')]
+        bool $dryRun = false,
     ): int {
-        $table = $input->getOption('table');
-        $batchSize = (int)$input->getOption('batch-size');
-        $dryRun = (bool)$input->getOption('dry-run');
-
         if ($batchSize < 1) {
             throw new InvalidArgumentException('batch-size', 'must be a positive integer.');
         }
@@ -129,7 +95,7 @@ EOT
             $this->backfillTable($singleTable, $batchSize, $dryRun, $output);
         }
 
-        return self::SUCCESS;
+        return Command::SUCCESS;
     }
 
     private function backfillTable(
