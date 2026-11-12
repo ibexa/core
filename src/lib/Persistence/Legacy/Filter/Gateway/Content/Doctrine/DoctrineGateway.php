@@ -223,7 +223,7 @@ final class DoctrineGateway implements Gateway
                     // the same defensive way LanguagePriorityConditionBuilder does for
                     // ibexa_content_field.language_id.
                     'EXISTS (
-                        SELECT 1 FROM ibexa_content_version_translation cvt
+                        SELECT 1 FROM ' . ContentGateway::CONTENT_VERSION_TRANSLATION_TABLE . ' cvt
                         WHERE cvt.content_version_id = version.id
                         AND content_name.language_id IN (cvt.language_id, cvt.language_id + 1)
                     )'
@@ -266,7 +266,7 @@ final class DoctrineGateway implements Gateway
                     // available" bit (+1) that was never cleaned up retroactively - see the same
                     // tolerance in bulkFetchVersionNames() above.
                     'EXISTS (
-                        SELECT 1 FROM ibexa_content_version_translation cvt
+                        SELECT 1 FROM ' . ContentGateway::CONTENT_VERSION_TRANSLATION_TABLE . ' cvt
                         WHERE cvt.content_version_id = version.id
                         AND content_field.language_id IN (cvt.language_id, cvt.language_id + 1)
                     )'

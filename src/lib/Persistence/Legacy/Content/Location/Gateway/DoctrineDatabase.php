@@ -1492,7 +1492,7 @@ final class DoctrineDatabase extends Gateway
         $translationSubQuery = $this->connection->createQueryBuilder();
         $translationSubQuery
             ->select('1')
-            ->from('ibexa_content_translation', 'ct')
+            ->from(ContentGateway::CONTENT_TRANSLATION_TABLE, 'ct')
             ->where(
                 $translationSubQuery->expr()->and(
                     'ct.content_id = c.id',

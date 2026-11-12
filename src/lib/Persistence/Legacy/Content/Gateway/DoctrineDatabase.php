@@ -230,7 +230,7 @@ final class DoctrineDatabase extends Gateway
         foreach (array_unique($languageCodes) as $languageCode) {
             $languageId = $this->languageHandler->loadByLanguageCode($languageCode)->id;
             $this->connection->executeStatement(
-                'INSERT INTO ibexa_content_translation (content_id, language_id) VALUES (:contentId, :languageId)',
+                'INSERT INTO ' . self::CONTENT_TRANSLATION_TABLE . ' (content_id, language_id) VALUES (:contentId, :languageId)',
                 ['contentId' => $contentId, 'languageId' => $languageId],
                 ['contentId' => ParameterType::INTEGER, 'languageId' => ParameterType::INTEGER]
             );
@@ -247,7 +247,7 @@ final class DoctrineDatabase extends Gateway
         foreach (array_unique($languageCodes) as $languageCode) {
             $languageId = $this->languageHandler->loadByLanguageCode($languageCode)->id;
             $this->connection->executeStatement(
-                'INSERT INTO ibexa_content_version_translation (content_version_id, language_id) VALUES (:versionId, :languageId)',
+                'INSERT INTO ' . self::CONTENT_VERSION_TRANSLATION_TABLE . ' (content_version_id, language_id) VALUES (:versionId, :languageId)',
                 ['versionId' => $versionId, 'languageId' => $languageId],
                 ['versionId' => ParameterType::INTEGER, 'languageId' => ParameterType::INTEGER]
             );
@@ -264,15 +264,16 @@ final class DoctrineDatabase extends Gateway
         int $versionId,
         array $languageCodes
     ): void {
+        $translationTable = self::CONTENT_VERSION_TRANSLATION_TABLE;
         foreach (array_unique($languageCodes) as $languageCode) {
             $languageId = $this->languageHandler->loadByLanguageCode($languageCode)->id;
             $this->connection->executeStatement(
-                'INSERT INTO ibexa_content_version_translation (content_version_id, language_id)
+                "INSERT INTO {$translationTable} (content_version_id, language_id)
                  SELECT :versionId, :languageId
                  WHERE NOT EXISTS (
-                     SELECT 1 FROM ibexa_content_version_translation
+                     SELECT 1 FROM {$translationTable}
                      WHERE content_version_id = :versionId AND language_id = :languageId
-                 )',
+                 )",
                 ['versionId' => $versionId, 'languageId' => $languageId],
                 ['versionId' => ParameterType::INTEGER, 'languageId' => ParameterType::INTEGER]
             );
@@ -291,7 +292,7 @@ final class DoctrineDatabase extends Gateway
         array $languageCodes
     ): void {
         $this->connection->executeStatement(
-            'DELETE FROM ibexa_content_translation WHERE content_id = :contentId',
+            'DELETE FROM ' . self::CONTENT_TRANSLATION_TABLE . ' WHERE content_id = :contentId',
             ['contentId' => $contentId],
             ['contentId' => ParameterType::INTEGER]
         );
@@ -2202,7 +2203,7 @@ final class DoctrineDatabase extends Gateway
         $languageId
     ) {
         $hasOtherLanguages = (bool)$this->connection->fetchOne(
-            'SELECT 1 FROM ibexa_content_translation WHERE content_id = :contentId AND language_id != :languageId',
+            'SELECT 1 FROM ' . self::CONTENT_TRANSLATION_TABLE . ' WHERE content_id = :contentId AND language_id != :languageId',
             ['contentId' => $contentId, 'languageId' => $languageId],
             ['contentId' => ParameterType::INTEGER, 'languageId' => ParameterType::INTEGER]
         );
@@ -2227,7 +2228,7 @@ final class DoctrineDatabase extends Gateway
         $query->executeStatement();
 
         $this->connection->executeStatement(
-            'DELETE FROM ibexa_content_translation WHERE content_id = :contentId AND language_id = :languageId',
+            'DELETE FROM ' . self::CONTENT_TRANSLATION_TABLE . ' WHERE content_id = :contentId AND language_id = :languageId',
             ['contentId' => $contentId, 'languageId' => $languageId],
             ['contentId' => ParameterType::INTEGER, 'languageId' => ParameterType::INTEGER]
         );
@@ -2249,6 +2250,7 @@ final class DoctrineDatabase extends Gateway
     ) {
         $contentTable = Gateway::CONTENT_ITEM_TABLE;
         $versionTable = Gateway::CONTENT_VERSION_TABLE;
+        $versionTranslationTable = Gateway::CONTENT_VERSION_TRANSLATION_TABLE;
         $query = $this->connection->createQueryBuilder();
         $query->update($versionTable)
             // parameter for bitwise operation has to be placed verbatim (w/o binding) for this to work cross-DBMS
@@ -2264,7 +2266,7 @@ final class DoctrineDatabase extends Gateway
             ->where('contentobject_id = :contentId')
             ->andWhere(
                 // make sure removed translation is not the last one (incl. alwaysAvailable)
-                "EXISTS (SELECT 1 FROM ibexa_content_version_translation cvt WHERE cvt.content_version_id = {$versionTable}.id AND cvt.language_id != :languageId)"
+                "EXISTS (SELECT 1 FROM {$versionTranslationTable} cvt WHERE cvt.content_version_id = {$versionTable}.id AND cvt.language_id != :languageId)"
             )
             ->setParameter('now', time())
             ->setParameter('contentId', $contentId)
@@ -2290,7 +2292,7 @@ final class DoctrineDatabase extends Gateway
             ->from($versionTable)
             ->where('contentobject_id = :contentId')
             ->andWhere(
-                "EXISTS (SELECT 1 FROM ibexa_content_version_translation cvt WHERE cvt.content_version_id = {$versionTable}.id AND cvt.language_id != :languageId)"
+                "EXISTS (SELECT 1 FROM {$versionTranslationTable} cvt WHERE cvt.content_version_id = {$versionTable}.id AND cvt.language_id != :languageId)"
             )
             ->setParameter('contentId', $contentId)
             ->setParameter('languageId', $languageId)
@@ -2315,10 +2317,10 @@ final class DoctrineDatabase extends Gateway
 
         $query->executeStatement();
 
-        $deleteQuery = 'DELETE FROM ibexa_content_version_translation
+        $deleteQuery = "DELETE FROM {$versionTranslationTable}
              WHERE language_id = :languageId
              AND content_version_id IN (
-                 SELECT id FROM ibexa_content_version WHERE contentobject_id = :contentId'
+                 SELECT id FROM {$versionTable} WHERE contentobject_id = :contentId"
             . (null !== $versionNo ? ' AND version = :versionNo' : '') . ')';
 
         $deleteParams = ['contentId' => $contentId, 'languageId' => $languageId];
