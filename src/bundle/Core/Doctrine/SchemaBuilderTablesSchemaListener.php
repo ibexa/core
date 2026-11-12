@@ -8,6 +8,14 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Doctrine;
 
+use Closure;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Schema\ColumnEditor;
+use Doctrine\DBAL\Schema\Index\IndexedColumn;
+use Doctrine\DBAL\Schema\Name\UnqualifiedName;
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Schema\Sequence;
+use Doctrine\DBAL\Schema\Table;
 use Doctrine\ORM\Tools\Event\GenerateSchemaEventArgs;
 use Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface;
 
@@ -52,15 +60,100 @@ final class SchemaBuilderTablesSchemaListener
         $platform = $args->getEntityManager()->getConnection()->getDatabasePlatform();
 
         foreach ($ibexaSchema->getTables() as $table) {
-            if (!$target->hasTable($table->getName())) {
-                SchemaTableCopier::copy($table, $target->createTable($table->getName()), $platform);
+            if (!$target->hasTable($table->getObjectName()->toString())) {
+                $this->addTable($target, $this->normalizeForIntrospection($table, $platform));
             }
         }
 
         foreach ($ibexaSchema->getSequences() as $sequence) {
-            if (!$target->hasSequence($sequence->getName())) {
-                $target->createSequence($sequence->getName(), $sequence->getAllocationSize(), $sequence->getInitialValue());
+            if (!$target->hasSequence($sequence->getObjectName()->toString())) {
+                $this->addSequence($target, $sequence);
             }
         }
+    }
+
+    /**
+     * Makes the table compare equal to what schema introspection returns on the platform, which
+     * changes two things: int/float column defaults become strings (schema.yaml declares them as
+     * numbers, introspection returns strings), and index column lengths are dropped when the
+     * platform has no prefix indexes (introspection never returns them there, yet
+     * Index::hasSameColumnLengths() compares them). Table options (engine, charset...) are kept.
+     */
+    private function normalizeForIntrospection(
+        Table $table,
+        AbstractPlatform $platform
+    ): Table {
+        $editor = $table->edit();
+
+        foreach ($table->getColumns() as $column) {
+            $default = $column->getDefault();
+            if (is_int($default) || is_float($default)) {
+                $editor->modifyColumn(
+                    $column->getObjectName(),
+                    static function (ColumnEditor $columnEditor) use ($default): void {
+                        $columnEditor->setDefaultValue((string)$default);
+                    }
+                );
+            }
+        }
+
+        foreach ($table->getIndexes() as $index) {
+            if (!$this->hasColumnLengths($index->getIndexedColumns())) {
+                continue;
+            }
+
+            // rebuilt from the indexed columns, which hold the lengths as ints, whereas the
+            // index's raw options keep them as declared in schema.yaml (['191'])
+            $indexEditor = $index->edit();
+            if (!$platform->supportsColumnLengthIndexes()) {
+                $indexEditor->setColumnNames(...array_map(
+                    static fn (IndexedColumn $column): UnqualifiedName => $column->getColumnName(),
+                    $index->getIndexedColumns()
+                ));
+            }
+
+            $editor->dropIndex($index->getObjectName())->addIndex($indexEditor->create());
+        }
+
+        return $editor->create();
+    }
+
+    /**
+     * @param list<IndexedColumn> $columns
+     */
+    private function hasColumnLengths(array $columns): bool
+    {
+        foreach ($columns as $column) {
+            if ($column->getLength() !== null) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // ponytail: DBAL 4.5 deprecated every public way to add a table or sequence to an existing Schema
+    // (Schema::createTable()/createSequence() and the Table mutators needed to fill the result),
+    // and offers no editor-based alternative for a Schema we did not build: Schema::edit() ->
+    // SchemaEditor::create() returns a new Schema, but ORM's GenerateSchemaEventArgs holds the
+    // original one. So the protected Schema::_addTable()/_addSequence() (what createTable() itself
+    // ends in) are called from Schema's scope, which lets the table be built with the editor API.
+    // This is the only place to touch when DBAL 5 / ORM 4 let a listener replace or extend the schema.
+    private function addTable(
+        Schema $schema,
+        Table $table
+    ): void {
+        Closure::bind(static function () use ($schema, $table): void {
+            $schema->_addTable($table);
+        }, null, Schema::class)();
+    }
+
+    private function addSequence(
+        Schema $schema,
+        Sequence $sequence
+    ): void {
+        Closure::bind(static function () use ($schema, $sequence): void {
+            $schema->_addSequence($sequence);
+        }, null, Schema::class)();
     }
 }
