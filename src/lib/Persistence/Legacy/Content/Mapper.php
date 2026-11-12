@@ -23,8 +23,6 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter\Exception\NotFound;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry as Registry;
-use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway;
-use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway as LanguageGateway;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -73,22 +71,18 @@ class Mapper
 
     private FieldTypeAliasResolverInterface $fieldTypeAliasResolver;
 
-    private LanguageGateway $languageGateway;
-
     public function __construct(
         Registry $converterRegistry,
         LanguageHandler $languageHandler,
         ContentTypeHandler $contentTypeHandler,
         EventDispatcherInterface $eventDispatcher,
-        FieldTypeAliasResolverInterface $fieldTypeAliasResolver,
-        LanguageGateway $languageGateway
+        FieldTypeAliasResolverInterface $fieldTypeAliasResolver
     ) {
         $this->converterRegistry = $converterRegistry;
         $this->languageHandler = $languageHandler;
         $this->contentTypeHandler = $contentTypeHandler;
         $this->eventDispatcher = $eventDispatcher;
         $this->fieldTypeAliasResolver = $fieldTypeAliasResolver;
-        $this->languageGateway = $languageGateway;
     }
 
     /**
@@ -221,6 +215,7 @@ class Mapper
      *
      * @param array<array<string, scalar>> $rows
      * @param array<array<string, scalar>> $nameRows
+     * @param array<int, int[]> $versionLanguageIds
      * @param string $prefix
      * @param array<string>|null $translations
      *
@@ -229,6 +224,7 @@ class Mapper
     public function extractContentFromRows(
         array $rows,
         array $nameRows,
+        array $versionLanguageIds,
         string $prefix = 'content_',
         ?array $translations = null
     ): array {
@@ -244,10 +240,6 @@ class Mapper
         $contentInfos = [];
         $versionInfos = [];
         $fields = [];
-
-        $versionLanguageIds = $this->languageGateway->loadVersionTranslations(
-            array_unique(array_map(static fn (array $row): int => (int)$row["{$prefix}version_id"], $rows))
-        );
 
         $fieldDefinitions = $this->loadCachedVersionFieldDefinitionsPerLanguage(
             $rows,
@@ -357,8 +349,7 @@ class Mapper
      * @phpstan-param TRawContentRow[] $rows
      *
      * @param string[]|null $translations
-     * @param array<int, int[]> $versionLanguageIds Version id => language ids, as returned by
-     *        {@see Gateway::loadVersionTranslations()}
+     * @param array<int, int[]> $versionLanguageIds
      *
      * @phpstan-return TVersionedLanguageFieldDefinitionsMap
      *
@@ -463,8 +454,7 @@ class Mapper
      *
      * @param array $row
      * @param array $names
-     * @param int[] $languageIds Language ids this version is translated into, as returned by
-     *        {@see Gateway::loadVersionTranslations()}
+     * @param int[] $languageIds
      *
      * @return VersionInfo
      */
@@ -509,11 +499,14 @@ class Mapper
      * @phpstan-param TRawContentRow[] $rows
      * @phpstan-param TRawContentRow[] $nameRows
      *
+     * @param array<int, int[]> $versionLanguageIds
+     *
      * @return VersionInfo[]
      */
     public function extractVersionInfoListFromRows(
         array $rows,
-        array $nameRows
+        array $nameRows,
+        array $versionLanguageIds
     ): array {
         $nameData = [];
         foreach ($nameRows as $row) {
@@ -522,9 +515,6 @@ class Mapper
         }
 
         $allLanguages = $this->loadAllLanguagesWithIdKey();
-        $versionLanguageIds = $this->languageGateway->loadVersionTranslations(
-            array_unique(array_map(static fn (array $row): int => (int)$row['content_version_id'], $rows))
-        );
         $versionInfoList = [];
         foreach ($rows as $row) {
             $versionId = $row['content_id'] . '_' . $row['content_version_version'];

@@ -2032,6 +2032,53 @@ final class DoctrineDatabase extends Gateway
         return $query->executeQuery()->fetchAllAssociative();
     }
 
+    public function loadContentTranslations(array $contentIds): array
+    {
+        return $this->loadTranslations(self::CONTENT_TRANSLATION_TABLE, 'content_id', $contentIds);
+    }
+
+    public function loadVersionTranslations(array $versionIds): array
+    {
+        return $this->loadTranslations(self::CONTENT_VERSION_TRANSLATION_TABLE, 'content_version_id', $versionIds);
+    }
+
+    /**
+     * @param int[] $ids
+     *
+     * @return array<int, int[]>
+     */
+    private function loadTranslations(
+        string $tableName,
+        string $idColumn,
+        array $ids
+    ): array {
+        if (empty($ids)) {
+            return [];
+        }
+
+        $query = $this->connection->createQueryBuilder();
+        $rows = $query
+            ->select($idColumn, 'language_id')
+            ->from($tableName)
+            ->where(
+                $query->expr()->in(
+                    $idColumn,
+                    $query->createNamedParameter(array_values(array_unique($ids)), ArrayParameterType::INTEGER, ':ids')
+                )
+            )
+            ->orderBy($idColumn)
+            ->addOrderBy('language_id')
+            ->executeQuery()
+            ->fetchAllAssociative();
+
+        $translations = [];
+        foreach ($rows as $row) {
+            $translations[(int)$row[$idColumn]][] = (int)$row['language_id'];
+        }
+
+        return $translations;
+    }
+
     /**
      * @throws Exception
      */
