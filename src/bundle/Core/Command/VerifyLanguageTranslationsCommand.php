@@ -11,8 +11,6 @@ namespace Ibexa\Bundle\Core\Command;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\AbstractSchemaManager;
-use Ibexa\Bundle\RepositoryInstaller\Migration\BackfillLanguageTranslationsMigration;
-use Ibexa\Bundle\RepositoryInstaller\Migration\DropLanguageBitmaskColumnsMigration;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
@@ -20,30 +18,18 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Verifies that "ibexa_content_translation", "ibexa_content_version_translation" and
- * "ibexa_url_alias_ml_translation" agree with the legacy "language_mask"/"lang_mask" bitmask
- * columns they were backfilled from (step 2 of the language bitmask migration).
- *
- * A standard upgrade no longer needs to run this manually - {@see BackfillLanguageTranslationsMigration}
- * backfills as part of the regular migration sequence, and {@see DropLanguageBitmaskColumnsMigration}
- * refuses to drop the mask columns if any row wasn't backfilled. This command remains available
- * for manual verification/repair (via `--fix`) outside of a migration run.
- *
- * Checks both directions with plain NOT EXISTS correlated subqueries rather than EXCEPT/MINUS, so
- * the same SQL runs unchanged on MySQL, PostgreSQL and SQLite:
- *  - missing: a bit set in the mask with no corresponding translation row
- *  - orphaned: a translation row whose bit is no longer set in the mask (or the mask/language
- *    row it pointed to is gone)
+ * Verifies "always_available" and the language translation tables against the legacy language bitmask columns.
  */
 #[AsCommand(
     name: 'ibexa:languages:verify-translations',
-    description: 'Verifies the language translation tables against the legacy language bitmask columns',
+    description: 'Verifies "always_available" and the language translation tables against the legacy language bitmask columns',
     help: <<<'EOT'
         The command <info>%command.name%</info> compares "ibexa_content_translation",
         "ibexa_content_version_translation" and "ibexa_url_alias_ml_translation" against the
         "language_mask"/"lang_mask" columns they were backfilled from, reporting:
           - <comment>missing</comment>: a language bit set in the mask with no corresponding translation row
           - <comment>orphaned</comment>: a translation row whose bit is no longer set in the mask
+          - <comment>wrong always-available flag</comment>: an "always_available" value that doesn't match bit 0 of the mask
 
         Exits non-zero if any drift is found and <info>--fix</info> was not passed. Run this after
         <info>ibexa:languages:backfill-translations</info>, and again before relying on the translation
@@ -72,6 +58,12 @@ final class VerifyLanguageTranslationsCommand
         self::TABLE_CONTENT => ['ibexa_content', 'language_mask'],
         self::TABLE_CONTENT_VERSION => ['ibexa_content_version', 'language_mask'],
         self::TABLE_URL_ALIAS => ['ibexa_url_alias_ml', 'lang_mask'],
+    ];
+
+    /** @var array<string, string> */
+    private const array ALWAYS_AVAILABLE_COLUMNS = [
+        self::TABLE_CONTENT => 'always_available',
+        self::TABLE_CONTENT_VERSION => 'always_available',
     ];
 
     /**
@@ -236,20 +228,27 @@ final class VerifyLanguageTranslationsCommand
         $languageTable = $this->resolveLanguageTableName($schemaManager);
         $queries = $this->buildQueries($table, $languageTable);
 
+        $alwaysAvailableColumn = self::ALWAYS_AVAILABLE_COLUMNS[$table] ?? null;
+        $alwaysAvailableMismatch = "{$alwaysAvailableColumn} <> (({$maskColumn} & 1) = 1)";
+
         $missing = (int)$this->connection->fetchOne($queries['missing']);
         $orphaned = (int)$this->connection->fetchOne($queries['orphaned']);
+        $mismatched = $alwaysAvailableColumn === null
+            ? 0
+            : (int)$this->connection->fetchOne("SELECT COUNT(*) FROM {$sourceTable} WHERE {$alwaysAvailableMismatch}");
 
-        if ($missing === 0 && $orphaned === 0) {
+        if ($missing === 0 && $orphaned === 0 && $mismatched === 0) {
             $output->writeln("<info>{$table}: in sync.</info>");
 
             return true;
         }
 
         $output->writeln(sprintf(
-            '<comment>%s: %d missing, %d orphaned row(s).</comment>',
+            '<comment>%s: %d missing, %d orphaned row(s), %d wrong always-available flag(s).</comment>',
             $table,
             $missing,
-            $orphaned
+            $orphaned,
+            $mismatched
         ));
 
         if (!$fix) {
@@ -264,6 +263,13 @@ final class VerifyLanguageTranslationsCommand
         if ($orphaned > 0) {
             $deleted = $this->connection->executeStatement($queries['fixOrphaned']);
             $output->writeln("  deleted {$deleted} orphaned row(s).");
+        }
+
+        if ($mismatched > 0) {
+            $updated = $this->connection->executeStatement(
+                "UPDATE {$sourceTable} SET {$alwaysAvailableColumn} = (({$maskColumn} & 1) = 1) WHERE {$alwaysAvailableMismatch}"
+            );
+            $output->writeln("  fixed {$updated} always-available flag(s).");
         }
 
         return true;
