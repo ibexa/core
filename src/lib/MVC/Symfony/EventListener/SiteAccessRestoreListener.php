@@ -59,9 +59,6 @@ final class SiteAccessRestoreListener implements EventSubscriberInterface
             return;
         }
 
-        // Only undo what SiteAccessMatchListener pushed for this exact sub-request. A sub-request
-        // can carry a SiteAccess without one being pushed, e.g. when a MVCEvents::SITEACCESS
-        // listener threw, and popping then would drop the parent request's SiteAccess instead.
         $attributes = $event->getRequest()->attributes;
         if ($attributes->getBoolean(SiteAccessMatchListener::SITEACCESS_PUSHED_ATTRIBUTE)) {
             $attributes->remove(SiteAccessMatchListener::SITEACCESS_PUSHED_ATTRIBUTE);

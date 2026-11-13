@@ -19,20 +19,15 @@ use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessProviderInterface;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use RuntimeException;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\FinishRequestEvent;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
-/**
- * Covers the push/pop pairing between SiteAccessMatchListener and SiteAccessRestoreListener
- * on a real SiteAccessService, for a sub-request nested in an already changed SiteAccess
- * (e.g. content preview).
- */
 #[CoversClass(SiteAccessMatchListener::class)]
 #[CoversClass(SiteAccessRestoreListener::class)]
 final class SiteAccessSubRequestStackTest extends TestCase
@@ -87,6 +82,27 @@ final class SiteAccessSubRequestStackTest extends TestCase
         self::assertSame($previewSiteAccess, $this->siteAccessService->getCurrent());
     }
 
+    public function testSiteAccessListenersSeeTheSubRequestSiteAccess(): void
+    {
+        $this->startPreviewInMainRequest();
+        $subRequestSiteAccess = new SiteAccess('fragment_sa', 'uri:element');
+        $subRequest = $this->createRequest($subRequestSiteAccess);
+
+        $currentSiteAccesses = [];
+        $this->eventDispatcher->addListener(
+            MVCEvents::SITEACCESS,
+            function (PostSiteAccessMatchEvent $event) use ($subRequest, &$currentSiteAccesses): void {
+                if ($event->getRequest() === $subRequest) {
+                    $currentSiteAccesses[] = $this->siteAccessService->getCurrent();
+                }
+            }
+        );
+
+        $this->handleSubRequest($subRequest);
+
+        self::assertSame([$subRequestSiteAccess], $currentSiteAccesses);
+    }
+
     public function testParentSiteAccessSurvivesSiteAccessListenerFailingInSubRequest(): void
     {
         $previewSiteAccess = $this->startPreviewInMainRequest();
@@ -96,7 +112,7 @@ final class SiteAccessSubRequestStackTest extends TestCase
             MVCEvents::SITEACCESS,
             static function (PostSiteAccessMatchEvent $event) use ($subRequest): void {
                 if ($event->getRequest() === $subRequest) {
-                    throw new RuntimeException('MVCEvents::SITEACCESS listener failed');
+                    throw new AccessDeniedHttpException('SiteAccess not allowed');
                 }
             }
         );
@@ -104,8 +120,7 @@ final class SiteAccessSubRequestStackTest extends TestCase
         try {
             $this->handleSubRequest($subRequest);
             self::fail('The MVCEvents::SITEACCESS listener exception should propagate');
-        } catch (RuntimeException) {
-            // HttpKernel still dispatches kernel.finish_request for a failed sub-request
+        } catch (AccessDeniedHttpException) {
         }
 
         $this->finishSubRequest($subRequest);
