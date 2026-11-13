@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\Search\Legacy\Content\WordIndexer\Gateway;
 
@@ -28,61 +29,14 @@ class DoctrineDatabase extends Gateway
      */
     public const DB_INT_MAX = 2147483647;
 
-    /** @var Connection */
-    protected $connection;
-
-    /**
-     * Persistence content type handler.
-     *
-     * Need this for being able to pick fields that are searchable.
-     *
-     * @var SPITypeHandler
-     */
-    protected $typeHandler;
-
-    /**
-     * Transformation processor.
-     *
-     * Need this for being able to transform text to searchable value
-     *
-     * @var TransformationProcessor
-     */
-    protected $transformationProcessor;
-
-    /**
-     * LegacySearchService.
-     *
-     * Need this for queries on ezsearch* tables
-     *
-     * @var SearchIndex
-     */
-    protected $searchIndex;
-
-    /** @var LanguageHandler */
-    private $languageHandler;
-
-    /**
-     * Full text search configuration options.
-     *
-     * @var array
-     */
-    protected $fullTextSearchConfiguration;
-
     public function __construct(
-        Connection $connection,
-        SPITypeHandler $typeHandler,
-        TransformationProcessor $transformationProcessor,
-        SearchIndex $searchIndex,
-        LanguageHandler $languageHandler,
-        array $fullTextSearchConfiguration
-    ) {
-        $this->connection = $connection;
-        $this->typeHandler = $typeHandler;
-        $this->transformationProcessor = $transformationProcessor;
-        $this->searchIndex = $searchIndex;
-        $this->fullTextSearchConfiguration = $fullTextSearchConfiguration;
-        $this->languageHandler = $languageHandler;
-    }
+        protected Connection $connection,
+        protected SPITypeHandler $typeHandler,
+        protected TransformationProcessor $transformationProcessor,
+        protected SearchIndex $searchIndex,
+        private readonly LanguageHandler $languageHandler,
+        protected array $fullTextSearchConfiguration
+    ) {}
 
     /**
      * Index search engine full text data corresponding to content object field values.
@@ -105,7 +59,8 @@ class DoctrineDatabase extends Gateway
         $this->remove($fullTextData->id);
         foreach ($fullTextData->values as $fullTextValue) {
             /** @var FullTextValue $fullTextValue */
-            if (is_numeric(trim($fullTextValue->value))) {
+            $value = (string)$fullTextValue->value;
+            if (is_numeric(trim($value))) {
                 $integerValue = (int)$fullTextValue->value;
                 if ($integerValue > self::DB_INT_MAX) {
                     $integerValue = 0;
@@ -114,7 +69,7 @@ class DoctrineDatabase extends Gateway
                 $integerValue = 0;
             }
             $text = $this->transformationProcessor->transform(
-                $fullTextValue->value,
+                $value,
                 !empty($fullTextValue->transformationRules)
                     ? $fullTextValue->transformationRules
                     : $this->fullTextSearchConfiguration['commands']

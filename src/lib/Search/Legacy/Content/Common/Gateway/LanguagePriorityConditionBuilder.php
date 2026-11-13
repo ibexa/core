@@ -20,7 +20,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
  *
  * @internal
  */
-final class LanguagePriorityConditionBuilder
+final readonly class LanguagePriorityConditionBuilder
 {
     /**
      * Pre-computed integer constant which, when combined with a bit-wise AND, removes the
@@ -29,8 +29,8 @@ final class LanguagePriorityConditionBuilder
     private const int REMOVE_ALWAYS_AVAILABLE_BIT_OPERAND = -2;
 
     public function __construct(
-        private readonly Connection $connection,
-        private readonly LanguageHandler $languageHandler
+        private Connection $connection,
+        private LanguageHandler $languageHandler
     ) {}
 
     /**

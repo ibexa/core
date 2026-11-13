@@ -24,18 +24,13 @@ use Ibexa\Core\Search\Legacy\Content\Common\Gateway\LanguagePriorityConditionBui
  */
 class LanguageCode extends CriterionHandler
 {
-    /** @var Handler */
-    private $languageHandler;
-
     public function __construct(
         Connection $connection,
-        LanguageHandler $languageHandler,
+        private readonly LanguageHandler $languageHandler,
         JoinedTablesTracker $joinedTablesTracker,
         private readonly LanguagePriorityConditionBuilder $languagePriorityConditionBuilder
     ) {
         parent::__construct($connection, $joinedTablesTracker);
-
-        $this->languageHandler = $languageHandler;
     }
 
     public function accept(CriterionInterface $criterion): bool

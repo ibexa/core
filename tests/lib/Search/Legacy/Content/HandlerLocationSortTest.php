@@ -18,6 +18,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Search\Legacy\Content;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler as CommonCriterionHandler;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\LanguagePriorityConditionBuilder;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler as CommonSortClauseHandler;
 use Ibexa\Core\Search\Legacy\Content\Gateway as ContentGateway;
@@ -90,7 +91,7 @@ class HandlerLocationSortTest extends AbstractTestCase
                             $connection,
                             $this->getLanguageHandler(),
                             $this->getContentTypeHandler(),
-                            new Content\Common\Gateway\LanguagePriorityConditionBuilder(
+                            new LanguagePriorityConditionBuilder(
                                 $connection,
                                 $this->getLanguageHandler()
                             )
@@ -98,7 +99,7 @@ class HandlerLocationSortTest extends AbstractTestCase
                     ]
                 ),
                 $this->getLanguageHandler(),
-                new Content\Common\Gateway\LanguagePriorityConditionBuilder(
+                new LanguagePriorityConditionBuilder(
                     $this->getDatabaseConnection(),
                     $this->getLanguageHandler()
                 )
