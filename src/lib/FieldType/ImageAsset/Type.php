@@ -225,7 +225,7 @@ class Type extends FieldType implements TranslationContainerInterface
             $destinationContentId = (int)$destinationContentId;
         }
 
-        return new Value($destinationContentId, $hash['alternativeText']);
+        return new Value($destinationContentId, $hash['alternativeText'] ?? null);
     }
 
     /**
