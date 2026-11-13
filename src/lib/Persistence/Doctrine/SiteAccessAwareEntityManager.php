@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Doctrine;
 
 use DateTimeInterface;
-use Doctrine\Common\EventManager;
+use Doctrine\Common\EventManagerInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\Cache;
@@ -142,7 +142,7 @@ final class SiteAccessAwareEntityManager implements EntityManagerInterface, Conf
         $this->getWrapped()->lock($entity, $lockMode, $lockVersion);
     }
 
-    public function getEventManager(): EventManager
+    public function getEventManager(): EventManagerInterface
     {
         return $this->getWrapped()->getEventManager();
     }
