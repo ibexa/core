@@ -17,7 +17,7 @@ use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
 
 /**
  * Strips the legacy "always available" bit (bit 0) from the "language_id" columns that the bitmask
- * scheme folded it into, as the final step of the language bitmask migration.
+ * scheme folded it into.
  *
  * Under the bitmask scheme every language id was a power of two, so an odd "language_id" can only be
  * an id with the always-available bit ORed in. That bit carries nothing worth keeping here - it
