@@ -293,12 +293,14 @@ services:
     Ibexa\Bundle\Core\Command\BackfillLanguageTranslationsCommand:
         arguments:
             $connection: '@ibexa.persistence.connection'
+            $schemaAssetsFilterBypass: '@Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface'
         tags:
             - { name: console.command }
 
     Ibexa\Bundle\Core\Command\VerifyLanguageTranslationsCommand:
         arguments:
             $connection: '@ibexa.persistence.connection'
+            $schemaAssetsFilterBypass: '@Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface'
         tags:
             - { name: console.command }
 
