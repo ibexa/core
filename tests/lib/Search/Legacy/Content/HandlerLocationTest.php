@@ -134,7 +134,8 @@ class HandlerLocationTest extends AbstractTestCase
                         new CommonCriterionHandler\LanguageCode(
                             $connection,
                             $this->getLanguageHandler(),
-                            $joinedTablesTracker
+                            $joinedTablesTracker,
+                            new Content\Common\Gateway\LanguagePriorityConditionBuilder($connection, $this->getLanguageHandler())
                         ),
                         new CommonCriterionHandler\LogicalAnd($connection, $joinedTablesTracker),
                         new CommonCriterionHandler\LogicalNot($connection, $joinedTablesTracker),

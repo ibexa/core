@@ -117,4 +117,45 @@ final class LanguagePriorityConditionBuilder
             $mainLanguageIdColumn
         );
     }
+
+    /**
+     * Builds the condition matching Content translated into any of the given languages.
+     *
+     * @param int[] $languageIds
+     */
+    public function buildTranslationCondition(
+        QueryBuilder $query,
+        array $languageIds,
+        bool $matchAlwaysAvailable,
+        string $contentIdColumn = 'c.id',
+        string $alwaysAvailableColumn = 'c.always_available'
+    ): string {
+        $subQuery = $this->connection->createQueryBuilder();
+        $subQuery
+            ->select('1')
+            ->from(ContentGateway::CONTENT_TRANSLATION_TABLE, 'ct')
+            ->where(
+                $subQuery->expr()->and(
+                    sprintf('ct.content_id = %s', $contentIdColumn),
+                    $subQuery->expr()->in(
+                        'ct.language_id',
+                        $query->createNamedParameter($languageIds, ArrayParameterType::INTEGER)
+                    )
+                )
+            );
+
+        $condition = sprintf('EXISTS (%s)', $subQuery->getSQL());
+
+        if (!$matchAlwaysAvailable) {
+            return $condition;
+        }
+
+        return (string)$query->expr()->or(
+            $condition,
+            $query->expr()->eq(
+                $alwaysAvailableColumn,
+                $query->createNamedParameter(true, ParameterType::BOOLEAN)
+            )
+        );
+    }
 }

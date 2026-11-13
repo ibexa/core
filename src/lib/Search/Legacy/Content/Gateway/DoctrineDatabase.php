@@ -7,7 +7,6 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Gateway;
 
-use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
@@ -123,25 +122,11 @@ final class DoctrineDatabase extends Gateway
                 $languageFilter['languages']
             );
 
-            $translationExistsSubQuery = $this->connection->createQueryBuilder();
-            $translationExistsSubQuery
-                ->select('1')
-                ->from(ContentGateway::CONTENT_TRANSLATION_TABLE, 'ct')
-                ->where(
-                    $translationExistsSubQuery->expr()->and(
-                        'ct.content_id = c.id',
-                        $translationExistsSubQuery->expr()->in(
-                            'ct.language_id',
-                            $query->createNamedParameter($languageIds, ArrayParameterType::INTEGER)
-                        )
-                    )
-                );
-
-            $languageCondition = sprintf('EXISTS (%s)', $translationExistsSubQuery->getSQL());
-
-            if (!empty($languageFilter['useAlwaysAvailable'])) {
-                $languageCondition = $expr->or($languageCondition, 'c.always_available');
-            }
+            $languageCondition = $this->languagePriorityConditionBuilder->buildTranslationCondition(
+                $query,
+                $languageIds,
+                !empty($languageFilter['useAlwaysAvailable'])
+            );
 
             $condition = $expr->and($condition, $languageCondition);
         }
