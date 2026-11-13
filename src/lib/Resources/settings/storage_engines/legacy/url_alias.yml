@@ -18,7 +18,6 @@ services:
     Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Mapper:
         class: Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Mapper
         arguments:
-            - '@ibexa.persistence.legacy.url_alias.gateway'
             - '@ibexa.spi.persistence.legacy.language.handler'
 
     Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Handler:
