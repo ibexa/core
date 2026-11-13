@@ -73,6 +73,20 @@ final class DropLanguageBitmaskColumnsMigrationTest extends TestCase
         );
     }
 
+    public function testDropsTheUrlAliasTextIndexWithoutReplacingIt(): void
+    {
+        $connection = $this->getDatabaseConnection();
+        $connection->executeStatement('CREATE INDEX ibexa_url_alias_ml_text_lang ON ibexa_url_alias_ml (text, lang_mask, parent)');
+        $connection->update('ibexa_content', ['always_available' => true], ['id' => 1], ['always_available' => ParameterType::BOOLEAN]);
+
+        $migration = $this->createMigration();
+        $migration->up(new Schema());
+        $statements = array_map(static fn (Query $query): string => $query->getStatement(), $migration->getSql());
+
+        self::assertContains('DROP INDEX ibexa_url_alias_ml_text_lang', $statements);
+        self::assertSame([], preg_grep('/CREATE INDEX|ADD INDEX/', $statements));
+    }
+
     private function createMigration(): DropLanguageBitmaskColumnsMigration
     {
         return new DropLanguageBitmaskColumnsMigration($this->getDatabaseConnection(), new NullLogger(), new MigrationRunContext());
