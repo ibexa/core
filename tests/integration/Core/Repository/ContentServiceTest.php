@@ -3530,6 +3530,54 @@ class ContentServiceTest extends BaseContentServiceTest
     }
 
     /**
+     * @covers \Ibexa\Contracts\Core\Repository\ContentService::copyContent
+     */
+    public function testCopyContentDoesNotValidatePublishedVersion(): void
+    {
+        $content = $this->createFolder([self::ENG_US => 'Folder to copy'], $this->generateId('location', 2));
+        $this->addRequiredFieldToContentType('folder');
+
+        // The published source content is now invalid: it has no value for the required field
+        $contentCopied = $this->contentService->copyContent(
+            $content->contentInfo,
+            $this->locationService->newLocationCreateStruct($this->generateId('location', 2))
+        );
+
+        self::assertTrue($contentCopied->getVersionInfo()->isPublished());
+        self::assertSame('Folder to copy', $contentCopied->getName());
+    }
+
+    /**
+     * @covers \Ibexa\Contracts\Core\Repository\ContentService::copyContent
+     */
+    public function testCopyContentValidatesNotPublishedVersion(): void
+    {
+        $content = $this->createFolder([self::ENG_US => 'Folder to copy'], $this->generateId('location', 2));
+        $draft = $this->contentService->createContentDraft($content->contentInfo);
+        $this->addRequiredFieldToContentType('folder');
+
+        $this->expectException(ContentFieldValidationException::class);
+
+        $this->contentService->copyContent(
+            $content->contentInfo,
+            $this->locationService->newLocationCreateStruct($this->generateId('location', 2)),
+            $draft->getVersionInfo()
+        );
+    }
+
+    private function addRequiredFieldToContentType(string $contentTypeIdentifier): void
+    {
+        $contentTypeService = $this->getRepository()->getContentTypeService();
+        $contentTypeDraft = $contentTypeService->createContentTypeDraft(
+            $contentTypeService->loadContentTypeByIdentifier($contentTypeIdentifier)
+        );
+        $fieldDefinitionCreate = $contentTypeService->newFieldDefinitionCreateStruct('required_field', 'ezstring');
+        $fieldDefinitionCreate->isRequired = true;
+        $contentTypeService->addFieldDefinition($contentTypeDraft, $fieldDefinitionCreate);
+        $contentTypeService->publishContentTypeDraft($contentTypeDraft);
+    }
+
+    /**
      * @return Relation[]
      *
      * @covers  \Ibexa\Contracts\Core\Repository\ContentService::addRelation
