@@ -114,32 +114,54 @@ final class FlysystemTest extends TestCase
         ];
     }
 
-    public function testNormalizePathWithRealFilePath(): void
-    {
+    /**
+     * @dataProvider providerForTestNormalizePathWithRealFilePath
+     */
+    public function testNormalizePathWithRealFilePath(
+        string $fileName,
+        string $expectedPath
+    ): void {
         $tempFile = tempnam(sys_get_temp_dir(), 'test_image_');
         file_put_contents($tempFile, 'test image content');
 
         try {
-            $md5File = md5_file($tempFile);
-            self::assertNotFalse($md5File);
-            $expectedHash = substr($md5File, 0, 12);
-
             $this->slugConverter
                 ->expects(self::once())
                 ->method('convert')
-                ->with('image.jpg')
-                ->willReturn('image.jpg');
+                ->with($fileName)
+                ->willReturnArgument(0);
 
             $normalizedPath = $this->filePathNormalizer->normalizePath(
-                '4/3/2/234/1/image.jpg',
+                '4/3/2/234/1/' . $fileName,
                 true,
                 $tempFile,
             );
 
-            self::assertSame('4/3/2/234/1/' . $expectedHash . '-image.jpg', $normalizedPath);
+            self::assertSame($expectedPath, $normalizedPath);
         } finally {
             unlink($tempFile);
         }
+    }
+
+    /**
+     * @return array<string, array{string, string}>
+     */
+    public function providerForTestNormalizePathWithRealFilePath(): array
+    {
+        return [
+            'Name without hash' => [
+                'image.jpg',
+                '4/3/2/234/1/02203769573e-image.jpg',
+            ],
+            'Name with hash of a previous file' => [
+                '14ff44718877-image.jpg',
+                '4/3/2/234/1/02203769573e-image.jpg',
+            ],
+            'Name with hash of the same file' => [
+                '02203769573e-image.jpg',
+                '4/3/2/234/1/02203769573e-image.jpg',
+            ],
+        ];
     }
 
     public function testNormalizePathWithRealFilePathIsDeterministic(): void

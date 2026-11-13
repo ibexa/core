@@ -19,6 +19,7 @@ use Ibexa\Core\FieldType\Validator\FileExtensionBlackListValidator;
 use Ibexa\Core\IO\FilePathNormalizerInterface;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\MetadataHandler;
+use Ibexa\Core\IO\Values\BinaryFile;
 
 /**
  * Converter for Image field type external storage.
@@ -108,7 +109,8 @@ class ImageStorage extends GatewayBasedStorage
                 $field->value->externalData['inputUri'] ?? null,
             );
 
-            if (isset($field->value->externalData['inputUri'])) {
+            $isNewFile = isset($field->value->externalData['inputUri']);
+            if ($isNewFile) {
                 $localFilePath = $field->value->externalData['inputUri'];
                 unset($field->value->externalData['inputUri']);
 
@@ -141,6 +143,10 @@ class ImageStorage extends GatewayBasedStorage
 
             if (!$this->gateway->hasImageReference($field->value->data['uri'], $field->id)) {
                 $this->gateway->storeImageReference($field->value->data['uri'], $field->id);
+            }
+
+            if ($isNewFile) {
+                $this->removeReplacedImages($versionInfo, $field, $binaryFile);
             }
         } else { // existing image from another version
             if ($field->value->data === null) {
@@ -214,6 +220,25 @@ class ImageStorage extends GatewayBasedStorage
     ) {
         // @todo: Correct?
         return null;
+    }
+
+    private function removeReplacedImages(
+        VersionInfo $versionInfo,
+        Field $field,
+        BinaryFile $binaryFile
+    ): void {
+        foreach ($this->gateway->getImageReferenceUris($field->id) as $uri) {
+            if ($uri === $binaryFile->uri || dirname($uri) !== dirname($binaryFile->uri)) {
+                continue;
+            }
+
+            $this->gateway->removeImageReferences($uri, $versionInfo->versionNo, $field->id);
+            if (!$this->gateway->isImageReferenced($uri)) {
+                $replacedFile = $this->ioService->loadBinaryFileByUri($uri);
+                $this->aliasCleaner->removeAliases($replacedFile->id);
+                $this->ioService->deleteBinaryFile($replacedFile);
+            }
+        }
     }
 
     /**

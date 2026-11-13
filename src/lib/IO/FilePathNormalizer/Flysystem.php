@@ -40,9 +40,13 @@ final class Flysystem implements FilePathNormalizerInterface
 
         $fileName = $this->slugConverter->convert($fileName, '_1', 'urlalias');
 
-        $hash = $doHash && !preg_match(self::HASH_PATTERN, $fileName)
-            ? $this->generateFilePathHash($realFilePath)
-            : '';
+        $hash = '';
+        if ($doHash && $realFilePath !== null) {
+            $fileName = preg_replace(self::HASH_PATTERN, '', $fileName) ?? $fileName;
+            $hash = $this->generateFilePathHash($realFilePath);
+        } elseif ($doHash && !preg_match(self::HASH_PATTERN, $fileName)) {
+            $hash = $this->generateFilePathHash();
+        }
 
         $filePath = $directory . DIRECTORY_SEPARATOR . $hash;
         $normalizedFileName = $this->pathNormalizer->normalizePath($fileName);
