@@ -55,7 +55,7 @@ final class AddUrlAliasAlwaysAvailableColumnMigration extends AbstractSqlMigrati
             return;
         }
 
-        $table = $schemaManager->introspectTable(self::TABLE);
+        $table = $schemaManager->introspectTableByUnquotedName(self::TABLE);
 
         if (!$table->hasColumn(self::ALWAYS_AVAILABLE_COLUMN)) {
             $columnDefinition = match (true) {
