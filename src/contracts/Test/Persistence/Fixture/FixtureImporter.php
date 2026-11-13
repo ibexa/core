@@ -26,7 +26,7 @@ final class FixtureImporter
     /**
      * Tables whose "language_id" the legacy bitmask scheme ORed the "always available" bit into.
      */
-    private const TABLES_WITH_LEGACY_ALWAYS_AVAILABLE_BIT = [
+    private const array TABLES_WITH_LEGACY_ALWAYS_AVAILABLE_BIT = [
         'ibexa_content_field',
         'ibexa_content_name',
         'ibexa_content_type_name',
