@@ -104,7 +104,7 @@ final class AddLanguageTranslationTablesMigration extends AbstractSqlMigration i
 
         foreach (self::FOREIGN_KEYS as $table => $foreignKeys) {
             $existingTable = $schemaManager->tablesExist([$table])
-                ? $schemaManager->introspectTable($table)
+                ? $schemaManager->introspectTableByUnquotedName($table)
                 : null;
 
             foreach ($foreignKeys as $constraintName => $definition) {

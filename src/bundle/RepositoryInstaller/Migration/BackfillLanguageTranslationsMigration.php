@@ -86,6 +86,9 @@ final class BackfillLanguageTranslationsMigration extends AbstractSqlMigration i
         );
     }
 
+    /**
+     * @param non-empty-string $sourceTable
+     */
     private function backfillAlwaysAvailable(string $sourceTable): void
     {
         $this->addChunkedSql(
@@ -97,6 +100,9 @@ final class BackfillLanguageTranslationsMigration extends AbstractSqlMigration i
         );
     }
 
+    /**
+     * @param non-empty-string $sourceTable
+     */
     private function backfillTable(
         string $sourceTable,
         string $maskColumn,
@@ -111,6 +117,9 @@ final class BackfillLanguageTranslationsMigration extends AbstractSqlMigration i
         );
     }
 
+    /**
+     * @param non-empty-string $sourceTable
+     */
     private function addChunkedSql(
         string $sourceTable,
         string $maskColumn,
@@ -120,7 +129,7 @@ final class BackfillLanguageTranslationsMigration extends AbstractSqlMigration i
         $schemaManager = $this->connection->createSchemaManager();
         if (
             !$schemaManager->tablesExist([$sourceTable])
-            || !$schemaManager->introspectTable($sourceTable)->hasColumn($maskColumn)
+            || !$schemaManager->introspectTableByUnquotedName($sourceTable)->hasColumn($maskColumn)
         ) {
             // Column already dropped (re-running after a prior upgrade already completed this
             // step), or a fresh install whose schema.yaml never had it.

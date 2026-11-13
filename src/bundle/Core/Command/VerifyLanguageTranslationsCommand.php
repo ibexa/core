@@ -218,7 +218,7 @@ final class VerifyLanguageTranslationsCommand
 
         $hasMaskColumn = $this->schemaAssetsFilterBypass->call(
             $this->connection,
-            fn (): bool => $this->connection->createSchemaManager()->introspectTable($sourceTable)->hasColumn($maskColumn)
+            fn (): bool => $this->connection->createSchemaManager()->introspectTableByUnquotedName($sourceTable)->hasColumn($maskColumn)
         );
         if (!$hasMaskColumn) {
             $output->writeln("<info>{$table}: {$sourceTable} has no \"{$maskColumn}\" column - already migrated, nothing to verify.</info>");

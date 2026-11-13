@@ -49,7 +49,7 @@ final class AddContentAlwaysAvailableColumnsMigration extends AbstractSqlMigrati
         }
 
         foreach ([self::CONTENT_TABLE, self::CONTENT_VERSION_TABLE] as $table) {
-            if (!$schemaManager->introspectTable($table)->hasColumn(self::ALWAYS_AVAILABLE_COLUMN)) {
+            if (!$schemaManager->introspectTableByUnquotedName($table)->hasColumn(self::ALWAYS_AVAILABLE_COLUMN)) {
                 $this->addSql($this->buildAddColumnSql($table));
             }
         }
