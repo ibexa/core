@@ -50,19 +50,18 @@ final class DropLanguageBitmaskColumnsMigration extends AbstractSqlMigration imp
     private const string LANGUAGE_TABLE = 'ibexa_content_language';
 
     /**
-     * Table => [mask column, index to drop (if any), whether the index needs replacing with a
-     * lang-less equivalent rather than just dropped (only "ibexa_url_alias_ml")].
+     * Table => [mask column, index on it to drop first (if any)].
      *
-     * @var array<string, array{0: string, 1: string|null, 2: bool}>
+     * @var array<string, array{0: string, 1: string|null}>
      */
     private const array DROPS = [
-        'ibexa_object_state' => ['language_mask', 'ibexa_object_state_lmask', false],
-        'ibexa_object_state_group' => ['language_mask', 'ibexa_object_state_group_lmask', false],
-        'ibexa_content_type' => ['language_mask', null, false],
-        self::CONTENT_TABLE => ['language_mask', 'ibexa_content_lmask', false],
-        'ibexa_content_version' => ['language_mask', null, false],
-        'ibexa_search_object_word_link' => ['language_mask', null, false],
-        'ibexa_url_alias_ml' => ['lang_mask', 'ibexa_url_alias_ml_text_lang', true],
+        'ibexa_object_state' => ['language_mask', 'ibexa_object_state_lmask'],
+        'ibexa_object_state_group' => ['language_mask', 'ibexa_object_state_group_lmask'],
+        'ibexa_content_type' => ['language_mask', null],
+        self::CONTENT_TABLE => ['language_mask', 'ibexa_content_lmask'],
+        'ibexa_content_version' => ['language_mask', null],
+        'ibexa_search_object_word_link' => ['language_mask', null],
+        'ibexa_url_alias_ml' => ['lang_mask', 'ibexa_url_alias_ml_text_lang'],
     ];
 
     /**
@@ -126,35 +125,13 @@ final class DropLanguageBitmaskColumnsMigration extends AbstractSqlMigration imp
         $this->abortIfTranslationsNotBackfilled(array_keys($tablesStillCarryingMask));
         $this->abortIfAlwaysAvailableNotBackfilled(array_keys($tablesStillCarryingMask));
 
-        foreach (self::DROPS as $table => [$maskColumn, $indexName, $replaceIndex]) {
+        foreach (self::DROPS as $table => [$maskColumn, $indexName]) {
             if (!isset($tablesStillCarryingMask[$table])) {
                 continue;
             }
 
-            $introspectedTable = $schemaManager->introspectTable($table);
-
-            if ($indexName !== null) {
-                $indexExists = $introspectedTable->hasIndex($indexName);
-                $indexStillHasMaskColumn = $indexExists
-                    && in_array($maskColumn, $introspectedTable->getIndex($indexName)->getColumns(), true);
-
-                if ($replaceIndex) {
-                    if ($indexStillHasMaskColumn) {
-                        // Still the old, mask-including definition - drop it before recreating
-                        // without the mask column below.
-                        $this->addSql($this->buildDropIndexSql($table, $indexName));
-                    }
-
-                    if ($indexStillHasMaskColumn || !$indexExists) {
-                        // Either just dropped above, or missing entirely because a prior partial
-                        // run dropped it but was interrupted before recreating it - either way it
-                        // still needs (re)creating in its final, mask-less form. If neither is true,
-                        // the index already exists in that final form and needs no change.
-                        $this->addSql($this->buildCreateUrlAliasTextParentIndexSql());
-                    }
-                } elseif ($indexExists) {
-                    $this->addSql($this->buildDropIndexSql($table, $indexName));
-                }
+            if ($indexName !== null && $schemaManager->introspectTable($table)->hasIndex($indexName)) {
+                $this->addSql($this->buildDropIndexSql($table, $indexName));
             }
 
             $this->addSql("ALTER TABLE {$table} DROP COLUMN {$maskColumn}");
@@ -171,15 +148,6 @@ final class DropLanguageBitmaskColumnsMigration extends AbstractSqlMigration imp
         return $this->isMySQL() || $this->isMariaDB()
             ? "ALTER TABLE {$table} DROP INDEX {$indexName}"
             : "DROP INDEX {$indexName}";
-    }
-
-    private function buildCreateUrlAliasTextParentIndexSql(): string
-    {
-        // Replaces the dropped "(text(32), parent)"/"(text, parent)" + lang index with a lang-less
-        // equivalent - "lang_mask" is gone, but the (text, parent) lookup itself is still needed.
-        return $this->isMySQL() || $this->isMariaDB()
-            ? 'ALTER TABLE ibexa_url_alias_ml ADD INDEX ibexa_url_alias_ml_text_lang (text(32), parent)'
-            : 'CREATE INDEX ibexa_url_alias_ml_text_lang ON ibexa_url_alias_ml (text, parent)';
     }
 
     /**
