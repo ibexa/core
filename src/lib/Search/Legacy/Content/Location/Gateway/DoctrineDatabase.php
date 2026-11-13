@@ -18,6 +18,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\LanguagePriorityConditionBuilder;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter;
 use Ibexa\Core\Search\Legacy\Content\Location\Gateway;
 use RuntimeException;
@@ -37,7 +38,8 @@ final class DoctrineDatabase extends Gateway
         private readonly Connection $connection,
         private readonly CriteriaConverter $criteriaConverter,
         private readonly SortClauseConverter $sortClauseConverter,
-        private readonly LanguageHandler $languageHandler
+        private readonly LanguageHandler $languageHandler,
+        private readonly LanguagePriorityConditionBuilder $languagePriorityConditionBuilder
     ) {}
 
     public function find(
@@ -61,8 +63,7 @@ final class DoctrineDatabase extends Gateway
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery->select(
             't.*',
-            'c.always_available',
-            'c.initial_language_id'
+            $this->languagePriorityConditionBuilder->buildMatchedLanguageExpression($selectQuery, $languageFilter) . ' AS matched_language_id'
         );
 
         if ($sortClauses !== null) {
