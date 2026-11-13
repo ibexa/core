@@ -29,7 +29,8 @@ use Symfony\Component\Console\Output\OutputInterface;
         The command <info>%command.name%</info> populates "ibexa_content_translation",
         "ibexa_content_version_translation" and "ibexa_url_alias_ml_translation" from the existing
         "language_mask"/"lang_mask" bitmask columns, and sets "always_available" on "ibexa_content"
-        and "ibexa_content_version" from bit 0 of "language_mask". It is idempotent - already-backfilled rows are
+        and "ibexa_content_version" and "is_always_available" on "ibexa_url_alias_ml" from bit 0 of
+        the mask. It is idempotent - already-backfilled rows are
         skipped - so it is safe to re-run, including after a partial/interrupted run.
 
         Run <info>ibexa:languages:verify-translations</info> afterward to confirm the backfill is complete.
@@ -122,7 +123,7 @@ final class BackfillLanguageTranslationsCommand
                  SELECT u.parent, u.text_md5, l.id FROM ibexa_url_alias_ml u
                  JOIN %s l ON (u.lang_mask & l.id) = l.id
                  WHERE u.id BETWEEN :from AND :to %s',
-                null,
+                'is_always_available',
             ],
             default => throw new InvalidArgumentException('table', "unknown table \"{$table}\"."),
         };
@@ -165,27 +166,22 @@ final class BackfillLanguageTranslationsCommand
         for ($from = $minId; $from <= $maxId; $from += $batchSize) {
             $to = min($from + $batchSize - 1, $maxId);
 
-            $flagged = 0;
             if ($dryRun) {
                 $inserted = (int)$this->connection->fetchOne(
                     $this->buildDryRunCountSql($table, $languageTable),
                     ['from' => $from, 'to' => $to]
                 );
-                if ($alwaysAvailableColumn !== null) {
-                    $flagged = (int)$this->connection->fetchOne(
-                        "SELECT COUNT(*) FROM {$sourceTable} WHERE {$pkColumn} BETWEEN :from AND :to AND {$alwaysAvailableMismatch}",
-                        ['from' => $from, 'to' => $to]
-                    );
-                }
+                $flagged = (int)$this->connection->fetchOne(
+                    "SELECT COUNT(*) FROM {$sourceTable} WHERE {$pkColumn} BETWEEN :from AND :to AND {$alwaysAvailableMismatch}",
+                    ['from' => $from, 'to' => $to]
+                );
             } else {
                 $inserted = $this->connection->executeStatement($insertSql, ['from' => $from, 'to' => $to]);
-                if ($alwaysAvailableColumn !== null) {
-                    $flagged = $this->connection->executeStatement(
-                        "UPDATE {$sourceTable} SET {$alwaysAvailableColumn} = (({$maskColumn} & 1) = 1)
-                         WHERE {$pkColumn} BETWEEN :from AND :to AND {$alwaysAvailableMismatch}",
-                        ['from' => $from, 'to' => $to]
-                    );
-                }
+                $flagged = $this->connection->executeStatement(
+                    "UPDATE {$sourceTable} SET {$alwaysAvailableColumn} = (({$maskColumn} & 1) = 1)
+                     WHERE {$pkColumn} BETWEEN :from AND :to AND {$alwaysAvailableMismatch}",
+                    ['from' => $from, 'to' => $to]
+                );
             }
 
             $totalInserted += $inserted;

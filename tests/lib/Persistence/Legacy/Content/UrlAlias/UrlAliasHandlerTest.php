@@ -5264,9 +5264,6 @@ class UrlAliasHandlerTest extends TestCase
     /** @var LanguageHandler */
     protected $languageHandler;
 
-    /** @var LanguageMaskGenerator */
-    protected $languageMaskGenerator;
-
     /**
      * @param array $methods
      *
@@ -5283,7 +5280,6 @@ class UrlAliasHandlerTest extends TestCase
                     self::createStub(LanguageHandler::class),
                     self::createStub(SlugConverter::class),
                     self::createStub(Gateway::class),
-                    self::createStub(LanguageMaskGenerator::class),
                     self::createStub(TransactionHandler::class),
                 ]
             )
@@ -5299,12 +5295,11 @@ class UrlAliasHandlerTest extends TestCase
     protected function getHandler(): Handler
     {
         $languageHandler = $this->getLanguageHandler();
-        $languageMaskGenerator = $this->getLanguageMaskGenerator();
         $gateway = new DoctrineDatabase(
             $this->getDatabaseConnection(),
-            $languageMaskGenerator
+            $languageHandler
         );
-        $mapper = new Mapper($languageMaskGenerator);
+        $mapper = new Mapper($gateway, $languageHandler);
         $slugConverter = new SlugConverter(
             $this->getProcessor(),
             ['transformation' => 'urlalias']
@@ -5315,7 +5310,7 @@ class UrlAliasHandlerTest extends TestCase
             $this->getSharedGateway(),
             new ContentGateway\QueryBuilder($connection),
             $languageHandler,
-            $languageMaskGenerator
+            new LanguageMaskGenerator($languageHandler)
         );
 
         return new Handler(
@@ -5325,7 +5320,6 @@ class UrlAliasHandlerTest extends TestCase
             $languageHandler,
             $slugConverter,
             $contentGateway,
-            $languageMaskGenerator,
             self::createStub(TransactionHandler::class)
         );
     }
@@ -5342,20 +5336,6 @@ class UrlAliasHandlerTest extends TestCase
         }
 
         return $this->languageHandler;
-    }
-
-    /**
-     * @return LanguageMaskGenerator
-     */
-    protected function getLanguageMaskGenerator()
-    {
-        if (!isset($this->languageMaskGenerator)) {
-            $this->languageMaskGenerator = new LanguageMaskGenerator(
-                $this->getLanguageHandler()
-            );
-        }
-
-        return $this->languageMaskGenerator;
     }
 
     /**

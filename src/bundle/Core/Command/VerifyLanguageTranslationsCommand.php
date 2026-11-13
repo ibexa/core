@@ -29,7 +29,7 @@ use Symfony\Component\Console\Output\OutputInterface;
         "language_mask"/"lang_mask" columns they were backfilled from, reporting:
           - <comment>missing</comment>: a language bit set in the mask with no corresponding translation row
           - <comment>orphaned</comment>: a translation row whose bit is no longer set in the mask
-          - <comment>wrong always-available flag</comment>: an "always_available" value that doesn't match bit 0 of the mask
+          - <comment>wrong always-available flag</comment>: an "always_available"/"is_always_available" value that doesn't match bit 0 of the mask
 
         Exits non-zero if any drift is found and <info>--fix</info> was not passed. Run this after
         <info>ibexa:languages:backfill-translations</info>, and again before relying on the translation
@@ -50,20 +50,14 @@ final class VerifyLanguageTranslationsCommand
     ];
 
     /**
-     * Table => [source table carrying the legacy mask, mask column].
+     * Table => [source table carrying the legacy mask, mask column, always-available column].
      *
-     * @var array<string, array{0: string, 1: string}>
+     * @var array<string, array{0: string, 1: string, 2: string}>
      */
     private const array SOURCE_TABLES = [
-        self::TABLE_CONTENT => ['ibexa_content', 'language_mask'],
-        self::TABLE_CONTENT_VERSION => ['ibexa_content_version', 'language_mask'],
-        self::TABLE_URL_ALIAS => ['ibexa_url_alias_ml', 'lang_mask'],
-    ];
-
-    /** @var array<string, string> */
-    private const array ALWAYS_AVAILABLE_COLUMNS = [
-        self::TABLE_CONTENT => 'always_available',
-        self::TABLE_CONTENT_VERSION => 'always_available',
+        self::TABLE_CONTENT => ['ibexa_content', 'language_mask', 'always_available'],
+        self::TABLE_CONTENT_VERSION => ['ibexa_content_version', 'language_mask', 'always_available'],
+        self::TABLE_URL_ALIAS => ['ibexa_url_alias_ml', 'lang_mask', 'is_always_available'],
     ];
 
     /**
@@ -212,7 +206,7 @@ final class VerifyLanguageTranslationsCommand
         bool $fix,
         OutputInterface $output
     ): bool {
-        [$sourceTable, $maskColumn] = self::SOURCE_TABLES[$table];
+        [$sourceTable, $maskColumn, $alwaysAvailableColumn] = self::SOURCE_TABLES[$table];
 
         // The mask column is dropped once a schema has fully completed the language bitmask
         // migration (DropLanguageBitmaskColumnsMigration), and a fresh install's schema.yaml never
@@ -228,14 +222,11 @@ final class VerifyLanguageTranslationsCommand
         $languageTable = $this->resolveLanguageTableName($schemaManager);
         $queries = $this->buildQueries($table, $languageTable);
 
-        $alwaysAvailableColumn = self::ALWAYS_AVAILABLE_COLUMNS[$table] ?? null;
         $alwaysAvailableMismatch = "{$alwaysAvailableColumn} <> (({$maskColumn} & 1) = 1)";
 
         $missing = (int)$this->connection->fetchOne($queries['missing']);
         $orphaned = (int)$this->connection->fetchOne($queries['orphaned']);
-        $mismatched = $alwaysAvailableColumn === null
-            ? 0
-            : (int)$this->connection->fetchOne("SELECT COUNT(*) FROM {$sourceTable} WHERE {$alwaysAvailableMismatch}");
+        $mismatched = (int)$this->connection->fetchOne("SELECT COUNT(*) FROM {$sourceTable} WHERE {$alwaysAvailableMismatch}");
 
         if ($missing === 0 && $orphaned === 0 && $mismatched === 0) {
             $output->writeln("<info>{$table}: in sync.</info>");
