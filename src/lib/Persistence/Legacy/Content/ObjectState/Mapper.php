@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Content\ObjectState;
 
@@ -11,29 +12,15 @@ use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct;
-use Ibexa\Core\Persistence\Legacy\Content\Language\Handler;
 
 /**
  * Mapper for ObjectState and object state Group objects.
  */
 class Mapper
 {
-    /**
-     * Language handler.
-     *
-     * @var Handler
-     */
-    protected $languageHandler;
-
-    /**
-     * Creates a new mapper.
-     *
-     * @param LanguageHandler $languageHandler
-     */
-    public function __construct(LanguageHandler $languageHandler)
-    {
-        $this->languageHandler = $languageHandler;
-    }
+    public function __construct(
+        protected LanguageHandler $languageHandler
+    ) {}
 
     /**
      * Creates ObjectState object from provided $data.
