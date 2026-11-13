@@ -172,7 +172,11 @@ class HandlerLocationTest extends AbstractTestCase
                         new CommonSortClauseHandler\ContentId($connection),
                     ]
                 ),
-                $this->getLanguageHandler()
+                $this->getLanguageHandler(),
+                new Content\Common\Gateway\LanguagePriorityConditionBuilder(
+                    $this->getDatabaseConnection(),
+                    $this->getLanguageHandler()
+                )
             ),
             new Content\WordIndexer\Gateway\DoctrineDatabase(
                 $this->getDatabaseConnection(),
@@ -185,8 +189,7 @@ class HandlerLocationTest extends AbstractTestCase
             self::createStub(ContentMapper::class),
             $this->getLocationMapperMock(),
             $this->getLanguageHandler(),
-            $this->getFullTextMapper($this->getContentTypeHandler()),
-            $this->getContentGateway()
+            $this->getFullTextMapper($this->getContentTypeHandler())
         );
     }
 

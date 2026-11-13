@@ -18,6 +18,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\LanguagePriorityConditionBuilder;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter;
 use Ibexa\Core\Search\Legacy\Content\Gateway;
 use RuntimeException;
@@ -55,7 +56,8 @@ final class DoctrineDatabase extends Gateway
         Connection $connection,
         CriteriaConverter $criteriaConverter,
         SortClauseConverter $sortClauseConverter,
-        LanguageHandler $languageHandler
+        LanguageHandler $languageHandler,
+        private readonly LanguagePriorityConditionBuilder $languagePriorityConditionBuilder
     ) {
         $this->connection = $connection;
         $this->criteriaConverter = $criteriaConverter;
@@ -200,6 +202,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query->select(
             'DISTINCT c.*, main_tree.main_node_id AS main_tree_main_node_id',
+            $this->languagePriorityConditionBuilder->buildMatchedLanguageExpression($query, $languageFilter) . ' AS matched_language_id',
         );
 
         if ($sort !== null) {
