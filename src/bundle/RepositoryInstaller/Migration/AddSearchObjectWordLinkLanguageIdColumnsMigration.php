@@ -9,41 +9,22 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\RepositoryInstaller\Migration;
 
 use DateTimeImmutable;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Schema\Schema;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\AbstractSqlMigration;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationInterface;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
 
 /**
- * Adds "language_id" and "is_main_and_always_available" columns to
- * "ibexa_search_object_word_link", backfilled from its "language_mask" column (part of step 5 of
- * the language bitmask migration). Unlike other multilingual tables, this one only ever stored a
- * single language id per row (OR-ed with the always-available bit), so the replacement is a plain
- * id column plus a boolean flag rather than a join table. "language_mask" itself is dropped later,
- * once every write path has stopped populating it - see DropLanguageBitmaskColumnsMigration.
- *
- * Existing search index rows are backfilled here for consistency with every other step of this
- * migration, but the recommended (and, for a fully corrected index, mandatory) follow-up is a full
- * search reindex - the word-splitting/normalization logic itself is untouched, but this guarantees
- * newly indexed content never round-trips through the legacy bitmask columns.
- *
- * The two columns (and their backfills) are checked and queued independently: on MySQL, each
- * `ALTER TABLE`/`UPDATE` auto-commits independently, so a failure after adding "language_id" but
- * before adding "is_main_and_always_available" (or before either backfill runs) must not make a
- * retry mistake "the first column already exists" for "this migration already fully ran" and
- * silently skip the rest. Each backfill UPDATE is idempotent (derived only from "language_mask",
- * which this migration never modifies), so re-running it whenever anything else is still missing is
- * always safe.
- *
- * Guarded via the connection's schema manager rather than the injected $schema, because
- * TaggedMigrationsRunner (the "ibexa:install" path) invokes up() with an empty Schema, so
- * $schema->hasTable()/hasColumn() would always report false there.
+ * Adds "language_id" and "is_main_and_always_available" to "ibexa_search_object_word_link", backfilled from "language_mask".
  */
 final class AddSearchObjectWordLinkLanguageIdColumnsMigration extends AbstractSqlMigration implements IbexaMigrationInterface
 {
     private const string TABLE = 'ibexa_search_object_word_link';
     private const string LANGUAGE_ID_COLUMN = 'language_id';
     private const string IS_MAIN_AND_ALWAYS_AVAILABLE_COLUMN = 'is_main_and_always_available';
+    private const string LANGUAGE_MASK_COLUMN = 'language_mask';
+    private const int BATCH_SIZE = 5000;
 
     public function getDescription(): string
     {
@@ -60,6 +41,11 @@ final class AddSearchObjectWordLinkLanguageIdColumnsMigration extends AbstractSq
         return new DateTimeImmutable('2026-10-19 03:00:00');
     }
 
+    public function isTransactional(): bool
+    {
+        return false;
+    }
+
     public function up(Schema $schema): void
     {
         $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::MARIADB, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
@@ -71,30 +57,41 @@ final class AddSearchObjectWordLinkLanguageIdColumnsMigration extends AbstractSq
         }
 
         $table = $schemaManager->introspectTable(self::TABLE);
-        $hasLanguageIdColumn = $table->hasColumn(self::LANGUAGE_ID_COLUMN);
-        $hasAlwaysAvailableColumn = $table->hasColumn(self::IS_MAIN_AND_ALWAYS_AVAILABLE_COLUMN);
 
-        if ($hasLanguageIdColumn && $hasAlwaysAvailableColumn) {
-            // Already fully applied - avoid an unconditional full-table backfill re-scan once this
-            // migration has genuinely completed.
-            return;
-        }
-
-        if (!$hasLanguageIdColumn) {
+        if (!$table->hasColumn(self::LANGUAGE_ID_COLUMN)) {
             $this->addSql($this->buildAddLanguageIdColumnSql());
         }
 
-        if (!$hasAlwaysAvailableColumn) {
+        if (!$table->hasColumn(self::IS_MAIN_AND_ALWAYS_AVAILABLE_COLUMN)) {
             $this->addSql($this->buildAddAlwaysAvailableColumnSql());
         }
 
-        $this->addSql(
-            'UPDATE ' . self::TABLE . ' SET ' . self::LANGUAGE_ID_COLUMN . ' = (language_mask & -2)'
-        );
-        $this->addSql(
-            'UPDATE ' . self::TABLE . ' SET ' . self::IS_MAIN_AND_ALWAYS_AVAILABLE_COLUMN . ' = ' .
-            ($this->isPostgreSQL() ? 'true' : '1') . ' WHERE (language_mask & 1) = 1'
-        );
+        if (!$table->hasColumn(self::LANGUAGE_MASK_COLUMN)) {
+            return;
+        }
+
+        $range = $this->connection->fetchAssociative('SELECT MIN(id) AS min_id, MAX(id) AS max_id FROM ' . self::TABLE);
+        if ($range === false || $range['min_id'] === null) {
+            return;
+        }
+
+        $languageId = '(' . self::LANGUAGE_MASK_COLUMN . ' & -2)';
+        $isMainAndAlwaysAvailable = '((' . self::LANGUAGE_MASK_COLUMN . ' & 1) = 1)';
+        $sql = 'UPDATE ' . self::TABLE
+            . ' SET ' . self::LANGUAGE_ID_COLUMN . " = {$languageId}, "
+            . self::IS_MAIN_AND_ALWAYS_AVAILABLE_COLUMN . " = {$isMainAndAlwaysAvailable}"
+            . ' WHERE id BETWEEN :from AND :to'
+            . ' AND (' . self::LANGUAGE_ID_COLUMN . " <> {$languageId} OR "
+            . self::IS_MAIN_AND_ALWAYS_AVAILABLE_COLUMN . " <> {$isMainAndAlwaysAvailable})";
+
+        $maxId = (int)$range['max_id'];
+        for ($from = (int)$range['min_id']; $from <= $maxId; $from += self::BATCH_SIZE) {
+            $this->addSql(
+                $sql,
+                ['from' => $from, 'to' => min($from + self::BATCH_SIZE - 1, $maxId)],
+                ['from' => ParameterType::INTEGER, 'to' => ParameterType::INTEGER]
+            );
+        }
     }
 
     private function buildAddLanguageIdColumnSql(): string
