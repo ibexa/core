@@ -216,10 +216,6 @@ final class DoctrineGateway implements Gateway
                 (string)$query->expr()->and(
                     'content.id = content_name.contentobject_id',
                     'version.version = content_name.content_version',
-                    // content_name.language_id may still carry a stray pre-migration "always
-                    // available" bit (+1) that was never cleaned up retroactively - tolerate it
-                    // the same defensive way LanguagePriorityConditionBuilder does for
-                    // ibexa_content_field.language_id.
                     'EXISTS (
                         SELECT 1 FROM ' . ContentGateway::CONTENT_VERSION_TRANSLATION_TABLE . ' cvt
                         WHERE cvt.content_version_id = version.id
@@ -260,9 +256,6 @@ final class DoctrineGateway implements Gateway
                 (string)$query->expr()->and(
                     'content.id = content_field.contentobject_id',
                     'version.version = content_field.version',
-                    // content_field.language_id may still carry a stray pre-migration "always
-                    // available" bit (+1) that was never cleaned up retroactively - see the same
-                    // tolerance in bulkFetchVersionNames() above.
                     'EXISTS (
                         SELECT 1 FROM ' . ContentGateway::CONTENT_VERSION_TRANSLATION_TABLE . ' cvt
                         WHERE cvt.content_version_id = version.id
