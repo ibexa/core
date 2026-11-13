@@ -98,8 +98,8 @@ class DoctrineDatabaseTest extends TestCase
                 'parent' => '2',
                 'text_md5' => 'c67ed9a09ab136fae610b6a087d82e21',
                 'language_ids' => [2],
-                'ibexa_url_alias_ml0_is_always_available' => '0',
-                'is_always_available' => '1',
+                'ibexa_url_alias_ml0_always_available' => '0',
+                'always_available' => '1',
                 'ibexa_url_alias_ml0_lang_mask' => '2',
                 'lang_mask' => '3',
             ],
@@ -142,8 +142,8 @@ class DoctrineDatabaseTest extends TestCase
                 'parent' => '2',
                 'text_md5' => 'c67ed9a09ab136fae610b6a087d82e21',
                 'language_ids' => [2, 4],
-                'ibexa_url_alias_ml0_is_always_available' => '1',
-                'is_always_available' => '0',
+                'ibexa_url_alias_ml0_always_available' => '1',
+                'always_available' => '0',
                 'ibexa_url_alias_ml0_lang_mask' => '3',
                 'lang_mask' => '6',
             ],
@@ -161,7 +161,7 @@ class DoctrineDatabaseTest extends TestCase
                 2,
                 [
                     [
-                        ['parent' => '0', 'text_md5' => '6896260129051a949051c3847c34466f', 'is_always_available' => true, 'text' => 'jedan', 'language_ids' => [2]],
+                        ['parent' => '0', 'text_md5' => '6896260129051a949051c3847c34466f', 'always_available' => true, 'text' => 'jedan', 'language_ids' => [2]],
                     ],
                 ],
             ],
@@ -169,11 +169,11 @@ class DoctrineDatabaseTest extends TestCase
                 3,
                 [
                     [
-                        ['parent' => '0', 'text_md5' => '6896260129051a949051c3847c34466f', 'is_always_available' => true, 'text' => 'jedan', 'language_ids' => [2]],
+                        ['parent' => '0', 'text_md5' => '6896260129051a949051c3847c34466f', 'always_available' => true, 'text' => 'jedan', 'language_ids' => [2]],
                     ],
                     [
-                        ['parent' => '2', 'text_md5' => 'b8a9f715dbb64fd5c56e7783c6820a61', 'is_always_available' => true, 'text' => 'two', 'language_ids' => [4]],
-                        ['parent' => '2', 'text_md5' => 'c67ed9a09ab136fae610b6a087d82e21', 'is_always_available' => true, 'text' => 'dva', 'language_ids' => [2]],
+                        ['parent' => '2', 'text_md5' => 'b8a9f715dbb64fd5c56e7783c6820a61', 'always_available' => true, 'text' => 'two', 'language_ids' => [4]],
+                        ['parent' => '2', 'text_md5' => 'c67ed9a09ab136fae610b6a087d82e21', 'always_available' => true, 'text' => 'dva', 'language_ids' => [2]],
                     ],
                 ],
             ],
@@ -181,16 +181,16 @@ class DoctrineDatabaseTest extends TestCase
                 4,
                 [
                     [
-                        ['parent' => '0', 'text_md5' => '6896260129051a949051c3847c34466f', 'is_always_available' => true, 'text' => 'jedan', 'language_ids' => [2]],
+                        ['parent' => '0', 'text_md5' => '6896260129051a949051c3847c34466f', 'always_available' => true, 'text' => 'jedan', 'language_ids' => [2]],
                     ],
                     [
-                        ['parent' => '2', 'text_md5' => 'b8a9f715dbb64fd5c56e7783c6820a61', 'is_always_available' => true, 'text' => 'two', 'language_ids' => [4]],
-                        ['parent' => '2', 'text_md5' => 'c67ed9a09ab136fae610b6a087d82e21', 'is_always_available' => true, 'text' => 'dva', 'language_ids' => [2]],
+                        ['parent' => '2', 'text_md5' => 'b8a9f715dbb64fd5c56e7783c6820a61', 'always_available' => true, 'text' => 'two', 'language_ids' => [4]],
+                        ['parent' => '2', 'text_md5' => 'c67ed9a09ab136fae610b6a087d82e21', 'always_available' => true, 'text' => 'dva', 'language_ids' => [2]],
                     ],
                     [
-                        ['parent' => '3', 'text_md5' => '1d8d2fd0a99802b89eb356a86e029d25', 'is_always_available' => true, 'text' => 'drei', 'language_ids' => [8]],
-                        ['parent' => '3', 'text_md5' => '35d6d33467aae9a2e3dccb4b6b027878', 'is_always_available' => true, 'text' => 'three', 'language_ids' => [4]],
-                        ['parent' => '3', 'text_md5' => 'd2cfe69af2d64330670e08efb2c86df7', 'is_always_available' => true, 'text' => 'tri', 'language_ids' => [2]],
+                        ['parent' => '3', 'text_md5' => '1d8d2fd0a99802b89eb356a86e029d25', 'always_available' => true, 'text' => 'drei', 'language_ids' => [8]],
+                        ['parent' => '3', 'text_md5' => '35d6d33467aae9a2e3dccb4b6b027878', 'always_available' => true, 'text' => 'three', 'language_ids' => [4]],
+                        ['parent' => '3', 'text_md5' => 'd2cfe69af2d64330670e08efb2c86df7', 'always_available' => true, 'text' => 'tri', 'language_ids' => [2]],
                     ],
                 ],
             ],
@@ -226,7 +226,7 @@ class DoctrineDatabaseTest extends TestCase
                 2,
                 [
                     [
-                        ['parent' => '0', 'text_md5' => '6896260129051a949051c3847c34466f', 'is_always_available' => true, 'text' => 'jedan', 'language_ids' => [2]],
+                        ['parent' => '0', 'text_md5' => '6896260129051a949051c3847c34466f', 'always_available' => true, 'text' => 'jedan', 'language_ids' => [2]],
                     ],
                 ],
             ],
@@ -234,10 +234,10 @@ class DoctrineDatabaseTest extends TestCase
                 3,
                 [
                     [
-                        ['parent' => '0', 'text_md5' => '6896260129051a949051c3847c34466f', 'is_always_available' => true, 'text' => 'jedan', 'language_ids' => [2]],
+                        ['parent' => '0', 'text_md5' => '6896260129051a949051c3847c34466f', 'always_available' => true, 'text' => 'jedan', 'language_ids' => [2]],
                     ],
                     [
-                        ['parent' => '2', 'text_md5' => 'c67ed9a09ab136fae610b6a087d82e21', 'is_always_available' => false, 'text' => 'dva', 'language_ids' => [2, 4]],
+                        ['parent' => '2', 'text_md5' => 'c67ed9a09ab136fae610b6a087d82e21', 'always_available' => false, 'text' => 'dva', 'language_ids' => [2, 4]],
                     ],
                 ],
             ],
@@ -245,14 +245,14 @@ class DoctrineDatabaseTest extends TestCase
                 4,
                 [
                     [
-                        ['parent' => '0', 'text_md5' => '6896260129051a949051c3847c34466f', 'is_always_available' => true, 'text' => 'jedan', 'language_ids' => [2]],
+                        ['parent' => '0', 'text_md5' => '6896260129051a949051c3847c34466f', 'always_available' => true, 'text' => 'jedan', 'language_ids' => [2]],
                     ],
                     [
-                        ['parent' => '2', 'text_md5' => 'c67ed9a09ab136fae610b6a087d82e21', 'is_always_available' => false, 'text' => 'dva', 'language_ids' => [2, 4]],
+                        ['parent' => '2', 'text_md5' => 'c67ed9a09ab136fae610b6a087d82e21', 'always_available' => false, 'text' => 'dva', 'language_ids' => [2, 4]],
                     ],
                     [
-                        ['parent' => '3', 'text_md5' => '35d6d33467aae9a2e3dccb4b6b027878', 'is_always_available' => false, 'text' => 'three', 'language_ids' => [4]],
-                        ['parent' => '3', 'text_md5' => 'd2cfe69af2d64330670e08efb2c86df7', 'is_always_available' => false, 'text' => 'tri', 'language_ids' => [2]],
+                        ['parent' => '3', 'text_md5' => '35d6d33467aae9a2e3dccb4b6b027878', 'always_available' => false, 'text' => 'three', 'language_ids' => [4]],
+                        ['parent' => '3', 'text_md5' => 'd2cfe69af2d64330670e08efb2c86df7', 'always_available' => false, 'text' => 'tri', 'language_ids' => [2]],
                     ],
                 ],
             ],
@@ -430,7 +430,7 @@ class DoctrineDatabaseTest extends TestCase
                 'parent' => '42',
                 'text' => 'dva',
                 'text_md5' => 'c67ed9a09ab136fae610b6a087d82e21',
-                'is_always_available' => '1',
+                'always_available' => '1',
                 'language_ids' => [2],
             ],
             $gateway->loadRow(42, 'c67ed9a09ab136fae610b6a087d82e21')

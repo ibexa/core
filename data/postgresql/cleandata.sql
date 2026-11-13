@@ -280,7 +280,7 @@ VALUES ('content/view/full/2',0,12,1,1,0,'d41d8cd98f00b204e9800998ecf8427e',''),
        ('content/view/full/52',0,29,1,1,0,'ad5a8c6f6aac3b1b9df267fe22e7aef6','media/files'),
        ('content/view/full/53',0,30,1,1,0,'562a0ac498571c6c3529173184a2657c','media/multimedia');
 
-INSERT INTO "ibexa_url_alias_ml" ("action", "action_type", "alias_redirects", "id", "is_alias", "is_original", "lang_mask", "is_always_available", "link", "parent", "text", "text_md5")
+INSERT INTO "ibexa_url_alias_ml" ("action", "action_type", "alias_redirects", "id", "is_alias", "is_original", "lang_mask", "always_available", "link", "parent", "text", "text_md5")
 VALUES ('nop:','nop',1,17,0,0,1,TRUE,17,0,'media2','50e2736330de124f6edea9b008556fe6'),
        ('eznode:43','eznode',1,9,0,1,3,TRUE,9,0,'Media','62933a2951ef01f4eafd9bdf4d3cd2f0'),
        ('nop:','nop',1,3,0,0,1,TRUE,3,0,'users2','86425c35a33507d479f71ade53a669aa'),
