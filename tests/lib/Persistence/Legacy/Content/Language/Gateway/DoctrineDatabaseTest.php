@@ -172,6 +172,19 @@ class DoctrineDatabaseTest extends TestCase
         );
     }
 
+    public function testStaleSearchIndexRowsDoNotBlockDeletingALanguage(): void
+    {
+        $gateway = $this->getDatabaseGateway();
+        $connection = $this->getDatabaseConnection();
+        $connection->insert('ibexa_search_object_word_link', ['id' => 1, 'identifier' => '', 'language_id' => 2]);
+
+        self::assertTrue($gateway->canDeleteLanguage(2));
+
+        $gateway->deleteLanguage(2);
+
+        self::assertSame(0, (int)$connection->fetchOne('SELECT COUNT(*) FROM ibexa_search_object_word_link'));
+    }
+
     public function testCanDeleteUnusedLanguageAdjacentToAnotherInUseLanguage(): void
     {
         $gateway = $this->getDatabaseGateway();
