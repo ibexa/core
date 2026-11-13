@@ -129,10 +129,6 @@ final class BackfillLanguageTranslationsCommand
             default => throw new InvalidArgumentException('table', "unknown table \"{$table}\"."),
         };
 
-        // The mask column is dropped once a schema has fully completed the language bitmask
-        // migration (DropLanguageBitmaskColumnsMigration), and a fresh install's schema.yaml never
-        // had it to begin with - in both cases there is nothing left to backfill, and the mask-based
-        // queries below would otherwise fail outright with "no such column"/"undefined column".
         $hasMaskColumn = $this->schemaAssetsFilterBypass->call(
             $this->connection,
             fn (): bool => $this->connection->createSchemaManager()->introspectTable($sourceTable)->hasColumn($maskColumn)
@@ -249,13 +245,6 @@ final class BackfillLanguageTranslationsCommand
         };
     }
 
-    /**
-     * Not yet renamed to "ibexa_language" at the point in the real migration sequence where this
-     * command's logic normally runs (as part of BackfillLanguageTranslationsMigration) - that
-     * rename happens later, in RenameLanguageTableMigration. When run manually/standalone
-     * after the full sequence (or against a fresh install, which starts from the renamed schema),
-     * the table is already "ibexa_language".
-     */
     private function resolveLanguageTableName(): string
     {
         $legacyTableExists = $this->schemaAssetsFilterBypass->call(
