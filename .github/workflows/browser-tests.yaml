@@ -12,6 +12,7 @@ jobs:
         uses: ibexa/gh-workflows/.github/workflows/browser-tests.yml@main
         with:
             project-edition: 'oss'
+            ci-scripts-branch: 'IBX-13147-apply-pins-before-edition'
             test-setup-phase-1: '--mode=standard --profile=core --suite=setup'
             test-suite: "--mode=standard --profile=core --tags='~@broken&&~@setup'"
         secrets: inherit
