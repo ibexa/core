@@ -188,14 +188,14 @@ class Handler implements BaseContentTypeHandler
         $groupId,
         $status = 0
     ) {
-        return $this->mapper->extractTypesFromRows(
+        return $this->extractTypesFromRows(
             $this->contentTypeGateway->loadTypesDataForGroup($groupId, $status)
         );
     }
 
     public function loadContentTypeList(array $contentTypeIds): array
     {
-        return $this->mapper->extractTypesFromRows(
+        return $this->extractTypesFromRows(
             $this->contentTypeGateway->loadTypesListData($contentTypeIds),
             true
         );
@@ -206,7 +206,7 @@ class Handler implements BaseContentTypeHandler
         array $prioritizedLanguages = []
     ): array {
         $rows = $this->contentTypeGateway->findContentTypes($query, $prioritizedLanguages);
-        $items = $this->mapper->extractTypesFromRows(
+        $items = $this->extractTypesFromRows(
             $rows['items'],
             true
         );
@@ -222,7 +222,7 @@ class Handler implements BaseContentTypeHandler
      */
     public function loadContentTypesByFieldDefinitionIdentifier(string $identifier): array
     {
-        return $this->mapper->extractTypesFromRows(
+        return $this->extractTypesFromRows(
             $this->contentTypeGateway->loadTypesDataByFieldDefinitionIdentifier($identifier)
         );
     }
@@ -287,6 +287,30 @@ class Handler implements BaseContentTypeHandler
     }
 
     /**
+     * @param array<array<string, mixed>> $rows
+     *
+     * @return Type[]
+     */
+    private function extractTypesFromRows(
+        array $rows,
+        bool $keepTypeIdAsKey = false
+    ): array {
+        $typeIdStatusPairs = [];
+        foreach ($rows as $row) {
+            $typeIdStatusPairs[$row['content_type_id'] . ':' . $row['content_type_status']] = [
+                'id' => (int)$row['content_type_id'],
+                'status' => (int)$row['content_type_status'],
+            ];
+        }
+
+        return $this->mapper->extractTypesFromRows(
+            $rows,
+            $keepTypeIdAsKey,
+            $this->contentTypeGateway->loadContentTypeTranslations(array_values($typeIdStatusPairs))
+        );
+    }
+
+    /**
      * Loads a single Type from $rows.
      *
      * @param array $rows
@@ -300,7 +324,7 @@ class Handler implements BaseContentTypeHandler
         $typeIdentifier,
         $status
     ) {
-        $types = $this->mapper->extractTypesFromRows($rows);
+        $types = $this->extractTypesFromRows($rows);
         if (count($types) !== 1) {
             throw new Exception\TypeNotFound($typeIdentifier, $status);
         }
