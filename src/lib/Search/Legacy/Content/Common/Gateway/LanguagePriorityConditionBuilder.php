@@ -16,18 +16,7 @@ use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 
 /**
- * Builds the "does $languageIdColumn hold the highest-priority translation this Content actually
- * has" condition shared by the Legacy Search Engine's field criterion (FieldBase) and field sort
- * clause (SortClauseHandler\Field).
- *
- * Historically this was expressed as bit-shift arithmetic directly on "c.language_mask" and
- * "$languageIdColumn" - a trick that only works because language ids are exact powers of two, with
- * no incremental replacement possible. The relational form instead asks "which of Content's actual
- * translations (via ibexa_content_translation) ranks highest in the requested priority list", via a
- * correlated `ORDER BY CASE ... LIMIT 1` subquery, and requires $languageIdColumn to equal that
- * pick. If none of Content's translations are in the priority list, and the caller allowed the
- * always-available fallback (the default), an always-available Content instead matches on its main
- * language - mirroring the original arithmetic's use of "c.language_mask"'s bit 0.
+ * Builds the condition matching the field language a Content is shown in for a language priority list.
  *
  * @internal
  */
@@ -45,7 +34,7 @@ final class LanguagePriorityConditionBuilder
     ) {}
 
     /**
-     * @param array{languages?: string[], useAlwaysAvailable?: bool} $languageSettings
+     * @param array{languages?: string[]} $languageSettings
      */
     public function buildCondition(
         QueryBuilder $query,
@@ -97,34 +86,14 @@ final class LanguagePriorityConditionBuilder
             ->orderBy($priorityCase)
             ->setMaxResults(1);
 
-        $priorityMatch = $query->expr()->eq($languageIdColumn, sprintf('(%s)', $subQuery->getSQL()));
-
-        if (!($languageSettings['useAlwaysAvailable'] ?? true)) {
-            return $priorityMatch;
-        }
-
-        // Content has none of the requested priority languages: an always-available Content falls
-        // back to matching its main language, same as the empty-$languageSettings branch above.
-        $hasRequestedLanguageSubQuery = $this->connection->createQueryBuilder();
-        $hasRequestedLanguageSubQuery
-            ->select('1')
-            ->from(ContentGateway::CONTENT_TRANSLATION_TABLE, 'ct')
-            ->where(
-                $hasRequestedLanguageSubQuery->expr()->and(
-                    sprintf('ct.content_id = %s', $contentIdColumn),
-                    $hasRequestedLanguageSubQuery->expr()->in(
-                        'ct.language_id',
-                        $query->createNamedParameter($languageIds, ArrayParameterType::INTEGER)
-                    )
-                )
-            );
-
-        $alwaysAvailableFallback = $query->expr()->and(
-            sprintf('NOT EXISTS (%s)', $hasRequestedLanguageSubQuery->getSQL()),
-            $alwaysAvailableColumn,
-            $query->expr()->eq($languageIdColumn, $mainLanguageIdColumn)
+        return $query->expr()->eq(
+            $languageIdColumn,
+            sprintf(
+                'COALESCE((%s), CASE WHEN %s THEN %s END)',
+                $subQuery->getSQL(),
+                $alwaysAvailableColumn,
+                $mainLanguageIdColumn
+            )
         );
-
-        return (string)$query->expr()->or($priorityMatch, $alwaysAvailableFallback);
     }
 }
