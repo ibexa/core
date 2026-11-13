@@ -1070,7 +1070,8 @@ final class DoctrineDatabase extends Gateway
             )
             ->andWhere(
                 $query->expr()->in('content_type_status', $query->createNamedParameter($statuses, ArrayParameterType::INTEGER))
-            );
+            )
+            ->orderBy('language_id');
 
         $translations = [];
         foreach ($query->executeQuery()->fetchAllAssociative() as $row) {
