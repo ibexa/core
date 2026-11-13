@@ -15,17 +15,9 @@ use Ibexa\Contracts\Core\Persistence\Content\UrlAlias;
  */
 class Mapper
 {
-    private Gateway $gateway;
-
-    private LanguageHandler $languageHandler;
-
     public function __construct(
-        Gateway $gateway,
-        LanguageHandler $languageHandler
-    ) {
-        $this->gateway = $gateway;
-        $this->languageHandler = $languageHandler;
-    }
+        private readonly LanguageHandler $languageHandler
+    ) {}
 
     /**
      * @param int[] $languageIds
@@ -56,9 +48,7 @@ class Mapper
         list($type, $destination) = $this->matchTypeAndDestination($data['action']);
         $urlAlias->id = $this->generateIdentityKey((int)$data['parent'], $data['text_md5']);
         $urlAlias->pathData = $this->normalizePathData($data['raw_path_data']);
-        $urlAlias->languageCodes = $this->loadLanguageCodes(
-            $this->gateway->loadTranslationLanguageIds((int)$data['parent'], $data['text_md5'])
-        );
+        $urlAlias->languageCodes = $this->loadLanguageCodes($data['language_ids']);
         $urlAlias->alwaysAvailable = (bool)$data['is_always_available'];
         $urlAlias->isHistory = isset($data['is_path_history']) ? $data['is_path_history'] : !$data['is_original'];
         $urlAlias->isCustom = (bool)$data['is_alias'];
@@ -97,7 +87,7 @@ class Mapper
     {
         $languageIds = [];
         foreach ($rows as $row) {
-            $languageIds[] = $this->gateway->loadTranslationLanguageIds((int)$row['parent'], $row['text_md5']);
+            $languageIds[] = $row['language_ids'];
         }
 
         return $this->loadLanguageCodes(array_unique(array_merge([], ...$languageIds)));
@@ -179,9 +169,7 @@ class Mapper
         array &$pathElementData,
         array $row
     ) {
-        $languageCodes = $this->loadLanguageCodes(
-            $this->gateway->loadTranslationLanguageIds((int)$row['parent'], $row['text_md5'])
-        );
+        $languageCodes = $this->loadLanguageCodes($row['language_ids']);
         $pathElementData['always-available'] = (bool)$row['is_always_available'];
         if (!empty($languageCodes)) {
             foreach ($languageCodes as $languageCode) {
