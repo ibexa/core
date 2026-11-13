@@ -4537,12 +4537,6 @@ parameters:
 			path: src/contracts/Test/IbexaKernelTestCase.php
 
 		-
-			message: '#^Parameter \#1 \$object of function get_class expects object, Symfony\\Component\\HttpKernel\\KernelInterface\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/contracts/Test/IbexaKernelTestCase.php
-
-		-
 			message: '#^Binary operation "\." between non\-falsy\-string and array\|bool\|float\|int\|string\|null results in an error\.$#'
 			identifier: binaryOp.invalid
 			count: 1
