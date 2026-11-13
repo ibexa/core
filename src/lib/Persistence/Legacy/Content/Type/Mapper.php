@@ -33,21 +33,17 @@ class Mapper
      */
     protected $converterRegistry;
 
-    private Gateway $gateway;
-
     private LanguageHandler $languageHandler;
 
     private StorageDispatcherInterface $storageDispatcher;
 
     public function __construct(
         ConverterRegistry $converterRegistry,
-        Gateway $gateway,
         LanguageHandler $languageHandler,
         StorageDispatcherInterface $storageDispatcher,
         private readonly FieldTypeAliasResolverInterface $fieldTypeAliasResolver
     ) {
         $this->converterRegistry = $converterRegistry;
-        $this->gateway = $gateway;
         $this->languageHandler = $languageHandler;
         $this->storageDispatcher = $storageDispatcher;
     }
@@ -111,12 +107,14 @@ class Mapper
      *
      * @param array $rows
      * @param bool $keepTypeIdAsKey
+     * @param array<string, string[]> $typeTranslations "{typeId}:{status}" => language codes
      *
      * @return array (Type)
      */
     public function extractTypesFromRows(
         array $rows,
-        bool $keepTypeIdAsKey = false
+        bool $keepTypeIdAsKey = false,
+        array $typeTranslations = []
     ) {
         $types = [];
         $fields = [];
@@ -130,15 +128,6 @@ class Mapper
 
             $rowsByAttributeId[$attributeId][] = $row;
         }
-
-        $typeIdStatusPairs = [];
-        foreach ($rows as $row) {
-            $typeIdStatusPairs[$row['content_type_id'] . ':' . $row['content_type_status']] = [
-                'id' => (int)$row['content_type_id'],
-                'status' => (int)$row['content_type_status'],
-            ];
-        }
-        $typeTranslations = $this->gateway->loadContentTypeTranslations(array_values($typeIdStatusPairs));
 
         foreach ($rows as $row) {
             $typeId = (int)$row['content_type_id'];
