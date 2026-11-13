@@ -47,10 +47,6 @@ final class DropLanguageBitmaskColumnsMigration extends AbstractSqlMigration imp
 {
     private const string CONTENT_TABLE = 'ibexa_content';
 
-    /**
-     * Not yet renamed to "ibexa_language" at this point in the migration sequence - that rename
-     * happens later, in {@see RenameLanguageTableMigration}.
-     */
     private const string LANGUAGE_TABLE = 'ibexa_content_language';
 
     /**
@@ -98,7 +94,7 @@ final class DropLanguageBitmaskColumnsMigration extends AbstractSqlMigration imp
 
     public static function getCreationDate(): DateTimeImmutable
     {
-        return new DateTimeImmutable('2026-10-19 05:00:00');
+        return new DateTimeImmutable('2026-10-19 08:00:00');
     }
 
     public function up(Schema $schema): void
