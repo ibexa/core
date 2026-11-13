@@ -8,7 +8,6 @@
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\UrlAlias;
 
 use Ibexa\Contracts\Core\Persistence\Content\UrlAlias;
-use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Mapper;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -313,37 +312,19 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
      */
     protected function getMapper()
     {
-        $languageHandler = $this->getLanguageHandler();
-
-        $languageIdsByRow = [];
-        foreach ($this->fixture as $row) {
-            $languageIdsByRow[$row['parent'] . ':' . $row['text_md5']]
-                = $this->extractLanguageIdsFromMask($row['lang_mask']);
-            foreach ($row['raw_path_data'] as $pathLevel) {
-                foreach ($pathLevel as $pathRow) {
-                    $languageIdsByRow[$pathRow['parent'] . ':' . $pathRow['text_md5']]
-                        = $this->extractLanguageIdsFromMask($pathRow['lang_mask']);
+        foreach ($this->fixture as &$row) {
+            $row['language_ids'] = $this->extractLanguageIdsFromMask($row['lang_mask']);
+            foreach ($row['raw_path_data'] as &$pathLevel) {
+                foreach ($pathLevel as &$pathRow) {
+                    $pathRow['language_ids'] = $this->extractLanguageIdsFromMask($pathRow['lang_mask']);
                 }
             }
         }
 
-        $gateway = $this->createMock(Gateway::class);
-        $gateway->method('loadTranslationLanguageIds')->willReturnCallback(
-            static function (
-                int $parent,
-                string $textMd5
-            ) use ($languageIdsByRow): array {
-                return $languageIdsByRow["{$parent}:{$textMd5}"] ?? [];
-            }
-        );
-
-        return new Mapper($gateway, $languageHandler);
+        return new Mapper($this->getLanguageHandler());
     }
 
     /**
-     * Decodes the fixture's legacy bitmask values into real (non-always-available) language ids,
-     * for driving the {@see Gateway::loadTranslationLanguageIds()} mock.
-     *
      * @return int[]
      */
     private function extractLanguageIdsFromMask(int $mask): array
