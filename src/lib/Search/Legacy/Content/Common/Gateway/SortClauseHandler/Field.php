@@ -24,33 +24,13 @@ use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler;
  */
 class Field extends SortClauseHandler
 {
-    /**
-     * Language handler.
-     *
-     * @var LanguageHandler
-     */
-    protected $languageHandler;
-
-    /**
-     * Content type handler.
-     *
-     * @var ContentTypeHandler
-     */
-    protected $contentTypeHandler;
-
-    private LanguagePriorityConditionBuilder $languagePriorityConditionBuilder;
-
     public function __construct(
         Connection $connection,
-        LanguageHandler $languageHandler,
-        ContentTypeHandler $contentTypeHandler,
-        LanguagePriorityConditionBuilder $languagePriorityConditionBuilder
+        protected LanguageHandler $languageHandler,
+        protected ContentTypeHandler $contentTypeHandler,
+        private readonly LanguagePriorityConditionBuilder $languagePriorityConditionBuilder
     ) {
         parent::__construct($connection);
-
-        $this->languageHandler = $languageHandler;
-        $this->contentTypeHandler = $contentTypeHandler;
-        $this->languagePriorityConditionBuilder = $languagePriorityConditionBuilder;
     }
 
     /**
