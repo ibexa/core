@@ -215,6 +215,7 @@ class Mapper
      *
      * @param array<array<string, scalar>> $rows
      * @param array<array<string, scalar>> $nameRows
+     * @param array<int, int[]> $versionLanguageIds
      * @param string $prefix
      * @param array<string>|null $translations
      *
@@ -223,6 +224,7 @@ class Mapper
     public function extractContentFromRows(
         array $rows,
         array $nameRows,
+        array $versionLanguageIds,
         string $prefix = 'content_',
         ?array $translations = null
     ): array {
@@ -242,7 +244,8 @@ class Mapper
         $fieldDefinitions = $this->loadCachedVersionFieldDefinitionsPerLanguage(
             $rows,
             $prefix,
-            $translations
+            $translations,
+            $versionLanguageIds
         );
 
         foreach ($rows as $row) {
@@ -258,7 +261,11 @@ class Mapper
             }
 
             if (!isset($versionInfos[$contentId][$versionId])) {
-                $versionInfos[$contentId][$versionId] = $this->extractVersionInfoFromRow($row);
+                $versionInfos[$contentId][$versionId] = $this->extractVersionInfoFromRow(
+                    $row,
+                    [],
+                    $versionLanguageIds[$versionId] ?? []
+                );
             }
 
             $fieldId = (int)$row["{$prefix}field_id"];
@@ -342,6 +349,7 @@ class Mapper
      * @phpstan-param TRawContentRow[] $rows
      *
      * @param string[]|null $translations
+     * @param array<int, int[]> $versionLanguageIds
      *
      * @phpstan-return TVersionedLanguageFieldDefinitionsMap
      *
@@ -350,7 +358,8 @@ class Mapper
     private function loadCachedVersionFieldDefinitionsPerLanguage(
         array $rows,
         string $prefix,
-        ?array $translations = null
+        ?array $translations,
+        array $versionLanguageIds
     ): array {
         $fieldDefinitions = [];
         $contentTypes = [];
@@ -360,13 +369,12 @@ class Mapper
             $contentId = (int)$row["{$prefix}id"];
             $versionId = (int)$row["{$prefix}version_id"];
             $contentTypeId = (int)$row["{$prefix}content_type_id"];
-            $languageMask = (int)$row["{$prefix}version_language_mask"];
 
             if (isset($fieldDefinitions[$contentId][$versionId])) {
                 continue;
             }
 
-            $allLanguagesCodes = $this->extractLanguageCodesFromMask($languageMask, $allLanguages);
+            $allLanguagesCodes = $this->mapLanguageIdsToCodes($versionLanguageIds[$versionId] ?? [], $allLanguages);
             $languageCodes = empty($translations) ? $allLanguagesCodes : array_intersect($translations, $allLanguagesCodes);
             $contentTypes[$contentTypeId] = $contentTypes[$contentTypeId] ?? $this->contentTypeHandler->load($contentTypeId);
             $contentType = $contentTypes[$contentTypeId];
@@ -406,7 +414,7 @@ class Mapper
         $contentInfo->ownerId = (int)$row["{$prefix}owner_id"];
         $contentInfo->publicationDate = (int)$row["{$prefix}published"];
         $contentInfo->modificationDate = (int)$row["{$prefix}modified"];
-        $contentInfo->alwaysAvailable = 1 === ((int)$row["{$prefix}language_mask"] & 1);
+        $contentInfo->alwaysAvailable = (bool)$row["{$prefix}always_available"];
         $contentInfo->mainLanguageCode = $this->languageHandler->load($row["{$prefix}initial_language_id"])->languageCode;
         $contentInfo->remoteId = (string)$row["{$prefix}remote_id"];
         $contentInfo->mainLocationId = ($row["{$treePrefix}main_node_id"] !== null ? (int)$row["{$treePrefix}main_node_id"] : null);
@@ -446,12 +454,14 @@ class Mapper
      *
      * @param array $row
      * @param array $names
+     * @param int[] $languageIds
      *
      * @return VersionInfo
      */
     private function extractVersionInfoFromRow(
         array $row,
-        array $names = []
+        array $names,
+        array $languageIds
     ) {
         $versionInfo = new VersionInfo();
         $versionInfo->id = (int)$row['content_version_id'];
@@ -465,11 +475,7 @@ class Mapper
 
         // Map language codes
         $allLanguages = $this->loadAllLanguagesWithIdKey();
-        $versionInfo->languageCodes = $this->extractLanguageCodesFromMask(
-            (int)$row['content_version_language_mask'],
-            $allLanguages,
-            $missing
-        );
+        $versionInfo->languageCodes = $this->mapLanguageIdsToCodes($languageIds, $allLanguages, $missing);
         $initialLanguageId = (int)$row['content_version_initial_language_id'];
         if (isset($allLanguages[$initialLanguageId])) {
             $versionInfo->initialLanguageCode = $allLanguages[$initialLanguageId]->languageCode;
@@ -493,11 +499,14 @@ class Mapper
      * @phpstan-param TRawContentRow[] $rows
      * @phpstan-param TRawContentRow[] $nameRows
      *
+     * @param array<int, int[]> $versionLanguageIds
+     *
      * @return VersionInfo[]
      */
     public function extractVersionInfoListFromRows(
         array $rows,
-        array $nameRows
+        array $nameRows,
+        array $versionLanguageIds
     ): array {
         $nameData = [];
         foreach ($nameRows as $row) {
@@ -520,8 +529,8 @@ class Mapper
                 $versionInfo->status = (int)$row['content_version_status'];
                 $versionInfo->names = $nameData[$versionId];
                 $versionInfoList[$versionId] = $versionInfo;
-                $versionInfo->languageCodes = $this->extractLanguageCodesFromMask(
-                    (int)$row['content_version_language_mask'],
+                $versionInfo->languageCodes = $this->mapLanguageIdsToCodes(
+                    $versionLanguageIds[$versionInfo->id] ?? [],
                     $allLanguages,
                     $missing
                 );
@@ -545,32 +554,24 @@ class Mapper
     }
 
     /**
-     * @param int $languageMask
-     * @param Language[] $allLanguages
+     * @param int[] $languageIds
+     * @param Language[] $allLanguages Keyed by language id
      * @param int[] &$missing
      *
      * @return string[]
      */
-    private function extractLanguageCodesFromMask(
-        int $languageMask,
+    private function mapLanguageIdsToCodes(
+        array $languageIds,
         array $allLanguages,
         &$missing = []
     ) {
-        $exp = 2;
         $result = [];
-
-        // Decomposition of $languageMask into its binary components to extract language codes
-        // check if $exp has not overflown and became float (happens for the last possible language in the mask)
-        while (is_int($exp) && $exp <= $languageMask) {
-            if ($languageMask & $exp) {
-                if (isset($allLanguages[$exp])) {
-                    $result[] = $allLanguages[$exp]->languageCode;
-                } else {
-                    $missing[] = $exp;
-                }
+        foreach ($languageIds as $languageId) {
+            if (isset($allLanguages[$languageId])) {
+                $result[] = $allLanguages[$languageId]->languageCode;
+            } else {
+                $missing[] = $languageId;
             }
-
-            $exp *= 2;
         }
 
         return $result;

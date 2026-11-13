@@ -4,7 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
-return [
+return  [
     0 => [
         'content_version_id' => 439,
         'content_version_version' => 1,
@@ -12,8 +12,9 @@ return [
         'content_version_creator_id' => 14,
         'content_version_created' => 1033920737,
         'content_version_status' => 3,
+        'content_version_contentobject_id' => 11,
         'content_version_initial_language_id' => 2,
-        'content_version_language_mask' => 3,
+        'content_version_always_available' => 1,
         'content_tree_main_node_id' => 12,
         'content_id' => 11,
         'content_content_type_id' => 3,
@@ -26,9 +27,8 @@ return [
         'content_published' => 1033920746,
         'content_status' => 1,
         'content_name' => 'Members',
-        'content_language_mask' => 3,
+        'content_always_available' => 1,
         'content_is_hidden' => 0,
-        'content_version_contentobject_id' => 11,
     ],
     1 => [
         'content_version_id' => 674,
@@ -37,8 +37,9 @@ return [
         'content_version_creator_id' => 14,
         'content_version_created' => 1311154215,
         'content_version_status' => 1,
+        'content_version_contentobject_id' => 11,
         'content_version_initial_language_id' => 2,
-        'content_version_language_mask' => 3,
+        'content_version_always_available' => 1,
         'content_tree_main_node_id' => 12,
         'content_id' => 11,
         'content_content_type_id' => 3,
@@ -51,8 +52,7 @@ return [
         'content_published' => 1033920746,
         'content_status' => 1,
         'content_name' => 'Members',
-        'content_language_mask' => 3,
+        'content_always_available' => 1,
         'content_is_hidden' => 0,
-        'content_version_contentobject_id' => 11,
     ],
 ];

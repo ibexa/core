@@ -240,7 +240,7 @@ class ContentHandlerTest extends TestCase
                 )
             );
 
-        $contentRows = [['content_version_version' => 1]];
+        $contentRows = [['content_version_id' => 1, 'content_version_version' => 1]];
 
         $gatewayMock->expects($this->once())
             ->method('load')
@@ -322,7 +322,7 @@ class ContentHandlerTest extends TestCase
             ->method('setStatus')
             ->with(23, VersionInfo::STATUS_ARCHIVED, 1);
 
-        $contentRows = [['content_version_version' => 2]];
+        $contentRows = [['content_version_id' => 2, 'content_version_version' => 2]];
 
         $gatewayMock->expects($this->once())
             ->method('load')
@@ -478,7 +478,7 @@ class ContentHandlerTest extends TestCase
         $mapperMock = $this->getMapperMock();
         $fieldHandlerMock = $this->getFieldHandlerMock();
 
-        $contentRows = [['content_version_version' => 2]];
+        $contentRows = [['content_version_id' => 2, 'content_version_version' => 2]];
 
         $gatewayMock->expects($this->once())
             ->method('load')
@@ -523,8 +523,8 @@ class ContentHandlerTest extends TestCase
         $mapperMock = $this->getMapperMock();
         $fieldHandlerMock = $this->getFieldHandlerMock();
         $contentRows = [
-            ['content_id' => 2, 'content_version_version' => 2],
-            ['content_id' => 3, 'content_version_version' => 1],
+            ['content_id' => 2, 'content_version_id' => 22, 'content_version_version' => 2],
+            ['content_id' => 3, 'content_version_id' => 31, 'content_version_version' => 1],
         ];
         $gatewayMock->expects($this->once())
             ->method('loadContentList')
@@ -541,6 +541,12 @@ class ContentHandlerTest extends TestCase
             ->with(self::equalTo([['id' => 2, 'version' => 2], ['id' => 3, 'version' => 1]]))
             ->willReturn($nameDataRows);
 
+        $versionLanguageIds = [22 => [2], 31 => [2, 4]];
+        $gatewayMock->expects($this->once())
+            ->method('loadVersionTranslations')
+            ->with([22, 31])
+            ->willReturn($versionLanguageIds);
+
         $expected = [
             2 => $this->getContentFixtureForDraft(2, 2),
             3 => $this->getContentFixtureForDraft(3, 1),
@@ -551,9 +557,11 @@ class ContentHandlerTest extends TestCase
             ->willReturnCallback(static function (
                 array $rows,
                 array $nameRows,
+                array $languageIds,
                 string $prefix = 'content_',
                 ?array $translations = null
-            ) use ($extractContentFromRowsMatcher, $contentRows, $nameDataRows, $expected): array {
+            ) use ($extractContentFromRowsMatcher, $contentRows, $nameDataRows, $versionLanguageIds, $expected): array {
+                self::assertSame($versionLanguageIds, $languageIds);
                 if ($extractContentFromRowsMatcher->numberOfInvocations() === 1) {
                     self::assertSame([$contentRows[0]], $rows);
                     self::assertSame([$nameDataRows[0]], $nameRows);
@@ -1038,7 +1046,7 @@ class ContentHandlerTest extends TestCase
     public function testLoadDraftsForUser(): void
     {
         $handler = $this->getContentHandler();
-        $rows = [['content_version_contentobject_id' => 42, 'content_version_version' => 2]];
+        $rows = [['content_version_id' => 2, 'content_version_contentobject_id' => 42, 'content_version_version' => 2]];
 
         $gatewayMock = $this->getGatewayMock();
         $mapperMock = $this->getMapperMock();
@@ -1152,7 +1160,7 @@ class ContentHandlerTest extends TestCase
         $locationHandlerMock = $this->getLocationGatewayMock();
         $fieldHandlerMock = $this->getFieldHandlerMock();
 
-        $rows = [['content_version_version' => 2]];
+        $rows = [['content_version_id' => 2, 'content_version_version' => 2]];
 
         // Load VersionInfo to delete fields
         $gatewayMock->expects($this->once())
@@ -1494,8 +1502,8 @@ class ContentHandlerTest extends TestCase
         ]);
 
         $versionRows = [
-            ['content_id' => 2, 'content_version_version' => 2],
-            ['content_id' => 3, 'content_version_version' => 1],
+            ['content_id' => 2, 'content_version_id' => 22, 'content_version_version' => 2],
+            ['content_id' => 3, 'content_version_id' => 31, 'content_version_version' => 1],
         ];
 
         $gatewayMock->expects($this->once())

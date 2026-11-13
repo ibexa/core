@@ -6,8 +6,11 @@
  */
 declare(strict_types=1);
 
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddContentAlwaysAvailableColumnsMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddContentVersionUniqueIndexMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddLanguageTranslationTablesMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddUrlAliasMlLinkIndexMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\BackfillLanguageTranslationsMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\ConvertMariaDbJsonColumnsMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\ConvertMariaDbJsonColumnsTo6_0Migration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\ConvertPostgreSqlSerialColumnsToIdentityMigration;
@@ -77,6 +80,18 @@ return static function (ContainerConfigurator $configurator): void {
         ->tag(IbexaMigrationTag::TAG);
 
     $services->set(RemoveStateAssignLocationLimitationsMigration::class)
+        ->arg('$connection', service('ibexa.persistence.connection'))
+        ->tag(IbexaMigrationTag::TAG);
+
+    $services->set(AddContentAlwaysAvailableColumnsMigration::class)
+        ->arg('$connection', service('ibexa.persistence.connection'))
+        ->tag(IbexaMigrationTag::TAG);
+
+    $services->set(AddLanguageTranslationTablesMigration::class)
+        ->arg('$connection', service('ibexa.persistence.connection'))
+        ->tag(IbexaMigrationTag::TAG);
+
+    $services->set(BackfillLanguageTranslationsMigration::class)
         ->arg('$connection', service('ibexa.persistence.connection'))
         ->tag(IbexaMigrationTag::TAG);
 };

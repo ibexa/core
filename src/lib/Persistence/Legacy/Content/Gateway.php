@@ -32,6 +32,8 @@ abstract class Gateway
     public const CONTENT_FIELD_TABLE = 'ibexa_content_field';
     public const CONTENT_VERSION_TABLE = 'ibexa_content_version';
     public const CONTENT_RELATION_TABLE = 'ibexa_content_relation';
+    public const CONTENT_TRANSLATION_TABLE = 'ibexa_content_translation';
+    public const CONTENT_VERSION_TRANSLATION_TABLE = 'ibexa_content_version_translation';
 
     public const CONTENT_FIELD_SEQ = 'ibexa_content_field_id_seq';
 
@@ -492,6 +494,24 @@ abstract class Gateway
      * @param array[] $rows array of hashes with 'id' and 'version' to load names for
      */
     abstract public function loadVersionedNameData(array $rows): array;
+
+    /**
+     * Loads the languages of the given Content items.
+     *
+     * @param int[] $contentIds
+     *
+     * @return array<int, int[]> Content id => language ids
+     */
+    abstract public function loadContentTranslations(array $contentIds): array;
+
+    /**
+     * Loads the languages of the given Content versions.
+     *
+     * @param int[] $versionIds
+     *
+     * @return array<int, int[]> Version id => language ids
+     */
+    abstract public function loadVersionTranslations(array $versionIds): array;
 
     /**
      * Bulk-copy all relations meta data for a copied Content item.
