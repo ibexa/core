@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Content\UrlAlias;
 
@@ -18,7 +19,6 @@ use Ibexa\Core\Base\Exceptions\ForbiddenException;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
-use Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\DTO\SwappedLocationProperties;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\DTO\UrlAliasForSwappedLocation;
@@ -53,79 +53,15 @@ class Handler implements UrlAliasHandlerInterface
      */
     public const URL_ALIAS_ID_PATTERN = '/^\d+-[a-f0-9]{32}$/';
 
-    /**
-     * UrlAlias Gateway.
-     *
-     * @var Gateway
-     */
-    protected $gateway;
-
-    /**
-     * Gateway for handling location data.
-     *
-     * @var LocationGateway
-     */
-    protected $locationGateway;
-
-    /**
-     * UrlAlias Mapper.
-     *
-     * @var Mapper
-     */
-    protected $mapper;
-
-    /**
-     * Caching language handler.
-     *
-     * @var CachingHandler
-     */
-    protected $languageHandler;
-
-    /**
-     * URL slug converter.
-     *
-     * @var SlugConverter
-     */
-    protected $slugConverter;
-
-    /**
-     * Gateway for handling content data.
-     *
-     * @var ContentGateway
-     */
-    protected $contentGateway;
-
-    /** @var TransactionHandler */
-    private $transactionHandler;
-
-    /**
-     * Creates a new UrlAlias Handler.
-     *
-     * @param Gateway $gateway
-     * @param Mapper $mapper
-     * @param LocationGateway $locationGateway
-     * @param LanguageHandler $languageHandler
-     * @param SlugConverter $slugConverter
-     * @param ContentGateway $contentGateway
-     * @param TransactionHandler $transactionHandler
-     */
     public function __construct(
-        Gateway $gateway,
-        Mapper $mapper,
-        LocationGateway $locationGateway,
-        LanguageHandler $languageHandler,
-        SlugConverter $slugConverter,
-        ContentGateway $contentGateway,
-        TransactionHandler $transactionHandler
-    ) {
-        $this->gateway = $gateway;
-        $this->mapper = $mapper;
-        $this->locationGateway = $locationGateway;
-        $this->languageHandler = $languageHandler;
-        $this->slugConverter = $slugConverter;
-        $this->contentGateway = $contentGateway;
-        $this->transactionHandler = $transactionHandler;
-    }
+        protected Gateway $gateway,
+        protected Mapper $mapper,
+        protected LocationGateway $locationGateway,
+        protected LanguageHandler $languageHandler,
+        protected SlugConverter $slugConverter,
+        protected ContentGateway $contentGateway,
+        private TransactionHandler $transactionHandler
+    ) {}
 
     public function publishUrlAliasForLocation(
         $locationId,
@@ -578,7 +514,7 @@ class Handler implements UrlAliasHandlerInterface
         foreach ($urlAliases as $urlAlias) {
             if ($urlAlias->isCustom) {
                 list($parentId, $textMD5) = explode('-', $urlAlias->id);
-                if (!$this->gateway->removeCustomAlias($parentId, $textMD5)) {
+                if (!$this->gateway->removeCustomAlias((int)$parentId, $textMD5)) {
                     return false;
                 }
             }

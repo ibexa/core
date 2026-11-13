@@ -12865,13 +12865,7 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/UrlAlias/Handler.php
 
 		-
-			message: '#^Parameter \#1 \$languageCode of method Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\CachingHandler\:\:loadByLanguageCode\(\) expects string, string\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/UrlAlias/Handler.php
-
-		-
-			message: '#^Parameter \#1 \$parentId of method Ibexa\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\Gateway\:\:removeCustomAlias\(\) expects int, string given\.$#'
+			message: '#^Parameter \#1 \$languageCode of method Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\\Handler\:\:loadByLanguageCode\(\) expects string, string\|null given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/lib/Persistence/Legacy/Content/UrlAlias/Handler.php
@@ -12880,12 +12874,6 @@ parameters:
 			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\DTO\\SwappedLocationProperties\:\:\$name \(string\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 3
-			path: src/lib/Persistence/Legacy/Content/UrlAlias/Handler.php
-
-		-
-			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\UrlAlias\\Handler\:\:\$languageHandler \(Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\CachingHandler\) does not accept Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\\Handler\.$#'
-			identifier: assign.propertyType
-			count: 1
 			path: src/lib/Persistence/Legacy/Content/UrlAlias/Handler.php
 
 		-
