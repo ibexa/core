@@ -31081,12 +31081,6 @@ parameters:
 			path: tests/bundle/Core/Routing/UrlAliasRouterTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\Routing\\UrlAliasRouterTest\:\:testMatchRequestVirtualCaseRedirectWithRootLocation\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/bundle/Core/Routing/UrlAliasRouterTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\Routing\\UrlAliasRouterTest\:\:testMatchRequestWithRootLocation\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -56583,18 +56577,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Routing\\UrlAliasRouterTest\:\:testMatchRequestResourceWithRedirect\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/MVC/Symfony/Routing/UrlAliasRouterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Routing\\UrlAliasRouterTest\:\:testMatchRequestVirtual\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/MVC/Symfony/Routing/UrlAliasRouterTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\MVC\\Symfony\\Routing\\UrlAliasRouterTest\:\:testMatchRequestVirtualWithCaseRedirect\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: tests/lib/MVC/Symfony/Routing/UrlAliasRouterTest.php
