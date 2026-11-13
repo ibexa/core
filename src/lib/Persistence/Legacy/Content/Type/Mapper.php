@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Content\Type;
 
@@ -26,27 +27,12 @@ use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
  */
 class Mapper
 {
-    /**
-     * Converter registry.
-     *
-     * @var ConverterRegistry
-     */
-    protected $converterRegistry;
-
-    private LanguageHandler $languageHandler;
-
-    private StorageDispatcherInterface $storageDispatcher;
-
     public function __construct(
-        ConverterRegistry $converterRegistry,
-        LanguageHandler $languageHandler,
-        StorageDispatcherInterface $storageDispatcher,
+        protected ConverterRegistry $converterRegistry,
+        private LanguageHandler $languageHandler,
+        private StorageDispatcherInterface $storageDispatcher,
         private readonly FieldTypeAliasResolverInterface $fieldTypeAliasResolver
-    ) {
-        $this->converterRegistry = $converterRegistry;
-        $this->languageHandler = $languageHandler;
-        $this->storageDispatcher = $storageDispatcher;
-    }
+    ) {}
 
     /**
      * Creates a Group from its create struct.
