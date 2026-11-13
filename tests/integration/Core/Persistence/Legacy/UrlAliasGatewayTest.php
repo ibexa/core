@@ -68,7 +68,7 @@ final class UrlAliasGatewayTest extends RepositoryTestCase
         return [
             'action' => 'nop:',
             'language_ids' => [2],
-            'is_always_available' => true,
+            'always_available' => true,
             'link' => 1,
             'parent' => 0,
             'text' => self::TEXT,

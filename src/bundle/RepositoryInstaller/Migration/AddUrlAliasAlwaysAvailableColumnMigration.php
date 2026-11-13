@@ -16,18 +16,18 @@ use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationInterface;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
 
 /**
- * Adds an "is_always_available" column to "ibexa_url_alias_ml", backfilled from bit 0 of "lang_mask".
+ * Adds an "always_available" column to "ibexa_url_alias_ml", backfilled from bit 0 of "lang_mask".
  */
 final class AddUrlAliasAlwaysAvailableColumnMigration extends AbstractSqlMigration implements IbexaMigrationInterface
 {
     private const string TABLE = 'ibexa_url_alias_ml';
-    private const string ALWAYS_AVAILABLE_COLUMN = 'is_always_available';
+    private const string ALWAYS_AVAILABLE_COLUMN = 'always_available';
     private const string LANGUAGE_MASK_COLUMN = 'lang_mask';
     private const int BATCH_SIZE = 5000;
 
     public function getDescription(): string
     {
-        return 'Adds "is_always_available" column to "ibexa_url_alias_ml", backfilled from the language mask';
+        return 'Adds "always_available" column to "ibexa_url_alias_ml", backfilled from the language mask';
     }
 
     public static function getTargetVersion(): string
