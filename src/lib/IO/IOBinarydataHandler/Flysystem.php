@@ -10,7 +10,9 @@ namespace Ibexa\Core\IO\IOBinarydataHandler;
 use Ibexa\Contracts\Core\IO\BinaryFileCreateStruct;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
 use Ibexa\Core\IO\Exception\IOException;
+use Ibexa\Core\IO\Flysystem\RangeReader\RangeReaderInterface;
 use Ibexa\Core\IO\IOBinarydataHandler;
+use Ibexa\Core\IO\RangeAwareIOBinarydataHandlerInterface;
 use Ibexa\Core\IO\UrlDecorator;
 use League\Flysystem\Config;
 use League\Flysystem\FilesystemException;
@@ -20,18 +22,22 @@ use League\Flysystem\Visibility;
 /**
  * @internal type-hint \Ibexa\Core\IO\IOBinarydataHandler instead
  */
-final class Flysystem implements IOBinarydataHandler
+final class Flysystem implements IOBinarydataHandler, RangeAwareIOBinarydataHandlerInterface
 {
     private FilesystemOperator $filesystem;
 
     private ?UrlDecorator $urlDecorator;
 
+    private ?RangeReaderInterface $rangeReader;
+
     public function __construct(
         FilesystemOperator $filesystem,
-        ?UrlDecorator $urlDecorator = null
+        ?UrlDecorator $urlDecorator = null,
+        ?RangeReaderInterface $rangeReader = null
     ) {
         $this->filesystem = $filesystem;
         $this->urlDecorator = $urlDecorator;
+        $this->rangeReader = $rangeReader;
     }
 
     public function create(BinaryFileCreateStruct $binaryFileCreateStruct): void
@@ -73,6 +79,22 @@ final class Flysystem implements IOBinarydataHandler
     {
         try {
             return $this->filesystem->readStream($spiBinaryFileId);
+        } catch (FilesystemException $e) {
+            throw new BinaryFileNotFoundException($spiBinaryFileId, $e);
+        }
+    }
+
+    public function getResourceRange(
+        string $spiBinaryFileId,
+        int $offset,
+        ?int $length = null
+    ) {
+        if ($this->rangeReader === null) {
+            return null;
+        }
+
+        try {
+            return $this->rangeReader->readStreamRange($spiBinaryFileId, $offset, $length);
         } catch (FilesystemException $e) {
             throw new BinaryFileNotFoundException($spiBinaryFileId, $e);
         }

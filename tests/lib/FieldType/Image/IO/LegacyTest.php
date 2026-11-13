@@ -12,8 +12,10 @@ use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Image\IO\Legacy as LegacyIOService;
 use Ibexa\Core\FieldType\Image\IO\OptionsProvider;
 use Ibexa\Core\IO\IOServiceInterface;
+use Ibexa\Core\IO\RangeAwareIOServiceInterface;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
+use Ibexa\Tests\Core\IO\Stream\NonSeekableStreamWrapper;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -416,6 +418,44 @@ class LegacyTest extends TestCase
             'resource',
             $this->service->getFileInputStream($binaryFile)
         );
+    }
+
+    public function testGetFileInputStreamRangeDelegatesToRangeAwarePublishedService(): void
+    {
+        $binaryFile = new BinaryFile(['id' => 'video.mp4']);
+        $resource = fopen('php://memory', 'rb');
+        $publishedIoService = $this->createMock(RangeAwareIOServiceInterface::class);
+        $publishedIoService
+            ->expects(self::once())
+            ->method('getFileInputStreamRange')
+            ->with($binaryFile, 100, 50)
+            ->willReturn($resource);
+        $this->draftIoServiceMock
+            ->expects(self::never())
+            ->method('getFileInputStream');
+
+        $service = new LegacyIOService(
+            $publishedIoService,
+            $this->draftIoServiceMock,
+            new OptionsProvider($this->createConfigResolverMock())
+        );
+
+        self::assertSame($resource, $service->getFileInputStreamRange($binaryFile, 100, 50));
+    }
+
+    public function testGetFileInputStreamRangeFallsBackForNonRangeAwarePublishedService(): void
+    {
+        $binaryFile = new BinaryFile(['id' => 'video.mp4']);
+        $this->publishedIoServiceMock
+            ->expects(self::once())
+            ->method('getFileInputStream')
+            ->with($binaryFile)
+            ->willReturn(NonSeekableStreamWrapper::open('0123456789'));
+        $this->draftIoServiceMock
+            ->expects(self::never())
+            ->method('getFileInputStream');
+
+        self::assertSame('456789', stream_get_contents($this->service->getFileInputStreamRange($binaryFile, 4)));
     }
 
     public function testDeleteBinaryFile()
