@@ -161,8 +161,10 @@ final class ImageThumbnailProxyStrategyTest extends TestCase
         $this->assertProxyInitializationFails($thumbnail, null);
     }
 
-    private function expectImageThumbnail(?VersionInfo $versionInfo, ?Thumbnail $thumbnail): void
-    {
+    private function expectImageThumbnail(
+        ?VersionInfo $versionInfo,
+        ?Thumbnail $thumbnail
+    ): void {
         $this->imageThumbnailStrategyMock
             ->expects(self::once())
             ->method('getThumbnail')

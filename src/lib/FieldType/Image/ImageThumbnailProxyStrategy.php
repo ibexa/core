@@ -96,8 +96,10 @@ final class ImageThumbnailProxyStrategy implements FieldTypeBasedThumbnailStrate
      * a lower priority never get a chance to provide one. Ask them directly when it fails, without image fields,
      * as those would lead back here.
      */
-    private function getFallbackThumbnail(Field $field, ?VersionInfo $versionInfo): ?Thumbnail
-    {
+    private function getFallbackThumbnail(
+        Field $field,
+        ?VersionInfo $versionInfo
+    ): ?Thumbnail {
         if ($versionInfo === null) {
             return null;
         }
