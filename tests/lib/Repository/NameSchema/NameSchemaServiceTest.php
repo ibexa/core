@@ -87,6 +87,10 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
                     'cro-HR' => 'jedan (text)',
                 ],
                 [
+                    'eng-GB' => 'one (two) one',
+                    'cro-HR' => 'jedan (dva) jedan',
+                ],
+                [
                     'eng-GB' => 'one - two',
                     'cro-HR' => 'jedan - dva',
                 ],
@@ -116,6 +120,10 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
                 [
                     'eng-GB' => ' (text)',
                     'cro-HR' => ' (text)',
+                ],
+                [
+                    'eng-GB' => ' (two) ',
+                    'cro-HR' => ' (Dva) ',
                 ],
                 [
                     'eng-GB' => 'three',
@@ -151,6 +159,7 @@ final class NameSchemaServiceTest extends BaseServiceMockTest
         $content = $this->buildTestContentObject();
         $schemas = [
             '<text1> (text)',
+            '<text1> (<text2>) <text1>',
             '<text3|(<text1> - <text2>)>',
             '<text3|(<text1> - <text2>)> (<text2>) <text2> (text2)',
             '<text3|(<text1> - <text2>)> (<text1> - <text2>) <text2>',
