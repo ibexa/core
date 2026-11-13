@@ -38,7 +38,7 @@ class MapperTest extends TestCase
 
         $mapper = new Mapper(
             $this->getConverterRegistryMock(),
-            $this->getLanguageHandlerMock(),
+            $this->getLanguageHandlerStub(),
             $this->getStorageDispatcherMock(),
             $this->getFieldTypeAliasResolver(),
         );
@@ -94,7 +94,7 @@ class MapperTest extends TestCase
 
         $mapper = new Mapper(
             $this->getConverterRegistryMock(),
-            $this->getLanguageHandlerMock(),
+            $this->getLanguageHandlerStub(),
             $this->getStorageDispatcherMock(),
             $this->getFieldTypeAliasResolver(),
         );
@@ -115,7 +115,7 @@ class MapperTest extends TestCase
 
         $mapper = new Mapper(
             $this->getConverterRegistryMock(),
-            $this->getLanguageHandlerMock(),
+            $this->getLanguageHandlerStub(),
             $this->getStorageDispatcherMock(),
             $this->getFieldTypeAliasResolver(),
         );
@@ -205,7 +205,7 @@ class MapperTest extends TestCase
 
         $mapper = new Mapper(
             $this->getConverterRegistryMock(),
-            $this->getLanguageHandlerMock(),
+            $this->getLanguageHandlerStub(),
             $this->getStorageDispatcherMock(),
             $this->getFieldTypeAliasResolver(),
         );
@@ -273,7 +273,7 @@ class MapperTest extends TestCase
 
         $mapper = new Mapper(
             $this->getConverterRegistryMock(),
-            $this->getLanguageHandlerMock(),
+            $this->getLanguageHandlerStub(),
             $this->getStorageDispatcherMock(),
             $this->getFieldTypeAliasResolver(),
         );
@@ -403,7 +403,7 @@ class MapperTest extends TestCase
 
         $mapper = new Mapper(
             $converterRegistry,
-            $this->getLanguageHandlerMock(),
+            $this->getLanguageHandlerStub(),
             $this->getStorageDispatcherMock(),
             $this->getFieldTypeAliasResolver(),
         );
@@ -440,7 +440,7 @@ class MapperTest extends TestCase
 
         $mapper = new Mapper(
             $converterRegistry,
-            $this->getLanguageHandlerMock(),
+            $this->getLanguageHandlerStub(),
             $storageDispatcher,
             $this->getFieldTypeAliasResolver(),
         );
@@ -458,7 +458,7 @@ class MapperTest extends TestCase
         $mapper = $this->getMockBuilder(Mapper::class)
             ->setConstructorArgs([
                 $this->getConverterRegistryMock(),
-                $this->getLanguageHandlerMock(),
+                $this->getLanguageHandlerStub(),
                 $this->getStorageDispatcherMock(),
                 $this->getFieldTypeAliasResolver(),
             ])
@@ -513,13 +513,13 @@ class MapperTest extends TestCase
         return require __DIR__ . '/_fixtures/map_load_group.php';
     }
 
-    protected function getLanguageHandlerMock(): LanguageHandler
+    protected function getLanguageHandlerStub(): LanguageHandler
     {
         $language = new LanguageValueObject();
         $language->id = 2;
         $language->languageCode = 'eng-US';
 
-        $languageHandler = $this->createMock(LanguageHandler::class);
+        $languageHandler = self::createStub(LanguageHandler::class);
         $languageHandler->method('load')->willReturn($language);
         $languageHandler->method('loadByLanguageCode')->willReturn($language);
 
