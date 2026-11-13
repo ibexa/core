@@ -20,6 +20,7 @@ use Ibexa\Core\Helper\PreviewLocationProvider;
 use Ibexa\Core\MVC\Symfony\Controller\Content\PreviewController;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\View\CustomLocationControllerChecker;
+use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -172,6 +173,43 @@ final class PreviewControllerTest extends TestCase
             ->with('Location (42) not found or not available in requested language (eng-GB) when loading the preview page');
 
         $controller->previewContentAction(new Request(), $contentId, $versionNo, $lang, 'test');
+    }
+
+    public function testPreviewDoesNotRestoreConfigScopeWhenChangingItFails(): void
+    {
+        $content = self::createStub(Content::class);
+        $this->contentService->method('loadContent')->willReturn($content);
+        $this->locationProvider->method('loadMainLocationByContent')->willReturn(self::createStub(Location::class));
+        $this->authorizationChecker->method('isGranted')->willReturn(true);
+        $this->previewHelper->method('getOriginalSiteAccess')->willReturn(new SiteAccess('foo'));
+
+        $exception = new InvalidArgumentException('Invalid SiteAccess name provided for reverse matching: undefined_sa');
+        $this->previewHelper
+            ->expects($this->once())
+            ->method('changeConfigScope')
+            ->with('undefined_sa')
+            ->willThrowException($exception);
+
+        $this->previewHelper
+            ->expects($this->never())
+            ->method('restoreConfigScope');
+
+        $previewActiveStates = [];
+        $this->previewHelper
+            ->expects($this->exactly(2))
+            ->method('setPreviewActive')
+            ->willReturnCallback(static function (bool $previewActive) use (&$previewActiveStates): void {
+                $previewActiveStates[] = $previewActive;
+            });
+
+        try {
+            $this->getPreviewController()->previewContentAction(new Request(), 123, 1, 'eng-GB', 'undefined_sa');
+            self::fail('The changeConfigScope() exception should propagate');
+        } catch (InvalidArgumentException $e) {
+            self::assertSame($exception, $e);
+        }
+
+        self::assertSame([true, false], $previewActiveStates);
     }
 
     /**
@@ -373,7 +411,7 @@ final class PreviewControllerTest extends TestCase
         }
 
         $this->previewHelper
-            ->expects($this->once())
+            ->expects($previewSiteAccess !== null ? $this->once() : $this->never())
             ->method('restoreConfigScope')
         ;
     }
