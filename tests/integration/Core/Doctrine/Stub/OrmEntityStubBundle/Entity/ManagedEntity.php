@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Tests\Integration\Core\Doctrine\Stub\SchemaFilterEntityBundle\Entity;
+namespace Ibexa\Tests\Integration\Core\Doctrine\Stub\OrmEntityStubBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
