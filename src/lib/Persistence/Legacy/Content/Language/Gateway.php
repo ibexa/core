@@ -20,7 +20,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway as ContentTypeGateway;
  */
 abstract class Gateway
 {
-    public const CONTENT_LANGUAGE_TABLE = 'ibexa_content_language';
+    public const string CONTENT_LANGUAGE_TABLE = 'ibexa_content_language';
 
     /**
      * A map of language-related table name to the single column identifying a real language id
@@ -33,7 +33,7 @@ abstract class Gateway
      * It depends on the schema defined in
      * <code>./src/bundle/Core/Resources/config/storage/legacy/schema.yaml</code>
      */
-    public const MULTILINGUAL_TABLES_COLUMNS = [
+    public const array MULTILINGUAL_TABLES_COLUMNS = [
         ObjectStateGateway::OBJECT_STATE_TABLE => ['default_language_id'],
         ObjectStateGateway::OBJECT_STATE_GROUP_LANGUAGE_TABLE => ['language_id'],
         ObjectStateGateway::OBJECT_STATE_GROUP_TABLE => ['default_language_id'],
