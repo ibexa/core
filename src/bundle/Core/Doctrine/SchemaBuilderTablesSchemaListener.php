@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Doctrine;
 
+use Doctrine\DBAL\Platforms\AbstractMySQLPlatform;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\ColumnEditor;
 use Doctrine\DBAL\Schema\Index\IndexedColumn;
@@ -106,7 +107,9 @@ final class SchemaBuilderTablesSchemaListener
             // rebuilt from the indexed columns, which hold the lengths as ints, whereas the
             // index's raw options keep them as declared in schema.yaml (['191'])
             $indexEditor = $index->edit();
-            if (!$platform->supportsColumnLengthIndexes()) {
+            // only MySQL/MariaDB support prefix indexes (AbstractPlatform::supportsColumnLengthIndexes()
+            // is deprecated without a replacement, see doctrine/dbal#6886)
+            if (!$platform instanceof AbstractMySQLPlatform) {
                 $indexEditor->setColumnNames(...array_map(
                     static fn (IndexedColumn $column): UnqualifiedName => $column->getColumnName(),
                     $index->getIndexedColumns()

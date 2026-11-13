@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Bundle\Core\Doctrine;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Platforms\MariaDBPlatform;
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Column;
@@ -141,6 +142,7 @@ final class SchemaBuilderTablesSchemaListenerTest extends TestCase
     {
         yield 'platform without prefix indexes drops lengths' => [new PostgreSQLPlatform(), [null, null]];
         yield 'platform with prefix indexes keeps lengths as ints' => [new MySQLPlatform(), [191, null]];
+        yield 'MariaDB keeps lengths as ints' => [new MariaDBPlatform(), [191, null]];
     }
 
     public function testCopiesNumericDefaultsAsStrings(): void
