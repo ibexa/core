@@ -26,9 +26,9 @@ abstract class Gateway
      * A map of language-related table name to the single column identifying a real language id
      * that row references (an explicit id column, never a bitmask).
      *
-     * "ibexa_content"/"ibexa_content_version" (their "initial_language_id"), the URL alias
-     * translations table, and the Legacy Search Engine's word index are checked explicitly in
-     * {@see DoctrineDatabase::canDeleteLanguage()} instead of via this map.
+     * "ibexa_content"/"ibexa_content_version" (their "initial_language_id") and the URL alias
+     * translations table are checked explicitly in {@see DoctrineDatabase::canDeleteLanguage()}
+     * instead of via this map.
      *
      * It depends on the schema defined in
      * <code>./src/bundle/Core/Resources/config/storage/legacy/schema.yaml</code>
