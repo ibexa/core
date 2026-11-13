@@ -185,7 +185,7 @@ class MapperTest extends LanguageAwareTestCase
             'ibexa_image',
             'ibexa_datetime',
             'ibexa_keyword',
-        ], null);
+        ], count($rowsFixture) - 1);
 
         $mapper = new Mapper(
             $reg,
@@ -194,7 +194,7 @@ class MapperTest extends LanguageAwareTestCase
             $this->getEventDispatcher(),
             $this->getFieldTypeAliasResolver(),
         );
-        $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture, $this->getVersionLanguageIds($rowsFixture));
+        $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture, [676 => [2]]);
 
         $expected = [$this->getContentExtractReference()];
 
@@ -225,7 +225,7 @@ class MapperTest extends LanguageAwareTestCase
             'ibexa_datetime',
             'ibexa_keyword',
             'eznumber',
-        ], null);
+        ], count($rowsFixture) - 1);
 
         $mapper = new Mapper(
             $reg,
@@ -234,23 +234,12 @@ class MapperTest extends LanguageAwareTestCase
             $this->getEventDispatcher(),
             $this->getFieldTypeAliasResolver(),
         );
-        $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture, $this->getVersionLanguageIds($rowsFixture));
+        $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture, [676 => [2]]);
 
         $expectedContent = $this->getContentExtractReference();
-        // Virtual "eznumber" fields (no data rows for this field definition at all) are
-        // synthesized once per recognized language - eng-US right after the real field rows,
-        // eng-GB at the very end after the eng-GB virtual fields for pre-existing definitions.
-        array_splice($expectedContent->fields, 9, 0, [
-            new Field([
-                'type' => 'eznumber',
-                'languageCode' => 'eng-US',
-                'value' => new FieldValue(),
-                'versionNo' => 2,
-            ]),
-        ]);
         $expectedContent->fields[] = new Field([
             'type' => 'eznumber',
-            'languageCode' => 'eng-GB',
+            'languageCode' => 'eng-US',
             'value' => new FieldValue(),
             'versionNo' => 2,
         ]);
@@ -286,7 +275,7 @@ class MapperTest extends LanguageAwareTestCase
             'ibexa_image',
             'ibexa_datetime',
             'ibexa_keyword',
-        ], null);
+        ], count($rowsFixture) - 2);
 
         $mapper = new Mapper(
             $reg,
@@ -295,7 +284,7 @@ class MapperTest extends LanguageAwareTestCase
             $this->getEventDispatcher(),
             $this->getFieldTypeAliasResolver(),
         );
-        $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture, $this->getVersionLanguageIds($rowsFixture));
+        $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture, [676 => [2]]);
 
         $expectedContent = $this->getContentExtractReference();
         $expectedContent->fields = array_values(
@@ -341,7 +330,7 @@ class MapperTest extends LanguageAwareTestCase
             $this->getEventDispatcher(),
             $this->getFieldTypeAliasResolver(),
         );
-        $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture, $this->getVersionLanguageIds($rowsFixture));
+        $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture, [439 => [2], 674 => [2]]);
 
         self::assertCount(
             2,
@@ -667,25 +656,6 @@ class MapperTest extends LanguageAwareTestCase
             $this->getEventDispatcher(),
             $this->getFieldTypeAliasResolver(),
         );
-    }
-
-    /**
-     * @param array<array<string, scalar>> $rows
-     *
-     * @return array<int, int[]>
-     */
-    private function getVersionLanguageIds(array $rows): array
-    {
-        $versionLanguageIds = [];
-        foreach ($rows as $row) {
-            $versionId = (int)$row['content_version_id'];
-            $languageId = (int)$row['content_field_language_id'] & ~1;
-            if (!in_array($languageId, $versionLanguageIds[$versionId] ?? [], true)) {
-                $versionLanguageIds[$versionId][] = $languageId;
-            }
-        }
-
-        return $versionLanguageIds;
     }
 
     /**
