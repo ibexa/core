@@ -1557,7 +1557,7 @@ class ContentService implements ContentServiceInterface
         $this->repository->beginTransaction();
         try {
             $this->copyTranslationsFromPublishedVersion($content->versionInfo, $translations);
-            $this->copyNonTranslatableFieldsFromPublishedVersion($content);
+            $this->copyNonTranslatableFieldsFromPublishedVersion($content->getVersionInfo());
             $content = $this->internalPublishVersion($content->getVersionInfo(), null, $translations);
             $this->repository->commit();
         } catch (Throwable $e) {
@@ -1571,9 +1571,13 @@ class ContentService implements ContentServiceInterface
     /**
      * @throws APINotFoundException
      */
-    protected function copyNonTranslatableFieldsFromPublishedVersion(APIContent $currentVersionContent): void
+    protected function copyNonTranslatableFieldsFromPublishedVersion(APIVersionInfo $versionInfo): void
     {
-        $versionInfo = $currentVersionContent->getVersionInfo();
+        $currentVersionContent = $this->internalLoadContentById(
+            $versionInfo->getContentInfo()->getId(),
+            null,
+            $versionInfo->getVersionNo()
+        );
         $contentType = $currentVersionContent->getContentType();
 
         $publishedContent = $this->internalLoadContentById($versionInfo->getContentInfo()->getId());
