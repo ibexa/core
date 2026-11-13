@@ -12,6 +12,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Ibexa\Bundle\Core\Command\BackfillLanguageTranslationsCommand;
 use Ibexa\Bundle\Core\Command\VerifyLanguageTranslationsCommand;
+use Ibexa\DoctrineSchema\Filter\SchemaAssetsFilterBypass;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -86,7 +87,7 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
 
     public function testBackfillPopulatesTranslationTablesFromMasks(): void
     {
-        $exitCode = (new CommandTester(new BackfillLanguageTranslationsCommand($this->getDatabaseConnection())))
+        $exitCode = (new CommandTester(new BackfillLanguageTranslationsCommand($this->getDatabaseConnection(), new SchemaAssetsFilterBypass())))
             ->execute(['--table' => 'all'])
         ;
 
@@ -115,7 +116,7 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
 
     public function testBackfillIsIdempotent(): void
     {
-        $command = new BackfillLanguageTranslationsCommand($this->getDatabaseConnection());
+        $command = new BackfillLanguageTranslationsCommand($this->getDatabaseConnection(), new SchemaAssetsFilterBypass());
         (new CommandTester($command))->execute(['--table' => 'content']);
         (new CommandTester($command))->execute(['--table' => 'content']);
 
@@ -127,7 +128,7 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
 
     public function testBackfillDryRunDoesNotWrite(): void
     {
-        $command = new BackfillLanguageTranslationsCommand($this->getDatabaseConnection());
+        $command = new BackfillLanguageTranslationsCommand($this->getDatabaseConnection(), new SchemaAssetsFilterBypass());
         (new CommandTester($command))->execute(['--table' => 'content', '--dry-run' => true]);
 
         self::assertSame([], $this->fetchPairs('ibexa_content_translation', 'content_id'));
@@ -136,12 +137,12 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
     public function testBackfillDryRunReportsNothingRemainingAfterRealBackfill(): void
     {
         $connection = $this->getDatabaseConnection();
-        (new CommandTester(new BackfillLanguageTranslationsCommand($connection)))
+        (new CommandTester(new BackfillLanguageTranslationsCommand($connection, new SchemaAssetsFilterBypass())))
             ->execute(['--table' => 'content']);
 
         // A dry-run preview after a real backfill must report that nothing is left to insert - not
         // recount every mask-derived pair as if none of them already existed.
-        $tester = new CommandTester(new BackfillLanguageTranslationsCommand($connection));
+        $tester = new CommandTester(new BackfillLanguageTranslationsCommand($connection, new SchemaAssetsFilterBypass()));
         $tester->execute(['--table' => 'content', '--dry-run' => true]);
 
         self::assertStringContainsString('0 row(s) would be inserted', $tester->getDisplay());
@@ -154,10 +155,10 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
 
     public function testVerifyReportsCleanAfterBackfill(): void
     {
-        (new CommandTester(new BackfillLanguageTranslationsCommand($this->getDatabaseConnection())))
+        (new CommandTester(new BackfillLanguageTranslationsCommand($this->getDatabaseConnection(), new SchemaAssetsFilterBypass())))
             ->execute(['--table' => 'all']);
 
-        $tester = new CommandTester(new VerifyLanguageTranslationsCommand($this->getDatabaseConnection()));
+        $tester = new CommandTester(new VerifyLanguageTranslationsCommand($this->getDatabaseConnection(), new SchemaAssetsFilterBypass()));
         $exitCode = $tester->execute(['--table' => 'all']);
 
         self::assertSame(0, $exitCode);
@@ -174,13 +175,13 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
         // Orphaned: language 4 is not part of content 1's mask (2).
         $connection->insert('ibexa_content_translation', ['content_id' => 1, 'language_id' => 4]);
 
-        $tester = new CommandTester(new VerifyLanguageTranslationsCommand($connection));
+        $tester = new CommandTester(new VerifyLanguageTranslationsCommand($connection, new SchemaAssetsFilterBypass()));
         $exitCode = $tester->execute(['--table' => 'content']);
 
         self::assertSame(1, $exitCode);
         self::assertStringContainsString('1 missing, 1 orphaned', $tester->getDisplay());
 
-        $fixTester = new CommandTester(new VerifyLanguageTranslationsCommand($connection));
+        $fixTester = new CommandTester(new VerifyLanguageTranslationsCommand($connection, new SchemaAssetsFilterBypass()));
         $fixExitCode = $fixTester->execute(['--table' => 'content', '--fix' => true]);
 
         self::assertSame(0, $fixExitCode);
@@ -193,21 +194,39 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
     public function testVerifyDetectsWrongAlwaysAvailableFlagsAndFixesThem(): void
     {
         $connection = $this->getDatabaseConnection();
-        (new CommandTester(new BackfillLanguageTranslationsCommand($connection)))
+        (new CommandTester(new BackfillLanguageTranslationsCommand($connection, new SchemaAssetsFilterBypass())))
             ->execute(['--table' => 'content']);
         $connection->update('ibexa_content', ['always_available' => 0], ['id' => 2]);
 
-        $tester = new CommandTester(new VerifyLanguageTranslationsCommand($connection));
+        $tester = new CommandTester(new VerifyLanguageTranslationsCommand($connection, new SchemaAssetsFilterBypass()));
         $exitCode = $tester->execute(['--table' => 'content']);
 
         self::assertSame(1, $exitCode);
         self::assertStringContainsString('1 wrong always-available flag(s)', $tester->getDisplay());
 
-        $fixTester = new CommandTester(new VerifyLanguageTranslationsCommand($connection));
+        $fixTester = new CommandTester(new VerifyLanguageTranslationsCommand($connection, new SchemaAssetsFilterBypass()));
         $fixExitCode = $fixTester->execute(['--table' => 'content', '--fix' => true]);
 
         self::assertSame(0, $fixExitCode);
         self::assertSame([1 => false, 2 => true], $this->fetchAlwaysAvailable('ibexa_content'));
+    }
+
+    public function testVerifyFindsTheLanguageTableBehindASchemaAssetsFilter(): void
+    {
+        $connection = $this->getDatabaseConnection();
+        (new CommandTester(new BackfillLanguageTranslationsCommand($connection, new SchemaAssetsFilterBypass())))
+            ->execute(['--table' => 'content']);
+
+        $configuration = $connection->getConfiguration();
+        $previousFilter = $configuration->getSchemaAssetsFilter();
+        $configuration->setSchemaAssetsFilter(static fn (): bool => false);
+        try {
+            $tester = new CommandTester(new VerifyLanguageTranslationsCommand($connection, new SchemaAssetsFilterBypass()));
+
+            self::assertSame(0, $tester->execute(['--table' => 'content']));
+        } finally {
+            $configuration->setSchemaAssetsFilter($previousFilter);
+        }
     }
 
     /**
@@ -224,7 +243,7 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
         $this->simulateFullyMigratedSchema($connection);
 
         try {
-            $tester = new CommandTester(new BackfillLanguageTranslationsCommand($connection));
+            $tester = new CommandTester(new BackfillLanguageTranslationsCommand($connection, new SchemaAssetsFilterBypass()));
             $exitCode = $tester->execute(['--table' => 'all']);
 
             self::assertSame(0, $exitCode);
@@ -240,7 +259,7 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
         $this->simulateFullyMigratedSchema($connection);
 
         try {
-            $tester = new CommandTester(new VerifyLanguageTranslationsCommand($connection));
+            $tester = new CommandTester(new VerifyLanguageTranslationsCommand($connection, new SchemaAssetsFilterBypass()));
             $exitCode = $tester->execute(['--table' => 'all']);
 
             self::assertSame(0, $exitCode);
