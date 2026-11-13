@@ -67,6 +67,7 @@ services:
             $locationMapper: '@Ibexa\Core\Persistence\Legacy\Content\Location\Mapper'
             $languageHandler: '@Ibexa\Contracts\Core\Persistence\Content\Language\Handler'
             $mapper: '@ibexa.search.legacy.fulltext_mapper'
+            $contentGateway: '@ibexa.persistence.legacy.content.gateway'
         tags:
             - {name: ibexa.search.engine, alias: legacy}
         lazy: true

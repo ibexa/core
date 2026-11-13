@@ -72,7 +72,11 @@ class HandlerContentSortTest extends AbstractTestCase
                         new Content\Common\Gateway\SortClauseHandler\Field(
                             $connection,
                             $this->getLanguageHandler(),
-                            $this->getContentTypeHandler()
+                            $this->getContentTypeHandler(),
+                            new Content\Common\Gateway\LanguagePriorityConditionBuilder(
+                                $connection,
+                                $this->getLanguageHandler()
+                            )
                         ),
                     ]
                 ),
@@ -84,13 +88,14 @@ class HandlerContentSortTest extends AbstractTestCase
                 $this->getContentTypeHandler(),
                 $this->getDefinitionBasedTransformationProcessor(),
                 new Content\WordIndexer\Repository\SearchIndex($this->getDatabaseConnection()),
-                $this->getLanguageMaskGenerator(),
+                $this->getLanguageHandler(),
                 $this->getFullTextSearchConfiguration()
             ),
             $this->getContentMapperMock(),
             self::createStub(LocationMapper::class),
             $this->getLanguageHandler(),
-            $this->getFullTextMapper($this->getContentTypeHandler())
+            $this->getFullTextMapper($this->getContentTypeHandler()),
+            $this->getContentGateway()
         );
     }
 
