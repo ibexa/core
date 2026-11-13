@@ -37,6 +37,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 final class VerifyLanguageTranslationsCommand
 {
+    private const string LANGUAGE_TABLE = 'ibexa_content_language';
+
     private const string TABLE_CONTENT = 'content';
     private const string TABLE_CONTENT_VERSION = 'content_version';
     private const string TABLE_URL_ALIAS = 'url_alias';
@@ -226,7 +228,7 @@ final class VerifyLanguageTranslationsCommand
             return true;
         }
 
-        $languageTable = $this->resolveLanguageTableName();
+        $languageTable = self::LANGUAGE_TABLE;
         $queries = $this->buildQueries($table, $languageTable);
 
         $alwaysAvailableColumn = self::ALWAYS_AVAILABLE_COLUMNS[$table] ?? null;
@@ -274,15 +276,5 @@ final class VerifyLanguageTranslationsCommand
         }
 
         return true;
-    }
-
-    private function resolveLanguageTableName(): string
-    {
-        $legacyTableExists = $this->schemaAssetsFilterBypass->call(
-            $this->connection,
-            fn (): bool => $this->connection->createSchemaManager()->tablesExist(['ibexa_content_language'])
-        );
-
-        return $legacyTableExists ? 'ibexa_content_language' : 'ibexa_language';
     }
 }
