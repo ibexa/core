@@ -27,7 +27,7 @@ use Symfony\Component\Console\Output\OutputInterface;
         "language_mask"/"lang_mask" columns they were backfilled from, reporting:
           - <comment>missing</comment>: a language bit set in the mask with no corresponding translation row
           - <comment>orphaned</comment>: a translation row whose bit is no longer set in the mask
-          - <comment>wrong always-available flag</comment>: an "always_available"/"is_always_available" value that doesn't match bit 0 of the mask
+          - <comment>wrong always-available flag</comment>: an "always_available" value that doesn't match bit 0 of the mask
 
         Exits non-zero if any drift is found and <info>--fix</info> was not passed. Run this after
         <info>ibexa:languages:backfill-translations</info>, and again before relying on the translation
@@ -57,7 +57,7 @@ final class VerifyLanguageTranslationsCommand
     private const array SOURCE_TABLES = [
         self::TABLE_CONTENT => ['ibexa_content', 'language_mask', 'always_available'],
         self::TABLE_CONTENT_VERSION => ['ibexa_content_version', 'language_mask', 'always_available'],
-        self::TABLE_URL_ALIAS => ['ibexa_url_alias_ml', 'lang_mask', 'is_always_available'],
+        self::TABLE_URL_ALIAS => ['ibexa_url_alias_ml', 'lang_mask', 'always_available'],
     ];
 
     /**

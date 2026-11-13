@@ -49,7 +49,7 @@ class Mapper
         $urlAlias->id = $this->generateIdentityKey((int)$data['parent'], $data['text_md5']);
         $urlAlias->pathData = $this->normalizePathData($data['raw_path_data']);
         $urlAlias->languageCodes = $this->loadLanguageCodes($data['language_ids']);
-        $urlAlias->alwaysAvailable = (bool)$data['is_always_available'];
+        $urlAlias->alwaysAvailable = (bool)$data['always_available'];
         $urlAlias->isHistory = isset($data['is_path_history']) ? $data['is_path_history'] : !$data['is_original'];
         $urlAlias->isCustom = (bool)$data['is_alias'];
         $urlAlias->forward = $data['is_alias'] && $data['alias_redirects'];
@@ -170,7 +170,7 @@ class Mapper
         array $row
     ) {
         $languageCodes = $this->loadLanguageCodes($row['language_ids']);
-        $pathElementData['always-available'] = (bool)$row['is_always_available'];
+        $pathElementData['always-available'] = (bool)$row['always_available'];
         if (!empty($languageCodes)) {
             foreach ($languageCodes as $languageCode) {
                 $pathElementData['translations'][$languageCode] = $row['text'];
