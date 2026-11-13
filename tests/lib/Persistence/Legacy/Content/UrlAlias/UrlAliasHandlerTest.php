@@ -5301,7 +5301,7 @@ class UrlAliasHandlerTest extends TestCase
             $this->getDatabaseConnection(),
             $languageHandler
         );
-        $mapper = new Mapper($gateway, $languageHandler);
+        $mapper = new Mapper($languageHandler);
         $slugConverter = new SlugConverter(
             $this->getProcessor(),
             ['transformation' => 'urlalias']
