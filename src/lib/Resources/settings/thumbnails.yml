@@ -17,6 +17,8 @@ services:
         arguments:
             $imageThumbnailStrategy: '@.inner'
             $proxyGenerator: '@Ibexa\Core\Repository\ProxyFactory\ProxyGeneratorInterface'
+            $contentThumbnailStrategy: '@Ibexa\Core\Repository\Strategy\ContentThumbnail\ThumbnailChainStrategy'
+            $contentService: '@ibexa.api.service.content'
 
     Ibexa\Core\FieldType\ImageAsset\ImageAssetThumbnailStrategy:
         lazy: true
