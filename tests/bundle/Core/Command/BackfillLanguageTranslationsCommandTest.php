@@ -211,7 +211,7 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
         self::assertSame([1 => false, 2 => true], $this->fetchAlwaysAvailable('ibexa_content'));
     }
 
-    public function testVerifyFindsTheLanguageTableBehindASchemaAssetsFilter(): void
+    public function testVerifyFindsTheMaskColumnsBehindASchemaAssetsFilter(): void
     {
         $connection = $this->getDatabaseConnection();
         (new CommandTester(new BackfillLanguageTranslationsCommand($connection, new SchemaAssetsFilterBypass())))
@@ -232,10 +232,9 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
     /**
      * Both commands are explicitly documented as usable standalone, outside of a migration run -
      * but a schema that already completed the language bitmask migration (or a fresh install,
-     * which starts from that same final state) has neither the "ibexa_content_language" name nor
-     * the mask columns these commands' queries otherwise assume. Without a guard, that crashes with
-     * a raw "no such table"/"no such column" DB exception instead of reporting there is nothing to
-     * do.
+     * which starts from that same final state) has none of the mask columns these commands' queries
+     * otherwise assume. Without a guard, that crashes with a raw "no such column" DB exception
+     * instead of reporting there is nothing to do.
      */
     public function testBackfillReportsNothingToDoOnAnAlreadyMigratedSchema(): void
     {
@@ -270,11 +269,10 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
     }
 
     /**
-     * Renames the language table to "ibexa_language" and drops the mask columns, like a fully migrated schema.
+     * Drops the mask columns, like a fully migrated schema.
      */
     private function simulateFullyMigratedSchema(Connection $connection): void
     {
-        $connection->executeStatement('ALTER TABLE ibexa_content_language RENAME TO ibexa_language');
         // SQLite can't drop a column an index still covers
         $connection->executeStatement('DROP INDEX ibexa_content_lmask');
         $connection->executeStatement('DROP INDEX ibexa_url_alias_ml_text_lang');
@@ -289,7 +287,6 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
      */
     private function restorePreMigrationSchema(Connection $connection): void
     {
-        $connection->executeStatement('ALTER TABLE ibexa_language RENAME TO ibexa_content_language');
         $connection->executeStatement('ALTER TABLE ibexa_content ADD COLUMN language_mask INTEGER DEFAULT 0 NOT NULL');
         $connection->executeStatement('ALTER TABLE ibexa_content_version ADD COLUMN language_mask INTEGER DEFAULT 0 NOT NULL');
         $connection->executeStatement('ALTER TABLE ibexa_url_alias_ml ADD COLUMN lang_mask INTEGER DEFAULT 0 NOT NULL');

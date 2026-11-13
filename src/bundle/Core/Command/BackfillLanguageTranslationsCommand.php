@@ -36,6 +36,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 )]
 final class BackfillLanguageTranslationsCommand
 {
+    private const string LANGUAGE_TABLE = 'ibexa_content_language';
+
     private const int DEFAULT_BATCH_SIZE = 5000;
 
     private const string TABLE_CONTENT = 'content';
@@ -139,7 +141,7 @@ final class BackfillLanguageTranslationsCommand
             return;
         }
 
-        $languageTable = $this->resolveLanguageTableName();
+        $languageTable = self::LANGUAGE_TABLE;
 
         // MIN()/MAX() rather than COUNT()-based emptiness + a hardcoded lower bound of 1: some of
         // these tables (e.g. "ibexa_url_alias_ml" for root-level aliases) legitimately use 0 as a
@@ -243,16 +245,6 @@ final class BackfillLanguageTranslationsCommand
                  )",
             default => throw new InvalidArgumentException('table', "unknown table \"{$table}\"."),
         };
-    }
-
-    private function resolveLanguageTableName(): string
-    {
-        $legacyTableExists = $this->schemaAssetsFilterBypass->call(
-            $this->connection,
-            fn (): bool => $this->connection->createSchemaManager()->tablesExist(['ibexa_content_language'])
-        );
-
-        return $legacyTableExists ? 'ibexa_content_language' : 'ibexa_language';
     }
 
     private function insertIgnoreKeyword(): string

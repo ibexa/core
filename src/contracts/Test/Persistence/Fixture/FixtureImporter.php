@@ -52,14 +52,7 @@ final class FixtureImporter
     {
         $data = $fixture->load();
 
-        // Fixtures (e.g. ibexa/test-core's own bundled baseline, which this package doesn't
-        // control) predate tables being renamed/dropped over time (e.g. ibexa_content_language
-        // becoming ibexa_language) - silently skip tables that no longer exist, same as
-        // getExistingColumns() already does for individual columns below.
-        $tablesList = array_values(array_filter(
-            array_keys($data),
-            fn (string $table): bool => $this->tableExists($table)
-        ));
+        $tablesList = array_keys($data);
         $detachedTranslations = [];
         if (!$fixture instanceof AppendOnlyFixture) {
             $detachedTranslations = $this->detachLanguageTranslations($tablesList);
