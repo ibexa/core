@@ -111,7 +111,7 @@ final class DropLanguageBitmaskColumnsMigration extends AbstractSqlMigration imp
         foreach (self::DROPS as $table => [$maskColumn]) {
             if (
                 $schemaManager->tablesExist([$table])
-                && $schemaManager->introspectTable($table)->hasColumn($maskColumn)
+                && $schemaManager->introspectTableByUnquotedName($table)->hasColumn($maskColumn)
             ) {
                 $tablesStillCarryingMask[$table] = true;
             }
@@ -130,7 +130,7 @@ final class DropLanguageBitmaskColumnsMigration extends AbstractSqlMigration imp
                 continue;
             }
 
-            if ($indexName !== null && $schemaManager->introspectTable($table)->hasIndex($indexName)) {
+            if ($indexName !== null && $schemaManager->introspectTableByUnquotedName($table)->hasIndex($indexName)) {
                 $this->addSql($this->buildDropIndexSql($table, $indexName));
             }
 
