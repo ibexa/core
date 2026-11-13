@@ -51,8 +51,32 @@ final class LanguagePriorityConditionBuilder
             (string)self::REMOVE_ALWAYS_AVAILABLE_BIT_OPERAND
         );
 
+        return $query->expr()->eq(
+            $languageIdColumn,
+            $this->buildMatchedLanguageExpression(
+                $query,
+                $languageSettings,
+                $contentIdColumn,
+                $mainLanguageIdColumn,
+                $alwaysAvailableColumn
+            )
+        );
+    }
+
+    /**
+     * Builds the expression for the id of the language a Content is shown in for a language priority list.
+     *
+     * @param array{languages?: string[]} $languageSettings
+     */
+    public function buildMatchedLanguageExpression(
+        QueryBuilder $query,
+        array $languageSettings,
+        string $contentIdColumn = 'c.id',
+        string $mainLanguageIdColumn = 'c.initial_language_id',
+        string $alwaysAvailableColumn = 'c.always_available'
+    ): string {
         if (empty($languageSettings['languages'])) {
-            return $query->expr()->eq($languageIdColumn, $mainLanguageIdColumn);
+            return $mainLanguageIdColumn;
         }
 
         $languageIds = array_map(
@@ -86,14 +110,11 @@ final class LanguagePriorityConditionBuilder
             ->orderBy($priorityCase)
             ->setMaxResults(1);
 
-        return $query->expr()->eq(
-            $languageIdColumn,
-            sprintf(
-                'COALESCE((%s), CASE WHEN %s THEN %s END)',
-                $subQuery->getSQL(),
-                $alwaysAvailableColumn,
-                $mainLanguageIdColumn
-            )
+        return sprintf(
+            'COALESCE((%s), CASE WHEN %s THEN %s END)',
+            $subQuery->getSQL(),
+            $alwaysAvailableColumn,
+            $mainLanguageIdColumn
         );
     }
 }

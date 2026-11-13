@@ -80,7 +80,11 @@ class HandlerContentSortTest extends AbstractTestCase
                         ),
                     ]
                 ),
-                $this->getLanguageHandler()
+                $this->getLanguageHandler(),
+                new Content\Common\Gateway\LanguagePriorityConditionBuilder(
+                    $this->getDatabaseConnection(),
+                    $this->getLanguageHandler()
+                )
             ),
             self::createStub(LocationGateway::class),
             new Content\WordIndexer\Gateway\DoctrineDatabase(
@@ -94,8 +98,7 @@ class HandlerContentSortTest extends AbstractTestCase
             $this->getContentMapperMock(),
             self::createStub(LocationMapper::class),
             $this->getLanguageHandler(),
-            $this->getFullTextMapper($this->getContentTypeHandler()),
-            $this->getContentGateway()
+            $this->getFullTextMapper($this->getContentTypeHandler())
         );
     }
 
