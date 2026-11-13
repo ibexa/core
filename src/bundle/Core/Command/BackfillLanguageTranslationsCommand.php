@@ -9,10 +9,9 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\Core\Command;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Schema\AbstractSchemaManager;
 use Ibexa\Contracts\DoctrineSchema\Database\DatabasePlatformName;
 use Ibexa\Contracts\DoctrineSchema\Database\DatabasePlatformResolver;
+use Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
@@ -50,7 +49,10 @@ final class BackfillLanguageTranslationsCommand
         self::TABLE_URL_ALIAS,
     ];
 
-    public function __construct(private readonly Connection $connection) {}
+    public function __construct(
+        private readonly Connection $connection,
+        private readonly SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass
+    ) {}
 
     public function __invoke(
         OutputInterface $output,
@@ -131,14 +133,17 @@ final class BackfillLanguageTranslationsCommand
         // migration (DropLanguageBitmaskColumnsMigration), and a fresh install's schema.yaml never
         // had it to begin with - in both cases there is nothing left to backfill, and the mask-based
         // queries below would otherwise fail outright with "no such column"/"undefined column".
-        $schemaManager = $this->connection->createSchemaManager();
-        if (!$schemaManager->introspectTable($sourceTable)->hasColumn($maskColumn)) {
+        $hasMaskColumn = $this->schemaAssetsFilterBypass->call(
+            $this->connection,
+            fn (): bool => $this->connection->createSchemaManager()->introspectTable($sourceTable)->hasColumn($maskColumn)
+        );
+        if (!$hasMaskColumn) {
             $output->writeln("<info>{$sourceTable} has no \"{$maskColumn}\" column - already migrated, nothing to backfill.</info>");
 
             return;
         }
 
-        $languageTable = $this->resolveLanguageTableName($schemaManager);
+        $languageTable = $this->resolveLanguageTableName();
 
         // MIN()/MAX() rather than COUNT()-based emptiness + a hardcoded lower bound of 1: some of
         // these tables (e.g. "ibexa_url_alias_ml" for root-level aliases) legitimately use 0 as a
@@ -250,14 +255,15 @@ final class BackfillLanguageTranslationsCommand
      * rename happens later, in RenameLanguageTableMigration. When run manually/standalone
      * after the full sequence (or against a fresh install, which starts from the renamed schema),
      * the table is already "ibexa_language".
-     *
-     * @param AbstractSchemaManager<AbstractPlatform> $schemaManager
      */
-    private function resolveLanguageTableName(AbstractSchemaManager $schemaManager): string
+    private function resolveLanguageTableName(): string
     {
-        return $schemaManager->tablesExist(['ibexa_content_language'])
-            ? 'ibexa_content_language'
-            : 'ibexa_language';
+        $legacyTableExists = $this->schemaAssetsFilterBypass->call(
+            $this->connection,
+            fn (): bool => $this->connection->createSchemaManager()->tablesExist(['ibexa_content_language'])
+        );
+
+        return $legacyTableExists ? 'ibexa_content_language' : 'ibexa_language';
     }
 
     private function insertIgnoreKeyword(): string
