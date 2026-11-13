@@ -28,7 +28,8 @@ use Symfony\Component\Console\Output\OutputInterface;
         The command <info>%command.name%</info> populates "ibexa_content_translation",
         "ibexa_content_version_translation" and "ibexa_url_alias_ml_translation" from the existing
         "language_mask"/"lang_mask" bitmask columns, and sets "always_available" on "ibexa_content"
-        and "ibexa_content_version" from bit 0 of "language_mask". It is idempotent - already-backfilled rows are
+        and "ibexa_content_version" and "is_always_available" on "ibexa_url_alias_ml" from bit 0 of
+        the mask. It is idempotent - already-backfilled rows are
         skipped - so it is safe to re-run, including after a partial/interrupted run.
 
         Run <info>ibexa:languages:verify-translations</info> afterward to confirm the backfill is complete.
