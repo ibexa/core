@@ -18,6 +18,7 @@ use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use WeakMap;
 
 use function iterator_to_array;
 
@@ -32,7 +33,8 @@ class SiteAccessService implements SiteAccessServiceInterface, EventSubscriberIn
     /** @var list<SiteAccess> */
     private array $siteAccessStack = [];
 
-    private bool $isDispatchingInternally = false;
+    /** @var WeakMap<ScopeChangeEvent, true> */
+    private WeakMap $internallyDispatchedEvents;
 
     /**
      * @param SiteAccess|null $siteAccess reported as current until a SiteAccess is matched or changed to
@@ -44,6 +46,7 @@ class SiteAccessService implements SiteAccessServiceInterface, EventSubscriberIn
         ?SiteAccess $siteAccess = null
     ) {
         $this->siteAccessStack = $siteAccess !== null ? [$siteAccess] : [];
+        $this->internallyDispatchedEvents = new WeakMap();
     }
 
     public static function getSubscribedEvents(): array
@@ -77,7 +80,7 @@ class SiteAccessService implements SiteAccessServiceInterface, EventSubscriberIn
      */
     public function onConfigScopeChange(ScopeChangeEvent $event): void
     {
-        if ($this->isDispatchingInternally) {
+        if (isset($this->internallyDispatchedEvents[$event])) {
             return;
         }
 
@@ -98,7 +101,7 @@ class SiteAccessService implements SiteAccessServiceInterface, EventSubscriberIn
      */
     public function onConfigScopeRestore(ScopeChangeEvent $event): void
     {
-        if ($this->isDispatchingInternally) {
+        if (isset($this->internallyDispatchedEvents[$event])) {
             return;
         }
 
@@ -203,20 +206,16 @@ class SiteAccessService implements SiteAccessServiceInterface, EventSubscriberIn
         }
     }
 
-    /**
-     * Dispatches $eventName with isDispatchingInternally set, so onConfigScopeChange()/
-     * onConfigScopeRestore() can tell this dispatch apart from a manually-constructed one and
-     * skip reacting to it (the stack mutation already happened above).
-     */
     private function dispatchScopeChangeEvent(
         SiteAccess $siteAccess,
         string $eventName
     ): void {
-        $this->isDispatchingInternally = true;
+        $event = new ScopeChangeEvent($siteAccess);
+        $this->internallyDispatchedEvents[$event] = true;
         try {
-            $this->eventDispatcher->dispatch(new ScopeChangeEvent($siteAccess), $eventName);
+            $this->eventDispatcher->dispatch($event, $eventName);
         } finally {
-            $this->isDispatchingInternally = false;
+            unset($this->internallyDispatchedEvents[$event]);
         }
     }
 }

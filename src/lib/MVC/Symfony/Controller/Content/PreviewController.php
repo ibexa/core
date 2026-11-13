@@ -121,6 +121,7 @@ class PreviewController
             throw new AccessDeniedException();
         }
 
+        $isConfigScopeChanged = false;
         try {
             $siteAccess = $this->previewHelper->getOriginalSiteAccess();
             if ($siteAccess === null) {
@@ -130,6 +131,7 @@ class PreviewController
             // Only switch if $siteAccessName is set and different from original
             if ($siteAccessName !== null && $siteAccessName !== $siteAccess->name) {
                 $siteAccess = $this->previewHelper->changeConfigScope($siteAccessName);
+                $isConfigScopeChanged = true;
             }
 
             try {
@@ -158,7 +160,9 @@ class PreviewController
 
             return $response;
         } finally {
-            $this->previewHelper->restoreConfigScope();
+            if ($isConfigScopeChanged) {
+                $this->previewHelper->restoreConfigScope();
+            }
             $this->previewHelper->setPreviewActive(false);
         }
     }

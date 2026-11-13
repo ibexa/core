@@ -252,20 +252,54 @@ final class SiteAccessMatchListenerTest extends TestCase
         $this->assertRequestHasSiteAccess($request, null, $siteAccess, HttpKernelInterface::SUB_REQUEST);
     }
 
-    public function testOnKernelRequestSubRequestDoesNotPushWhenSiteAccessListenerThrows(): void
+    public function testOnKernelRequestSubRequestPushesSiteAccessBeforeDispatchingSiteAccessEvent(): void
+    {
+        $siteAccess = new SiteAccess('test');
+        $request = new Request();
+        $request->attributes->set('siteaccess', $siteAccess);
+
+        $calls = [];
+        $this->siteAccessService
+            ->expects($this->once())
+            ->method('changeSiteAccess')
+            ->with($siteAccess)
+            ->willReturnCallback(static function (SiteAccess $siteAccess) use (&$calls): SiteAccess {
+                $calls[] = 'changeSiteAccess';
+
+                return $siteAccess;
+            });
+
+        $this->eventDispatcher
+            ->expects($this->once())
+            ->method('dispatch')
+            ->with(self::isInstanceOf(PostSiteAccessMatchEvent::class), MVCEvents::SITEACCESS)
+            ->willReturnCallback(static function (object $event) use (&$calls): object {
+                $calls[] = 'dispatch';
+
+                return $event;
+            });
+
+        $this->listener->onKernelRequest(
+            new RequestEvent(self::createStub(HttpKernelInterface::class), $request, HttpKernelInterface::SUB_REQUEST)
+        );
+
+        self::assertSame(['changeSiteAccess', 'dispatch'], $calls);
+    }
+
+    public function testOnKernelRequestSubRequestIsMarkedAsPushedWhenSiteAccessListenerThrows(): void
     {
         $request = new Request();
         $request->attributes->set('siteaccess', new SiteAccess('test'));
         $exception = new RuntimeException('MVCEvents::SITEACCESS listener failed');
 
+        $this->siteAccessService
+            ->expects($this->once())
+            ->method('changeSiteAccess');
+
         $this->eventDispatcher
             ->expects($this->once())
             ->method('dispatch')
             ->willThrowException($exception);
-
-        $this->siteAccessService
-            ->expects($this->never())
-            ->method('changeSiteAccess');
 
         try {
             $this->listener->onKernelRequest(
@@ -276,7 +310,7 @@ final class SiteAccessMatchListenerTest extends TestCase
             self::assertSame($exception, $e);
         }
 
-        self::assertFalse($request->attributes->has(SiteAccessMatchListener::SITEACCESS_PUSHED_ATTRIBUTE));
+        self::assertTrue($request->attributes->getBoolean(SiteAccessMatchListener::SITEACCESS_PUSHED_ATTRIBUTE));
     }
 
     private function serializeSiteAccess(SiteAccess $siteAccess): string

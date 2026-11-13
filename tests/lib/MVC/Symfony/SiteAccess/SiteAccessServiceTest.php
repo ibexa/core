@@ -240,6 +240,64 @@ class SiteAccessServiceTest extends TestCase
         self::assertSame($baseSiteAccess, $service->getCurrent());
     }
 
+    public function testScopeChangeNestedInAScopeChangeListenerDoesNotTriggerTheDeprecatedHandler(): void
+    {
+        $eventDispatcher = new EventDispatcher();
+        $service = $this->createService($eventDispatcher);
+
+        $baseSiteAccess = new SiteAccess('base');
+        $service->onSiteAccessMatch($this->createSiteAccessMatchEvent($baseSiteAccess, HttpKernelInterface::MAIN_REQUEST));
+
+        $isNested = false;
+        $eventDispatcher->addListener(
+            MVCEvents::CONFIG_SCOPE_CHANGE,
+            static function () use ($service, &$isNested): void {
+                if ($isNested) {
+                    return;
+                }
+
+                $isNested = true;
+                $service->changeSiteAccess(new SiteAccess('nested'));
+                $service->restoreSiteAccess();
+            },
+            10
+        );
+
+        $previewSiteAccess = new SiteAccess('preview');
+        $service->changeSiteAccess($previewSiteAccess);
+
+        self::assertSame($previewSiteAccess, $service->getCurrent());
+        self::assertSame($baseSiteAccess, $service->restoreSiteAccess());
+    }
+
+    #[IgnoreDeprecations]
+    public function testManualScopeChangeNestedInAScopeChangeListenerTriggersTheDeprecatedHandler(): void
+    {
+        $this->expectUserDeprecationMessage('Since ibexa/core 6.0: Dispatching ' . ScopeChangeEvent::class . ' manually under MVCEvents::CONFIG_SCOPE_CHANGE is deprecated and will no longer be reflected by ' . SiteAccessService::class . '::getCurrent() in 7.0. Call ' . SiteAccessServiceInterface::class . '::changeSiteAccess() instead.');
+
+        $eventDispatcher = new EventDispatcher();
+        $service = $this->createService($eventDispatcher);
+
+        $manualSiteAccess = new SiteAccess('manual');
+        $isNested = false;
+        $eventDispatcher->addListener(
+            MVCEvents::CONFIG_SCOPE_CHANGE,
+            static function () use ($eventDispatcher, $manualSiteAccess, &$isNested): void {
+                if ($isNested) {
+                    return;
+                }
+
+                $isNested = true;
+                $eventDispatcher->dispatch(new ScopeChangeEvent($manualSiteAccess), MVCEvents::CONFIG_SCOPE_CHANGE);
+            },
+            10
+        );
+
+        $service->changeSiteAccess(new SiteAccess('preview'));
+
+        self::assertSame($manualSiteAccess, $service->getCurrent());
+    }
+
     public function testGetSiteAccess(): void
     {
         $staticSiteAccessProvider = new StaticSiteAccessProvider(
