@@ -76,9 +76,6 @@ enum MaskedTable: string
      */
     public function alwaysAvailableColumn(): string
     {
-        return match ($this) {
-            self::Content, self::ContentVersion => 'always_available',
-            self::UrlAlias => 'is_always_available',
-        };
+        return 'always_available';
     }
 }

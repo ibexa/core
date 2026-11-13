@@ -56,7 +56,7 @@ final class DoctrineDatabase extends Gateway
         'text' => ParameterType::STRING,
         'parent' => ParameterType::INTEGER,
         'text_md5' => ParameterType::STRING,
-        'is_always_available' => ParameterType::BOOLEAN,
+        'always_available' => ParameterType::BOOLEAN,
     ];
 
     private string $table;
@@ -107,7 +107,7 @@ final class DoctrineDatabase extends Gateway
                 'link',
                 'is_alias',
                 'alias_redirects',
-                'is_always_available',
+                'always_available',
                 'is_original',
                 'parent',
                 'text',
@@ -163,7 +163,7 @@ final class DoctrineDatabase extends Gateway
                 'link',
                 'is_alias',
                 'alias_redirects',
-                'is_always_available',
+                'always_available',
                 'is_original',
                 'parent',
                 'text_md5'
@@ -631,7 +631,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Keeps the legacy "lang_mask" in step with the row's translations and "is_always_available",
+     * Keeps the legacy "lang_mask" in step with the row's translations and "always_available",
      * for as long as the language bitmask is still around.
      *
      * @param array<string, mixed> $values
@@ -645,16 +645,16 @@ final class DoctrineDatabase extends Gateway
         ?int $parentId = null,
         ?string $textMD5 = null
     ): array {
-        if (null === $languageIds && !array_key_exists('is_always_available', $values)) {
+        if (null === $languageIds && !array_key_exists('always_available', $values)) {
             return $values;
         }
 
         $existing = null !== $parentId && null !== $textMD5;
         $languageIds ??= $existing ? $this->loadTranslationLanguageIds($parentId, $textMD5) : [];
-        $alwaysAvailable = array_key_exists('is_always_available', $values)
-            ? (bool)$values['is_always_available']
+        $alwaysAvailable = array_key_exists('always_available', $values)
+            ? (bool)$values['always_available']
             : $existing && (bool)$this->connection->fetchOne(
-                'SELECT is_always_available FROM ' . $this->connection->quoteSingleIdentifier($this->table)
+                'SELECT always_available FROM ' . $this->connection->quoteSingleIdentifier($this->table)
                 . ' WHERE parent = :parent AND text_md5 = :textMd5',
                 ['parent' => $parentId, 'textMd5' => $textMD5],
                 ['parent' => ParameterType::INTEGER, 'textMd5' => ParameterType::STRING]
@@ -847,7 +847,7 @@ final class DoctrineDatabase extends Gateway
             $query->select(
                 'parent',
                 'text_md5',
-                'is_always_available',
+                'always_available',
                 'text'
             )->from(
                 $this->connection->quoteSingleIdentifier($this->table)
@@ -922,7 +922,7 @@ final class DoctrineDatabase extends Gateway
             'action',
             'parent',
             'text_md5',
-            'is_always_available',
+            'always_available',
             'text'
         )->from(
             $this->connection->quoteSingleIdentifier($this->table)

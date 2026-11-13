@@ -205,7 +205,7 @@ class Handler implements UrlAliasHandlerInterface
                             'parent' => $parentId,
                             'action' => $action,
                             'language_ids' => $languageIds,
-                            'is_always_available' => $alwaysAvailable,
+                            'always_available' => $alwaysAvailable,
                             'text' => $newText,
                             'text_md5' => $newTextMD5,
                         ]
@@ -263,7 +263,7 @@ class Handler implements UrlAliasHandlerInterface
                         // In case when NOP row was reused
                         'action_type' => 'eznode',
                         'language_ids' => $languageIds,
-                        'is_always_available' => $alwaysAvailable,
+                        'always_available' => $alwaysAvailable,
                         // Updating text ensures that letter case changes are stored
                         'text' => $newText,
                         // Set "id" and "link" for case when reusable entry is history
@@ -451,14 +451,14 @@ class Handler implements UrlAliasHandlerInterface
         // If nothing was returned perform insert
         if ($isPathNew || empty($row)) {
             $data['language_ids'] = [$languageId];
-            $data['is_always_available'] = $alwaysAvailable;
+            $data['always_available'] = $alwaysAvailable;
             $id = $this->gateway->insertRow($data);
         } elseif ($row['action'] === Gateway::NOP_ACTION || (int)$row['is_original'] === 0) {
             // Row exists, check if it is reusable. There are 2 cases when this is possible:
             // 1. NOP entry
             // 2. history entry
             $data['language_ids'] = [$languageId];
-            $data['is_always_available'] = $alwaysAvailable;
+            $data['always_available'] = $alwaysAvailable;
             // If history is reused move link to id
             $data['link'] = $id = $row['id'];
             $this->gateway->updateRow(
@@ -474,7 +474,7 @@ class Handler implements UrlAliasHandlerInterface
             // add another language to the same custom alias
             $data['link'] = $id = $row['id'];
             $data['language_ids'] = array_unique(array_merge($row['language_ids'], [$languageId]));
-            $data['is_always_available'] = $alwaysAvailable || (bool)$row['is_always_available'];
+            $data['always_available'] = $alwaysAvailable || (bool)$row['always_available'];
             $this->gateway->updateRow(
                 $parentId,
                 $topElementMD5,
@@ -509,7 +509,7 @@ class Handler implements UrlAliasHandlerInterface
         return $this->gateway->insertRow(
             [
                 'language_ids' => [],
-                'is_always_available' => true,
+                'always_available' => true,
                 'action' => Gateway::NOP_ACTION,
                 'parent' => $parentId,
                 'text' => $text,
@@ -1268,7 +1268,7 @@ class Handler implements UrlAliasHandlerInterface
                     'is_original' => 1,
                     'is_alias' => 1,
                     'language_ids' => $intersectedLanguageIds,
-                    'is_always_available' => (bool)$entry['is_always_available'] && $location->isAlwaysAvailable,
+                    'always_available' => (bool)$entry['always_available'] && $location->isAlwaysAvailable,
                 ]
             );
         }

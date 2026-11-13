@@ -43,7 +43,7 @@ final class AddUrlAliasAlwaysAvailableColumnMigrationTest extends TestCase
         self::assertCount(2, $migration->getSql());
         self::assertEquals(
             [1 => 1, 5001 => 0],
-            $connection->fetchAllKeyValue('SELECT id, is_always_available FROM ibexa_url_alias_ml ORDER BY id')
+            $connection->fetchAllKeyValue('SELECT id, always_available FROM ibexa_url_alias_ml ORDER BY id')
         );
     }
 }

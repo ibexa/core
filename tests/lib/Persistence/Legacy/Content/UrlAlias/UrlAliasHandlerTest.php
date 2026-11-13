@@ -3163,12 +3163,12 @@ class UrlAliasHandlerTest extends TestCase
             'id' => 6,
             'is_alias' => 1,
             'is_original' => 1,
-            'is_always_available' => 1,
+            'always_available' => 1,
             'link' => 6,
             'parent' => 0,
             'text' => 'custom',
             'text_md5' => '8b9035807842a4e4dbe009f3f1478127',
-        ], ['is_always_available' => ParameterType::BOOLEAN]);
+        ], ['always_available' => ParameterType::BOOLEAN]);
         $connection->insert(UrlAliasGateway::TRANSLATION_TABLE, ['parent' => 0, 'text_md5' => '8b9035807842a4e4dbe009f3f1478127', 'language_id' => 4]);
 
         $handler->locationSwapped(316, 314, 317, 315);
