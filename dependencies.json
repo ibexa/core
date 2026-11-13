@@ -1,0 +1,23 @@
+{
+    "recipesEndpoint": "",
+    "packages": [
+        {
+            "requirement": "dev-IBX-13147-pagerfanta-v4 as 6.0.x-dev",
+            "repositoryUrl": "https://github.com/ibexa/search",
+            "package": "ibexa/search",
+            "shouldBeAddedAsVCS": false
+        },
+        {
+            "requirement": "dev-IBX-13147-pagerfanta-v4 as 6.0.x-dev",
+            "repositoryUrl": "https://github.com/ibexa/admin-ui",
+            "package": "ibexa/admin-ui",
+            "shouldBeAddedAsVCS": false
+        },
+        {
+            "requirement": "dev-IBX-13147-pagerfanta-v4 as 6.0.x-dev",
+            "repositoryUrl": "https://github.com/ibexa/workflow",
+            "package": "ibexa/workflow",
+            "shouldBeAddedAsVCS": true
+        }
+    ]
+}
