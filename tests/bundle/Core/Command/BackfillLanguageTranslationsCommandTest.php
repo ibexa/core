@@ -270,10 +270,7 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
     }
 
     /**
-     * Undoes setUp()'s pre-migration simulation: renames the language table to its final name and
-     * drops the mask columns, matching the state a schema is in once DropLanguageBitmaskColumnsMigration
-     * and RenameLanguageTableMigration have both run (or a fresh install, which never had
-     * them at all).
+     * Renames the language table to "ibexa_language" and drops the mask columns, like a fully migrated schema.
      */
     private function simulateFullyMigratedSchema(Connection $connection): void
     {
