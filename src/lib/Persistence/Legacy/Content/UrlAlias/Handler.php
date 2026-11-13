@@ -1241,14 +1241,7 @@ class Handler implements UrlAliasHandlerInterface
     }
 
     /**
-     * Internal publish custom aliases method, accepting the swapped Location's Content's real
-     * (non-always-available) language ids to set the correct languages on url aliases new alias ID
-     * (used when swapping Locations).
-     *
-     * $contentLanguageIds are the new Content's own real translation languages (from
-     * ibexa_content_translation) - $location->isAlwaysAvailable (set from the always_available
-     * column by locationSwapped()) is combined separately, since always-available is no longer part
-     * of a language id set.
+     * Restores the swapped Location's custom aliases in the languages they share with its new Content.
      *
      * @param int[] $contentLanguageIds
      */
@@ -1261,9 +1254,9 @@ class Handler implements UrlAliasHandlerInterface
                 continue;
             }
 
-            $intersectedLanguageIds = array_intersect($entry['language_ids'], $contentLanguageIds);
+            $intersectedLanguageIds = array_values(array_intersect($entry['language_ids'], $contentLanguageIds));
 
-            if (empty($intersectedLanguageIds) && !$location->isAlwaysAvailable) {
+            if (empty($intersectedLanguageIds)) {
                 continue;
             }
 
@@ -1275,7 +1268,7 @@ class Handler implements UrlAliasHandlerInterface
                     'is_original' => 1,
                     'is_alias' => 1,
                     'language_ids' => $intersectedLanguageIds,
-                    'is_always_available' => $location->isAlwaysAvailable,
+                    'is_always_available' => (bool)$entry['is_always_available'] && $location->isAlwaysAvailable,
                 ]
             );
         }
