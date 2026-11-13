@@ -186,13 +186,12 @@ final class DoctrineDatabase extends Gateway
      * always-available" condition shared by find() and getTotalCount() - kept as one place so the
      * two queries can't drift out of sync on the always-available fallback.
      *
-     * @param QueryBuilder $queryBuilder
      * @param array{languages?: string[], useAlwaysAvailable?: bool} $languageFilter
      *
      * @throws NotFoundException
      */
     private function buildTranslationCondition(
-        $queryBuilder,
+        QueryBuilder $queryBuilder,
         array $languageFilter
     ): string {
         $languageIds = array_map(

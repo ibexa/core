@@ -18,6 +18,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Search\Legacy\Content;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler as CommonCriterionHandler;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\LanguagePriorityConditionBuilder;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler as CommonSortClauseHandler;
 use Ibexa\Core\Search\Legacy\Content\Gateway as ContentGateway;
@@ -119,7 +120,7 @@ class HandlerLocationTest extends AbstractTestCase
                             ),
                             $transformationProcessor,
                             $joinedTablesTracker,
-                            new Content\Common\Gateway\LanguagePriorityConditionBuilder(
+                            new LanguagePriorityConditionBuilder(
                                 $connection,
                                 $this->getLanguageHandler()
                             )
@@ -135,7 +136,7 @@ class HandlerLocationTest extends AbstractTestCase
                             $connection,
                             $this->getLanguageHandler(),
                             $joinedTablesTracker,
-                            new Content\Common\Gateway\LanguagePriorityConditionBuilder($connection, $this->getLanguageHandler())
+                            new LanguagePriorityConditionBuilder($connection, $this->getLanguageHandler())
                         ),
                         new CommonCriterionHandler\LogicalAnd($connection, $joinedTablesTracker),
                         new CommonCriterionHandler\LogicalNot($connection, $joinedTablesTracker),
@@ -145,7 +146,7 @@ class HandlerLocationTest extends AbstractTestCase
                             $this->getContentTypeHandler(),
                             $this->getLanguageHandler(),
                             $joinedTablesTracker,
-                            new Content\Common\Gateway\LanguagePriorityConditionBuilder(
+                            new LanguagePriorityConditionBuilder(
                                 $connection,
                                 $this->getLanguageHandler()
                             )
@@ -157,7 +158,7 @@ class HandlerLocationTest extends AbstractTestCase
                             $this->getContentTypeHandler(),
                             $this->getLanguageHandler(),
                             $joinedTablesTracker,
-                            new Content\Common\Gateway\LanguagePriorityConditionBuilder(
+                            new LanguagePriorityConditionBuilder(
                                 $connection,
                                 $this->getLanguageHandler()
                             )
@@ -174,7 +175,7 @@ class HandlerLocationTest extends AbstractTestCase
                     ]
                 ),
                 $this->getLanguageHandler(),
-                new Content\Common\Gateway\LanguagePriorityConditionBuilder(
+                new LanguagePriorityConditionBuilder(
                     $this->getDatabaseConnection(),
                     $this->getLanguageHandler()
                 )
