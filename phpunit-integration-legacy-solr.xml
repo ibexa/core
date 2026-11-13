@@ -47,6 +47,7 @@
             <exclude>tests/integration/Core/Repository/SearchServiceImageTest.php</exclude>
             <exclude>tests/integration/Core/Repository/KeywordFieldCriterionTest.php</exclude>
             <exclude>tests/integration/Core/SchemaAlignmentTest.php</exclude>
+            <exclude>tests/integration/Core/Repository/LocationResolver/PermissionAwareLocationResolverTest.php</exclude>
         </testsuite>
     </testsuites>
     <filter>

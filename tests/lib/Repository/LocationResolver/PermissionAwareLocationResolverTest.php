@@ -16,6 +16,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Core\Repository\LocationResolver\LocationResolver;
 use Ibexa\Core\Repository\LocationResolver\PermissionAwareLocationResolver;
 use Ibexa\Core\Repository\Values\Content\Location;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -23,7 +24,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class PermissionAwareLocationResolverTest extends TestCase
 {
-    /** @var LocationService */
+    /** @var LocationService&MockObject */
     private $locationService;
 
     /** @var LocationResolver */
@@ -95,7 +96,20 @@ final class PermissionAwareLocationResolverTest extends TestCase
      */
     public function testExpectNotFoundExceptionWhenMainLocationIdIsNull(): void
     {
-        $contentInfo = new ContentInfo(['mainLocationId' => null]);
+        $contentInfo = new ContentInfo([
+            'mainLocationId' => null,
+            'status' => ContentInfo::STATUS_TRASHED,
+            'published' => false,
+        ]);
+
+        // Content in Trash has no Locations to fall back to
+        $this->locationService
+            ->expects(self::never())
+            ->method('loadLocation');
+
+        $this->locationService
+            ->expects(self::never())
+            ->method('loadLocations');
 
         $this->expectException(NotFoundException::class);
 
