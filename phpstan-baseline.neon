@@ -33505,12 +33505,6 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/Type/MapperTest.php
 
 		-
-			message: '#^Method Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\Type\\MapperTest\:\:getMaskGeneratorMock\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/Type/MapperTest.php
-
-		-
 			message: '#^Call to an undefined method Ibexa\\Core\\Persistence\\Legacy\\Content\\Type\\ContentUpdater\:\:expects\(\)\.$#'
 			identifier: method.notFound
 			count: 2
