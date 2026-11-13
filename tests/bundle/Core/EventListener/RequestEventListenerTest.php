@@ -104,7 +104,7 @@ class RequestEventListenerTest extends TestCase
         $request->attributes->set('someAttribute', 'someValue');
 
         $expectedForwardRequest = Request::create($semanticPathinfo, 'GET', $queryParameters, $cookieParameters);
-        $expectedForwardRequest->attributes->set('semanticPathinfo', $semanticPathinfo);
+        $expectedForwardRequest->attributes->set('semanticPathinfo', $expectedForwardRequest->getPathInfo());
         $expectedForwardRequest->attributes->set('someAttribute', 'someValue');
 
         $response = new Response('Success!');
@@ -120,6 +120,60 @@ class RequestEventListenerTest extends TestCase
         $this->assertTrue($event->isPropagationStopped());
 
         ClockMock::withClockMock(false);
+    }
+
+    /**
+     * @dataProvider providerForTestOnKernelRequestForwardDecodesSemanticPathinfo
+     *
+     * @param array<string, string> $expectedQuery
+     */
+    public function testOnKernelRequestForwardDecodesSemanticPathinfo(
+        string $aliasDestination,
+        string $expectedSemanticPathinfo,
+        array $expectedQuery
+    ): void {
+        $request = Request::create('/test_sa/my-alias');
+        $request->attributes->set('semanticPathinfo', $aliasDestination);
+        $request->attributes->set('needsForward', true);
+
+        $forwardRequest = null;
+        $this->httpKernel
+            ->expects(self::once())
+            ->method('handle')
+            ->willReturnCallback(static function (Request $request) use (&$forwardRequest): Response {
+                $forwardRequest = $request;
+
+                return new Response();
+            });
+
+        $event = new RequestEvent($this->httpKernel, $request, HttpKernelInterface::MAIN_REQUEST);
+        $this->requestEventListener->onKernelRequestForward($event);
+
+        self::assertInstanceOf(Request::class, $forwardRequest);
+        self::assertSame($expectedSemanticPathinfo, $forwardRequest->attributes->get('semanticPathinfo'));
+        self::assertSame($expectedQuery, $forwardRequest->query->all());
+    }
+
+    /**
+     * @return iterable<string, array{string, string, array<string, string>}>
+     */
+    public static function providerForTestOnKernelRequestForwardDecodesSemanticPathinfo(): iterable
+    {
+        yield 'plain path' => [
+            '/content/view/full/2',
+            '/content/view/full/2',
+            [],
+        ];
+        yield 'percent-encoded hash' => [
+            '/content/download/8398/file/test%23test.txt',
+            '/content/download/8398/file/test#test.txt',
+            [],
+        ];
+        yield 'query string' => [
+            '/view/content/52/full/1/2?foo=bar',
+            '/view/content/52/full/1/2',
+            ['foo' => 'bar'],
+        ];
     }
 
     public function testOnKernelRequestRedirectSubRequest()
