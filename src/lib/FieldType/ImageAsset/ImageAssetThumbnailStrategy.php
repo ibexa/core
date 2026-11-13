@@ -10,6 +10,7 @@ namespace Ibexa\Core\FieldType\ImageAsset;
 
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\Field\FieldTypeBasedThumbnailStrategy;
 use Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\ThumbnailStrategy as ContentThumbnailStrategy;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
@@ -52,7 +53,7 @@ class ImageAssetThumbnailStrategy implements FieldTypeBasedThumbnailStrategy
                 null,
                 $versionInfo ? $versionInfo->versionNo : null
             );
-        } catch (NotFoundException $e) {
+        } catch (NotFoundException | UnauthorizedException $e) {
             return null;
         }
 
