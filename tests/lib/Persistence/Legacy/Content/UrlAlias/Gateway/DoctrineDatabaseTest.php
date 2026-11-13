@@ -398,6 +398,18 @@ class DoctrineDatabaseTest extends TestCase
      *
      * @todo document
      */
+    public function testArchiveUrlAliasesForDeletedTranslationsHistorizesRowLosingAllLanguages(): void
+    {
+        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_multilang.php');
+        $gateway = $this->getGateway();
+
+        $gateway->archiveUrlAliasesForDeletedTranslations(315, 2, [2, 4]);
+
+        $row = $gateway->loadRow(2, 'c67ed9a09ab136fae610b6a087d82e21');
+        self::assertEquals(0, $row['is_original']);
+        self::assertEquals(3, $row['link']);
+    }
+
     public function testReparent(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_simple.php');
