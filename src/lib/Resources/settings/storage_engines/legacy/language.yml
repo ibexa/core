@@ -32,7 +32,3 @@ services:
 
     ibexa.spi.persistence.legacy.language.handler:
         alias: Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler
-
-    Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator:
-        class: Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator
-        arguments: ['@ibexa.spi.persistence.legacy.language.handler']

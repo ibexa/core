@@ -26,6 +26,17 @@ use Ibexa\DoctrineSchema\Filter\SchemaAssetsFilterBypass;
 final class FixtureImporter
 {
     /**
+     * Tables whose "language_id" the legacy bitmask scheme ORed the "always available" bit into.
+     */
+    private const TABLES_WITH_LEGACY_ALWAYS_AVAILABLE_BIT = [
+        'ibexa_content_field',
+        'ibexa_content_name',
+        'ibexa_content_type_name',
+        'ibexa_object_state_language',
+        'ibexa_object_state_group_language',
+    ];
+
+    /**
      * Join tables referencing "ibexa_content_language" (ON DELETE RESTRICT), keyed to the table owning their rows.
      */
     private const array LANGUAGE_TRANSLATION_TABLES = [
@@ -78,6 +89,7 @@ final class FixtureImporter
             // updating in lockstep with schema changes.
             $existingColumns = $this->getExistingColumns($table);
             foreach ($rows as $row) {
+                $row = $this->stripLegacyAlwaysAvailableBit($table, $row);
                 $this->connection->insert($table, array_intersect_key($row, array_flip($existingColumns)));
             }
         }
@@ -142,6 +154,26 @@ final class FixtureImporter
                 }
             }
         }
+    }
+
+    /**
+     * Fixture data was captured under the legacy bitmask scheme, where every language id is a power
+     * of two - mirrors what StripAlwaysAvailableBitFromLanguageIdsMigration does for production
+     * upgrades, applied to the fixture rows only.
+     *
+     * @param array<string, mixed> $row
+     *
+     * @return array<string, mixed>
+     */
+    private function stripLegacyAlwaysAvailableBit(
+        string $table,
+        array $row
+    ): array {
+        if (isset($row['language_id']) && in_array($table, self::TABLES_WITH_LEGACY_ALWAYS_AVAILABLE_BIT, true)) {
+            $row['language_id'] = (int)$row['language_id'] & ~1;
+        }
+
+        return $row;
     }
 
     /**

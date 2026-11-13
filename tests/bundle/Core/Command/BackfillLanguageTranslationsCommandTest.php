@@ -30,6 +30,14 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
 
         $connection = $this->getDatabaseConnection();
 
+        // These commands exist specifically for installs upgrading from before the language
+        // bitmask columns were dropped - simulate that pre-drop schema state here, since the
+        // current schema.yaml (and therefore this test's own bootstrapped schema) no longer has
+        // them.
+        $connection->executeStatement('ALTER TABLE ibexa_content ADD COLUMN language_mask INTEGER DEFAULT 0 NOT NULL');
+        $connection->executeStatement('ALTER TABLE ibexa_content_version ADD COLUMN language_mask INTEGER DEFAULT 0 NOT NULL');
+        $connection->executeStatement('ALTER TABLE ibexa_url_alias_ml ADD COLUMN lang_mask INTEGER DEFAULT 0 NOT NULL');
+
         // content id 1: eng-US only, not always available -> mask 2
         // content id 2: eng-US + eng-GB, always available -> mask 7
         $connection->insert('ibexa_content', [
@@ -260,9 +268,6 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
     private function simulateFullyMigratedSchema(Connection $connection): void
     {
         $connection->executeStatement('ALTER TABLE ibexa_content_language RENAME TO ibexa_language');
-        // SQLite can't drop a column an index still covers
-        $connection->executeStatement('DROP INDEX ibexa_content_lmask');
-        $connection->executeStatement('DROP INDEX ibexa_url_alias_ml_text_lang');
         $connection->executeStatement('ALTER TABLE ibexa_content DROP COLUMN language_mask');
         $connection->executeStatement('ALTER TABLE ibexa_content_version DROP COLUMN language_mask');
         $connection->executeStatement('ALTER TABLE ibexa_url_alias_ml DROP COLUMN lang_mask');
