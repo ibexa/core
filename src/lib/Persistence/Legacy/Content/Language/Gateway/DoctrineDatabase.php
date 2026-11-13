@@ -141,6 +141,12 @@ final class DoctrineDatabase extends Gateway
 
     public function deleteLanguage(int $id): void
     {
+        $this->connection->delete(
+            'ibexa_search_object_word_link',
+            ['language_id' => $id],
+            ['language_id' => ParameterType::INTEGER]
+        );
+
         $query = $this->connection->createQueryBuilder();
         $query
             ->delete(self::CONTENT_LANGUAGE_TABLE)
@@ -177,10 +183,6 @@ final class DoctrineDatabase extends Gateway
         }
 
         if ($this->existsWithColumnValue($id, UrlAliasGateway::TRANSLATION_TABLE, 'language_id')) {
-            return false;
-        }
-
-        if ($this->existsWithColumnValue($id, 'ibexa_search_object_word_link', 'language_id')) {
             return false;
         }
 
