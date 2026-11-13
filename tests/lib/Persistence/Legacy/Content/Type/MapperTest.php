@@ -23,7 +23,6 @@ use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\Converter;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
-use Ibexa\Core\Persistence\Legacy\Content\Type\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Type\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\Type\StorageDispatcherInterface;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
@@ -39,7 +38,6 @@ class MapperTest extends TestCase
 
         $mapper = new Mapper(
             $this->getConverterRegistryMock(),
-            $this->getContentTypeGatewayMock(),
             $this->getLanguageHandlerMock(),
             $this->getStorageDispatcherMock(),
             $this->getFieldTypeAliasResolver(),
@@ -96,7 +94,6 @@ class MapperTest extends TestCase
 
         $mapper = new Mapper(
             $this->getConverterRegistryMock(),
-            $this->getContentTypeGatewayMock(),
             $this->getLanguageHandlerMock(),
             $this->getStorageDispatcherMock(),
             $this->getFieldTypeAliasResolver(),
@@ -118,7 +115,6 @@ class MapperTest extends TestCase
 
         $mapper = new Mapper(
             $this->getConverterRegistryMock(),
-            $this->getContentTypeGatewayMock(),
             $this->getLanguageHandlerMock(),
             $this->getStorageDispatcherMock(),
             $this->getFieldTypeAliasResolver(),
@@ -209,7 +205,6 @@ class MapperTest extends TestCase
 
         $mapper = new Mapper(
             $this->getConverterRegistryMock(),
-            $this->getContentTypeGatewayMock(),
             $this->getLanguageHandlerMock(),
             $this->getStorageDispatcherMock(),
             $this->getFieldTypeAliasResolver(),
@@ -278,7 +273,6 @@ class MapperTest extends TestCase
 
         $mapper = new Mapper(
             $this->getConverterRegistryMock(),
-            $this->getContentTypeGatewayMock(),
             $this->getLanguageHandlerMock(),
             $this->getStorageDispatcherMock(),
             $this->getFieldTypeAliasResolver(),
@@ -314,7 +308,7 @@ class MapperTest extends TestCase
         $rows = $this->getLoadTypeFixture();
 
         $mapper = $this->getNonConvertingMapper();
-        $types = $mapper->extractTypesFromRows($rows);
+        $types = $mapper->extractTypesFromRows($rows, false, ['1:0' => ['eng-US']]);
 
         self::assertCount(
             1,
@@ -344,6 +338,7 @@ class MapperTest extends TestCase
                 'sortField' => 1,
                 'sortOrder' => 1,
                 'defaultAlwaysAvailable' => true,
+                'languageCodes' => ['eng-US'],
             ],
             $types[0]
         );
@@ -408,7 +403,6 @@ class MapperTest extends TestCase
 
         $mapper = new Mapper(
             $converterRegistry,
-            $this->getContentTypeGatewayMock(),
             $this->getLanguageHandlerMock(),
             $this->getStorageDispatcherMock(),
             $this->getFieldTypeAliasResolver(),
@@ -446,7 +440,6 @@ class MapperTest extends TestCase
 
         $mapper = new Mapper(
             $converterRegistry,
-            $this->getContentTypeGatewayMock(),
             $this->getLanguageHandlerMock(),
             $storageDispatcher,
             $this->getFieldTypeAliasResolver(),
@@ -465,7 +458,6 @@ class MapperTest extends TestCase
         $mapper = $this->getMockBuilder(Mapper::class)
             ->setConstructorArgs([
                 $this->getConverterRegistryMock(),
-                $this->getContentTypeGatewayMock(),
                 $this->getLanguageHandlerMock(),
                 $this->getStorageDispatcherMock(),
                 $this->getFieldTypeAliasResolver(),
@@ -519,11 +511,6 @@ class MapperTest extends TestCase
     protected function getLoadGroupFixture()
     {
         return require __DIR__ . '/_fixtures/map_load_group.php';
-    }
-
-    protected function getContentTypeGatewayMock(): Gateway
-    {
-        return $this->createMock(Gateway::class);
     }
 
     protected function getLanguageHandlerMock(): LanguageHandler
