@@ -9,38 +9,21 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\RepositoryInstaller\Migration;
 
 use DateTimeImmutable;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Schema\Schema;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\AbstractSqlMigration;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationInterface;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
 
 /**
- * Adds an "is_always_available" boolean column to "ibexa_url_alias_ml", backfilled from bit 0 of
- * its "lang_mask" column (part of step 6 of the language bitmask migration). "lang_mask" itself is
- * left untouched by this migration - only the always-available flag moves off the bitmask; the mask
- * keeps carrying language-membership bits until Step 7 introduces
- * "ibexa_url_alias_ml_translation" writes/reads and drops the mask column entirely.
- *
- * The column add and its backfill are treated as two independent steps rather than one all-or-
- * nothing unit: on MySQL, `ALTER TABLE`/`UPDATE` each auto-commit independently, so if the column
- * add succeeds but the backfill fails, a retry must still backfill even though the column already
- * exists - the column's presence alone is not proof the backfill ever completed. The backfill
- * UPDATE is idempotent (derived only from "lang_mask", which this migration never modifies), so
- * re-running it whenever this migration's up() executes at all is always safe.
- *
- * A schema installed through the SchemaBuilderEvent already has the column and no "lang_mask" left
- * to backfill from, so the backfill is skipped there (a later "ibexa:doctrine:migrations:migrate"
- * runs every migration over that schema).
- *
- * Guarded via the connection's schema manager rather than the injected $schema, because
- * TaggedMigrationsRunner (the "ibexa:install" path) invokes up() with an empty Schema, so
- * $schema->hasTable()/hasColumn() would always report false there.
+ * Adds an "is_always_available" column to "ibexa_url_alias_ml", backfilled from bit 0 of "lang_mask".
  */
 final class AddUrlAliasAlwaysAvailableColumnMigration extends AbstractSqlMigration implements IbexaMigrationInterface
 {
     private const string TABLE = 'ibexa_url_alias_ml';
     private const string ALWAYS_AVAILABLE_COLUMN = 'is_always_available';
     private const string LANGUAGE_MASK_COLUMN = 'lang_mask';
+    private const int BATCH_SIZE = 5000;
 
     public function getDescription(): string
     {
@@ -55,6 +38,11 @@ final class AddUrlAliasAlwaysAvailableColumnMigration extends AbstractSqlMigrati
     public static function getCreationDate(): DateTimeImmutable
     {
         return new DateTimeImmutable('2026-10-19 04:00:00');
+    }
+
+    public function isTransactional(): bool
+    {
+        return false;
     }
 
     public function up(Schema $schema): void
@@ -85,11 +73,22 @@ final class AddUrlAliasAlwaysAvailableColumnMigration extends AbstractSqlMigrati
             return;
         }
 
-        $trueLiteral = $this->isPostgreSQL() ? 'true' : '1';
+        $range = $this->connection->fetchAssociative('SELECT MIN(id) AS min_id, MAX(id) AS max_id FROM ' . self::TABLE);
+        if ($range === false || $range['min_id'] === null) {
+            return;
+        }
 
-        $this->addSql(
-            'UPDATE ' . self::TABLE . ' SET ' . self::ALWAYS_AVAILABLE_COLUMN .
-            " = {$trueLiteral} WHERE (" . self::LANGUAGE_MASK_COLUMN . ' & 1) = 1'
-        );
+        $maskBit = '((' . self::LANGUAGE_MASK_COLUMN . ' & 1) = 1)';
+        $sql = 'UPDATE ' . self::TABLE . ' SET ' . self::ALWAYS_AVAILABLE_COLUMN . " = {$maskBit}"
+            . ' WHERE id BETWEEN :from AND :to AND ' . self::ALWAYS_AVAILABLE_COLUMN . " <> {$maskBit}";
+
+        $maxId = (int)$range['max_id'];
+        for ($from = (int)$range['min_id']; $from <= $maxId; $from += self::BATCH_SIZE) {
+            $this->addSql(
+                $sql,
+                ['from' => $from, 'to' => min($from + self::BATCH_SIZE - 1, $maxId)],
+                ['from' => ParameterType::INTEGER, 'to' => ParameterType::INTEGER]
+            );
+        }
     }
 }
