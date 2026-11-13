@@ -24,36 +24,16 @@ use Ibexa\Core\Search\Legacy\Content\Common\Gateway\LanguagePriorityConditionBui
 abstract class FieldBase extends CriterionHandler
 {
     /**
-     * Content type handler.
-     *
-     * @var ContentTypeHandler
-     */
-    protected $contentTypeHandler;
-
-    /**
-     * Language handler.
-     *
-     * @var LanguageHandler
-     */
-    protected $languageHandler;
-
-    private LanguagePriorityConditionBuilder $languagePriorityConditionBuilder;
-
-    /**
      * @throws Exception
      */
     public function __construct(
         Connection $connection,
-        ContentTypeHandler $contentTypeHandler,
-        LanguageHandler $languageHandler,
+        protected ContentTypeHandler $contentTypeHandler,
+        protected LanguageHandler $languageHandler,
         JoinedTablesTracker $joinedTablesTracker,
-        LanguagePriorityConditionBuilder $languagePriorityConditionBuilder
+        private readonly LanguagePriorityConditionBuilder $languagePriorityConditionBuilder
     ) {
         parent::__construct($connection, $joinedTablesTracker);
-
-        $this->contentTypeHandler = $contentTypeHandler;
-        $this->languageHandler = $languageHandler;
-        $this->languagePriorityConditionBuilder = $languagePriorityConditionBuilder;
     }
 
     /**

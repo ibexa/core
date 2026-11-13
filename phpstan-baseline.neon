@@ -18205,12 +18205,6 @@ parameters:
 			path: src/lib/Search/Legacy/Content/WordIndexer/Gateway/DoctrineDatabase.php
 
 		-
-			message: '#^Property Ibexa\\Core\\Search\\Legacy\\Content\\WordIndexer\\Gateway\\DoctrineDatabase\:\:\$fullTextSearchConfiguration type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/Search/Legacy/Content/WordIndexer/Gateway/DoctrineDatabase.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\WordIndexer\\Repository\\SearchIndex\:\:getContentObjectWords\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1

@@ -52,72 +52,15 @@ use Ibexa\Core\Search\Legacy\Content\WordIndexer\Gateway as WordIndexerGateway;
  */
 class Handler implements SearchHandlerInterface
 {
-    /**
-     * Content locator gateway.
-     *
-     * @var Gateway
-     */
-    protected $gateway;
-
-    /**
-     * Location locator gateway.
-     *
-     * @var LocationGateway
-     */
-    protected $locationGateway;
-
-    /**
-     * Word indexer gateway.
-     *
-     * @var WordIndexerGateway
-     */
-    protected $indexerGateway;
-
-    /**
-     * Content mapper.
-     *
-     * @var ContentMapper
-     */
-    protected $contentMapper;
-
-    /**
-     * Location locationMapper.
-     *
-     * @var LocationMapper
-     */
-    protected $locationMapper;
-
-    /**
-     * Language handler.
-     *
-     * @var LanguageHandler
-     */
-    protected $languageHandler;
-
-    /**
-     * FullText mapper.
-     *
-     * @var FullTextMapper
-     */
-    protected $mapper;
-
     public function __construct(
-        Gateway $gateway,
-        LocationGateway $locationGateway,
-        WordIndexerGateway $indexerGateway,
-        ContentMapper $contentMapper,
-        LocationMapper $locationMapper,
-        LanguageHandler $languageHandler,
-        FullTextMapper $mapper
-    ) {
-        $this->gateway = $gateway;
-        $this->locationGateway = $locationGateway;
-        $this->indexerGateway = $indexerGateway;
-        $this->contentMapper = $contentMapper;
-        $this->locationMapper = $locationMapper;
-        $this->languageHandler = $languageHandler;
-        $this->mapper = $mapper;
-    }
+        protected Gateway $gateway,
+        protected LocationGateway $locationGateway,
+        protected WordIndexerGateway $indexerGateway,
+        protected ContentMapper $contentMapper,
+        protected LocationMapper $locationMapper,
+        protected LanguageHandler $languageHandler,
+        protected FullTextMapper $mapper
+    ) {}
 
     public function findContent(
         Query $query,

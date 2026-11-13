@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\Search\Legacy\Content\Gateway;
 
@@ -27,42 +28,13 @@ use RuntimeException;
  */
 final class DoctrineDatabase extends Gateway
 {
-    /** @var Connection */
-    private $connection;
-
-    /**
-     * Criteria converter.
-     *
-     * @var CriteriaConverter
-     */
-    private $criteriaConverter;
-
-    /**
-     * Sort clause converter.
-     *
-     * @var SortClauseConverter
-     */
-    private $sortClauseConverter;
-
-    /**
-     * Language handler.
-     *
-     * @var LanguageHandler
-     */
-    private $languageHandler;
-
     public function __construct(
-        Connection $connection,
-        CriteriaConverter $criteriaConverter,
-        SortClauseConverter $sortClauseConverter,
-        LanguageHandler $languageHandler,
+        private readonly Connection $connection,
+        private readonly CriteriaConverter $criteriaConverter,
+        private readonly SortClauseConverter $sortClauseConverter,
+        private readonly LanguageHandler $languageHandler,
         private readonly LanguagePriorityConditionBuilder $languagePriorityConditionBuilder
-    ) {
-        $this->connection = $connection;
-        $this->criteriaConverter = $criteriaConverter;
-        $this->sortClauseConverter = $sortClauseConverter;
-        $this->languageHandler = $languageHandler;
-    }
+    ) {}
 
     public function find(
         CriterionInterface $criterion,
@@ -101,9 +73,9 @@ final class DoctrineDatabase extends Gateway
         CriterionInterface $filter,
         QueryBuilder $query,
         array $languageFilter
-    ) {
+    ): string {
         $expr = $query->expr();
-        $condition = $expr->and(
+        $condition = (string)$expr->and(
             $this->criteriaConverter->convertCriteria($query, $filter, $languageFilter),
             $expr->eq(
                 'c.status',
@@ -128,7 +100,7 @@ final class DoctrineDatabase extends Gateway
                 !empty($languageFilter['useAlwaysAvailable'])
             );
 
-            $condition = $expr->and($condition, $languageCondition);
+            $condition = (string)$expr->and($condition, $languageCondition);
         }
 
         return $condition;
@@ -206,7 +178,7 @@ final class DoctrineDatabase extends Gateway
                 'c',
                 LocationGateway::CONTENT_TREE_TABLE,
                 'main_tree',
-                $query->expr()->and(
+                (string)$query->expr()->and(
                     'main_tree.contentobject_id = c.id',
                     'main_tree.main_node_id = main_tree.node_id'
                 )
