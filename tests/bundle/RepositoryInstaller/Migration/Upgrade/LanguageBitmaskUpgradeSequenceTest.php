@@ -6,7 +6,7 @@
  */
 declare(strict_types=1);
 
-namespace Ibexa\Tests\Bundle\RepositoryInstaller\Migration;
+namespace Ibexa\Tests\Bundle\RepositoryInstaller\Migration\Upgrade;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
@@ -54,6 +54,13 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        // parent::setUp() imported the current schema.yaml: take it back to what a pre-6.0
+        // database has, without the translation tables.
+        $connection = $this->getDatabaseConnection();
+        foreach (['ibexa_content_translation', 'ibexa_content_version_translation', 'ibexa_url_alias_ml_translation'] as $table) {
+            $connection->executeStatement("DROP TABLE {$table}");
+        }
 
         $schemaImporter = new LegacySchemaImporter($this->getDatabaseConnection(), DefaultTableOptions::AS_ARRAY);
         $schemaImporter->importSchema(
@@ -416,7 +423,7 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         // Simulate a MySQL run that added the first column then died before the second one (and
         // before either backfill): a retry must not mistake "ibexa_content already has the column"
         // for "this migration already fully ran".
-        $connection->executeStatement('ALTER TABLE ibexa_content ADD COLUMN always_available BOOLEAN DEFAULT 0 NOT NULL');
+        $connection->executeStatement('ALTER TABLE ibexa_content ADD COLUMN always_available BOOLEAN DEFAULT FALSE NOT NULL');
 
         $this->runMigration(new AddContentAlwaysAvailableColumnsMigration($connection, new NullLogger(), new MigrationRunContext()));
         $this->runMigration(new AddLanguageTranslationTablesMigration($connection, new NullLogger(), new MigrationRunContext()));
@@ -437,13 +444,8 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         $connection = $this->getDatabaseConnection();
         $this->seedPreMigrationData($connection);
 
-        // All 3 tables already exist by this point (created by the current schema.yaml import in
-        // the base TestCase::setUp()). Simulate a run that only got as far as creating the first
-        // one before dying (on SQLite, each table+its FKs is created atomically in one statement,
-        // so "table exists but a constraint is missing" can't happen there the way it can on
-        // MySQL/PostgreSQL - the meaningful partial state to simulate here is a missing table): a
-        // retry must not mistake "ibexa_content_translation already exists" for "everything already
-        // ran" and skip creating the other two.
+        // A run that only got as far as creating the first table: a retry must create the other two.
+        $this->runMigration(new AddLanguageTranslationTablesMigration($connection, new NullLogger(), new MigrationRunContext()));
         $connection->executeStatement('DROP TABLE ibexa_content_version_translation');
         $connection->executeStatement('DROP TABLE ibexa_url_alias_ml_translation');
 
@@ -504,7 +506,7 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         // Simulate a MySQL run that added the column then died before the backfill UPDATE: the
         // column's mere presence is not proof the backfill ever ran, so a retry must still backfill.
         $connection->executeStatement(
-            'ALTER TABLE ibexa_url_alias_ml ADD COLUMN always_available BOOLEAN DEFAULT 0 NOT NULL'
+            'ALTER TABLE ibexa_url_alias_ml ADD COLUMN always_available BOOLEAN DEFAULT FALSE NOT NULL'
         );
 
         $this->runMigration(new AddUrlAliasAlwaysAvailableColumnMigration($connection, new NullLogger(), new MigrationRunContext()));
@@ -525,7 +527,7 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         // As the SchemaBuilderEvent installs it: the column is already there, "lang_mask" isn't.
         $connection->executeStatement('DROP TABLE ibexa_url_alias_ml');
         $connection->executeStatement(
-            'CREATE TABLE ibexa_url_alias_ml (parent INTEGER NOT NULL, text_md5 VARCHAR(32) NOT NULL, always_available BOOLEAN DEFAULT 0 NOT NULL)'
+            'CREATE TABLE ibexa_url_alias_ml (parent INTEGER NOT NULL, text_md5 VARCHAR(32) NOT NULL, always_available BOOLEAN DEFAULT FALSE NOT NULL)'
         );
 
         $migration = new AddUrlAliasAlwaysAvailableColumnMigration($connection, new NullLogger(), new MigrationRunContext());
@@ -549,7 +551,7 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         // reaching any of the other six: a retry must not mistake "ibexa_object_state's mask column
         // is already gone" for "this migration already fully ran" - every other table's column/index
         // must still get dropped/replaced, not left dangling forever.
-        $connection->executeStatement('DROP INDEX ibexa_object_state_lmask');
+        $connection->createSchemaManager()->dropIndex('ibexa_object_state_lmask', 'ibexa_object_state');
         $connection->executeStatement('ALTER TABLE ibexa_object_state DROP COLUMN language_mask');
 
         $this->runMigration(new DropLanguageBitmaskColumnsMigration($connection, new NullLogger(), new MigrationRunContext()));
