@@ -7,9 +7,7 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
-use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
@@ -17,9 +15,9 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker;
-use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\LanguagePriorityConditionBuilder;
 
 /**
  * LanguageCode criterion handler.
@@ -32,7 +30,8 @@ class LanguageCode extends CriterionHandler
     public function __construct(
         Connection $connection,
         LanguageHandler $languageHandler,
-        JoinedTablesTracker $joinedTablesTracker
+        JoinedTablesTracker $joinedTablesTracker,
+        private readonly LanguagePriorityConditionBuilder $languagePriorityConditionBuilder
     ) {
         parent::__construct($connection, $joinedTablesTracker);
 
@@ -62,29 +61,10 @@ class LanguageCode extends CriterionHandler
         }
         $languageIds = array_map(static fn ($language): int => $language->id, array_values($languages));
 
-        $translationSubQuery = $this->connection->createQueryBuilder();
-        $translationSubQuery
-            ->select('1')
-            ->from(ContentGateway::CONTENT_TRANSLATION_TABLE, 'ct')
-            ->where(
-                $translationSubQuery->expr()->and(
-                    'ct.content_id = c.id',
-                    $translationSubQuery->expr()->in(
-                        'ct.language_id',
-                        $queryBuilder->createNamedParameter($languageIds, ArrayParameterType::INTEGER)
-                    )
-                )
-            );
-
-        $condition = sprintf('EXISTS (%s)', $translationSubQuery->getSQL());
-
-        if ($criterion->matchAlwaysAvailable) {
-            return $expr->or(
-                $condition,
-                $expr->eq('c.always_available', $queryBuilder->createNamedParameter(true, ParameterType::BOOLEAN))
-            );
-        }
-
-        return $condition;
+        return $this->languagePriorityConditionBuilder->buildTranslationCondition(
+            $queryBuilder,
+            $languageIds,
+            $criterion->matchAlwaysAvailable
+        );
     }
 }

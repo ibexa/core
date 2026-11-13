@@ -164,7 +164,8 @@ services:
         class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\LanguageCode
         parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
         arguments:
-            $languageHandler: '@ibexa.spi.persistence.legacy.language.handler'
+            $languageHandler: '@Ibexa\Contracts\Core\Persistence\Content\Language\Handler'
+            $languagePriorityConditionBuilder: '@Ibexa\Core\Search\Legacy\Content\Common\Gateway\LanguagePriorityConditionBuilder'
         tags:
             - {name: ibexa.search.legacy.gateway.criterion_handler.content}
             - {name: ibexa.search.legacy.gateway.criterion_handler.location}

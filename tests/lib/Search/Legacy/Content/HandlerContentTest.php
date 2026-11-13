@@ -175,7 +175,8 @@ class HandlerContentTest extends AbstractTestCase
                         new Content\Common\Gateway\CriterionHandler\LanguageCode(
                             $connection,
                             $this->getLanguageHandler(),
-                            $joinedTablesTracker
+                            $joinedTablesTracker,
+                            new Content\Common\Gateway\LanguagePriorityConditionBuilder($connection, $this->getLanguageHandler())
                         ),
                         new Content\Gateway\CriterionHandler\Visibility(
                             $connection,
