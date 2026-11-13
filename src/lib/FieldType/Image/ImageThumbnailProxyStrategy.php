@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\FieldType\Image;
 
 use Exception;
+use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\Field\FieldTypeBasedThumbnailStrategy;
 use Ibexa\Contracts\Core\Repository\Strategy\ContentThumbnail\ThumbnailStrategy;
 use Ibexa\Contracts\Core\Repository\Values\Content\Field;
@@ -26,14 +27,18 @@ final class ImageThumbnailProxyStrategy implements FieldTypeBasedThumbnailStrate
 
     private ThumbnailStrategy $contentThumbnailStrategy;
 
+    private ContentService $contentService;
+
     public function __construct(
         ImageThumbnailStrategy $imageThumbnailStrategy,
         ProxyGeneratorInterface $proxyGenerator,
-        ThumbnailStrategy $contentThumbnailStrategy
+        ThumbnailStrategy $contentThumbnailStrategy,
+        ContentService $contentService
     ) {
         $this->imageThumbnailStrategy = $imageThumbnailStrategy;
         $this->proxyGenerator = $proxyGenerator;
         $this->contentThumbnailStrategy = $contentThumbnailStrategy;
+        $this->contentService = $contentService;
     }
 
     public function getFieldTypeIdentifier(): string
@@ -61,7 +66,7 @@ final class ImageThumbnailProxyStrategy implements FieldTypeBasedThumbnailStrate
 
             // The image strategy has already logged why it failed.
             try {
-                $wrappedObject = $this->getFallbackThumbnail($versionInfo);
+                $wrappedObject = $this->getFallbackThumbnail($field, $versionInfo);
                 $previous = null;
             } catch (Exception $e) {
                 $previous = $e;
@@ -88,17 +93,26 @@ final class ImageThumbnailProxyStrategy implements FieldTypeBasedThumbnailStrate
 
     /**
      * The proxy is returned before the image variation is generated, so content thumbnail strategies with
-     * a lower priority never get a chance to provide one. Ask them directly, without fields, when it fails.
+     * a lower priority never get a chance to provide one. Ask them directly when it fails, without image fields,
+     * as those would lead back here.
      */
-    private function getFallbackThumbnail(?VersionInfo $versionInfo): ?Thumbnail
+    private function getFallbackThumbnail(Field $field, ?VersionInfo $versionInfo): ?Thumbnail
     {
         if ($versionInfo === null) {
             return null;
         }
 
+        $content = $this->contentService->loadContentByVersionInfo($versionInfo);
+        $fields = [];
+        foreach ($content->getFields() as $contentField) {
+            if ($contentField->getFieldTypeIdentifier() !== $field->getFieldTypeIdentifier()) {
+                $fields[] = $contentField;
+            }
+        }
+
         return $this->contentThumbnailStrategy->getThumbnail(
-            $versionInfo->getContentInfo()->getContentType(),
-            [],
+            $content->getContentType(),
+            $fields,
             $versionInfo
         );
     }
