@@ -71,13 +71,17 @@ final class FixtureImporter
             static fn (array $tableData, string $table): bool => $tableData !== [] && in_array($table, $tablesList, true),
             ARRAY_FILTER_USE_BOTH
         );
+        $languageIds = array_merge(
+            $this->loadValidLanguageIds(),
+            array_map('intval', array_column($data['ibexa_content_language'] ?? [], 'id'))
+        );
         foreach ($nonEmptyTablesData as $table => $rows) {
             // Fixtures predate columns being dropped over time (e.g. the language bitmask
             // columns) - silently drop unknown keys rather than letting every fixture file need
             // updating in lockstep with schema changes.
             $existingColumns = $this->getExistingColumns($table);
             foreach ($rows as $row) {
-                $row = $this->stripLegacyAlwaysAvailableBit($table, $row);
+                $row = $this->stripLegacyAlwaysAvailableBit($table, $row, $languageIds);
                 $this->connection->insert($table, array_intersect_key($row, array_flip($existingColumns)));
             }
         }
@@ -172,20 +176,25 @@ final class FixtureImporter
     }
 
     /**
-     * Fixture data was captured under the legacy bitmask scheme, where every language id is a power
-     * of two - mirrors what StripAlwaysAvailableBitFromLanguageIdsMigration does for production
-     * upgrades, applied to the fixture rows only.
+     * Clears the legacy "always available" bit from a row's odd "language_id" unless it's a language.
      *
      * @param array<string, mixed> $row
+     * @param int[] $languageIds
      *
      * @return array<string, mixed>
      */
     private function stripLegacyAlwaysAvailableBit(
         string $table,
-        array $row
+        array $row,
+        array $languageIds
     ): array {
-        if (isset($row['language_id']) && in_array($table, self::TABLES_WITH_LEGACY_ALWAYS_AVAILABLE_BIT, true)) {
-            $row['language_id'] = (int)$row['language_id'] & ~1;
+        if (!isset($row['language_id']) || !in_array($table, self::TABLES_WITH_LEGACY_ALWAYS_AVAILABLE_BIT, true)) {
+            return $row;
+        }
+
+        $languageId = (int)$row['language_id'];
+        if ($languageId % 2 === 1 && !in_array($languageId, $languageIds, true)) {
+            $row['language_id'] = $languageId - 1;
         }
 
         return $row;
