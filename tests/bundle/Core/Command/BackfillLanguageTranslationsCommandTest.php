@@ -111,6 +111,7 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
         );
         self::assertSame([1 => false, 2 => true], $this->fetchAlwaysAvailable('ibexa_content'));
         self::assertSame([1 => false, 2 => true], $this->fetchAlwaysAvailable('ibexa_content_version'));
+        self::assertTrue((bool)$this->getDatabaseConnection()->fetchOne('SELECT is_always_available FROM ibexa_url_alias_ml'));
     }
 
     public function testBackfillIsIdempotent(): void
