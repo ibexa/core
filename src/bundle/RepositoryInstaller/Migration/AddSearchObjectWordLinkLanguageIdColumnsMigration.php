@@ -56,7 +56,7 @@ final class AddSearchObjectWordLinkLanguageIdColumnsMigration extends AbstractSq
             return;
         }
 
-        $table = $schemaManager->introspectTable(self::TABLE);
+        $table = $schemaManager->introspectTableByUnquotedName(self::TABLE);
 
         if (!$table->hasColumn(self::LANGUAGE_ID_COLUMN)) {
             $this->addSql($this->buildAddLanguageIdColumnSql());
