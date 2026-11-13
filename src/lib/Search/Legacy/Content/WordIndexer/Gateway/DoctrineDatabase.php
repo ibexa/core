@@ -15,6 +15,7 @@ use Ibexa\Core\Search\Legacy\Content\FullTextData;
 use Ibexa\Core\Search\Legacy\Content\FullTextValue;
 use Ibexa\Core\Search\Legacy\Content\WordIndexer\Gateway;
 use Ibexa\Core\Search\Legacy\Content\WordIndexer\Repository\SearchIndex;
+use Throwable;
 
 /**
  * WordIndexer gateway implementation using the Doctrine database.
@@ -101,72 +102,78 @@ class DoctrineDatabase extends Gateway
         $placement = 0;
 
         $this->connection->beginTransaction();
-        // Remove previously indexed content if exists to avoid keeping in index removed field values
-        $this->remove($fullTextData->id);
-        foreach ($fullTextData->values as $fullTextValue) {
-            /** @var FullTextValue $fullTextValue */
-            if (is_numeric(trim($fullTextValue->value))) {
-                $integerValue = (int)$fullTextValue->value;
-                if ($integerValue > self::DB_INT_MAX) {
+        try {
+            // Remove previously indexed content if exists to avoid keeping in index removed field values
+            $this->remove($fullTextData->id);
+            foreach ($fullTextData->values as $fullTextValue) {
+                /** @var FullTextValue $fullTextValue */
+                if (is_numeric(trim($fullTextValue->value))) {
+                    $integerValue = (int)$fullTextValue->value;
+                    if ($integerValue > self::DB_INT_MAX) {
+                        $integerValue = 0;
+                    }
+                } else {
                     $integerValue = 0;
                 }
-            } else {
-                $integerValue = 0;
-            }
-            $text = $this->transformationProcessor->transform(
-                $fullTextValue->value,
-                !empty($fullTextValue->transformationRules)
-                    ? $fullTextValue->transformationRules
-                    : $this->fullTextSearchConfiguration['commands']
-            );
-            // split by non-words
-            $wordArray = $fullTextValue->splitFlag ? preg_split('/\W/u', $text, -1, PREG_SPLIT_NO_EMPTY) : [$text];
-            foreach ($wordArray as $word) {
-                if (trim($word) === '') {
-                    continue;
-                }
-                // words stored in search index are limited to 150 characters
-                if (mb_strlen($word) > 150) {
-                    $word = mb_substr($word, 0, 150);
-                }
-                $indexArray[] = [
-                    'Word' => $word,
-                    'ContentClassAttributeID' => $fullTextValue->fieldDefinitionId,
-                    'identifier' => $fullTextValue->fieldDefinitionIdentifier,
-                    'integer_value' => $integerValue,
-                    'language_code' => $fullTextValue->languageCode,
-                    'is_main_and_always_available' => $fullTextValue->isMainAndAlwaysAvailable,
-                ];
-                $indexArrayOnlyWords[$word] = 1;
-                ++$wordCount;
-                // if we have "www." before word than
-                // treat it as url and add additional entry to the index
-                if (mb_strtolower(mb_substr($word, 0, 4)) === 'www.') {
-                    $additionalUrlWord = substr($word, 4);
+                $text = $this->transformationProcessor->transform(
+                    $fullTextValue->value,
+                    !empty($fullTextValue->transformationRules)
+                        ? $fullTextValue->transformationRules
+                        : $this->fullTextSearchConfiguration['commands']
+                );
+                // split by non-words
+                $wordArray = $fullTextValue->splitFlag ? preg_split('/\W/u', $text, -1, PREG_SPLIT_NO_EMPTY) : [$text];
+                foreach ($wordArray as $word) {
+                    if (trim($word) === '') {
+                        continue;
+                    }
+                    // words stored in search index are limited to 150 characters
+                    if (mb_strlen($word) > 150) {
+                        $word = mb_substr($word, 0, 150);
+                    }
                     $indexArray[] = [
-                        'Word' => $additionalUrlWord,
+                        'Word' => $word,
                         'ContentClassAttributeID' => $fullTextValue->fieldDefinitionId,
                         'identifier' => $fullTextValue->fieldDefinitionIdentifier,
                         'integer_value' => $integerValue,
                         'language_code' => $fullTextValue->languageCode,
                         'is_main_and_always_available' => $fullTextValue->isMainAndAlwaysAvailable,
                     ];
-                    $indexArrayOnlyWords[$additionalUrlWord] = 1;
+                    $indexArrayOnlyWords[$word] = 1;
                     ++$wordCount;
+                    // if we have "www." before word than
+                    // treat it as url and add additional entry to the index
+                    if (mb_strtolower(mb_substr($word, 0, 4)) === 'www.') {
+                        $additionalUrlWord = substr($word, 4);
+                        $indexArray[] = [
+                            'Word' => $additionalUrlWord,
+                            'ContentClassAttributeID' => $fullTextValue->fieldDefinitionId,
+                            'identifier' => $fullTextValue->fieldDefinitionIdentifier,
+                            'integer_value' => $integerValue,
+                            'language_code' => $fullTextValue->languageCode,
+                            'is_main_and_always_available' => $fullTextValue->isMainAndAlwaysAvailable,
+                        ];
+                        $indexArrayOnlyWords[$additionalUrlWord] = 1;
+                        ++$wordCount;
+                    }
                 }
             }
-        }
 
-        $wordIDArray = $this->buildWordIDArray(array_keys($indexArrayOnlyWords));
-        for ($arrayCount = 0; $arrayCount < $wordCount; $arrayCount += 1000) {
-            $placement = $this->indexWords(
-                $fullTextData,
-                array_slice($indexArray, $arrayCount, 1000),
-                $wordIDArray,
-                $placement
-            );
+            $wordIDArray = $this->buildWordIDArray(array_keys($indexArrayOnlyWords));
+            for ($arrayCount = 0; $arrayCount < $wordCount; $arrayCount += 1000) {
+                $placement = $this->indexWords(
+                    $fullTextData,
+                    array_slice($indexArray, $arrayCount, 1000),
+                    $wordIDArray,
+                    $placement
+                );
+            }
+            $this->connection->commit();
+        } catch (Throwable $e) {
+            $this->connection->rollBack();
+
+            throw $e;
         }
-        $this->connection->commit();
     }
 
     /**
@@ -203,17 +210,23 @@ class DoctrineDatabase extends Gateway
     ) {
         $doDelete = false;
         $this->connection->beginTransaction();
-        // fetch all the words and decrease the object count on all the words
-        $wordIDList = $this->searchIndex->getContentObjectWords($contentId);
-        if (count($wordIDList) > 0) {
-            $this->searchIndex->decrementWordObjectCount($wordIDList);
-            $doDelete = true;
+        try {
+            // fetch all the words and decrease the object count on all the words
+            $wordIDList = $this->searchIndex->getContentObjectWords($contentId);
+            if (count($wordIDList) > 0) {
+                $this->searchIndex->decrementWordObjectCount($wordIDList);
+                $doDelete = true;
+            }
+            if ($doDelete) {
+                $this->searchIndex->deleteWordsWithoutObjects();
+                $this->searchIndex->deleteObjectWordsLink($contentId);
+            }
+            $this->connection->commit();
+        } catch (Throwable $e) {
+            $this->connection->rollBack();
+
+            throw $e;
         }
-        if ($doDelete) {
-            $this->searchIndex->deleteWordsWithoutObjects();
-            $this->searchIndex->deleteObjectWordsLink($contentId);
-        }
-        $this->connection->commit();
 
         return true;
     }
@@ -313,38 +326,44 @@ class DoctrineDatabase extends Gateway
 
         // store the words in the index and remember the ID
         $this->connection->beginTransaction();
-        for ($arrayCount = 0; $arrayCount < $wordCount; $arrayCount += 500) {
-            // Fetch already indexed words from database
-            $wordArrayChuck = array_slice($indexArrayOnlyWords, $arrayCount, 500);
-            $wordRes = $this->searchIndex->getWords($wordArrayChuck);
+        try {
+            for ($arrayCount = 0; $arrayCount < $wordCount; $arrayCount += 500) {
+                // Fetch already indexed words from database
+                $wordArrayChuck = array_slice($indexArrayOnlyWords, $arrayCount, 500);
+                $wordRes = $this->searchIndex->getWords($wordArrayChuck);
 
-            // Build a has of the existing words
-            $wordResCount = count($wordRes);
-            $existingWordArray = [];
-            for ($i = 0; $i < $wordResCount; ++$i) {
-                $wordIDArray[] = $wordRes[$i]['id'];
-                $existingWordArray[] = $wordRes[$i]['word'];
-                $wordArray[$wordRes[$i]['word']] = $wordRes[$i]['id'];
-            }
+                // Build a has of the existing words
+                $wordResCount = count($wordRes);
+                $existingWordArray = [];
+                for ($i = 0; $i < $wordResCount; ++$i) {
+                    $wordIDArray[] = $wordRes[$i]['id'];
+                    $existingWordArray[] = $wordRes[$i]['word'];
+                    $wordArray[$wordRes[$i]['word']] = $wordRes[$i]['id'];
+                }
 
-            // Update the object count of existing words by one
-            if (count($wordIDArray) > 0) {
-                $this->searchIndex->incrementWordObjectCount($wordIDArray);
-            }
+                // Update the object count of existing words by one
+                if (count($wordIDArray) > 0) {
+                    $this->searchIndex->incrementWordObjectCount($wordIDArray);
+                }
 
-            // Insert if there is any news words
-            $newWordArray = array_diff($wordArrayChuck, $existingWordArray);
-            if (count($newWordArray) > 0) {
-                $this->searchIndex->addWords($newWordArray);
-                $newWordRes = $this->searchIndex->getWords($newWordArray);
-                $newWordCount = count($newWordRes);
-                for ($i = 0; $i < $newWordCount; ++$i) {
-                    $wordLowercase = $this->transformationProcessor->transformByGroup($newWordRes[$i]['word'], 'lowercase');
-                    $wordArray[$wordLowercase] = $newWordRes[$i]['id'];
+                // Insert if there is any news words
+                $newWordArray = array_diff($wordArrayChuck, $existingWordArray);
+                if (count($newWordArray) > 0) {
+                    $this->searchIndex->addWords($newWordArray);
+                    $newWordRes = $this->searchIndex->getWords($newWordArray);
+                    $newWordCount = count($newWordRes);
+                    for ($i = 0; $i < $newWordCount; ++$i) {
+                        $wordLowercase = $this->transformationProcessor->transformByGroup($newWordRes[$i]['word'], 'lowercase');
+                        $wordArray[$wordLowercase] = $newWordRes[$i]['id'];
+                    }
                 }
             }
+            $this->connection->commit();
+        } catch (Throwable $e) {
+            $this->connection->rollBack();
+
+            throw $e;
         }
-        $this->connection->commit();
 
         return $wordArray;
     }
