@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\UrlAlias;
 
 use Doctrine\DBAL\Exception;
+use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Persistence\Content\UrlAlias;
 use Ibexa\Contracts\Core\Persistence\TransactionHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
@@ -3146,6 +3147,35 @@ class UrlAliasHandlerTest extends TestCase
 
         self::assertEquals(314, $urlAlias->destination);
         self::assertEquals(['kli-KR'], $urlAlias->languageCodes);
+    }
+
+    public function testLocationSwappedKeepsCustomAliasWithoutCommonLanguageHistorized(): void
+    {
+        $handler = $this->getHandler();
+        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_swap_simple.php');
+        $connection = $this->getDatabaseConnection();
+        $connection->insert(LanguageGateway::CONTENT_LANGUAGE_TABLE, ['id' => 4, 'locale' => 'eng-GB', 'name' => 'English (UK)', 'disabled' => 0]);
+        $connection->update(Gateway::CONTENT_ITEM_TABLE, ['always_available' => true], ['id' => 3], ['always_available' => ParameterType::BOOLEAN]);
+        $connection->insert(UrlAliasGateway::TABLE, [
+            'action' => 'eznode:316',
+            'action_type' => 'eznode',
+            'alias_redirects' => 1,
+            'id' => 6,
+            'is_alias' => 1,
+            'is_original' => 1,
+            'is_always_available' => 1,
+            'link' => 6,
+            'parent' => 0,
+            'text' => 'custom',
+            'text_md5' => '8b9035807842a4e4dbe009f3f1478127',
+        ], ['is_always_available' => ParameterType::BOOLEAN]);
+        $connection->insert(UrlAliasGateway::TRANSLATION_TABLE, ['parent' => 0, 'text_md5' => '8b9035807842a4e4dbe009f3f1478127', 'language_id' => 4]);
+
+        $handler->locationSwapped(316, 314, 317, 315);
+
+        $row = (new DoctrineDatabase($connection, $this->getLanguageHandler()))->loadRow(0, '8b9035807842a4e4dbe009f3f1478127');
+        self::assertEquals(0, $row['is_original']);
+        self::assertSame([4], $row['language_ids']);
     }
 
     /**
