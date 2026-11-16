@@ -21,6 +21,7 @@ use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\FieldType\FieldType;
 use Ibexa\Core\Repository\ContentService;
+use Ibexa\Tests\Integration\Core\LegacyFieldTypeIdentifierTestTrait;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -58,6 +59,8 @@ use PHPUnit\Framework\Attributes\Group;
 #[Group('field-type')]
 abstract class BaseIntegrationTestCase extends BaseTestCase
 {
+    use LegacyFieldTypeIdentifierTestTrait;
+
     /**
      * Content version archive limit (default).
      * Note: currently there is no way to retrieve this setting from the ContentService.
