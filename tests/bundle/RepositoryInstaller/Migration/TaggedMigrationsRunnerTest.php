@@ -17,11 +17,9 @@ use Doctrine\Migrations\DependencyFactory;
 use Doctrine\Migrations\Metadata\Storage\TableMetadataStorageConfiguration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\Exception\MigrationFailedException;
 use Ibexa\Bundle\RepositoryInstaller\Migration\TaggedMigrationsRunner;
-use Ibexa\DoctrineSchema\Filter\SchemaAssetsFilterBypass;
 use Ibexa\Tests\Bundle\RepositoryInstaller\Migration\Fixtures\Migration1CreateTable;
 use Ibexa\Tests\Bundle\RepositoryInstaller\Migration\Fixtures\Migration2InsertRow;
 use Ibexa\Tests\Bundle\RepositoryInstaller\Migration\Fixtures\Migration3Failing;
-use Ibexa\Tests\Bundle\RepositoryInstaller\Migration\Fixtures\Migration4RequiresVisibleTable;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -43,7 +41,7 @@ final class TaggedMigrationsRunnerTest extends TestCase
     {
         $dependencyFactory = $this->createDependencyFactory(Migration1CreateTable::class, Migration2InsertRow::class);
 
-        $queries = (new TaggedMigrationsRunner($dependencyFactory, new SchemaAssetsFilterBypass()))->run();
+        $queries = (new TaggedMigrationsRunner($dependencyFactory))->run();
 
         self::assertSame(
             ['CREATE TABLE runner_test (id INTEGER NOT NULL)', 'INSERT INTO runner_test (id) VALUES (1)'],
@@ -60,9 +58,9 @@ final class TaggedMigrationsRunnerTest extends TestCase
     public function testSkipsMigrationsExecutedInAnEarlierRun(): void
     {
         $migrationClasses = [Migration1CreateTable::class, Migration2InsertRow::class];
-        (new TaggedMigrationsRunner($this->createDependencyFactory(...$migrationClasses), new SchemaAssetsFilterBypass()))->run();
+        (new TaggedMigrationsRunner($this->createDependencyFactory(...$migrationClasses)))->run();
 
-        $queries = (new TaggedMigrationsRunner($this->createDependencyFactory(...$migrationClasses), new SchemaAssetsFilterBypass()))->run();
+        $queries = (new TaggedMigrationsRunner($this->createDependencyFactory(...$migrationClasses)))->run();
 
         self::assertSame([], $queries);
         self::assertEquals(1, $this->connection->fetchOne('SELECT COUNT(*) FROM runner_test'));
@@ -73,7 +71,7 @@ final class TaggedMigrationsRunnerTest extends TestCase
         $dependencyFactory = $this->createDependencyFactory(Migration1CreateTable::class, Migration3Failing::class);
 
         try {
-            (new TaggedMigrationsRunner($dependencyFactory, new SchemaAssetsFilterBypass()))->run();
+            (new TaggedMigrationsRunner($dependencyFactory))->run();
             self::fail('Expected the failing migration to throw.');
         } catch (MigrationFailedException $e) {
             self::assertSame(Migration3Failing::class, $e->getVersion());
@@ -92,25 +90,6 @@ final class TaggedMigrationsRunnerTest extends TestCase
         self::assertTrue($this->hasTable('runner_test'));
         self::assertFalse($this->hasTable('runner_test_partial'));
         self::assertSame(0, $this->connection->getTransactionNestingLevel());
-    }
-
-    public function testLiftsTheSchemaAssetsFilterWhileMigrating(): void
-    {
-        // Like 6.0's managed-tables filter, which hides every table without an ORM entity behind it.
-        $hideRunnerTest = static fn (string $assetName): bool => $assetName !== 'runner_test';
-        $this->connection->getConfiguration()->setSchemaAssetsFilter($hideRunnerTest);
-        $dependencyFactory = $this->createDependencyFactory(
-            Migration1CreateTable::class,
-            Migration4RequiresVisibleTable::class
-        );
-
-        (new TaggedMigrationsRunner($dependencyFactory, new SchemaAssetsFilterBypass()))->run();
-
-        self::assertSame(
-            [Migration1CreateTable::class, Migration4RequiresVisibleTable::class],
-            $this->getExecutedVersions($dependencyFactory)
-        );
-        self::assertSame($hideRunnerTest, $this->connection->getConfiguration()->getSchemaAssetsFilter());
     }
 
     /**

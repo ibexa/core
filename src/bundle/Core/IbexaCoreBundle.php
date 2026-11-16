@@ -81,8 +81,8 @@ final class IbexaCoreBundle extends Bundle
         $container->addCompilerPass(new SiteAccessMatcherRegistryPass());
         $container->addCompilerPass(new LazyDoctrineRepositoriesPass(), PassConfig::TYPE_BEFORE_REMOVING);
         $container->addCompilerPass(new EntityManagerFactoryServiceLocatorPass());
-        // Priority 1 makes it run before DoctrineBundle's DbalSchemaFilterPass (priority 0),
-        // which collects the "doctrine.dbal.schema_filter" tags this pass adds.
+        // Priority 1 makes it run before DoctrineBundle's RegisterEventListenersAndSubscribersPass
+        // (priority 0), which collects the "doctrine.event_listener" tags this pass adds.
         $container->addCompilerPass(new InjectEntityManagerMappingsPass(), priority: 1);
         $container->addCompilerPass(new SessionConfigurationPass());
 

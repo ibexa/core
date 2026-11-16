@@ -27,7 +27,6 @@ use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter;
 use Ibexa\DoctrineSchema\Database\DbPlatform\SqliteDbPlatform;
-use Ibexa\DoctrineSchema\Filter\SchemaAssetsFilterBypass;
 use Ibexa\Tests\Core\Persistence\DatabaseConnectionFactory;
 use Ibexa\Tests\Core\Repository\LegacySchemaImporter;
 use InvalidArgumentException;
@@ -137,7 +136,6 @@ abstract class TestCase extends BaseTestCase
         try {
             $schemaImporter = new LegacySchemaImporter(
                 $this->getDatabaseConnection(),
-                new SchemaAssetsFilterBypass(),
                 DefaultTableOptions::AS_ARRAY
             );
             $schemaImporter->importSchema(

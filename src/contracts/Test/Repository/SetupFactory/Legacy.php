@@ -25,7 +25,6 @@ use Ibexa\Core\Persistence\Legacy\Content\Language\CachingHandler as CachingLang
 use Ibexa\Core\Persistence\Legacy\Content\Type\MemoryCachingHandler as CachingContentTypeHandler;
 use Ibexa\Core\Persistence\Legacy\Handler;
 use Ibexa\Core\Repository\Values\User\UserReference;
-use Ibexa\DoctrineSchema\Filter\SchemaAssetsFilterBypass;
 use Ibexa\Tests\Core\Repository\IdManager\Php;
 use Ibexa\Tests\Core\Repository\LegacySchemaImporter;
 use Ibexa\Tests\Integration\Core\LegacyTestContainerBuilder;
@@ -228,7 +227,6 @@ class Legacy extends SetupFactory
         if (!self::$schemaInitialized) {
             $schemaImporter = new LegacySchemaImporter(
                 $this->getDatabaseConnection(),
-                new SchemaAssetsFilterBypass(),
                 DefaultTableOptions::AS_ARRAY
             );
             $schemaImporter->importSchema(

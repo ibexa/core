@@ -25,7 +25,6 @@ use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaOnlyDependencyFactory;
 use Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface;
 use Ibexa\Contracts\DoctrineSchema\DbPlatformFactoryInterface;
 use Ibexa\Contracts\DoctrineSchema\Event\SchemaBuilderEvent;
-use Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface;
 use RuntimeException;
 use Symfony\Component\Console\Helper\ProgressBar;
 
@@ -36,8 +35,6 @@ class CoreInstaller extends DbBasedInstaller implements Installer
 {
     /** @var SchemaBuilderInterface */
     protected $schemaBuilder;
-
-    private SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass;
 
     private DbPlatformFactoryInterface $dbPlatformFactory;
 
@@ -52,7 +49,6 @@ class CoreInstaller extends DbBasedInstaller implements Installer
     public function __construct(
         Connection $db,
         SchemaBuilderInterface $schemaBuilder,
-        SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass,
         DbPlatformFactoryInterface $dbPlatformFactory,
         bool $doctrineMigrationsEnabled,
         ?TaggedMigrationsRunner $taggedMigrationsRunner = null
@@ -60,7 +56,6 @@ class CoreInstaller extends DbBasedInstaller implements Installer
         parent::__construct($db);
 
         $this->schemaBuilder = $schemaBuilder;
-        $this->schemaAssetsFilterBypass = $schemaAssetsFilterBypass;
         $this->dbPlatformFactory = $dbPlatformFactory;
         $this->doctrineMigrationsEnabled = $doctrineMigrationsEnabled;
         $this->taggedMigrationsRunner = $taggedMigrationsRunner;
@@ -209,19 +204,9 @@ class CoreInstaller extends DbBasedInstaller implements Installer
         Schema $newSchema,
         AbstractPlatform $databasePlatform
     ): array {
-        // Reinstalling needs to see every pre-existing table, including ones
-        // with no Doctrine ORM entity behind them, to correctly drop them
-        // before recreating the full schema below. Bypass whichever schema
-        // assets filter is configured on this connection (e.g.
-        // ManagedTablesSchemaAssetFilter, which deliberately hides
-        // non-entity tables from doctrine:schema:update) for this one
-        // listing.
-        $existingTableNames = $this->schemaAssetsFilterBypass->call(
-            $this->db,
-            fn (): array => array_map(
-                static fn (Table $table): string => $table->getName(),
-                $this->db->createSchemaManager()->listTables()
-            )
+        $existingTableNames = array_map(
+            static fn (Table $table): string => $table->getName(),
+            $this->db->createSchemaManager()->listTables()
         );
         $statements = [];
         // reverse table order for clean-up (due to FKs)
