@@ -155,24 +155,28 @@ return [
             'content_version' => 1,
             'name' => 'dva',
             'content_translation' => 'cro-HR',
+            'language_id' => 2,
         ],
         1 => [
             'contentobject_id' => 2,
             'content_version' => 1,
             'name' => 'zwei',
             'content_translation' => 'ger-DE',
+            'language_id' => 8,
         ],
         2 => [
             'contentobject_id' => 3,
             'content_version' => 1,
             'name' => 'jedan',
             'content_translation' => 'cro-HR',
+            'language_id' => 2,
         ],
         3 => [
             'contentobject_id' => 3,
             'content_version' => 1,
             'name' => 'one',
             'content_translation' => 'eng-GB',
+            'language_id' => 4,
         ],
     ],
 ];

@@ -896,7 +896,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
             ['url_alias_name', 'some scheke'],
             ['contentobject_name', '<short_name>'],
             ['is_container', '0'],
-            ['initial_language_id', '23'],
+            ['initial_language_id', '4'],
             ['sort_field', '3'],
             ['sort_order', '0'],
             ['always_available', '1'],
@@ -926,7 +926,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         $type->urlAliasSchema = 'some scheke';
         $type->nameSchema = '<short_name>';
         $type->isContainer = false;
-        $type->initialLanguageId = 23;
+        $type->initialLanguageId = 4;
         $type->sortField = 3;
         $type->sortOrder = Location::SORT_ORDER_DESC;
         $type->defaultAlwaysAvailable = true;

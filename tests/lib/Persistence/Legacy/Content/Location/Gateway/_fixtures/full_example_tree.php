@@ -5,10 +5,14 @@
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
+use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway as LanguageGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway\DoctrineDatabase as DoctrineLocationGateway;
 
 return [
+    LanguageGateway::CONTENT_LANGUAGE_TABLE => [
+        ['disabled' => 0, 'id' => 2, 'locale' => 'eng-US', 'name' => 'English (American)'],
+    ],
     LocationGateway::CONTENT_TREE_TABLE => [
         ['contentobject_id' => 0, 'contentobject_is_published' => 1, 'contentobject_version' => 1, 'depth' => 0, 'is_hidden' => 0, 'is_invisible' => 0, 'main_node_id' => 1, 'modified_subnode' => 1311065058, 'node_id' => 1, 'parent_node_id' => 1, 'path_identification_string' => '', 'path_string' => '/1/', 'priority' => 0, 'remote_id' => '629709ba256fe317c3ddcee35453a96a', 'sort_field' => 1, 'sort_order' => 1],
         ['contentobject_id' => 65, 'contentobject_is_published' => 1, 'contentobject_version' => 1, 'depth' => 1, 'is_hidden' => 0, 'is_invisible' => 0, 'main_node_id' => 2, 'modified_subnode' => 1311065058, 'node_id' => 2, 'parent_node_id' => 1, 'path_identification_string' => '', 'path_string' => '/1/2/', 'priority' => 0, 'remote_id' => 'f3e90596361e31d496d4026eb624c983', 'sort_field' => 8, 'sort_order' => 1],
@@ -387,15 +391,15 @@ return [
         ['contentobject_id' => 226, 'contentobject_version' => 1, 'from_node_id' => -1, 'id' => 214, 'is_main' => 1, 'op_code' => 3, 'parent_node' => 77, 'parent_remote_id' => '', 'remote_id' => 0, 'sort_field' => 1, 'sort_order' => 1, 'priority' => 0, 'is_hidden' => 0],
     ],
     ContentGateway::CONTENT_ITEM_TABLE => [
-        ['id' => 226, 'status' => 0],
-        ['id' => 67, 'status' => 0],
-        ['id' => 68, 'status' => 0],
-        ['id' => 69, 'status' => 0],
-        ['id' => 70, 'status' => 0],
-        ['id' => 71, 'status' => 0],
-        ['id' => 72, 'status' => 0],
-        ['id' => 73, 'status' => 0],
-        ['id' => 74, 'status' => 0],
-        ['id' => 75, 'status' => 0],
+        ['id' => 226, 'initial_language_id' => 2, 'status' => 0],
+        ['id' => 67, 'initial_language_id' => 2, 'status' => 0],
+        ['id' => 68, 'initial_language_id' => 2, 'status' => 0],
+        ['id' => 69, 'initial_language_id' => 2, 'status' => 0],
+        ['id' => 70, 'initial_language_id' => 2, 'status' => 0],
+        ['id' => 71, 'initial_language_id' => 2, 'status' => 0],
+        ['id' => 72, 'initial_language_id' => 2, 'status' => 0],
+        ['id' => 73, 'initial_language_id' => 2, 'status' => 0],
+        ['id' => 74, 'initial_language_id' => 2, 'status' => 0],
+        ['id' => 75, 'initial_language_id' => 2, 'status' => 0],
     ],
 ];
