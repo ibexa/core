@@ -17,6 +17,9 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
 use Ibexa\Contracts\Core\Persistence\Content\UpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Persistence\FieldType as SPIFieldType;
+use Ibexa\Core\FieldType\FieldTypeAliasRegistry;
+use Ibexa\Core\FieldType\FieldTypeAliasResolver;
+use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use Ibexa\Core\Persistence\FieldTypeRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\FieldHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
@@ -24,11 +27,22 @@ use Ibexa\Core\Persistence\Legacy\Content\Mapper;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
 use Ibexa\Core\Persistence\Legacy\Content\StorageHandler;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 
 #[CoversClass(FieldHandler::class)]
 class FieldHandlerTest extends LanguageAwareTestCase
 {
+    private const array EXTERNAL_STORAGE_FIELD_TYPE_ALIASES = [
+        'ezbinaryfile' => 'ibexa_binaryfile',
+        'ezgmaplocation' => 'ibexa_gmap_location',
+        'ezimage' => 'ibexa_image',
+        'ezkeyword' => 'ibexa_keyword',
+        'ezmedia' => 'ibexa_media',
+        'ezurl' => 'ibexa_url',
+        'ezuser' => 'ibexa_user',
+    ];
+
     /**
      * Gateway mock.
      *
@@ -874,6 +888,112 @@ class FieldHandlerTest extends LanguageAwareTestCase
     }
 
     /**
+     * @param array<string, int[]> $fieldIdsByType
+     * @param int[] $expectedFieldIds
+     */
+    #[DataProvider('provideLegacyFieldTypeIdentifiers')]
+    public function testDeleteFieldsResolvesLegacyFieldTypeIdentifier(
+        array $fieldIdsByType,
+        string $expectedFieldTypeIdentifier,
+        array $expectedFieldIds
+    ): void {
+        $fieldHandler = $this->getFieldHandler();
+
+        $this->mockGetFieldIdsByType($fieldIdsByType);
+        $this->expectExternalStorageDataDeleted($expectedFieldTypeIdentifier, $expectedFieldIds);
+
+        $fieldHandler->deleteFields(42, new VersionInfo(['versionNo' => 2]));
+    }
+
+    /**
+     * @return iterable<string, array{array<string, int[]>, string, int[]}>
+     */
+    public static function provideLegacyFieldTypeIdentifiers(): iterable
+    {
+        foreach (self::EXTERNAL_STORAGE_FIELD_TYPE_ALIASES as $legacyAlias => $alias) {
+            yield $legacyAlias => [
+                [$legacyAlias => [2, 3]],
+                $alias,
+                [2, 3],
+            ];
+        }
+
+        yield 'already migrated identifier' => [
+            ['ibexa_image' => [2, 3]],
+            'ibexa_image',
+            [2, 3],
+        ];
+
+        yield 'legacy and current identifiers merged' => [
+            ['ezimage' => [2], 'ibexa_image' => [3]],
+            'ibexa_image',
+            [2, 3],
+        ];
+    }
+
+    public function testDeleteTranslationFromVersionFieldsResolvesLegacyFieldTypeIdentifier(): void
+    {
+        $fieldHandler = $this->getFieldHandler();
+        $versionInfo = new VersionInfo([
+            'contentInfo' => new ContentInfo(['id' => 42]),
+            'versionNo' => 2,
+        ]);
+
+        $this->mockGetFieldIdsByType(['ezimage' => [4]], 'eng-GB');
+        $this->expectExternalStorageDataDeleted('ibexa_image', [4]);
+
+        $fieldHandler->deleteTranslationFromVersionFields($versionInfo, 'eng-GB');
+    }
+
+    public function testDeleteTranslationFromContentFieldsResolvesLegacyFieldTypeIdentifier(): void
+    {
+        $fieldHandler = $this->getFieldHandler();
+        $versionInfo = new VersionInfo([
+            'contentInfo' => new ContentInfo(['id' => 42]),
+            'versionNo' => 2,
+        ]);
+
+        $this->mockGetFieldIdsByType(['ezuser' => [5]], 'eng-GB');
+        $this->expectExternalStorageDataDeleted('ibexa_user', [5]);
+
+        $fieldHandler->deleteTranslationFromContentFields(42, [$versionInfo], 'eng-GB');
+    }
+
+    /**
+     * @param array<string, int[]> $fieldIdsByType
+     */
+    private function mockGetFieldIdsByType(
+        array $fieldIdsByType,
+        ?string $languageCode = null
+    ): void {
+        $arguments = [self::equalTo(42), self::equalTo(2)];
+        if (null !== $languageCode) {
+            $arguments[] = self::equalTo($languageCode);
+        }
+
+        $this->getContentGatewayMock()->expects($this->once())
+            ->method('getFieldIdsByType')
+            ->with(...$arguments)
+            ->willReturn($fieldIdsByType);
+    }
+
+    /**
+     * @param int[] $expectedFieldIds
+     */
+    private function expectExternalStorageDataDeleted(
+        string $expectedFieldTypeIdentifier,
+        array $expectedFieldIds
+    ): void {
+        $this->getStorageHandlerMock()->expects($this->once())
+            ->method('deleteFieldData')
+            ->with(
+                self::equalTo($expectedFieldTypeIdentifier),
+                self::isInstanceOf(VersionInfo::class),
+                self::equalTo($expectedFieldIds)
+            );
+    }
+
+    /**
      * Returns a Content fixture.
      *
      * @return Content
@@ -1083,10 +1203,21 @@ class FieldHandlerTest extends LanguageAwareTestCase
             $this->getMapperMock(),
             $this->getStorageHandlerMock(),
             $this->getLanguageHandler(),
-            $this->getFieldTypeRegistryMock()
+            $this->getFieldTypeRegistryMock(),
+            $this->getFieldTypeAliasResolver()
         );
 
         return $mock;
+    }
+
+    protected function getFieldTypeAliasResolver(): FieldTypeAliasResolverInterface
+    {
+        $fieldTypeAliasRegistry = new FieldTypeAliasRegistry();
+        foreach (self::EXTERNAL_STORAGE_FIELD_TYPE_ALIASES as $legacyAlias => $alias) {
+            $fieldTypeAliasRegistry->register($legacyAlias, $alias);
+        }
+
+        return new FieldTypeAliasResolver($fieldTypeAliasRegistry);
     }
 
     /**

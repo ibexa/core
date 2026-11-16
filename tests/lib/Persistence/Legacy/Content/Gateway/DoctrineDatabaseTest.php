@@ -18,6 +18,9 @@ use Ibexa\Contracts\Core\Persistence\Content\UpdateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\VersionInfo;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Values\Content\RelationType;
+use Ibexa\Core\FieldType\FieldTypeAliasRegistry;
+use Ibexa\Core\FieldType\FieldTypeAliasResolver;
+use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldValue;
@@ -27,6 +30,12 @@ use PHPUnit\Framework\Attributes\CoversClass;
 #[CoversClass(DoctrineDatabase::class)]
 class DoctrineDatabaseTest extends LanguageAwareTestCase
 {
+    private const array RELATION_FIELD_TYPE_ALIASES = [
+        'ezimageasset' => 'ibexa_image_asset',
+        'ezobjectrelation' => 'ibexa_object_relation',
+        'ezobjectrelationlist' => 'ibexa_object_relation_list',
+    ];
+
     /**
      * Database gateway to test.
      *
@@ -1880,6 +1889,16 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
         return $value;
     }
 
+    protected function getFieldTypeAliasResolver(): FieldTypeAliasResolverInterface
+    {
+        $fieldTypeAliasRegistry = new FieldTypeAliasRegistry();
+        foreach (self::RELATION_FIELD_TYPE_ALIASES as $legacyAlias => $alias) {
+            $fieldTypeAliasRegistry->register($legacyAlias, $alias);
+        }
+
+        return new FieldTypeAliasResolver($fieldTypeAliasRegistry);
+    }
+
     /**
      * Returns a ready to test DoctrineDatabase gateway.
      */
@@ -1892,7 +1911,8 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
                 $this->getSharedGateway(),
                 new DoctrineDatabase\QueryBuilder($connection),
                 $this->getLanguageHandler(),
-                $this->getLanguageMaskGenerator()
+                $this->getLanguageMaskGenerator(),
+                $this->getFieldTypeAliasResolver()
             );
         }
 

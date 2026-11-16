@@ -29,6 +29,7 @@ services:
             - '@Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase\QueryBuilder'
             - '@ibexa.spi.persistence.legacy.language.handler'
             - '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator'
+            - '@Ibexa\Core\FieldType\FieldTypeAliasResolverInterface'
 
     Ibexa\Core\Persistence\Legacy\Content\Gateway\ExceptionConversion:
         class: Ibexa\Core\Persistence\Legacy\Content\Gateway\ExceptionConversion
@@ -47,6 +48,7 @@ services:
             - '@Ibexa\Core\Persistence\Legacy\Content\StorageHandler'
             - '@ibexa.spi.persistence.legacy.language.handler'
             - '@Ibexa\Core\Persistence\FieldTypeRegistry'
+            - '@Ibexa\Core\FieldType\FieldTypeAliasResolverInterface'
         lazy: true
 
     Ibexa\Core\Persistence\Legacy\Content\TreeHandler:
