@@ -37,6 +37,7 @@ use Ibexa\Bundle\RepositoryInstaller\Migration\RecreateMariaDbBookmarkForeignKey
 use Ibexa\Bundle\RepositoryInstaller\Migration\RemoveStateAssignLocationLimitationsMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\RenamePostgreSqlPrimaryKeysMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\RenameSchemaTo5_0Migration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\RenumberLanguageIdsMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\StripAlwaysAvailableBitFromLanguageIdsMigration;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationTag;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -177,6 +178,10 @@ return static function (ContainerConfigurator $configurator): void {
         ->tag(IbexaMigrationTag::TAG);
 
     $services->set(AddSearchObjectWordLinkLanguageForeignKeyMigration::class)
+        ->arg('$connection', service('ibexa.persistence.connection'))
+        ->tag(IbexaMigrationTag::TAG);
+
+    $services->set(RenumberLanguageIdsMigration::class)
         ->arg('$connection', service('ibexa.persistence.connection'))
         ->tag(IbexaMigrationTag::TAG);
 };
