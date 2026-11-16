@@ -84,6 +84,7 @@ class RequestEventListener implements EventSubscriberInterface
                 }
 
                 $forwardRequest->attributes->add($request->attributes->all());
+                $forwardRequest->attributes->set('semanticPathinfo', rawurldecode($forwardRequest->getPathInfo()));
 
                 // Not forcing HttpKernelInterface::SUB_REQUEST on purpose since we're very early here
                 // and we need to bootstrap essential stuff like sessions.
