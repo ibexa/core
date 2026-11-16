@@ -27,7 +27,6 @@ use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
 use Ibexa\Contracts\Test\Core\IbexaTestCore;
 use Ibexa\Core\Repository\Values\User\UserReference;
 use Ibexa\Tests\Core\Repository\LegacySchemaImporter;
-use RuntimeException;
 
 /**
  *  @experimental
@@ -99,15 +98,6 @@ trait IbexaKernelTestTrait
         ?string $id,
         string $className
     ): string {
-        $kernel = self::$kernel;
-        if (!$kernel instanceof IbexaTestKernelInterface) {
-            throw new RuntimeException(sprintf(
-                'Expected %s to be an instance of %s.',
-                get_class($kernel),
-                IbexaTestKernelInterface::class,
-            ));
-        }
-
         return IbexaTestCore::getAliasServiceId($id ?? $className);
     }
 
