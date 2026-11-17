@@ -73484,12 +73484,6 @@ parameters:
 			path: tests/lib/Repository/Values/Filter/FilterTest.php
 
 		-
-			message: '#^Parameter \#1 \$expected of static method PHPUnit\\Framework\\Assert\:\:assertSame\(\) contains unresolvable type\.$#'
-			identifier: argument.unresolvableType
-			count: 1
-			path: tests/lib/Repository/Values/Filter/FilterTest.php
-
-		-
 			message: '#^Parameter \#1 \$value of class Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Criterion\\RemoteId constructor expects array\<string\>\|string, int given\.$#'
 			identifier: argument.type
 			count: 1
