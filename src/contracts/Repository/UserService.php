@@ -271,6 +271,7 @@ interface UserService
      * @param User $user
      *
      * @throws UnauthorizedException if the authenticated user is not allowed to delete the user
+     * @throws NotFoundException if the user doesn't exist
      *
      * @return int[] Affected Location Id's (List of Locations of the Content that was deleted)
      */

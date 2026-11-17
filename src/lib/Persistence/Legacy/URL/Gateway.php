@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\Persistence\Legacy\URL;
 
+use Doctrine\DBAL\DBALException;
 use Ibexa\Contracts\Core\Persistence\URL\URL;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
@@ -38,6 +39,8 @@ abstract class Gateway
      *
      * @throws InvalidArgumentException
      * @throws NotImplementedException if Criterion is not applicable to its target
+     * @throws DBALException
+     * @throws \PDOException
      */
     abstract public function find(
         Criterion $criterion,
