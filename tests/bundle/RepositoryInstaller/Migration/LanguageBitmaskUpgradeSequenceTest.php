@@ -25,7 +25,6 @@ use Ibexa\Contracts\DoctrineMigrations\Migrations\AbstractSqlMigration;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\MigrationRunContext;
 use Ibexa\Contracts\DoctrineSchema\Database\DefaultTableOptions;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase as LanguageGateway;
-use Ibexa\DoctrineSchema\Filter\SchemaAssetsFilterBypass;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 use Ibexa\Tests\Core\Repository\LegacySchemaImporter;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -56,7 +55,7 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
     {
         parent::setUp();
 
-        $schemaImporter = new LegacySchemaImporter($this->getDatabaseConnection(), new SchemaAssetsFilterBypass(), DefaultTableOptions::AS_ARRAY);
+        $schemaImporter = new LegacySchemaImporter($this->getDatabaseConnection(), DefaultTableOptions::AS_ARRAY);
         $schemaImporter->importSchema(
             __DIR__ . '/_fixtures/pre_language_bitmask_migration_schema.yaml'
         );
