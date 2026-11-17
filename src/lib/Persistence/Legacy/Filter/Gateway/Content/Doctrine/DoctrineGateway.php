@@ -219,7 +219,7 @@ final class DoctrineGateway implements Gateway
                     'EXISTS (
                         SELECT 1 FROM ' . ContentGateway::CONTENT_VERSION_TRANSLATION_TABLE . ' cvt
                         WHERE cvt.content_version_id = version.id
-                        AND content_name.language_id IN (cvt.language_id, cvt.language_id + 1)
+                        AND content_name.language_id = cvt.language_id
                     )'
                 )
             )
@@ -259,7 +259,7 @@ final class DoctrineGateway implements Gateway
                     'EXISTS (
                         SELECT 1 FROM ' . ContentGateway::CONTENT_VERSION_TRANSLATION_TABLE . ' cvt
                         WHERE cvt.content_version_id = version.id
-                        AND content_field.language_id IN (cvt.language_id, cvt.language_id + 1)
+                        AND content_field.language_id = cvt.language_id
                     )'
                 )
             )
