@@ -13,9 +13,21 @@ use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\Exception\AbortMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AbstractAddLanguageForeignKeyMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddContentAlwaysAvailableColumnsMigration;
-use Ibexa\Bundle\RepositoryInstaller\Migration\AddLanguageForeignKeysMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddContentFieldLanguageForeignKeyMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddContentInitialLanguageForeignKeyMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddContentNameLanguageForeignKeyMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddContentTypeFieldDefinitionLanguageForeignKeyMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddContentTypeInitialLanguageForeignKeyMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddContentTypeNameLanguageForeignKeyMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddContentVersionInitialLanguageForeignKeyMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddLanguageTranslationTablesMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddObjectStateDefaultLanguageForeignKeyMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddObjectStateGroupDefaultLanguageForeignKeyMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddObjectStateGroupLanguageLanguageForeignKeyMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddObjectStateGroupLanguageRealLanguageForeignKeyMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddObjectStateLanguageLanguageForeignKeyMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddSearchObjectWordLinkLanguageIdColumnsMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddUrlAliasAlwaysAvailableColumnMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\BackfillLanguageTranslationsMigration;
@@ -41,7 +53,7 @@ use Psr\Log\NullLogger;
  * data originally encoded.
  */
 #[CoversClass(AddContentAlwaysAvailableColumnsMigration::class)]
-#[CoversClass(AddLanguageForeignKeysMigration::class)]
+#[CoversClass(AbstractAddLanguageForeignKeyMigration::class)]
 #[CoversClass(AddLanguageTranslationTablesMigration::class)]
 #[CoversClass(BackfillLanguageTranslationsMigration::class)]
 #[CoversClass(AddSearchObjectWordLinkLanguageIdColumnsMigration::class)]
@@ -54,19 +66,20 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
     private const int GER_DE = 4;
     private const int ENG_GB = 8;
 
-    /** Table => one of the foreign keys AddLanguageForeignKeysMigration adds to it. */
+    /** Foreign key => the table it's added to, in the order of their migrations. */
     private const array LANGUAGE_FOREIGN_KEYS = [
-        'ibexa_content' => 'ibexa_content_initial_language_fk',
-        'ibexa_content_version' => 'ibexa_content_version_initial_language_fk',
-        'ibexa_content_type' => 'ibexa_content_type_initial_language_fk',
-        'ibexa_content_type_name' => 'ibexa_content_type_name_language_fk',
-        'ibexa_content_field' => 'ibexa_content_field_language_fk',
-        'ibexa_content_name' => 'ibexa_content_name_language_fk',
-        'ibexa_object_state' => 'ibexa_object_state_default_language_fk',
-        'ibexa_object_state_group' => 'ibexa_object_state_group_default_language_fk',
-        'ibexa_object_state_language' => 'ibexa_object_state_language_language_fk',
-        'ibexa_object_state_group_language' => 'ibexa_object_state_group_language_real_language_fk',
-        'ibexa_content_type_field_definition_ml' => 'ibexa_content_type_field_definition_ml_language_fk',
+        'ibexa_content_initial_language_fk' => 'ibexa_content',
+        'ibexa_content_version_initial_language_fk' => 'ibexa_content_version',
+        'ibexa_content_type_initial_language_fk' => 'ibexa_content_type',
+        'ibexa_content_type_name_language_fk' => 'ibexa_content_type_name',
+        'ibexa_content_field_language_fk' => 'ibexa_content_field',
+        'ibexa_content_name_language_fk' => 'ibexa_content_name',
+        'ibexa_object_state_default_language_fk' => 'ibexa_object_state',
+        'ibexa_object_state_group_default_language_fk' => 'ibexa_object_state_group',
+        'ibexa_object_state_language_language_fk' => 'ibexa_object_state_language',
+        'ibexa_object_state_group_language_language_fk' => 'ibexa_object_state_group_language',
+        'ibexa_object_state_group_language_real_language_fk' => 'ibexa_object_state_group_language',
+        'ibexa_content_type_field_definition_ml_language_fk' => 'ibexa_content_type_field_definition_ml',
     ];
 
     protected function setUp(): void
@@ -205,11 +218,13 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         $rowCounts = $this->fetchRowCounts();
 
         $connection->executeStatement('PRAGMA foreign_keys = OFF');
-        $this->runMigration($this->createForeignKeysMigration());
+        foreach ($this->createForeignKeyMigrations() as $migration) {
+            $this->runMigration($migration);
+        }
         $connection->executeStatement('PRAGMA foreign_keys = ON');
 
         $schemaManager = $connection->createSchemaManager();
-        foreach (self::LANGUAGE_FOREIGN_KEYS as $table => $foreignKey) {
+        foreach (self::LANGUAGE_FOREIGN_KEYS as $foreignKey => $table) {
             $foreignKeys = [];
             foreach ($schemaManager->introspectTableByUnquotedName($table)->getForeignKeys() as $key) {
                 $foreignKeys[$key->getName()] = [$key->getForeignTableName(), $key->onUpdate()];
@@ -223,9 +238,10 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         self::assertSame([], $connection->fetchAllAssociative('PRAGMA foreign_key_check'));
         self::assertSame($rowCounts, $this->fetchRowCounts());
 
-        $rerun = $this->createForeignKeysMigration();
-        $rerun->up(new Schema());
-        self::assertSame([], $rerun->getSql());
+        foreach ($this->createForeignKeyMigrations() as $rerun) {
+            $rerun->up(new Schema());
+            self::assertSame([], $rerun->getSql(), $rerun->getDescription());
+        }
 
         $this->expectException(ForeignKeyConstraintViolationException::class);
         $connection->delete('ibexa_content_language', ['id' => self::GER_DE]);
@@ -240,9 +256,9 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         $connection->update('ibexa_content_field', ['language_id' => 64], ['id' => 1]);
 
         $this->expectException(AbortMigration::class);
-        $this->expectExceptionMessage('ibexa_content_field.language_id (1)');
+        $this->expectExceptionMessage('"ibexa_content_field.language_id" holds 1 language id(s) missing from "ibexa_content_language"');
 
-        $this->createForeignKeysMigration()->up(new Schema());
+        (new AddContentFieldLanguageForeignKeyMigration($connection, new NullLogger(), new MigrationRunContext()))->up(new Schema());
     }
 
     public function testLanguageForeignKeysMigrationAbortsWhileSqliteEnforcesForeignKeys(): void
@@ -255,7 +271,7 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         $this->expectException(AbortMigration::class);
         $this->expectExceptionMessage('PRAGMA foreign_keys = OFF');
 
-        $this->createForeignKeysMigration()->up(new Schema());
+        (new AddContentInitialLanguageForeignKeyMigration($connection, new NullLogger(), new MigrationRunContext()))->up(new Schema());
     }
 
     public function testStripMigrationLeavesSequentialLanguageIdsUntouched(): void
@@ -834,9 +850,27 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         }
     }
 
-    private function createForeignKeysMigration(): AddLanguageForeignKeysMigration
+    /**
+     * @return list<AbstractAddLanguageForeignKeyMigration>
+     */
+    private function createForeignKeyMigrations(): array
     {
-        return new AddLanguageForeignKeysMigration($this->getDatabaseConnection(), new NullLogger(), new MigrationRunContext());
+        $connection = $this->getDatabaseConnection();
+
+        return [
+            new AddContentInitialLanguageForeignKeyMigration($connection, new NullLogger(), new MigrationRunContext()),
+            new AddContentVersionInitialLanguageForeignKeyMigration($connection, new NullLogger(), new MigrationRunContext()),
+            new AddContentTypeInitialLanguageForeignKeyMigration($connection, new NullLogger(), new MigrationRunContext()),
+            new AddContentTypeNameLanguageForeignKeyMigration($connection, new NullLogger(), new MigrationRunContext()),
+            new AddContentFieldLanguageForeignKeyMigration($connection, new NullLogger(), new MigrationRunContext()),
+            new AddContentNameLanguageForeignKeyMigration($connection, new NullLogger(), new MigrationRunContext()),
+            new AddObjectStateDefaultLanguageForeignKeyMigration($connection, new NullLogger(), new MigrationRunContext()),
+            new AddObjectStateGroupDefaultLanguageForeignKeyMigration($connection, new NullLogger(), new MigrationRunContext()),
+            new AddObjectStateLanguageLanguageForeignKeyMigration($connection, new NullLogger(), new MigrationRunContext()),
+            new AddObjectStateGroupLanguageLanguageForeignKeyMigration($connection, new NullLogger(), new MigrationRunContext()),
+            new AddObjectStateGroupLanguageRealLanguageForeignKeyMigration($connection, new NullLogger(), new MigrationRunContext()),
+            new AddContentTypeFieldDefinitionLanguageForeignKeyMigration($connection, new NullLogger(), new MigrationRunContext()),
+        ];
     }
 
     /**
@@ -845,7 +879,7 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
     private function fetchRowCounts(): array
     {
         $counts = [];
-        foreach (array_keys(self::LANGUAGE_FOREIGN_KEYS) as $table) {
+        foreach (array_unique(self::LANGUAGE_FOREIGN_KEYS) as $table) {
             $counts[$table] = (int)$this->getDatabaseConnection()->fetchOne("SELECT COUNT(*) FROM {$table}");
         }
 
