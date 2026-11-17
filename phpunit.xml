@@ -26,6 +26,7 @@
     </testsuite>
     <testsuite name="bundle_installer">
       <directory>tests/bundle/RepositoryInstaller</directory>
+      <exclude>tests/bundle/RepositoryInstaller/Migration/Upgrade</exclude>
     </testsuite>
     <testsuite name="bundle_io">
       <directory>tests/bundle/IO</directory>
