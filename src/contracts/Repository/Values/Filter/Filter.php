@@ -64,6 +64,8 @@ final class Filter
 
     /**
      * Reset Filter so it can be built from scratch.
+     *
+     * @phpstan-impure
      */
     public function reset(): self
     {
@@ -88,6 +90,8 @@ final class Filter
      * @see orWithCriterion
      * @see LogicalOr
      * @see LogicalAnd
+     *
+     * @phpstan-impure
      */
     public function withCriterion(FilteringCriterion $criterion): self
     {
@@ -107,6 +111,8 @@ final class Filter
 
     /**
      * @see withCriterion
+     *
+     * @phpstan-impure
      */
     public function andWithCriterion(FilteringCriterion $criterion): self
     {
@@ -124,6 +130,8 @@ final class Filter
 
     /**
      * @see withCriterion
+     *
+     * @phpstan-impure
      */
     public function orWithCriterion(FilteringCriterion $criterion): self
     {
@@ -139,6 +147,9 @@ final class Filter
         return $this;
     }
 
+    /**
+     * @phpstan-impure
+     */
     public function withSortClause(FilteringSortClause $sortClause): self
     {
         $this->sortClauses[] = $sortClause;
@@ -146,6 +157,9 @@ final class Filter
         return $this;
     }
 
+    /**
+     * @phpstan-impure
+     */
     public function withOffset(int $offset): self
     {
         $this->offset = $offset;
@@ -153,6 +167,9 @@ final class Filter
         return $this;
     }
 
+    /**
+     * @phpstan-impure
+     */
     public function withLimit(int $limit): self
     {
         $this->limit = $limit;
@@ -167,6 +184,8 @@ final class Filter
      * @param int $limit >=0, use 0 for no limit.
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
+     *
+     * @phpstan-impure
      */
     public function sliceBy(
         int $limit,

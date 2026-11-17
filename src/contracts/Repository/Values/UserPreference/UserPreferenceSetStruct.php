@@ -15,6 +15,6 @@ class UserPreferenceSetStruct extends ValueObject
     /** @var string */
     public $name;
 
-    /** @var string */
+    /** @var string|\Stringable */
     public $value;
 }

@@ -279,6 +279,7 @@ interface UserService
      * @return int[] Affected Location Id's (List of Locations of the Content that was deleted)
      *
      * @throws UnauthorizedException if the authenticated user is not allowed to delete the user
+     * @throws NotFoundException if the user doesn't exist
      */
     public function deleteUser(User $user): array;
 
