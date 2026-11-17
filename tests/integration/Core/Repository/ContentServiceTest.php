@@ -42,6 +42,8 @@ use InvalidArgumentException;
 use ReflectionClass;
 use Symfony\Bridge\PhpUnit\ClockMock;
 
+use function Ibexa\PolyfillPhp82\iterator_to_array;
+
 /**
  * Test case for operations in the ContentService using in memory storage.
  *
@@ -6981,7 +6983,7 @@ class ContentServiceTest extends BaseContentServiceTest
             $this->createFolder([self::ENG_GB => 'P3'], $parentLocationId)->contentInfo->mainLocationId,
         ];
 
-        return array_values($this->locationService->loadLocationList($parentFoldersLocationsIds));
+        return iterator_to_array($this->locationService->loadLocationList($parentFoldersLocationsIds), false);
     }
 
     /**

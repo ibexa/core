@@ -19189,6 +19189,18 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Handler.php
 
 		-
+			message: '#^Binary operation "\+\=" between array\<object\> and iterable\<Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\> results in an error\.$#'
+			identifier: assignOp.invalid
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/Language/CachingHandler.php
+
+		-
+			message: '#^Binary operation "\+\=" between array\<string, object\> and iterable\<Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\> results in an error\.$#'
+			identifier: assignOp.invalid
+			count: 1
+			path: src/lib/Persistence/Legacy/Content/Language/CachingHandler.php
+
+		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\CachingHandler\:\:delete\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -26421,7 +26433,7 @@ parameters:
 		-
 			message: '#^Cannot access offset 1 on array\<bool\|float\|int\|string\>\|bool\|float\|int\|string\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
-			count: 2
+			count: 3
 			path: src/lib/Search/Legacy/Content/Common/Gateway/CriterionHandler/MapLocationDistance.php
 
 		-
@@ -44374,12 +44386,6 @@ parameters:
 		-
 			message: '#^Call to an undefined method Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Criterion\:\:setCustomField\(\)\.$#'
 			identifier: method.notFound
-			count: 1
-			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
-
-		-
-			message: '#^Cannot access offset ''id'' on Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject\.$#'
-			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
 			path: tests/integration/Core/Repository/SearchServiceLocationTest.php
 
@@ -73486,6 +73492,12 @@ parameters:
 		-
 			message: '#^Parameter \#1 \$criterion of method Ibexa\\Contracts\\Core\\Repository\\Values\\Filter\\Filter\:\:withCriterion\(\) expects Ibexa\\Contracts\\Core\\Repository\\Values\\Filter\\FilteringCriterion, Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Criterion given\.$#'
 			identifier: argument.type
+			count: 1
+			path: tests/lib/Repository/Values/Filter/FilterTest.php
+
+		-
+			message: '#^Parameter \#1 \$expected of static method PHPUnit\\Framework\\Assert\:\:assertSame\(\) contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
 			count: 1
 			path: tests/lib/Repository/Values/Filter/FilterTest.php
 
