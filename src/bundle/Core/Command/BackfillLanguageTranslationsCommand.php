@@ -11,7 +11,6 @@ namespace Ibexa\Bundle\Core\Command;
 use Doctrine\DBAL\Connection;
 use Ibexa\Contracts\DoctrineSchema\Database\DatabasePlatformName;
 use Ibexa\Contracts\DoctrineSchema\Database\DatabasePlatformResolver;
-use Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
@@ -51,10 +50,7 @@ final class BackfillLanguageTranslationsCommand
         self::TABLE_URL_ALIAS,
     ];
 
-    public function __construct(
-        private readonly Connection $connection,
-        private readonly SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass
-    ) {}
+    public function __construct(private readonly Connection $connection) {}
 
     public function __invoke(
         OutputInterface $output,
@@ -131,11 +127,7 @@ final class BackfillLanguageTranslationsCommand
             default => throw new InvalidArgumentException('table', "unknown table \"{$table}\"."),
         };
 
-        $hasMaskColumn = $this->schemaAssetsFilterBypass->call(
-            $this->connection,
-            fn (): bool => $this->connection->createSchemaManager()->introspectTableByUnquotedName($sourceTable)->hasColumn($maskColumn)
-        );
-        if (!$hasMaskColumn) {
+        if (!$this->connection->createSchemaManager()->introspectTableByUnquotedName($sourceTable)->hasColumn($maskColumn)) {
             $output->writeln("<info>{$sourceTable} has no \"{$maskColumn}\" column - already migrated, nothing to backfill.</info>");
 
             return;
