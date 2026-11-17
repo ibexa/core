@@ -25291,12 +25291,6 @@ parameters:
 			path: src/lib/Repository/User/PasswordValidator.php
 
 		-
-			message: '#^Dead catch \- Exception is never thrown in the try block\.$#'
-			identifier: catch.neverThrown
-			count: 1
-			path: src/lib/Repository/UserPreferenceService.php
-
-		-
 			message: '#^Access to an undefined property Ibexa\\Contracts\\Core\\Repository\\Values\\ValueObject\:\:\$contentInfo\.$#'
 			identifier: property.notFound
 			count: 4
