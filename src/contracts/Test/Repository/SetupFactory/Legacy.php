@@ -164,7 +164,7 @@ class Legacy extends SetupFactory
         $connection = $this->getDatabaseConnection();
         $this->cleanupVarDir($this->getInitialVarDir());
 
-        $fixtureImporter = new FixtureImporter($connection, new SchemaAssetsFilterBypass());
+        $fixtureImporter = new FixtureImporter($connection);
         $fixtureImporter->import($this->getInitialDataFixture());
     }
 
