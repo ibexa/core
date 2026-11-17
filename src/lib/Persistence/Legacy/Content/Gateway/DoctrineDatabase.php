@@ -234,8 +234,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Adds $languageCodes to Version $versionId's translations, leaving any already present
-     * untouched - mirrors updateVersion()'s additive bit-OR merge onto "language_mask".
+     * Adds $languageCodes to Version $versionId's translations, leaving any already present untouched.
      *
      * @param string[] $languageCodes
      */
@@ -260,9 +259,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Replaces Content $contentId's translations with exactly $languageCodes - mirrors
-     * updateContent()'s publish-time replace of "language_mask" with the newly published
-     * version's language set (not a union with whatever the content previously had).
+     * Replaces Content $contentId's translations with exactly $languageCodes.
      *
      * @param string[] $languageCodes
      */

@@ -157,9 +157,7 @@ abstract class Gateway
     abstract public function loadPathData(int $id): array;
 
     /**
-     * Loads the real (non-always-available) language ids a specific alias row is translated
-     * into, from "ibexa_url_alias_ml_translation" - the relational replacement for decoding
-     * "lang_mask".
+     * Loads the language ids a specific alias row is translated into.
      *
      * @return int[]
      */
