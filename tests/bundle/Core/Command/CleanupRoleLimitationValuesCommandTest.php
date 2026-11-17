@@ -47,7 +47,7 @@ final class CleanupRoleLimitationValuesCommandTest extends TestCase
         $this->roleService = $this->createMock(RoleService::class);
     }
 
-    public function testReportsDanglingValueWithoutChangingAnything(): void
+    public function testReportsUnresolvedValueWithoutChangingAnything(): void
     {
         $this->givenRoles([$this->buildRole(99, 'DeletedLocationRole', 859, new ContentTypeLimitation(['limitationValues' => ['858']]))]);
         $this->givenLimitationTypeRejecting(['858']);
@@ -82,7 +82,7 @@ final class CleanupRoleLimitationValuesCommandTest extends TestCase
         self::assertStringContainsString('has to be fixed by hand', $tester->getDisplay());
     }
 
-    public function testFixPrunesOnlyTheDanglingValue(): void
+    public function testFixPrunesOnlyTheUnresolvedValue(): void
     {
         $limitation = new ContentTypeLimitation(['limitationValues' => ['4', '8']]);
         $role = $this->buildRole(99, 'probe_role', 859, $limitation);
@@ -136,7 +136,7 @@ final class CleanupRoleLimitationValuesCommandTest extends TestCase
         );
     }
 
-    public function testFixRemovesAPolicyWhoseEveryValueIsDangling(): void
+    public function testFixRemovesAPolicyWhoseEveryValueIsUnresolved(): void
     {
         $limitation = new ContentTypeLimitation(['limitationValues' => ['8']]);
         $role = $this->buildRole(99, 'probe_role', 859, $limitation);
@@ -232,7 +232,7 @@ final class CleanupRoleLimitationValuesCommandTest extends TestCase
         $tester = $this->execute([]);
 
         self::assertSame(0, $tester->getStatusCode());
-        self::assertStringContainsString('No dangling Policy Limitation values found', $tester->getDisplay());
+        self::assertStringContainsString('No unresolved Policy Limitation values found', $tester->getDisplay());
     }
 
     private function givenDraftFor(

@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Bundle\Core\Command;
 
-use Ibexa\Bundle\Core\Command\Role\DanglingLimitationValues;
+use Ibexa\Bundle\Core\Command\Role\UnresolvedLimitationValuesFinding;
 use Ibexa\Contracts\Core\Limitation\Type;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Repository;
@@ -46,7 +46,7 @@ final class CleanupRoleLimitationValuesCommand extends Command
 
     /**
      * This is how Limitation types word a value whose entity is gone. A value rejected for any other
-     * reason is malformed rather than dangling and must not be removed, so the phrase is matched at
+     * reason is malformed rather than unresolved and must not be removed, so the phrase is matched at
      * the end of the message rather than anywhere in it.
      */
     private const MISSING_ENTITY_SUFFIX = 'does not exist in the backend';
@@ -100,7 +100,7 @@ final class CleanupRoleLimitationValuesCommand extends Command
 
                     A Policy whose Limitation would be left without any value is removed rather than emptied. Saving it
                     empty drops the Limitation from the Policy and leaves the Policy granted on everything, while
-                    removing the Policy changes nothing: a Limitation whose every value is dangling already grants nothing.
+                    removing the Policy changes nothing: a Limitation whose every value is unresolved already grants nothing.
 
                     A Limitation holding lists of values under keys, such as UserPermissions, is only reported and never
                     changed when one of those lists would be left empty as that would be treated as "no restriction on that dimension".
@@ -133,7 +133,7 @@ final class CleanupRoleLimitationValuesCommand extends Command
         }
 
         if ($findings === []) {
-            $output->writeln('<info>No dangling Policy Limitation values found.</info>');
+            $output->writeln('<info>No unresolved Policy Limitation values found.</info>');
 
             return Command::SUCCESS;
         }
@@ -148,7 +148,7 @@ final class CleanupRoleLimitationValuesCommand extends Command
     }
 
     /**
-     * @return array{findings: DanglingLimitationValues[], skipped: string[]}
+     * @return array{findings: UnresolvedLimitationValuesFinding[], skipped: string[]}
      */
     private function scan(RoleService $roleService): array
     {
@@ -169,7 +169,7 @@ final class CleanupRoleLimitationValuesCommand extends Command
     }
 
     /**
-     * Null both when the Limitation holds no dangling values and when it cannot be checked, in which
+     * Null both when the Limitation holds no unresolved values and when it cannot be checked, in which
      * case the reason is appended to $skipped.
      *
      * @param string[] $skipped
@@ -179,9 +179,9 @@ final class CleanupRoleLimitationValuesCommand extends Command
         Policy $policy,
         Limitation $limitation,
         array &$skipped
-    ): ?DanglingLimitationValues {
+    ): ?UnresolvedLimitationValuesFinding {
         try {
-            $danglingValues = $this->findDanglingValues($limitation);
+            $unresolvedValues = $this->findUnresolvedValues($limitation);
         } catch (LimitationNotFoundException $e) {
             $skipped[] = $this->describeSkipped($role, $policy, $limitation, 'no Limitation type is configured for it');
 
@@ -192,9 +192,9 @@ final class CleanupRoleLimitationValuesCommand extends Command
             return null;
         }
 
-        return $danglingValues === []
+        return $unresolvedValues === []
             ? null
-            : new DanglingLimitationValues($role, $policy, $limitation, $danglingValues);
+            : new UnresolvedLimitationValuesFinding($role, $policy, $limitation, $unresolvedValues);
     }
 
     private function describeSkipped(
@@ -246,7 +246,7 @@ final class CleanupRoleLimitationValuesCommand extends Command
     }
 
     /**
-     * @param DanglingLimitationValues[] $findings
+     * @param UnresolvedLimitationValuesFinding[] $findings
      */
     private function renderFindings(
         OutputInterface $output,
@@ -261,7 +261,7 @@ final class CleanupRoleLimitationValuesCommand extends Command
         }
 
         $table = new Table($output);
-        $table->setHeaders(['Role', 'Policy', 'Limitation', 'Dangling values', 'Policy removed', '--fix']);
+        $table->setHeaders(['Role', 'Policy', 'Limitation', 'Unresolved values', 'Policy removed', '--fix']);
         foreach ($findings as $finding) {
             $role = $finding->getRole();
             $policy = $finding->getPolicy();
@@ -279,7 +279,7 @@ final class CleanupRoleLimitationValuesCommand extends Command
     }
 
     /**
-     * @param DanglingLimitationValues[] $findings
+     * @param UnresolvedLimitationValuesFinding[] $findings
      */
     private function fix(
         OutputInterface $output,
@@ -355,9 +355,9 @@ final class CleanupRoleLimitationValuesCommand extends Command
     }
 
     /**
-     * @param array<int, DanglingLimitationValues[]> $findingsByPolicyId
+     * @param array<int, UnresolvedLimitationValuesFinding[]> $findingsByPolicyId
      *
-     * @return DanglingLimitationValues[]
+     * @return UnresolvedLimitationValuesFinding[]
      */
     private function findUnrepairable(array $findingsByPolicyId): array
     {
@@ -374,7 +374,7 @@ final class CleanupRoleLimitationValuesCommand extends Command
     }
 
     /**
-     * @param array<int, DanglingLimitationValues[]> $findingsByPolicyId
+     * @param array<int, UnresolvedLimitationValuesFinding[]> $findingsByPolicyId
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException
      */
@@ -422,7 +422,7 @@ final class CleanupRoleLimitationValuesCommand extends Command
     }
 
     /**
-     * @param DanglingLimitationValues[] $findings
+     * @param UnresolvedLimitationValuesFinding[] $findings
      *
      * @return Limitation[]
      */
@@ -440,10 +440,10 @@ final class CleanupRoleLimitationValuesCommand extends Command
             $values = $prunedByIdentifier[$limitation->getIdentifier()] ?? $limitation->limitationValues;
 
             // Safe because the Limitation grants nothing as it stands: either a plain list of
-            // dangling values, or lists under keys that are all dangling. findUnrepairable() in
+            // unresolved values, or lists under keys that are all unresolved. findUnrepairable() in
             // fix() has already turned away the maps where emptying one list would mean
             // "unrestricted".
-            if (DanglingLimitationValues::holdsNoValues($values)) {
+            if (UnresolvedLimitationValuesFinding::holdsNoValues($values)) {
                 return [];
             }
 
@@ -460,13 +460,13 @@ final class CleanupRoleLimitationValuesCommand extends Command
      * @throws InvalidArgumentType if the values are in a shape this command cannot
      *         take apart one value at a time
      */
-    private function findDanglingValues(Limitation $limitation): array
+    private function findUnresolvedValues(Limitation $limitation): array
     {
         $limitationType = $this->repository->getRoleService()->getLimitationType($limitation->getIdentifier());
         $limitationValues = $limitation->limitationValues;
 
         if ($this->isListOfValues($limitationValues)) {
-            return $this->findDanglingInList($limitationType, $limitation);
+            return $this->findUnresolvedInList($limitationType, $limitation);
         }
 
         // Some Limitations hold lists of values under keys rather than a plain list —
@@ -475,24 +475,24 @@ final class CleanupRoleLimitationValuesCommand extends Command
             throw new InvalidArgumentType('$limitation->limitationValues', 'list|array<list>', $limitationValues);
         }
 
-        return $this->findDanglingUnderKeys($limitationType, $limitation);
+        return $this->findUnresolvedUnderKeys($limitationType, $limitation);
     }
 
     /**
      * @return array<array{key: null, value: mixed}>
      */
-    private function findDanglingInList(
+    private function findUnresolvedInList(
         Type $limitationType,
         Limitation $limitation
     ): array {
-        $danglingValues = [];
+        $unresolvedValues = [];
         foreach ($limitation->limitationValues as $value) {
             if ($this->namesMissingEntity($limitationType, $this->withValues($limitation, [$value]))) {
-                $danglingValues[] = ['key' => null, 'value' => $value];
+                $unresolvedValues[] = ['key' => null, 'value' => $value];
             }
         }
 
-        return $danglingValues;
+        return $unresolvedValues;
     }
 
     /**
@@ -501,7 +501,7 @@ final class CleanupRoleLimitationValuesCommand extends Command
      *
      * @return array<array{key: string, value: mixed}>
      */
-    private function findDanglingUnderKeys(
+    private function findUnresolvedUnderKeys(
         Type $limitationType,
         Limitation $limitation
     ): array {
@@ -513,19 +513,19 @@ final class CleanupRoleLimitationValuesCommand extends Command
             $limitationValues
         );
 
-        $danglingValues = [];
+        $unresolvedValues = [];
         foreach ($limitationValues as $key => $values) {
             foreach (is_array($values) ? $values : [] as $value) {
                 $isolatedValues = $emptied;
                 $isolatedValues[$key] = [$value];
 
                 if ($this->namesMissingEntity($limitationType, $this->withValues($limitation, $isolatedValues))) {
-                    $danglingValues[] = ['key' => (string)$key, 'value' => $value];
+                    $unresolvedValues[] = ['key' => (string)$key, 'value' => $value];
                 }
             }
         }
 
-        return $danglingValues;
+        return $unresolvedValues;
     }
 
     /**

@@ -8,7 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Bundle\Core\Command\Role;
 
-use Ibexa\Bundle\Core\Command\Role\DanglingLimitationValues;
+use Ibexa\Bundle\Core\Command\Role\UnresolvedLimitationValuesFinding;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\ContentTypeLimitation;
 use Ibexa\Core\Repository\Values\User\Policy;
@@ -16,24 +16,24 @@ use Ibexa\Core\Repository\Values\User\Role;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Ibexa\Bundle\Core\Command\Role\DanglingLimitationValues
+ * @covers \Ibexa\Bundle\Core\Command\Role\UnresolvedLimitationValuesFinding
  */
-final class DanglingLimitationValuesTest extends TestCase
+final class UnresolvedLimitationValuesFindingTest extends TestCase
 {
     /**
      * @param array<mixed> $limitationValues
-     * @param array<array{key: string|null, value: mixed}> $danglingValues
+     * @param array<array{key: string|null, value: mixed}> $unresolvedValues
      * @param array<mixed> $expectedPrunedValues
      *
      * @dataProvider providerForTestGetPrunedValues
      */
     public function testGetPrunedValues(
         array $limitationValues,
-        array $danglingValues,
+        array $unresolvedValues,
         array $expectedPrunedValues,
         bool $expectedEmptiesLimitation
     ): void {
-        $finding = $this->buildFinding($limitationValues, $danglingValues);
+        $finding = $this->buildFinding($limitationValues, $unresolvedValues);
 
         self::assertSame($expectedPrunedValues, $finding->getPrunedValues());
         self::assertSame($expectedEmptiesLimitation, $finding->emptiesLimitation());
@@ -95,16 +95,16 @@ final class DanglingLimitationValuesTest extends TestCase
 
     /**
      * @param array<mixed> $limitationValues
-     * @param array<array{key: string|null, value: mixed}> $danglingValues
+     * @param array<array{key: string|null, value: mixed}> $unresolvedValues
      *
      * @dataProvider providerForTestCannotPreserveGrants
      */
     public function testCannotPreserveGrants(
         array $limitationValues,
-        array $danglingValues,
+        array $unresolvedValues,
         bool $expected
     ): void {
-        self::assertSame($expected, $this->buildFinding($limitationValues, $danglingValues)->cannotPreserveGrants());
+        self::assertSame($expected, $this->buildFinding($limitationValues, $unresolvedValues)->cannotPreserveGrants());
     }
 
     /**
@@ -154,21 +154,21 @@ final class DanglingLimitationValuesTest extends TestCase
         ];
 
         // Pruning "roles" grants every Role; removing the Policy takes away the "user_groups" grant
-        yield 'one value list dangling, another already empty' => [
+        yield 'one value list unresolved, another already empty' => [
             ['roles' => [15], 'user_groups' => []],
             [['key' => 'roles', 'value' => 15]],
             true,
         ];
 
         // The mirror: an empty "roles" already grants every Role, so removal would take that away
-        yield 'already empty value list, the other fully dangling' => [
+        yield 'already empty value list, the other fully unresolved' => [
             ['roles' => [], 'user_groups' => [11]],
             [['key' => 'user_groups', 'value' => 11]],
             true,
         ];
 
         // Nothing is granted on either dimension today, so removing the Policy is neutral
-        yield 'null value list, the other fully dangling' => [
+        yield 'null value list, the other fully unresolved' => [
             ['roles' => null, 'user_groups' => [11]],
             [['key' => 'user_groups', 'value' => 11]],
             false,
@@ -197,7 +197,7 @@ final class DanglingLimitationValuesTest extends TestCase
         array $limitationValues,
         bool $expected
     ): void {
-        self::assertSame($expected, DanglingLimitationValues::holdsNoValues($limitationValues));
+        self::assertSame($expected, UnresolvedLimitationValuesFinding::holdsNoValues($limitationValues));
     }
 
     /**
@@ -214,17 +214,17 @@ final class DanglingLimitationValuesTest extends TestCase
 
     /**
      * @param array<mixed> $limitationValues
-     * @param array<array{key: string|null, value: mixed}> $danglingValues
+     * @param array<array{key: string|null, value: mixed}> $unresolvedValues
      */
     private function buildFinding(
         array $limitationValues,
-        array $danglingValues
-    ): DanglingLimitationValues {
-        return new DanglingLimitationValues(
+        array $unresolvedValues
+    ): UnresolvedLimitationValuesFinding {
+        return new UnresolvedLimitationValuesFinding(
             new Role(['id' => 99, 'identifier' => 'probe_role']),
             new Policy(['id' => 859, 'module' => 'content', 'function' => 'read']),
             $this->buildLimitation($limitationValues),
-            $danglingValues
+            $unresolvedValues
         );
     }
 

@@ -15,7 +15,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\Role;
 /**
  * @internal
  */
-final class DanglingLimitationValues
+final class UnresolvedLimitationValuesFinding
 {
     private Role $role;
 
@@ -24,22 +24,22 @@ final class DanglingLimitationValues
     private Limitation $limitation;
 
     /** @var array<array{key: string|null, value: mixed}> */
-    private array $danglingValues;
+    private array $unresolvedValues;
 
     /**
-     * @param array<array{key: string|null, value: mixed}> $danglingValues each value, and the key it
+     * @param array<array{key: string|null, value: mixed}> $unresolvedValues each value, and the key it
      *        sits under for Limitations whose values are a map of lists rather than a plain list
      */
     public function __construct(
         Role $role,
         Policy $policy,
         Limitation $limitation,
-        array $danglingValues
+        array $unresolvedValues
     ) {
         $this->role = $role;
         $this->policy = $policy;
         $this->limitation = $limitation;
-        $this->danglingValues = $danglingValues;
+        $this->unresolvedValues = $unresolvedValues;
     }
 
     public function getRole(): Role
@@ -63,17 +63,17 @@ final class DanglingLimitationValues
     public function getLabels(): array
     {
         $labels = [];
-        foreach ($this->danglingValues as $dangling) {
-            $labels[] = $dangling['key'] === null
-                ? (string)$dangling['value']
-                : sprintf('%s: %s', $dangling['key'], $dangling['value']);
+        foreach ($this->unresolvedValues as $unresolved) {
+            $labels[] = $unresolved['key'] === null
+                ? (string)$unresolved['value']
+                : sprintf('%s: %s', $unresolved['key'], $unresolved['value']);
         }
 
         return $labels;
     }
 
     /**
-     * The Limitation's values with the dangling ones removed, in the same shape as they came in.
+     * The Limitation's values with the unresolved ones removed, in the same shape as they came in.
      *
      * @return array<mixed>
      */
@@ -81,26 +81,26 @@ final class DanglingLimitationValues
     {
         $pruned = $this->limitation->limitationValues;
 
-        foreach ($this->danglingValues as $dangling) {
-            if ($dangling['key'] === null) {
+        foreach ($this->unresolvedValues as $unresolved) {
+            if ($unresolved['key'] === null) {
                 $pruned = array_values(array_filter(
                     $pruned,
-                    static function ($value) use ($dangling): bool {
-                        return (string)$value !== (string)$dangling['value'];
+                    static function ($value) use ($unresolved): bool {
+                        return (string)$value !== (string)$unresolved['value'];
                     }
                 ));
 
                 continue;
             }
 
-            if (!isset($pruned[$dangling['key']]) || !is_array($pruned[$dangling['key']])) {
+            if (!isset($pruned[$unresolved['key']]) || !is_array($pruned[$unresolved['key']])) {
                 continue;
             }
 
-            $pruned[$dangling['key']] = array_values(array_filter(
-                $pruned[$dangling['key']],
-                static function ($value) use ($dangling): bool {
-                    return (string)$value !== (string)$dangling['value'];
+            $pruned[$unresolved['key']] = array_values(array_filter(
+                $pruned[$unresolved['key']],
+                static function ($value) use ($unresolved): bool {
+                    return (string)$value !== (string)$unresolved['value'];
                 }
             ));
         }
@@ -118,7 +118,7 @@ final class DanglingLimitationValues
      *
      * Only Limitations holding lists of values under keys, such as UserPermissions, can get here.
      * For each key that limitation reads an empty list as "no restriction on that dimension", so a list
-     * that held only dangling values cannot be pruned — emptying it grants everything there — and
+     * that held only unresolved values cannot be pruned — emptying it grants everything there — and
      * a list that was empty to begin with is already granting everything, which is lost if the
      * Policy is removed instead. Both at once leaves nothing that preserves the current grants:
      *
@@ -126,7 +126,7 @@ final class DanglingLimitationValues
      *   every Role, removing the Policy takes away the "user_groups" [11] grant.
      * - "roles" [15] with 15 gone, "user_groups" []: same, except the lost grant is every Content.
      *
-     * Where every list holds only dangling values the Policy grants nothing as it stands, so
+     * Where every list holds only unresolved values the Policy grants nothing as it stands, so
      * removing it is neutral and this returns false.
      */
     public function cannotPreserveGrants(): bool
