@@ -197,13 +197,11 @@ class ReindexCommand extends Command
         OutputInterface $output
     ): int {
         $commit = !$input->getOption('no-commit');
-        $iterationCount = $input->getOption('iteration-count');
+        $iterationCount = $this->parseIntegerOptionValue($input->getOption('iteration-count'), 'iteration-count', 1);
         $this->siteaccess = $input->getOption('siteaccess');
-        if (!is_numeric($iterationCount) || (int) $iterationCount < 1) {
-            throw new InvalidArgumentException('--iteration-count', "The value must be > 0, you provided '{$iterationCount}'");
-        }
+        $processCount = $this->getProcessCount($input);
 
-        if (\in_array($input->getOption('processes'), ['0', '1'])) {
+        if ($processCount !== null && $processCount <= 1) {
             $io = new SymfonyStyle($input, $output);
             $xdebugState = \extension_loaded('xdebug') ? 'enabled' : 'disabled';
             $memoryLimit = ini_get('memory_limit');
@@ -244,8 +242,12 @@ class ReindexCommand extends Command
         int $iterationCount,
         bool $commit
     ): int {
-        if ($contentIds = $input->getOption('content-ids')) {
-            $contentIds = explode(',', $contentIds);
+        $contentIdList = $input->getOption('content-ids');
+        if ($contentIdList !== null) {
+            $contentIds = array_map(
+                fn (string $contentId): int => $this->parseIntegerOptionValue($contentId, 'content-ids', 1),
+                explode(',', $contentIdList)
+            );
             $output->writeln(sprintf(
                 'Indexing list of content ID\'s (%s)' . ($commit ? ', with commit' : ''),
                 count($contentIds)
@@ -260,8 +262,8 @@ class ReindexCommand extends Command
             $count = $this->gateway->countContentSince(new DateTime($since));
             $batchList = $this->gateway->getContentSince(new DateTime($since), $iterationCount);
             $purge = false;
-        } elseif ($locationId = (int) $input->getOption('subtree')) {
-            $location = $this->locationHandler->load($locationId);
+        } elseif (($subtree = $input->getOption('subtree')) !== null) {
+            $location = $this->locationHandler->load($this->parseIntegerOptionValue($subtree, 'subtree', 1));
             $count = $this->gateway->countContentInSubtree($location->pathString);
             $batchList = $this->gateway->getContentInSubtree($location->pathString, $iterationCount);
             $purge = false;
@@ -282,9 +284,7 @@ class ReindexCommand extends Command
         }
 
         $iterations = ceil($count / $iterationCount);
-        $processes = $input->getOption('processes');
-        $processCount = $processes === 'auto' ? $this->getNumberOfCPUCores() - 1 : (int) $processes;
-        $processCount = min($iterations, $processCount);
+        $processCount = min($iterations, $this->getProcessCount($input) ?? $this->getNumberOfCPUCores() - 1);
         $processMessage = $processCount > 1 ? "using $processCount parallel child processes" : 'using a single (current) process';
 
         if ($purge) {
@@ -426,6 +426,37 @@ class ReindexCommand extends Command
         $process->setTimeout(null);
 
         return $process;
+    }
+
+    /**
+     * Returns the number of processes given with "--processes", or null for "auto".
+     *
+     * @throws InvalidArgumentException
+     */
+    private function getProcessCount(InputInterface $input): ?int
+    {
+        $processes = $input->getOption('processes');
+
+        return $processes === 'auto' ? null : $this->parseIntegerOptionValue($processes, 'processes', 0);
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    private function parseIntegerOptionValue(
+        mixed $value,
+        string $optionName,
+        int $min
+    ): int {
+        $integer = filter_var($value, FILTER_VALIDATE_INT, ['options' => ['min_range' => $min]]);
+        if ($integer === false) {
+            throw new InvalidArgumentException(
+                "--{$optionName}",
+                sprintf("The value must be an integer of at least %d, you provided '%s'", $min, is_scalar($value) ? $value : get_debug_type($value))
+            );
+        }
+
+        return $integer;
     }
 
     /**
