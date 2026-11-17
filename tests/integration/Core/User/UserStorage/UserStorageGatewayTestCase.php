@@ -11,7 +11,6 @@ use Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture\YamlFixture;
 use Ibexa\Core\FieldType\User\UserStorage\Gateway;
 use Ibexa\Core\Repository\Values\User\User;
-use Ibexa\DoctrineSchema\Filter\SchemaAssetsFilterBypass;
 use Ibexa\Tests\Integration\Core\BaseCoreFieldTypeIntegrationTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -73,7 +72,7 @@ abstract class UserStorageGatewayTestCase extends BaseCoreFieldTypeIntegrationTe
         ?string $fixtureFilePath
     ): void {
         if (null !== $fixtureFilePath) {
-            $importer = new FixtureImporter($this->getDatabaseConnection(), new SchemaAssetsFilterBypass());
+            $importer = new FixtureImporter($this->getDatabaseConnection());
             $importer->import(new YamlFixture($fixtureFilePath));
         }
 

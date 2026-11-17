@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\Core\Command;
 
 use Doctrine\DBAL\Connection;
-use Ibexa\Contracts\DoctrineSchema\SchemaAssetsFilterBypassInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
@@ -162,10 +161,7 @@ final class VerifyLanguageTranslationsCommand
         };
     }
 
-    public function __construct(
-        private readonly Connection $connection,
-        private readonly SchemaAssetsFilterBypassInterface $schemaAssetsFilterBypass
-    ) {}
+    public function __construct(private readonly Connection $connection) {}
 
     public function __invoke(
         OutputInterface $output,
@@ -218,11 +214,7 @@ final class VerifyLanguageTranslationsCommand
     ): bool {
         [$sourceTable, $maskColumn] = self::SOURCE_TABLES[$table];
 
-        $hasMaskColumn = $this->schemaAssetsFilterBypass->call(
-            $this->connection,
-            fn (): bool => $this->connection->createSchemaManager()->introspectTableByUnquotedName($sourceTable)->hasColumn($maskColumn)
-        );
-        if (!$hasMaskColumn) {
+        if (!$this->connection->createSchemaManager()->introspectTableByUnquotedName($sourceTable)->hasColumn($maskColumn)) {
             $output->writeln("<info>{$table}: {$sourceTable} has no \"{$maskColumn}\" column - already migrated, nothing to verify.</info>");
 
             return true;
