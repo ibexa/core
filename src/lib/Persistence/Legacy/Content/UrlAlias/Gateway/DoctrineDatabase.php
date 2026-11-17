@@ -1407,9 +1407,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Filter from the given result set original (current) only URL aliases and index them by their
-     * real (non-always-available) language id set - the relational replacement for indexing by
-     * "lang_mask" (each distinct language set can have one URL Alias).
+     * Filter from the given result set original (current) only URL aliases and index them by their language id set.
      *
      * @param array $urlAliasesData
      */
@@ -1548,15 +1546,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Builds an "at least one of $languageIds is a real translation of this row" condition against
-     * "ibexa_url_alias_ml_translation", correlated via $parentColumn/$textMd5Column (must be
-     * qualified with $query's own table alias) - the relational replacement for bitwise-AND-ing a
-     * row's "lang_mask".
-     *
-     * $parentColumn/$textMd5Column must be alias-qualified (e.g. "u.parent"), never bare column
-     * names - "ibexa_url_alias_ml_translation" has its own same-named columns, so an unqualified
-     * reference inside the subquery would resolve to its own column (the innermost scope), silently
-     * turning the correlation into a tautology instead of a real join back to the outer row.
+     * Builds an "at least one of $languageIds is a translation of this row" condition, correlated via alias-qualified $parentColumn and $textMd5Column.
      *
      * @param int[] $languageIds
      */
