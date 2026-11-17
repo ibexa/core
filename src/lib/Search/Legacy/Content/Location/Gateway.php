@@ -7,6 +7,7 @@
 
 namespace Ibexa\Core\Search\Legacy\Content\Location;
 
+use Doctrine\DBAL\DBALException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
@@ -31,6 +32,8 @@ abstract class Gateway
      *
      * @throws InvalidArgumentException if Criterion is not applicable to its target
      * @throws NotImplementedException if a given Criterion Handler or Sort Clause is not implemented
+     * @throws DBALException
+     * @throws \PDOException
      */
     abstract public function find(
         Criterion $criterion,

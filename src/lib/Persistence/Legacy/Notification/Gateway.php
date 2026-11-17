@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Notification;
 
+use Doctrine\DBAL\DBALException;
 use Ibexa\Contracts\Core\Persistence\Notification\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Notification\Notification;
 use Ibexa\Contracts\Core\Persistence\Notification\UpdateStruct;
@@ -41,6 +42,8 @@ abstract class Gateway
      * @param Notification $notification
      *
      * @throws InvalidArgumentException
+     * @throws DBALException
+     * @throws \PDOException
      */
     abstract public function updateNotification(Notification $notification): void;
 
