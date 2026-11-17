@@ -48,12 +48,7 @@ final class RoleLimitationType extends AbstractPersistenceLimitationType impleme
         }
 
         foreach ($limitationValue->limitationValues as $key => $id) {
-            // Cast integers passed as string to int, as they are when read back from storage
-            if (is_string($id) && preg_match('/^\d+$/', $id) === 1) {
-                $limitationValue->limitationValues[$key] = (int)$id;
-            } elseif (!is_int($id)) {
-                throw new InvalidArgumentType("\$limitationValue->limitationValues[{$key}]", 'int', $id);
-            }
+            $limitationValue->limitationValues[$key] = $this->normalizeIntId($id, (string)$key);
         }
     }
 

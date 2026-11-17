@@ -49,12 +49,11 @@ class ParentUserGroupLimitationType extends AbstractPersistenceLimitationType im
             // Accept a true value for b/c with 5.0
             if ($value === true) {
                 $limitationValue->limitationValues[$key] = 1;
-            } elseif (is_string($value) && ctype_digit($value)) {
-                // Cast integers passed as string to int
-                $limitationValue->limitationValues[$key] = (int)$value;
-            } elseif (!is_int($value)) {
-                throw new InvalidArgumentType("\$limitationValue->limitationValues[{$key}]", 'int', $value);
+
+                continue;
             }
+
+            $limitationValue->limitationValues[$key] = $this->normalizeIntId($value, (string)$key);
         }
     }
 
