@@ -1,12 +1,12 @@
 INSERT INTO `ibexa_content_language` (`disabled`, `id`, `locale`, `name`)
 VALUES (0, 2, 'eng-GB', 'English (United Kingdom)');
 
+INSERT INTO `ibexa_object_state_group` (`default_language_id`, `id`, `identifier`)
+VALUES (2,2,'ibexa_lock');
+
 INSERT INTO `ibexa_object_state` (`default_language_id`, `group_id`, `id`, `identifier`, `priority`)
 VALUES (2, 2, 1, 'not_locked', 0),
        (2, 2, 2, 'locked', 1);
-
-INSERT INTO `ibexa_object_state_group` (`default_language_id`, `id`, `identifier`)
-VALUES (2,2,'ibexa_lock');
 
 INSERT INTO `ibexa_object_state_group_language` (`contentobject_state_group_id`, `description`, `language_id`, `name`, `real_language_id`)
 VALUES (2,'',2,'Lock',2);
@@ -14,20 +14,6 @@ VALUES (2,'',2,'Lock',2);
 INSERT INTO `ibexa_object_state_language` (`contentobject_state_id`, `description`, `language_id`, `name`)
 VALUES (1,'',2,'Not locked'),
        (2,'',2,'Locked');
-
-INSERT INTO `ibexa_object_state_link` (`contentobject_id`, `contentobject_state_id`)
-VALUES (1, 1),
-       (4, 1),
-       (10, 1),
-       (11, 1),
-       (12, 1),
-       (13, 1),
-       (14, 1),
-       (41, 1),
-       (42, 1),
-       (49, 1),
-       (50, 1),
-       (51, 1);
 
 INSERT INTO `ibexa_content_type` (`always_available`, `contentobject_name`, `created`, `creator_id`, `id`, `identifier`, `initial_language_id`, `is_container`, `modified`, `modifier_id`, `remote_id`, `serialized_description_list`, `serialized_name_list`, `sort_field`, `sort_order`, `url_alias_name`, `status`)
 VALUES (1,'<short_name|name>',1024392098,14,1,'folder',2,1,1448831672,14,'a3d405b81be900468eb153d774f4f0d2','a:0:{}','a:1:{s:6:\"eng-GB\";s:6:\"Folder\";}',1,1,NULL,0),
@@ -97,6 +83,20 @@ VALUES (1,9,1,2,1,1448889046,'Ibexa Platform',14,1448889046,'9459d3c29e15006e451
        (1,1,49,2,1,1080220197,'Images',14,1080220197,'e7ff633c6b8e0fd3531e74c6e712bead',3,1),
        (1,1,50,2,1,1080220220,'Files',14,1080220220,'732a5acd01b51a6fe6eab448ad4138a9',3,1),
        (1,1,51,2,1,1080220233,'Multimedia',14,1080220233,'09082deb98662a104f325aaa8c4933d3',3,1);
+
+INSERT INTO `ibexa_object_state_link` (`contentobject_id`, `contentobject_state_id`)
+VALUES (1, 1),
+       (4, 1),
+       (10, 1),
+       (11, 1),
+       (12, 1),
+       (13, 1),
+       (14, 1),
+       (41, 1),
+       (42, 1),
+       (49, 1),
+       (50, 1),
+       (51, 1);
 
 INSERT INTO `ibexa_content_translation` (`content_id`, `language_id`)
 VALUES (1,2),

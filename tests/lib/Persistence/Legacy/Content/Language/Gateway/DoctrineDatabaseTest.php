@@ -201,6 +201,14 @@ class DoctrineDatabaseTest extends TestCase
             ['id' => 65, 'locale' => 'it-IT', 'name' => 'Italiano (Italia)', 'disabled' => 0]
         );
         $connection->insert(
+            'ibexa_object_state_group',
+            ['id' => 1, 'default_language_id' => 2, 'identifier' => 'group']
+        );
+        $connection->insert(
+            'ibexa_object_state',
+            ['id' => 1, 'group_id' => 1, 'default_language_id' => 2, 'identifier' => 'state', 'priority' => 0]
+        );
+        $connection->insert(
             'ibexa_object_state_language',
             ['contentobject_state_id' => 1, 'language_id' => 65, 'description' => '', 'name' => 'x']
         );
@@ -216,6 +224,10 @@ class DoctrineDatabaseTest extends TestCase
         $connection->insert(
             Gateway::CONTENT_LANGUAGE_TABLE,
             ['id' => 64, 'locale' => 'fr-FR', 'name' => 'Francais (France)', 'disabled' => 0]
+        );
+        $connection->insert(
+            'ibexa_object_state_group',
+            ['id' => 1, 'default_language_id' => 2, 'identifier' => 'group']
         );
         $connection->insert(
             'ibexa_object_state_group_language',

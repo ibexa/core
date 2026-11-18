@@ -1,0 +1,45 @@
+tables:
+    ibexa_object_state:
+        indexes:
+            ibexa_object_state_priority: { fields: [priority] }
+            ibexa_object_state_default_language: { fields: [default_language_id] }
+        uniqueConstraints:
+            ibexa_object_state_identifier: { fields: [group_id, identifier] }
+        id:
+            id: { type: integer, nullable: false, options: { autoincrement: true } }
+        fields:
+            default_language_id: { type: bigint, nullable: false, options: { default: '0' } }
+            group_id: { type: integer, nullable: false, options: { default: '0' } }
+            identifier: { type: string, nullable: false, length: 45, options: { default: '' } }
+            priority: { type: integer, nullable: false, options: { default: '0' } }
+        foreignKeys:
+            ibexa_object_state_default_language_fk: { fields: [default_language_id], foreignTable: ibexa_content_language, foreignFields: [id], options: { onDelete: RESTRICT, onUpdate: CASCADE } }
+    ibexa_object_state_group_language:
+        indexes:
+            ibexa_object_state_group_language_language: { fields: [language_id] }
+            ibexa_object_state_group_language_real_language: { fields: [real_language_id] }
+        id:
+            contentobject_state_group_id: { type: integer, nullable: false, options: { default: '0' } }
+            real_language_id: { type: bigint, nullable: false, options: { default: '0' } }
+        fields:
+            description: { type: text, nullable: false, length: 0 }
+            language_id: { type: bigint, nullable: false, options: { default: '0' } }
+            name: { type: string, nullable: false, length: 45, options: { default: '' } }
+        foreignKeys:
+            ibexa_object_state_group_language_language_fk: { fields: [language_id], foreignTable: ibexa_content_language, foreignFields: [id], options: { onDelete: RESTRICT, onUpdate: CASCADE } }
+            ibexa_object_state_group_language_real_language_fk: { fields: [real_language_id], foreignTable: ibexa_content_language, foreignFields: [id], options: { onDelete: RESTRICT, onUpdate: CASCADE } }
+    ibexa_object_state_language:
+        indexes:
+            ibexa_object_state_language_language: { fields: [language_id] }
+        id:
+            contentobject_state_id: { type: integer, nullable: false, options: { default: '0' } }
+            language_id: { type: bigint, nullable: false, options: { default: '0' } }
+        fields:
+            description: { type: text, nullable: false, length: 0 }
+            name: { type: string, nullable: false, length: 45, options: { default: '' } }
+        foreignKeys:
+            ibexa_object_state_language_language_fk: { fields: [language_id], foreignTable: ibexa_content_language, foreignFields: [id], options: { onDelete: RESTRICT, onUpdate: CASCADE } }
+    ibexa_object_state_link:
+        id:
+            contentobject_id: { type: integer, nullable: false, options: { default: '0' } }
+            contentobject_state_id: { type: integer, nullable: false, options: { default: '0' } }
