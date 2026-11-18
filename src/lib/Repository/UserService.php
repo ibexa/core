@@ -31,7 +31,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentId as CriterionContentId;
-use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeId as CriterionContentTypeId;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier as CriterionContentTypeIdentifier;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\Location\IsMainLocation as CriterionIsMainLocation;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LocationId as CriterionLocationId;
@@ -130,7 +129,6 @@ class UserService implements UserServiceInterface
         // Union makes sure default settings are ignored if provided in argument
         $this->settings = $settings + [
             'defaultUserPlacement' => 12,
-            'userGroupClassID' => 3,
             'hashType' => $passwordHashGenerator->getDefaultHashType(),
             'siteName' => 'ibexa.co',
         ];
@@ -286,7 +284,7 @@ class UserService implements UserServiceInterface
         $searchQuery->limit = $limit;
 
         $searchQuery->filter = new CriterionLogicalAnd([
-            new CriterionContentTypeId($this->settings['userGroupClassID']),
+            new CriterionContentTypeIdentifier($this->getUserGroupContentTypeIdentifiers()),
             new CriterionParentLocationId($location->id),
         ]);
 
@@ -1037,7 +1035,7 @@ class UserService implements UserServiceInterface
 
         $searchQuery->filter = new CriterionLogicalAnd(
             [
-                new CriterionContentTypeId($this->settings['userGroupClassID']),
+                new CriterionContentTypeIdentifier($this->getUserGroupContentTypeIdentifiers()),
                 new CriterionLocationId($parentLocationIds),
             ]
         );
@@ -1174,7 +1172,7 @@ class UserService implements UserServiceInterface
         array $prioritizedLanguages = []
     ): UserGroupList {
         $criteria = [
-            new CriterionContentTypeId($this->settings['userGroupClassID']),
+            new CriterionContentTypeIdentifier($this->getUserGroupContentTypeIdentifiers()),
             // requires a Location, so trashed user groups are excluded
             new CriterionIsMainLocation(CriterionIsMainLocation::MAIN),
         ];
@@ -1352,7 +1350,11 @@ class UserService implements UserServiceInterface
      */
     public function isUserGroup(APIContent $content): bool
     {
-        return $this->settings['userGroupClassID'] == $content->getVersionInfo()->getContentInfo()->contentTypeId;
+        return in_array(
+            $content->getVersionInfo()->getContentInfo()->getContentType()->identifier,
+            $this->getUserGroupContentTypeIdentifiers(),
+            true
+        );
     }
 
     /**
@@ -1427,8 +1429,8 @@ class UserService implements UserServiceInterface
         ?ContentType $contentType = null
     ): APIUserGroupCreateStruct {
         if ($contentType === null) {
-            $contentType = $this->repository->getContentTypeService()->loadContentType(
-                $this->settings['userGroupClassID']
+            $contentType = $this->repository->getContentTypeService()->loadContentTypeByIdentifier(
+                $this->getUserGroupContentTypeIdentifiers()[0]
             );
         }
 
@@ -1645,5 +1647,13 @@ class UserService implements UserServiceInterface
     private function getUserContentTypeIdentifiers(): array
     {
         return $this->configResolver->getParameter('user_content_type_identifier');
+    }
+
+    /**
+     * @return non-empty-list<string>
+     */
+    private function getUserGroupContentTypeIdentifiers(): array
+    {
+        return $this->configResolver->getParameter('user_group_content_type_identifier');
     }
 }

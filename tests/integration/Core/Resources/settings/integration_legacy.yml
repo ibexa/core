@@ -13,6 +13,7 @@ parameters:
         parent_location_id: 51
 
     ibexa.site_access.config.default.user_content_type_identifier: ['user']
+    ibexa.site_access.config.default.user_group_content_type_identifier: ['user_group']
 
     ibexa.repositories:
         default:
