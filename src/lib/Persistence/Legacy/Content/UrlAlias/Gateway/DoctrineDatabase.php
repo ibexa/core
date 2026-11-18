@@ -1511,7 +1511,9 @@ final class DoctrineDatabase extends Gateway
             $urlAliasesData,
             static function ($urlAliasData): bool {
                 // filter is_original=true ignoring broken parent records (cleaned up elsewhere)
-                return (bool)$urlAliasData['is_original'] && $urlAliasData['existing_parent'] !== null;
+                return (bool)$urlAliasData['is_original']
+                    && !(bool)$urlAliasData['is_alias']
+                    && $urlAliasData['existing_parent'] !== null;
             }
         );
 
@@ -1575,6 +1577,7 @@ final class DoctrineDatabase extends Gateway
             ->select(
                 't1.id',
                 't1.is_original',
+                't1.is_alias',
                 't1.link',
                 't1.parent',
                 // show existing parent only if its row exists, special case for root parent
