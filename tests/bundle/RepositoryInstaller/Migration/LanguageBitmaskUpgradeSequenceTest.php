@@ -11,6 +11,7 @@ namespace Ibexa\Tests\Bundle\RepositoryInstaller\Migration;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\DBAL\ParameterType;
+use Doctrine\DBAL\Schema\ForeignKeyConstraint\ReferentialAction;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\Exception\AbortMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\AbstractAddLanguageForeignKeyMigration;
@@ -230,9 +231,14 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         foreach (self::LANGUAGE_FOREIGN_KEYS as $foreignKey => $table) {
             $foreignKeys = [];
             foreach ($schemaManager->introspectTableByUnquotedName($table)->getForeignKeys() as $key) {
-                $foreignKeys[$key->getName()] = [$key->getForeignTableName(), $key->onUpdate()];
+                $name = $key->getObjectName();
+                self::assertNotNull($name);
+                $foreignKeys[$name->getIdentifier()->getValue()] = [
+                    $key->getReferencedTableName()->getUnqualifiedName()->getValue(),
+                    $key->getOnUpdateAction(),
+                ];
             }
-            self::assertSame(['ibexa_content_language', 'CASCADE'], $foreignKeys[$foreignKey] ?? null, "{$table}.{$foreignKey}");
+            self::assertSame(['ibexa_content_language', ReferentialAction::CASCADE], $foreignKeys[$foreignKey] ?? null, "{$table}.{$foreignKey}");
         }
         self::assertArrayNotHasKey(
             'ibexa_content_type_field_definition_ml_lang_fk',
