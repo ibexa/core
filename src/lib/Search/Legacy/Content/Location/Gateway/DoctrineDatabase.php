@@ -60,7 +60,7 @@ final class DoctrineDatabase extends Gateway
         $selectQuery = $this->connection->createQueryBuilder();
         $selectQuery->select(
             't.*',
-            $this->languagePriorityConditionBuilder->buildMatchedLanguageExpression($selectQuery, $languageFilter) . ' AS matched_language_id'
+            'c.initial_language_id AS matched_language_id'
         );
 
         if ($sortClauses !== null) {
@@ -116,11 +116,13 @@ final class DoctrineDatabase extends Gateway
         $selectQuery->setMaxResults($limit);
         $selectQuery->setFirstResult($offset);
 
-        $statement = $selectQuery->executeQuery();
-
         return [
             'count' => $count,
-            'rows' => $statement->fetchAllAssociative(),
+            'rows' => $this->languagePriorityConditionBuilder->resolveMatchedLanguageIds(
+                $selectQuery->executeQuery()->fetchAllAssociative(),
+                $languageFilter,
+                'contentobject_id'
+            ),
         ];
     }
 
