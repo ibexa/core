@@ -11,6 +11,7 @@ namespace Ibexa\Core\Repository\LocationResolver;
 use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 
@@ -21,6 +22,7 @@ interface LocationResolver
 {
     /**
      * @throws NotFoundException
+     * @throws UnauthorizedException if no Location of the Content item is readable
      * @throws ForbiddenException
      * @throws BadStateException
      */
