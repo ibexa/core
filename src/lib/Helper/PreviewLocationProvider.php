@@ -14,6 +14,8 @@ use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content as APIContent;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location as APILocation;
+use Ibexa\Core\Repository\LocationResolver\LocationResolver;
+use Ibexa\Core\Repository\LocationResolver\PermissionAwareLocationResolver;
 use Ibexa\Core\Repository\Values\Content\Location;
 
 /**
@@ -21,28 +23,30 @@ use Ibexa\Core\Repository\Values\Content\Location;
  */
 class PreviewLocationProvider
 {
-    /** @var LocationService */
-    private $locationService;
-
     /** @var ContentService */
     private $contentService;
 
     /** @var PersistenceLocationHandler */
     private $locationHandler;
 
+    /** @var LocationResolver */
+    private $locationResolver;
+
     /**
      * @param LocationService $locationService
      * @param ContentService $contentService
      * @param PersistenceLocationHandler $locationHandler
+     * @param LocationResolver|null $locationResolver
      */
     public function __construct(
         LocationService $locationService,
         ContentService $contentService,
-        PersistenceLocationHandler $locationHandler
+        PersistenceLocationHandler $locationHandler,
+        ?LocationResolver $locationResolver = null
     ) {
-        $this->locationService = $locationService;
         $this->contentService = $contentService;
         $this->locationHandler = $locationHandler;
+        $this->locationResolver = $locationResolver ?? new PermissionAwareLocationResolver($locationService);
     }
 
     /**
@@ -91,7 +95,7 @@ class PreviewLocationProvider
 
         // mainLocationId already exists, content has been published at least once.
         if ($contentInfo->mainLocationId) {
-            $location = $this->locationService->loadLocation($contentInfo->mainLocationId);
+            $location = $this->locationResolver->resolveLocation($contentInfo);
         } elseif (!$contentInfo->published) {
             // New Content, never published, create a virtual location object.
             // In cases content is missing locations this will return empty array

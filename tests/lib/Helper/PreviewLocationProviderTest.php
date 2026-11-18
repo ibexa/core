@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo as APIContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location as APILocation;
+use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 use Ibexa\Core\Helper\PreviewLocationProvider;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\Location;
@@ -100,6 +101,37 @@ class PreviewLocationProviderTest extends TestCase
         $returnedLocation = $this->provider->loadMainLocation($contentId);
         $this->assertSame($location, $returnedLocation);
         $this->assertSame($content, $location->getContent());
+    }
+
+    public function testGetPreviewLocationFallsBackToReadableLocation(): void
+    {
+        $contentId = 123;
+        $mainLocationId = 456;
+        $readableLocationId = 789;
+        $content = $this->getContentMock($contentId, $mainLocationId, true);
+
+        $readableLocation = new Location(['id' => $readableLocationId]);
+
+        $this->contentService
+            ->expects($this->once())
+            ->method('loadContent')
+            ->with($contentId)
+            ->willReturn($content);
+
+        $this->locationService
+            ->expects($this->once())
+            ->method('loadLocation')
+            ->with($mainLocationId)
+            ->willThrowException(new UnauthorizedException('content', 'read'));
+
+        $this->locationService
+            ->expects($this->once())
+            ->method('loadLocations')
+            ->willReturn([$readableLocation]);
+
+        $this->locationHandler->expects($this->never())->method('loadParentLocationsForDraftContent');
+
+        $this->assertSame($readableLocation, $this->provider->loadMainLocation($contentId));
     }
 
     public function testGetPreviewLocationNoLocation()
