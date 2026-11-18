@@ -349,6 +349,20 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         $this->assertRenumbered();
     }
 
+    public function testRenumberingWithoutForeignKeysAbortsOnALanguageIdColumnOutsideCore(): void
+    {
+        $connection = $this->getDatabaseConnection();
+        $this->seedPreMigrationData($connection);
+        $this->runBitmaskSequence();
+        $connection->executeStatement('PRAGMA foreign_keys = OFF');
+        $connection->executeStatement('CREATE TABLE ibexa_test_language_renumbering (language_id BIGINT NOT NULL)');
+
+        $this->expectException(AbortMigration::class);
+        $this->expectExceptionMessage('ibexa_test_language_renumbering.language_id');
+
+        $this->createRenumberingMigration()->up(new Schema());
+    }
+
     public function testStripMigrationLeavesSequentialLanguageIdsUntouched(): void
     {
         $connection = $this->getDatabaseConnection();
