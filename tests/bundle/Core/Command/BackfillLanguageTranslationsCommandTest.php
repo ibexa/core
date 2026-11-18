@@ -210,6 +210,33 @@ final class BackfillLanguageTranslationsCommandTest extends TestCase
         self::assertSame([1 => false, 2 => true], $this->fetchAlwaysAvailable('ibexa_content'));
     }
 
+    public function testVerifyFixesRowsBeyondTheFirstBatch(): void
+    {
+        $connection = $this->getDatabaseConnection();
+        $connection->insert('ibexa_content', [
+            'id' => 5002,
+            'content_type_id' => 1,
+            'current_version' => 1,
+            'initial_language_id' => 2,
+            'language_mask' => 3,
+            'always_available' => 0,
+            'name' => 'Baz',
+            'owner_id' => 14,
+            'remote_id' => 'baz',
+        ]);
+        $connection->insert('ibexa_content_translation', ['content_id' => 1, 'language_id' => 4]);
+        $connection->insert('ibexa_content_translation', ['content_id' => 5002, 'language_id' => 4]);
+
+        $tester = new CommandTester(new VerifyLanguageTranslationsCommand($connection));
+
+        self::assertSame(0, $tester->execute(['--table' => 'content', '--fix' => true]));
+        self::assertEqualsCanonicalizing(
+            [[1, 2], [2, 2], [2, 4], [5002, 2]],
+            $this->fetchPairs('ibexa_content_translation', 'content_id')
+        );
+        self::assertSame([1 => false, 2 => true, 5002 => true], $this->fetchAlwaysAvailable('ibexa_content'));
+    }
+
     public function testVerifyFindsTheMaskColumnsBehindASchemaAssetsFilter(): void
     {
         $connection = $this->getDatabaseConnection();
