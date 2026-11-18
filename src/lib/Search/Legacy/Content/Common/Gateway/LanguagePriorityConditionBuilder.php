@@ -65,11 +65,64 @@ final readonly class LanguagePriorityConditionBuilder
     }
 
     /**
+     * Sets the rows' "matched_language_id" to their Content's first translation in the language filter.
+     *
+     * @param list<array<string, mixed>> $rows
+     * @param array{languages?: string[]} $languageFilter
+     *
+     * @return list<array<string, mixed>>
+     *
+     * @throws NotFoundException
+     */
+    public function resolveMatchedLanguageIds(
+        array $rows,
+        array $languageFilter,
+        string $contentIdColumn
+    ): array {
+        if (empty($rows) || empty($languageFilter['languages'])) {
+            return $rows;
+        }
+
+        $priorities = array_flip($this->loadLanguageIds($languageFilter['languages']));
+        $contentIds = array_values(array_unique(array_map('intval', array_column($rows, $contentIdColumn))));
+
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->select('content_id', 'language_id')
+            ->from(ContentGateway::CONTENT_TRANSLATION_TABLE)
+            ->where(
+                $query->expr()->in(
+                    'content_id',
+                    $query->createNamedParameter($contentIds, ArrayParameterType::INTEGER)
+                ),
+                $query->expr()->in(
+                    'language_id',
+                    $query->createNamedParameter(array_keys($priorities), ArrayParameterType::INTEGER)
+                )
+            );
+
+        $matchedLanguageIds = [];
+        foreach ($query->executeQuery()->iterateNumeric() as [$contentId, $languageId]) {
+            $matchedLanguageId = $matchedLanguageIds[(int)$contentId] ?? null;
+            if ($matchedLanguageId === null || $priorities[(int)$languageId] < $priorities[$matchedLanguageId]) {
+                $matchedLanguageIds[(int)$contentId] = (int)$languageId;
+            }
+        }
+
+        return array_map(
+            static fn (array $row): array => [
+                'matched_language_id' => $matchedLanguageIds[(int)$row[$contentIdColumn]] ?? $row['matched_language_id'],
+            ] + $row,
+            $rows
+        );
+    }
+
+    /**
      * Builds the expression for the id of the language a Content is shown in for a language priority list.
      *
      * @param array{languages?: string[]} $languageSettings
      */
-    public function buildMatchedLanguageExpression(
+    private function buildMatchedLanguageExpression(
         QueryBuilder $query,
         array $languageSettings,
         string $contentIdColumn = 'c.id',

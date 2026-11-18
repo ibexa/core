@@ -154,7 +154,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query->select(
             'DISTINCT c.*, main_tree.main_node_id AS main_tree_main_node_id',
-            $this->languagePriorityConditionBuilder->buildMatchedLanguageExpression($query, $languageFilter) . ' AS matched_language_id',
+            'c.initial_language_id AS matched_language_id',
         );
 
         if ($sort !== null) {
@@ -194,8 +194,10 @@ final class DoctrineDatabase extends Gateway
         $query->setMaxResults($limit);
         $query->setFirstResult($offset ?? 0);
 
-        $statement = $query->executeQuery();
-
-        return $statement->fetchAllAssociative();
+        return $this->languagePriorityConditionBuilder->resolveMatchedLanguageIds(
+            $query->executeQuery()->fetchAllAssociative(),
+            $languageFilter,
+            'id'
+        );
     }
 }
