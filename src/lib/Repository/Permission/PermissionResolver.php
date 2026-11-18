@@ -52,10 +52,8 @@ class PermissionResolver implements PermissionResolverInterface, ResetInterface
 
     /**
      * Currently logged in user reference for permission purposes.
-     *
-     * @var APIUserReference|null
      */
-    private $currentUserRef;
+    private ?APIUserReference $currentUserRef = null;
 
     /**
      * Map of system configured policies, for validation usage.
@@ -86,7 +84,7 @@ class PermissionResolver implements PermissionResolverInterface, ResetInterface
 
     public function getCurrentUserReference(): APIUserReference
     {
-        if (empty($this->currentUserRef)) {
+        if ($this->currentUserRef === null) {
             $this->currentUserRef = new UserReference(
                 $this->configResolver->getParameter('anonymous_user_id')
             );
