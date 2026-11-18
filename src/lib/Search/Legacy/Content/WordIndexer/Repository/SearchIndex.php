@@ -11,6 +11,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\FetchMode;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Throwable;
 
 /**
  * A service encapsulating database operations on ezsearch* tables.
@@ -102,17 +103,23 @@ class SearchIndex
     public function purge(): void
     {
         $this->connection->beginTransaction();
-        $searchIndexTables = [
-            self::SEARCH_OBJECT_WORD_LINK_TABLE,
-            self::SEARCH_WORD_TABLE,
-        ];
-        foreach ($searchIndexTables as $tableName) {
-            $this->connection
-                ->createQueryBuilder()
-                ->delete($tableName)
-                ->execute();
+        try {
+            $searchIndexTables = [
+                self::SEARCH_OBJECT_WORD_LINK_TABLE,
+                self::SEARCH_WORD_TABLE,
+            ];
+            foreach ($searchIndexTables as $tableName) {
+                $this->connection
+                    ->createQueryBuilder()
+                    ->delete($tableName)
+                    ->execute();
+            }
+            $this->connection->commit();
+        } catch (Throwable $e) {
+            $this->connection->rollBack();
+
+            throw $e;
         }
-        $this->connection->commit();
     }
 
     /**
