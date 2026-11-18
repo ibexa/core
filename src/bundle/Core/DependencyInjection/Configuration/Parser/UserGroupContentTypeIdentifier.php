@@ -38,6 +38,9 @@ final class UserGroupContentTypeIdentifier extends AbstractParser
             ->end();
     }
 
+    /**
+     * @param array<string, mixed> $scopeSettings
+     */
     public function mapConfig(
         array &$scopeSettings,
         $currentScope,
