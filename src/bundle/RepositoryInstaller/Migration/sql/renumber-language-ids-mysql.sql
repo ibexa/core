@@ -20,12 +20,7 @@ UPDATE ibexa_object_state_group_language_renumbering SET real_language_id = COAL
 -- There's no WHERE, as MySQL can't refer to a temporary table twice in one statement. COALESCE keeps the ids missing from the mapping.
 UPDATE ibexa_content_language SET id = COALESCE(-(SELECT r.new_id FROM ibexa_content_language_renumbering r WHERE r.old_id = ibexa_content_language.id), id);
 -- ibexa:sql-statement-separator
--- No foreign key here, so it follows the languages by hand.
-UPDATE ibexa_search_object_word_link w INNER JOIN ibexa_content_language_renumbering r ON r.old_id = w.language_id SET w.language_id = -r.new_id;
--- ibexa:sql-statement-separator
 UPDATE ibexa_content_language SET id = -id WHERE id < 0;
--- ibexa:sql-statement-separator
-UPDATE ibexa_search_object_word_link SET language_id = -language_id WHERE language_id < 0;
 -- ibexa:sql-statement-separator
 INSERT INTO ibexa_object_state_group_language SELECT * FROM ibexa_object_state_group_language_renumbering;
 -- ibexa:sql-statement-separator
