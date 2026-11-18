@@ -1420,7 +1420,8 @@ class UserService implements UserServiceInterface
      * Instantiate a user group create class.
      *
      * @param string $mainLanguageCode The main language for the underlying content object
-     * @param ContentType|null $contentType 5.x the content type for the underlying content item. In 4.x it is ignored and taken from the configuration
+     * @param ContentType|null $contentType the content type for the underlying content item, defaults to the first
+     *                                      content type of the `user_group_content_type_identifier` setting
      *
      * @return APIUserGroupCreateStruct
      */
