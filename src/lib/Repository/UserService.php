@@ -1351,7 +1351,7 @@ class UserService implements UserServiceInterface
     public function isUserGroup(APIContent $content): bool
     {
         return in_array(
-            $content->getVersionInfo()->getContentInfo()->getContentType()->identifier,
+            $content->getContentType()->getIdentifier(),
             $this->getUserGroupContentTypeIdentifiers(),
             true
         );
