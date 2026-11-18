@@ -56,6 +56,7 @@ final class FixtureImporter
         'ibexa_content_translation' => [['language_id'], 'ibexa_content'],
         'ibexa_content_version_translation' => [['language_id'], 'ibexa_content_version'],
         'ibexa_url_alias_ml_translation' => [['language_id'], 'ibexa_url_alias_ml'],
+        'ibexa_search_object_word_link' => [['language_id'], null],
     ];
 
     /** @var array<string, string|null> */
@@ -99,6 +100,7 @@ final class FixtureImporter
             $existingColumns = $this->getExistingColumns($table);
             foreach ($rows as $row) {
                 $row = $this->stripLegacyAlwaysAvailableBit($table, $row, $languageIds);
+                $row = $this->splitLegacySearchIndexLanguageMask($table, $row);
                 $this->connection->insert($table, array_intersect_key($row, array_flip($existingColumns)));
             }
         }
@@ -212,6 +214,28 @@ final class FixtureImporter
         if ($languageId % 2 === 1 && !in_array($languageId, $languageIds, true)) {
             $row['language_id'] = $languageId - 1;
         }
+
+        return $row;
+    }
+
+    /**
+     * Turns a legacy "language_mask" of a search index row into its "language_id" and "is_main_and_always_available".
+     *
+     * @param array<string, mixed> $row
+     *
+     * @return array<string, mixed>
+     */
+    private function splitLegacySearchIndexLanguageMask(
+        string $table,
+        array $row
+    ): array {
+        if ($table !== 'ibexa_search_object_word_link' || !isset($row['language_mask']) || isset($row['language_id'])) {
+            return $row;
+        }
+
+        $languageMask = (int)$row['language_mask'];
+        $row['language_id'] = $languageMask & ~1;
+        $row['is_main_and_always_available'] = $languageMask & 1;
 
         return $row;
     }

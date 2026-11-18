@@ -21,6 +21,7 @@ use Ibexa\Bundle\RepositoryInstaller\Migration\AddObjectStateGroupDefaultLanguag
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddObjectStateGroupLanguageLanguageForeignKeyMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddObjectStateGroupLanguageRealLanguageForeignKeyMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddObjectStateLanguageLanguageForeignKeyMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddSearchObjectWordLinkLanguageForeignKeyMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddSearchObjectWordLinkLanguageIdColumnsMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddUrlAliasAlwaysAvailableColumnMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddUrlAliasMlLinkIndexMigration;
@@ -172,6 +173,10 @@ return static function (ContainerConfigurator $configurator): void {
         ->tag(IbexaMigrationTag::TAG);
 
     $services->set(AddContentTypeFieldDefinitionLanguageForeignKeyMigration::class)
+        ->arg('$connection', service('ibexa.persistence.connection'))
+        ->tag(IbexaMigrationTag::TAG);
+
+    $services->set(AddSearchObjectWordLinkLanguageForeignKeyMigration::class)
         ->arg('$connection', service('ibexa.persistence.connection'))
         ->tag(IbexaMigrationTag::TAG);
 };

@@ -28,6 +28,7 @@ use Ibexa\Bundle\RepositoryInstaller\Migration\AddObjectStateGroupDefaultLanguag
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddObjectStateGroupLanguageLanguageForeignKeyMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddObjectStateGroupLanguageRealLanguageForeignKeyMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddObjectStateLanguageLanguageForeignKeyMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddSearchObjectWordLinkLanguageForeignKeyMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddSearchObjectWordLinkLanguageIdColumnsMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddUrlAliasAlwaysAvailableColumnMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\BackfillLanguageTranslationsMigration;
@@ -42,6 +43,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase as L
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 use Ibexa\Tests\Core\Repository\LegacySchemaImporter;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Psr\Log\NullLogger;
 
 /**
@@ -80,6 +82,7 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         'ibexa_object_state_group_language_language_fk' => 'ibexa_object_state_group_language',
         'ibexa_object_state_group_language_real_language_fk' => 'ibexa_object_state_group_language',
         'ibexa_content_type_field_definition_ml_language_fk' => 'ibexa_content_type_field_definition_ml',
+        'ibexa_search_object_word_link_language_fk' => 'ibexa_search_object_word_link',
     ];
 
     protected function setUp(): void
@@ -247,18 +250,34 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         $connection->delete('ibexa_content_language', ['id' => self::GER_DE]);
     }
 
-    public function testLanguageForeignKeysMigrationAbortsOnLanguageIdsWithoutALanguage(): void
-    {
+    /**
+     * @param class-string<AbstractAddLanguageForeignKeyMigration> $migrationClass
+     * @param non-empty-string $table
+     */
+    #[DataProvider('provideTablesWithALanguageIdColumn')]
+    public function testLanguageForeignKeysMigrationAbortsOnLanguageIdsWithoutALanguage(
+        string $migrationClass,
+        string $table
+    ): void {
         $connection = $this->getDatabaseConnection();
         $this->seedPreMigrationData($connection);
         $this->runBitmaskSequence();
         $connection->executeStatement('PRAGMA foreign_keys = OFF');
-        $connection->update('ibexa_content_field', ['language_id' => 64], ['id' => 1]);
+        $connection->update($table, ['language_id' => 64], ['id' => 1]);
 
         $this->expectException(AbortMigration::class);
-        $this->expectExceptionMessage('"ibexa_content_field.language_id" holds 1 language id(s) missing from "ibexa_content_language"');
+        $this->expectExceptionMessage("\"{$table}.language_id\" holds 1 language id(s) missing from \"ibexa_content_language\"");
 
-        (new AddContentFieldLanguageForeignKeyMigration($connection, new NullLogger(), new MigrationRunContext()))->up(new Schema());
+        (new $migrationClass($connection, new NullLogger(), new MigrationRunContext()))->up(new Schema());
+    }
+
+    /**
+     * @return iterable<string, array{class-string<AbstractAddLanguageForeignKeyMigration>, non-empty-string}>
+     */
+    public static function provideTablesWithALanguageIdColumn(): iterable
+    {
+        yield 'content field' => [AddContentFieldLanguageForeignKeyMigration::class, 'ibexa_content_field'];
+        yield 'search object word link' => [AddSearchObjectWordLinkLanguageForeignKeyMigration::class, 'ibexa_search_object_word_link'];
     }
 
     public function testLanguageForeignKeysMigrationAbortsWhileSqliteEnforcesForeignKeys(): void
@@ -870,6 +889,7 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
             new AddObjectStateGroupLanguageLanguageForeignKeyMigration($connection, new NullLogger(), new MigrationRunContext()),
             new AddObjectStateGroupLanguageRealLanguageForeignKeyMigration($connection, new NullLogger(), new MigrationRunContext()),
             new AddContentTypeFieldDefinitionLanguageForeignKeyMigration($connection, new NullLogger(), new MigrationRunContext()),
+            new AddSearchObjectWordLinkLanguageForeignKeyMigration($connection, new NullLogger(), new MigrationRunContext()),
         ];
     }
 
