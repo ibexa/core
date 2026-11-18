@@ -14,6 +14,7 @@ use Doctrine\DBAL\Schema\Schema;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\AbstractSqlMigration;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationInterface;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
+use RuntimeException;
 
 /**
  * Adds "language_id" and "is_main_and_always_available" to "ibexa_search_object_word_link", backfilled from "language_mask".
@@ -59,58 +60,45 @@ final class AddSearchObjectWordLinkLanguageIdColumnsMigration extends AbstractSq
         $table = $schemaManager->introspectTableByUnquotedName(self::TABLE);
 
         if (!$table->hasColumn(self::LANGUAGE_ID_COLUMN)) {
-            $this->addSql($this->buildAddLanguageIdColumnSql());
+            $this->addSqlFile($this->getSqlFile('add-search-object-word-link-language-id-column'));
         }
 
         if (!$table->hasColumn(self::IS_MAIN_AND_ALWAYS_AVAILABLE_COLUMN)) {
-            $this->addSql($this->buildAddAlwaysAvailableColumnSql());
+            $this->addSqlFile($this->getSqlFile('add-search-object-word-link-always-available-column'));
         }
 
         if (!$table->hasColumn(self::LANGUAGE_MASK_COLUMN)) {
             return;
         }
 
-        $range = $this->connection->fetchAssociative('SELECT MIN(id) AS min_id, MAX(id) AS max_id FROM ' . self::TABLE);
+        $range = $this->connection->fetchAssociative(
+            'SELECT MIN(id) AS min_id, MAX(id) AS max_id FROM ibexa_search_object_word_link'
+        );
         if ($range === false || $range['min_id'] === null) {
             return;
         }
 
-        $languageId = '(' . self::LANGUAGE_MASK_COLUMN . ' & -2)';
-        $isMainAndAlwaysAvailable = '((' . self::LANGUAGE_MASK_COLUMN . ' & 1) = 1)';
-        $sql = 'UPDATE ' . self::TABLE
-            . ' SET ' . self::LANGUAGE_ID_COLUMN . " = {$languageId}, "
-            . self::IS_MAIN_AND_ALWAYS_AVAILABLE_COLUMN . " = {$isMainAndAlwaysAvailable}"
-            . ' WHERE id BETWEEN :from AND :to'
-            . ' AND (' . self::LANGUAGE_ID_COLUMN . " <> {$languageId} OR "
-            . self::IS_MAIN_AND_ALWAYS_AVAILABLE_COLUMN . " <> {$isMainAndAlwaysAvailable})";
+        $backfillSql = file_get_contents(__DIR__ . '/sql/backfill-search-object-word-link-language-ids.sql');
+        if ($backfillSql === false) {
+            throw new RuntimeException('Unable to read the search object word link backfill SQL file.');
+        }
 
         $maxId = (int)$range['max_id'];
         for ($from = (int)$range['min_id']; $from <= $maxId; $from += self::BATCH_SIZE) {
             $this->addSql(
-                $sql,
+                $backfillSql,
                 ['from' => $from, 'to' => min($from + self::BATCH_SIZE - 1, $maxId)],
                 ['from' => ParameterType::INTEGER, 'to' => ParameterType::INTEGER]
             );
         }
     }
 
-    private function buildAddLanguageIdColumnSql(): string
+    private function getSqlFile(string $name): string
     {
-        // BIGINT, like the other columns holding bitmask-era language ids: up to 2^62
-        $columnDefinition = $this->isMySQL() || $this->isMariaDB() ? "BIGINT DEFAULT '0' NOT NULL" : 'BIGINT DEFAULT 0 NOT NULL';
-
-        return 'ALTER TABLE ' . self::TABLE . ' ADD COLUMN ' . self::LANGUAGE_ID_COLUMN . " {$columnDefinition}";
-    }
-
-    private function buildAddAlwaysAvailableColumnSql(): string
-    {
-        $columnDefinition = match (true) {
-            $this->isMySQL(), $this->isMariaDB() => "TINYINT(1) DEFAULT '0' NOT NULL",
-            $this->isPostgreSQL() => "BOOLEAN DEFAULT 'false' NOT NULL",
-            default => "BOOLEAN DEFAULT '0' NOT NULL",
-        };
-
-        return 'ALTER TABLE ' . self::TABLE . ' ADD COLUMN ' . self::IS_MAIN_AND_ALWAYS_AVAILABLE_COLUMN .
-            " {$columnDefinition}";
+        return sprintf('%s/sql/%s-%s.sql', __DIR__, $name, match (true) {
+            $this->isSqlite() => 'sqlite',
+            $this->isPostgreSQL() => 'postgresql',
+            default => 'mysql',
+        });
     }
 }
