@@ -231,6 +231,7 @@ services:
             - '@Ibexa\Core\MVC\Symfony\View\ParametersInjector\EventDispatcherInjector'
             - "@request_stack"
             - '@Ibexa\Core\Helper\ContentInfoLocationLoader\SudoMainLocationLoader'
+            - '@Ibexa\Core\Repository\LocationResolver\LocationResolver'
         tags:
             - { name: ibexa.view.builder }
 
