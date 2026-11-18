@@ -542,6 +542,7 @@ tables:
             ibexa_search_object_word_link_integer_value: { fields: [integer_value] }
             ibexa_search_object_word_link_word: { fields: [word_id] }
             ibexa_search_object_word_link_frequency: { fields: [frequency] }
+            ibexa_search_object_word_link_language: { fields: [language_id] }
         id:
             id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:
@@ -559,6 +560,8 @@ tables:
             word_id: { type: integer, nullable: false, options: { default: '0' } }
             language_id: { type: bigint, nullable: false, options: { default: '0' } }
             is_main_and_always_available: { type: boolean, nullable: false, options: { default: false } }
+        foreignKeys:
+            ibexa_search_object_word_link_language_fk: { fields: [language_id], foreignTable: ibexa_content_language, foreignFields: [id], options: { onDelete: RESTRICT, onUpdate: CASCADE } }
     ibexa_search_word:
         indexes:
             ibexa_search_word_word_i: { fields: [word] }
