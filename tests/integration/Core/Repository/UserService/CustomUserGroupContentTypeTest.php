@@ -54,7 +54,7 @@ final class CustomUserGroupContentTypeTest extends RepositoryTestCase
     {
         $subGroups = $this->getIbexaTestCore()->getUserService()->loadSubUserGroups($this->parentGroup, 0, -1);
 
-        self::assertContains($this->customGroup->id, array_map(static fn (UserGroup $group): int => $group->id, $subGroups));
+        self::assertContains($this->customGroup->id, $this->extractIds($subGroups));
     }
 
     public function testLoadUserGroupsOfUser(): void
@@ -63,19 +63,14 @@ final class CustomUserGroupContentTypeTest extends RepositoryTestCase
 
         $userGroups = $this->getIbexaTestCore()->getUserService()->loadUserGroupsOfUser($user);
 
-        self::assertSame([$this->customGroup->id], array_map(static fn (UserGroup $group): int => $group->id, $userGroups));
+        self::assertSame([$this->customGroup->id], $this->extractIds($userGroups));
     }
 
     public function testFindUserGroups(): void
     {
         $userGroupList = $this->getIbexaTestCore()->getUserService()->findUserGroups(new Filter());
 
-        $ids = [];
-        foreach ($userGroupList as $userGroup) {
-            $ids[] = $userGroup->id;
-        }
-
-        self::assertContains($this->customGroup->id, $ids);
+        self::assertContains($this->customGroup->id, $this->extractIds($userGroupList));
     }
 
     public function testNewUserGroupCreateStructDefaultsToFirstConfiguredContentType(): void
@@ -83,6 +78,21 @@ final class CustomUserGroupContentTypeTest extends RepositoryTestCase
         $createStruct = $this->getIbexaTestCore()->getUserService()->newUserGroupCreateStruct('eng-GB');
 
         self::assertSame('user_group', $createStruct->contentType->getIdentifier());
+    }
+
+    /**
+     * @param iterable<UserGroup> $userGroups
+     *
+     * @return list<int>
+     */
+    private function extractIds(iterable $userGroups): array
+    {
+        $ids = [];
+        foreach ($userGroups as $userGroup) {
+            $ids[] = $userGroup->id;
+        }
+
+        return $ids;
     }
 
     private function createCustomUserGroupContentType(): ContentType
