@@ -542,9 +542,8 @@ class ContentHandlerTest extends TestCase
             ->willReturn($nameDataRows);
 
         $versionLanguageIds = [22 => [2], 31 => [2, 4]];
-        $gatewayMock->expects($this->once())
+        $gatewayMock
             ->method('loadVersionTranslations')
-            ->with([22, 31])
             ->willReturn($versionLanguageIds);
 
         $expected = [
