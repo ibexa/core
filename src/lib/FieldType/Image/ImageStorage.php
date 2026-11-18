@@ -228,6 +228,7 @@ class ImageStorage extends GatewayBasedStorage
         BinaryFile $binaryFile
     ): void {
         foreach ($this->gateway->getImageReferenceUris($field->id) as $uri) {
+            // Only files in the current {fieldId}-{versionNo}-{languageCode} directory, other than the new one, were replaced within this version
             if ($uri === $binaryFile->uri || dirname($uri) !== dirname($binaryFile->uri)) {
                 continue;
             }
