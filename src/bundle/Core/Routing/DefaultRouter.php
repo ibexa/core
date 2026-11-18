@@ -80,7 +80,10 @@ final class DefaultRouter implements RouterInterface, RequestMatcherInterface, W
             $request = $request->duplicate();
             $request->server->set(
                 'REQUEST_URI',
-                $request->attributes->get('semanticPathinfo')
+                implode('/', array_map(
+                    'rawurlencode',
+                    explode('/', $request->attributes->get('semanticPathinfo'))
+                ))
             );
         }
 

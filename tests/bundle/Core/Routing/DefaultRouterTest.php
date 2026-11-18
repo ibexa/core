@@ -21,7 +21,10 @@ use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
+use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Routing\Route;
+use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -69,6 +72,45 @@ final class DefaultRouterTest extends TestCase
         self::assertSame($matchedParameters, $this->createRouter()->matchRequest($request));
         // The original request must not be altered
         self::assertSame($pathinfo, $request->getPathInfo());
+    }
+
+    #[DataProvider('providerForTestMatchRequestWithSpecialCharsInSemanticPathinfo')]
+    public function testMatchRequestWithSpecialCharsInSemanticPathinfo(string $fileName): void
+    {
+        $request = Request::create('/siteaccess/content/download/42/' . rawurlencode($fileName));
+        $request->attributes->set('semanticPathinfo', '/content/download/42/' . $fileName);
+
+        $routes = new RouteCollection();
+        $routes->add(
+            'download',
+            new Route('/content/download/{contentId}/{filename}', [], ['filename' => '.+'])
+        );
+        $matcher = new UrlMatcher($routes, new RequestContext());
+
+        $this->innerRouter
+            ->expects($this->once())
+            ->method('matchRequest')
+            ->willReturnCallback(static fn (Request $matchedRequest): array => $matcher->matchRequest($matchedRequest));
+
+        $parameters = $this->createRouter()->matchRequest($request);
+
+        self::assertSame('download', $parameters['_route']);
+        self::assertSame('42', $parameters['contentId']);
+        self::assertSame($fileName, $parameters['filename']);
+    }
+
+    /**
+     * @return iterable<string, array{string}>
+     */
+    public static function providerForTestMatchRequestWithSpecialCharsInSemanticPathinfo(): iterable
+    {
+        yield 'plain' => ['file.pdf'];
+        yield 'hash' => ['file#1.pdf'];
+        yield 'question mark' => ['file?.pdf'];
+        yield 'percent sequence' => ['file%20name.pdf'];
+        yield 'space' => ['file name.pdf'];
+        yield 'unicode' => ['zażółć.pdf'];
+        yield 'subdirectory' => ['dir/file#1.pdf'];
     }
 
     public function testMatchRequestRegularPathinfo(): void

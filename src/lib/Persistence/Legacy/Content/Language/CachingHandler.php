@@ -114,7 +114,8 @@ class CachingHandler implements BaseLanguageHandler
         $missing = [];
         $languages = [];
         foreach ($ids as $id) {
-            if ($language = $this->cache->get($this->cacheIdentifierGenerator->generateKey(self::LANGUAGE_IDENTIFIER, [$id], true))) {
+            $language = $this->cache->get($this->cacheIdentifierGenerator->generateKey(self::LANGUAGE_IDENTIFIER, [$id], true));
+            if ($language instanceof Language) {
                 $languages[$id] = $language;
             } else {
                 $missing[] = $id;
@@ -122,7 +123,7 @@ class CachingHandler implements BaseLanguageHandler
         }
 
         if (!empty($missing)) {
-            $loaded = $this->innerHandler->loadList($missing);
+            $loaded = iterator_to_array($this->innerHandler->loadList($missing));
             $this->storeCache($loaded);
             /** @noinspection AdditionOperationOnArraysInspection */
             $languages += $loaded;
@@ -174,7 +175,8 @@ class CachingHandler implements BaseLanguageHandler
         $missing = [];
         $languages = [];
         foreach ($languageCodes as $languageCode) {
-            if ($language = $this->cache->get($this->cacheIdentifierGenerator->generateKey(self::LANGUAGE_CODE_IDENTIFIER, [$languageCode], true))) {
+            $language = $this->cache->get($this->cacheIdentifierGenerator->generateKey(self::LANGUAGE_CODE_IDENTIFIER, [$languageCode], true));
+            if ($language instanceof Language) {
                 $languages[$languageCode] = $language;
             } else {
                 $missing[] = $languageCode;
@@ -182,7 +184,7 @@ class CachingHandler implements BaseLanguageHandler
         }
 
         if (!empty($missing)) {
-            $loaded = $this->innerHandler->loadListByLanguageCodes($missing);
+            $loaded = iterator_to_array($this->innerHandler->loadListByLanguageCodes($missing));
             $this->storeCache($loaded);
             /** @noinspection AdditionOperationOnArraysInspection */
             $languages += $loaded;

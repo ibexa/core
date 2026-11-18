@@ -10981,12 +10981,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Language/CachingHandler.php
 
 		-
-			message: '#^Parameter \#1 \$languages of method Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\CachingHandler\:\:storeCache\(\) expects array, iterable\<Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\> given\.$#'
-			identifier: argument.type
-			count: 2
-			path: src/lib/Persistence/Legacy/Content/Language/CachingHandler.php
-
-		-
 			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\CachingHandler\:\:\$innerHandler \(Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\Handler\) does not accept Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\\Handler\.$#'
 			identifier: assign.propertyType
 			count: 1
