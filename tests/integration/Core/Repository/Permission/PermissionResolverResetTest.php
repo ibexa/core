@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\Permission;
 
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier;
+use Ibexa\Contracts\Test\Core\IbexaTestCore;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 use Symfony\Contracts\Service\ResetInterface;
 
@@ -22,8 +23,6 @@ use Symfony\Contracts\Service\ResetInterface;
  */
 final class PermissionResolverResetTest extends RepositoryTestCase
 {
-    private const ANONYMOUS_USER_ID = 10;
-
     public function testServicesResetRestoresAnonymousUser(): void
     {
         $core = $this->getIbexaTestCore();
@@ -39,7 +38,7 @@ final class PermissionResolverResetTest extends RepositoryTestCase
         self::assertInstanceOf(ResetInterface::class, $servicesResetter);
         $servicesResetter->reset();
 
-        self::assertSame(self::ANONYMOUS_USER_ID, $permissionResolver->getCurrentUserReference()->getUserId());
+        self::assertSame(IbexaTestCore::ANONYMOUS_USER_ID, $permissionResolver->getCurrentUserReference()->getUserId());
         self::assertFalse($permissionResolver->hasAccess('setup', 'administrate'));
         self::assertSame(0, $core->getSearchService()->findContent($userQuery)->totalCount);
     }
