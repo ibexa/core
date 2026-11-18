@@ -44,7 +44,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase as L
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 use Ibexa\Tests\Core\Repository\LegacySchemaImporter;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\TestWith;
 use Psr\Log\NullLogger;
 
 /**
@@ -260,7 +260,8 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
      * @param class-string<AbstractAddLanguageForeignKeyMigration> $migrationClass
      * @param non-empty-string $table
      */
-    #[DataProvider('provideTablesWithALanguageIdColumn')]
+    #[TestWith([AddContentFieldLanguageForeignKeyMigration::class, 'ibexa_content_field'], 'content field')]
+    #[TestWith([AddSearchObjectWordLinkLanguageForeignKeyMigration::class, 'ibexa_search_object_word_link'], 'search object word link')]
     public function testLanguageForeignKeysMigrationAbortsOnLanguageIdsWithoutALanguage(
         string $migrationClass,
         string $table
@@ -275,15 +276,6 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         $this->expectExceptionMessage("\"{$table}.language_id\" holds 1 language id(s) missing from \"ibexa_content_language\"");
 
         (new $migrationClass($connection, new NullLogger(), new MigrationRunContext()))->up(new Schema());
-    }
-
-    /**
-     * @return iterable<string, array{class-string<AbstractAddLanguageForeignKeyMigration>, non-empty-string}>
-     */
-    public static function provideTablesWithALanguageIdColumn(): iterable
-    {
-        yield 'content field' => [AddContentFieldLanguageForeignKeyMigration::class, 'ibexa_content_field'];
-        yield 'search object word link' => [AddSearchObjectWordLinkLanguageForeignKeyMigration::class, 'ibexa_search_object_word_link'];
     }
 
     public function testLanguageForeignKeysMigrationAbortsWhileSqliteEnforcesForeignKeys(): void
