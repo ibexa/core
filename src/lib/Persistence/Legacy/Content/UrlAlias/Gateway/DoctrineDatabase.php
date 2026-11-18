@@ -309,12 +309,18 @@ final class DoctrineDatabase extends Gateway
         int $languageId,
         int $linkId
     ): void {
-        $hasOtherLanguages = (bool)$this->connection->fetchOne(
-            'SELECT 1 FROM ' . self::TRANSLATION_TABLE . '
-             WHERE parent = :parent AND text_md5 = :textMd5 AND language_id != :languageId',
-            ['parent' => $parent, 'textMd5' => $textMD5, 'languageId' => $languageId],
-            ['parent' => ParameterType::INTEGER, 'textMd5' => ParameterType::STRING, 'languageId' => ParameterType::INTEGER]
-        );
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->select('1')
+            ->from(self::TRANSLATION_TABLE)
+            ->where('parent = :parent')
+            ->andWhere('text_md5 = :textMd5')
+            ->andWhere('language_id != :languageId')
+            ->setParameter('parent', $parent, ParameterType::INTEGER)
+            ->setParameter('textMd5', $textMD5, ParameterType::STRING)
+            ->setParameter('languageId', $languageId, ParameterType::INTEGER)
+            ->setMaxResults(1);
+        $hasOtherLanguages = (bool)$query->executeQuery()->fetchOne();
 
         if ($hasOtherLanguages) {
             $this->removeTranslation($parent, $textMD5, $languageId);
@@ -422,18 +428,50 @@ final class DoctrineDatabase extends Gateway
         string $textMD5,
         int $languageId
     ): void {
-        $this->connection->executeStatement(
-            'UPDATE ' . $this->connection->quoteSingleIdentifier($this->table) . '
-             SET lang_mask = lang_mask & ~ ' . $languageId . '
-             WHERE parent = :parent AND text_md5 = :textMd5',
-            ['parent' => $parentId, 'textMd5' => $textMD5],
-            ['parent' => ParameterType::INTEGER, 'textMd5' => ParameterType::STRING]
-        );
-        $this->connection->executeStatement(
-            'DELETE FROM ' . self::TRANSLATION_TABLE . ' WHERE parent = :parent AND text_md5 = :textMd5 AND language_id = :languageId',
-            ['parent' => $parentId, 'textMd5' => $textMD5, 'languageId' => $languageId],
-            ['parent' => ParameterType::INTEGER, 'textMd5' => ParameterType::STRING, 'languageId' => ParameterType::INTEGER]
-        );
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->update($this->connection->quoteSingleIdentifier($this->table))
+            ->set(
+                'lang_mask',
+                $this->getDatabasePlatform()->getBitAndComparisonExpression(
+                    'lang_mask',
+                    $query->createPositionalParameter(
+                        ~$languageId,
+                        ParameterType::INTEGER
+                    )
+                )
+            )
+            ->where(
+                $query->expr()->eq(
+                    'parent',
+                    $query->createPositionalParameter(
+                        $parentId,
+                        ParameterType::INTEGER
+                    )
+                )
+            )
+            ->andWhere(
+                $query->expr()->eq(
+                    'text_md5',
+                    $query->createPositionalParameter(
+                        $textMD5,
+                        ParameterType::STRING
+                    )
+                )
+            )
+        ;
+        $query->executeStatement();
+
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->delete(self::TRANSLATION_TABLE)
+            ->where('parent = :parent')
+            ->andWhere('text_md5 = :textMd5')
+            ->andWhere('language_id = :languageId')
+            ->setParameter('parent', $parentId, ParameterType::INTEGER)
+            ->setParameter('textMd5', $textMD5, ParameterType::STRING)
+            ->setParameter('languageId', $languageId, ParameterType::INTEGER);
+        $query->executeStatement();
     }
 
     public function historizeId(
@@ -651,14 +689,21 @@ final class DoctrineDatabase extends Gateway
 
         $existing = null !== $parentId && null !== $textMD5;
         $languageIds ??= $existing ? $this->loadTranslationLanguageIds($parentId, $textMD5) : [];
-        $alwaysAvailable = array_key_exists('always_available', $values)
-            ? (bool)$values['always_available']
-            : $existing && (bool)$this->connection->fetchOne(
-                'SELECT always_available FROM ' . $this->connection->quoteSingleIdentifier($this->table)
-                . ' WHERE parent = :parent AND text_md5 = :textMd5',
-                ['parent' => $parentId, 'textMd5' => $textMD5],
-                ['parent' => ParameterType::INTEGER, 'textMd5' => ParameterType::STRING]
-            );
+        if (array_key_exists('always_available', $values)) {
+            $alwaysAvailable = (bool)$values['always_available'];
+        } elseif ($existing) {
+            $query = $this->connection->createQueryBuilder();
+            $query
+                ->select('always_available')
+                ->from($this->connection->quoteSingleIdentifier($this->table))
+                ->where('parent = :parent')
+                ->andWhere('text_md5 = :textMd5')
+                ->setParameter('parent', $parentId, ParameterType::INTEGER)
+                ->setParameter('textMd5', $textMD5, ParameterType::STRING);
+            $alwaysAvailable = (bool)$query->executeQuery()->fetchOne();
+        } else {
+            $alwaysAvailable = false;
+        }
 
         $languageMask = $alwaysAvailable ? 1 : 0;
         foreach ($languageIds as $languageId) {
@@ -679,18 +724,25 @@ final class DoctrineDatabase extends Gateway
         string $textMD5,
         array $languageIds
     ): void {
-        $this->connection->executeStatement(
-            'DELETE FROM ' . self::TRANSLATION_TABLE . ' WHERE parent = :parent AND text_md5 = :textMd5',
-            ['parent' => $parentId, 'textMd5' => $textMD5],
-            ['parent' => ParameterType::INTEGER, 'textMd5' => ParameterType::STRING]
-        );
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->delete(self::TRANSLATION_TABLE)
+            ->where('parent = :parent')
+            ->andWhere('text_md5 = :textMd5')
+            ->setParameter('parent', $parentId, ParameterType::INTEGER)
+            ->setParameter('textMd5', $textMD5, ParameterType::STRING);
+        $query->executeStatement();
 
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->insert(self::TRANSLATION_TABLE)
+            ->values(['parent' => ':parent', 'text_md5' => ':textMd5', 'language_id' => ':languageId'])
+            ->setParameter('parent', $parentId, ParameterType::INTEGER)
+            ->setParameter('textMd5', $textMD5, ParameterType::STRING);
         foreach ($languageIds as $languageId) {
-            $this->connection->executeStatement(
-                'INSERT INTO ' . self::TRANSLATION_TABLE . ' (parent, text_md5, language_id) VALUES (:parent, :textMd5, :languageId)',
-                ['parent' => $parentId, 'textMd5' => $textMD5, 'languageId' => $languageId],
-                ['parent' => ParameterType::INTEGER, 'textMd5' => ParameterType::STRING, 'languageId' => ParameterType::INTEGER]
-            );
+            $query
+                ->setParameter('languageId', $languageId, ParameterType::INTEGER)
+                ->executeStatement();
         }
     }
 
@@ -1104,18 +1156,22 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('actions', $actions, ArrayParameterType::STRING);
         $query->executeStatement();
 
-        $this->connection->executeStatement(
-            'DELETE FROM ' . self::TRANSLATION_TABLE . '
-             WHERE language_id = :languageId
-             AND EXISTS (
-                 SELECT 1 FROM ' . $this->connection->quoteSingleIdentifier($this->table) . ' u
-                 WHERE u.parent = ' . self::TRANSLATION_TABLE . '.parent
-                 AND u.text_md5 = ' . self::TRANSLATION_TABLE . '.text_md5
-                 AND u.action IN (:actions)
-             )',
-            ['languageId' => $languageId, 'actions' => $actions],
-            ['languageId' => ParameterType::INTEGER, 'actions' => ArrayParameterType::STRING]
-        );
+        $subQuery = $this->connection->createQueryBuilder();
+        $subQuery
+            ->select('1')
+            ->from($this->connection->quoteSingleIdentifier($this->table), 'u')
+            ->where(sprintf('u.parent = %s.parent', self::TRANSLATION_TABLE))
+            ->andWhere(sprintf('u.text_md5 = %s.text_md5', self::TRANSLATION_TABLE))
+            ->andWhere('u.action IN (:actions)');
+
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->delete(self::TRANSLATION_TABLE)
+            ->where('language_id = :languageId')
+            ->andWhere(sprintf('EXISTS (%s)', $subQuery->getSQL()))
+            ->setParameter('languageId', $languageId, ParameterType::INTEGER)
+            ->setParameter('actions', $actions, ArrayParameterType::STRING);
+        $query->executeStatement();
 
         // cleanup: delete rows left with no real (non-always-available) language at all
         $tableName = $this->connection->quoteSingleIdentifier($this->table);
@@ -1179,16 +1235,17 @@ final class DoctrineDatabase extends Gateway
         // directly in URLAliasServiceTest), so it must not depend on however this table's rows
         // happened to be inserted - which itself can shift whenever an upstream write path's own
         // language-iteration order changes, even though this query is otherwise untouched.
-        return array_map(
-            'intval',
-            $this->connection->fetchFirstColumn(
-                'SELECT language_id FROM ' . self::TRANSLATION_TABLE . '
-                 WHERE parent = :parent AND text_md5 = :textMd5
-                 ORDER BY language_id',
-                ['parent' => $parent, 'textMd5' => $textMD5],
-                ['parent' => ParameterType::INTEGER, 'textMd5' => ParameterType::STRING]
-            )
-        );
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->select('language_id')
+            ->from(self::TRANSLATION_TABLE)
+            ->where('parent = :parent')
+            ->andWhere('text_md5 = :textMd5')
+            ->orderBy('language_id')
+            ->setParameter('parent', $parent, ParameterType::INTEGER)
+            ->setParameter('textMd5', $textMD5, ParameterType::STRING);
+
+        return array_map('intval', $query->executeQuery()->fetchFirstColumn());
     }
 
     /**
@@ -1640,20 +1697,22 @@ final class DoctrineDatabase extends Gateway
     {
         $languageIds = [];
         foreach (array_chunk($this->getTranslationKeys($rows), self::TRANSLATION_KEYS_BATCH_SIZE) as $keys) {
-            $parameters = [];
-            $types = [];
+            $query = $this->connection->createQueryBuilder();
+            $query
+                ->select('parent', 'text_md5', 'language_id')
+                ->from(self::TRANSLATION_TABLE)
+                ->orderBy('language_id');
+            $keyConditions = [];
             foreach ($keys as [$parent, $textMD5]) {
-                array_push($parameters, $parent, $textMD5);
-                array_push($types, ParameterType::INTEGER, ParameterType::STRING);
+                $keyConditions[] = sprintf(
+                    '(%s, %s)',
+                    $query->createNamedParameter($parent, ParameterType::INTEGER),
+                    $query->createNamedParameter($textMD5, ParameterType::STRING)
+                );
             }
+            $query->where(sprintf('(parent, text_md5) IN (%s)', implode(', ', $keyConditions)));
 
-            $result = $this->connection->executeQuery(
-                'SELECT parent, text_md5, language_id FROM ' . self::TRANSLATION_TABLE
-                . ' WHERE (parent, text_md5) IN (' . implode(', ', array_fill(0, count($keys), '(?, ?)')) . ')'
-                . ' ORDER BY language_id',
-                $parameters,
-                $types
-            );
+            $result = $query->executeQuery();
             foreach ($result->iterateAssociative() as $translation) {
                 $languageIds[$translation['parent'] . '-' . $translation['text_md5']][] = (int)$translation['language_id'];
             }
