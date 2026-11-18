@@ -7,10 +7,13 @@
 
 namespace Ibexa\Core\MVC\Symfony\View\Builder;
 
+use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
+use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException as APIUnauthorizedException;
 use Ibexa\Contracts\Core\Repository\PermissionResolver;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
@@ -23,6 +26,8 @@ use Ibexa\Core\MVC\Symfony\View\ContentView;
 use Ibexa\Core\MVC\Symfony\View\EmbedView;
 use Ibexa\Core\MVC\Symfony\View\ParametersInjector;
 use Ibexa\Core\MVC\Symfony\View\View;
+use Ibexa\Core\Repository\LocationResolver\LocationResolver;
+use Ibexa\Core\Repository\LocationResolver\PermissionAwareLocationResolver;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -55,17 +60,22 @@ class ContentViewBuilder implements ViewBuilder
     /** @var ContentInfoLocationLoader */
     private $locationLoader;
 
+    /** @var LocationResolver */
+    private $locationResolver;
+
     public function __construct(
         Repository $repository,
         Configurator $viewConfigurator,
         ParametersInjector $viewParametersInjector,
         RequestStack $requestStack,
-        ?ContentInfoLocationLoader $locationLoader = null
+        ?ContentInfoLocationLoader $locationLoader = null,
+        ?LocationResolver $locationResolver = null
     ) {
         $this->repository = $repository;
         $this->viewConfigurator = $viewConfigurator;
         $this->viewParametersInjector = $viewParametersInjector;
         $this->locationLoader = $locationLoader;
+        $this->locationResolver = $locationResolver ?? new PermissionAwareLocationResolver($repository->getLocationService());
         $this->permissionResolver = $this->repository->getPermissionResolver();
         $this->requestStack = $requestStack;
     }
@@ -145,12 +155,8 @@ class ContentViewBuilder implements ViewBuilder
                     'Provided Location does not belong to the Content item requested via the contentId parameter'
                 );
             }
-        } elseif (isset($this->locationLoader)) {
-            try {
-                $location = $this->locationLoader->loadLocation($content->contentInfo);
-            } catch (NotFoundException $e) {
-                // nothing else to do
-            }
+        } else {
+            $location = $this->resolveLocation($content->getContentInfo());
         }
 
         if (isset($location)) {
@@ -262,6 +268,28 @@ class ContentViewBuilder implements ViewBuilder
         }
 
         return $location;
+    }
+
+    /**
+     * Returns a Location of the Content item the current user may read, preferring the main one.
+     */
+    private function resolveLocation(ContentInfo $contentInfo): ?Location
+    {
+        try {
+            return $this->locationResolver->resolveLocation($contentInfo);
+        } catch (BadStateException | NotFoundException | APIUnauthorizedException $e) {
+            // fall back to the main Location below, so that the view keeps its previous behaviour
+        }
+
+        if (!isset($this->locationLoader)) {
+            return null;
+        }
+
+        try {
+            return $this->locationLoader->loadLocation($contentInfo);
+        } catch (NotFoundException $e) {
+            return null;
+        }
     }
 
     /**
