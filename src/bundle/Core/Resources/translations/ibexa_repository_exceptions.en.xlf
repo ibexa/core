@@ -61,6 +61,11 @@
         <target state="new">Content type field definitions did not validate</target>
         <note>key: Content type field definitions did not validate</note>
       </trans-unit>
+      <trans-unit id="9ebba798a802d1f6dcc90ebbd5d67745e85e2142" resname="Content with identifier %contentId% does not exist">
+        <source>Content with identifier %contentId% does not exist</source>
+        <target state="new">Content with identifier %contentId% does not exist</target>
+        <note>key: Content with identifier %contentId% does not exist</note>
+      </trans-unit>
       <trans-unit id="dbf0b883e33a6e7c433ffa9a536fd214cda39b5c" resname="Could not find %classType% class '%className%'">
         <source>Could not find %classType% class '%className%'</source>
         <target state="new">Could not find %classType% class '%className%'</target>
