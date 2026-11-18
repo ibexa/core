@@ -52,7 +52,7 @@ final class CustomUserGroupContentTypeTest extends RepositoryTestCase
 
     public function testLoadSubUserGroups(): void
     {
-        $subGroups = $this->getIbexaTestCore()->getUserService()->loadSubUserGroups($this->parentGroup, 0, -1);
+        $subGroups = $this->getIbexaTestCore()->getUserService()->loadSubUserGroups($this->parentGroup);
 
         self::assertContains($this->customGroup->id, $this->extractIds($subGroups));
     }
