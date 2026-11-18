@@ -209,6 +209,22 @@ class DoctrineDatabaseTest extends TestCase
         self::assertFalse($gateway->canDeleteLanguage(65));
     }
 
+    public function testCanNotDeleteLanguageReferencedByAnObjectStateGroupRealLanguageId(): void
+    {
+        $gateway = $this->getDatabaseGateway();
+        $connection = $this->getDatabaseConnection();
+        $connection->insert(
+            Gateway::CONTENT_LANGUAGE_TABLE,
+            ['id' => 64, 'locale' => 'fr-FR', 'name' => 'Francais (France)', 'disabled' => 0]
+        );
+        $connection->insert(
+            'ibexa_object_state_group_language',
+            ['contentobject_state_group_id' => 1, 'language_id' => 2, 'real_language_id' => 64, 'description' => '', 'name' => 'x']
+        );
+
+        self::assertFalse($gateway->canDeleteLanguage(64));
+    }
+
     /**
      * Return a ready to test DoctrineDatabase gateway.
      */
