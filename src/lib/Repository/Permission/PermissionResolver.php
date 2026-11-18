@@ -27,11 +27,12 @@ use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\Repository\Mapper\RoleDomainMapper;
 use Ibexa\Core\Repository\Values\User\UserReference;
+use Symfony\Contracts\Service\ResetInterface;
 
 /**
  * Core implementation of PermissionResolver interface.
  */
-class PermissionResolver implements PermissionResolverInterface
+class PermissionResolver implements PermissionResolverInterface, ResetInterface
 {
     /**
      * Counter for the current sudo nesting level {@see sudo()}.
@@ -52,7 +53,7 @@ class PermissionResolver implements PermissionResolverInterface
     /**
      * Currently logged in user reference for permission purposes.
      *
-     * @var APIUserReference
+     * @var APIUserReference|null
      */
     private $currentUserRef;
 
@@ -102,6 +103,14 @@ class PermissionResolver implements PermissionResolverInterface
         }
 
         $this->currentUserRef = $userReference;
+    }
+
+    /**
+     * Makes the next request or message handled by a reused kernel start as the anonymous user.
+     */
+    public function reset(): void
+    {
+        $this->currentUserRef = null;
     }
 
     public function hasAccess(
