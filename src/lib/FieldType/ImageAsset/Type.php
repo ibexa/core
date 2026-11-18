@@ -82,7 +82,7 @@ class Type extends FieldType implements TranslationContainerInterface
             }
 
             // target was permanently deleted, the reference is stale: only a required field cannot live with it
-            return $fieldDefinition->isRequired
+            return $fieldDefinition->isRequired()
                 ? [
                     new ValidationError(
                         'Content with identifier %contentId% does not exist',
