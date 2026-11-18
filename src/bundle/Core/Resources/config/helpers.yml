@@ -37,6 +37,7 @@ services:
             - '@ibexa.api.service.location'
             - '@ibexa.api.service.content'
             - '@Ibexa\Core\Persistence\Cache\LocationHandler'
+            - '@Ibexa\Core\Repository\LocationResolver\LocationResolver'
 
     Ibexa\Core\Helper\ContentInfoLocationLoader\SudoMainLocationLoader:
         class: 'Ibexa\Core\Helper\ContentInfoLocationLoader\SudoMainLocationLoader'
