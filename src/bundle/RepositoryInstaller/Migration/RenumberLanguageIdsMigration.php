@@ -24,10 +24,6 @@ final class RenumberLanguageIdsMigration extends AbstractSqlMigration implements
 
     private const string LANGUAGE_ID_COLUMN_PATTERN = '/(?:^|_)language_id$/';
 
-    private const array RENUMBERED_BY_THE_SQL_FILES = [
-        'ibexa_search_object_word_link.language_id',
-    ];
-
     private const array RENUMBERED_WITHOUT_FOREIGN_KEYS = [
         'ibexa_content.initial_language_id',
         'ibexa_content_field.language_id',
@@ -94,10 +90,7 @@ final class RenumberLanguageIdsMigration extends AbstractSqlMigration implements
         }
 
         $this->abortIfLeftBehind(
-            array_diff(
-                array_keys(array_filter($columns, static fn (bool $cascades): bool => !$cascades)),
-                self::RENUMBERED_BY_THE_SQL_FILES
-            ),
+            array_keys(array_filter($columns, static fn (bool $cascades): bool => !$cascades)),
             sprintf(
                 'Add a foreign key to "%s" with ON UPDATE CASCADE to each of them, in a migration that runs before this one.',
                 self::LANGUAGE_TABLE
