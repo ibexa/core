@@ -11,7 +11,6 @@ use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
-use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
@@ -20,6 +19,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\TransformationProcessor;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\LanguagePriorityConditionBuilder;
 use Ibexa\Core\Search\Legacy\Content\WordIndexer\Repository\SearchIndex;
 
 /**
@@ -77,7 +77,7 @@ class FullText extends CriterionHandler
     public function __construct(
         Connection $connection,
         protected TransformationProcessor $processor,
-        private readonly LanguageHandler $languageHandler,
+        private readonly LanguagePriorityConditionBuilder $languagePriorityConditionBuilder,
         JoinedTablesTracker $joinedTablesTracker,
         array $configuration = []
     ) {
@@ -218,10 +218,7 @@ class FullText extends CriterionHandler
             );
 
         if (!empty($languageSettings['languages'])) {
-            $languageIds = array_map(
-                fn (string $languageCode): int => $this->languageHandler->loadByLanguageCode($languageCode)->id,
-                $languageSettings['languages']
-            );
+            $languageIds = $this->languagePriorityConditionBuilder->loadLanguageIds($languageSettings['languages']);
 
             $languageCondition = $expr->in(
                 'ibexa_search_object_word_link.language_id',

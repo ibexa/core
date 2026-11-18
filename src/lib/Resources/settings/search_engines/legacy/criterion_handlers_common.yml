@@ -148,7 +148,7 @@ services:
         parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
         arguments:
             $processor: '@Ibexa\Core\Persistence\TransformationProcessor\PreprocessedBased'
-            $languageHandler: '@Ibexa\Contracts\Core\Persistence\Content\Language\Handler'
+            $languagePriorityConditionBuilder: '@Ibexa\Core\Search\Legacy\Content\Common\Gateway\LanguagePriorityConditionBuilder'
             $configuration: '%ibexa.search.legacy.criterion_handler.full_text.configuration%'
         tags:
             - {name: ibexa.search.legacy.gateway.criterion_handler.content}
@@ -164,7 +164,6 @@ services:
         class: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler\LanguageCode
         parent: Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler
         arguments:
-            $languageHandler: '@Ibexa\Contracts\Core\Persistence\Content\Language\Handler'
             $languagePriorityConditionBuilder: '@Ibexa\Core\Search\Legacy\Content\Common\Gateway\LanguagePriorityConditionBuilder'
         tags:
             - {name: ibexa.search.legacy.gateway.criterion_handler.content}

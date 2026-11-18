@@ -9,11 +9,8 @@ namespace Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
-use Ibexa\Contracts\Core\Persistence\Content\Language\Handler;
-use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
-use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Doctrine\JoinedTablesTracker;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler;
@@ -26,7 +23,6 @@ class LanguageCode extends CriterionHandler
 {
     public function __construct(
         Connection $connection,
-        private readonly LanguageHandler $languageHandler,
         JoinedTablesTracker $joinedTablesTracker,
         private readonly LanguagePriorityConditionBuilder $languagePriorityConditionBuilder
     ) {
@@ -48,17 +44,9 @@ class LanguageCode extends CriterionHandler
         array $languageSettings
     ) {
         /* @var $criterion \Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LanguageCode */
-        $expr = $queryBuilder->expr();
-        $languageCodes = array_map('strval', (array)$criterion->value);
-        $languages = iterator_to_array($this->languageHandler->loadListByLanguageCodes($languageCodes));
-        if ($missing = array_diff($languageCodes, array_keys($languages))) {
-            throw new NotFoundException('Language', implode(', ', $missing));
-        }
-        $languageIds = array_map(static fn ($language): int => $language->id, array_values($languages));
-
         return $this->languagePriorityConditionBuilder->buildTranslationCondition(
             $queryBuilder,
-            $languageIds,
+            $this->languagePriorityConditionBuilder->loadLanguageIds(array_map('strval', (array)$criterion->value)),
             $criterion->matchAlwaysAvailable
         );
     }

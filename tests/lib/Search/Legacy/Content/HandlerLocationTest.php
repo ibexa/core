@@ -128,13 +128,12 @@ class HandlerLocationTest extends AbstractTestCase
                         new CommonCriterionHandler\FullText(
                             $connection,
                             $transformationProcessor,
-                            $this->getLanguageHandler(),
+                            new LanguagePriorityConditionBuilder($connection, $this->getLanguageHandler()),
                             $joinedTablesTracker,
                             $fullTextSearchConfiguration
                         ),
                         new CommonCriterionHandler\LanguageCode(
                             $connection,
-                            $this->getLanguageHandler(),
                             $joinedTablesTracker,
                             new LanguagePriorityConditionBuilder($connection, $this->getLanguageHandler())
                         ),
@@ -174,7 +173,6 @@ class HandlerLocationTest extends AbstractTestCase
                         new CommonSortClauseHandler\ContentId($connection),
                     ]
                 ),
-                $this->getLanguageHandler(),
                 new LanguagePriorityConditionBuilder(
                     $this->getDatabaseConnection(),
                     $this->getLanguageHandler()

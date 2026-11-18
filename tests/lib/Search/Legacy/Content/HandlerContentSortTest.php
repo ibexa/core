@@ -81,7 +81,6 @@ class HandlerContentSortTest extends AbstractTestCase
                         ),
                     ]
                 ),
-                $this->getLanguageHandler(),
                 new LanguagePriorityConditionBuilder(
                     $this->getDatabaseConnection(),
                     $this->getLanguageHandler()

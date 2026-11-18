@@ -98,7 +98,6 @@ class HandlerLocationSortTest extends AbstractTestCase
                         ),
                     ]
                 ),
-                $this->getLanguageHandler(),
                 new LanguagePriorityConditionBuilder(
                     $this->getDatabaseConnection(),
                     $this->getLanguageHandler()
