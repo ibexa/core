@@ -57,7 +57,7 @@ final class FixtureImporter
 
         $nonEmptyTablesData = array_filter(
             $data,
-            static fn (array $tableData, string $table): bool => !empty($tableData) && in_array($table, $tablesList, true),
+            static fn (array $tableData, string $table): bool => $tableData !== [] && in_array($table, $tablesList, true),
             ARRAY_FILTER_USE_BOTH
         );
         foreach ($nonEmptyTablesData as $table => $rows) {
@@ -94,13 +94,13 @@ final class FixtureImporter
             return;
         }
 
-        if (!empty($nonEmptyTablesData['ibexa_content'])) {
+        if (isset($nonEmptyTablesData['ibexa_content'])) {
             $this->connection->executeStatement('DELETE FROM ibexa_content_translation');
         }
-        if (!empty($nonEmptyTablesData['ibexa_content_version'])) {
+        if (isset($nonEmptyTablesData['ibexa_content_version'])) {
             $this->connection->executeStatement('DELETE FROM ibexa_content_version_translation');
         }
-        if (!empty($nonEmptyTablesData['ibexa_url_alias_ml']) && $this->tableExists('ibexa_url_alias_ml_translation')) {
+        if (isset($nonEmptyTablesData['ibexa_url_alias_ml']) && $this->tableExists('ibexa_url_alias_ml_translation')) {
             $this->connection->executeStatement('DELETE FROM ibexa_url_alias_ml_translation');
         }
     }
@@ -145,7 +145,7 @@ final class FixtureImporter
      */
     private function reattachLanguageTranslations(array $detachedTranslations): void
     {
-        if (empty($detachedTranslations)) {
+        if ($detachedTranslations === []) {
             return;
         }
 
@@ -199,91 +199,110 @@ final class FixtureImporter
             return;
         }
 
-        $validLanguageIds = null;
+        $validLanguageIds = $this->loadValidLanguageIds();
+        $this->backfillContentLanguages('ibexa_content', 'ibexa_content_translation', 'content_id', $nonEmptyTablesData['ibexa_content'] ?? [], $validLanguageIds);
+        $this->backfillContentLanguages('ibexa_content_version', 'ibexa_content_version_translation', 'content_version_id', $nonEmptyTablesData['ibexa_content_version'] ?? [], $validLanguageIds);
 
-        if (!empty($nonEmptyTablesData['ibexa_content'])) {
-            $validLanguageIds = $this->loadValidLanguageIds();
-            foreach ($nonEmptyTablesData['ibexa_content'] as $row) {
-                if (!array_key_exists('language_mask', $row)) {
-                    continue;
-                }
-                $mask = (int)$row['language_mask'];
-                $this->connection->executeStatement(
-                    'UPDATE ibexa_content SET always_available = :alwaysAvailable WHERE id = :id',
-                    ['alwaysAvailable' => ($mask & 1) === 1, 'id' => $row['id']],
-                    ['alwaysAvailable' => ParameterType::BOOLEAN, 'id' => ParameterType::INTEGER]
-                );
-                foreach ($this->extractLanguageIds($mask, $validLanguageIds) as $languageId) {
-                    $this->connection->executeStatement(
-                        'INSERT INTO ibexa_content_translation (content_id, language_id) VALUES (:id, :languageId)',
-                        ['id' => $row['id'], 'languageId' => $languageId],
-                        ['id' => ParameterType::INTEGER, 'languageId' => ParameterType::INTEGER]
-                    );
-                }
-            }
+        if (isset($nonEmptyTablesData['ibexa_url_alias_ml']) && $this->tableExists('ibexa_url_alias_ml_translation')) {
+            $this->backfillUrlAliasLanguages($nonEmptyTablesData['ibexa_url_alias_ml'], $validLanguageIds);
         }
 
-        if (!empty($nonEmptyTablesData['ibexa_content_version'])) {
-            $validLanguageIds ??= $this->loadValidLanguageIds();
-            foreach ($nonEmptyTablesData['ibexa_content_version'] as $row) {
-                if (!array_key_exists('language_mask', $row)) {
-                    continue;
-                }
-                $mask = (int)$row['language_mask'];
-                $this->connection->executeStatement(
-                    'UPDATE ibexa_content_version SET always_available = :alwaysAvailable WHERE id = :id',
-                    ['alwaysAvailable' => ($mask & 1) === 1, 'id' => $row['id']],
-                    ['alwaysAvailable' => ParameterType::BOOLEAN, 'id' => ParameterType::INTEGER]
-                );
-                foreach ($this->extractLanguageIds($mask, $validLanguageIds) as $languageId) {
-                    $this->connection->executeStatement(
-                        'INSERT INTO ibexa_content_version_translation (content_version_id, language_id) VALUES (:id, :languageId)',
-                        ['id' => $row['id'], 'languageId' => $languageId],
-                        ['id' => ParameterType::INTEGER, 'languageId' => ParameterType::INTEGER]
-                    );
-                }
-            }
+        if (isset($nonEmptyTablesData['ibexa_search_object_word_link']) && $this->tableExists('ibexa_search_object_word_link') && in_array('language_id', $this->getExistingColumns('ibexa_search_object_word_link'), true)) {
+            $this->backfillSearchIndexLanguages($nonEmptyTablesData['ibexa_search_object_word_link']);
         }
+    }
 
-        if (!empty($nonEmptyTablesData['ibexa_url_alias_ml']) && $this->tableExists('ibexa_url_alias_ml_translation')) {
-            $validLanguageIds ??= $this->loadValidLanguageIds();
-            foreach ($nonEmptyTablesData['ibexa_url_alias_ml'] as $row) {
-                if (!array_key_exists('lang_mask', $row)) {
-                    continue;
-                }
-                $mask = (int)$row['lang_mask'];
-                foreach ($this->extractLanguageIds($mask, $validLanguageIds) as $languageId) {
-                    $this->connection->executeStatement(
-                        'INSERT INTO ibexa_url_alias_ml_translation (parent, text_md5, language_id) VALUES (:parent, :textMd5, :languageId)',
-                        ['parent' => $row['parent'], 'textMd5' => $row['text_md5'], 'languageId' => $languageId],
-                        ['parent' => ParameterType::INTEGER, 'textMd5' => ParameterType::STRING, 'languageId' => ParameterType::INTEGER]
-                    );
-                }
+    /**
+     * Sets "always_available" and the translation rows of content or versions from their fixture "language_mask".
+     *
+     * @param array<array<string, mixed>> $rows
+     * @param int[] $validLanguageIds
+     *
+     * @throws Exception
+     */
+    private function backfillContentLanguages(
+        string $table,
+        string $translationTable,
+        string $idColumn,
+        array $rows,
+        array $validLanguageIds
+    ): void {
+        foreach ($rows as $row) {
+            if (!array_key_exists('language_mask', $row)) {
+                continue;
             }
-        }
-
-        if (!empty($nonEmptyTablesData['ibexa_search_object_word_link']) && $this->tableExists('ibexa_search_object_word_link') && in_array('language_id', $this->getExistingColumns('ibexa_search_object_word_link'), true)) {
-            foreach ($nonEmptyTablesData['ibexa_search_object_word_link'] as $row) {
-                if (!array_key_exists('language_mask', $row)) {
-                    continue;
-                }
-                $mask = (int)$row['language_mask'];
+            $mask = (int)$row['language_mask'];
+            $this->connection->executeStatement(
+                "UPDATE {$table} SET always_available = :alwaysAvailable WHERE id = :id",
+                ['alwaysAvailable' => ($mask & 1) === 1, 'id' => $row['id']],
+                ['alwaysAvailable' => ParameterType::BOOLEAN, 'id' => ParameterType::INTEGER]
+            );
+            foreach ($this->extractLanguageIds($mask, $validLanguageIds) as $languageId) {
                 $this->connection->executeStatement(
-                    'UPDATE ibexa_search_object_word_link
-                     SET language_id = :languageId, is_main_and_always_available = :alwaysAvailable
-                     WHERE id = :id',
-                    [
-                        'languageId' => $mask & ~1,
-                        'alwaysAvailable' => ($mask & 1) === 1,
-                        'id' => $row['id'],
-                    ],
-                    [
-                        'languageId' => ParameterType::INTEGER,
-                        'alwaysAvailable' => ParameterType::BOOLEAN,
-                        'id' => ParameterType::INTEGER,
-                    ]
+                    "INSERT INTO {$translationTable} ({$idColumn}, language_id) VALUES (:id, :languageId)",
+                    ['id' => $row['id'], 'languageId' => $languageId],
+                    ['id' => ParameterType::INTEGER, 'languageId' => ParameterType::INTEGER]
                 );
             }
+        }
+    }
+
+    /**
+     * Sets the translation rows of URL aliases from their fixture "lang_mask".
+     *
+     * @param array<array<string, mixed>> $rows
+     * @param int[] $validLanguageIds
+     *
+     * @throws Exception
+     */
+    private function backfillUrlAliasLanguages(
+        array $rows,
+        array $validLanguageIds
+    ): void {
+        foreach ($rows as $row) {
+            if (!array_key_exists('lang_mask', $row)) {
+                continue;
+            }
+            $mask = (int)$row['lang_mask'];
+            foreach ($this->extractLanguageIds($mask, $validLanguageIds) as $languageId) {
+                $this->connection->executeStatement(
+                    'INSERT INTO ibexa_url_alias_ml_translation (parent, text_md5, language_id) VALUES (:parent, :textMd5, :languageId)',
+                    ['parent' => $row['parent'], 'textMd5' => $row['text_md5'], 'languageId' => $languageId],
+                    ['parent' => ParameterType::INTEGER, 'textMd5' => ParameterType::STRING, 'languageId' => ParameterType::INTEGER]
+                );
+            }
+        }
+    }
+
+    /**
+     * Sets "language_id" and "is_main_and_always_available" of search index rows from their fixture "language_mask".
+     *
+     * @param array<array<string, mixed>> $rows
+     *
+     * @throws Exception
+     */
+    private function backfillSearchIndexLanguages(array $rows): void
+    {
+        foreach ($rows as $row) {
+            if (!array_key_exists('language_mask', $row)) {
+                continue;
+            }
+            $mask = (int)$row['language_mask'];
+            $this->connection->executeStatement(
+                'UPDATE ibexa_search_object_word_link
+                 SET language_id = :languageId, is_main_and_always_available = :alwaysAvailable
+                 WHERE id = :id',
+                [
+                    'languageId' => $mask & ~1,
+                    'alwaysAvailable' => ($mask & 1) === 1,
+                    'id' => $row['id'],
+                ],
+                [
+                    'languageId' => ParameterType::INTEGER,
+                    'alwaysAvailable' => ParameterType::BOOLEAN,
+                    'id' => ParameterType::INTEGER,
+                ]
+            );
         }
     }
 
