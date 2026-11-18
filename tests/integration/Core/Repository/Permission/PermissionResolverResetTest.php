@@ -15,8 +15,10 @@ use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 use Symfony\Contracts\Service\ResetInterface;
 
 /**
- * A reused kernel (messenger worker, persistent PHP worker) resets services between
- * messages/requests. The next one must not run as the previously authenticated user.
+ * A reused kernel resets services between requests/messages: a persistent PHP worker
+ * before every request after the first one, a messenger worker after every message
+ * (on Symfony 5.4 only with `framework.messenger.reset_on_message: true`).
+ * The next one must not run as the previously authenticated user.
  *
  * @covers \Ibexa\Core\Repository\Permission\PermissionResolver::reset
  * @covers \Ibexa\Core\Repository\Permission\CachedPermissionService::reset
