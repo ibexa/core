@@ -41,15 +41,36 @@ final class AddContentTypeFieldDefinitionLanguageForeignKeyMigration extends Abs
 
     /**
      * @param AbstractSchemaManager<AbstractPlatform> $schemaManager
+     *
+     * @return non-empty-list<non-empty-string>
      */
-    protected function getSqlFile(
+    protected function getSqlFiles(
         AbstractSchemaManager $schemaManager,
         string $platform
-    ): string {
-        if ($platform === 'sqlite' || $schemaManager->introspectTableByUnquotedName($this->getTable())->hasForeignKey(self::REPLACED_FOREIGN_KEY)) {
-            return parent::getSqlFile($schemaManager, $platform);
+    ): array {
+        if ($platform === 'sqlite') {
+            return parent::getSqlFiles($schemaManager, $platform);
         }
 
-        return __DIR__ . "/sql/add-language-foreign-keys/{$this->getForeignKey()}-without-replaced-{$platform}.sql";
+        $sqlFiles = $this->hasLanguageIdIndex($schemaManager) ? [] : [$this->getSqlFile($platform, '-index')];
+        $sqlFiles[] = $schemaManager->introspectTableByUnquotedName($this->getTable())->hasForeignKey(self::REPLACED_FOREIGN_KEY)
+            ? $this->getSqlFile($platform)
+            : $this->getSqlFile($platform, '-without-replaced');
+
+        return $sqlFiles;
+    }
+
+    /**
+     * @param AbstractSchemaManager<AbstractPlatform> $schemaManager
+     */
+    private function hasLanguageIdIndex(AbstractSchemaManager $schemaManager): bool
+    {
+        foreach ($schemaManager->introspectTableIndexesByUnquotedName($this->getTable()) as $index) {
+            if ($index->getIndexedColumns()[0]->getColumnName()->getIdentifier()->getValue() === $this->getColumn()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

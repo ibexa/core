@@ -79,21 +79,36 @@ abstract class AbstractAddLanguageForeignKeyMigration extends AbstractSqlMigrati
             );
         }
 
-        $this->addSqlFile($this->getSqlFile($schemaManager, match (true) {
+        $sqlFiles = $this->getSqlFiles($schemaManager, match (true) {
             $this->isSqlite() => 'sqlite',
             $this->isPostgreSQL() => 'postgresql',
             default => 'mysql',
-        }));
+        });
+        foreach ($sqlFiles as $sqlFile) {
+            $this->addSqlFile($sqlFile);
+        }
     }
 
     /**
      * @param AbstractSchemaManager<AbstractPlatform> $schemaManager
+     *
+     * @return non-empty-list<non-empty-string>
      */
-    protected function getSqlFile(
+    protected function getSqlFiles(
         AbstractSchemaManager $schemaManager,
         string $platform
+    ): array {
+        return [$this->getSqlFile($platform)];
+    }
+
+    /**
+     * @return non-empty-string
+     */
+    protected function getSqlFile(
+        string $platform,
+        string $variant = ''
     ): string {
-        return __DIR__ . "/sql/add-language-foreign-keys/{$this->getForeignKey()}-{$platform}.sql";
+        return __DIR__ . "/sql/add-language-foreign-keys/{$this->getForeignKey()}{$variant}-{$platform}.sql";
     }
 
     private function abortIfOrphanedLanguageIds(): void
