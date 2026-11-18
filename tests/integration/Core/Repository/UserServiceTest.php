@@ -266,6 +266,8 @@ class UserServiceTest extends BaseTestCase
             ContentType::class,
             $groupCreate->contentType
         );
+        // the first identifier of the user_group_content_type_identifier setting
+        self::assertSame('user_group', $groupCreate->contentType->getIdentifier());
     }
 
     /**

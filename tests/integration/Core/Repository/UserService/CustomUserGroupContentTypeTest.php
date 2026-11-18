@@ -78,6 +78,13 @@ final class CustomUserGroupContentTypeTest extends RepositoryTestCase
         self::assertContains($this->customGroup->id, $ids);
     }
 
+    public function testNewUserGroupCreateStructDefaultsToFirstConfiguredContentType(): void
+    {
+        $createStruct = $this->getIbexaTestCore()->getUserService()->newUserGroupCreateStruct('eng-GB');
+
+        self::assertSame('user_group', $createStruct->contentType->getIdentifier());
+    }
+
     private function createCustomUserGroupContentType(): ContentType
     {
         $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
