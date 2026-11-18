@@ -136,7 +136,7 @@ class HandlerContentTest extends AbstractTestCase
                         new Content\Common\Gateway\CriterionHandler\FullText(
                             $connection,
                             $transformationProcessor,
-                            $this->getLanguageHandler(),
+                            new LanguagePriorityConditionBuilder($connection, $this->getLanguageHandler()),
                             $joinedTablesTracker,
                             $fullTextSearchConfiguration
                         ),
@@ -175,7 +175,6 @@ class HandlerContentTest extends AbstractTestCase
                         ),
                         new Content\Common\Gateway\CriterionHandler\LanguageCode(
                             $connection,
-                            $this->getLanguageHandler(),
                             $joinedTablesTracker,
                             new LanguagePriorityConditionBuilder($connection, $this->getLanguageHandler())
                         ),
@@ -208,7 +207,6 @@ class HandlerContentTest extends AbstractTestCase
                         new Content\Common\Gateway\SortClauseHandler\ContentId($connection),
                     ]
                 ),
-                $this->getLanguageHandler(),
                 new LanguagePriorityConditionBuilder(
                     $this->getDatabaseConnection(),
                     $this->getLanguageHandler()
