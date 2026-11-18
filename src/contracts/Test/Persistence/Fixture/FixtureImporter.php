@@ -75,7 +75,34 @@ final class FixtureImporter
         }
 
         $this->reattachLanguageTranslations($detachedTranslations);
+        if (!$fixture instanceof AppendOnlyFixture) {
+            $this->clearLanguageTranslations($nonEmptyTablesData);
+        }
         $this->backfillLanguageBitmaskColumns($nonEmptyTablesData);
+    }
+
+    /**
+     * Empties the translation tables of the content, versions and URL aliases a fixture replaces.
+     *
+     * @param array<string, array<array<string, mixed>>> $nonEmptyTablesData
+     *
+     * @throws Exception
+     */
+    private function clearLanguageTranslations(array $nonEmptyTablesData): void
+    {
+        if (!$this->tableExists('ibexa_content_translation')) {
+            return;
+        }
+
+        if (!empty($nonEmptyTablesData['ibexa_content'])) {
+            $this->connection->executeStatement('DELETE FROM ibexa_content_translation');
+        }
+        if (!empty($nonEmptyTablesData['ibexa_content_version'])) {
+            $this->connection->executeStatement('DELETE FROM ibexa_content_version_translation');
+        }
+        if (!empty($nonEmptyTablesData['ibexa_url_alias_ml']) && $this->tableExists('ibexa_url_alias_ml_translation')) {
+            $this->connection->executeStatement('DELETE FROM ibexa_url_alias_ml_translation');
+        }
     }
 
     /**
@@ -173,19 +200,6 @@ final class FixtureImporter
         }
 
         $validLanguageIds = null;
-
-        // The join tables aren't part of the fixture's own table list, so import()'s
-        // truncate-then-insert loop never clears them directly; do it explicitly rather than rely
-        // on FK cascade behavior varying by platform/driver.
-        if (!empty($nonEmptyTablesData['ibexa_content'])) {
-            $this->connection->executeStatement('DELETE FROM ibexa_content_translation');
-        }
-        if (!empty($nonEmptyTablesData['ibexa_content_version'])) {
-            $this->connection->executeStatement('DELETE FROM ibexa_content_version_translation');
-        }
-        if (!empty($nonEmptyTablesData['ibexa_url_alias_ml']) && $this->tableExists('ibexa_url_alias_ml_translation')) {
-            $this->connection->executeStatement('DELETE FROM ibexa_url_alias_ml_translation');
-        }
 
         if (!empty($nonEmptyTablesData['ibexa_content'])) {
             $validLanguageIds = $this->loadValidLanguageIds();
