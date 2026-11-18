@@ -12,8 +12,9 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Exception\TableNotFoundException;
 use Error;
+use Ibexa\Contracts\Core\Persistence\Content\Language;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as ContentTypeHandler;
-use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\TransformationProcessor;
 use Ibexa\Core\Search\Legacy\Content\FullTextData;
 use Ibexa\Core\Search\Legacy\Content\FullTextValue;
@@ -114,12 +115,15 @@ final class DoctrineDatabaseTest extends TestCase
         $transformationProcessor->method('transform')->willReturnArgument(0);
         $transformationProcessor->method('transformByGroup')->willReturnArgument(0);
 
+        $languageHandler = self::createStub(LanguageHandler::class);
+        $languageHandler->method('loadByLanguageCode')->willReturn(new Language(['id' => 2, 'languageCode' => 'eng-GB']));
+
         return new DoctrineDatabase(
             $this->connection,
             self::createStub(ContentTypeHandler::class),
             $transformationProcessor,
             $searchIndex,
-            self::createStub(MaskGenerator::class),
+            $languageHandler,
             ['commands' => []]
         );
     }
