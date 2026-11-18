@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\Core\Command;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception as DBALException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException as APIInvalidArgumentException;
 use Ibexa\Contracts\DoctrineSchema\Database\DatabasePlatformName;
 use Ibexa\Contracts\DoctrineSchema\Database\DatabasePlatformResolver;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
@@ -52,6 +54,10 @@ final class BackfillLanguageTranslationsCommand
 
     public function __construct(private readonly Connection $connection) {}
 
+    /**
+     * @throws APIInvalidArgumentException
+     * @throws DBALException
+     */
     public function __invoke(
         OutputInterface $output,
         #[Option(description: 'Which table to backfill: one of "content", "content_version", "url_alias", or "all" for all of them.', shortcut: 't')]
@@ -87,6 +93,10 @@ final class BackfillLanguageTranslationsCommand
         return Command::SUCCESS;
     }
 
+    /**
+     * @throws APIInvalidArgumentException
+     * @throws DBALException
+     */
     private function backfillTable(
         string $table,
         int $batchSize,
@@ -152,41 +162,30 @@ final class BackfillLanguageTranslationsCommand
 
         $output->writeln("<info>Backfilling {$sourceTable} ({$pkColumn} {$minId}..{$maxId}, batch size {$batchSize})...</info>");
 
-        $insertSql = sprintf($insertSql, $this->insertIgnoreKeyword(), $languageTable, $this->onConflictClause());
         $alwaysAvailableMismatch = "{$alwaysAvailableColumn} <> (({$maskColumn} & 1) = 1)";
+        if ($dryRun) {
+            $rowsSql = $this->buildDryRunCountSql($table, $languageTable);
+            $flagsSql = "SELECT COUNT(*) FROM {$sourceTable} WHERE {$pkColumn} BETWEEN :from AND :to AND {$alwaysAvailableMismatch}";
+        } else {
+            $rowsSql = sprintf($insertSql, $this->insertIgnoreKeyword(), $languageTable, $this->onConflictClause());
+            $flagsSql = "UPDATE {$sourceTable} SET {$alwaysAvailableColumn} = (({$maskColumn} & 1) = 1)
+                 WHERE {$pkColumn} BETWEEN :from AND :to AND {$alwaysAvailableMismatch}";
+        }
+
+        $dryRunSuffix = $dryRun ? ' (dry-run)' : '';
         $totalInserted = 0;
         $totalFlagged = 0;
 
         for ($from = $minId; $from <= $maxId; $from += $batchSize) {
             $to = min($from + $batchSize - 1, $maxId);
 
-            $flagged = 0;
-            if ($dryRun) {
-                $inserted = (int)$this->connection->fetchOne(
-                    $this->buildDryRunCountSql($table, $languageTable),
-                    ['from' => $from, 'to' => $to]
-                );
-                if ($alwaysAvailableColumn !== null) {
-                    $flagged = (int)$this->connection->fetchOne(
-                        "SELECT COUNT(*) FROM {$sourceTable} WHERE {$pkColumn} BETWEEN :from AND :to AND {$alwaysAvailableMismatch}",
-                        ['from' => $from, 'to' => $to]
-                    );
-                }
-            } else {
-                $inserted = $this->connection->executeStatement($insertSql, ['from' => $from, 'to' => $to]);
-                if ($alwaysAvailableColumn !== null) {
-                    $flagged = $this->connection->executeStatement(
-                        "UPDATE {$sourceTable} SET {$alwaysAvailableColumn} = (({$maskColumn} & 1) = 1)
-                         WHERE {$pkColumn} BETWEEN :from AND :to AND {$alwaysAvailableMismatch}",
-                        ['from' => $from, 'to' => $to]
-                    );
-                }
-            }
+            $inserted = $this->runBatch($rowsSql, $dryRun, $from, $to);
+            $flagged = $alwaysAvailableColumn === null ? 0 : $this->runBatch($flagsSql, $dryRun, $from, $to);
 
             $totalInserted += $inserted;
             $totalFlagged += $flagged;
             $output->writeln(
-                sprintf('  %d..%d: %d row(s), %d always-available flag(s)%s', $from, $to, $inserted, $flagged, $dryRun ? ' (dry-run)' : ''),
+                sprintf('  %d..%d: %d row(s), %d always-available flag(s)%s', $from, $to, $inserted, $flagged, $dryRunSuffix),
                 OutputInterface::VERBOSITY_VERBOSE
             );
         }
@@ -200,6 +199,24 @@ final class BackfillLanguageTranslationsCommand
             $totalFlagged,
             $dryRun ? 'would be updated' : 'updated'
         ));
+    }
+
+    /**
+     * Counts the rows a batch would change on a dry run, changes them otherwise.
+     *
+     * @throws DBALException
+     */
+    private function runBatch(
+        string $sql,
+        bool $dryRun,
+        int $from,
+        int $to
+    ): int {
+        $parameters = ['from' => $from, 'to' => $to];
+
+        return $dryRun
+            ? (int)$this->connection->fetchOne($sql, $parameters)
+            : (int)$this->connection->executeStatement($sql, $parameters);
     }
 
     /**
