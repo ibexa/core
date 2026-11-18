@@ -2246,15 +2246,13 @@ final class DoctrineDatabase extends Gateway
     /**
      * Remove language from ibexa_content_translation and the language_mask of ibexa_content.
      *
-     * @param int $contentId
-     * @param int $languageId
-     *
      * @throws BadStateException
+     * @throws Exception
      */
     private function deleteTranslationFromContentObject(
-        $contentId,
-        $languageId
-    ) {
+        int $contentId,
+        int $languageId
+    ): void {
         $hasOtherLanguages = (bool)$this->connection->fetchOne(
             'SELECT 1 FROM ' . self::CONTENT_TRANSLATION_TABLE . ' WHERE content_id = :contentId AND language_id != :languageId',
             ['contentId' => $contentId, 'languageId' => $languageId],
