@@ -59,7 +59,7 @@ final class RenumberLanguageIdsMigration extends AbstractSqlMigration implements
 
     public static function getCreationDate(): DateTimeImmutable
     {
-        return new DateTimeImmutable('2026-11-16 01:00:00');
+        return new DateTimeImmutable('2026-11-17 00:00:00');
     }
 
     public function isTransactional(): bool
