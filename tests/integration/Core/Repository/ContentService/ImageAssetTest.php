@@ -77,7 +77,7 @@ final class ImageAssetTest extends RepositoryTestCase
 
         $published = $this->contentService->publishVersion($draft->getVersionInfo());
 
-        self::assertSame(2, $published->getVersionInfo()->versionNo);
+        self::assertSame(2, $published->getVersionInfo()->getVersionNo());
         if ($updateWithSameValue) {
             $value = $published->getFieldValue('asset');
             self::assertInstanceOf(AssetValue::class, $value);
