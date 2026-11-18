@@ -10,7 +10,6 @@ namespace Ibexa\Core\Search\Legacy\Content\Location\Gateway;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
-use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
@@ -37,7 +36,6 @@ final class DoctrineDatabase extends Gateway
         private readonly Connection $connection,
         private readonly CriteriaConverter $criteriaConverter,
         private readonly SortClauseConverter $sortClauseConverter,
-        private readonly LanguageHandler $languageHandler,
         private readonly LanguagePriorityConditionBuilder $languagePriorityConditionBuilder
     ) {}
 
@@ -194,14 +192,9 @@ final class DoctrineDatabase extends Gateway
         QueryBuilder $queryBuilder,
         array $languageFilter
     ): string {
-        $languageIds = array_map(
-            fn (string $languageCode): int => $this->languageHandler->loadByLanguageCode($languageCode)->id,
-            $languageFilter['languages'] ?? []
-        );
-
         return $this->languagePriorityConditionBuilder->buildTranslationCondition(
             $queryBuilder,
-            $languageIds,
+            $this->languagePriorityConditionBuilder->loadLanguageIds($languageFilter['languages'] ?? []),
             $languageFilter['useAlwaysAvailable'] ?? true
         );
     }

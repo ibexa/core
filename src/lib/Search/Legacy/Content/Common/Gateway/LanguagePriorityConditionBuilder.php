@@ -13,6 +13,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
+use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 
 /**
@@ -79,10 +80,7 @@ final readonly class LanguagePriorityConditionBuilder
             return $mainLanguageIdColumn;
         }
 
-        $languageIds = array_map(
-            fn (string $languageCode): int => $this->languageHandler->loadByLanguageCode($languageCode)->id,
-            $languageSettings['languages']
-        );
+        $languageIds = $this->loadLanguageIds($languageSettings['languages']);
 
         $priorityCase = 'CASE ct.language_id';
         foreach ($languageIds as $priority => $languageId) {
@@ -115,6 +113,29 @@ final readonly class LanguagePriorityConditionBuilder
             $subQuery->getSQL(),
             $alwaysAvailableColumn,
             $mainLanguageIdColumn
+        );
+    }
+
+    /**
+     * Loads the ids of the given languages, in the order of their codes.
+     *
+     * @param string[] $languageCodes
+     *
+     * @return list<int>
+     *
+     * @throws NotFoundException
+     */
+    public function loadLanguageIds(array $languageCodes): array
+    {
+        $languages = iterator_to_array($this->languageHandler->loadListByLanguageCodes($languageCodes));
+        $missingLanguageCodes = array_diff($languageCodes, array_keys($languages));
+        if (!empty($missingLanguageCodes)) {
+            throw new NotFoundException('Language', implode(', ', $missingLanguageCodes));
+        }
+
+        return array_map(
+            static fn (string $languageCode): int => $languages[$languageCode]->id,
+            array_values($languageCodes)
         );
     }
 
