@@ -17,6 +17,7 @@ use Ibexa\Core\Persistence\Legacy\Content\ObjectState\Mapper;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase as APIBaseTest;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\MockObject;
 
 #[CoversClass(Handler::class)]
 class ObjectStateHandlerTest extends LanguageAwareTestCase
@@ -31,14 +32,14 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
     /**
      * Object state gateway mock.
      *
-     * @var Gateway
+     * @var (Gateway&MockObject)|null
      */
     protected $gatewayMock;
 
     /**
      * Object state mapper mock.
      *
-     * @var Mapper
+     * @var (Mapper&MockObject)|null
      */
     protected $mapperMock;
 
@@ -530,28 +531,102 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
             ->will($this->returnValue(new ObjectState(['id' => 1, 'groupId' => 2])));
 
         $gatewayMock->expects($this->once())
-            ->method('deleteObjectState')
-            ->with(self::equalTo(1));
-
-        $gatewayMock->expects($this->any())
             ->method('loadObjectStateListData')
             ->with(self::equalTo(2))
             ->will($this->returnValue([[]]));
 
-        $mapperMock->expects($this->any())
+        $mapperMock->expects($this->once())
             ->method('createObjectStateListFromData')
             ->with(self::equalTo([[]]))
-            ->will($this->returnValue([new ObjectState(['id' => 2, 'groupId' => 2])]));
+            ->will(
+                $this->returnValue(
+                    [
+                        new ObjectState(['id' => 1, 'groupId' => 2]),
+                        new ObjectState(['id' => 2, 'groupId' => 2]),
+                        new ObjectState(['id' => 3, 'groupId' => 2]),
+                    ]
+                )
+            );
 
-        $gatewayMock->expects($this->once())
+        $calls = [];
+
+        $gatewayMock->expects($this->exactly(2))
             ->method('updateObjectStatePriority')
-            ->with(self::equalTo(2), self::equalTo(0));
+            ->willReturnCallback(static function (
+                int $stateId,
+                int $priority
+            ) use (&$calls): void {
+                $calls[] = ['updateObjectStatePriority', $stateId, $priority];
+            });
 
         $gatewayMock->expects($this->once())
             ->method('updateObjectStateLinks')
-            ->with(self::equalTo(1), self::equalTo(2));
+            ->willReturnCallback(static function (
+                int $oldStateId,
+                int $newStateId
+            ) use (&$calls): void {
+                $calls[] = ['updateObjectStateLinks', $oldStateId, $newStateId];
+            });
+
+        $gatewayMock->expects($this->once())
+            ->method('deleteObjectState')
+            ->willReturnCallback(static function (int $stateId) use (&$calls): void {
+                $calls[] = ['deleteObjectState', $stateId];
+            });
+
+        $gatewayMock->expects($this->never())
+            ->method('deleteObjectStateLinks');
 
         $handler->delete(1);
+
+        self::assertSame(
+            [
+                ['updateObjectStatePriority', 2, 0],
+                ['updateObjectStatePriority', 3, 1],
+                ['updateObjectStateLinks', 1, 2],
+                ['deleteObjectState', 1],
+            ],
+            $calls
+        );
+    }
+
+    public function testDeleteLastStateInGroup(): void
+    {
+        $handler = $this->getObjectStateHandler();
+        $mapperMock = $this->getMapperMock();
+        $gatewayMock = $this->getGatewayMock();
+
+        $gatewayMock->method('loadObjectStateData')->willReturn([[]]);
+        $mapperMock->method('createObjectStateFromData')->willReturn(new ObjectState(['id' => 1, 'groupId' => 2]));
+        $gatewayMock->method('loadObjectStateListData')->willReturn([[]]);
+        $mapperMock->method('createObjectStateListFromData')->willReturn([new ObjectState(['id' => 1, 'groupId' => 2])]);
+
+        $calls = [];
+
+        $gatewayMock->expects($this->once())
+            ->method('deleteObjectStateLinks')
+            ->willReturnCallback(static function (int $stateId) use (&$calls): void {
+                $calls[] = ['deleteObjectStateLinks', $stateId];
+            });
+
+        $gatewayMock->expects($this->once())
+            ->method('deleteObjectState')
+            ->willReturnCallback(static function (int $stateId) use (&$calls): void {
+                $calls[] = ['deleteObjectState', $stateId];
+            });
+
+        $gatewayMock->expects($this->never())
+            ->method('updateObjectStateLinks');
+
+        $handler->delete(1);
+
+        self::assertSame(
+            [
+                ['deleteObjectStateLinks', 1],
+                ['deleteObjectState', 1],
+            ],
+            $calls
+        );
     }
 
     public function testDeleteThrowsNotFoundException(): void
@@ -672,7 +747,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
     /**
      * Returns an object state mapper mock.
      *
-     * @return Mapper
+     * @return Mapper&MockObject
      */
     protected function getMapperMock()
     {
@@ -688,7 +763,7 @@ class ObjectStateHandlerTest extends LanguageAwareTestCase
     /**
      * Returns a mock for the object state gateway.
      *
-     * @return Gateway
+     * @return Gateway&MockObject
      */
     protected function getGatewayMock()
     {

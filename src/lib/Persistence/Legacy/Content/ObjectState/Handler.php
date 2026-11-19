@@ -312,12 +312,16 @@ class Handler implements BaseObjectStateHandler
         // to reorder the priorities and reassign content to another state in the group
         $objectState = $this->load($stateId);
 
-        $this->objectStateGateway->deleteObjectState($objectState->id);
-
-        $remainingStates = $this->loadObjectStates($objectState->groupId);
+        $remainingStates = array_values(
+            array_filter(
+                $this->loadObjectStates($objectState->groupId),
+                static fn (ObjectState $state): bool => $state->id !== $objectState->id
+            )
+        );
         if (empty($remainingStates)) {
             // If there are no more states in the group, just remove the state links
             $this->objectStateGateway->deleteObjectStateLinks($objectState->id);
+            $this->objectStateGateway->deleteObjectState($objectState->id);
 
             return;
         }
@@ -328,10 +332,8 @@ class Handler implements BaseObjectStateHandler
             ++$priority;
         }
 
-        $this->objectStateGateway->updateObjectStateLinks(
-            $objectState->id,
-            $this->loadDefaultObjectState($objectState->groupId)->id
-        );
+        $this->objectStateGateway->updateObjectStateLinks($objectState->id, $remainingStates[0]->id);
+        $this->objectStateGateway->deleteObjectState($objectState->id);
     }
 
     /**

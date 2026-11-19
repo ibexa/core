@@ -32929,32 +32929,8 @@ parameters:
 			path: tests/lib/Persistence/Legacy/Content/ObjectState/MapperTest.php
 
 		-
-			message: '#^Call to an undefined method Ibexa\\Core\\Persistence\\Legacy\\Content\\ObjectState\\Gateway\:\:expects\(\)\.$#'
-			identifier: method.notFound
-			count: 32
-			path: tests/lib/Persistence/Legacy/Content/ObjectState/ObjectStateHandlerTest.php
-
-		-
-			message: '#^Call to an undefined method Ibexa\\Core\\Persistence\\Legacy\\Content\\ObjectState\\Mapper\:\:expects\(\)\.$#'
-			identifier: method.notFound
-			count: 18
-			path: tests/lib/Persistence/Legacy/Content/ObjectState/ObjectStateHandlerTest.php
-
-		-
 			message: '#^Match expression does not handle remaining values\: int\<min, 0\>\|int\<4, max\>$#'
 			identifier: match.unhandled
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/ObjectState/ObjectStateHandlerTest.php
-
-		-
-			message: '#^Property Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\ObjectState\\ObjectStateHandlerTest\:\:\$gatewayMock \(Ibexa\\Core\\Persistence\\Legacy\\Content\\ObjectState\\Gateway\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: tests/lib/Persistence/Legacy/Content/ObjectState/ObjectStateHandlerTest.php
-
-		-
-			message: '#^Property Ibexa\\Tests\\Core\\Persistence\\Legacy\\Content\\ObjectState\\ObjectStateHandlerTest\:\:\$mapperMock \(Ibexa\\Core\\Persistence\\Legacy\\Content\\ObjectState\\Mapper\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
 			count: 1
 			path: tests/lib/Persistence/Legacy/Content/ObjectState/ObjectStateHandlerTest.php
 

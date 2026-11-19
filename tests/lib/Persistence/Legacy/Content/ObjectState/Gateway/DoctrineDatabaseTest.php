@@ -281,6 +281,7 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     {
         $gateway = $this->getDatabaseGateway();
 
+        $gateway->deleteObjectStateLinks(1);
         $gateway->deleteObjectState(1);
 
         self::assertEquals(
@@ -361,6 +362,10 @@ class DoctrineDatabaseTest extends LanguageAwareTestCase
     {
         $gateway = $this->getDatabaseGateway();
 
+        foreach ([1, 2] as $stateId) {
+            $gateway->deleteObjectStateLinks($stateId);
+            $gateway->deleteObjectState($stateId);
+        }
         $gateway->deleteObjectStateGroup(2);
 
         self::assertEquals(

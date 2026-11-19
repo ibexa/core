@@ -13,6 +13,7 @@ use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception as DBALException;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Ibexa\Contracts\Core\Test\Persistence\AppendOnlyFixture;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture;
 
@@ -37,7 +38,7 @@ final class FixtureImporter
     private const string LANGUAGE_TABLE = 'ibexa_content_language';
 
     /**
-     * Tables referencing "ibexa_content_language", referenced tables first: language id columns and the owner whose replacement drops the rows.
+     * Tables referencing "ibexa_content_language", directly or through another one of them, referenced tables first: language id columns and the owner whose replacement drops the rows.
      *
      * @var array<string, array{list<string>, string|null}>
      */
@@ -53,14 +54,30 @@ final class FixtureImporter
         'ibexa_object_state' => [['default_language_id'], null],
         'ibexa_object_state_group_language' => [['language_id', 'real_language_id'], null],
         'ibexa_object_state_language' => [['language_id'], null],
+        'ibexa_object_state_link' => [[], null],
         'ibexa_content_translation' => [['language_id'], 'ibexa_content'],
         'ibexa_content_version_translation' => [['language_id'], 'ibexa_content_version'],
         'ibexa_url_alias_ml_translation' => [['language_id'], 'ibexa_url_alias_ml'],
         'ibexa_search_object_word_link' => [['language_id'], null],
     ];
 
+    /**
+     * Columns of the tables in {@see self::LANGUAGE_REFERENCES} referencing the "id" of another one of them.
+     *
+     * @var array<string, non-empty-array<string, string>>
+     */
+    private const array PARENT_REFERENCES = [
+        'ibexa_object_state' => ['group_id' => 'ibexa_object_state_group'],
+        'ibexa_object_state_group_language' => ['contentobject_state_group_id' => 'ibexa_object_state_group'],
+        'ibexa_object_state_language' => ['contentobject_state_id' => 'ibexa_object_state'],
+        'ibexa_object_state_link' => ['contentobject_state_id' => 'ibexa_object_state', 'contentobject_id' => 'ibexa_content'],
+    ];
+
     /** @var array<string, string|null> */
     private static array $resetSequenceStatements = [];
+
+    /** @var array<string, list<string>> */
+    private static array $referencedTablesByTable = [];
 
     /** @var array<string, string[]> */
     private static array $existingColumnsByTable = [];
@@ -74,10 +91,7 @@ final class FixtureImporter
     {
         $data = $fixture->load();
 
-        $tablesList = array_keys($data);
-        if (in_array(self::LANGUAGE_TABLE, $tablesList, true)) {
-            $tablesList = [self::LANGUAGE_TABLE, ...array_values(array_diff($tablesList, [self::LANGUAGE_TABLE]))];
-        }
+        $tablesList = $this->sortByForeignKeys(array_keys($data));
         $detachedReferences = [];
         if (!$fixture instanceof AppendOnlyFixture) {
             $detachedReferences = $this->detachLanguageReferences($tablesList);
@@ -93,12 +107,18 @@ final class FixtureImporter
             $this->loadValidLanguageIds(),
             array_map('intval', array_column($data['ibexa_content_language'] ?? [], 'id'))
         );
-        foreach ($nonEmptyTablesData as $table => $rows) {
+        foreach ($this->sortByForeignKeys([...array_keys($nonEmptyTablesData), ...array_keys($detachedReferences)]) as $table) {
+            if (isset($detachedReferences[$table])) {
+                $this->reattachLanguageReferences($table, $detachedReferences[$table]);
+
+                continue;
+            }
+
             // Fixtures predate columns being dropped over time (e.g. the language bitmask
             // columns) - silently drop unknown keys rather than letting every fixture file need
             // updating in lockstep with schema changes.
             $existingColumns = $this->getExistingColumns($table);
-            foreach ($rows as $row) {
+            foreach ($nonEmptyTablesData[$table] as $row) {
                 $row = $this->stripLegacyAlwaysAvailableBit($table, $row, $languageIds);
                 $row = $this->splitLegacySearchIndexLanguageMask($table, $row);
                 $this->connection->insert($table, array_intersect_key($row, array_flip($existingColumns)));
@@ -109,7 +129,6 @@ final class FixtureImporter
             $this->resetSequences($tablesList);
         }
 
-        $this->reattachLanguageReferences($detachedReferences);
         if (!$fixture instanceof AppendOnlyFixture) {
             $this->clearLanguageTranslations($nonEmptyTablesData);
         }
@@ -170,27 +189,83 @@ final class FixtureImporter
     }
 
     /**
-     * @param array<string, list<array<string, mixed>>> $detachedReferences
+     * Puts back the detached rows of a table whose languages and parent rows still exist.
+     *
+     * @param list<array<string, mixed>> $rows
      *
      * @throws Exception
      */
-    private function reattachLanguageReferences(array $detachedReferences): void
+    private function reattachLanguageReferences(
+        string $table,
+        array $rows
+    ): void {
+        $validLanguageIds = $this->loadValidLanguageIds();
+        $parentIds = [];
+        foreach (self::PARENT_REFERENCES[$table] ?? [] as $column => $parentTable) {
+            $parentIds[$column] = array_flip(array_map('intval', $this->connection->fetchFirstColumn('SELECT id FROM ' . $parentTable)));
+        }
+        foreach ($rows as $row) {
+            foreach (self::LANGUAGE_REFERENCES[$table][0] as $column) {
+                if (!in_array((int)$row[$column], $validLanguageIds, true)) {
+                    continue 2;
+                }
+            }
+            foreach ($parentIds as $column => $ids) {
+                if (!isset($ids[(int)$row[$column]])) {
+                    continue 2;
+                }
+            }
+            $this->connection->insert($table, $row);
+        }
+    }
+
+    /**
+     * Orders tables so that the ones referenced by foreign keys come before the ones referencing them.
+     *
+     * @param list<string> $tables
+     *
+     * @return list<string>
+     */
+    private function sortByForeignKeys(array $tables): array
     {
-        if ($detachedReferences === []) {
-            return;
+        $sorted = [];
+        $visited = [];
+        $visit = function (string $table) use (&$visit, &$sorted, &$visited, $tables): void {
+            if (isset($visited[$table])) {
+                return;
+            }
+            $visited[$table] = true;
+            foreach ($this->getReferencedTables($table) as $referencedTable) {
+                if (in_array($referencedTable, $tables, true)) {
+                    $visit($referencedTable);
+                }
+            }
+            $sorted[] = $table;
+        };
+        foreach ($tables as $table) {
+            $visit($table);
         }
 
-        $validLanguageIds = $this->loadValidLanguageIds();
-        foreach ($detachedReferences as $table => $rows) {
-            foreach ($rows as $row) {
-                foreach (self::LANGUAGE_REFERENCES[$table][0] as $column) {
-                    if (!in_array((int)$row[$column], $validLanguageIds, true)) {
-                        continue 2;
-                    }
-                }
-                $this->connection->insert($table, $row);
+        return $sorted;
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function getReferencedTables(string $table): array
+    {
+        if (!isset(self::$referencedTablesByTable[$table])) {
+            if ($table === '' || !$this->tableExists($table)) {
+                return [];
             }
+
+            self::$referencedTablesByTable[$table] = array_values(array_unique(array_map(
+                static fn (ForeignKeyConstraint $foreignKey): string => $foreignKey->getReferencedTableName()->getUnqualifiedName()->getValue(),
+                $this->connection->createSchemaManager()->introspectTableByUnquotedName($table)->getForeignKeys()
+            )));
         }
+
+        return self::$referencedTablesByTable[$table];
     }
 
     /**
