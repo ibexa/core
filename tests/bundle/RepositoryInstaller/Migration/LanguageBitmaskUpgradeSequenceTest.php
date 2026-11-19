@@ -295,17 +295,27 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         );
     }
 
-    public function testLanguageForeignKeysMigrationAbortsWhileSqliteEnforcesForeignKeys(): void
+    public function testLanguageForeignKeysKeepTheRowsReferencingTheRebuiltTablesWhileSqliteEnforcesForeignKeys(): void
     {
         $connection = $this->getDatabaseConnection();
         $this->seedPreMigrationData($connection);
         $this->runBitmaskSequence();
+        $connection->executeStatement(
+            'CREATE TABLE field_reference (field_id INTEGER NOT NULL, version INTEGER NOT NULL, FOREIGN KEY (field_id, version) REFERENCES ibexa_content_field (id, version) ON DELETE CASCADE)'
+        );
+        $connection->executeStatement('INSERT INTO field_reference (field_id, version) SELECT id, version FROM ibexa_content_field');
+        $referenceCount = (int)$connection->fetchOne('SELECT COUNT(*) FROM field_reference');
         $connection->executeStatement('PRAGMA foreign_keys = ON');
 
-        $this->expectException(AbortMigration::class);
-        $this->expectExceptionMessage('PRAGMA foreign_keys = OFF');
+        foreach ($this->createForeignKeyMigrations() as $migration) {
+            self::assertFalse($migration->isTransactional(), $migration->getDescription());
+            $this->runMigration($migration);
+        }
 
-        new AddContentInitialLanguageForeignKeyMigration($connection, new NullLogger(), new MigrationRunContext())->up(new Schema());
+        self::assertGreaterThan(0, $referenceCount);
+        self::assertSame($referenceCount, (int)$connection->fetchOne('SELECT COUNT(*) FROM field_reference'));
+        self::assertSame(1, (int)$connection->fetchOne('PRAGMA foreign_keys'));
+        self::assertSame([], $connection->fetchAllAssociative('PRAGMA foreign_key_check'));
     }
 
     public function testStripMigrationLeavesSequentialLanguageIdsUntouched(): void
