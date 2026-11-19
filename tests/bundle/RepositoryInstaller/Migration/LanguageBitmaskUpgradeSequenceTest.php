@@ -268,7 +268,7 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         $this->expectException(AbortMigration::class);
         $this->expectExceptionMessage('"ibexa_content_field.language_id" holds language id(s) 64, 128 missing from "ibexa_content_language"');
 
-        (new AddContentFieldLanguageForeignKeyMigration($connection, new NullLogger(), new MigrationRunContext()))->up(new Schema());
+        new AddContentFieldLanguageForeignKeyMigration($connection, new NullLogger(), new MigrationRunContext())->up(new Schema());
     }
 
     public function testSearchObjectWordLinkLanguageForeignKeyMigrationDeletesRowsWithoutALanguage(): void
@@ -305,7 +305,7 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         $this->expectException(AbortMigration::class);
         $this->expectExceptionMessage('PRAGMA foreign_keys = OFF');
 
-        (new AddContentInitialLanguageForeignKeyMigration($connection, new NullLogger(), new MigrationRunContext()))->up(new Schema());
+        new AddContentInitialLanguageForeignKeyMigration($connection, new NullLogger(), new MigrationRunContext())->up(new Schema());
     }
 
     public function testStripMigrationLeavesSequentialLanguageIdsUntouched(): void
