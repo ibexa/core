@@ -113,22 +113,22 @@ abstract class AbstractAddLanguageForeignKeyMigration extends AbstractSqlMigrati
 
     private function abortIfOrphanedLanguageIds(): void
     {
-        $count = (int)$this->connection->fetchOne(
+        $languageIds = $this->connection->fetchFirstColumn(
             sprintf(
-                'SELECT COUNT(*) FROM %s t WHERE NOT EXISTS (SELECT 1 FROM %s l WHERE l.id = t.%s)',
+                'SELECT DISTINCT t.%2$s FROM %1$s t WHERE NOT EXISTS (SELECT 1 FROM %3$s l WHERE l.id = t.%2$s) ORDER BY t.%2$s',
                 $this->getTable(),
-                self::LANGUAGE_TABLE,
-                $this->getColumn()
+                $this->getColumn(),
+                self::LANGUAGE_TABLE
             )
         );
 
         $this->abortIf(
-            $count > 0,
+            $languageIds !== [],
             sprintf(
-                '"%s.%s" holds %d language id(s) missing from "%s", so the "%s" foreign key can\'t be added. Delete those rows, or point them at an existing language, before this migration.',
+                '"%s.%s" holds language id(s) %s missing from "%s", so the "%s" foreign key can\'t be added. Delete those rows, or point them at an existing language, before this migration.',
                 $this->getTable(),
                 $this->getColumn(),
-                $count,
+                implode(', ', $languageIds),
                 self::LANGUAGE_TABLE,
                 $this->getForeignKey()
             )
