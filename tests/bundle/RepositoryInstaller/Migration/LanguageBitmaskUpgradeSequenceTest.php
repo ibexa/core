@@ -45,6 +45,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase as L
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 use Ibexa\Tests\Core\Repository\LegacySchemaImporter;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Psr\Log\NullLogger;
 
 /**
@@ -95,6 +96,15 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         $schemaImporter->importSchema(
             __DIR__ . '/_fixtures/pre_language_bitmask_migration_schema.yaml'
         );
+    }
+
+    protected function tearDown(): void
+    {
+        $connection = $this->getDatabaseConnection();
+        $connection->executeStatement('PRAGMA foreign_keys = OFF');
+        $connection->executeStatement('DROP TABLE IF EXISTS ibexa_test_language_renumbering');
+
+        parent::tearDown();
     }
 
     public function testFullSequenceMigratesExistingDataCorrectly(): void
@@ -320,47 +330,38 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         self::assertSame([], $connection->fetchAllAssociative('PRAGMA foreign_key_check'));
     }
 
-    public function testRenumberingFollowsTheForeignKeys(): void
+    #[DataProvider('provideForeignKeysPragma')]
+    public function testRenumberingFollowsTheForeignKeys(bool $foreignKeysEnforced): void
     {
         $connection = $this->getDatabaseConnection();
         $this->seedPreMigrationData($connection);
         $this->runBitmaskSequence();
-        $connection->executeStatement('PRAGMA foreign_keys = OFF');
         foreach ($this->createForeignKeyMigrations() as $migration) {
             $this->runMigration($migration);
         }
-        $connection->executeStatement('PRAGMA foreign_keys = ON');
+        $connection->executeStatement(
+            'CREATE TABLE ibexa_test_language_renumbering (id INTEGER NOT NULL PRIMARY KEY, language_id BIGINT NOT NULL, FOREIGN KEY (language_id) REFERENCES ibexa_content_language (id) ON UPDATE CASCADE)'
+        );
+        $connection->insert('ibexa_test_language_renumbering', ['id' => 1, 'language_id' => self::ENG_GB]);
+        $connection->executeStatement('PRAGMA foreign_keys = ' . ($foreignKeysEnforced ? 'ON' : 'OFF'));
 
-        $this->runMigration($this->createRenumberingMigration());
+        $migration = $this->createRenumberingMigration();
+        self::assertFalse($migration->isTransactional());
+        $this->runMigration($migration);
 
         $this->assertRenumbered();
+        self::assertSame(4, (int)$connection->fetchOne('SELECT language_id FROM ibexa_test_language_renumbering WHERE id = 1'));
+        self::assertSame($foreignKeysEnforced, (bool)$connection->fetchOne('PRAGMA foreign_keys'));
         self::assertSame([], $connection->fetchAllAssociative('PRAGMA foreign_key_check'));
     }
 
-    public function testRenumberingWithoutForeignKeysUpdatesEveryColumn(): void
+    /**
+     * @return iterable<string, array{bool}>
+     */
+    public static function provideForeignKeysPragma(): iterable
     {
-        $connection = $this->getDatabaseConnection();
-        $this->seedPreMigrationData($connection);
-        $this->runBitmaskSequence();
-        $connection->executeStatement('PRAGMA foreign_keys = OFF');
-
-        $this->runMigration($this->createRenumberingMigration());
-
-        $this->assertRenumbered();
-    }
-
-    public function testRenumberingWithoutForeignKeysAbortsOnALanguageIdColumnOutsideCore(): void
-    {
-        $connection = $this->getDatabaseConnection();
-        $this->seedPreMigrationData($connection);
-        $this->runBitmaskSequence();
-        $connection->executeStatement('PRAGMA foreign_keys = OFF');
-        $connection->executeStatement('CREATE TABLE ibexa_test_language_renumbering (language_id BIGINT NOT NULL)');
-
-        $this->expectException(AbortMigration::class);
-        $this->expectExceptionMessage('ibexa_test_language_renumbering.language_id');
-
-        $this->createRenumberingMigration()->up(new Schema());
+        yield 'foreign keys enforced' => [true];
+        yield 'foreign keys not enforced' => [false];
     }
 
     public function testStripMigrationLeavesSequentialLanguageIdsUntouched(): void
