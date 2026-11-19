@@ -9,95 +9,39 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\RepositoryInstaller\Installer;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Schema\Schema;
-use Doctrine\DBAL\Schema\Table;
 use Doctrine\Migrations\Query\Query;
-use Ibexa\Bundle\RepositoryInstaller\Event\Subscriber\BuildSchemaSubscriber;
 use Ibexa\Bundle\RepositoryInstaller\Migration\Exception\MigrationFailedException;
 use Ibexa\Bundle\RepositoryInstaller\Migration\ImportDataMigration;
-use Ibexa\Bundle\RepositoryInstaller\Migration\InstallSchemaMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\TaggedMigrationsRunner;
-use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationTag;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaOnlyDependencyFactory;
-use Ibexa\Contracts\DoctrineSchema\Builder\SchemaBuilderInterface;
-use Ibexa\Contracts\DoctrineSchema\DbPlatformFactoryInterface;
-use Ibexa\Contracts\DoctrineSchema\Event\SchemaBuilderEvent;
 use RuntimeException;
-use Symfony\Component\Console\Helper\ProgressBar;
 
 /**
  * Installer which creates the core database schema.
  */
 class CoreInstaller extends DbBasedInstaller implements Installer
 {
-    /** @var SchemaBuilderInterface */
-    protected $schemaBuilder;
-
-    private DbPlatformFactoryInterface $dbPlatformFactory;
-
-    private bool $doctrineMigrationsEnabled;
-
-    private ?TaggedMigrationsRunner $taggedMigrationsRunner;
-
-    /**
-     * @param Connection $db
-     * @param SchemaBuilderInterface $schemaBuilder
-     */
     public function __construct(
         Connection $db,
-        SchemaBuilderInterface $schemaBuilder,
-        DbPlatformFactoryInterface $dbPlatformFactory,
-        bool $doctrineMigrationsEnabled,
-        ?TaggedMigrationsRunner $taggedMigrationsRunner = null
+        private readonly ?TaggedMigrationsRunner $taggedMigrationsRunner = null
     ) {
         parent::__construct($db);
-
-        $this->schemaBuilder = $schemaBuilder;
-        $this->dbPlatformFactory = $dbPlatformFactory;
-        $this->doctrineMigrationsEnabled = $doctrineMigrationsEnabled;
-        $this->taggedMigrationsRunner = $taggedMigrationsRunner;
-    }
-
-    private function getIbexaDatabasePlatform(): AbstractPlatform
-    {
-        $driverName = $this->db->getParams()['driver'] ?? '';
-
-        return $this->dbPlatformFactory->createDatabasePlatformFromDriverName($driverName)
-            ?? $this->db->getDatabasePlatform();
     }
 
     /**
-     * Imports the core database schema.
+     * Imports the core database schema by running every not-yet-executed migration tagged with {@see IbexaMigrationTag::TAG}.
      *
-     * By default, the schema is built by dispatching the legacy event-driven {@see SchemaBuilderEvent},
-     * allowing other packages to contribute their own tables via an event subscriber.
-     *
-     * When the "ibexa.installer.doctrine_migrations" setting is enabled, the schema is installed by
-     * {@see TaggedMigrationsRunner} instead, which runs every not-yet-executed migration tagged with
-     * {@see IbexaMigrationTag::TAG} (core's own {@see InstallSchemaMigration} plus any other package's)
-     * via the application's Doctrine Migrations DependencyFactory.
-     *
-     * @throws Exception
-     * @throws RuntimeException if "ibexa.installer.doctrine_migrations" is enabled but
-     *     "ibexa/doctrine-migrations" isn't installed/enabled to run the migrations-based path
+     * @throws RuntimeException if "ibexa/doctrine-migrations" isn't installed/enabled
      * @throws MigrationFailedException if one of those migrations fails
      */
     public function importSchema()
     {
-        if (!$this->doctrineMigrationsEnabled) {
-            $this->executeQueries($this->getQueriesFromSchemaBuilderEvent());
-
-            return;
-        }
-
         if ($this->taggedMigrationsRunner === null) {
             throw new RuntimeException(
-                'Enabling "ibexa.installer.doctrine_migrations" requires the "' .
-                IbexaOnlyDependencyFactory::SERVICE_ID . '" service (provided by "ibexa/doctrine-migrations", ' .
-                'with Ibexa\Bundle\DoctrineMigrations\IbexaDoctrineMigrationsBundle registered) to be available.'
+                'Installing requires the "' . IbexaOnlyDependencyFactory::SERVICE_ID . '" service ' .
+                '(provided by "ibexa/doctrine-migrations", with Ibexa\Bundle\DoctrineMigrations\IbexaDoctrineMigrationsBundle ' .
+                'registered) to be available.'
             );
         }
 
@@ -105,36 +49,6 @@ class CoreInstaller extends DbBasedInstaller implements Installer
     }
 
     /**
-     * Builds the schema using the event-driven Schema Builder API from the Ibexa DoctrineSchema bundle.
-     *
-     * If you wish to extend the schema, implement your own EventSubscriber.
-     *
-     * @see SchemaBuilderEvent
-     * @see BuildSchemaSubscriber
-     *
-     * @return list<Query>
-     */
-    private function getQueriesFromSchemaBuilderEvent(): array
-    {
-        $schema = $this->schemaBuilder->buildSchema();
-        $databasePlatform = $this->getIbexaDatabasePlatform();
-
-        $sqls = array_merge(
-            $this->getDropSqlStatementsForExistingSchema($schema, $databasePlatform),
-            $schema->toSql($databasePlatform)
-        );
-
-        return array_map(
-            static fn (string $sql): Query => new Query($sql),
-            $sqls,
-            []
-        );
-    }
-
-    /**
-     * Reports the queries {@see TaggedMigrationsRunner} already executed (and recorded) via the Doctrine
-     * Migrations DependencyFactory.
-     *
      * @param Query[] $queries
      */
     private function reportExecutedQueries(array $queries): void
@@ -150,76 +64,9 @@ class CoreInstaller extends DbBasedInstaller implements Installer
     }
 
     /**
-     * @param Query[] $queries
+     * No-op, as {@see ImportDataMigration} imports the core bootstrap data as part of {@see importSchema()}.
      */
-    private function executeQueries(array $queries): void
-    {
-        $queriesCount = count($queries);
-        $this->output->writeln(
-            sprintf(
-                '<info>Executing %d queries on database <comment>%s</comment> (<comment>%s</comment>)</info>',
-                $queriesCount,
-                $this->db->getDatabase(),
-                $this->getDBMSDataDirectoryName()
-            )
-        );
-        $progressBar = new ProgressBar($this->output);
-        $progressBar->start($queriesCount);
-
-        foreach ($queries as $query) {
-            $this->db->executeStatement($query->getStatement(), $query->getParameters(), $query->getTypes());
-            $progressBar->advance(1);
-        }
-
-        $progressBar->finish();
-        // go to the next line after ProgressBar::finish and add one more extra blank line for readability
-        $this->output->writeln(PHP_EOL);
-        // clear any leftover progress bar parts in the output buffer
-        $progressBar->clear();
-    }
-
-    /**
-     * Imports the core bootstrap data.
-     *
-     * By default, this imports the DBMS-specific "cleandata.sql" file directly.
-     *
-     * When the "ibexa.installer.doctrine_migrations" setting is enabled, this is a no-op instead:
-     * {@see ImportDataMigration} is tagged and already runs as part of {@see importSchema()}'s call to
-     * {@see TaggedMigrationsRunner}.
-     *
-     * @throws Exception
-     * @throws InvalidArgumentException
-     */
-    public function importData()
-    {
-        if (!$this->doctrineMigrationsEnabled) {
-            $this->runQueriesFromFile($this->getKernelSQLFileForDBMS('cleandata.sql'));
-        }
-    }
-
-    /**
-     * @return list<string>
-     */
-    protected function getDropSqlStatementsForExistingSchema(
-        Schema $newSchema,
-        AbstractPlatform $databasePlatform
-    ): array {
-        $existingTableNames = array_map(
-            static fn (Table $table): string => $table->getName(),
-            $this->db->createSchemaManager()->listTables()
-        );
-        $statements = [];
-        // reverse table order for clean-up (due to FKs)
-        $tables = array_reverse($newSchema->getTables());
-        // cleanup pre-existing database
-        foreach ($tables as $table) {
-            if (in_array($table->getName(), $existingTableNames, true)) {
-                $statements[] = $databasePlatform->getDropTableSQL($table->getName());
-            }
-        }
-
-        return $statements;
-    }
+    public function importData() {}
 
     /**
      * Handle optional import of binary files to var folder.

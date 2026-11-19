@@ -484,15 +484,6 @@ EOT;
 
     /**
      * Defines configuration for the "ibexa:install" installer.
-     *
-     * The configuration is available at:
-     * <code>
-     * ibexa:
-     *     installer:
-     *         doctrine_migrations: true
-     * </code>
-     *
-     * @param ArrayNodeDefinition $rootNode
      */
     private function addInstallerSection(ArrayNodeDefinition $rootNode): ArrayNodeDefinition
     {
@@ -502,13 +493,25 @@ EOT;
                     ->addDefaultsIfNotSet()
                     ->children()
                         ->arrayNode('doctrine_migrations')
-                            ->info(
-                                'Whether "ibexa:install" installs the database schema and the core bootstrap data by running the ' .
-                                'Doctrine Migrations tagged with Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationTag ' .
-                                '(requires "ibexa/doctrine-migrations"), instead of dispatching the legacy, event-driven ' .
-                                'Ibexa\Contracts\DoctrineSchema\Event\SchemaBuilderEvent.'
+                            ->setDeprecated(
+                                'ibexa/core',
+                                '6.0',
+                                'The "%path%.%node%" option is deprecated and has no effect, as "ibexa:install" always ' .
+                                'runs the Doctrine Migrations. Remove it from your configuration.'
                             )
-                            ->canBeEnabled()
+                            ->treatNullLike(['enabled' => true])
+                            ->treatTrueLike(['enabled' => true])
+                            ->treatFalseLike(['enabled' => false])
+                            ->children()
+                                ->booleanNode('enabled')->defaultTrue()->end()
+                            ->end()
+                            ->validate()
+                                ->ifTrue(static fn (array $value): bool => $value['enabled'] === false)
+                                ->thenInvalid(
+                                    'Disabling "ibexa.installer.doctrine_migrations" is no longer supported, as "ibexa:install" ' .
+                                    'always installs the database schema and the core bootstrap data by running the Doctrine Migrations.'
+                                )
+                            ->end()
                         ->end()
                     ->end()
                 ->end()

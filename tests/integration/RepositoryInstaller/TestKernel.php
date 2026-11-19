@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\RepositoryInstaller;
 
+use Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle;
+use Ibexa\Bundle\DoctrineMigrations\IbexaDoctrineMigrationsBundle;
 use Ibexa\Bundle\DoctrineSchema\DoctrineSchemaBundle;
 use Ibexa\Bundle\RepositoryInstaller\IbexaRepositoryInstallerBundle;
 use Ibexa\Bundle\RepositoryInstaller\Installer\CoreInstaller;
@@ -21,6 +23,8 @@ final class TestKernel extends IbexaTestKernel
 
         yield new DoctrineSchemaBundle();
         yield new IbexaRepositoryInstallerBundle();
+        yield new DoctrineMigrationsBundle();
+        yield new IbexaDoctrineMigrationsBundle();
     }
 
     protected static function getExposedServicesByClass(): iterable

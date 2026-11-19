@@ -8,7 +8,6 @@
 namespace Ibexa\Bundle\RepositoryInstaller\Installer;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Exception;
 use Ibexa\Contracts\DoctrineSchema\Database\DatabasePlatformResolver;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -22,14 +21,9 @@ class DbBasedInstaller
     /** @var OutputInterface */
     protected $output;
 
-    /** @var string */
-    protected $baseDataDir;
-
     public function __construct(Connection $db)
     {
         $this->db = $db;
-        // parametrized so other installer implementations can override this
-        $this->baseDataDir = __DIR__ . '/../../../../data';
     }
 
     /**
@@ -76,38 +70,6 @@ class DbBasedInstaller
         foreach ($queries as $query) {
             $this->db->executeStatement($query);
         }
-    }
-
-    /**
-     * Get DBMS-specific SQL data file path.
-     *
-     * @param string $relativeFilePath SQL file path relative to {baseDir}/{dbms} directory
-     *
-     * @return string absolute existing file path
-     *
-     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
-     * @throws Exception
-     *
-     * @since 6.13
-     */
-    final protected function getKernelSQLFileForDBMS($relativeFilePath)
-    {
-        $databasePlatform = $this->getDBMSDataDirectoryName();
-        $filePath = "{$this->baseDataDir}/{$databasePlatform}/{$relativeFilePath}";
-
-        if (!is_readable($filePath)) {
-            throw new InvalidArgumentException(
-                '$relativeFilePath',
-                sprintf(
-                    'DBMS-specific file for %s database platform does not exist or is not readable: %s',
-                    $databasePlatform,
-                    $filePath
-                )
-            );
-        }
-
-        // apply realpath for more user-friendly Console output
-        return realpath($filePath);
     }
 
     protected function getDBMSDataDirectoryName(): string

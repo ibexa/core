@@ -27,6 +27,7 @@ use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\QueryTypeBundle\QueryType\T
 use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\StubPolicyProvider;
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\IgnoreDeprecations;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Compiler\CheckExceptionOnInvalidReferenceBehaviorPass;
@@ -171,26 +172,52 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
     }
 
     /**
-     * @param array<string, mixed> $config
+     * @param array{doctrine_migrations: true|array{enabled: true}} $installerConfig
      */
-    #[DataProvider('provideInstallerDoctrineMigrationsConfiguration')]
-    public function testInstallerDoctrineMigrationsConfiguration(
-        array $config,
-        bool $expectedParameterValue
-    ): void {
-        $this->load($config);
+    #[DataProvider('provideEnabledInstallerDoctrineMigrationsConfiguration')]
+    #[IgnoreDeprecations]
+    public function testEnablingInstallerDoctrineMigrationsIsDeprecated(array $installerConfig): void
+    {
+        $this->expectUserDeprecationMessage(
+            'Since ibexa/core 6.0: The "ibexa.installer.doctrine_migrations" option is deprecated and has no effect, ' .
+            'as "ibexa:install" always runs the Doctrine Migrations. Remove it from your configuration.'
+        );
 
-        $this->assertContainerBuilderHasParameter('ibexa.installer.doctrine_migrations.enabled', $expectedParameterValue);
+        $this->load(['installer' => $installerConfig]);
     }
 
     /**
-     * @return iterable<string, array{array<string, mixed>, bool}>
+     * @return iterable<string, array{array{doctrine_migrations: true|array{enabled: true}}}>
      */
-    public static function provideInstallerDoctrineMigrationsConfiguration(): iterable
+    public static function provideEnabledInstallerDoctrineMigrationsConfiguration(): iterable
     {
-        yield 'not configured' => [[], false];
-        yield 'enabled' => [['installer' => ['doctrine_migrations' => true]], true];
-        yield 'enabled (nested)' => [['installer' => ['doctrine_migrations' => ['enabled' => true]]], true];
+        yield 'enabled' => [['doctrine_migrations' => true]];
+        yield 'enabled (nested)' => [['doctrine_migrations' => ['enabled' => true]]];
+    }
+
+    /**
+     * @param array{doctrine_migrations: false|array{enabled: false}} $installerConfig
+     */
+    #[DataProvider('provideDisabledInstallerDoctrineMigrationsConfiguration')]
+    #[IgnoreDeprecations]
+    public function testDisablingInstallerDoctrineMigrationsIsRejected(array $installerConfig): void
+    {
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessage(
+            'Disabling "ibexa.installer.doctrine_migrations" is no longer supported, as "ibexa:install" always installs ' .
+            'the database schema and the core bootstrap data by running the Doctrine Migrations.'
+        );
+
+        $this->load(['installer' => $installerConfig]);
+    }
+
+    /**
+     * @return iterable<string, array{array{doctrine_migrations: false|array{enabled: false}}}>
+     */
+    public static function provideDisabledInstallerDoctrineMigrationsConfiguration(): iterable
+    {
+        yield 'disabled' => [['doctrine_migrations' => false]];
+        yield 'disabled (nested)' => [['doctrine_migrations' => ['enabled' => false]]];
     }
 
     public function testImagePlaceholderConfiguration(): void
