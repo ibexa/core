@@ -48,6 +48,15 @@ class Configuration extends SiteAccessConfiguration
 
         $rootNode = $treeBuilder->getRootNode();
 
+        $rootNode
+            ->children()
+                ->booleanNode('strict_mode')
+                    ->info('Enable strict mode. If enabled, certain misconfiguration issues that allowed fallback will throw an exception.')
+                    ->defaultValue('%kernel.debug%')
+                ->end()
+            ->end()
+        ;
+
         $this->addRepositoriesSection($rootNode);
         $this->addSiteAccessSection($rootNode);
         $this->addImageMagickSection($rootNode);
