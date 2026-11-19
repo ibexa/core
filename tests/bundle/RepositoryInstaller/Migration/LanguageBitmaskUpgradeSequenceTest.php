@@ -44,7 +44,6 @@ use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase as L
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 use Ibexa\Tests\Core\Repository\LegacySchemaImporter;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\TestWith;
 use Psr\Log\NullLogger;
 
 /**
@@ -256,26 +255,44 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         $connection->delete('ibexa_content_language', ['id' => self::GER_DE]);
     }
 
-    /**
-     * @param class-string<AbstractAddLanguageForeignKeyMigration> $migrationClass
-     * @param non-empty-string $table
-     */
-    #[TestWith([AddContentFieldLanguageForeignKeyMigration::class, 'ibexa_content_field'], 'content field')]
-    #[TestWith([AddSearchObjectWordLinkLanguageForeignKeyMigration::class, 'ibexa_search_object_word_link'], 'search object word link')]
-    public function testLanguageForeignKeysMigrationAbortsOnLanguageIdsWithoutALanguage(
-        string $migrationClass,
-        string $table
-    ): void {
+    public function testLanguageForeignKeysMigrationAbortsOnLanguageIdsWithoutALanguage(): void
+    {
         $connection = $this->getDatabaseConnection();
         $this->seedPreMigrationData($connection);
         $this->runBitmaskSequence();
         $connection->executeStatement('PRAGMA foreign_keys = OFF');
-        $connection->update($table, ['language_id' => 64], ['id' => 1]);
+        foreach ([1 => 128, 2 => 64, 3 => 128] as $fieldId => $languageId) {
+            $connection->update('ibexa_content_field', ['language_id' => $languageId], ['id' => $fieldId]);
+        }
 
         $this->expectException(AbortMigration::class);
-        $this->expectExceptionMessage("\"{$table}.language_id\" holds language id(s) 64 missing from \"ibexa_content_language\"");
+        $this->expectExceptionMessage('"ibexa_content_field.language_id" holds language id(s) 64, 128 missing from "ibexa_content_language"');
 
-        (new $migrationClass($connection, new NullLogger(), new MigrationRunContext()))->up(new Schema());
+        (new AddContentFieldLanguageForeignKeyMigration($connection, new NullLogger(), new MigrationRunContext()))->up(new Schema());
+    }
+
+    public function testSearchObjectWordLinkLanguageForeignKeyMigrationDeletesRowsWithoutALanguage(): void
+    {
+        $connection = $this->getDatabaseConnection();
+        $this->seedPreMigrationData($connection);
+        $this->runBitmaskSequence();
+        $connection->executeStatement('PRAGMA foreign_keys = OFF');
+        $connection->insert('ibexa_search_object_word_link', [
+            'id' => 2,
+            'contentobject_id' => 1,
+            'word_id' => 2,
+            'identifier' => 'bar',
+            'language_id' => 64,
+        ]);
+
+        $this->runMigration(new AddSearchObjectWordLinkLanguageForeignKeyMigration($connection, new NullLogger(), new MigrationRunContext()));
+
+        self::assertSame([1], array_map('intval', $connection->fetchFirstColumn('SELECT id FROM ibexa_search_object_word_link')));
+        self::assertTrue(
+            $connection->createSchemaManager()
+                ->introspectTableByUnquotedName('ibexa_search_object_word_link')
+                ->hasForeignKey('ibexa_search_object_word_link_language_fk')
+        );
     }
 
     public function testLanguageForeignKeysMigrationAbortsWhileSqliteEnforcesForeignKeys(): void
