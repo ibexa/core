@@ -25,25 +25,6 @@ final class RenumberLanguageIdsMigration extends AbstractSqlMigration implements
 
     private const string LANGUAGE_ID_COLUMN_PATTERN = '/(?:^|_)language_id$/';
 
-    private const array RENUMBERED_WITHOUT_FOREIGN_KEYS = [
-        'ibexa_content.initial_language_id',
-        'ibexa_content_field.language_id',
-        'ibexa_content_name.language_id',
-        'ibexa_content_translation.language_id',
-        'ibexa_content_type.initial_language_id',
-        'ibexa_content_type_field_definition_ml.language_id',
-        'ibexa_content_type_name.language_id',
-        'ibexa_content_version.initial_language_id',
-        'ibexa_content_version_translation.language_id',
-        'ibexa_object_state.default_language_id',
-        'ibexa_object_state_group.default_language_id',
-        'ibexa_object_state_group_language.language_id',
-        'ibexa_object_state_group_language.real_language_id',
-        'ibexa_object_state_language.language_id',
-        'ibexa_search_object_word_link.language_id',
-        'ibexa_url_alias_ml_translation.language_id',
-    ];
-
     public function getDescription(): string
     {
         return 'Renumbers the languages 2, 3, 4… in the order of their ids';
@@ -59,9 +40,12 @@ final class RenumberLanguageIdsMigration extends AbstractSqlMigration implements
         return new DateTimeImmutable('2026-11-17 00:00:00');
     }
 
+    /**
+     * Runs in a transaction on MySQL and MariaDB too, but not on SQLite.
+     */
     public function isTransactional(): bool
     {
-        return true;
+        return !$this->isSqlite();
     }
 
     public function up(Schema $schema): void
@@ -78,25 +62,18 @@ final class RenumberLanguageIdsMigration extends AbstractSqlMigration implements
             return;
         }
 
-        $columns = $this->introspectLanguageIdColumns();
-
-        if ($this->isSqlite() && !(bool)$this->connection->fetchOne('PRAGMA foreign_keys')) {
-            $this->abortIfLeftBehind(
-                array_diff(array_keys($columns), self::RENUMBERED_WITHOUT_FOREIGN_KEYS),
-                'SQLite doesn\'t enforce foreign keys on this connection, so only the core columns get renumbered. Run this migration with PRAGMA foreign_keys = ON.'
-            );
-            $this->addSqlFile(__DIR__ . '/sql/renumber-language-ids-without-foreign-keys-sqlite.sql');
-
-            return;
-        }
-
         $this->abortIfLeftBehind(
-            array_keys(array_filter($columns, static fn (bool $cascades): bool => !$cascades)),
+            array_keys(array_filter($this->introspectLanguageIdColumns(), static fn (bool $cascades): bool => !$cascades)),
             sprintf(
                 'Give each of them a foreign key to "%s" with ON UPDATE CASCADE, then run the migrations again. A project migration adding them can run ahead of this one with "doctrine:migrations:execute --up".',
                 self::LANGUAGE_TABLE
             )
         );
+
+        $foreignKeysOff = $this->isSqlite() && !(bool)$this->connection->fetchOne('PRAGMA foreign_keys');
+        if ($foreignKeysOff) {
+            $this->addSqlFile(__DIR__ . '/sql/enable-foreign-keys-sqlite.sql');
+        }
 
         $setsAsideStateGroupTranslations = $this->isMySQL() || $this->isMariaDB();
         if ($setsAsideStateGroupTranslations) {
@@ -116,6 +93,10 @@ final class RenumberLanguageIdsMigration extends AbstractSqlMigration implements
 
         if ($setsAsideStateGroupTranslations) {
             $this->addSqlFile(__DIR__ . '/sql/renumber-language-ids-restore-mysql.sql');
+        }
+
+        if ($foreignKeysOff) {
+            $this->addSqlFile(__DIR__ . '/sql/disable-foreign-keys-sqlite.sql');
         }
     }
 
