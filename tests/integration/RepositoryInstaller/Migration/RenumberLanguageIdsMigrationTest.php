@@ -29,6 +29,8 @@ final class RenumberLanguageIdsMigrationTest extends TestCase
 {
     private const string TABLE = 'ibexa_test_language_renumbering';
 
+    private const string REFERENCED_TABLE = 'ibexa_test_language_renumbering_referenced';
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -46,8 +48,10 @@ final class RenumberLanguageIdsMigrationTest extends TestCase
     protected function tearDown(): void
     {
         $schemaManager = $this->getDatabaseConnection()->createSchemaManager();
-        if ($schemaManager->tablesExist([self::TABLE])) {
-            $schemaManager->dropTable(self::TABLE);
+        foreach ([self::TABLE, self::REFERENCED_TABLE] as $table) {
+            if ($schemaManager->tablesExist([$table])) {
+                $schemaManager->dropTable($table);
+            }
         }
 
         parent::tearDown();
@@ -120,12 +124,38 @@ final class RenumberLanguageIdsMigrationTest extends TestCase
         yield 'differently named column with a foreign key that restricts updates' => ['locale_ref', ReferentialAction::RESTRICT];
     }
 
+    public function testRenumberingLeavesALanguageIdColumnReferencingAnotherTableAlone(): void
+    {
+        $connection = $this->getDatabaseConnection();
+        $connection->createSchemaManager()->createTable(
+            Table::editor()
+                ->setUnquotedName(self::REFERENCED_TABLE)
+                ->setColumns(Column::editor()->setUnquotedName('id')->setTypeName(Types::BIGINT)->create())
+                ->setPrimaryKeyConstraint(PrimaryKeyConstraint::editor()->setUnquotedColumnNames('id')->create())
+                ->create()
+        );
+        $this->createTable('language_id', ReferentialAction::RESTRICT, self::REFERENCED_TABLE);
+        $connection->insert(self::REFERENCED_TABLE, ['id' => 8]);
+        $connection->insert(self::TABLE, ['id' => 1, 'language_id' => 8]);
+
+        $migration = $this->createMigration();
+        $migration->up(new Schema());
+        foreach ($migration->getSql() as $query) {
+            $connection->executeStatement($query->getStatement(), $query->getParameters(), $query->getTypes());
+        }
+
+        self::assertSame(4, (int)$connection->fetchOne("SELECT id FROM ibexa_content_language WHERE locale = 'eng-GB'"));
+        self::assertSame(8, (int)$connection->fetchOne('SELECT language_id FROM ' . self::TABLE . ' WHERE id = 1'));
+    }
+
     /**
      * @param non-empty-string $column
+     * @param non-empty-string $referencedTable
      */
     private function createTable(
         string $column,
-        ?ReferentialAction $onUpdate
+        ?ReferentialAction $onUpdate,
+        string $referencedTable = 'ibexa_content_language'
     ): void {
         $table = Table::editor()
             ->setUnquotedName(self::TABLE)
@@ -140,7 +170,7 @@ final class RenumberLanguageIdsMigrationTest extends TestCase
                 ForeignKeyConstraint::editor()
                     ->setUnquotedName(self::TABLE . '_language_fk')
                     ->setUnquotedReferencingColumnNames($column)
-                    ->setUnquotedReferencedTableName('ibexa_content_language')
+                    ->setUnquotedReferencedTableName($referencedTable)
                     ->setUnquotedReferencedColumnNames('id')
                     ->setOnUpdateAction($onUpdate)
                     ->create()
