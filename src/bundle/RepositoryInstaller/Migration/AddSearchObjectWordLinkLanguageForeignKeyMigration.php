@@ -11,7 +11,7 @@ namespace Ibexa\Bundle\RepositoryInstaller\Migration;
 use DateTimeImmutable;
 
 /**
- * Adds a foreign key from "ibexa_search_object_word_link.language_id" to "ibexa_content_language.id".
+ * Adds a foreign key from "ibexa_search_object_word_link.language_id" to "ibexa_content_language.id", deleting the rows of missing languages first.
  */
 final class AddSearchObjectWordLinkLanguageForeignKeyMigration extends AbstractAddLanguageForeignKeyMigration
 {
@@ -33,5 +33,10 @@ final class AddSearchObjectWordLinkLanguageForeignKeyMigration extends AbstractA
     protected function getForeignKey(): string
     {
         return 'ibexa_search_object_word_link_language_fk';
+    }
+
+    protected function handleOrphanedLanguageIds(string $platform): void
+    {
+        $this->addSqlFile($this->getSqlFile($platform, '-delete-orphans'));
     }
 }

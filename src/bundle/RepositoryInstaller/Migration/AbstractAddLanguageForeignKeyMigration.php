@@ -67,7 +67,13 @@ abstract class AbstractAddLanguageForeignKeyMigration extends AbstractSqlMigrati
             return;
         }
 
-        $this->abortIfOrphanedLanguageIds();
+        $platform = match (true) {
+            $this->isSqlite() => 'sqlite',
+            $this->isPostgreSQL() => 'postgresql',
+            default => 'mysql',
+        };
+
+        $this->handleOrphanedLanguageIds($platform);
 
         if ($this->isSqlite()) {
             $this->abortIf(
@@ -79,12 +85,7 @@ abstract class AbstractAddLanguageForeignKeyMigration extends AbstractSqlMigrati
             );
         }
 
-        $sqlFiles = $this->getSqlFiles($schemaManager, match (true) {
-            $this->isSqlite() => 'sqlite',
-            $this->isPostgreSQL() => 'postgresql',
-            default => 'mysql',
-        });
-        foreach ($sqlFiles as $sqlFile) {
+        foreach ($this->getSqlFiles($schemaManager, $platform) as $sqlFile) {
             $this->addSqlFile($sqlFile);
         }
     }
@@ -111,7 +112,10 @@ abstract class AbstractAddLanguageForeignKeyMigration extends AbstractSqlMigrati
         return __DIR__ . "/sql/add-language-foreign-keys/{$this->getForeignKey()}{$variant}-{$platform}.sql";
     }
 
-    private function abortIfOrphanedLanguageIds(): void
+    /**
+     * Aborts when the column holds language ids missing from the language table.
+     */
+    protected function handleOrphanedLanguageIds(string $platform): void
     {
         $languageIds = $this->connection->fetchFirstColumn(
             sprintf(
