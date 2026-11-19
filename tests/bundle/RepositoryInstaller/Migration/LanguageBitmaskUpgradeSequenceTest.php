@@ -273,7 +273,7 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         $connection->update($table, ['language_id' => 64], ['id' => 1]);
 
         $this->expectException(AbortMigration::class);
-        $this->expectExceptionMessage("\"{$table}.language_id\" holds 1 language id(s) missing from \"ibexa_content_language\"");
+        $this->expectExceptionMessage("\"{$table}.language_id\" holds language id(s) 64 missing from \"ibexa_content_language\"");
 
         (new $migrationClass($connection, new NullLogger(), new MigrationRunContext()))->up(new Schema());
     }
