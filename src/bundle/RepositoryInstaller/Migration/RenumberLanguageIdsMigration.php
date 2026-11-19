@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\RepositoryInstaller\Migration;
 
 use DateTimeImmutable;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint\ReferentialAction;
 use Doctrine\DBAL\Schema\Schema;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\AbstractSqlMigration;
@@ -97,11 +98,25 @@ final class RenumberLanguageIdsMigration extends AbstractSqlMigration implements
             )
         );
 
-        $this->addSqlFile(match (true) {
-            $this->isSqlite() => __DIR__ . '/sql/renumber-language-ids-sqlite.sql',
-            $this->isPostgreSQL() => __DIR__ . '/sql/renumber-language-ids-postgresql.sql',
-            default => __DIR__ . '/sql/renumber-language-ids-mysql.sql',
-        });
+        $setsAsideStateGroupTranslations = $this->isMySQL() || $this->isMariaDB();
+        if ($setsAsideStateGroupTranslations) {
+            $this->addSqlFile(__DIR__ . '/sql/renumber-language-ids-set-aside-mysql.sql');
+        }
+
+        foreach ($ids as $index => $oldId) {
+            $newId = $index + 2;
+            if ($newId !== $oldId) {
+                $this->addSql(
+                    'UPDATE ' . self::LANGUAGE_TABLE . ' SET id = :new_id WHERE id = :old_id',
+                    ['new_id' => $newId, 'old_id' => $oldId],
+                    ['new_id' => ParameterType::INTEGER, 'old_id' => ParameterType::INTEGER]
+                );
+            }
+        }
+
+        if ($setsAsideStateGroupTranslations) {
+            $this->addSqlFile(__DIR__ . '/sql/renumber-language-ids-restore-mysql.sql');
+        }
     }
 
     /**
