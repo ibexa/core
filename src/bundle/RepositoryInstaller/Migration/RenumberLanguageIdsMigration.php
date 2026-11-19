@@ -93,7 +93,7 @@ final class RenumberLanguageIdsMigration extends AbstractSqlMigration implements
         $this->abortIfLeftBehind(
             array_keys(array_filter($columns, static fn (bool $cascades): bool => !$cascades)),
             sprintf(
-                'Add a foreign key to "%s" with ON UPDATE CASCADE to each of them, in a migration that runs before this one.',
+                'Give each of them a foreign key to "%s" with ON UPDATE CASCADE, then run the migrations again. A project migration adding them can run ahead of this one with "doctrine:migrations:execute --up".',
                 self::LANGUAGE_TABLE
             )
         );
@@ -120,7 +120,7 @@ final class RenumberLanguageIdsMigration extends AbstractSqlMigration implements
     }
 
     /**
-     * Maps each language id column, and each column with a foreign key to the language table, to whether its foreign keys cascade updates.
+     * Maps each column with a foreign key to the language table, and each other language id column without a foreign key, to whether its foreign keys cascade updates.
      *
      * @return array<non-empty-string, bool>
      */
@@ -129,14 +129,18 @@ final class RenumberLanguageIdsMigration extends AbstractSqlMigration implements
         $columns = [];
         foreach ($this->connection->createSchemaManager()->introspectTables() as $table) {
             $tableName = $table->getObjectName()->getUnqualifiedName()->getValue();
+            $referencingOtherTables = [];
 
             foreach ($table->getForeignKeys() as $foreignKey) {
-                if ($foreignKey->getReferencedTableName()->getUnqualifiedName()->getValue() !== self::LANGUAGE_TABLE) {
-                    continue;
-                }
+                $referencesLanguages = $foreignKey->getReferencedTableName()->getUnqualifiedName()->getValue() === self::LANGUAGE_TABLE;
 
                 foreach ($foreignKey->getReferencingColumnNames() as $column) {
                     $name = $tableName . '.' . $column->getIdentifier()->getValue();
+                    if (!$referencesLanguages) {
+                        $referencingOtherTables[$name] = true;
+                        continue;
+                    }
+
                     $columns[$name] = ($columns[$name] ?? true)
                         && $foreignKey->getOnUpdateAction() === ReferentialAction::CASCADE;
                 }
@@ -144,8 +148,9 @@ final class RenumberLanguageIdsMigration extends AbstractSqlMigration implements
 
             foreach ($table->getColumns() as $column) {
                 $columnName = $column->getObjectName()->getIdentifier()->getValue();
-                if (preg_match(self::LANGUAGE_ID_COLUMN_PATTERN, $columnName) === 1) {
-                    $columns[$tableName . '.' . $columnName] ??= false;
+                $name = $tableName . '.' . $columnName;
+                if (preg_match(self::LANGUAGE_ID_COLUMN_PATTERN, $columnName) === 1 && !isset($referencingOtherTables[$name])) {
+                    $columns[$name] ??= false;
                 }
             }
         }
