@@ -75,19 +75,26 @@ abstract class AbstractAddLanguageForeignKeyMigration extends AbstractSqlMigrati
 
         $this->handleOrphanedLanguageIds($platform);
 
-        if ($this->isSqlite()) {
-            $this->abortIf(
-                (bool)$this->connection->fetchOne('PRAGMA foreign_keys'),
-                sprintf(
-                    'SQLite enforces foreign keys on this connection, so dropping "%s" to rebuild it would delete the rows referencing it. Run this migration with PRAGMA foreign_keys = OFF.',
-                    $this->getTable()
-                )
-            );
+        $foreignKeysEnforced = $this->isSqlite() && (bool)$this->connection->fetchOne('PRAGMA foreign_keys');
+        if ($foreignKeysEnforced) {
+            $this->addSqlFile(__DIR__ . '/sql/disable-foreign-keys-sqlite.sql');
         }
 
         foreach ($this->getSqlFiles($schemaManager, $platform) as $sqlFile) {
             $this->addSqlFile($sqlFile);
         }
+
+        if ($foreignKeysEnforced) {
+            $this->addSqlFile(__DIR__ . '/sql/enable-foreign-keys-sqlite.sql');
+        }
+    }
+
+    /**
+     * Runs outside a transaction on SQLite too.
+     */
+    public function isTransactional(): bool
+    {
+        return parent::isTransactional() && !$this->isSqlite();
     }
 
     /**
