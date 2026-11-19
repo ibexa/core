@@ -591,7 +591,8 @@ EOT;
                                 'Whether "ibexa:install" installs the database schema and the core bootstrap data by running the ' .
                                 'Doctrine Migrations tagged with Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationTag ' .
                                 '(requires "ibexa/doctrine-migrations"), instead of dispatching the legacy, event-driven ' .
-                                'Ibexa\Contracts\DoctrineSchema\Event\SchemaBuilderEvent.'
+                                'Ibexa\Contracts\DoctrineSchema\Event\SchemaBuilderEvent. Leaving it disabled is deprecated ' .
+                                'since 5.0.12 and won\'t be possible in 6.0.'
                             )
                             ->canBeEnabled()
                         ->end()
