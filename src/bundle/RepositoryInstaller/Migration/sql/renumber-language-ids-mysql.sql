@@ -7,7 +7,7 @@ DELETE FROM ibexa_content_language_renumbering WHERE old_id = new_id;
 -- ibexa:sql-statement-separator
 -- InnoDB can't cascade into real_language_id, part of the primary key, while language_id in the same row still references the renumbered language.
 -- So these rows are set aside, given the new ids here, and inserted back once the languages are renumbered.
-CREATE TEMPORARY TABLE ibexa_object_state_group_language_renumbering AS SELECT * FROM ibexa_object_state_group_language;
+CREATE TEMPORARY TABLE ibexa_object_state_group_language_renumbering AS SELECT contentobject_state_group_id, real_language_id, language_id, name, description FROM ibexa_object_state_group_language;
 -- ibexa:sql-statement-separator
 DELETE FROM ibexa_object_state_group_language;
 -- ibexa:sql-statement-separator
@@ -22,7 +22,7 @@ UPDATE ibexa_content_language SET id = COALESCE(-(SELECT r.new_id FROM ibexa_con
 -- ibexa:sql-statement-separator
 UPDATE ibexa_content_language SET id = -id WHERE id < 0;
 -- ibexa:sql-statement-separator
-INSERT INTO ibexa_object_state_group_language SELECT * FROM ibexa_object_state_group_language_renumbering;
+INSERT INTO ibexa_object_state_group_language (contentobject_state_group_id, real_language_id, language_id, name, description) SELECT contentobject_state_group_id, real_language_id, language_id, name, description FROM ibexa_object_state_group_language_renumbering;
 -- ibexa:sql-statement-separator
 DROP TEMPORARY TABLE ibexa_object_state_group_language_renumbering;
 -- ibexa:sql-statement-separator
