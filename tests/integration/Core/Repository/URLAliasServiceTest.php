@@ -18,6 +18,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\URLAlias;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\SlugConverter;
+use Ibexa\Core\Repository\SiteAccessAware\Language\LanguageResolver;
 use Ibexa\Tests\Integration\Core\Repository\Common\SlugConverter as TestSlugConverter;
 use PDO;
 use RuntimeException;
@@ -148,6 +149,98 @@ class URLAliasServiceTest extends BaseTest
             ],
             $loadedUrlAlias
         );
+    }
+
+    public function testLoadThrowsNotFoundExceptionForTranslationNotInPrioritizedLanguages(): void
+    {
+        $repository = $this->getRepository();
+
+        $locationService = $repository->getLocationService();
+        $urlAliasService = $repository->getURLAliasService();
+
+        $location = $locationService->loadLocation($this->generateId('location', 12));
+
+        $this->createLanguage('nor-NO', 'Norwegian');
+        $createdUrlAlias = $urlAliasService->createUrlAlias(
+            $location,
+            '/My/Great-norwegian-site',
+            'nor-NO',
+            false,
+            false
+        );
+
+        $this->expectException(NotFoundException::class);
+
+        $urlAliasService->load($createdUrlAlias->id);
+    }
+
+    public function testLoadWithShowAllTranslations(): void
+    {
+        $repository = $this->getRepository();
+
+        $locationService = $repository->getLocationService();
+        $urlAliasService = $repository->getURLAliasService();
+
+        $location = $locationService->loadLocation($this->generateId('location', 12));
+
+        $this->createLanguage('nor-NO', 'Norwegian');
+        $createdUrlAlias = $urlAliasService->createUrlAlias(
+            $location,
+            '/My/Great-norwegian-site',
+            'nor-NO',
+            false,
+            false
+        );
+
+        $loadedUrlAlias = $urlAliasService->load($createdUrlAlias->id, true);
+
+        $this->assertUrlAliasPropertiesSame(
+            [
+                'type' => URLAlias::LOCATION,
+                'destination' => $location->id,
+                'path' => '/My/Great-norwegian-site',
+                'languageCodes' => ['nor-NO'],
+                'alwaysAvailable' => false,
+                'isHistory' => false,
+                'isCustom' => true,
+                'forward' => false,
+            ],
+            $loadedUrlAlias
+        );
+    }
+
+    public function testLoadWithExplicitlyDisabledShowAllTranslationsOverridesConfiguredDefault(): void
+    {
+        $repository = $this->getRepository();
+
+        $locationService = $repository->getLocationService();
+        $urlAliasService = $repository->getURLAliasService();
+
+        $location = $locationService->loadLocation($this->generateId('location', 12));
+
+        $this->createLanguage('nor-NO', 'Norwegian');
+        $createdUrlAlias = $urlAliasService->createUrlAlias(
+            $location,
+            '/My/Great-norwegian-site',
+            'nor-NO',
+            false,
+            false
+        );
+
+        /** @var \Ibexa\Core\Repository\SiteAccessAware\Language\LanguageResolver $languageResolver */
+        $languageResolver = $this->getSetupFactory()->getServiceContainer()->get(LanguageResolver::class);
+        $languageResolver->setShowAllTranslations(true);
+
+        try {
+            // Sanity check: configured default makes the alias loadable
+            self::assertSame($createdUrlAlias->id, $urlAliasService->load($createdUrlAlias->id)->id);
+
+            $this->expectException(NotFoundException::class);
+
+            $urlAliasService->load($createdUrlAlias->id, false);
+        } finally {
+            $languageResolver->setShowAllTranslations(false);
+        }
     }
 
     /**
