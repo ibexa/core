@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\Language\Gateway;
 
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Exception\DriverException;
 use Ibexa\Contracts\Core\Persistence\Content\Language;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
@@ -171,6 +172,21 @@ class DoctrineDatabaseTest extends TestCase
                 ->from('ezcontent_language')
                 ->where('id=2')
         );
+    }
+
+    public function testDeleteLanguageUsedByFieldDefinitionTranslationFails(): void
+    {
+        $this->getDatabaseConnection()->insert('ezcontentclass_attribute_ml', [
+            'contentclass_attribute_id' => 1,
+            'version' => 0,
+            'language_id' => 2,
+            'name' => 'Name',
+        ]);
+
+        // the "ezcontentclass_attribute_ml" foreign key refuses it, instead of removing the translation
+        $this->expectException(DriverException::class);
+
+        $this->getDatabaseGateway()->deleteLanguage(2);
     }
 
     /**
