@@ -48,10 +48,13 @@ final class TestKernel extends BaseIbexaTestKernel
                 __DIR__ . '/Repository/_fixtures/Legacy/data/test_data.yaml',
             ]);
             // custom_user_group is created by CustomUserGroupContentTypeTest
-            $container->setParameter(
-                'ibexa.site_access.config.default.user_group_content_type_identifier',
-                ['user_group', 'custom_user_group'],
-            );
+            $container->loadFromExtension('ibexa', [
+                'system' => [
+                    'default' => [
+                        'user_group_content_type_identifier' => ['user_group', 'custom_user_group'],
+                    ],
+                ],
+            ]);
         });
     }
 
