@@ -2526,6 +2526,39 @@ class UrlAliasTest extends BaseServiceMockTest
         $urlAliasService->lookup('url');
     }
 
+    public function testLookupThrowsNotFoundExceptionForVirtualAlias(): void
+    {
+        $this->expectException(NotFoundException::class);
+
+        $urlAliasService = $this->getPartlyMockedURLAliasServiceService();
+
+        $this->urlAliasHandler
+            ->expects(self::once())
+            ->method('lookup')
+            ->with('red/blue')
+            ->willReturn(
+                new SPIUrlAlias(
+                    [
+                        'type' => SPIUrlAlias::VIRTUAL,
+                        'pathData' => [
+                            [
+                                'always-available' => false,
+                                'translations' => ['eng-GB' => 'red'],
+                            ],
+                            [
+                                'always-available' => false,
+                                'translations' => ['eng-GB' => 'blue'],
+                            ],
+                        ],
+                        'languageCodes' => ['eng-GB'],
+                        'alwaysAvailable' => false,
+                    ]
+                )
+            );
+
+        $urlAliasService->lookup('red/blue');
+    }
+
     public function providerForTestLookupThrowsNotFoundExceptionPath()
     {
         return [
