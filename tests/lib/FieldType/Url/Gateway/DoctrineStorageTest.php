@@ -139,6 +139,7 @@ class DoctrineStorageTest extends TestCase
                 'contentobject_attribute_id' => $fieldId,
                 'contentobject_attribute_version' => $versionNo,
                 'url_id' => $urlId,
+                'id' => 1,
             ],
         ];
 
@@ -169,6 +170,7 @@ class DoctrineStorageTest extends TestCase
                 'contentobject_attribute_id' => 43,
                 'contentobject_attribute_version' => 6,
                 'url_id' => 24,
+                'id' => 2,
             ],
         ];
 

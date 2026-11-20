@@ -551,6 +551,8 @@ tables:
             ezurl_ol_url_id: { fields: [url_id] }
             ezurl_ol_coa_version: { fields: [contentobject_attribute_version] }
             ezurl_ol_coa_id_cav: { fields: [contentobject_attribute_id, contentobject_attribute_version] }
+        id:
+            id: { type: integer, nullable: false, options: { autoincrement: true } }
         fields:
             contentobject_attribute_id: { type: integer, nullable: false, options: { default: '0' } }
             contentobject_attribute_version: { type: integer, nullable: false, options: { default: '0' } }
