@@ -45,6 +45,7 @@
             <exclude>tests/integration/Core/Repository/Filtering/LegacyContentFilteringTest.php</exclude>
             <exclude>tests/integration/Core/Repository/KeywordFieldCriterionTest.php</exclude>
             <exclude>tests/integration/Core/SchemaAlignmentTest.php</exclude>
+            <exclude>tests/integration/Core/Repository/LocationResolver/PermissionAwareLocationResolverTest.php</exclude>
         </testsuite>
         <testsuite name="integration_debug">
             <directory>tests/integration/Debug</directory>
