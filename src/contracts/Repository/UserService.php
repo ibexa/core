@@ -439,7 +439,7 @@ interface UserService
      * Location criteria of the filter are evaluated on the main Location of a user group, so e.g. {@see ParentLocationId}
      * with the main Location of a user group matches its subgroups, consistently with {@see UserGroup::$parentId}.
      *
-     * The filter is limited to the user group content type, and the content ID is added as the last sort clause.
+     * The filter is limited to the content types of the `user_group_content_type_identifier` setting, and the content ID is added as the last sort clause.
      * Only user groups the current user is allowed to read are returned and counted. User groups without a main
      * Location (e.g. trashed ones) are neither returned nor counted. As in {@see ContentService::find()}, a filter limit of 0 means no limit.
      *
@@ -473,7 +473,7 @@ interface UserService
     public function isUser(Content $content): bool;
 
     /**
-     * Checks if Content is a user group.
+     * Checks if Content is a user group, i.e. its content type is listed in the `user_group_content_type_identifier` setting.
      *
      * @since 7.4
      *
@@ -506,7 +506,8 @@ interface UserService
      * Instantiate a user group create class.
      *
      * @param string $mainLanguageCode The main language for the underlying content object
-     * @param ContentType|null $contentType 5.x the content type for the underlying content object. In 4.x it is ignored and taken from the configuration
+     * @param ContentType|null $contentType the content type for the underlying content object, defaults to the first
+     *                                      content type of the `user_group_content_type_identifier` setting
      *
      * @return UserGroupCreateStruct
      */
