@@ -17,13 +17,14 @@ use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
 use Ibexa\Core\IO\Exception\InvalidBinaryFileIdException;
 use Ibexa\Core\IO\Exception\InvalidBinaryPrefixException;
 use Ibexa\Core\IO\Exception\IOException;
+use Ibexa\Core\IO\Stream\StreamSeeker;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
 
 /**
  * The io service for managing binary files.
  */
-class IOService implements IOServiceInterface
+class IOService implements RangeAwareIOServiceInterface
 {
     /** @var IOBinarydataHandler */
     protected $binarydataHandler;
@@ -186,6 +187,39 @@ class IOService implements IOServiceInterface
         return $this->binarydataHandler->getResource(
             $this->getPrefixedUri($binaryFile->id)
         );
+    }
+
+    public function getFileInputStreamRange(
+        BinaryFile $binaryFile,
+        int $offset,
+        ?int $length = null
+    ) {
+        $this->checkBinaryFileId($binaryFile->id);
+
+        if ($offset < 0) {
+            throw new InvalidArgumentValue('offset', $offset);
+        }
+
+        if ($length !== null && $length <= 0) {
+            throw new InvalidArgumentValue('length', $length);
+        }
+
+        $spiBinaryFileId = $this->getPrefixedUri($binaryFile->id);
+
+        if (
+            ($offset > 0 || $length !== null)
+            && $this->binarydataHandler instanceof RangeAwareIOBinarydataHandlerInterface
+        ) {
+            $resource = $this->binarydataHandler->getResourceRange($spiBinaryFileId, $offset, $length);
+            if ($resource !== null) {
+                return $resource;
+            }
+        }
+
+        $resource = $this->binarydataHandler->getResource($spiBinaryFileId);
+        StreamSeeker::seek($resource, $offset);
+
+        return $resource;
     }
 
     public function getFileContents(BinaryFile $binaryFile)
