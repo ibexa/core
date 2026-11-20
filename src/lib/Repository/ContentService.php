@@ -1800,6 +1800,21 @@ class ContentService implements ContentServiceInterface
         $publicationDate = null,
         array $translations = Language::ALL
     ) {
+        return $this->doPublishVersion($versionInfo, $publicationDate, $translations, true);
+    }
+
+    /**
+     * @param string[] $translations
+     *
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\BadStateException if the version is not a draft
+     * @throws \Ibexa\Contracts\Core\Repository\Exceptions\ContentFieldValidationException if $validate is true and a field value is not valid
+     */
+    private function doPublishVersion(
+        APIVersionInfo $versionInfo,
+        ?int $publicationDate,
+        array $translations,
+        bool $validate
+    ): APIContent {
         if (!$versionInfo->isDraft()) {
             throw new BadStateException('$versionInfo', 'Only versions in draft status can be published.');
         }
@@ -1809,20 +1824,22 @@ class ContentService implements ContentServiceInterface
             $publicationDate = $currentTime;
         }
 
-        $errors = $this->validate(
-            $versionInfo,
-            [
-                'content' => $this->internalLoadContentById(
-                    $versionInfo->getContentInfo()->id,
-                    null,
-                    $versionInfo->versionNo
-                ),
-                'translations' => $translations,
-            ]
-        );
+        if ($validate) {
+            $errors = $this->validate(
+                $versionInfo,
+                [
+                    'content' => $this->internalLoadContentById(
+                        $versionInfo->getContentInfo()->id,
+                        null,
+                        $versionInfo->versionNo
+                    ),
+                    'translations' => $translations,
+                ]
+            );
 
-        if (!empty($errors)) {
-            throw ContentFieldValidationException::createNewWithMultiline($errors, $versionInfo->getContentInfo()->name);
+            if (!empty($errors)) {
+                throw ContentFieldValidationException::createNewWithMultiline($errors, $versionInfo->getContentInfo()->name);
+            }
         }
 
         $contentInfo = $versionInfo->getContentInfo();
@@ -2049,9 +2066,17 @@ class ContentService implements ContentServiceInterface
                 );
             }
 
-            $content = $this->internalPublishVersion(
+            // A published version was already validated, so its copy is published as is.
+            // Other versions (e.g. drafts) were never validated, so their copy must be.
+            $isSourceVersionPublished = $versionInfo !== null
+                ? $versionInfo->isPublished()
+                : $contentInfo->isPublished();
+
+            $content = $this->doPublishVersion(
                 $this->contentDomainMapper->buildVersionInfoDomainObject($spiContent->versionInfo),
-                $spiContent->versionInfo->creationDate
+                $spiContent->versionInfo->creationDate,
+                Language::ALL,
+                !$isSourceVersionPublished
             );
 
             $this->repository->getLocationService()->createLocation(
