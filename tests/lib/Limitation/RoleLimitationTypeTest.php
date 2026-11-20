@@ -65,6 +65,35 @@ final class RoleLimitationTypeTest extends Base
     }
 
     /**
+     * @dataProvider providerForTestAcceptValueNormalizesStoredValues
+     *
+     * @param array<int|string> $limitationValues
+     * @param array<int> $expectedLimitationValues
+     */
+    public function testAcceptValueNormalizesStoredValues(
+        array $limitationValues,
+        array $expectedLimitationValues
+    ): void {
+        $limitation = new UserRoleLimitation(['limitationValues' => $limitationValues]);
+
+        $this->limitationType->acceptValue($limitation);
+
+        self::assertSame($expectedLimitationValues, $limitation->limitationValues);
+    }
+
+    /**
+     * @return array<string, array{array<int|string>, array<int>}>
+     */
+    public function providerForTestAcceptValueNormalizesStoredValues(): array
+    {
+        return [
+            'single role id' => [['4'], [4]],
+            'several role ids' => [['4', '8'], [4, 8]],
+            'already an int' => [[4, 8], [4, 8]],
+        ];
+    }
+
+    /**
      * @dataProvider providerForTestAcceptValueException
      */
     public function testAcceptValueException(UserRoleLimitation $limitation): void

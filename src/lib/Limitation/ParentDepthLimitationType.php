@@ -49,12 +49,7 @@ class ParentDepthLimitationType extends AbstractPersistenceLimitationType implem
         }
 
         foreach ($limitationValue->limitationValues as $key => $value) {
-            // Cast integers passed as string to int
-            if (is_string($value) && ctype_digit($value)) {
-                $limitationValue->limitationValues[$key] = (int)$value;
-            } elseif (!is_int($value)) {
-                throw new InvalidArgumentType("\$limitationValue->limitationValues[{$key}]", 'int', $value);
-            }
+            $limitationValue->limitationValues[$key] = $this->normalizeIntId($value, (string)$key);
         }
     }
 

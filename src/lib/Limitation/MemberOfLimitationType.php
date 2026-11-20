@@ -49,9 +49,8 @@ final class MemberOfLimitationType extends AbstractPersistenceLimitationType imp
         }
 
         foreach ($limitationValue->limitationValues as $key => $id) {
-            if (!is_int($id)) {
-                throw new InvalidArgumentType("\$limitationValue->limitationValues[{$key}]", 'int|string', $id);
-            }
+            // SELF_USER_GROUP is negative, so a digits-only check would reject it
+            $limitationValue->limitationValues[$key] = $this->normalizeIntId($id, (string)$key, true);
         }
     }
 

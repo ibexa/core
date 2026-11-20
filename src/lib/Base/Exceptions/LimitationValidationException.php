@@ -21,9 +21,9 @@ class LimitationValidationException extends APILimitationValidationException imp
     use TranslatableBase;
 
     /**
-     * Contains an array of limitation ValidationError objects.
+     * Contains Limitation ValidationError objects, nested as described by getLimitationErrors().
      *
-     * @var ValidationError[]
+     * @var array<mixed>
      */
     protected $errors;
 
@@ -36,16 +36,11 @@ class LimitationValidationException extends APILimitationValidationException imp
      */
     public function __construct(array $errors)
     {
-        $this->validationErrors = $errors;
+        $this->errors = $errors;
         $this->setMessageTemplate('Limitations did not validate');
         parent::__construct($this->getBaseTranslation());
     }
 
-    /**
-     * Returns an array of limitation ValidationError objects.
-     *
-     * @return ValidationError[]
-     */
     public function getLimitationErrors()
     {
         return $this->errors;

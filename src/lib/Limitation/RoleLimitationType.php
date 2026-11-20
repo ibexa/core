@@ -48,9 +48,7 @@ final class RoleLimitationType extends AbstractPersistenceLimitationType impleme
         }
 
         foreach ($limitationValue->limitationValues as $key => $id) {
-            if (!is_int($id)) {
-                throw new InvalidArgumentType("\$limitationValue->limitationValues[{$key}]", 'int', $id);
-            }
+            $limitationValue->limitationValues[$key] = $this->normalizeIntId($id, (string)$key);
         }
     }
 

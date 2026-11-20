@@ -64,6 +64,36 @@ final class MemberOfLimitationTypeTest extends Base
     }
 
     /**
+     * @dataProvider providerForTestAcceptValueNormalizesStoredValues
+     *
+     * @param array<int|string> $limitationValues
+     * @param array<int> $expectedLimitationValues
+     */
+    public function testAcceptValueNormalizesStoredValues(
+        array $limitationValues,
+        array $expectedLimitationValues
+    ): void {
+        $limitation = new MemberOfLimitation(['limitationValues' => $limitationValues]);
+
+        $this->limitationType->acceptValue($limitation);
+
+        self::assertSame($expectedLimitationValues, $limitation->limitationValues);
+    }
+
+    /**
+     * @return array<string, array{array<int|string>, array<int>}>
+     */
+    public function providerForTestAcceptValueNormalizesStoredValues(): array
+    {
+        return [
+            'self user group' => [['-1'], [MemberOfLimitationType::SELF_USER_GROUP]],
+            'user group id' => [['8'], [8]],
+            'both' => [['-1', '8'], [MemberOfLimitationType::SELF_USER_GROUP, 8]],
+            'already an int' => [[MemberOfLimitationType::SELF_USER_GROUP, 8], [MemberOfLimitationType::SELF_USER_GROUP, 8]],
+        ];
+    }
+
+    /**
      * @dataProvider providerForTestAcceptValueException
      */
     public function testAcceptValueException(MemberOfLimitation $limitation): void
