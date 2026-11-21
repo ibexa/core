@@ -14,7 +14,6 @@ use Doctrine\DBAL\Schema\Schema;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\AbstractSqlMigration;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationInterface;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
-use RuntimeException;
 
 /**
  * Adds "language_id" and "is_main_and_always_available" to "ibexa_search_object_word_link", backfilled from "language_mask".
@@ -78,10 +77,7 @@ final class AddSearchObjectWordLinkLanguageIdColumnsMigration extends AbstractSq
             return;
         }
 
-        $backfillSql = file_get_contents(__DIR__ . '/sql/backfill-search-object-word-link-language-ids.sql');
-        if ($backfillSql === false) {
-            throw new RuntimeException('Unable to read the search object word link backfill SQL file.');
-        }
+        $backfillSql = $this->readSqlFile(__DIR__ . '/sql/backfill-search-object-word-link-language-ids.sql');
 
         $maxId = (int)$range['max_id'];
         for ($from = (int)$range['min_id']; $from <= $maxId; $from += self::BATCH_SIZE) {
