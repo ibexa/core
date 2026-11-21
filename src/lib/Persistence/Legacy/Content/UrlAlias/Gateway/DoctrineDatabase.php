@@ -52,7 +52,6 @@ final class DoctrineDatabase extends Gateway
         'is_original' => ParameterType::INTEGER,
         'action' => ParameterType::STRING,
         'action_type' => ParameterType::STRING,
-        'lang_mask' => ParameterType::INTEGER,
         'text' => ParameterType::STRING,
         'parent' => ParameterType::INTEGER,
         'text_md5' => ParameterType::STRING,
@@ -430,40 +429,6 @@ final class DoctrineDatabase extends Gateway
     ): void {
         $query = $this->connection->createQueryBuilder();
         $query
-            ->update($this->connection->quoteSingleIdentifier($this->table))
-            ->set(
-                'lang_mask',
-                $this->getDatabasePlatform()->getBitAndComparisonExpression(
-                    'lang_mask',
-                    $query->createPositionalParameter(
-                        ~$languageId,
-                        ParameterType::INTEGER
-                    )
-                )
-            )
-            ->where(
-                $query->expr()->eq(
-                    'parent',
-                    $query->createPositionalParameter(
-                        $parentId,
-                        ParameterType::INTEGER
-                    )
-                )
-            )
-            ->andWhere(
-                $query->expr()->eq(
-                    'text_md5',
-                    $query->createPositionalParameter(
-                        $textMD5,
-                        ParameterType::STRING
-                    )
-                )
-            )
-        ;
-        $query->executeStatement();
-
-        $query = $this->connection->createQueryBuilder();
-        $query
             ->delete(self::TRANSLATION_TABLE)
             ->where('parent = :parent')
             ->andWhere('text_md5 = :textMd5')
@@ -557,7 +522,6 @@ final class DoctrineDatabase extends Gateway
     ): void {
         $languageIds = $values['language_ids'] ?? null;
         unset($values['language_ids']);
-        $values = $this->withLanguageMask($values, $languageIds, $parentId, $textMD5);
 
         $query = $this->connection->createQueryBuilder();
         $query->update($this->connection->quoteSingleIdentifier($this->table));
@@ -645,7 +609,6 @@ final class DoctrineDatabase extends Gateway
 
         $languageIds = $values['language_ids'] ?? null;
         unset($values['language_ids']);
-        $values = $this->withLanguageMask($values, $languageIds);
 
         $query = $this->connection->createQueryBuilder();
         $query->insert($this->connection->quoteSingleIdentifier($this->table));
@@ -666,52 +629,6 @@ final class DoctrineDatabase extends Gateway
         }
 
         return (int)$values['id'];
-    }
-
-    /**
-     * Keeps the legacy "lang_mask" in step with the row's translations and "always_available",
-     * for as long as the language bitmask is still around.
-     *
-     * @param array<string, mixed> $values
-     * @param int[]|null $languageIds
-     *
-     * @return array<string, mixed>
-     */
-    private function withLanguageMask(
-        array $values,
-        ?array $languageIds,
-        ?int $parentId = null,
-        ?string $textMD5 = null
-    ): array {
-        if (null === $languageIds && !array_key_exists('always_available', $values)) {
-            return $values;
-        }
-
-        $existing = null !== $parentId && null !== $textMD5;
-        $languageIds ??= $existing ? $this->loadTranslationLanguageIds($parentId, $textMD5) : [];
-        if (array_key_exists('always_available', $values)) {
-            $alwaysAvailable = (bool)$values['always_available'];
-        } elseif ($existing) {
-            $query = $this->connection->createQueryBuilder();
-            $query
-                ->select('always_available')
-                ->from($this->connection->quoteSingleIdentifier($this->table))
-                ->where('parent = :parent')
-                ->andWhere('text_md5 = :textMd5')
-                ->setParameter('parent', $parentId, ParameterType::INTEGER)
-                ->setParameter('textMd5', $textMD5, ParameterType::STRING);
-            $alwaysAvailable = (bool)$query->executeQuery()->fetchOne();
-        } else {
-            $alwaysAvailable = false;
-        }
-
-        $languageMask = $alwaysAvailable ? 1 : 0;
-        foreach ($languageIds as $languageId) {
-            $languageMask |= (int)$languageId;
-        }
-        $values['lang_mask'] = $languageMask;
-
-        return $values;
     }
 
     /**
@@ -1147,15 +1064,6 @@ final class DoctrineDatabase extends Gateway
         int $languageId,
         array $actions
     ): void {
-        $query = $this->connection->createQueryBuilder();
-        $query
-            ->update($this->connection->quoteSingleIdentifier($this->table))
-            // parameter for bitwise operation has to be placed verbatim (w/o binding) for this to work cross-DBMS
-            ->set('lang_mask', 'lang_mask & ~ ' . $languageId)
-            ->where('action IN (:actions)')
-            ->setParameter('actions', $actions, ArrayParameterType::STRING);
-        $query->executeStatement();
-
         $subQuery = $this->connection->createQueryBuilder();
         $subQuery
             ->select('1')
@@ -1499,9 +1407,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Filter from the given result set original (current) only URL aliases and index them by their
-     * real (non-always-available) language id set - the relational replacement for indexing by
-     * "lang_mask" (each distinct language set can have one URL Alias).
+     * Filter from the given result set original (current) only URL aliases and index them by their language id set.
      *
      * @param array $urlAliasesData
      */
@@ -1640,15 +1546,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Builds an "at least one of $languageIds is a real translation of this row" condition against
-     * "ibexa_url_alias_ml_translation", correlated via $parentColumn/$textMd5Column (must be
-     * qualified with $query's own table alias) - the relational replacement for bitwise-AND-ing a
-     * row's "lang_mask".
-     *
-     * $parentColumn/$textMd5Column must be alias-qualified (e.g. "u.parent"), never bare column
-     * names - "ibexa_url_alias_ml_translation" has its own same-named columns, so an unqualified
-     * reference inside the subquery would resolve to its own column (the innermost scope), silently
-     * turning the correlation into a tautology instead of a real join back to the outer row.
+     * Builds an "at least one of $languageIds is a translation of this row" condition, correlated via alias-qualified $parentColumn and $textMd5Column.
      *
      * @param int[] $languageIds
      */

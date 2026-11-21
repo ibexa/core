@@ -208,7 +208,7 @@ abstract class Gateway
     /**
      * Load info for content identified by $contentId.
      * Will basically return a hash containing all field values for ibexa_content table plus following keys:
-     *  - always_available => Boolean indicating if content's language mask contains alwaysAvailable bit field
+     *  - always_available => Boolean indicating if the content is always available
      *  - main_language_code => Language code for main (initial) language. E.g. "eng-GB".
      *
      * @throws NotFoundException
@@ -229,7 +229,7 @@ abstract class Gateway
      * Load version info for content identified by $contentId and $versionNo.
      * Will basically return a hash containing all field values from ibexa_content_version table plus following keys:
      *  - names => Hash of content object names. Key is the language code, value is the name.
-     *  - languages => Hash of language ids. Key is the language code (e.g. "eng-GB"), value is the language numeric id without the always available bit.
+     *  - languages => Hash of language ids. Key is the language code (e.g. "eng-GB"), value is the language numeric id.
      *  - initial_language_code => Language code for initial language in this version.
      *
      * @param int|null $versionNo Load current version if null.

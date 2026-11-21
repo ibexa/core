@@ -11,6 +11,7 @@ namespace Ibexa\Tests\Integration\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Exceptions\Exception;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\URLAliasService;
 use Ibexa\Core\Repository\ContentService;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -41,6 +42,13 @@ final class MaxLanguagesContentServiceTest extends RepositoryTestCase
     }
 
     /**
+     * Number of languages to create beyond the fixture's 62 (the old bitmask ceiling,
+     * 8 * PHP_INT_SIZE - 2 on 64-bit PHP) - proves content creation works with translations in
+     * languages allocated past where the old power-of-two id scheme would have thrown.
+     */
+    private const int EXTRA_LANGUAGES_BEYOND_OLD_LIMIT = 5;
+
+    /**
      * @throws Exception
      */
     public function testCreateContent(): void
@@ -55,7 +63,22 @@ final class MaxLanguagesContentServiceTest extends RepositoryTestCase
             ],
             self::$languagesRawList
         ));
-        $this->createFolder($names);
+
+        for ($i = 1; $i <= self::EXTRA_LANGUAGES_BEYOND_OLD_LIMIT; ++$i) {
+            $names["xtr-{$i}"] = "Beyond old limit {$i} name";
+        }
+
+        $folder = $this->createFolder($names);
+
+        $content = $this->getIbexaTestCore()->getContentService()->loadContent($folder->id);
+        self::assertEqualsCanonicalizing(array_keys($names), $content->getVersionInfo()->languageCodes);
+        for ($i = 1; $i <= self::EXTRA_LANGUAGES_BEYOND_OLD_LIMIT; ++$i) {
+            self::assertSame("Beyond old limit {$i} name", $content->getName("xtr-{$i}"));
+        }
+
+        $urlAlias = $this->getIbexaTestCore()->getServiceByClassName(URLAliasService::class)->lookup('/Beyond-old-limit-3-name');
+        self::assertSame($content->getContentInfo()->getMainLocationId(), $urlAlias->destination);
+        self::assertSame(['xtr-3'], $urlAlias->languageCodes);
     }
 
     /**
@@ -70,6 +93,13 @@ final class MaxLanguagesContentServiceTest extends RepositoryTestCase
             $languageCreateStruct = $languageService->newLanguageCreateStruct();
             $languageCreateStruct->languageCode = $languageData['languageCode'];
             $languageCreateStruct->name = $languageData['name'];
+            $languageService->createLanguage($languageCreateStruct);
+        }
+
+        for ($i = 1; $i <= self::EXTRA_LANGUAGES_BEYOND_OLD_LIMIT; ++$i) {
+            $languageCreateStruct = $languageService->newLanguageCreateStruct();
+            $languageCreateStruct->languageCode = "xtr-{$i}";
+            $languageCreateStruct->name = "Beyond old limit {$i}";
             $languageService->createLanguage($languageCreateStruct);
         }
     }
