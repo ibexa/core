@@ -34,6 +34,7 @@ use Ibexa\Bundle\RepositoryInstaller\Migration\AddSearchObjectWordLinkLanguageId
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddUrlAliasAlwaysAvailableColumnMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\BackfillLanguageTranslationsMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\DropLanguageBitmaskColumnsMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\RenumberLanguageIdsMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\StripAlwaysAvailableBitFromLanguageIdsMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\TaggedMigrationsRunner;
 use Ibexa\Contracts\Core\Persistence\Content\Language;
@@ -44,6 +45,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase as L
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 use Ibexa\Tests\Core\Repository\LegacySchemaImporter;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Psr\Log\NullLogger;
 
 /**
@@ -61,6 +63,7 @@ use Psr\Log\NullLogger;
 #[CoversClass(AddSearchObjectWordLinkLanguageIdColumnsMigration::class)]
 #[CoversClass(AddUrlAliasAlwaysAvailableColumnMigration::class)]
 #[CoversClass(DropLanguageBitmaskColumnsMigration::class)]
+#[CoversClass(RenumberLanguageIdsMigration::class)]
 #[CoversClass(StripAlwaysAvailableBitFromLanguageIdsMigration::class)]
 final class LanguageBitmaskUpgradeSequenceTest extends TestCase
 {
@@ -93,6 +96,15 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         $schemaImporter->importSchema(
             __DIR__ . '/_fixtures/pre_language_bitmask_migration_schema.yaml'
         );
+    }
+
+    protected function tearDown(): void
+    {
+        $connection = $this->getDatabaseConnection();
+        $connection->executeStatement('PRAGMA foreign_keys = OFF');
+        $connection->executeStatement('DROP TABLE IF EXISTS ibexa_test_language_renumbering');
+
+        parent::tearDown();
     }
 
     public function testFullSequenceMigratesExistingDataCorrectly(): void
@@ -316,6 +328,40 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         self::assertSame($referenceCount, (int)$connection->fetchOne('SELECT COUNT(*) FROM field_reference'));
         self::assertSame(1, (int)$connection->fetchOne('PRAGMA foreign_keys'));
         self::assertSame([], $connection->fetchAllAssociative('PRAGMA foreign_key_check'));
+    }
+
+    #[DataProvider('provideForeignKeysPragma')]
+    public function testRenumberingFollowsTheForeignKeys(bool $foreignKeysEnforced): void
+    {
+        $connection = $this->getDatabaseConnection();
+        $this->seedPreMigrationData($connection);
+        $this->runBitmaskSequence();
+        foreach ($this->createForeignKeyMigrations() as $migration) {
+            $this->runMigration($migration);
+        }
+        $connection->executeStatement(
+            'CREATE TABLE ibexa_test_language_renumbering (id INTEGER NOT NULL PRIMARY KEY, language_id BIGINT NOT NULL, FOREIGN KEY (language_id) REFERENCES ibexa_content_language (id) ON UPDATE CASCADE)'
+        );
+        $connection->insert('ibexa_test_language_renumbering', ['id' => 1, 'language_id' => self::ENG_GB]);
+        $connection->executeStatement('PRAGMA foreign_keys = ' . ($foreignKeysEnforced ? 'ON' : 'OFF'));
+
+        $migration = $this->createRenumberingMigration();
+        self::assertFalse($migration->isTransactional());
+        $this->runMigration($migration);
+
+        $this->assertRenumbered();
+        self::assertSame(4, (int)$connection->fetchOne('SELECT language_id FROM ibexa_test_language_renumbering WHERE id = 1'));
+        self::assertSame($foreignKeysEnforced, (bool)$connection->fetchOne('PRAGMA foreign_keys'));
+        self::assertSame([], $connection->fetchAllAssociative('PRAGMA foreign_key_check'));
+    }
+
+    /**
+     * @return iterable<string, array{bool}>
+     */
+    public static function provideForeignKeysPragma(): iterable
+    {
+        yield 'foreign keys enforced' => [true];
+        yield 'foreign keys not enforced' => [false];
     }
 
     public function testStripMigrationLeavesSequentialLanguageIdsUntouched(): void
@@ -892,6 +938,58 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
         ) {
             $this->runMigration(new $migrationClass($connection, new NullLogger(), new MigrationRunContext()));
         }
+    }
+
+    private function assertRenumbered(): void
+    {
+        $connection = $this->getDatabaseConnection();
+        $usId = 2;
+        $deId = 3;
+        $gbId = 4;
+
+        self::assertSame(
+            ['eng-GB' => $gbId, 'eng-US' => $usId, 'ger-DE' => $deId],
+            $this->fetchLanguageIdMap($connection, 'SELECT locale AS k, id AS language_id FROM ibexa_content_language')
+        );
+        self::assertEqualsCanonicalizing([$usId, $gbId], $this->fetchLanguageIds($connection, 'ibexa_content_translation', 'content_id', 1));
+        self::assertEqualsCanonicalizing([$deId], $this->fetchLanguageIds($connection, 'ibexa_content_version_translation', 'content_version_id', 2));
+        self::assertEqualsCanonicalizing(
+            [$usId, $gbId],
+            array_map('intval', $connection->fetchFirstColumn("SELECT language_id FROM ibexa_url_alias_ml_translation WHERE parent = 0 AND text_md5 = 'hash1'"))
+        );
+        self::assertSame($usId, (int)$connection->fetchOne('SELECT initial_language_id FROM ibexa_content WHERE id = 1'));
+        self::assertSame([1 => $usId, 2 => $gbId, 3 => $deId], $this->fetchLanguageIdMap($connection, 'SELECT id AS k, language_id FROM ibexa_content_field'));
+        self::assertSame(
+            ['eng-GB' => $gbId, 'eng-US' => $usId, 'ger-DE' => $deId],
+            $this->fetchLanguageIdMap($connection, 'SELECT content_translation AS k, language_id FROM ibexa_content_name')
+        );
+        self::assertSame(
+            ['eng-GB' => $gbId, 'eng-US' => $usId],
+            $this->fetchLanguageIdMap($connection, 'SELECT language_locale AS k, language_id FROM ibexa_content_type_name')
+        );
+        self::assertSame(
+            ['default' => $gbId, 'other' => $deId],
+            $this->fetchLanguageIdMap($connection, 'SELECT name AS k, language_id FROM ibexa_object_state_language')
+        );
+        self::assertSame(
+            ['default' => $gbId, 'other' => $deId],
+            $this->fetchLanguageIdMap($connection, 'SELECT name AS k, real_language_id AS language_id FROM ibexa_object_state_group_language')
+        );
+        self::assertSame($gbId, (int)$connection->fetchOne('SELECT language_id FROM ibexa_search_object_word_link WHERE id = 1'));
+
+        $rerun = $this->createRenumberingMigration();
+        $rerun->up(new Schema());
+        self::assertSame([], $rerun->getSql());
+
+        self::assertSame(
+            5,
+            (new LanguageGateway($connection))->insertLanguage(new Language(['languageCode' => 'fre-FR', 'name' => 'French', 'isEnabled' => true]))
+        );
+    }
+
+    private function createRenumberingMigration(): RenumberLanguageIdsMigration
+    {
+        return new RenumberLanguageIdsMigration($this->getDatabaseConnection(), new NullLogger(), new MigrationRunContext());
     }
 
     /**
