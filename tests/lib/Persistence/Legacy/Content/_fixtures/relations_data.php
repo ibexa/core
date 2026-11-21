@@ -5,8 +5,12 @@
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
+use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway as LanguageGateway;
 
 return [
+    LanguageGateway::CONTENT_LANGUAGE_TABLE => [
+        ['disabled' => 0, 'id' => 2, 'locale' => 'eng-US', 'name' => 'English (American)'],
+    ],
     Gateway::CONTENT_RELATION_TABLE => [
         ['content_type_field_definition_id' => '0', 'from_contentobject_id' => '57', 'from_contentobject_version' => '1', 'id' => '2', 'relation_type' => '1', 'to_contentobject_id' => '58'],
         ['content_type_field_definition_id' => '0', 'from_contentobject_id' => '57', 'from_contentobject_version' => '2', 'id' => '8', 'relation_type' => '1', 'to_contentobject_id' => '58'],

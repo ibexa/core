@@ -34,13 +34,29 @@ final class FixtureImporter
         'ibexa_object_state_group_language',
     ];
 
+    private const string LANGUAGE_TABLE = 'ibexa_content_language';
+
     /**
-     * Join tables referencing "ibexa_content_language" (ON DELETE RESTRICT), keyed to the table owning their rows.
+     * Tables referencing "ibexa_content_language", referenced tables first: language id columns and the owner whose replacement drops the rows.
+     *
+     * @var array<string, array{list<string>, string|null}>
      */
-    private const array LANGUAGE_TRANSLATION_TABLES = [
-        'ibexa_content_translation' => 'ibexa_content',
-        'ibexa_content_version_translation' => 'ibexa_content_version',
-        'ibexa_url_alias_ml_translation' => 'ibexa_url_alias_ml',
+    private const array LANGUAGE_REFERENCES = [
+        'ibexa_content_type' => [['initial_language_id'], null],
+        'ibexa_content_type_name' => [['language_id'], null],
+        'ibexa_content_type_field_definition_ml' => [['language_id'], null],
+        'ibexa_content' => [['initial_language_id'], null],
+        'ibexa_content_version' => [['initial_language_id'], null],
+        'ibexa_content_field' => [['language_id'], null],
+        'ibexa_content_name' => [['language_id'], null],
+        'ibexa_object_state_group' => [['default_language_id'], null],
+        'ibexa_object_state' => [['default_language_id'], null],
+        'ibexa_object_state_group_language' => [['language_id', 'real_language_id'], null],
+        'ibexa_object_state_language' => [['language_id'], null],
+        'ibexa_content_translation' => [['language_id'], 'ibexa_content'],
+        'ibexa_content_version_translation' => [['language_id'], 'ibexa_content_version'],
+        'ibexa_url_alias_ml_translation' => [['language_id'], 'ibexa_url_alias_ml'],
+        'ibexa_search_object_word_link' => [['language_id'], null],
     ];
 
     /** @var array<string, string|null> */
@@ -59,17 +75,19 @@ final class FixtureImporter
         $data = $fixture->load();
 
         $tablesList = array_keys($data);
-        $detachedTranslations = [];
+        if (in_array(self::LANGUAGE_TABLE, $tablesList, true)) {
+            $tablesList = [self::LANGUAGE_TABLE, ...array_values(array_diff($tablesList, [self::LANGUAGE_TABLE]))];
+        }
+        $detachedReferences = [];
         if (!$fixture instanceof AppendOnlyFixture) {
-            $detachedTranslations = $this->detachLanguageTranslations($tablesList);
+            $detachedReferences = $this->detachLanguageReferences($tablesList);
             // truncate all tables, even the ones initially empty (some tests are affected by this)
             $this->truncateTables(array_reverse($tablesList));
         }
 
         $nonEmptyTablesData = array_filter(
-            $data,
-            static fn (array $tableData, string $table): bool => $tableData !== [] && in_array($table, $tablesList, true),
-            ARRAY_FILTER_USE_BOTH
+            array_replace(array_fill_keys($tablesList, []), $data),
+            static fn (array $tableData): bool => $tableData !== []
         );
         $languageIds = array_merge(
             $this->loadValidLanguageIds(),
@@ -82,6 +100,7 @@ final class FixtureImporter
             $existingColumns = $this->getExistingColumns($table);
             foreach ($rows as $row) {
                 $row = $this->stripLegacyAlwaysAvailableBit($table, $row, $languageIds);
+                $row = $this->splitLegacySearchIndexLanguageMask($table, $row);
                 $this->connection->insert($table, array_intersect_key($row, array_flip($existingColumns)));
             }
         }
@@ -90,7 +109,7 @@ final class FixtureImporter
             $this->resetSequences($tablesList);
         }
 
-        $this->reattachLanguageTranslations($detachedTranslations);
+        $this->reattachLanguageReferences($detachedReferences);
         if (!$fixture instanceof AppendOnlyFixture) {
             $this->clearLanguageTranslations($nonEmptyTablesData);
         }
@@ -122,11 +141,7 @@ final class FixtureImporter
     }
 
     /**
-     * A fixture replacing the languages can't truncate "ibexa_content_language" while the translation rows
-     * of tables it leaves alone (e.g. the base fixture's URL aliases) still reference it. Take them
-     * out first, so reattachLanguageTranslations() can put back the ones whose language is still
-     * there, the same rows the legacy bitmask columns kept. Rows of tables the fixture replaces are
-     * dropped, backfillLanguageBitmaskColumns() rebuilds those.
+     * Takes out the rows referencing the languages a fixture replaces, from the tables it leaves alone.
      *
      * @param string[] $tablesList
      *
@@ -134,43 +149,46 @@ final class FixtureImporter
      *
      * @throws Exception
      */
-    private function detachLanguageTranslations(array $tablesList): array
+    private function detachLanguageReferences(array $tablesList): array
     {
-        if (!in_array('ibexa_content_language', $tablesList, true)) {
+        if (!in_array(self::LANGUAGE_TABLE, $tablesList, true)) {
             return [];
         }
 
         $detached = [];
-        foreach (self::LANGUAGE_TRANSLATION_TABLES as $table => $ownerTable) {
-            if (!$this->tableExists($table)) {
+        foreach (array_reverse(self::LANGUAGE_REFERENCES) as $table => [, $ownerTable]) {
+            if (in_array($table, $tablesList, true) || !$this->tableExists($table)) {
                 continue;
             }
-            if (!in_array($ownerTable, $tablesList, true)) {
+            if ($ownerTable === null || !in_array($ownerTable, $tablesList, true)) {
                 $detached[$table] = $this->connection->fetchAllAssociative('SELECT * FROM ' . $table);
             }
             $this->connection->executeStatement('DELETE FROM ' . $table);
         }
 
-        return $detached;
+        return array_reverse($detached);
     }
 
     /**
-     * @param array<string, list<array<string, mixed>>> $detachedTranslations
+     * @param array<string, list<array<string, mixed>>> $detachedReferences
      *
      * @throws Exception
      */
-    private function reattachLanguageTranslations(array $detachedTranslations): void
+    private function reattachLanguageReferences(array $detachedReferences): void
     {
-        if ($detachedTranslations === []) {
+        if ($detachedReferences === []) {
             return;
         }
 
         $validLanguageIds = $this->loadValidLanguageIds();
-        foreach ($detachedTranslations as $table => $rows) {
+        foreach ($detachedReferences as $table => $rows) {
             foreach ($rows as $row) {
-                if (in_array((int)$row['language_id'], $validLanguageIds, true)) {
-                    $this->connection->insert($table, $row);
+                foreach (self::LANGUAGE_REFERENCES[$table][0] as $column) {
+                    if (!in_array((int)$row[$column], $validLanguageIds, true)) {
+                        continue 2;
+                    }
                 }
+                $this->connection->insert($table, $row);
             }
         }
     }
@@ -196,6 +214,28 @@ final class FixtureImporter
         if ($languageId % 2 === 1 && !in_array($languageId, $languageIds, true)) {
             $row['language_id'] = $languageId - 1;
         }
+
+        return $row;
+    }
+
+    /**
+     * Turns a legacy "language_mask" of a search index row into its "language_id" and "is_main_and_always_available".
+     *
+     * @param array<string, mixed> $row
+     *
+     * @return array<string, mixed>
+     */
+    private function splitLegacySearchIndexLanguageMask(
+        string $table,
+        array $row
+    ): array {
+        if ($table !== 'ibexa_search_object_word_link' || !isset($row['language_mask']) || isset($row['language_id'])) {
+            return $row;
+        }
+
+        $languageMask = (int)$row['language_mask'];
+        $row['language_id'] = $languageMask & ~1;
+        $row['is_main_and_always_available'] = $languageMask & 1;
 
         return $row;
     }

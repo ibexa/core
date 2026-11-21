@@ -149,12 +149,14 @@ return [
             'content_version' => 1,
             'name' => 'dva new',
             'content_translation' => 'cro-HR',
+            'language_id' => 2,
         ],
         1 => [
             'contentobject_id' => 3,
             'content_version' => 1,
             'name' => 'jedan new',
             'content_translation' => 'cro-HR',
+            'language_id' => 2,
         ],
     ],
 ];

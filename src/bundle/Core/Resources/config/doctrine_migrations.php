@@ -7,8 +7,21 @@
 declare(strict_types=1);
 
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddContentAlwaysAvailableColumnsMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddContentFieldLanguageForeignKeyMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddContentInitialLanguageForeignKeyMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddContentNameLanguageForeignKeyMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddContentTypeFieldDefinitionLanguageForeignKeyMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddContentTypeInitialLanguageForeignKeyMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddContentTypeNameLanguageForeignKeyMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddContentVersionInitialLanguageForeignKeyMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddContentVersionUniqueIndexMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddLanguageTranslationTablesMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddObjectStateDefaultLanguageForeignKeyMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddObjectStateGroupDefaultLanguageForeignKeyMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddObjectStateGroupLanguageLanguageForeignKeyMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddObjectStateGroupLanguageRealLanguageForeignKeyMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddObjectStateLanguageLanguageForeignKeyMigration;
+use Ibexa\Bundle\RepositoryInstaller\Migration\AddSearchObjectWordLinkLanguageForeignKeyMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddSearchObjectWordLinkLanguageIdColumnsMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddUrlAliasAlwaysAvailableColumnMigration;
 use Ibexa\Bundle\RepositoryInstaller\Migration\AddUrlAliasMlLinkIndexMigration;
@@ -112,6 +125,58 @@ return static function (ContainerConfigurator $configurator): void {
         ->tag(IbexaMigrationTag::TAG);
 
     $services->set(StripAlwaysAvailableBitFromLanguageIdsMigration::class)
+        ->arg('$connection', service('ibexa.persistence.connection'))
+        ->tag(IbexaMigrationTag::TAG);
+
+    $services->set(AddContentInitialLanguageForeignKeyMigration::class)
+        ->arg('$connection', service('ibexa.persistence.connection'))
+        ->tag(IbexaMigrationTag::TAG);
+
+    $services->set(AddContentVersionInitialLanguageForeignKeyMigration::class)
+        ->arg('$connection', service('ibexa.persistence.connection'))
+        ->tag(IbexaMigrationTag::TAG);
+
+    $services->set(AddContentTypeInitialLanguageForeignKeyMigration::class)
+        ->arg('$connection', service('ibexa.persistence.connection'))
+        ->tag(IbexaMigrationTag::TAG);
+
+    $services->set(AddContentTypeNameLanguageForeignKeyMigration::class)
+        ->arg('$connection', service('ibexa.persistence.connection'))
+        ->tag(IbexaMigrationTag::TAG);
+
+    $services->set(AddContentFieldLanguageForeignKeyMigration::class)
+        ->arg('$connection', service('ibexa.persistence.connection'))
+        ->tag(IbexaMigrationTag::TAG);
+
+    $services->set(AddContentNameLanguageForeignKeyMigration::class)
+        ->arg('$connection', service('ibexa.persistence.connection'))
+        ->tag(IbexaMigrationTag::TAG);
+
+    $services->set(AddObjectStateDefaultLanguageForeignKeyMigration::class)
+        ->arg('$connection', service('ibexa.persistence.connection'))
+        ->tag(IbexaMigrationTag::TAG);
+
+    $services->set(AddObjectStateGroupDefaultLanguageForeignKeyMigration::class)
+        ->arg('$connection', service('ibexa.persistence.connection'))
+        ->tag(IbexaMigrationTag::TAG);
+
+    $services->set(AddObjectStateLanguageLanguageForeignKeyMigration::class)
+        ->arg('$connection', service('ibexa.persistence.connection'))
+        ->tag(IbexaMigrationTag::TAG);
+
+    $services->set(AddObjectStateGroupLanguageLanguageForeignKeyMigration::class)
+        ->arg('$connection', service('ibexa.persistence.connection'))
+        ->tag(IbexaMigrationTag::TAG);
+
+    $services->set(AddObjectStateGroupLanguageRealLanguageForeignKeyMigration::class)
+        ->arg('$connection', service('ibexa.persistence.connection'))
+        ->tag(IbexaMigrationTag::TAG);
+
+    $services->set(AddContentTypeFieldDefinitionLanguageForeignKeyMigration::class)
+        ->arg('$connection', service('ibexa.persistence.connection'))
+        ->tag(IbexaMigrationTag::TAG);
+
+    $services->set(AddSearchObjectWordLinkLanguageForeignKeyMigration::class)
         ->arg('$connection', service('ibexa.persistence.connection'))
         ->tag(IbexaMigrationTag::TAG);
 };
