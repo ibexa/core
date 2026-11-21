@@ -8,9 +8,10 @@ declare(strict_types=1);
 
 namespace Ibexa\Tests\Integration\Installer\RepositoryInstaller;
 
+use Doctrine\DBAL\Connection;
 use Ibexa\Bundle\RepositoryInstaller\Installer\CoreInstaller;
 use Ibexa\Tests\Integration\RepositoryInstaller\TestCase;
-use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Console\Output\BufferedOutput;
 
 final class CoreInstallerTest extends TestCase
 {
@@ -22,18 +23,30 @@ final class CoreInstallerTest extends TestCase
         $this->installer = self::getServiceByClassName(CoreInstaller::class);
     }
 
-    public function testImportSchema(): void
+    public function testImportSchemaAndDataRunsTaggedMigrations(): void
     {
-        $this->installer->setOutput(new NullOutput());
+        $this->installer->setOutput(new BufferedOutput());
         $this->installer->importSchema();
+        $this->installer->importData();
+
+        $connection = self::getServiceByClassName(Connection::class);
+
+        self::assertTrue($connection->createSchemaManager()->tablesExist(['ibexa_content']));
+        self::assertSame(
+            'admin',
+            $connection->fetchOne('SELECT login FROM ibexa_user WHERE contentobject_id = 14')
+        );
     }
 
-    public function testImportSchemaTwiceDoesNotFailOnPreExistingLegacyTables(): void
+    public function testImportSchemaTwiceSkipsAlreadyExecutedMigrations(): void
     {
-        $this->installer->setOutput(new NullOutput());
+        $this->installer->setOutput(new BufferedOutput());
         $this->installer->importSchema();
-        // Second run must see (and drop) the legacy tables created above before
-        // re-creating them, otherwise CREATE TABLE fails with "already exists".
+
+        $output = new BufferedOutput();
+        $this->installer->setOutput($output);
         $this->installer->importSchema();
+
+        self::assertStringContainsString('Executed 0 queries', $output->fetch());
     }
 }

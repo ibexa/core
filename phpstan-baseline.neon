@@ -2977,12 +2977,6 @@ parameters:
 			path: src/bundle/RepositoryInstaller/Installer/DbBasedInstaller.php
 
 		-
-			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\Installer\\DbBasedInstaller\:\:getKernelSQLFileForDBMS\(\) should return string but returns string\|false\.$#'
-			identifier: return.type
-			count: 1
-			path: src/bundle/RepositoryInstaller/Installer/DbBasedInstaller.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\RepositoryInstaller\\Installer\\DbBasedInstaller\:\:runQueriesFromFile\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
