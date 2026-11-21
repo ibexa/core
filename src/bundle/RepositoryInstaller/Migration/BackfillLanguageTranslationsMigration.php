@@ -52,69 +52,20 @@ final class BackfillLanguageTranslationsMigration extends AbstractSqlMigration i
             return;
         }
 
-        $this->backfillAlwaysAvailable('ibexa_content');
-        $this->backfillAlwaysAvailable('ibexa_content_version');
-
-        $this->backfillTable(
-            'ibexa_content',
-            'language_mask',
-            'id',
-            'INSERT %s INTO ibexa_content_translation (content_id, language_id)
-             SELECT c.id, l.id FROM ibexa_content c
-             JOIN ibexa_content_language l ON (c.language_mask & l.id) = l.id
-             WHERE c.id BETWEEN :from AND :to %s'
-        );
-
-        $this->backfillTable(
-            'ibexa_content_version',
-            'language_mask',
-            'id',
-            'INSERT %s INTO ibexa_content_version_translation (content_version_id, language_id)
-             SELECT v.id, l.id FROM ibexa_content_version v
-             JOIN ibexa_content_language l ON (v.language_mask & l.id) = l.id
-             WHERE v.id BETWEEN :from AND :to %s'
-        );
-
-        $this->backfillTable(
-            'ibexa_url_alias_ml',
-            'lang_mask',
-            'id',
-            'INSERT %s INTO ibexa_url_alias_ml_translation (parent, text_md5, language_id)
-             SELECT u.parent, u.text_md5, l.id FROM ibexa_url_alias_ml u
-             JOIN ibexa_content_language l ON (u.lang_mask & l.id) = l.id
-             WHERE u.id BETWEEN :from AND :to %s'
-        );
+        $this->addChunkedSql('ibexa_content', 'language_mask', 'id', 'backfill-content-always-available.sql');
+        $this->addChunkedSql('ibexa_content_version', 'language_mask', 'id', 'backfill-content-version-always-available.sql');
+        $this->addChunkedSql('ibexa_content', 'language_mask', 'id', $this->getPlatformSqlFile('backfill-content-translation'));
+        $this->addChunkedSql('ibexa_content_version', 'language_mask', 'id', $this->getPlatformSqlFile('backfill-content-version-translation'));
+        $this->addChunkedSql('ibexa_url_alias_ml', 'lang_mask', 'id', $this->getPlatformSqlFile('backfill-url-alias-ml-translation'));
     }
 
-    /**
-     * @param non-empty-string $sourceTable
-     */
-    private function backfillAlwaysAvailable(string $sourceTable): void
+    private function getPlatformSqlFile(string $name): string
     {
-        $this->addChunkedSql(
-            $sourceTable,
-            'language_mask',
-            'id',
-            "UPDATE {$sourceTable} SET always_available = ((language_mask & 1) = 1)
-             WHERE id BETWEEN :from AND :to AND always_available <> ((language_mask & 1) = 1)"
-        );
-    }
-
-    /**
-     * @param non-empty-string $sourceTable
-     */
-    private function backfillTable(
-        string $sourceTable,
-        string $maskColumn,
-        string $pkColumn,
-        string $insertSqlTemplate
-    ): void {
-        $this->addChunkedSql(
-            $sourceTable,
-            $maskColumn,
-            $pkColumn,
-            sprintf($insertSqlTemplate, $this->insertIgnoreKeyword(), $this->onConflictClause())
-        );
+        return sprintf('%s-%s.sql', $name, match (true) {
+            $this->isSqlite() => 'sqlite',
+            $this->isPostgreSQL() => 'postgresql',
+            default => 'mysql',
+        });
     }
 
     /**
@@ -124,7 +75,7 @@ final class BackfillLanguageTranslationsMigration extends AbstractSqlMigration i
         string $sourceTable,
         string $maskColumn,
         string $pkColumn,
-        string $sql
+        string $sqlFile
     ): void {
         $schemaManager = $this->connection->createSchemaManager();
         if (
@@ -146,6 +97,8 @@ final class BackfillLanguageTranslationsMigration extends AbstractSqlMigration i
             return;
         }
 
+        $sql = $this->readSqlFile(__DIR__ . '/sql/' . $sqlFile);
+
         $minId = (int)$range['min_id'];
         $maxId = (int)$range['max_id'];
 
@@ -157,31 +110,5 @@ final class BackfillLanguageTranslationsMigration extends AbstractSqlMigration i
                 ['from' => ParameterType::INTEGER, 'to' => ParameterType::INTEGER]
             );
         }
-    }
-
-    private function insertIgnoreKeyword(): string
-    {
-        if ($this->isMySQL() || $this->isMariaDB()) {
-            return 'IGNORE';
-        }
-        if ($this->isSqlite()) {
-            return 'OR IGNORE';
-        }
-
-        return '';
-    }
-
-    /**
-     * Appended after the SELECT to make the insert idempotent on platforms that don't support
-     * "INSERT IGNORE" (MySQL is handled via insertIgnoreKeyword() instead, since its "ON DUPLICATE
-     * KEY" clause needs different syntax for an INSERT ... SELECT).
-     */
-    private function onConflictClause(): string
-    {
-        if ($this->isPostgreSQL()) {
-            return 'ON CONFLICT DO NOTHING';
-        }
-
-        return '';
     }
 }
