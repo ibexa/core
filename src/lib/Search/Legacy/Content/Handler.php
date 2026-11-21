@@ -52,72 +52,15 @@ use Ibexa\Core\Search\Legacy\Content\WordIndexer\Gateway as WordIndexerGateway;
  */
 class Handler implements SearchHandlerInterface
 {
-    /**
-     * Content locator gateway.
-     *
-     * @var Gateway
-     */
-    protected $gateway;
-
-    /**
-     * Location locator gateway.
-     *
-     * @var LocationGateway
-     */
-    protected $locationGateway;
-
-    /**
-     * Word indexer gateway.
-     *
-     * @var WordIndexerGateway
-     */
-    protected $indexerGateway;
-
-    /**
-     * Content mapper.
-     *
-     * @var ContentMapper
-     */
-    protected $contentMapper;
-
-    /**
-     * Location locationMapper.
-     *
-     * @var LocationMapper
-     */
-    protected $locationMapper;
-
-    /**
-     * Language handler.
-     *
-     * @var LanguageHandler
-     */
-    protected $languageHandler;
-
-    /**
-     * FullText mapper.
-     *
-     * @var FullTextMapper
-     */
-    protected $mapper;
-
     public function __construct(
-        Gateway $gateway,
-        LocationGateway $locationGateway,
-        WordIndexerGateway $indexerGateway,
-        ContentMapper $contentMapper,
-        LocationMapper $locationMapper,
-        LanguageHandler $languageHandler,
-        FullTextMapper $mapper
-    ) {
-        $this->gateway = $gateway;
-        $this->locationGateway = $locationGateway;
-        $this->indexerGateway = $indexerGateway;
-        $this->contentMapper = $contentMapper;
-        $this->locationMapper = $locationMapper;
-        $this->languageHandler = $languageHandler;
-        $this->mapper = $mapper;
-    }
+        protected Gateway $gateway,
+        protected LocationGateway $locationGateway,
+        protected WordIndexerGateway $indexerGateway,
+        protected ContentMapper $contentMapper,
+        protected LocationMapper $locationMapper,
+        protected LanguageHandler $languageHandler,
+        protected FullTextMapper $mapper
+    ) {}
 
     public function findContent(
         Query $query,
@@ -156,11 +99,7 @@ class Handler implements SearchHandlerInterface
             /** @phpstan-var SearchHit<ContentInfo> $searchHit */
             $searchHit = new SearchHit();
             $searchHit->valueObject = $contentInfo;
-            $searchHit->matchedTranslation = $this->extractMatchedLanguage(
-                $data['rows'][$index]['language_mask'],
-                $data['rows'][$index]['initial_language_id'],
-                $languageFilter
-            );
+            $searchHit->matchedTranslation = $this->extractMatchedLanguage($data['rows'][$index]['matched_language_id']);
 
             $result->searchHits[] = $searchHit;
         }
@@ -168,26 +107,16 @@ class Handler implements SearchHandlerInterface
         return $result;
     }
 
-    protected function extractMatchedLanguage(
-        $languageMask,
-        $mainLanguageId,
-        $languageSettings
-    ) {
-        $languageList = !empty($languageSettings['languages']) ?
-            $this->languageHandler->loadListByLanguageCodes($languageSettings['languages']) :
-            [];
-
-        foreach ($languageList as $language) {
-            if ($languageMask & $language->id) {
-                return $language->languageCode;
-            }
+    /**
+     * @param int|string|null $languageId
+     */
+    protected function extractMatchedLanguage($languageId): ?string
+    {
+        if ($languageId === null) {
+            return null;
         }
 
-        if ($languageMask & 1 || empty($languageSettings['languages'])) {
-            return $this->languageHandler->load($mainLanguageId)->languageCode;
-        }
-
-        return null;
+        return $this->languageHandler->load((int)$languageId)->languageCode;
     }
 
     public function findSingle(
@@ -245,11 +174,7 @@ class Handler implements SearchHandlerInterface
             /** @phpstan-var SearchHit<Location> $searchHit */
             $searchHit = new SearchHit();
             $searchHit->valueObject = $location;
-            $searchHit->matchedTranslation = $this->extractMatchedLanguage(
-                $data['rows'][$index]['language_mask'],
-                $data['rows'][$index]['initial_language_id'],
-                $languageFilter
-            );
+            $searchHit->matchedTranslation = $this->extractMatchedLanguage($data['rows'][$index]['matched_language_id']);
 
             $result->searchHits[] = $searchHit;
         }

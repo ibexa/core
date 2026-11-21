@@ -8,8 +8,8 @@
 namespace Ibexa\Core\Search\Legacy\Content\WordIndexer\Gateway;
 
 use Doctrine\DBAL\Connection;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Type\Handler as SPITypeHandler;
-use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\TransformationProcessor;
 use Ibexa\Core\Search\Legacy\Content\FullTextData;
 use Ibexa\Core\Search\Legacy\Content\FullTextValue;
@@ -29,61 +29,14 @@ class DoctrineDatabase extends Gateway
      */
     public const DB_INT_MAX = 2147483647;
 
-    /** @var Connection */
-    protected $connection;
-
-    /**
-     * Persistence content type handler.
-     *
-     * Need this for being able to pick fields that are searchable.
-     *
-     * @var SPITypeHandler
-     */
-    protected $typeHandler;
-
-    /**
-     * Transformation processor.
-     *
-     * Need this for being able to transform text to searchable value
-     *
-     * @var TransformationProcessor
-     */
-    protected $transformationProcessor;
-
-    /**
-     * LegacySearchService.
-     *
-     * Need this for queries on ezsearch* tables
-     *
-     * @var SearchIndex
-     */
-    protected $searchIndex;
-
-    /** @var MaskGenerator */
-    private $languageMaskGenerator;
-
-    /**
-     * Full text search configuration options.
-     *
-     * @var array
-     */
-    protected $fullTextSearchConfiguration;
-
     public function __construct(
-        Connection $connection,
-        SPITypeHandler $typeHandler,
-        TransformationProcessor $transformationProcessor,
-        SearchIndex $searchIndex,
-        MaskGenerator $languageMaskGenerator,
-        array $fullTextSearchConfiguration
-    ) {
-        $this->connection = $connection;
-        $this->typeHandler = $typeHandler;
-        $this->transformationProcessor = $transformationProcessor;
-        $this->searchIndex = $searchIndex;
-        $this->fullTextSearchConfiguration = $fullTextSearchConfiguration;
-        $this->languageMaskGenerator = $languageMaskGenerator;
-    }
+        protected Connection $connection,
+        protected SPITypeHandler $typeHandler,
+        protected TransformationProcessor $transformationProcessor,
+        protected SearchIndex $searchIndex,
+        private readonly LanguageHandler $languageHandler,
+        protected array $fullTextSearchConfiguration
+    ) {}
 
     /**
      * Index search engine full text data corresponding to content object field values.
@@ -107,7 +60,8 @@ class DoctrineDatabase extends Gateway
             $this->remove($fullTextData->id);
             foreach ($fullTextData->values as $fullTextValue) {
                 /** @var FullTextValue $fullTextValue */
-                if (is_numeric(trim($fullTextValue->value))) {
+                $value = (string)$fullTextValue->value;
+                if (is_numeric(trim($value))) {
                     $integerValue = (int)$fullTextValue->value;
                     if ($integerValue > self::DB_INT_MAX) {
                         $integerValue = 0;
@@ -116,7 +70,7 @@ class DoctrineDatabase extends Gateway
                     $integerValue = 0;
                 }
                 $text = $this->transformationProcessor->transform(
-                    $fullTextValue->value,
+                    $value,
                     !empty($fullTextValue->transformationRules)
                         ? $fullTextValue->transformationRules
                         : $this->fullTextSearchConfiguration['commands']
@@ -272,10 +226,7 @@ class DoctrineDatabase extends Gateway
             $languageCode = $indexArray[$i]['language_code'];
             $wordId = $wordIDArray[$indexWord];
             $isMainAndAlwaysAvailable = $indexArray[$i]['is_main_and_always_available'];
-            $languageMask = $this->languageMaskGenerator->generateLanguageMaskFromLanguageCodes(
-                [$languageCode],
-                $isMainAndAlwaysAvailable
-            );
+            $languageId = $this->languageHandler->loadByLanguageCode($languageCode)->id;
 
             if (isset($indexArray[$i + 1])) {
                 $nextIndexWord = $indexArray[$i + 1]['Word'];
@@ -298,7 +249,8 @@ class DoctrineDatabase extends Gateway
                 $fullTextData->sectionId,
                 $identifier,
                 $integerValue,
-                $languageMask
+                $languageId,
+                $isMainAndAlwaysAvailable
             );
             $prevWordId = $wordId;
             ++$placement;

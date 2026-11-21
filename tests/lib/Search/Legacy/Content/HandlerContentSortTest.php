@@ -17,6 +17,7 @@ use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Search\Legacy\Content;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\LanguagePriorityConditionBuilder;
 use Ibexa\Core\Search\Legacy\Content\Handler;
 use Ibexa\Core\Search\Legacy\Content\Location\Gateway as LocationGateway;
 
@@ -72,11 +73,18 @@ class HandlerContentSortTest extends AbstractTestCase
                         new Content\Common\Gateway\SortClauseHandler\Field(
                             $connection,
                             $this->getLanguageHandler(),
-                            $this->getContentTypeHandler()
+                            $this->getContentTypeHandler(),
+                            new LanguagePriorityConditionBuilder(
+                                $connection,
+                                $this->getLanguageHandler()
+                            )
                         ),
                     ]
                 ),
-                $this->getLanguageHandler()
+                new LanguagePriorityConditionBuilder(
+                    $this->getDatabaseConnection(),
+                    $this->getLanguageHandler()
+                )
             ),
             self::createStub(LocationGateway::class),
             new Content\WordIndexer\Gateway\DoctrineDatabase(
@@ -84,7 +92,7 @@ class HandlerContentSortTest extends AbstractTestCase
                 $this->getContentTypeHandler(),
                 $this->getDefinitionBasedTransformationProcessor(),
                 new Content\WordIndexer\Repository\SearchIndex($this->getDatabaseConnection()),
-                $this->getLanguageMaskGenerator(),
+                $this->getLanguageHandler(),
                 $this->getFullTextSearchConfiguration()
             ),
             $this->getContentMapperMock(),

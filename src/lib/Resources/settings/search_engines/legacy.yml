@@ -20,7 +20,7 @@ services:
             $connection: '@ibexa.persistence.connection'
             $criteriaConverter: '@ibexa.search.legacy.gateway.criteria_converter.content'
             $sortClauseConverter: '@ibexa.search.legacy.gateway.sort_clause_converter.content'
-            $languageHandler: '@Ibexa\Contracts\Core\Persistence\Content\Language\Handler'
+            $languagePriorityConditionBuilder: '@Ibexa\Core\Search\Legacy\Content\Common\Gateway\LanguagePriorityConditionBuilder'
 
     Ibexa\Core\Search\Legacy\Content\Gateway\ExceptionConversion:
         class: Ibexa\Core\Search\Legacy\Content\Gateway\ExceptionConversion
@@ -37,7 +37,7 @@ services:
             $connection: '@ibexa.persistence.connection'
             $criteriaConverter: '@ibexa.search.legacy.gateway.criteria_converter.location'
             $sortClauseConverter: '@ibexa.search.legacy.gateway.sort_clause_converter.location'
-            $languageHandler: '@Ibexa\Contracts\Core\Persistence\Content\Language\Handler'
+            $languagePriorityConditionBuilder: '@Ibexa\Core\Search\Legacy\Content\Common\Gateway\LanguagePriorityConditionBuilder'
 
     Ibexa\Core\Search\Legacy\Content\Location\Gateway\ExceptionConversion:
         class: Ibexa\Core\Search\Legacy\Content\Location\Gateway\ExceptionConversion

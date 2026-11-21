@@ -4,23 +4,20 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\Search\Legacy\Content\Gateway;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Exception;
-use Doctrine\DBAL\ParameterType;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Content\ContentInfo;
-use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
-use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\NotImplementedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\VersionInfo;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\LanguagePriorityConditionBuilder;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter;
 use Ibexa\Core\Search\Legacy\Content\Gateway;
 use RuntimeException;
@@ -30,48 +27,12 @@ use RuntimeException;
  */
 final class DoctrineDatabase extends Gateway
 {
-    /** @var Connection */
-    private $connection;
-
-    /** @var AbstractPlatform */
-    private $dbPlatform;
-
-    /**
-     * Criteria converter.
-     *
-     * @var CriteriaConverter
-     */
-    private $criteriaConverter;
-
-    /**
-     * Sort clause converter.
-     *
-     * @var SortClauseConverter
-     */
-    private $sortClauseConverter;
-
-    /**
-     * Language handler.
-     *
-     * @var LanguageHandler
-     */
-    private $languageHandler;
-
-    /**
-     * @throws Exception
-     */
     public function __construct(
-        Connection $connection,
-        CriteriaConverter $criteriaConverter,
-        SortClauseConverter $sortClauseConverter,
-        LanguageHandler $languageHandler
-    ) {
-        $this->connection = $connection;
-        $this->dbPlatform = $connection->getDatabasePlatform();
-        $this->criteriaConverter = $criteriaConverter;
-        $this->sortClauseConverter = $sortClauseConverter;
-        $this->languageHandler = $languageHandler;
-    }
+        private readonly Connection $connection,
+        private readonly CriteriaConverter $criteriaConverter,
+        private readonly SortClauseConverter $sortClauseConverter,
+        private readonly LanguagePriorityConditionBuilder $languagePriorityConditionBuilder
+    ) {}
 
     public function find(
         CriterionInterface $criterion,
@@ -100,29 +61,6 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Generates a language mask from the given $languageSettings.
-     *
-     * @param array $languageSettings
-     *
-     * @return int
-     *
-     * @throws NotFoundException
-     */
-    private function getLanguageMask(array $languageSettings): int
-    {
-        $mask = 0;
-        if ($languageSettings['useAlwaysAvailable']) {
-            $mask |= 1;
-        }
-
-        foreach ($languageSettings['languages'] as $languageCode) {
-            $mask |= $this->languageHandler->loadByLanguageCode($languageCode)->id;
-        }
-
-        return $mask;
-    }
-
-    /**
      * @param array $languageFilter
      *
      * @return string
@@ -133,9 +71,9 @@ final class DoctrineDatabase extends Gateway
         CriterionInterface $filter,
         QueryBuilder $query,
         array $languageFilter
-    ) {
+    ): string {
         $expr = $query->expr();
-        $condition = $expr->and(
+        $condition = (string)$expr->and(
             $this->criteriaConverter->convertCriteria($query, $filter, $languageFilter),
             $expr->eq(
                 'c.status',
@@ -149,20 +87,15 @@ final class DoctrineDatabase extends Gateway
 
         // If not main-languages query
         if (!empty($languageFilter['languages'])) {
-            $condition = $expr->and(
-                $condition,
-                $expr->gt(
-                    $this->dbPlatform->getBitAndComparisonExpression(
-                        'c.language_mask',
-                        $query->createNamedParameter(
-                            $this->getLanguageMask($languageFilter),
-                            ParameterType::INTEGER,
-                            ':language_mask'
-                        )
-                    ),
-                    $query->createNamedParameter(0, ParameterType::INTEGER, ':zero')
-                )
+            $languageIds = $this->languagePriorityConditionBuilder->loadLanguageIds($languageFilter['languages']);
+
+            $languageCondition = $this->languagePriorityConditionBuilder->buildTranslationCondition(
+                $query,
+                $languageIds,
+                !empty($languageFilter['useAlwaysAvailable'])
             );
+
+            $condition = (string)$expr->and($condition, $languageCondition);
         }
 
         return $condition;
@@ -221,6 +154,7 @@ final class DoctrineDatabase extends Gateway
         $query = $this->connection->createQueryBuilder();
         $query->select(
             'DISTINCT c.*, main_tree.main_node_id AS main_tree_main_node_id',
+            'c.initial_language_id AS matched_language_id',
         );
 
         if ($sort !== null) {
@@ -239,7 +173,7 @@ final class DoctrineDatabase extends Gateway
                 'c',
                 LocationGateway::CONTENT_TREE_TABLE,
                 'main_tree',
-                $query->expr()->and(
+                (string)$query->expr()->and(
                     'main_tree.contentobject_id = c.id',
                     'main_tree.main_node_id = main_tree.node_id'
                 )
@@ -260,8 +194,10 @@ final class DoctrineDatabase extends Gateway
         $query->setMaxResults($limit);
         $query->setFirstResult($offset ?? 0);
 
-        $statement = $query->executeQuery();
-
-        return $statement->fetchAllAssociative();
+        return $this->languagePriorityConditionBuilder->resolveMatchedLanguageIds(
+            $query->executeQuery()->fetchAllAssociative(),
+            $languageFilter,
+            'id'
+        );
     }
 }
