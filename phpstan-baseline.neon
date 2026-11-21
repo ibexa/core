@@ -151,12 +151,6 @@ parameters:
 			path: src/bundle/Core/Command/ReindexCommand.php
 
 		-
-			message: '#^Parameter \#3 \$iterationCount of method Ibexa\\Bundle\\Core\\Command\\ReindexCommand\:\:indexIncrementally\(\) expects int, float\|int\|string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/bundle/Core/Command/ReindexCommand.php
-
-		-
 			message: '#^Property Ibexa\\Bundle\\Core\\Command\\ReindexCommand\:\:\$phpPath \(string\) does not accept string\|false\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -18218,12 +18212,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\WordIndexer\\Gateway\:\:purgeIndex\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Search/Legacy/Content/WordIndexer/Gateway.php
-
-		-
-			message: '#^Method Ibexa\\Core\\Search\\Legacy\\Content\\WordIndexer\\Gateway\:\:remove\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: src/lib/Search/Legacy/Content/WordIndexer/Gateway.php
