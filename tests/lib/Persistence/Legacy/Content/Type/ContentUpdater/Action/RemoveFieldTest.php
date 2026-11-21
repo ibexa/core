@@ -129,7 +129,7 @@ class RemoveFieldTest extends TestCase
             ->expects($extractMatcher)
             ->method('extractContentFromRows')
             ->willReturnCallback(static function (...$parameters) use ($extractMatcher, $content1, $content2): array {
-                self::assertSame([[], [], 'content_', null], $parameters);
+                self::assertSame([[], [], [], 'content_', null], $parameters);
 
                 return $extractMatcher->numberOfInvocations() === 1 ? [$content1] : [$content2];
             });
@@ -190,7 +190,7 @@ class RemoveFieldTest extends TestCase
             ->expects($extractMatcher)
             ->method('extractContentFromRows')
             ->willReturnCallback(static function (...$parameters) use ($extractMatcher, $content1, $content2): array {
-                self::assertSame([[], [], 'content_', null], $parameters);
+                self::assertSame([[], [], [], 'content_', null], $parameters);
 
                 return $extractMatcher->numberOfInvocations() === 1 ? [$content1] : [$content2];
             });

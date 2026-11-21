@@ -1,0 +1,295 @@
+<?php
+
+/**
+ * @copyright Copyright (C) Ibexa AS. All rights reserved.
+ * @license For full copyright and license information view LICENSE file distributed with this source code.
+ */
+declare(strict_types=1);
+
+namespace Ibexa\Bundle\Core\Command;
+
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Exception as DBALException;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException as APIInvalidArgumentException;
+use Ibexa\Contracts\DoctrineSchema\Database\DatabasePlatformName;
+use Ibexa\Contracts\DoctrineSchema\Database\DatabasePlatformResolver;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
+use Symfony\Component\Console\Attribute\AsCommand;
+use Symfony\Component\Console\Attribute\Option;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Output\OutputInterface;
+
+/**
+ * Backfills "always_available" and the language translation tables from the legacy language bitmask columns.
+ */
+#[AsCommand(
+    name: 'ibexa:languages:backfill-translations',
+    description: 'Backfills "always_available" and the language translation tables from the legacy language bitmask columns',
+    help: <<<'EOT'
+        The command <info>%command.name%</info> populates "ibexa_content_translation",
+        "ibexa_content_version_translation" and "ibexa_url_alias_ml_translation" from the existing
+        "language_mask"/"lang_mask" bitmask columns, and sets "always_available" on "ibexa_content"
+        and "ibexa_content_version" from bit 0 of "language_mask". It is idempotent - already-backfilled rows are
+        skipped - so it is safe to re-run, including after a partial/interrupted run.
+
+        Run <info>ibexa:languages:verify-translations</info> afterward to confirm the backfill is complete.
+        EOT,
+)]
+final class BackfillLanguageTranslationsCommand
+{
+    private const string LANGUAGE_TABLE = 'ibexa_content_language';
+
+    private const int DEFAULT_BATCH_SIZE = 5000;
+
+    private const string TABLE_CONTENT = 'content';
+    private const string TABLE_CONTENT_VERSION = 'content_version';
+    private const string TABLE_URL_ALIAS = 'url_alias';
+    private const string TABLE_ALL = 'all';
+
+    private const array VALID_TABLES = [
+        self::TABLE_CONTENT,
+        self::TABLE_CONTENT_VERSION,
+        self::TABLE_URL_ALIAS,
+    ];
+
+    public function __construct(private readonly Connection $connection) {}
+
+    /**
+     * @throws APIInvalidArgumentException
+     * @throws DBALException
+     */
+    public function __invoke(
+        OutputInterface $output,
+        #[Option(description: 'Which table to backfill: one of "content", "content_version", "url_alias", or "all" for all of them.', shortcut: 't')]
+        string $table = self::TABLE_ALL,
+        #[Option(description: 'Number of primary-key values processed per batch.')]
+        int $batchSize = self::DEFAULT_BATCH_SIZE,
+        #[Option(description: 'Report how many rows would be inserted per batch without writing anything.')]
+        bool $dryRun = false,
+    ): int {
+        if ($batchSize < 1) {
+            throw new InvalidArgumentException('batch-size', 'must be a positive integer.');
+        }
+
+        $tables = $table === self::TABLE_ALL ? self::VALID_TABLES : [$table];
+        foreach ($tables as $singleTable) {
+            if (!in_array($singleTable, self::VALID_TABLES, true)) {
+                throw new InvalidArgumentException(
+                    'table',
+                    sprintf(
+                        '"%s" is not one of "%s" or "%s".',
+                        $singleTable,
+                        implode('", "', self::VALID_TABLES),
+                        self::TABLE_ALL
+                    )
+                );
+            }
+        }
+
+        foreach ($tables as $singleTable) {
+            $this->backfillTable($singleTable, $batchSize, $dryRun, $output);
+        }
+
+        return Command::SUCCESS;
+    }
+
+    /**
+     * @throws APIInvalidArgumentException
+     * @throws DBALException
+     */
+    private function backfillTable(
+        string $table,
+        int $batchSize,
+        bool $dryRun,
+        OutputInterface $output
+    ): void {
+        [$sourceTable, $pkColumn, $maskColumn, $insertSql, $alwaysAvailableColumn] = match ($table) {
+            self::TABLE_CONTENT => [
+                'ibexa_content',
+                'id',
+                'language_mask',
+                'INSERT %s INTO ibexa_content_translation (content_id, language_id)
+                 SELECT c.id, l.id FROM ibexa_content c
+                 JOIN %s l ON (c.language_mask & l.id) = l.id
+                 WHERE c.id BETWEEN :from AND :to %s',
+                'always_available',
+            ],
+            self::TABLE_CONTENT_VERSION => [
+                'ibexa_content_version',
+                'id',
+                'language_mask',
+                'INSERT %s INTO ibexa_content_version_translation (content_version_id, language_id)
+                 SELECT v.id, l.id FROM ibexa_content_version v
+                 JOIN %s l ON (v.language_mask & l.id) = l.id
+                 WHERE v.id BETWEEN :from AND :to %s',
+                'always_available',
+            ],
+            self::TABLE_URL_ALIAS => [
+                'ibexa_url_alias_ml',
+                'id',
+                'lang_mask',
+                'INSERT %s INTO ibexa_url_alias_ml_translation (parent, text_md5, language_id)
+                 SELECT u.parent, u.text_md5, l.id FROM ibexa_url_alias_ml u
+                 JOIN %s l ON (u.lang_mask & l.id) = l.id
+                 WHERE u.id BETWEEN :from AND :to %s',
+                null,
+            ],
+            default => throw new InvalidArgumentException('table', "unknown table \"{$table}\"."),
+        };
+
+        if (!$this->connection->createSchemaManager()->introspectTableByUnquotedName($sourceTable)->hasColumn($maskColumn)) {
+            $output->writeln("<info>{$sourceTable} has no \"{$maskColumn}\" column - already migrated, nothing to backfill.</info>");
+
+            return;
+        }
+
+        $languageTable = self::LANGUAGE_TABLE;
+
+        // MIN()/MAX() rather than COUNT()-based emptiness + a hardcoded lower bound of 1: some of
+        // these tables (e.g. "ibexa_url_alias_ml" for root-level aliases) legitimately use 0 as a
+        // valid primary-key value, so neither "MAX() === 0" nor an assumed start of 1 is safe here.
+        $range = $this->connection->fetchAssociative(
+            "SELECT MIN({$pkColumn}) AS min_id, MAX({$pkColumn}) AS max_id FROM {$sourceTable}"
+        );
+        if ($range === false || $range['min_id'] === null) {
+            $output->writeln("<info>{$sourceTable} is empty, nothing to backfill.</info>");
+
+            return;
+        }
+
+        $minId = (int)$range['min_id'];
+        $maxId = (int)$range['max_id'];
+
+        $output->writeln("<info>Backfilling {$sourceTable} ({$pkColumn} {$minId}..{$maxId}, batch size {$batchSize})...</info>");
+
+        $alwaysAvailableMismatch = "{$alwaysAvailableColumn} <> (({$maskColumn} & 1) = 1)";
+        if ($dryRun) {
+            $rowsSql = $this->buildDryRunCountSql($table, $languageTable);
+            $flagsSql = "SELECT COUNT(*) FROM {$sourceTable} WHERE {$pkColumn} BETWEEN :from AND :to AND {$alwaysAvailableMismatch}";
+        } else {
+            $rowsSql = sprintf($insertSql, $this->insertIgnoreKeyword(), $languageTable, $this->onConflictClause());
+            $flagsSql = "UPDATE {$sourceTable} SET {$alwaysAvailableColumn} = (({$maskColumn} & 1) = 1)
+                 WHERE {$pkColumn} BETWEEN :from AND :to AND {$alwaysAvailableMismatch}";
+        }
+
+        $dryRunSuffix = $dryRun ? ' (dry-run)' : '';
+        $totalInserted = 0;
+        $totalFlagged = 0;
+
+        for ($from = $minId; $from <= $maxId; $from += $batchSize) {
+            $to = min($from + $batchSize - 1, $maxId);
+
+            $inserted = $this->runBatch($rowsSql, $dryRun, $from, $to);
+            $flagged = $alwaysAvailableColumn === null ? 0 : $this->runBatch($flagsSql, $dryRun, $from, $to);
+
+            $totalInserted += $inserted;
+            $totalFlagged += $flagged;
+            $output->writeln(
+                sprintf('  %d..%d: %d row(s), %d always-available flag(s)%s', $from, $to, $inserted, $flagged, $dryRunSuffix),
+                OutputInterface::VERBOSITY_VERBOSE
+            );
+        }
+
+        $output->writeln(sprintf(
+            '<info>%s%s: %d row(s) %s, %d always-available flag(s) %s.</info>',
+            $dryRun ? '[dry-run] ' : '',
+            $sourceTable,
+            $totalInserted,
+            $dryRun ? 'would be inserted' : 'inserted',
+            $totalFlagged,
+            $dryRun ? 'would be updated' : 'updated'
+        ));
+    }
+
+    /**
+     * Counts the rows a batch would change on a dry run, changes them otherwise.
+     *
+     * @throws DBALException
+     */
+    private function runBatch(
+        string $sql,
+        bool $dryRun,
+        int $from,
+        int $to
+    ): int {
+        $parameters = ['from' => $from, 'to' => $to];
+
+        return $dryRun
+            ? (int)$this->connection->fetchOne($sql, $parameters)
+            : (int)$this->connection->executeStatement($sql, $parameters);
+    }
+
+    /**
+     * Mirrors the real INSERT's idempotency (via insertIgnoreKeyword()/onConflictClause()) with an
+     * explicit "NOT EXISTS" against the target translation table: without it, re-running
+     * `--dry-run` after a prior (partial or complete) backfill would count every mask-derived pair
+     * again, including ones already present, and report them as "would be inserted" when a real run
+     * would actually leave them untouched.
+     */
+    private function buildDryRunCountSql(
+        string $table,
+        string $languageTable
+    ): string {
+        return match ($table) {
+            self::TABLE_CONTENT => "SELECT COUNT(*) FROM ibexa_content c
+                 JOIN {$languageTable} l ON (c.language_mask & l.id) = l.id
+                 WHERE c.id BETWEEN :from AND :to
+                 AND NOT EXISTS (
+                     SELECT 1 FROM ibexa_content_translation t
+                     WHERE t.content_id = c.id AND t.language_id = l.id
+                 )",
+            self::TABLE_CONTENT_VERSION => "SELECT COUNT(*) FROM ibexa_content_version v
+                 JOIN {$languageTable} l ON (v.language_mask & l.id) = l.id
+                 WHERE v.id BETWEEN :from AND :to
+                 AND NOT EXISTS (
+                     SELECT 1 FROM ibexa_content_version_translation t
+                     WHERE t.content_version_id = v.id AND t.language_id = l.id
+                 )",
+            self::TABLE_URL_ALIAS => "SELECT COUNT(*) FROM ibexa_url_alias_ml u
+                 JOIN {$languageTable} l ON (u.lang_mask & l.id) = l.id
+                 WHERE u.id BETWEEN :from AND :to
+                 AND NOT EXISTS (
+                     SELECT 1 FROM ibexa_url_alias_ml_translation t
+                     WHERE t.parent = u.parent AND t.text_md5 = u.text_md5 AND t.language_id = l.id
+                 )",
+            default => throw new InvalidArgumentException('table', "unknown table \"{$table}\"."),
+        };
+    }
+
+    private function insertIgnoreKeyword(): string
+    {
+        return match ($this->resolvePlatformName()) {
+            DatabasePlatformName::MySQL => 'IGNORE',
+            DatabasePlatformName::SQLite => 'OR IGNORE',
+            DatabasePlatformName::PostgreSQL => '',
+        };
+    }
+
+    /**
+     * Appended after the SELECT to make the insert idempotent on platforms that don't support
+     * "INSERT IGNORE" (MySQL is handled via insertIgnoreKeyword() instead, since its "ON DUPLICATE
+     * KEY" clause needs different syntax for an INSERT ... SELECT).
+     */
+    private function onConflictClause(): string
+    {
+        return match ($this->resolvePlatformName()) {
+            DatabasePlatformName::PostgreSQL => 'ON CONFLICT DO NOTHING',
+            DatabasePlatformName::SQLite => '', // OR IGNORE is part of the INSERT keyword, not a trailing clause
+            DatabasePlatformName::MySQL => '',
+        };
+    }
+
+    private function resolvePlatformName(): DatabasePlatformName
+    {
+        $platform = $this->connection->getDatabasePlatform();
+        $name = DatabasePlatformResolver::resolveName($platform);
+        if ($name === null) {
+            throw new InvalidArgumentException(
+                'platform',
+                sprintf('Unsupported database platform: %s', $platform::class)
+            );
+        }
+
+        return $name;
+    }
+}

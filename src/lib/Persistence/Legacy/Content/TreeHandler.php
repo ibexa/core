@@ -153,7 +153,10 @@ class TreeHandler
 
         return $this->contentMapper->extractVersionInfoListFromRows(
             $rows,
-            $nameRows
+            $nameRows,
+            $this->contentGateway->loadVersionTranslations(
+                array_map(static fn (array $row): int => (int)$row['content_version_id'], $rows)
+            )
         );
     }
 

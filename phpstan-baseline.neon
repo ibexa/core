@@ -10639,12 +10639,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabase.php
 
 		-
-			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Gateway\\DoctrineDatabase\:\:deleteTranslationFromContentObject\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Gateway/DoctrineDatabase.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Gateway\\DoctrineDatabase\:\:deleteTranslationFromContentVersions\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -11471,12 +11465,6 @@ parameters:
 			identifier: argument.type
 			count: 2
 			path: src/lib/Persistence/Legacy/Content/Location/Trash/Handler.php
-
-		-
-			message: '#^Call to function is_int\(\) with 2\|int\<4, max\> will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: src/lib/Persistence/Legacy/Content/Mapper.php
 
 		-
 			message: '#^Method Ibexa\\Core\\Persistence\\Legacy\\Content\\Mapper\:\:extractContentInfoFromRows\(\) has parameter \$rows with no value type specified in iterable type array\.$#'
