@@ -10,6 +10,7 @@ namespace Ibexa\Tests\Bundle\Core\EventListener;
 use Ibexa\Bundle\Core\EventListener\ConsoleCommandListener;
 use Ibexa\Core\MVC\Exception\InvalidSiteAccessException;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Ibexa\Tests\Bundle\Core\EventListener\Stubs\TestOutput;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
@@ -21,17 +22,13 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\Output;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ConsoleCommandListenerTest extends TestCase
 {
     private const INVALID_SA_NAME = 'foo';
 
-    /** @var SiteAccess */
-    private $siteAccess;
-
-    /** @var EventDispatcherInterface|MockObject */
-    private $dispatcher;
+    /** @var SiteAccessServiceInterface|MockObject */
+    private $siteAccessService;
 
     /** @var ConsoleCommandListener */
     private $listener;
@@ -47,11 +44,8 @@ class ConsoleCommandListenerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->siteAccess = new SiteAccess('test');
-        $this->dispatcher = $this->createMock(EventDispatcherInterface::class);
-        $this->listener = new ConsoleCommandListener('default', $this->getSiteAccessProviderMock(), $this->dispatcher);
-        $this->listener->setSiteAccess($this->siteAccess);
-        $this->dispatcher->addSubscriber($this->listener);
+        $this->siteAccessService = $this->createMock(SiteAccessServiceInterface::class);
+        $this->listener = new ConsoleCommandListener('default', $this->getSiteAccessProviderMock(), $this->siteAccessService);
         $this->inputDefinition = new InputDefinition([new InputOption('siteaccess', null, InputOption::VALUE_OPTIONAL)]);
         $this->testOutput = new TestOutput(Output::VERBOSITY_QUIET, true);
         $this->command = self::createStub(Command::class);
@@ -72,8 +66,8 @@ class ConsoleCommandListenerTest extends TestCase
         $this->expectException(InvalidSiteAccessException::class);
         $this->expectExceptionMessageMatches('/^Invalid SiteAccess \'foo\', matched by .+\\. Valid SiteAccesses are/');
 
-        $this->dispatcher->expects($this->never())
-            ->method('dispatch');
+        $this->siteAccessService->expects($this->never())
+            ->method('changeSiteAccess');
         $input = new ArrayInput(['--siteaccess' => 'foo'], $this->inputDefinition);
         $event = new ConsoleCommandEvent($this->command, $input, $this->testOutput);
         $this->listener->setDebug(true);
@@ -85,8 +79,8 @@ class ConsoleCommandListenerTest extends TestCase
         $this->expectException(InvalidSiteAccessException::class);
         $this->expectExceptionMessageMatches('/^Invalid SiteAccess \'foo\', matched by .+\\.$/');
 
-        $this->dispatcher->expects($this->never())
-            ->method('dispatch');
+        $this->siteAccessService->expects($this->never())
+            ->method('changeSiteAccess');
         $input = new ArrayInput(['--siteaccess' => 'foo'], $this->inputDefinition);
         $event = new ConsoleCommandEvent($this->command, $input, $this->testOutput);
         $this->listener->setDebug(false);
@@ -95,22 +89,22 @@ class ConsoleCommandListenerTest extends TestCase
 
     public function testValidSiteAccess(): void
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $this->siteAccessService->expects($this->once())
+            ->method('changeSiteAccess')
+            ->with(new SiteAccess('site1', 'cli'));
         $input = new ArrayInput(['--siteaccess' => 'site1'], $this->inputDefinition);
         $event = new ConsoleCommandEvent($this->command, $input, $this->testOutput);
         $this->listener->onConsoleCommand($event);
-        self::assertEquals(new SiteAccess('site1', 'cli'), $this->siteAccess);
     }
 
     public function testDefaultSiteAccess(): void
     {
-        $this->dispatcher->expects($this->once())
-            ->method('dispatch');
+        $this->siteAccessService->expects($this->once())
+            ->method('changeSiteAccess')
+            ->with(new SiteAccess('default', 'cli'));
         $input = new ArrayInput([], $this->inputDefinition);
         $event = new ConsoleCommandEvent($this->command, $input, $this->testOutput);
         $this->listener->onConsoleCommand($event);
-        self::assertEquals(new SiteAccess('default', 'cli'), $this->siteAccess);
     }
 
     private function getSiteAccessProviderMock(): SiteAccess\SiteAccessProviderInterface

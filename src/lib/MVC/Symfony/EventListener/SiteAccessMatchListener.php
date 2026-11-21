@@ -14,10 +14,12 @@ use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\Routing\SimplifiedRequest;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Router as SiteAccessRouter;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Serializer\SerializerInterface;
 
@@ -27,20 +29,29 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class SiteAccessMatchListener implements EventSubscriberInterface
 {
+    /**
+     * Marks a sub-request whose SiteAccess was pushed onto SiteAccessService.
+     */
+    public const string SITEACCESS_PUSHED_ATTRIBUTE = '_ibexa_siteaccess_pushed';
+
     protected SiteAccessRouter $siteAccessRouter;
 
     protected EventDispatcherInterface $eventDispatcher;
 
     private SerializerInterface $serializer;
 
+    private SiteAccessServiceInterface $siteAccessService;
+
     public function __construct(
         SiteAccessRouter $siteAccessRouter,
         EventDispatcherInterface $eventDispatcher,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
+        SiteAccessServiceInterface $siteAccessService
     ) {
         $this->siteAccessRouter = $siteAccessRouter;
         $this->eventDispatcher = $eventDispatcher;
         $this->serializer = $serializer;
+        $this->siteAccessService = $siteAccessService;
     }
 
     public static function getSubscribedEvents(): array
@@ -89,6 +100,11 @@ class SiteAccessMatchListener implements EventSubscriberInterface
 
         $siteaccess = $request->attributes->get('siteaccess');
         if ($siteaccess instanceof SiteAccess) {
+            if ($event->getRequestType() === HttpKernelInterface::SUB_REQUEST) {
+                $this->siteAccessService->changeSiteAccess($siteaccess);
+                $request->attributes->set(self::SITEACCESS_PUSHED_ATTRIBUTE, true);
+            }
+
             $siteAccessEvent = new PostSiteAccessMatchEvent($siteaccess, $request, $event->getRequestType());
             $this->eventDispatcher->dispatch($siteAccessEvent, MVCEvents::SITEACCESS);
         }

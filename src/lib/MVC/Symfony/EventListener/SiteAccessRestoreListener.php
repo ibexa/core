@@ -11,6 +11,7 @@ namespace Ibexa\Core\MVC\Symfony\EventListener;
 use Ibexa\Core\MVC\Symfony\Event\PostSiteAccessMatchEvent;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -20,9 +21,12 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
- * Restores the parent request's SiteAccess when a sub-request finishes, by re-dispatching
- * MVCEvents::SITEACCESS — its listeners mutate shared state for every sub-request. Mirrors
- * {@see RouterListener::onKernelFinishRequest()}.
+ * Restores the parent request's SiteAccess when a sub-request finishes:
+ * - for SiteAccessService, by calling restoreSiteAccess(), popping the entry
+ *   SiteAccessMatchListener pushed via changeSiteAccess() when this sub-request started.
+ * - for not-yet-migrated listeners still reacting to MVCEvents::SITEACCESS directly (mutating
+ *   shared state for every sub-request), by re-dispatching that event. Mirrors
+ *   {@see RouterListener::onKernelFinishRequest()}.
  */
 final class SiteAccessRestoreListener implements EventSubscriberInterface
 {
@@ -30,12 +34,16 @@ final class SiteAccessRestoreListener implements EventSubscriberInterface
 
     private EventDispatcherInterface $eventDispatcher;
 
+    private SiteAccessServiceInterface $siteAccessService;
+
     public function __construct(
         RequestStack $requestStack,
-        EventDispatcherInterface $eventDispatcher
+        EventDispatcherInterface $eventDispatcher,
+        SiteAccessServiceInterface $siteAccessService
     ) {
         $this->requestStack = $requestStack;
         $this->eventDispatcher = $eventDispatcher;
+        $this->siteAccessService = $siteAccessService;
     }
 
     public static function getSubscribedEvents(): array
@@ -49,6 +57,12 @@ final class SiteAccessRestoreListener implements EventSubscriberInterface
     {
         if ($event->isMainRequest()) {
             return;
+        }
+
+        $attributes = $event->getRequest()->attributes;
+        if ($attributes->getBoolean(SiteAccessMatchListener::SITEACCESS_PUSHED_ATTRIBUTE)) {
+            $attributes->remove(SiteAccessMatchListener::SITEACCESS_PUSHED_ATTRIBUTE);
+            $this->siteAccessService->restoreSiteAccess();
         }
 
         // The finishing request is still on the stack, so this is the request control returns to
