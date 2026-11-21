@@ -15,11 +15,12 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Platforms\AbstractMySQLPlatform;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Query\QueryBuilder;
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\UrlAlias\Handler;
 use Ibexa\Core\Base\Exceptions\BadStateException;
 use Ibexa\Core\Base\Exceptions\DatabaseException;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
-use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Gateway as LocationGateway;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
 use Psr\Log\LoggerInterface;
@@ -35,6 +36,8 @@ use RuntimeException;
  */
 final class DoctrineDatabase extends Gateway
 {
+    private const int TRANSLATION_KEYS_BATCH_SIZE = 500;
+
     /**
      * 2^30, since PHP_INT_MAX can cause overflows in DB systems, if PHP is run
      * on 64 bit systems.
@@ -53,6 +56,7 @@ final class DoctrineDatabase extends Gateway
         'text' => ParameterType::STRING,
         'parent' => ParameterType::INTEGER,
         'text_md5' => ParameterType::STRING,
+        'always_available' => ParameterType::BOOLEAN,
     ];
 
     private string $table;
@@ -61,7 +65,7 @@ final class DoctrineDatabase extends Gateway
 
     public function __construct(
         private Connection $connection,
-        private LanguageMaskGenerator $languageMaskGenerator,
+        private LanguageHandler $languageHandler,
         ?LoggerInterface $logger = null
     ) {
         $this->logger = $logger ?? new NullLogger();
@@ -87,7 +91,7 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('action', "eznode:{$locationId}", ParameterType::STRING)
             ->setParameter('is_original', 1, ParameterType::INTEGER);
 
-        return $query->executeQuery()->fetchAllAssociative();
+        return $this->withLanguageIds($query->executeQuery()->fetchAllAssociative());
     }
 
     public function loadLocationEntries(
@@ -103,14 +107,14 @@ final class DoctrineDatabase extends Gateway
                 'link',
                 'is_alias',
                 'alias_redirects',
-                'lang_mask',
+                'always_available',
                 'is_original',
                 'parent',
                 'text',
                 'text_md5',
                 'action'
             )
-            ->from($this->connection->quoteSingleIdentifier($this->table))
+            ->from($this->connection->quoteSingleIdentifier($this->table), 'u')
             ->where(
                 $expr->eq(
                     'action',
@@ -135,20 +139,12 @@ final class DoctrineDatabase extends Gateway
         ;
 
         if (null !== $languageId) {
-            $query->andWhere(
-                $expr->gt(
-                    $this->getDatabasePlatform()->getBitAndComparisonExpression(
-                        'lang_mask',
-                        $query->createPositionalParameter($languageId, ParameterType::INTEGER)
-                    ),
-                    '0'
-                )
-            );
+            $query->andWhere($this->buildTranslationExistsCondition($query, 'u.parent', 'u.text_md5', [$languageId]));
         }
 
         $statement = $query->executeQuery();
 
-        return $statement->fetchAllAssociative();
+        return $this->withLanguageIds($statement->fetchAllAssociative());
     }
 
     public function listGlobalEntries(
@@ -167,12 +163,12 @@ final class DoctrineDatabase extends Gateway
                 'link',
                 'is_alias',
                 'alias_redirects',
-                'lang_mask',
+                'always_available',
                 'is_original',
                 'parent',
                 'text_md5'
             )
-            ->from($this->connection->quoteSingleIdentifier($this->table))
+            ->from($this->connection->quoteSingleIdentifier($this->table), 'u')
             ->where(
                 $expr->eq(
                     'action_type',
@@ -200,25 +196,12 @@ final class DoctrineDatabase extends Gateway
             ->setFirstResult($offset);
 
         if (isset($languageCode)) {
-            $query->andWhere(
-                $expr->gt(
-                    $this->getDatabasePlatform()->getBitAndComparisonExpression(
-                        'lang_mask',
-                        $query->createPositionalParameter(
-                            $this->languageMaskGenerator->generateLanguageIndicator(
-                                $languageCode,
-                                false
-                            ),
-                            ParameterType::INTEGER
-                        )
-                    ),
-                    '0'
-                )
-            );
+            $languageId = $this->languageHandler->loadByLanguageCode($languageCode)->id;
+            $query->andWhere($this->buildTranslationExistsCondition($query, 'u.parent', 'u.text_md5', [$languageId]));
         }
         $statement = $query->executeQuery();
 
-        return $statement->fetchAllAssociative();
+        return $this->withLanguageIds($statement->fetchAllAssociative());
     }
 
     public function isRootEntry(int $id): bool
@@ -259,10 +242,9 @@ final class DoctrineDatabase extends Gateway
         $query
             ->select(
                 'parent',
-                'text_md5',
-                'lang_mask'
+                'text_md5'
             )
-            ->from($this->connection->quoteSingleIdentifier($this->table))
+            ->from($this->connection->quoteSingleIdentifier($this->table), 'u')
             // 1) Autogenerated aliases that match action and language...
             ->where(
                 $expr->eq(
@@ -282,15 +264,7 @@ final class DoctrineDatabase extends Gateway
                     $query->createPositionalParameter(0, ParameterType::INTEGER)
                 )
             )
-            ->andWhere(
-                $expr->gt(
-                    $this->getDatabasePlatform()->getBitAndComparisonExpression(
-                        'lang_mask',
-                        $query->createPositionalParameter($languageId, ParameterType::INTEGER)
-                    ),
-                    '0'
-                )
-            )
+            ->andWhere($this->buildTranslationExistsCondition($query, 'u.parent', 'u.text_md5', [$languageId]))
             // 2) ...but not newly published entry
             ->andWhere(
                 sprintf(
@@ -314,10 +288,9 @@ final class DoctrineDatabase extends Gateway
 
         if (!empty($row)) {
             $this->archiveUrlAliasForDeletedTranslation(
-                (int)$row['lang_mask'],
-                (int)$languageId,
                 (int)$row['parent'],
                 $row['text_md5'],
+                (int)$languageId,
                 (int)$newId
             );
         }
@@ -326,19 +299,30 @@ final class DoctrineDatabase extends Gateway
     /**
      * Archive (remove or historize) obsolete URL aliases (for translations that were removed).
      *
-     * @param int $languageMask all languages bit mask
-     * @param int $languageId removed language Id
-     * @param string $textMD5 checksum
+     * If the alias still carries other real (non-always-available) languages besides the removed
+     * one, only that language's translation row is removed; otherwise the whole entry is obsolete
+     * and gets historized instead.
      */
     private function archiveUrlAliasForDeletedTranslation(
-        int $languageMask,
-        int $languageId,
         int $parent,
         string $textMD5,
+        int $languageId,
         int $linkId
     ): void {
-        // If language mask is composite (consists of multiple languages) then remove given language from entry
-        if ($languageMask & ~($languageId | 1)) {
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->select('1')
+            ->from(self::TRANSLATION_TABLE)
+            ->where('parent = :parent')
+            ->andWhere('text_md5 = :textMd5')
+            ->andWhere('language_id != :languageId')
+            ->setParameter('parent', $parent, ParameterType::INTEGER)
+            ->setParameter('textMd5', $textMD5, ParameterType::STRING)
+            ->setParameter('languageId', $languageId, ParameterType::INTEGER)
+            ->setMaxResults(1);
+        $hasOtherLanguages = (bool)$query->executeQuery()->fetchOne();
+
+        if ($hasOtherLanguages) {
             $this->removeTranslation($parent, $textMD5, $languageId);
         } else {
             // Otherwise mark entry as history
@@ -346,13 +330,18 @@ final class DoctrineDatabase extends Gateway
         }
     }
 
+    /**
+     * @param int[] $languageIds real (non-always-available) language ids the swapped entry carries
+     */
     public function historizeBeforeSwap(
         string $action,
-        int $languageMask
+        array $languageIds
     ): void {
+        $tableName = $this->connection->quoteSingleIdentifier($this->table);
+
         $query = $this->connection->createQueryBuilder();
         $query
-            ->update($this->connection->quoteSingleIdentifier($this->table))
+            ->update($tableName)
             ->set(
                 'is_original',
                 $query->createPositionalParameter(0, ParameterType::INTEGER)
@@ -374,16 +363,7 @@ final class DoctrineDatabase extends Gateway
                         'is_original',
                         $query->createPositionalParameter(1, ParameterType::INTEGER)
                     ),
-                    $query->expr()->gt(
-                        $this->getDatabasePlatform()->getBitAndComparisonExpression(
-                            'lang_mask',
-                            $query->createPositionalParameter(
-                                $languageMask & ~1,
-                                ParameterType::INTEGER
-                            )
-                        ),
-                        '0'
-                    )
+                    $this->buildTranslationExistsCondition($query, "{$tableName}.parent", "{$tableName}.text_md5", $languageIds)
                 )
             );
 
@@ -441,9 +421,7 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Update single row data matched by composite primary key.
-     *
-     * Removes given $languageId from entry's language mask
+     * Removes given $languageId from entry's set of translations.
      */
     private function removeTranslation(
         int $parentId,
@@ -482,6 +460,17 @@ final class DoctrineDatabase extends Gateway
                 )
             )
         ;
+        $query->executeStatement();
+
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->delete(self::TRANSLATION_TABLE)
+            ->where('parent = :parent')
+            ->andWhere('text_md5 = :textMd5')
+            ->andWhere('language_id = :languageId')
+            ->setParameter('parent', $parentId, ParameterType::INTEGER)
+            ->setParameter('textMd5', $textMD5, ParameterType::STRING)
+            ->setParameter('languageId', $languageId, ParameterType::INTEGER);
         $query->executeStatement();
     }
 
@@ -555,11 +544,21 @@ final class DoctrineDatabase extends Gateway
         $query->executeStatement();
     }
 
+    /**
+     * @param array<string, mixed> $values associative array with column names as keys and column
+     *        values as values - "language_ids" (int[]) is a pseudo-column: it does not map to a
+     *        real table column, and instead replaces the row's translations in
+     *        "ibexa_url_alias_ml_translation".
+     */
     public function updateRow(
         int $parentId,
         string $textMD5,
         array $values
     ): void {
+        $languageIds = $values['language_ids'] ?? null;
+        unset($values['language_ids']);
+        $values = $this->withLanguageMask($values, $languageIds, $parentId, $textMD5);
+
         $query = $this->connection->createQueryBuilder();
         $query->update($this->connection->quoteSingleIdentifier($this->table));
         foreach ($values as $columnName => $value) {
@@ -586,6 +585,10 @@ final class DoctrineDatabase extends Gateway
                 )
             );
         $query->executeStatement();
+
+        if (null !== $languageIds) {
+            $this->syncUrlAliasTranslations($parentId, $textMD5, $languageIds);
+        }
     }
 
     public function insertRow(array $values): int
@@ -640,6 +643,10 @@ final class DoctrineDatabase extends Gateway
             $values['is_original'] = 1;
         }
 
+        $languageIds = $values['language_ids'] ?? null;
+        unset($values['language_ids']);
+        $values = $this->withLanguageMask($values, $languageIds);
+
         $query = $this->connection->createQueryBuilder();
         $query->insert($this->connection->quoteSingleIdentifier($this->table));
         foreach ($values as $columnName => $value) {
@@ -654,7 +661,89 @@ final class DoctrineDatabase extends Gateway
         }
         $query->executeStatement();
 
+        if (null !== $languageIds) {
+            $this->syncUrlAliasTranslations((int)$values['parent'], (string)$values['text_md5'], $languageIds);
+        }
+
         return (int)$values['id'];
+    }
+
+    /**
+     * Keeps the legacy "lang_mask" in step with the row's translations and "always_available",
+     * for as long as the language bitmask is still around.
+     *
+     * @param array<string, mixed> $values
+     * @param int[]|null $languageIds
+     *
+     * @return array<string, mixed>
+     */
+    private function withLanguageMask(
+        array $values,
+        ?array $languageIds,
+        ?int $parentId = null,
+        ?string $textMD5 = null
+    ): array {
+        if (null === $languageIds && !array_key_exists('always_available', $values)) {
+            return $values;
+        }
+
+        $existing = null !== $parentId && null !== $textMD5;
+        $languageIds ??= $existing ? $this->loadTranslationLanguageIds($parentId, $textMD5) : [];
+        if (array_key_exists('always_available', $values)) {
+            $alwaysAvailable = (bool)$values['always_available'];
+        } elseif ($existing) {
+            $query = $this->connection->createQueryBuilder();
+            $query
+                ->select('always_available')
+                ->from($this->connection->quoteSingleIdentifier($this->table))
+                ->where('parent = :parent')
+                ->andWhere('text_md5 = :textMd5')
+                ->setParameter('parent', $parentId, ParameterType::INTEGER)
+                ->setParameter('textMd5', $textMD5, ParameterType::STRING);
+            $alwaysAvailable = (bool)$query->executeQuery()->fetchOne();
+        } else {
+            $alwaysAvailable = false;
+        }
+
+        $languageMask = $alwaysAvailable ? 1 : 0;
+        foreach ($languageIds as $languageId) {
+            $languageMask |= (int)$languageId;
+        }
+        $values['lang_mask'] = $languageMask;
+
+        return $values;
+    }
+
+    /**
+     * Replaces $parentId/$textMD5's rows in "ibexa_url_alias_ml_translation" with $languageIds.
+     *
+     * @param int[] $languageIds
+     */
+    private function syncUrlAliasTranslations(
+        int $parentId,
+        string $textMD5,
+        array $languageIds
+    ): void {
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->delete(self::TRANSLATION_TABLE)
+            ->where('parent = :parent')
+            ->andWhere('text_md5 = :textMd5')
+            ->setParameter('parent', $parentId, ParameterType::INTEGER)
+            ->setParameter('textMd5', $textMD5, ParameterType::STRING);
+        $query->executeStatement();
+
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->insert(self::TRANSLATION_TABLE)
+            ->values(['parent' => ':parent', 'text_md5' => ':textMd5', 'language_id' => ':languageId'])
+            ->setParameter('parent', $parentId, ParameterType::INTEGER)
+            ->setParameter('textMd5', $textMD5, ParameterType::STRING);
+        foreach ($languageIds as $languageId) {
+            $query
+                ->setParameter('languageId', $languageId, ParameterType::INTEGER)
+                ->executeStatement();
+        }
     }
 
     public function getNextId(): int
@@ -703,7 +792,7 @@ final class DoctrineDatabase extends Gateway
 
         $result = $query->executeQuery()->fetchAssociative();
 
-        return false !== $result ? $result : [];
+        return false !== $result ? $this->withLanguageIds([$result])[0] : [];
     }
 
     public function loadUrlAliasData(array $urlHashes): array
@@ -755,7 +844,7 @@ final class DoctrineDatabase extends Gateway
 
         $result = $query->executeQuery()->fetchAssociative();
 
-        return false !== $result ? $result : [];
+        return false !== $result ? $this->withLanguageIds([$result])[0] : [];
     }
 
     public function loadAutogeneratedEntry(
@@ -798,7 +887,7 @@ final class DoctrineDatabase extends Gateway
 
         $entry = $query->executeQuery()->fetchAssociative();
 
-        return false !== $entry ? $entry : [];
+        return false !== $entry ? $this->withLanguageIds([$entry])[0] : [];
     }
 
     public function loadPathData(int $id): array
@@ -809,7 +898,8 @@ final class DoctrineDatabase extends Gateway
             $query = $this->connection->createQueryBuilder();
             $query->select(
                 'parent',
-                'lang_mask',
+                'text_md5',
+                'always_available',
                 'text'
             )->from(
                 $this->connection->quoteSingleIdentifier($this->table)
@@ -846,7 +936,7 @@ final class DoctrineDatabase extends Gateway
             array_unshift($pathData, $rows);
         }
 
-        return $pathData;
+        return $this->withLanguageIdsInPathData($pathData);
     }
 
     public function loadPathDataByHierarchy(array $hierarchyData): array
@@ -882,7 +972,9 @@ final class DoctrineDatabase extends Gateway
 
         $query->select(
             'action',
-            'lang_mask',
+            'parent',
+            'text_md5',
+            'always_available',
             'text'
         )->from(
             $this->connection->quoteSingleIdentifier($this->table)
@@ -907,7 +999,7 @@ final class DoctrineDatabase extends Gateway
             $data[] = $rowsMap[$levelData['action']];
         }
 
-        return $data;
+        return $this->withLanguageIdsInPathData($data);
     }
 
     public function removeCustomAlias(
@@ -1025,7 +1117,7 @@ final class DoctrineDatabase extends Gateway
 
         $statement = $query->executeQuery();
 
-        return $statement->fetchAllAssociative();
+        return $this->withLanguageIds($statement->fetchAllAssociative());
     }
 
     public function getLocationContentMainLanguageId(int $locationId): int
@@ -1064,12 +1156,32 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('actions', $actions, ArrayParameterType::STRING);
         $query->executeStatement();
 
-        // cleanup: delete single language rows (including alwaysAvailable)
+        $subQuery = $this->connection->createQueryBuilder();
+        $subQuery
+            ->select('1')
+            ->from($this->connection->quoteSingleIdentifier($this->table), 'u')
+            ->where(sprintf('u.parent = %s.parent', self::TRANSLATION_TABLE))
+            ->andWhere(sprintf('u.text_md5 = %s.text_md5', self::TRANSLATION_TABLE))
+            ->andWhere('u.action IN (:actions)');
+
         $query = $this->connection->createQueryBuilder();
         $query
-            ->delete($this->connection->quoteSingleIdentifier($this->table))
+            ->delete(self::TRANSLATION_TABLE)
+            ->where('language_id = :languageId')
+            ->andWhere(sprintf('EXISTS (%s)', $subQuery->getSQL()))
+            ->setParameter('languageId', $languageId, ParameterType::INTEGER)
+            ->setParameter('actions', $actions, ArrayParameterType::STRING);
+        $query->executeStatement();
+
+        // cleanup: delete rows left with no real (non-always-available) language at all
+        $tableName = $this->connection->quoteSingleIdentifier($this->table);
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->delete($tableName)
             ->where('action IN (:actions)')
-            ->andWhere('lang_mask IN (0, 1)')
+            ->andWhere(
+                'NOT EXISTS (SELECT 1 FROM ' . self::TRANSLATION_TABLE . " ut WHERE ut.parent = {$tableName}.parent AND ut.text_md5 = {$tableName}.text_md5)"
+            )
             ->setParameter('actions', $actions, ArrayParameterType::STRING);
         $query->executeStatement();
     }
@@ -1091,16 +1203,9 @@ final class DoctrineDatabase extends Gateway
             $languageIds
         );
 
-        // remove specific languages from a bit mask
+        // remove each row's actually-present removed languages
         foreach ($rows as $row) {
-            // filter mask to reduce the number of calls to storage engine
-            $rowLanguageMask = (int)$row['lang_mask'];
-            $languageIdsToBeRemoved = array_filter(
-                $languageIds,
-                static function ($languageId) use ($rowLanguageMask): int {
-                    return $languageId & $rowLanguageMask;
-                }
-            );
+            $languageIdsToBeRemoved = array_intersect($languageIds, $row['language_ids']);
 
             if (empty($languageIdsToBeRemoved)) {
                 continue;
@@ -1112,14 +1217,34 @@ final class DoctrineDatabase extends Gateway
                 : (int)$row['id'];
             foreach ($languageIdsToBeRemoved as $languageId) {
                 $this->archiveUrlAliasForDeletedTranslation(
-                    (int)$row['lang_mask'],
-                    (int)$languageId,
                     (int)$row['parent'],
                     $row['text_md5'],
+                    (int)$languageId,
                     $linkToId
                 );
             }
         }
+    }
+
+    public function loadTranslationLanguageIds(
+        int $parent,
+        string $textMD5
+    ): array {
+        // Explicit ORDER BY: UrlAlias::$languageCodes' element order is observable (e.g. asserted
+        // directly in URLAliasServiceTest), so it must not depend on however this table's rows
+        // happened to be inserted - which itself can shift whenever an upstream write path's own
+        // language-iteration order changes, even though this query is otherwise untouched.
+        $query = $this->connection->createQueryBuilder();
+        $query
+            ->select('language_id')
+            ->from(self::TRANSLATION_TABLE)
+            ->where('parent = :parent')
+            ->andWhere('text_md5 = :textMd5')
+            ->orderBy('language_id')
+            ->setParameter('parent', $parent, ParameterType::INTEGER)
+            ->setParameter('textMd5', $textMD5, ParameterType::STRING);
+
+        return array_map('intval', $query->executeQuery()->fetchFirstColumn());
     }
 
     /**
@@ -1131,26 +1256,20 @@ final class DoctrineDatabase extends Gateway
         int $locationId,
         array $languageIds
     ): array {
-        // note: alwaysAvailable for this use case is not relevant
-        $languageMask = $this->languageMaskGenerator->generateLanguageMaskFromLanguageIds(
-            $languageIds,
-            false
-        );
-
-        /** @var Connection $connection */
         $query = $this->connection->createQueryBuilder();
         $query
-            ->select('id', 'lang_mask', 'parent', 'text_md5')
-            ->from($this->connection->quoteSingleIdentifier($this->table))
-            ->where('action = :action')
+            ->select('id', 'parent', 'text_md5')
+            ->from($this->connection->quoteSingleIdentifier($this->table), 'u')
+            ->where(
+                $query->expr()->eq(
+                    'action',
+                    $query->createPositionalParameter('eznode:' . $locationId, ParameterType::STRING)
+                )
+            )
             // fetch rows matching any of the given Languages
-            ->andWhere('lang_mask & :languageMask <> 0')
-            ->setParameter('action', 'eznode:' . $locationId)
-            ->setParameter('languageMask', $languageMask);
+            ->andWhere($this->buildTranslationExistsCondition($query, 'u.parent', 'u.text_md5', $languageIds));
 
-        $statement = $query->executeQuery();
-
-        return $statement->fetchAllAssociative();
+        return $this->withLanguageIds($query->executeQuery()->fetchAllAssociative());
     }
 
     /**
@@ -1270,12 +1389,13 @@ final class DoctrineDatabase extends Gateway
             ->setParameter('action', "eznode:{$locationId}");
 
         foreach ($urlAliasesData as $urlAliasData) {
-            if ($urlAliasData['is_original'] === 1 || !isset($originalUrlAliases[$urlAliasData['lang_mask']])) {
+            $languageSetKey = self::buildLanguageSetKey($urlAliasData);
+            if ($urlAliasData['is_original'] === 1 || !isset($originalUrlAliases[$languageSetKey])) {
                 // ignore non-archived entries and deleted Translations
                 continue;
             }
 
-            $originalUrlAlias = $originalUrlAliases[$urlAliasData['lang_mask']];
+            $originalUrlAlias = $originalUrlAliases[$languageSetKey];
 
             if ($urlAliasData['link'] === $originalUrlAlias['link']) {
                 // ignore correct entries to avoid unnecessary updates
@@ -1379,9 +1499,9 @@ final class DoctrineDatabase extends Gateway
     }
 
     /**
-     * Filter from the given result set original (current) only URL aliases and index them by language_mask.
-     *
-     * Note: each language_mask can have one URL Alias.
+     * Filter from the given result set original (current) only URL aliases and index them by their
+     * real (non-always-available) language id set - the relational replacement for indexing by
+     * "lang_mask" (each distinct language set can have one URL Alias).
      *
      * @param array $urlAliasesData
      */
@@ -1391,12 +1511,30 @@ final class DoctrineDatabase extends Gateway
             $urlAliasesData,
             static function ($urlAliasData): bool {
                 // filter is_original=true ignoring broken parent records (cleaned up elsewhere)
-                return (bool)$urlAliasData['is_original'] && $urlAliasData['existing_parent'] !== null;
+                return (bool)$urlAliasData['is_original']
+                    && !(bool)$urlAliasData['is_alias']
+                    && $urlAliasData['existing_parent'] !== null;
             }
         );
 
-        // return language_mask-indexed array
-        return array_column($originalUrlAliases, null, 'lang_mask');
+        $keyedUrlAliases = [];
+        foreach ($originalUrlAliases as $urlAliasData) {
+            $keyedUrlAliases[self::buildLanguageSetKey($urlAliasData)] = $urlAliasData;
+        }
+
+        return $keyedUrlAliases;
+    }
+
+    /**
+     * Builds a stable identity key for the real (non-always-available) language id set a specific
+     * alias row is translated into - used to match an archived alias row to the still-current alias
+     * row covering the same languages.
+     *
+     * @param array{language_ids: int[]} $urlAliasData
+     */
+    private static function buildLanguageSetKey(array $urlAliasData): string
+    {
+        return implode(',', $urlAliasData['language_ids']);
     }
 
     /**
@@ -1439,7 +1577,7 @@ final class DoctrineDatabase extends Gateway
             ->select(
                 't1.id',
                 't1.is_original',
-                't1.lang_mask',
+                't1.is_alias',
                 't1.link',
                 't1.parent',
                 // show existing parent only if its row exists, special case for root parent
@@ -1461,7 +1599,7 @@ final class DoctrineDatabase extends Gateway
                 )
             );
 
-        return $queryBuilder->executeQuery()->fetchAllAssociative();
+        return $this->withLanguageIds($queryBuilder->executeQuery()->fetchAllAssociative());
     }
 
     /**
@@ -1499,5 +1637,117 @@ final class DoctrineDatabase extends Gateway
         } catch (Exception $e) {
             throw DatabaseException::wrap($e);
         }
+    }
+
+    /**
+     * Builds an "at least one of $languageIds is a real translation of this row" condition against
+     * "ibexa_url_alias_ml_translation", correlated via $parentColumn/$textMd5Column (must be
+     * qualified with $query's own table alias) - the relational replacement for bitwise-AND-ing a
+     * row's "lang_mask".
+     *
+     * $parentColumn/$textMd5Column must be alias-qualified (e.g. "u.parent"), never bare column
+     * names - "ibexa_url_alias_ml_translation" has its own same-named columns, so an unqualified
+     * reference inside the subquery would resolve to its own column (the innermost scope), silently
+     * turning the correlation into a tautology instead of a real join back to the outer row.
+     *
+     * @param int[] $languageIds
+     */
+    private function buildTranslationExistsCondition(
+        QueryBuilder $query,
+        string $parentColumn,
+        string $textMd5Column,
+        array $languageIds
+    ): string {
+        if (empty($languageIds)) {
+            // No language can ever match an empty set - mirrors the old mask check being
+            // vacuously false for a zero mask.
+            return '1 = 0';
+        }
+
+        $translationExistsSubQuery = $this->connection->createQueryBuilder();
+        $translationExistsSubQuery
+            ->select('1')
+            ->from(self::TRANSLATION_TABLE, 'ut')
+            ->where(
+                $translationExistsSubQuery->expr()->and(
+                    "ut.parent = {$parentColumn}",
+                    "ut.text_md5 = {$textMd5Column}",
+                    $translationExistsSubQuery->expr()->in(
+                        'ut.language_id',
+                        $query->createPositionalParameter($languageIds, ArrayParameterType::INTEGER)
+                    )
+                )
+            );
+
+        return sprintf('EXISTS (%s)', $translationExistsSubQuery->getSQL());
+    }
+
+    /**
+     * Attaches each row's translation language ids as "language_ids".
+     *
+     * @param array<int, array<string, mixed>> $rows
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    private function withLanguageIds(array $rows): array
+    {
+        $languageIds = [];
+        foreach (array_chunk($this->getTranslationKeys($rows), self::TRANSLATION_KEYS_BATCH_SIZE) as $keys) {
+            $query = $this->connection->createQueryBuilder();
+            $query
+                ->select('parent', 'text_md5', 'language_id')
+                ->from(self::TRANSLATION_TABLE)
+                ->orderBy('language_id');
+            $keyConditions = [];
+            foreach ($keys as [$parent, $textMD5]) {
+                $keyConditions[] = sprintf(
+                    '(%s, %s)',
+                    $query->createNamedParameter($parent, ParameterType::INTEGER),
+                    $query->createNamedParameter($textMD5, ParameterType::STRING)
+                );
+            }
+            $query->where(sprintf('(parent, text_md5) IN (%s)', implode(', ', $keyConditions)));
+
+            $result = $query->executeQuery();
+            foreach ($result->iterateAssociative() as $translation) {
+                $languageIds[$translation['parent'] . '-' . $translation['text_md5']][] = (int)$translation['language_id'];
+            }
+        }
+
+        foreach ($rows as &$row) {
+            $row['language_ids'] = $languageIds[$row['parent'] . '-' . $row['text_md5']] ?? [];
+        }
+
+        return $rows;
+    }
+
+    /**
+     * @param array<int, array<string, mixed>> $rows
+     *
+     * @return list<array{int, string}>
+     */
+    private function getTranslationKeys(array $rows): array
+    {
+        $keys = [];
+        foreach ($rows as $row) {
+            $keys[$row['parent'] . '-' . $row['text_md5']] = [(int)$row['parent'], (string)$row['text_md5']];
+        }
+
+        return array_values($keys);
+    }
+
+    /**
+     * @param array<int, array<int, array<string, mixed>>> $pathData
+     *
+     * @return array<int, array<int, array<string, mixed>>>
+     */
+    private function withLanguageIdsInPathData(array $pathData): array
+    {
+        $rows = $this->withLanguageIds(array_merge([], ...$pathData));
+        foreach ($pathData as $level => $levelRows) {
+            $pathData[$level] = array_splice($rows, 0, count($levelRows));
+        }
+
+        return $pathData;
     }
 }
