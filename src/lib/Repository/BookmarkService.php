@@ -105,7 +105,7 @@ class BookmarkService implements BookmarkServiceInterface
         if ($offset < 0) {
             trigger_deprecation(
                 'ibexa/core',
-                '4.6.33',
+                '4.6.34',
                 sprintf(
                     'Passing a negative $offset to %s() is deprecated and will throw in 6.0. ' .
                     'Pass 0 to start from the first bookmark instead',
@@ -119,7 +119,7 @@ class BookmarkService implements BookmarkServiceInterface
         if ($limit < 0) {
             trigger_deprecation(
                 'ibexa/core',
-                '4.6.33',
+                '4.6.34',
                 sprintf(
                     'Passing a negative $limit to %s() is deprecated and will throw in 6.0. ' .
                     'Pass 0 to load all bookmarks instead',

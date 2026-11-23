@@ -288,7 +288,7 @@ class BookmarkTest extends BaseServiceMockTest
     public function testLoadBookmarksTreatsNegativeOffsetAsNoOffset(): void
     {
         $this->expectDeprecation(
-            'Since ibexa/core 4.6.33: Passing a negative $offset to ' .
+            'Since ibexa/core 4.6.34: Passing a negative $offset to ' .
             'Ibexa\Core\Repository\BookmarkService::loadBookmarks() is deprecated and will throw in 6.0. ' .
             'Pass 0 to start from the first bookmark instead'
         );
