@@ -1837,12 +1837,6 @@ parameters:
 			path: src/bundle/Core/EventSubscriber/CrowdinRequestLocaleSubscriber.php
 
 		-
-			message: '#^Parameter \#2 \$trustedHeaderSet of static method Symfony\\Component\\HttpFoundation\\Request\:\:setTrustedProxies\(\) expects int\<0, 63\>, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/bundle/Core/EventSubscriber/TrustedHeaderClientIpEventSubscriber.php
-
-		-
 			message: '#^Method Ibexa\\Bundle\\Core\\Features\\Context\\BasicContentContext\:\:createArticleDraft\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
@@ -11863,12 +11857,6 @@ parameters:
 			path: src/lib/Persistence/Legacy/Content/Language/CachingHandler.php
 
 		-
-			message: '#^Parameter \#1 \$languages of method Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\CachingHandler\:\:storeCache\(\) expects array, iterable\<Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\> given\.$#'
-			identifier: argument.type
-			count: 2
-			path: src/lib/Persistence/Legacy/Content/Language/CachingHandler.php
-
-		-
 			message: '#^Property Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\CachingHandler\:\:\$innerHandler \(Ibexa\\Core\\Persistence\\Legacy\\Content\\Language\\Handler\) does not accept Ibexa\\Contracts\\Core\\Persistence\\Content\\Language\\Handler\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -21353,30 +21341,6 @@ parameters:
 			identifier: missingType.return
 			count: 1
 			path: tests/bundle/Core/EventSubscriber/CrowdinRequestLocaleSubscriberTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\EventSubscriber\\TrustedHeaderClientIpEventSubscriberTest\:\:getTrustedHeaderEventSubscriberTestData\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/bundle/Core/EventSubscriber/TrustedHeaderClientIpEventSubscriberTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Bundle\\Core\\EventSubscriber\\TrustedHeaderClientIpEventSubscriberTest\:\:testTrustedHeaderEventSubscriberWithTrustedProxy\(\) has parameter \$headers with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: tests/bundle/Core/EventSubscriber/TrustedHeaderClientIpEventSubscriberTest.php
-
-		-
-			message: '#^Parameter \#2 \$trustedHeaderSet of static method Symfony\\Component\\HttpFoundation\\Request\:\:setTrustedProxies\(\) expects int\<0, 63\>, \-1 given\.$#'
-			identifier: argument.type
-			count: 1
-			path: tests/bundle/Core/EventSubscriber/TrustedHeaderClientIpEventSubscriberTest.php
-
-		-
-			message: '#^Parameter \#2 \$trustedHeaderSet of static method Symfony\\Component\\HttpFoundation\\Request\:\:setTrustedProxies\(\) expects int\<0, 63\>, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: tests/bundle/Core/EventSubscriber/TrustedHeaderClientIpEventSubscriberTest.php
 
 		-
 			message: '#^Binary operation "\." between ''rendered_'' and \(Closure\(array\<string, mixed\>\)\: string\)\|string results in an error\.$#'
@@ -54097,12 +54061,6 @@ parameters:
 			path: tests/lib/Repository/Decorator/UserServiceDecoratorTest.php
 
 		-
-			message: '#^Parameter \#1 \$innerService of class Ibexa\\Contracts\\Core\\Repository\\Decorator\\UserServiceDecorator@anonymous/tests/lib/Repository/Decorator/UserServiceDecoratorTest\.php\:37 constructor expects Ibexa\\Contracts\\Core\\Repository\\UserService, PHPUnit\\Framework\\MockObject\\MockObject given\.$#'
-			identifier: argument.type
-			count: 1
-			path: tests/lib/Repository/Decorator/UserServiceDecoratorTest.php
-
-		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Filtering\\TestContentProvider\:\:createContentDraft\(\) has parameter \$multilingualFields with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -54518,12 +54476,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\BookmarkTest\:\:testCreateBookmarkThrowsInvalidArgumentException\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Service/Mock/BookmarkTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\BookmarkTest\:\:testCreateBookmarkWithRollback\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: tests/lib/Repository/Service/Mock/BookmarkTest.php
@@ -55274,12 +55226,6 @@ parameters:
 
 		-
 			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\ContentTest\:\:testCreateContentWithLocationsDuplicateUnderParent\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: tests/lib/Repository/Service/Mock/ContentTest.php
-
-		-
-			message: '#^Method Ibexa\\Tests\\Core\\Repository\\Service\\Mock\\ContentTest\:\:testCreateContentWithRollback\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
 			path: tests/lib/Repository/Service/Mock/ContentTest.php

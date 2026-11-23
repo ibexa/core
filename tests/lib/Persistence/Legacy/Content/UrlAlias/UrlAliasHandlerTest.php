@@ -14,6 +14,8 @@ use Ibexa\Contracts\Core\Repository\Exceptions\BadStateException;
 use Ibexa\Contracts\Core\Repository\Exceptions\ForbiddenException;
 use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
+use Ibexa\Core\FieldType\FieldTypeAliasRegistry;
+use Ibexa\Core\FieldType\FieldTypeAliasResolver;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Gateway\DoctrineDatabase as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase as LanguageGateway;
@@ -5407,7 +5409,8 @@ class UrlAliasHandlerTest extends TestCase
             $this->getSharedGateway(),
             new ContentGateway\QueryBuilder($connection),
             $languageHandler,
-            $languageMaskGenerator
+            $languageMaskGenerator,
+            new FieldTypeAliasResolver(new FieldTypeAliasRegistry())
         );
 
         return new Handler(

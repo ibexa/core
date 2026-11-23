@@ -20,6 +20,7 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LocationCreateStruct;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Core\FieldType\FieldType;
+use Ibexa\Tests\Integration\Core\LegacyFieldTypeIdentifierTestTrait;
 use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
 
 /**
@@ -51,6 +52,8 @@ use Ibexa\Tests\Integration\Core\Repository\BaseTestCase;
  */
 abstract class BaseIntegrationTestCase extends BaseTestCase
 {
+    use LegacyFieldTypeIdentifierTestTrait;
+
     /**
      * Content version archive limit (default).
      * Note: currently there is no way to retrieve this setting from the ContentService.

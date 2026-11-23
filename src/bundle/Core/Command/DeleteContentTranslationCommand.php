@@ -7,7 +7,6 @@
 
 namespace Ibexa\Bundle\Core\Command;
 
-use Exception;
 use Ibexa\Contracts\Core\Repository\ContentService;
 use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\Repository\Values\Content\ContentInfo;
@@ -21,6 +20,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Throwable;
 
 /**
  * Console Command which deletes a given Translation from all the Versions of a given Content Item.
@@ -146,7 +146,7 @@ class DeleteContentTranslationCommand extends Command
             $output->writeln('<info>Translation deleted</info>');
 
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }

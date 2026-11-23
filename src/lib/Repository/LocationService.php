@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Ibexa\Core\Repository;
 
-use Exception;
 use Ibexa\Contracts\Core\Limitation\Target;
 use Ibexa\Contracts\Core\Limitation\Target\DestinationLocation as DestinationLocationTarget;
 use Ibexa\Contracts\Core\Persistence\Content\Location as SPILocation;
@@ -49,6 +48,7 @@ use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 use Ibexa\Core\Repository\Mapper\ContentDomainMapper;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use Throwable;
 
 /**
  * Location service, used for complex subtree operations.
@@ -170,7 +170,7 @@ class LocationService implements LocationServiceInterface
             );
 
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -501,7 +501,7 @@ class LocationService implements LocationServiceInterface
             }
 
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -569,7 +569,7 @@ class LocationService implements LocationServiceInterface
         try {
             $this->persistenceHandler->locationHandler()->update($updateStruct, $loadedLocation->id);
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -624,7 +624,7 @@ class LocationService implements LocationServiceInterface
             );
             $this->persistenceHandler->bookmarkHandler()->locationSwapped($loadedLocation1->id, $loadedLocation2->id);
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -654,7 +654,7 @@ class LocationService implements LocationServiceInterface
         try {
             $this->persistenceHandler->locationHandler()->hide($location->id);
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -689,7 +689,7 @@ class LocationService implements LocationServiceInterface
         try {
             $this->persistenceHandler->locationHandler()->unHide($location->id);
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -752,7 +752,7 @@ class LocationService implements LocationServiceInterface
             );
 
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -811,7 +811,7 @@ class LocationService implements LocationServiceInterface
             $this->persistenceHandler->locationHandler()->removeSubtree($location->id);
             $this->persistenceHandler->urlAliasHandler()->locationDeleted($location->id);
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }

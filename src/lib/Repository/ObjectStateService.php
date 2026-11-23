@@ -7,7 +7,6 @@
 
 namespace Ibexa\Core\Repository;
 
-use Exception;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState as SPIObjectState;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group as SPIObjectStateGroup;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler;
@@ -29,6 +28,7 @@ use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\Base\Exceptions\UnauthorizedException;
 use Ibexa\Core\Repository\Values\ObjectState\ObjectState;
 use Ibexa\Core\Repository\Values\ObjectState\ObjectStateGroup;
+use Throwable;
 
 /**
  * ObjectStateService service.
@@ -106,7 +106,7 @@ class ObjectStateService implements ObjectStateServiceInterface
         try {
             $spiObjectStateGroup = $this->objectStateHandler->createGroup($inputStruct);
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -232,7 +232,7 @@ class ObjectStateService implements ObjectStateServiceInterface
                 $inputStruct
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -259,7 +259,7 @@ class ObjectStateService implements ObjectStateServiceInterface
         try {
             $this->objectStateHandler->deleteGroup($loadedObjectStateGroup->id);
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -320,7 +320,7 @@ class ObjectStateService implements ObjectStateServiceInterface
             }
 
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -407,7 +407,7 @@ class ObjectStateService implements ObjectStateServiceInterface
                 $inputStruct
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -440,7 +440,7 @@ class ObjectStateService implements ObjectStateServiceInterface
                 $priority
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -466,7 +466,7 @@ class ObjectStateService implements ObjectStateServiceInterface
         try {
             $this->objectStateHandler->delete($loadedObjectState->id);
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
@@ -505,7 +505,7 @@ class ObjectStateService implements ObjectStateServiceInterface
                 $loadedObjectState->id
             );
             $this->repository->commit();
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->repository->rollback();
             throw $e;
         }
