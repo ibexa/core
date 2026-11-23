@@ -36,6 +36,7 @@
             <exclude>tests/integration/Core/Repository/ContentService/ContentUpdateAfterAddingFieldDefinitionTest.php</exclude>
             <exclude>tests/integration/Core/Repository/ContentService/UpdateContentTest.php</exclude>
             <exclude>tests/integration/Core/Repository/ContentService/ImageAssetTest.php</exclude>
+            <exclude>tests/integration/Core/Repository/ContentService/CreateContentDraftInNewLanguageTest.php</exclude>
             <exclude>tests/integration/Core/Repository/ContentService/LoadVersionInfoTest.php</exclude>
             <exclude>tests/integration/Core/Repository/ContentService/DeleteContentTest.php</exclude>
             <exclude>tests/integration/Core/Repository/ContentService/MaxLanguagesContentServiceTest.php</exclude>
