@@ -1,4 +1,8 @@
 services:
+    Ibexa\Core\Persistence\Legacy\Content\Language\MaskTranslationGateway:
+        arguments:
+            $connection: '@ibexa.api.storage_engine.legacy.connection'
+
     Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase.inner:
         class: Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase
         arguments:
