@@ -10921,12 +10921,6 @@ parameters:
 			path: src/lib/FieldType/Image/IO/OptionsProvider.php
 
 		-
-			message: '#^Cannot access offset ''id'' on array\|bool\|float\|int\|string\.$#'
-			identifier: offsetAccess.nonOffsetAccessible
-			count: 1
-			path: src/lib/FieldType/Image/ImageStorage.php
-
-		-
 			message: '#^Cannot access offset ''imageId'' on array\|bool\|float\|int\|string\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
 			count: 1
