@@ -4,9 +4,11 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Content\Type;
 
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\Type;
 use Ibexa\Contracts\Core\Persistence\Content\Type\CreateStruct;
 use Ibexa\Contracts\Core\Persistence\Content\Type\FieldDefinition;
@@ -15,7 +17,6 @@ use Ibexa\Contracts\Core\Persistence\Content\Type\Group\CreateStruct as GroupCre
 use Ibexa\Contracts\Core\Persistence\Content\Type\UpdateStruct;
 use Ibexa\Core\FieldType\FieldTypeAliasResolverInterface;
 use Ibexa\Core\Persistence\Legacy\Content\FieldValue\ConverterRegistry;
-use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\MultilingualStorageFieldDefinition;
 use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
 
@@ -26,34 +27,12 @@ use Ibexa\Core\Persistence\Legacy\Content\StorageFieldDefinition;
  */
 class Mapper
 {
-    /**
-     * Converter registry.
-     *
-     * @var ConverterRegistry
-     */
-    protected $converterRegistry;
-
-    /** @var MaskGenerator */
-    private $maskGenerator;
-
-    private StorageDispatcherInterface $storageDispatcher;
-
-    /**
-     * Creates a new content type mapper.
-     *
-     * @param ConverterRegistry $converterRegistry
-     * @param MaskGenerator $maskGenerator
-     */
     public function __construct(
-        ConverterRegistry $converterRegistry,
-        MaskGenerator $maskGenerator,
-        StorageDispatcherInterface $storageDispatcher,
+        protected ConverterRegistry $converterRegistry,
+        private LanguageHandler $languageHandler,
+        private StorageDispatcherInterface $storageDispatcher,
         private readonly FieldTypeAliasResolverInterface $fieldTypeAliasResolver
-    ) {
-        $this->converterRegistry = $converterRegistry;
-        $this->maskGenerator = $maskGenerator;
-        $this->storageDispatcher = $storageDispatcher;
-    }
+    ) {}
 
     /**
      * Creates a Group from its create struct.
@@ -114,12 +93,14 @@ class Mapper
      *
      * @param array $rows
      * @param bool $keepTypeIdAsKey
+     * @param array<string, string[]> $typeTranslations "{typeId}:{status}" => language codes
      *
      * @return array (Type)
      */
     public function extractTypesFromRows(
         array $rows,
-        bool $keepTypeIdAsKey = false
+        bool $keepTypeIdAsKey = false,
+        array $typeTranslations = []
     ) {
         $types = [];
         $fields = [];
@@ -137,7 +118,8 @@ class Mapper
         foreach ($rows as $row) {
             $typeId = (int)$row['content_type_id'];
             if (!isset($types[$typeId])) {
-                $types[$typeId] = $this->extractTypeFromRow($row);
+                $languageCodes = $typeTranslations[$row['content_type_id'] . ':' . $row['content_type_status']] ?? [];
+                $types[$typeId] = $this->extractTypeFromRow($row, $languageCodes);
             }
 
             $fieldId = (int)$row['content_type_field_definition_id'];
@@ -185,11 +167,12 @@ class Mapper
      * Creates a Type from the data in $row.
      *
      * @param array $row
-     *
-     * @return Type
+     * @param string[] $languageCodes
      */
-    protected function extractTypeFromRow(array $row)
-    {
+    protected function extractTypeFromRow(
+        array $row,
+        array $languageCodes = []
+    ): Type {
         $type = new Type();
 
         $type->id = (int)$row['content_type_id'];
@@ -216,7 +199,7 @@ class Mapper
         $type->defaultAlwaysAvailable = ($row['content_type_always_available'] == 1);
         $type->sortField = (int)$row['content_type_sort_field'];
         $type->sortOrder = (int)$row['content_type_sort_order'];
-        $type->languageCodes = $this->maskGenerator->extractLanguageCodesFromMask((int)$row['content_type_language_mask']);
+        $type->languageCodes = $languageCodes;
 
         $type->groupIds = [];
         $type->fieldDefinitions = [];
@@ -266,8 +249,7 @@ class Mapper
         $field->isSearchable = (bool)$row['content_type_field_definition_is_searchable'];
         $field->position = (int)$row['content_type_field_definition_placement'];
 
-        $mainLanguageCode = $this->maskGenerator->extractLanguageCodesFromMask((int)$row['content_type_initial_language_id']);
-        $field->mainLanguageCode = array_shift($mainLanguageCode);
+        $field->mainLanguageCode = $this->languageHandler->load((int)$row['content_type_initial_language_id'])->languageCode;
 
         $this->toFieldDefinition($storageFieldDef, $field, $status);
 
@@ -320,12 +302,12 @@ class Mapper
         $storageFieldDef->serializedDataText = $row['content_type_field_definition_serialized_data_text'];
 
         foreach ($multilingualDataRow as $languageDataRow) {
-            $languageCodes = $this->maskGenerator->extractLanguageCodesFromMask((int)$languageDataRow['content_type_field_definition_multilingual_language_id']);
+            $multilingualLanguageId = (int)($languageDataRow['content_type_field_definition_multilingual_language_id'] ?? 0);
 
-            if (empty($languageCodes)) {
+            if ($multilingualLanguageId === 0) {
                 continue;
             }
-            $languageCode = reset($languageCodes);
+            $languageCode = $this->languageHandler->load($multilingualLanguageId)->languageCode;
 
             $multilingualData = new MultilingualStorageFieldDefinition();
 
@@ -455,7 +437,7 @@ class Mapper
             $multilingualData->name = $fieldDef->name[$languageCode];
             $multilingualData->description = $fieldDef->description[$languageCode] ?? null;
             $multilingualData->languageId =
-                $this->maskGenerator->generateLanguageMaskFromLanguageCodes([$languageCode]);
+                $this->languageHandler->loadByLanguageCode($languageCode)->id;
 
             $storageFieldDef->multilingualData[$languageCode] = $multilingualData;
         }

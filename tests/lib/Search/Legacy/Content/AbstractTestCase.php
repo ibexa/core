@@ -95,12 +95,12 @@ class AbstractTestCase extends LanguageAwareTestCase
                 new ContentTypeGateway(
                     $this->getDatabaseConnection(),
                     $this->getSharedGateway(),
-                    $this->getLanguageMaskGenerator(),
+                    $this->getLanguageHandler(),
                     $this->getCriterionVisitor()
                 ),
                 new ContentTypeMapper(
                     $this->getConverterRegistry(),
-                    $this->getLanguageMaskGenerator(),
+                    $this->getLanguageHandler(),
                     self::createStub(StorageDispatcherInterface::class),
                     $this->getFieldTypeAliasResolver(),
                 ),
