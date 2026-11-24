@@ -11,6 +11,7 @@ namespace Ibexa\Contracts\Core\Test\Persistence\Fixture;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Exception as DBALException;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Schema\Column;
 use Ibexa\Contracts\Core\Test\Persistence\AppendOnlyFixture;
 use Ibexa\Contracts\Core\Test\Persistence\Fixture;
@@ -22,15 +23,22 @@ use Ibexa\Contracts\Core\Test\Persistence\Fixture;
  */
 final class FixtureImporter
 {
-    private Connection $connection;
+    /**
+     * Join tables referencing "ibexa_content_language" (ON DELETE RESTRICT), keyed to the table owning their rows.
+     */
+    private const array LANGUAGE_TRANSLATION_TABLES = [
+        'ibexa_content_translation' => 'ibexa_content',
+        'ibexa_content_version_translation' => 'ibexa_content_version',
+        'ibexa_url_alias_ml_translation' => 'ibexa_url_alias_ml',
+    ];
 
     /** @var array<string, string|null> */
     private static array $resetSequenceStatements = [];
 
-    public function __construct(Connection $connection)
-    {
-        $this->connection = $connection;
-    }
+    /** @var array<string, string[]> */
+    private static array $existingColumnsByTable = [];
+
+    public function __construct(private readonly Connection $connection) {}
 
     /**
      * @throws Exception
@@ -40,26 +48,306 @@ final class FixtureImporter
         $data = $fixture->load();
 
         $tablesList = array_keys($data);
+        $detachedTranslations = [];
         if (!$fixture instanceof AppendOnlyFixture) {
+            $detachedTranslations = $this->detachLanguageTranslations($tablesList);
             // truncate all tables, even the ones initially empty (some tests are affected by this)
             $this->truncateTables(array_reverse($tablesList));
         }
 
         $nonEmptyTablesData = array_filter(
             $data,
-            static function ($tableData): bool {
-                return !empty($tableData);
-            }
+            static fn (array $tableData, string $table): bool => $tableData !== [] && in_array($table, $tablesList, true),
+            ARRAY_FILTER_USE_BOTH
         );
         foreach ($nonEmptyTablesData as $table => $rows) {
+            // Fixtures predate columns being dropped over time (e.g. the language bitmask
+            // columns) - silently drop unknown keys rather than letting every fixture file need
+            // updating in lockstep with schema changes.
+            $existingColumns = $this->getExistingColumns($table);
             foreach ($rows as $row) {
-                $this->connection->insert($table, $row);
+                $this->connection->insert($table, array_intersect_key($row, array_flip($existingColumns)));
             }
         }
 
         if ($this->connection->getDatabasePlatform()->supportsSequences()) {
             $this->resetSequences($tablesList);
         }
+
+        $this->reattachLanguageTranslations($detachedTranslations);
+        if (!$fixture instanceof AppendOnlyFixture) {
+            $this->clearLanguageTranslations($nonEmptyTablesData);
+        }
+        $this->backfillLanguageBitmaskColumns($nonEmptyTablesData);
+    }
+
+    /**
+     * Empties the translation tables of the content, versions and URL aliases a fixture replaces.
+     *
+     * @param array<string, array<array<string, mixed>>> $nonEmptyTablesData
+     *
+     * @throws Exception
+     */
+    private function clearLanguageTranslations(array $nonEmptyTablesData): void
+    {
+        if (!$this->tableExists('ibexa_content_translation')) {
+            return;
+        }
+
+        if (isset($nonEmptyTablesData['ibexa_content'])) {
+            $this->connection->executeStatement('DELETE FROM ibexa_content_translation');
+        }
+        if (isset($nonEmptyTablesData['ibexa_content_version'])) {
+            $this->connection->executeStatement('DELETE FROM ibexa_content_version_translation');
+        }
+        if (isset($nonEmptyTablesData['ibexa_url_alias_ml']) && $this->tableExists('ibexa_url_alias_ml_translation')) {
+            $this->connection->executeStatement('DELETE FROM ibexa_url_alias_ml_translation');
+        }
+    }
+
+    /**
+     * A fixture replacing the languages can't truncate "ibexa_content_language" while the translation rows
+     * of tables it leaves alone (e.g. the base fixture's URL aliases) still reference it. Take them
+     * out first, so reattachLanguageTranslations() can put back the ones whose language is still
+     * there, the same rows the legacy bitmask columns kept. Rows of tables the fixture replaces are
+     * dropped, backfillLanguageBitmaskColumns() rebuilds those.
+     *
+     * @param string[] $tablesList
+     *
+     * @return array<string, list<array<string, mixed>>>
+     *
+     * @throws Exception
+     */
+    private function detachLanguageTranslations(array $tablesList): array
+    {
+        if (!in_array('ibexa_content_language', $tablesList, true)) {
+            return [];
+        }
+
+        $detached = [];
+        foreach (self::LANGUAGE_TRANSLATION_TABLES as $table => $ownerTable) {
+            if (!$this->tableExists($table)) {
+                continue;
+            }
+            if (!in_array($ownerTable, $tablesList, true)) {
+                $detached[$table] = $this->connection->fetchAllAssociative('SELECT * FROM ' . $table);
+            }
+            $this->connection->executeStatement('DELETE FROM ' . $table);
+        }
+
+        return $detached;
+    }
+
+    /**
+     * @param array<string, list<array<string, mixed>>> $detachedTranslations
+     *
+     * @throws Exception
+     */
+    private function reattachLanguageTranslations(array $detachedTranslations): void
+    {
+        if ($detachedTranslations === []) {
+            return;
+        }
+
+        $validLanguageIds = $this->loadValidLanguageIds();
+        foreach ($detachedTranslations as $table => $rows) {
+            foreach ($rows as $row) {
+                if (in_array((int)$row['language_id'], $validLanguageIds, true)) {
+                    $this->connection->insert($table, $row);
+                }
+            }
+        }
+    }
+
+    /**
+     * @return string[]
+     */
+    private function getExistingColumns(string $table): array
+    {
+        if (!isset(self::$existingColumnsByTable[$table])) {
+            $columns = $this->connection->createSchemaManager()->listTableColumns($table);
+            self::$existingColumnsByTable[$table] = array_map(
+                static fn (Column $column): string => $column->getName(),
+                $columns
+            );
+        }
+
+        return self::$existingColumnsByTable[$table];
+    }
+
+    /**
+     * Fixture data predates "always_available"/"is_always_available" becoming plain columns and
+     * the "ibexa_content_translation"/"ibexa_content_version_translation"/
+     * "ibexa_url_alias_ml_translation" join tables - it only ever set "language_mask"/"lang_mask",
+     * which import() now silently drops (see getExistingColumns()) since the column may no longer
+     * exist. Backfill the modern columns/tables from those same fixture values here, once, so every
+     * fixture-loading path behaves like rows actually written through the gateways - mirrors what
+     * the real Add*AlwaysAvailableColumns/AddLanguageTranslationTables/
+     * AddSearchObjectWordLinkLanguageIdColumns migrations backfill for production upgrades.
+     *
+     * Reimplements the (small, stable) bitmask decode directly rather than depending on
+     * Persistence\Legacy's MaskGenerator - this is a test-only concern in a Contracts package that
+     * must not depend on a specific storage engine's internals.
+     *
+     * @param array<string, array<array<string, mixed>>> $nonEmptyTablesData
+     */
+    private function backfillLanguageBitmaskColumns(array $nonEmptyTablesData): void
+    {
+        if (!$this->tableExists('ibexa_content_translation')) {
+            // Schema predates this migration entirely (or has already dropped the join tables in
+            // some hypothetical future) - nothing to backfill into.
+            return;
+        }
+
+        $validLanguageIds = $this->loadValidLanguageIds();
+        $this->backfillContentLanguages('ibexa_content', 'ibexa_content_translation', 'content_id', $nonEmptyTablesData['ibexa_content'] ?? [], $validLanguageIds);
+        $this->backfillContentLanguages('ibexa_content_version', 'ibexa_content_version_translation', 'content_version_id', $nonEmptyTablesData['ibexa_content_version'] ?? [], $validLanguageIds);
+
+        if (isset($nonEmptyTablesData['ibexa_url_alias_ml']) && $this->tableExists('ibexa_url_alias_ml_translation')) {
+            $this->backfillUrlAliasLanguages($nonEmptyTablesData['ibexa_url_alias_ml'], $validLanguageIds);
+        }
+
+        if (isset($nonEmptyTablesData['ibexa_search_object_word_link']) && $this->tableExists('ibexa_search_object_word_link') && in_array('language_id', $this->getExistingColumns('ibexa_search_object_word_link'), true)) {
+            $this->backfillSearchIndexLanguages($nonEmptyTablesData['ibexa_search_object_word_link']);
+        }
+    }
+
+    /**
+     * Sets "always_available" and the translation rows of content or versions from their fixture "language_mask".
+     *
+     * @param array<array<string, mixed>> $rows
+     * @param int[] $validLanguageIds
+     *
+     * @throws Exception
+     */
+    private function backfillContentLanguages(
+        string $table,
+        string $translationTable,
+        string $idColumn,
+        array $rows,
+        array $validLanguageIds
+    ): void {
+        foreach ($rows as $row) {
+            if (!array_key_exists('language_mask', $row)) {
+                continue;
+            }
+            $mask = (int)$row['language_mask'];
+            $this->connection->executeStatement(
+                "UPDATE {$table} SET always_available = :alwaysAvailable WHERE id = :id",
+                ['alwaysAvailable' => ($mask & 1) === 1, 'id' => $row['id']],
+                ['alwaysAvailable' => ParameterType::BOOLEAN, 'id' => ParameterType::INTEGER]
+            );
+            foreach ($this->extractLanguageIds($mask, $validLanguageIds) as $languageId) {
+                $this->connection->executeStatement(
+                    "INSERT INTO {$translationTable} ({$idColumn}, language_id) VALUES (:id, :languageId)",
+                    ['id' => $row['id'], 'languageId' => $languageId],
+                    ['id' => ParameterType::INTEGER, 'languageId' => ParameterType::INTEGER]
+                );
+            }
+        }
+    }
+
+    /**
+     * Sets the translation rows of URL aliases from their fixture "lang_mask".
+     *
+     * @param array<array<string, mixed>> $rows
+     * @param int[] $validLanguageIds
+     *
+     * @throws Exception
+     */
+    private function backfillUrlAliasLanguages(
+        array $rows,
+        array $validLanguageIds
+    ): void {
+        foreach ($rows as $row) {
+            if (!array_key_exists('lang_mask', $row)) {
+                continue;
+            }
+            $mask = (int)$row['lang_mask'];
+            foreach ($this->extractLanguageIds($mask, $validLanguageIds) as $languageId) {
+                $this->connection->executeStatement(
+                    'INSERT INTO ibexa_url_alias_ml_translation (parent, text_md5, language_id) VALUES (:parent, :textMd5, :languageId)',
+                    ['parent' => $row['parent'], 'textMd5' => $row['text_md5'], 'languageId' => $languageId],
+                    ['parent' => ParameterType::INTEGER, 'textMd5' => ParameterType::STRING, 'languageId' => ParameterType::INTEGER]
+                );
+            }
+        }
+    }
+
+    /**
+     * Sets "language_id" and "is_main_and_always_available" of search index rows from their fixture "language_mask".
+     *
+     * @param array<array<string, mixed>> $rows
+     *
+     * @throws Exception
+     */
+    private function backfillSearchIndexLanguages(array $rows): void
+    {
+        foreach ($rows as $row) {
+            if (!array_key_exists('language_mask', $row)) {
+                continue;
+            }
+            $mask = (int)$row['language_mask'];
+            $this->connection->executeStatement(
+                'UPDATE ibexa_search_object_word_link
+                 SET language_id = :languageId, is_main_and_always_available = :alwaysAvailable
+                 WHERE id = :id',
+                [
+                    'languageId' => $mask & ~1,
+                    'alwaysAvailable' => ($mask & 1) === 1,
+                    'id' => $row['id'],
+                ],
+                [
+                    'languageId' => ParameterType::INTEGER,
+                    'alwaysAvailable' => ParameterType::BOOLEAN,
+                    'id' => ParameterType::INTEGER,
+                ]
+            );
+        }
+    }
+
+    private function tableExists(string $table): bool
+    {
+        return $this->connection->createSchemaManager()->tablesExist([$table]);
+    }
+
+    /**
+     * @return int[]
+     */
+    private function loadValidLanguageIds(): array
+    {
+        if (!$this->tableExists('ibexa_content_language')) {
+            return [];
+        }
+
+        return array_map(
+            'intval',
+            $this->connection->fetchFirstColumn('SELECT id FROM ibexa_content_language')
+        );
+    }
+
+    /**
+     * Decodes real (non-always-available) language ids out of a legacy bitmask, restricted to ids
+     * actually present in ibexa_content_language (mirrors the old SQL backfill's implicit
+     * JOIN ibexa_content_language filter, needed since ibexa_content_translation's language_id has
+     * a real FK to it).
+     *
+     * @param int[] $validLanguageIds
+     *
+     * @return int[]
+     */
+    private function extractLanguageIds(
+        int $mask,
+        array $validLanguageIds
+    ): array {
+        $languageIds = [];
+        for ($languageId = 2; $languageId <= $mask; $languageId *= 2) {
+            if (($mask & $languageId) === $languageId && in_array($languageId, $validLanguageIds, true)) {
+                $languageIds[] = $languageId;
+            }
+        }
+
+        return $languageIds;
     }
 
     /**

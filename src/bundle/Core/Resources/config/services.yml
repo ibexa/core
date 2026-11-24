@@ -290,6 +290,18 @@ services:
         tags:
             - { name: console.command }
 
+    Ibexa\Bundle\Core\Command\BackfillLanguageTranslationsCommand:
+        arguments:
+            $gateway: '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskTranslationGateway'
+        tags:
+            - { name: console.command }
+
+    Ibexa\Bundle\Core\Command\VerifyLanguageTranslationsCommand:
+        arguments:
+            $gateway: '@Ibexa\Core\Persistence\Legacy\Content\Language\MaskTranslationGateway'
+        tags:
+            - { name: console.command }
+
     Ibexa\Bundle\Core\Session\Handler\NativeSessionHandler:
         class: Ibexa\Bundle\Core\Session\Handler\NativeSessionHandler
         arguments:

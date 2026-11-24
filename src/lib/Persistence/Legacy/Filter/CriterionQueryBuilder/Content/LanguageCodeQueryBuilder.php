@@ -9,10 +9,12 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content;
 
 use Doctrine\DBAL\ArrayParameterType;
+use Doctrine\DBAL\ParameterType;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\LanguageCode;
 use Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Filter\FilteringCriterion;
+use Ibexa\Core\Persistence\Legacy\Content\Gateway as ContentGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway;
 
 /**
@@ -37,10 +39,15 @@ final class LanguageCodeQueryBuilder implements CriterionQueryBuilder
         $queryBuilder
             ->joinOnce(
                 'version',
+                ContentGateway::CONTENT_VERSION_TRANSLATION_TABLE,
+                'version_translation',
+                'version_translation.content_version_id = version.id'
+            )
+            ->joinOnce(
+                'version_translation',
                 Gateway::CONTENT_LANGUAGE_TABLE,
                 'language',
-                // bitwise and for exact language ID match
-                'language.id & version.language_mask = language.id'
+                'language.id = version_translation.language_id'
             );
 
         // at this point $criterion->value is guaranteed to be an array
@@ -53,7 +60,13 @@ final class LanguageCodeQueryBuilder implements CriterionQueryBuilder
         );
 
         if ($criterion->matchAlwaysAvailable) {
-            $expr = (string)$queryBuilder->expr()->or($expr, 'version.language_mask & 1 = 1');
+            $expr = (string)$queryBuilder->expr()->or(
+                $expr,
+                $queryBuilder->expr()->eq(
+                    'version.always_available',
+                    $queryBuilder->createNamedParameter(true, ParameterType::BOOLEAN)
+                )
+            );
         }
 
         return $expr;

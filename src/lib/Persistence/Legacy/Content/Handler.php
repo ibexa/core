@@ -358,6 +358,7 @@ class Handler implements BaseContentHandler
                 'id' => $id,
                 'version' => $rows[0]['content_version_version'],
             ]]),
+            $this->loadVersionTranslations($rows),
             'content_',
             $translations
         );
@@ -392,6 +393,7 @@ class Handler implements BaseContentHandler
 
         // group name data per Content Id
         $nameData = $this->contentGateway->loadVersionedNameData(array_values($idVersionPairs));
+        $versionLanguageIds = $this->loadVersionTranslations($rawList);
         $contentItemNameData = [];
         foreach ($nameData as $nameDataRow) {
             $contentId = $nameDataRow['content_name_contentobject_id'];
@@ -413,6 +415,7 @@ class Handler implements BaseContentHandler
                 $contentList = $this->mapper->extractContentFromRows(
                     $contentItemsRow,
                     $contentItemNameData[$contentId],
+                    $versionLanguageIds,
                     'content_',
                     $translations
                 );
@@ -500,7 +503,8 @@ class Handler implements BaseContentHandler
 
         $versionInfo = $this->mapper->extractVersionInfoListFromRows(
             $rows,
-            $this->contentGateway->loadVersionedNameData([['id' => $contentId, 'version' => $rows[0]['content_version_version']]])
+            $this->contentGateway->loadVersionedNameData([['id' => $contentId, 'version' => $rows[0]['content_version_version']]]),
+            $this->loadVersionTranslations($rows)
         );
 
         $versionInfo = reset($versionInfo);
@@ -558,7 +562,7 @@ class Handler implements BaseContentHandler
         );
         $nameRows = $this->contentGateway->loadVersionedNameData($idVersionPairs);
 
-        return $this->mapper->extractVersionInfoListFromRows($rows, $nameRows);
+        return $this->mapper->extractVersionInfoListFromRows($rows, $nameRows, $this->loadVersionTranslations($rows));
     }
 
     public function loadDraftListForUser(
@@ -582,7 +586,7 @@ class Handler implements BaseContentHandler
         );
         $nameRows = $this->contentGateway->loadVersionedNameData($idVersionPairs);
 
-        return $this->mapper->extractVersionInfoListFromRows($rows, $nameRows);
+        return $this->mapper->extractVersionInfoListFromRows($rows, $nameRows, $this->loadVersionTranslations($rows));
     }
 
     /**
@@ -1031,7 +1035,8 @@ class Handler implements BaseContentHandler
 
         $versionInfoList = $this->mapper->extractVersionInfoListFromRows(
             $rows,
-            $this->contentGateway->loadVersionedNameData($mappedRows)
+            $this->contentGateway->loadVersionedNameData($mappedRows),
+            $this->loadVersionTranslations($rows)
         );
 
         $versionInfoListById = [];
@@ -1040,5 +1045,17 @@ class Handler implements BaseContentHandler
         }
 
         return $versionInfoListById;
+    }
+
+    /**
+     * @param array<array<string, mixed>> $rows
+     *
+     * @return array<int, int[]>
+     */
+    private function loadVersionTranslations(array $rows): array
+    {
+        return $this->contentGateway->loadVersionTranslations(
+            array_map(static fn (array $row): int => (int)$row['content_version_id'], $rows)
+        );
     }
 }

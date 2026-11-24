@@ -194,7 +194,7 @@ class MapperTest extends LanguageAwareTestCase
             $this->getEventDispatcher(),
             $this->getFieldTypeAliasResolver(),
         );
-        $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture);
+        $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture, [676 => [2]]);
 
         $expected = [$this->getContentExtractReference()];
 
@@ -234,7 +234,7 @@ class MapperTest extends LanguageAwareTestCase
             $this->getEventDispatcher(),
             $this->getFieldTypeAliasResolver(),
         );
-        $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture);
+        $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture, [676 => [2]]);
 
         $expectedContent = $this->getContentExtractReference();
         $expectedContent->fields[] = new Field([
@@ -284,7 +284,7 @@ class MapperTest extends LanguageAwareTestCase
             $this->getEventDispatcher(),
             $this->getFieldTypeAliasResolver(),
         );
-        $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture);
+        $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture, [676 => [2]]);
 
         $expectedContent = $this->getContentExtractReference();
         $expectedContent->fields = array_values(
@@ -330,7 +330,7 @@ class MapperTest extends LanguageAwareTestCase
             $this->getEventDispatcher(),
             $this->getFieldTypeAliasResolver(),
         );
-        $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture);
+        $result = $mapper->extractContentFromRows($rowsFixture, $nameRowsFixture, [439 => [2], 674 => [2]]);
 
         self::assertCount(
             2,

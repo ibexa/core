@@ -427,6 +427,36 @@ final class ContentFilteringTest extends BaseRepositoryFilteringTestCase
      * @throws NotFoundException
      * @throws UnauthorizedException
      */
+    public function testFindLoadsAllLanguagesOfEachVersion(): void
+    {
+        $parentFolder = $this->createFolder(['eng-US' => 'Parent Folder'], 2);
+        $parentLocationId = $parentFolder->getContentInfo()->getMainLocationId();
+        self::assertNotNull($parentLocationId);
+        for ($itemNo = 1; $itemNo <= 3; ++$itemNo) {
+            $this->createFolder(
+                ['eng-US' => "Child no #{$itemNo}", 'eng-GB' => "Child no #{$itemNo} (GB)"],
+                $parentLocationId
+            );
+        }
+
+        $filter = new Filter(new Criterion\ParentLocationId($parentLocationId));
+        $filter
+            ->andWithCriterion(new Criterion\LanguageCode(['eng-GB'], false))
+            ->sliceBy(2, 0);
+        $contentList = $this->find($filter);
+
+        self::assertSame(3, $contentList->getTotalCount());
+        self::assertCount(2, $contentList);
+        foreach ($contentList as $content) {
+            self::assertEqualsCanonicalizing(['eng-US', 'eng-GB'], $content->getVersionInfo()->getLanguageCodes());
+        }
+    }
+
+    /**
+     * @throws ForbiddenException
+     * @throws NotFoundException
+     * @throws UnauthorizedException
+     */
     public function testFindContentWithExternalStorageFields(): void
     {
         $repository = $this->getRepository();
