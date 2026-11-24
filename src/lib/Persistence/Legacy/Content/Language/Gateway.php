@@ -35,7 +35,7 @@ abstract class Gateway
      */
     public const array MULTILINGUAL_TABLES_COLUMNS = [
         ObjectStateGateway::OBJECT_STATE_TABLE => ['default_language_id'],
-        ObjectStateGateway::OBJECT_STATE_GROUP_LANGUAGE_TABLE => ['language_id'],
+        ObjectStateGateway::OBJECT_STATE_GROUP_LANGUAGE_TABLE => ['language_id', 'real_language_id'],
         ObjectStateGateway::OBJECT_STATE_GROUP_TABLE => ['default_language_id'],
         ObjectStateGateway::OBJECT_STATE_LANGUAGE_TABLE => ['language_id'],
         ContentTypeGateway::MULTILINGUAL_FIELD_DEFINITION_TABLE => ['language_id'],

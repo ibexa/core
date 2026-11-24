@@ -239,5 +239,8 @@ return [
             'name' => 'Folder',
         ],
     ],
-    LanguageGateway::CONTENT_LANGUAGE_TABLE => [],
+    LanguageGateway::CONTENT_LANGUAGE_TABLE => [
+        ['disabled' => 0, 'id' => 2, 'locale' => 'eng-US', 'name' => 'English (American)'],
+        ['disabled' => 0, 'id' => 4, 'locale' => 'eng-GB', 'name' => 'English (United Kingdom)'],
+    ],
 ];

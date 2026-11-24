@@ -1,3 +1,6 @@
+INSERT INTO "ibexa_content_language" ("disabled", "id", "locale", "name")
+VALUES (0, 2, 'eng-GB', 'English (United Kingdom)');
+
 INSERT INTO "ibexa_object_state" ("default_language_id", "group_id", "id", "identifier", "priority")
 VALUES (2, 2, 1, 'not_locked', 0),
        (2, 2, 2, 'locked', 1);
@@ -25,9 +28,6 @@ VALUES ( 1, 1),
        (49, 1),
        (50, 1),
        (51, 1);
-
-INSERT INTO "ibexa_content_language" ("disabled", "id", "locale", "name")
-VALUES (0, 2, 'eng-GB', 'English (United Kingdom)');
 
 INSERT INTO "ibexa_content_type" ("always_available", "contentobject_name", "created", "creator_id", "id", "identifier", "initial_language_id", "is_container", "modified", "modifier_id", "remote_id", "serialized_description_list", "serialized_name_list", "sort_field", "sort_order", "url_alias_name", "status")
 VALUES (1,'<short_name|name>',1024392098,14,1,'folder',2,1,1448831672,14,'a3d405b81be900468eb153d774f4f0d2','a:0:{}','a:1:{s:6:"eng-GB";s:6:"Folder";}',1,1,NULL,0),

@@ -158,12 +158,14 @@ return [
             'content_version' => 1,
             'name' => 'swap',
             'content_translation' => 'cro-HR',
+            'language_id' => 2,
         ],
         1 => [
             'contentobject_id' => 4,
             'content_version' => 1,
             'name' => 'swap',
             'content_translation' => 'cro-HR',
+            'language_id' => 2,
         ],
     ],
 ];

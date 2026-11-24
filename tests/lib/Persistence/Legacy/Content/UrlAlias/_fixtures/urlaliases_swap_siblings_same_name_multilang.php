@@ -149,24 +149,28 @@ return [
             'content_version' => 1,
             'name' => 'swap hr',
             'content_translation' => 'cro-HR',
+            'language_id' => 2,
         ],
         1 => [
             'contentobject_id' => 2,
             'content_version' => 1,
             'name' => 'swap en',
             'content_translation' => 'eng-GB',
+            'language_id' => 4,
         ],
         2 => [
             'contentobject_id' => 3,
             'content_version' => 1,
             'name' => 'swap hr',
             'content_translation' => 'cro-HR',
+            'language_id' => 2,
         ],
         3 => [
             'contentobject_id' => 3,
             'content_version' => 1,
             'name' => 'swap en',
             'content_translation' => 'eng-GB',
+            'language_id' => 4,
         ],
     ],
 ];

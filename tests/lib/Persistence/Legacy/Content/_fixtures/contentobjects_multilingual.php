@@ -5,8 +5,13 @@
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
 use Ibexa\Core\Persistence\Legacy\Content\Gateway;
+use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway as LanguageGateway;
 
 return [
+    LanguageGateway::CONTENT_LANGUAGE_TABLE => [
+        ['disabled' => 0, 'id' => 2, 'locale' => 'eng-US', 'name' => 'English (American)'],
+        ['disabled' => 0, 'id' => 4, 'locale' => 'cro-HR', 'name' => 'Croatian (Hrvatski)'],
+    ],
     Gateway::CONTENT_FIELD_TABLE => [
         0 => [
             'attribute_original_id' => '0',

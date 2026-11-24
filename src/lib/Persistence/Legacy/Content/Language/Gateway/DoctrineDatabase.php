@@ -188,8 +188,10 @@ final class DoctrineDatabase extends Gateway
 
         // note: at some point this should be delegated to specific gateways
         foreach (self::MULTILINGUAL_TABLES_COLUMNS as $tableName => $columns) {
-            if ($this->existsWithColumnValue($id, $tableName, $columns[0])) {
-                return false;
+            foreach ($columns as $column) {
+                if ($this->existsWithColumnValue($id, $tableName, $column)) {
+                    return false;
+                }
             }
         }
 

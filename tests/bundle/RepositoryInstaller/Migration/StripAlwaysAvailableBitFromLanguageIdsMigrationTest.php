@@ -27,6 +27,7 @@ final class StripAlwaysAvailableBitFromLanguageIdsMigrationTest extends TestCase
         );
 
         $connection = $this->getDatabaseConnection();
+        $connection->executeStatement('PRAGMA foreign_keys = OFF');
         $connection->insert('ibexa_content_language', ['id' => 5, 'locale' => 'fre-FR', 'name' => 'French', 'disabled' => 0]);
 
         foreach ([[1, 'eng-GB', 5], [2, 'fre-FR', 5], [3, 'eng-US', 3], [4, 'eng-US', 2]] as [$id, $languageCode, $languageId]) {

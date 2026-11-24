@@ -1,0 +1,5 @@
+CREATE INDEX ibexa_content_version_initial_language ON ibexa_content_version (initial_language_id);
+-- ibexa:sql-statement-separator
+ALTER TABLE ibexa_content_version
+    ADD CONSTRAINT ibexa_content_version_initial_language_fk FOREIGN KEY (initial_language_id)
+        REFERENCES ibexa_content_language (id) ON DELETE RESTRICT ON UPDATE CASCADE;
