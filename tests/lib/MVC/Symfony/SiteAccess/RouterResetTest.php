@@ -51,6 +51,23 @@ final class RouterResetTest extends TestCase
         }
     }
 
+    public function testResetForgetsTheMatchedSiteAccessAndRequest(): void
+    {
+        $router = new Router(
+            new MatcherBuilder(),
+            new NullLogger(),
+            'site',
+            ['Map\Host' => ['admin.example.com' => 'admin']],
+            new StaticSiteAccessProvider(['site', 'admin'])
+        );
+        $router->match(new SimplifiedRequest(['host' => 'admin.example.com', 'pathinfo' => '/']));
+
+        $router->reset();
+
+        self::assertNull($router->getSiteAccess());
+        self::assertEquals(new SimplifiedRequest(), $router->getRequest());
+    }
+
     /**
      * @return iterable<string, array{array<string, array<string, string>>, array<string, SimplifiedRequest>}>
      */
