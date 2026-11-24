@@ -21,6 +21,7 @@ use Ibexa\Core\MVC\Symfony\View\Builder\ContentViewBuilder;
 use Ibexa\Core\MVC\Symfony\View\Configurator;
 use Ibexa\Core\MVC\Symfony\View\ContentView;
 use Ibexa\Core\MVC\Symfony\View\ParametersInjector;
+use Ibexa\Core\Repository\LocationResolver\LocationResolver;
 use Ibexa\Core\Repository\Repository;
 use Ibexa\Core\Repository\Values\Content\Content;
 use Ibexa\Core\Repository\Values\Content\Location;
@@ -49,6 +50,9 @@ class ContentViewBuilderTest extends TestCase
     /** @var ContentInfoLocationLoader|MockObject */
     private $contentInfoLocationLoader;
 
+    /** @var LocationResolver&MockObject */
+    private $locationResolver;
+
     /** @var ContentViewBuilder|MockObject */
     private $contentViewBuilder;
 
@@ -73,6 +77,10 @@ class ContentViewBuilderTest extends TestCase
         $this->viewConfigurator = $this->getMockBuilder(Configurator::class)->getMock();
         $this->parametersInjector = $this->getMockBuilder(ParametersInjector::class)->getMock();
         $this->contentInfoLocationLoader = $this->getMockBuilder(ContentInfoLocationLoader::class)->getMock();
+        $this->locationResolver = $this->createMock(LocationResolver::class);
+        $this->locationResolver
+            ->method('resolveLocation')
+            ->willThrowException(new NotFoundException('Location', 'n/a'));
         $this->permissionResolver = $this->getMockBuilder(PermissionResolver::class)->getMock();
         $this->requestStack = $this->getMockBuilder(RequestStack::class)->getMock();
         $this->repository
@@ -85,7 +93,8 @@ class ContentViewBuilderTest extends TestCase
             $this->viewConfigurator,
             $this->parametersInjector,
             $this->requestStack,
-            $this->contentInfoLocationLoader
+            $this->contentInfoLocationLoader,
+            $this->locationResolver
         );
     }
 
@@ -105,6 +114,57 @@ class ContentViewBuilderTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
 
         $this->contentViewBuilder->buildView($parameters);
+    }
+
+    public function testBuildViewWithoutLocationIdUsesReadableLocation(): void
+    {
+        $contentInfo = new ContentInfo(['id' => 1, 'mainLocationId' => 2]);
+        $content = new Content([
+            'versionInfo' => new VersionInfo(['id' => 2, 'contentInfo' => $contentInfo]),
+        ]);
+        $readableLocation = new Location(['id' => 3, 'invisible' => false, 'content' => $content]);
+
+        $contentService = $this->createMock(ContentService::class);
+        $contentService
+            ->method('loadContent')
+            ->willReturn($content);
+
+        $this->repository
+            ->method('getContentService')
+            ->willReturn($contentService);
+
+        $this->permissionResolver
+            ->expects(self::any())
+            ->method('canUser')
+            ->willReturn(true);
+
+        $locationResolver = $this->createMock(LocationResolver::class);
+        $locationResolver
+            ->expects(self::once())
+            ->method('resolveLocation')
+            ->willReturn($readableLocation);
+
+        $contentViewBuilder = new ContentViewBuilder(
+            $this->repository,
+            $this->viewConfigurator,
+            $this->parametersInjector,
+            $this->requestStack,
+            $this->contentInfoLocationLoader,
+            $locationResolver
+        );
+
+        $this->contentInfoLocationLoader
+            ->expects(self::never())
+            ->method('loadLocation');
+
+        $view = $contentViewBuilder->buildView([
+            'viewType' => 'full',
+            '_controller' => 'ibexa_content:viewContent',
+            'contentId' => 1,
+        ]);
+
+        self::assertInstanceOf(ContentView::class, $view);
+        self::assertSame($readableLocation, $view->getLocation());
     }
 
     public function testBuildViewWithInvalidLocationId(): void
