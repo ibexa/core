@@ -33,7 +33,6 @@ final class SchemaBuilderTablesSchemaListenerTest extends IbexaKernelTestCase
     protected function setUp(): void
     {
         self::bootKernel();
-        self::loadSchema();
     }
 
     public function testOrmSchemaUpdateDoesNotDropLegacyTables(): void
