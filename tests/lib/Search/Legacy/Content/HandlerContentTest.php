@@ -19,6 +19,7 @@ use Ibexa\Core\Persistence\Legacy\Content\FieldHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Location\Mapper as LocationMapper;
 use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Search\Legacy\Content;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\LanguagePriorityConditionBuilder;
 use Ibexa\Core\Search\Legacy\Content\Handler;
 use Ibexa\Core\Search\Legacy\Content\Location\Gateway as LocationGateway;
 
@@ -135,7 +136,7 @@ class HandlerContentTest extends AbstractTestCase
                         new Content\Common\Gateway\CriterionHandler\FullText(
                             $connection,
                             $transformationProcessor,
-                            $this->getLanguageMaskGenerator(),
+                            new LanguagePriorityConditionBuilder($connection, $this->getLanguageHandler()),
                             $joinedTablesTracker,
                             $fullTextSearchConfiguration
                         ),
@@ -162,7 +163,11 @@ class HandlerContentTest extends AbstractTestCase
                                 $compositeValueHandler
                             ),
                             $transformationProcessor,
-                            $joinedTablesTracker
+                            $joinedTablesTracker,
+                            new LanguagePriorityConditionBuilder(
+                                $connection,
+                                $this->getLanguageHandler()
+                            )
                         ),
                         new Content\Common\Gateway\CriterionHandler\ObjectStateId(
                             $connection,
@@ -170,8 +175,8 @@ class HandlerContentTest extends AbstractTestCase
                         ),
                         new Content\Common\Gateway\CriterionHandler\LanguageCode(
                             $connection,
-                            $this->getLanguageMaskGenerator(),
-                            $joinedTablesTracker
+                            $joinedTablesTracker,
+                            new LanguagePriorityConditionBuilder($connection, $this->getLanguageHandler())
                         ),
                         new Content\Gateway\CriterionHandler\Visibility(
                             $connection,
@@ -189,7 +194,11 @@ class HandlerContentTest extends AbstractTestCase
                             $connection,
                             $this->getContentTypeHandler(),
                             $this->getLanguageHandler(),
-                            $joinedTablesTracker
+                            $joinedTablesTracker,
+                            new LanguagePriorityConditionBuilder(
+                                $connection,
+                                $this->getLanguageHandler()
+                            )
                         ),
                     ]
                 ),
@@ -198,7 +207,10 @@ class HandlerContentTest extends AbstractTestCase
                         new Content\Common\Gateway\SortClauseHandler\ContentId($connection),
                     ]
                 ),
-                $this->getLanguageHandler()
+                new LanguagePriorityConditionBuilder(
+                    $this->getDatabaseConnection(),
+                    $this->getLanguageHandler()
+                )
             ),
             self::createStub(LocationGateway::class),
             new Content\WordIndexer\Gateway\DoctrineDatabase(
@@ -206,7 +218,7 @@ class HandlerContentTest extends AbstractTestCase
                 $this->getContentTypeHandler(),
                 $this->getDefinitionBasedTransformationProcessor(),
                 new Content\WordIndexer\Repository\SearchIndex($this->getDatabaseConnection()),
-                $this->getLanguageMaskGenerator(),
+                $this->getLanguageHandler(),
                 $this->getFullTextSearchConfiguration()
             ),
             $this->getContentMapperMock(),

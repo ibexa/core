@@ -18,6 +18,7 @@ use Ibexa\Core\Persistence\Legacy\Content\Mapper as ContentMapper;
 use Ibexa\Core\Search\Legacy\Content;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriteriaConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\CriterionHandler as CommonCriterionHandler;
+use Ibexa\Core\Search\Legacy\Content\Common\Gateway\LanguagePriorityConditionBuilder;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseConverter;
 use Ibexa\Core\Search\Legacy\Content\Common\Gateway\SortClauseHandler as CommonSortClauseHandler;
 use Ibexa\Core\Search\Legacy\Content\Gateway as ContentGateway;
@@ -89,18 +90,25 @@ class HandlerLocationSortTest extends AbstractTestCase
                         new CommonSortClauseHandler\Field(
                             $connection,
                             $this->getLanguageHandler(),
-                            $this->getContentTypeHandler()
+                            $this->getContentTypeHandler(),
+                            new LanguagePriorityConditionBuilder(
+                                $connection,
+                                $this->getLanguageHandler()
+                            )
                         ),
                     ]
                 ),
-                $this->getLanguageHandler()
+                new LanguagePriorityConditionBuilder(
+                    $this->getDatabaseConnection(),
+                    $this->getLanguageHandler()
+                )
             ),
             new Content\WordIndexer\Gateway\DoctrineDatabase(
                 $this->getDatabaseConnection(),
                 $this->getContentTypeHandler(),
                 $this->getDefinitionBasedTransformationProcessor(),
                 new Content\WordIndexer\Repository\SearchIndex($this->getDatabaseConnection()),
-                $this->getLanguageMaskGenerator(),
+                $this->getLanguageHandler(),
                 $this->getFullTextSearchConfiguration()
             ),
             self::createStub(ContentMapper::class),
@@ -133,6 +141,7 @@ class HandlerLocationSortTest extends AbstractTestCase
                             if (!isset($locations[$locationId])) {
                                 $locations[$locationId] = new SPILocation();
                                 $locations[$locationId]->id = $locationId;
+                                $locations[$locationId]->contentId = (int)$row['contentobject_id'];
                             }
                         }
 
