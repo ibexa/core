@@ -20,6 +20,7 @@ use Ibexa\Bundle\Core\Features\Context\QueryControllerContext;
 use Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Filter\SortClauseQueryBuilder;
 use Ibexa\Core\MVC\Symfony\Routing\ChainRouter;
+use Ibexa\Core\MVC\Symfony\SiteAccess\Router as SiteAccessRouter;
 use Ibexa\Core\QueryType\QueryType;
 use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\Filter\CustomCriterionQueryBuilder;
 use Ibexa\Tests\Bundle\Core\DependencyInjection\Stub\Filter\CustomSortClauseQueryBuilder;
@@ -286,6 +287,17 @@ class IbexaCoreExtensionTest extends AbstractExtensionTestCase
         $this->assertIsArray($nonSiteaccessAwareRoutes);
         $this->assertContains('foo_route', $nonSiteaccessAwareRoutes);
         $this->assertContains('my_prefix_', $nonSiteaccessAwareRoutes);
+    }
+
+    public function testSiteAccessRouterIsResetBetweenRequests(): void
+    {
+        $this->load();
+
+        $this->assertContainerBuilderHasServiceDefinitionWithTag(
+            SiteAccessRouter::class,
+            'kernel.reset',
+            ['method' => 'reset']
+        );
     }
 
     /**
