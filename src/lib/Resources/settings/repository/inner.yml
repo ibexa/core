@@ -224,6 +224,8 @@ services:
             $userHandler: '@Ibexa\Contracts\Core\Persistence\User\Handler'
             $configResolver: '@ibexa.config.resolver'
             $policyMap: '%ibexa.api.role.policy_map%'
+        tags:
+            - { name: 'kernel.reset', method: 'reset' }
 
     Ibexa\Core\Repository\Permission\PermissionCriterionResolver:
         arguments:
@@ -234,6 +236,8 @@ services:
         arguments:
             $innerPermissionResolver: '@Ibexa\Core\Repository\Permission\PermissionResolver'
             $permissionCriterionResolver: '@Ibexa\Core\Repository\Permission\PermissionCriterionResolver'
+        tags:
+            - { name: 'kernel.reset', method: 'reset' }
 
     Ibexa\Core\Repository\Strategy\ContentValidator\ContentValidatorStrategy:
         arguments:

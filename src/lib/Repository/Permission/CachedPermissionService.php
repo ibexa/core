@@ -17,6 +17,7 @@ use Ibexa\Contracts\Core\Repository\Repository as RepositoryInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\User\LookupLimitationResult;
 use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
+use Symfony\Contracts\Service\ResetInterface;
 
 /**
  * Cache implementation of PermissionResolver and PermissionCriterionResolver interface.
@@ -29,7 +30,7 @@ use Ibexa\Contracts\Core\Repository\Values\User\UserReference;
  * The logic here uses a cache TTL of a few seconds, as this is in-memory cache we are not
  * able to know if any other concurrent user might be changing permissions.
  */
-class CachedPermissionService implements PermissionService
+class CachedPermissionService implements PermissionService, ResetInterface
 {
     private APIPermissionResolver $innerPermissionResolver;
 
@@ -87,6 +88,14 @@ class CachedPermissionService implements PermissionService
     {
         $this->permissionCriterion = null;
         $this->innerPermissionResolver->setCurrentUserReference($userReference);
+    }
+
+    /**
+     * The inner resolver is reset on its own, as it is a separate kernel.reset service.
+     */
+    public function reset(): void
+    {
+        $this->permissionCriterion = null;
     }
 
     public function hasAccess(

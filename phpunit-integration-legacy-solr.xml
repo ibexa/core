@@ -49,6 +49,7 @@
       <exclude>tests/integration/Core/Repository/KeywordFieldCriterionTest.php</exclude>
       <exclude>tests/integration/Core/Repository/UserService</exclude>
       <exclude>tests/integration/Core/SchemaAlignmentTest.php</exclude>
+      <exclude>tests/integration/Core/Repository/Permission/PermissionResolverResetTest.php</exclude>
     </testsuite>
   </testsuites>
   <source>
