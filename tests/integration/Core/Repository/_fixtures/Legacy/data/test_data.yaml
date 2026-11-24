@@ -5,10 +5,10 @@ ibexa_object_state:
 ibexa_object_state_group:
   - { default_language_id: 2, id: 2, identifier: ibexa_lock, language_mask: 3 }
 ibexa_object_state_group_language:
-  - { contentobject_state_group_id: 2, description: '', language_id: 3, name: Lock, real_language_id: 2 }
+  - { contentobject_state_group_id: 2, description: '', language_id: 2, name: Lock, real_language_id: 2 }
 ibexa_object_state_language:
-  - { contentobject_state_id: 1, description: '', language_id: 3, name: 'Not locked' }
-  - { contentobject_state_id: 2, description: '', language_id: 3, name: Locked }
+  - { contentobject_state_id: 1, description: '', language_id: 2, name: 'Not locked' }
+  - { contentobject_state_id: 2, description: '', language_id: 2, name: Locked }
 ibexa_object_state_link:
   - { contentobject_id: 4, contentobject_state_id: 1 }
   - { contentobject_id: 10, contentobject_state_id: 1 }
@@ -208,32 +208,32 @@ ibexa_content_type_group_assignment:
   - { content_type_id: 35, content_type_status: 0, group_id: 3, group_name: Media }
   - { content_type_id: 36, content_type_status: 0, group_id: 1, group_name: Content }
 ibexa_content_type_name:
-  - { content_type_id: 1, content_type_status: 0, language_id: 3, language_locale: eng-GB, name: Folder }
-  - { content_type_id: 3, content_type_status: 0, language_id: 3, language_locale: eng-GB, name: 'User group' }
-  - { content_type_id: 4, content_type_status: 0, language_id: 3, language_locale: eng-GB, name: User }
-  - { content_type_id: 13, content_type_status: 0, language_id: 3, language_locale: eng-GB, name: Comment }
-  - { content_type_id: 14, content_type_status: 0, language_id: 3, language_locale: eng-GB, name: 'Common ini settings' }
-  - { content_type_id: 15, content_type_status: 0, language_id: 3, language_locale: eng-GB, name: 'Template look' }
-  - { content_type_id: 16, content_type_status: 0, language_id: 9, language_locale: eng-US, name: Article }
-  - { content_type_id: 17, content_type_status: 0, language_id: 9, language_locale: eng-US, name: Blog }
-  - { content_type_id: 18, content_type_status: 0, language_id: 9, language_locale: eng-US, name: 'Blog post' }
-  - { content_type_id: 19, content_type_status: 0, language_id: 9, language_locale: eng-US, name: Product }
-  - { content_type_id: 20, content_type_status: 0, language_id: 9, language_locale: eng-US, name: 'Feedback form' }
-  - { content_type_id: 21, content_type_status: 0, language_id: 9, language_locale: eng-US, name: 'Landing Page' }
-  - { content_type_id: 22, content_type_status: 0, language_id: 9, language_locale: eng-US, name: 'Wiki Page' }
-  - { content_type_id: 23, content_type_status: 0, language_id: 9, language_locale: eng-US, name: Poll }
-  - { content_type_id: 24, content_type_status: 0, language_id: 9, language_locale: eng-US, name: File }
-  - { content_type_id: 25, content_type_status: 0, language_id: 9, language_locale: eng-US, name: Image }
-  - { content_type_id: 26, content_type_status: 0, language_id: 9, language_locale: eng-US, name: Link }
-  - { content_type_id: 27, content_type_status: 0, language_id: 9, language_locale: eng-US, name: Gallery }
-  - { content_type_id: 28, content_type_status: 0, language_id: 9, language_locale: eng-US, name: Forum }
-  - { content_type_id: 29, content_type_status: 0, language_id: 9, language_locale: eng-US, name: 'Forum topic' }
-  - { content_type_id: 30, content_type_status: 0, language_id: 9, language_locale: eng-US, name: 'Forum reply' }
-  - { content_type_id: 31, content_type_status: 0, language_id: 9, language_locale: eng-US, name: Event }
-  - { content_type_id: 32, content_type_status: 0, language_id: 9, language_locale: eng-US, name: 'Event calendar' }
-  - { content_type_id: 33, content_type_status: 0, language_id: 9, language_locale: eng-US, name: Banner }
-  - { content_type_id: 34, content_type_status: 0, language_id: 9, language_locale: eng-US, name: Forums }
-  - { content_type_id: 35, content_type_status: 0, language_id: 9, language_locale: eng-US, name: Video }
+  - { content_type_id: 1, content_type_status: 0, language_id: 2, language_locale: eng-GB, name: Folder }
+  - { content_type_id: 3, content_type_status: 0, language_id: 2, language_locale: eng-GB, name: 'User group' }
+  - { content_type_id: 4, content_type_status: 0, language_id: 2, language_locale: eng-GB, name: User }
+  - { content_type_id: 13, content_type_status: 0, language_id: 2, language_locale: eng-GB, name: Comment }
+  - { content_type_id: 14, content_type_status: 0, language_id: 2, language_locale: eng-GB, name: 'Common ini settings' }
+  - { content_type_id: 15, content_type_status: 0, language_id: 2, language_locale: eng-GB, name: 'Template look' }
+  - { content_type_id: 16, content_type_status: 0, language_id: 8, language_locale: eng-US, name: Article }
+  - { content_type_id: 17, content_type_status: 0, language_id: 8, language_locale: eng-US, name: Blog }
+  - { content_type_id: 18, content_type_status: 0, language_id: 8, language_locale: eng-US, name: 'Blog post' }
+  - { content_type_id: 19, content_type_status: 0, language_id: 8, language_locale: eng-US, name: Product }
+  - { content_type_id: 20, content_type_status: 0, language_id: 8, language_locale: eng-US, name: 'Feedback form' }
+  - { content_type_id: 21, content_type_status: 0, language_id: 8, language_locale: eng-US, name: 'Landing Page' }
+  - { content_type_id: 22, content_type_status: 0, language_id: 8, language_locale: eng-US, name: 'Wiki Page' }
+  - { content_type_id: 23, content_type_status: 0, language_id: 8, language_locale: eng-US, name: Poll }
+  - { content_type_id: 24, content_type_status: 0, language_id: 8, language_locale: eng-US, name: File }
+  - { content_type_id: 25, content_type_status: 0, language_id: 8, language_locale: eng-US, name: Image }
+  - { content_type_id: 26, content_type_status: 0, language_id: 8, language_locale: eng-US, name: Link }
+  - { content_type_id: 27, content_type_status: 0, language_id: 8, language_locale: eng-US, name: Gallery }
+  - { content_type_id: 28, content_type_status: 0, language_id: 8, language_locale: eng-US, name: Forum }
+  - { content_type_id: 29, content_type_status: 0, language_id: 8, language_locale: eng-US, name: 'Forum topic' }
+  - { content_type_id: 30, content_type_status: 0, language_id: 8, language_locale: eng-US, name: 'Forum reply' }
+  - { content_type_id: 31, content_type_status: 0, language_id: 8, language_locale: eng-US, name: Event }
+  - { content_type_id: 32, content_type_status: 0, language_id: 8, language_locale: eng-US, name: 'Event calendar' }
+  - { content_type_id: 33, content_type_status: 0, language_id: 8, language_locale: eng-US, name: Banner }
+  - { content_type_id: 34, content_type_status: 0, language_id: 8, language_locale: eng-US, name: Forums }
+  - { content_type_id: 35, content_type_status: 0, language_id: 8, language_locale: eng-US, name: Video }
 ibexa_content_type_group:
   - { created: 1031216928, creator_id: 14, id: 1, modified: 1033922106, modifier_id: 14, name: Content, is_system: 0 }
   - { created: 1031216941, creator_id: 14, id: 2, modified: 1033922113, modifier_id: 14, name: Users, is_system: 0 }
@@ -260,42 +260,42 @@ ibexa_content:
   - { content_type_id: 20, current_version: 1, id: 58, initial_language_id: 8, language_mask: 8, modified: 1332927282, name: 'Contact Us', owner_id: 14, published: 1332927205, remote_id: f8cc7a4cf8a964a1a0ea6666f5da7d0d, section_id: 1, status: 1 }
   - { content_type_id: 3, current_version: 1, id: 59, initial_language_id: 2, language_mask: 3, modified: 1343140541, name: Partners, owner_id: 14, published: 1343140541, remote_id: 14e4411b264a6194a33847843919451a, section_id: 2, status: 1 }
 ibexa_content_field:
-  - { attribute_original_id: 0, content_type_field_definition_id: 7, contentobject_id: 4, data_float: null, data_int: null, data_text: 'Main group', data_type_string: ibexa_string, id: 7, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 1 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 6, contentobject_id: 4, data_float: null, data_int: null, data_text: Users, data_type_string: ibexa_string, id: 8, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 1 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 8, contentobject_id: 10, data_float: 0, data_int: 0, data_text: Anonymous, data_type_string: ibexa_string, id: 19, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: anonymous, version: 2 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 9, contentobject_id: 10, data_float: 0, data_int: 0, data_text: User, data_type_string: ibexa_string, id: 20, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: user, version: 2 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 12, contentobject_id: 10, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_user, id: 21, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 2 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 6, contentobject_id: 11, data_float: 0, data_int: 0, data_text: 'Guest accounts', data_type_string: ibexa_string, id: 22, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 1 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 6, contentobject_id: 11, data_float: 0, data_int: 0, data_text: Members, data_type_string: ibexa_string, id: 22, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: members, version: 2 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 7, contentobject_id: 11, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_string, id: 23, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 1 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 7, contentobject_id: 11, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_string, id: 23, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 2 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 6, contentobject_id: 12, data_float: 0, data_int: 0, data_text: 'Administrator users', data_type_string: ibexa_string, id: 24, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 1 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 7, contentobject_id: 12, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_string, id: 25, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 1 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 6, contentobject_id: 13, data_float: 0, data_int: 0, data_text: Editors, data_type_string: ibexa_string, id: 26, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 1 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 7, contentobject_id: 13, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_string, id: 27, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 1 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 8, contentobject_id: 14, data_float: 0, data_int: 0, data_text: Administrator, data_type_string: ibexa_string, id: 28, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: administrator, version: 3 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 8, contentobject_id: 14, data_float: 0, data_int: 0, data_text: Administrator, data_type_string: ibexa_string, id: 28, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: administrator, version: 4 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 9, contentobject_id: 14, data_float: 0, data_int: 0, data_text: User, data_type_string: ibexa_string, id: 29, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: user, version: 3 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 9, contentobject_id: 14, data_float: 0, data_int: 0, data_text: User, data_type_string: ibexa_string, id: 29, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: user, version: 4 }
-  - { attribute_original_id: 30, content_type_field_definition_id: 12, contentobject_id: 14, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_user, id: 30, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 3 }
-  - { attribute_original_id: 30, content_type_field_definition_id: 12, contentobject_id: 14, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_user, id: 30, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 4 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 4, contentobject_id: 41, data_float: 0, data_int: 0, data_text: Media, data_type_string: ibexa_string, id: 98, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: media, version: 1 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 6, contentobject_id: 42, data_float: 0, data_int: 0, data_text: 'Anonymous users', data_type_string: ibexa_string, id: 100, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: 'anonymous users', version: 1 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 7, contentobject_id: 42, data_float: 0, data_int: 0, data_text: 'User group for the anonymous user', data_type_string: ibexa_string, id: 101, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: 'user group for the anonymous user', version: 1 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 155, contentobject_id: 41, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_string, id: 103, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 1 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 158, contentobject_id: 41, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_boolean, id: 109, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 1 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 4, contentobject_id: 45, data_float: 0, data_int: 0, data_text: Setup, data_type_string: ibexa_string, id: 123, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: setup, version: 1 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 155, contentobject_id: 45, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_string, id: 124, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 1 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 158, contentobject_id: 45, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_boolean, id: 128, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 1 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 4, contentobject_id: 49, data_float: 0, data_int: 0, data_text: Images, data_type_string: ibexa_string, id: 142, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: images, version: 1 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 155, contentobject_id: 49, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_string, id: 143, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 1 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 158, contentobject_id: 49, data_float: 0, data_int: 1, data_text: '', data_type_string: ibexa_boolean, id: 146, language_code: eng-GB, language_id: 3, sort_key_int: 1, sort_key_string: '', version: 1 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 4, contentobject_id: 50, data_float: 0, data_int: 0, data_text: Files, data_type_string: ibexa_string, id: 147, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: files, version: 1 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 155, contentobject_id: 50, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_string, id: 148, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 1 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 158, contentobject_id: 50, data_float: 0, data_int: 1, data_text: '', data_type_string: ibexa_boolean, id: 151, language_code: eng-GB, language_id: 3, sort_key_int: 1, sort_key_string: '', version: 1 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 4, contentobject_id: 51, data_float: 0, data_int: 0, data_text: Multimedia, data_type_string: ibexa_string, id: 152, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: multimedia, version: 1 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 155, contentobject_id: 51, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_string, id: 153, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 1 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 158, contentobject_id: 51, data_float: 0, data_int: 1, data_text: '', data_type_string: ibexa_boolean, id: 156, language_code: eng-GB, language_id: 3, sort_key_int: 1, sort_key_string: '', version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 7, contentobject_id: 4, data_float: null, data_int: null, data_text: 'Main group', data_type_string: ibexa_string, id: 7, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 6, contentobject_id: 4, data_float: null, data_int: null, data_text: Users, data_type_string: ibexa_string, id: 8, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 8, contentobject_id: 10, data_float: 0, data_int: 0, data_text: Anonymous, data_type_string: ibexa_string, id: 19, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: anonymous, version: 2 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 9, contentobject_id: 10, data_float: 0, data_int: 0, data_text: User, data_type_string: ibexa_string, id: 20, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: user, version: 2 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 12, contentobject_id: 10, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_user, id: 21, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 2 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 6, contentobject_id: 11, data_float: 0, data_int: 0, data_text: 'Guest accounts', data_type_string: ibexa_string, id: 22, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 6, contentobject_id: 11, data_float: 0, data_int: 0, data_text: Members, data_type_string: ibexa_string, id: 22, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: members, version: 2 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 7, contentobject_id: 11, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_string, id: 23, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 7, contentobject_id: 11, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_string, id: 23, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 2 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 6, contentobject_id: 12, data_float: 0, data_int: 0, data_text: 'Administrator users', data_type_string: ibexa_string, id: 24, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 7, contentobject_id: 12, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_string, id: 25, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 6, contentobject_id: 13, data_float: 0, data_int: 0, data_text: Editors, data_type_string: ibexa_string, id: 26, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 7, contentobject_id: 13, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_string, id: 27, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 8, contentobject_id: 14, data_float: 0, data_int: 0, data_text: Administrator, data_type_string: ibexa_string, id: 28, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: administrator, version: 3 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 8, contentobject_id: 14, data_float: 0, data_int: 0, data_text: Administrator, data_type_string: ibexa_string, id: 28, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: administrator, version: 4 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 9, contentobject_id: 14, data_float: 0, data_int: 0, data_text: User, data_type_string: ibexa_string, id: 29, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: user, version: 3 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 9, contentobject_id: 14, data_float: 0, data_int: 0, data_text: User, data_type_string: ibexa_string, id: 29, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: user, version: 4 }
+  - { attribute_original_id: 30, content_type_field_definition_id: 12, contentobject_id: 14, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_user, id: 30, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 3 }
+  - { attribute_original_id: 30, content_type_field_definition_id: 12, contentobject_id: 14, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_user, id: 30, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 4 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 4, contentobject_id: 41, data_float: 0, data_int: 0, data_text: Media, data_type_string: ibexa_string, id: 98, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: media, version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 6, contentobject_id: 42, data_float: 0, data_int: 0, data_text: 'Anonymous users', data_type_string: ibexa_string, id: 100, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: 'anonymous users', version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 7, contentobject_id: 42, data_float: 0, data_int: 0, data_text: 'User group for the anonymous user', data_type_string: ibexa_string, id: 101, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: 'user group for the anonymous user', version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 155, contentobject_id: 41, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_string, id: 103, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 158, contentobject_id: 41, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_boolean, id: 109, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 4, contentobject_id: 45, data_float: 0, data_int: 0, data_text: Setup, data_type_string: ibexa_string, id: 123, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: setup, version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 155, contentobject_id: 45, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_string, id: 124, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 158, contentobject_id: 45, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_boolean, id: 128, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 4, contentobject_id: 49, data_float: 0, data_int: 0, data_text: Images, data_type_string: ibexa_string, id: 142, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: images, version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 155, contentobject_id: 49, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_string, id: 143, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 158, contentobject_id: 49, data_float: 0, data_int: 1, data_text: '', data_type_string: ibexa_boolean, id: 146, language_code: eng-GB, language_id: 2, sort_key_int: 1, sort_key_string: '', version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 4, contentobject_id: 50, data_float: 0, data_int: 0, data_text: Files, data_type_string: ibexa_string, id: 147, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: files, version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 155, contentobject_id: 50, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_string, id: 148, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 158, contentobject_id: 50, data_float: 0, data_int: 1, data_text: '', data_type_string: ibexa_boolean, id: 151, language_code: eng-GB, language_id: 2, sort_key_int: 1, sort_key_string: '', version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 4, contentobject_id: 51, data_float: 0, data_int: 0, data_text: Multimedia, data_type_string: ibexa_string, id: 152, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: multimedia, version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 155, contentobject_id: 51, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_string, id: 153, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 158, contentobject_id: 51, data_float: 0, data_int: 1, data_text: '', data_type_string: ibexa_boolean, id: 156, language_code: eng-GB, language_id: 2, sort_key_int: 1, sort_key_string: '', version: 1 }
   - { attribute_original_id: 0, content_type_field_definition_id: 159, contentobject_id: 52, data_float: 0, data_int: 0, data_text: 'Common INI settings', data_type_string: ibexa_string, id: 157, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: 'common ini settings', version: 1 }
   - { attribute_original_id: 0, content_type_field_definition_id: 160, contentobject_id: 52, data_float: 0, data_int: 0, data_text: /content/view/full/2/, data_type_string: ezinisetting, id: 158, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
   - { attribute_original_id: 0, content_type_field_definition_id: 161, contentobject_id: 52, data_float: 0, data_int: 0, data_text: /content/view/full/2, data_type_string: ezinisetting, id: 159, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
@@ -315,16 +315,16 @@ ibexa_content_field:
   - { attribute_original_id: 0, content_type_field_definition_id: 175, contentobject_id: 54, data_float: 0, data_int: 0, data_text: 0, data_type_string: ezpackage, id: 173, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: 0, version: 2 }
   - { attribute_original_id: 0, content_type_field_definition_id: 177, contentobject_id: 54, data_float: 0, data_int: 0, data_text: spam@ibexa.co, data_type_string: ezinisetting, id: 175, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 2 }
   - { attribute_original_id: 0, content_type_field_definition_id: 178, contentobject_id: 54, data_float: 0, data_int: 0, data_text: ws2/dump_47_demo/index.php, data_type_string: ezinisetting, id: 176, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 2 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 179, contentobject_id: 10, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_text, id: 177, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 2 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 179, contentobject_id: 14, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_text, id: 178, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 3 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 179, contentobject_id: 14, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_text, id: 178, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 4 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 180, contentobject_id: 10, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_image, id: 179, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 2 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 180, contentobject_id: 14, data_float: 0, data_int: 0, data_text: "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<ezimage serial_number=\"1\" is_valid=\"\" filename=\"\" suffix=\"\" basename=\"\" dirpath=\"\" url=\"\" original_filename=\"\" mime_type=\"\" width=\"\" height=\"\" alternative_text=\"\" alias_key=\"1293033771\" timestamp=\"1301057722\"><original attribute_id=\"180\" attribute_version=\"3\" attribute_language=\"eng-US\"/></ezimage>\n", data_type_string: ibexa_image, id: 180, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 3 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 180, contentobject_id: 14, data_float: 0, data_int: 0, data_text: "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<ezimage serial_number=\"1\" is_valid=\"\" filename=\"\" suffix=\"\" basename=\"\" dirpath=\"\" url=\"\" original_filename=\"\" mime_type=\"\" width=\"\" height=\"\" alternative_text=\"\" alias_key=\"1293033771\" timestamp=\"1301057722\"><original attribute_id=\"180\" attribute_version=\"3\" attribute_language=\"eng-US\"/></ezimage>\n", data_type_string: ibexa_image, id: 180, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 4 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 4, contentobject_id: 56, data_float: 0, data_int: null, data_text: Design, data_type_string: ibexa_string, id: 181, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: design, version: 1 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 155, contentobject_id: 56, data_float: 0, data_int: null, data_text: '', data_type_string: ibexa_string, id: 182, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 1 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 158, contentobject_id: 56, data_float: 0, data_int: 1, data_text: '', data_type_string: ibexa_boolean, id: 185, language_code: eng-GB, language_id: 3, sort_key_int: 1, sort_key_string: '', version: 1 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 219, contentobject_id: 57, data_float: 0, data_int: null, data_text: Home, data_type_string: ibexa_string, id: 186, language_code: eng-US, language_id: 9, sort_key_int: 0, sort_key_string: home, version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 179, contentobject_id: 10, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_text, id: 177, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 2 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 179, contentobject_id: 14, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_text, id: 178, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 3 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 179, contentobject_id: 14, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_text, id: 178, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 4 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 180, contentobject_id: 10, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_image, id: 179, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 2 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 180, contentobject_id: 14, data_float: 0, data_int: 0, data_text: "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<ezimage serial_number=\"1\" is_valid=\"\" filename=\"\" suffix=\"\" basename=\"\" dirpath=\"\" url=\"\" original_filename=\"\" mime_type=\"\" width=\"\" height=\"\" alternative_text=\"\" alias_key=\"1293033771\" timestamp=\"1301057722\"><original attribute_id=\"180\" attribute_version=\"3\" attribute_language=\"eng-US\"/></ezimage>\n", data_type_string: ibexa_image, id: 180, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 3 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 180, contentobject_id: 14, data_float: 0, data_int: 0, data_text: "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<ezimage serial_number=\"1\" is_valid=\"\" filename=\"\" suffix=\"\" basename=\"\" dirpath=\"\" url=\"\" original_filename=\"\" mime_type=\"\" width=\"\" height=\"\" alternative_text=\"\" alias_key=\"1293033771\" timestamp=\"1301057722\"><original attribute_id=\"180\" attribute_version=\"3\" attribute_language=\"eng-US\"/></ezimage>\n", data_type_string: ibexa_image, id: 180, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 4 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 4, contentobject_id: 56, data_float: 0, data_int: null, data_text: Design, data_type_string: ibexa_string, id: 181, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: design, version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 155, contentobject_id: 56, data_float: 0, data_int: null, data_text: '', data_type_string: ibexa_string, id: 182, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 158, contentobject_id: 56, data_float: 0, data_int: 1, data_text: '', data_type_string: ibexa_boolean, id: 185, language_code: eng-GB, language_id: 2, sort_key_int: 1, sort_key_string: '', version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 219, contentobject_id: 57, data_float: 0, data_int: null, data_text: Home, data_type_string: ibexa_string, id: 186, language_code: eng-US, language_id: 8, sort_key_int: 0, sort_key_string: home, version: 1 }
   - { attribute_original_id: 0, content_type_field_definition_id: 212, contentobject_id: 58, data_float: 0, data_int: null, data_text: 'Contact Us', data_type_string: ibexa_string, id: 188, language_code: eng-US, language_id: 8, sort_key_int: 0, sort_key_string: 'contact us', version: 1 }
   - { attribute_original_id: 0, content_type_field_definition_id: 214, contentobject_id: 58, data_float: 0, data_int: null, data_text: 'Firstname Lastname', data_type_string: ibexa_string, id: 190, language_code: eng-US, language_id: 8, sort_key_int: 0, sort_key_string: 'firstname lastname', version: 1 }
   - { attribute_original_id: 0, content_type_field_definition_id: 215, contentobject_id: 58, data_float: 0, data_int: null, data_text: Subject, data_type_string: ibexa_string, id: 191, language_code: eng-US, language_id: 8, sort_key_int: 0, sort_key_string: subject, version: 1 }
@@ -343,8 +343,8 @@ ibexa_content_field:
   - { attribute_original_id: 0, content_type_field_definition_id: 288, contentobject_id: 54, data_float: 0, data_int: null, data_text: 'Copyright &#169; 2012 <a href="http://ibexa.co" title="eZ Systems">eZ Systems AS</a> (except where otherwise noted). All rights reserved.', data_type_string: ibexa_text, id: 204, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 2 }
   - { attribute_original_id: 0, content_type_field_definition_id: 289, contentobject_id: 54, data_float: 0, data_int: 0, data_text: '', data_type_string: ibexa_boolean, id: 205, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 2 }
   - { attribute_original_id: 0, content_type_field_definition_id: 290, contentobject_id: 54, data_float: 0, data_int: null, data_text: '', data_type_string: ibexa_text, id: 206, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 2 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 6, contentobject_id: 59, data_float: 0, data_int: null, data_text: Partners, data_type_string: ibexa_string, id: 207, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: partners, version: 1 }
-  - { attribute_original_id: 0, content_type_field_definition_id: 7, contentobject_id: 59, data_float: 0, data_int: null, data_text: '', data_type_string: ibexa_string, id: 208, language_code: eng-GB, language_id: 3, sort_key_int: 0, sort_key_string: '', version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 6, contentobject_id: 59, data_float: 0, data_int: null, data_text: Partners, data_type_string: ibexa_string, id: 207, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: partners, version: 1 }
+  - { attribute_original_id: 0, content_type_field_definition_id: 7, contentobject_id: 59, data_float: 0, data_int: null, data_text: '', data_type_string: ibexa_string, id: 208, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
   - { attribute_original_id: 0, content_type_field_definition_id: 292, contentobject_id: 41, data_float: 0, data_int: null, data_text: '', data_type_string: ibexa_keyword, id: 215, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
   - { attribute_original_id: 0, content_type_field_definition_id: 292, contentobject_id: 45, data_float: 0, data_int: null, data_text: '', data_type_string: ibexa_keyword, id: 216, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
   - { attribute_original_id: 0, content_type_field_definition_id: 292, contentobject_id: 49, data_float: 0, data_int: null, data_text: '', data_type_string: ibexa_keyword, id: 217, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
@@ -353,26 +353,26 @@ ibexa_content_field:
   - { attribute_original_id: 0, content_type_field_definition_id: 292, contentobject_id: 56, data_float: 0, data_int: null, data_text: '', data_type_string: ibexa_keyword, id: 220, language_code: eng-GB, language_id: 2, sort_key_int: 0, sort_key_string: '', version: 1 }
 ibexa_content_relation: {  }
 ibexa_content_name:
-  - { content_translation: eng-GB, content_version: 1, contentobject_id: 4, language_id: 3, name: Users, real_translation: eng-GB }
-  - { content_translation: eng-GB, content_version: 2, contentobject_id: 10, language_id: 3, name: 'Anonymous User', real_translation: eng-GB }
-  - { content_translation: eng-GB, content_version: 1, contentobject_id: 11, language_id: 3, name: 'Guest accounts', real_translation: eng-GB }
-  - { content_translation: eng-GB, content_version: 2, contentobject_id: 11, language_id: 3, name: Members, real_translation: eng-GB }
-  - { content_translation: eng-GB, content_version: 1, contentobject_id: 12, language_id: 3, name: 'Administrator users', real_translation: eng-GB }
-  - { content_translation: eng-GB, content_version: 1, contentobject_id: 13, language_id: 3, name: Editors, real_translation: eng-GB }
-  - { content_translation: eng-GB, content_version: 3, contentobject_id: 14, language_id: 3, name: 'Administrator User', real_translation: eng-GB }
-  - { content_translation: eng-GB, content_version: 4, contentobject_id: 14, language_id: 3, name: 'Administrator User', real_translation: eng-GB }
-  - { content_translation: eng-GB, content_version: 1, contentobject_id: 41, language_id: 3, name: Media, real_translation: eng-GB }
-  - { content_translation: eng-GB, content_version: 1, contentobject_id: 42, language_id: 3, name: 'Anonymous users', real_translation: eng-GB }
-  - { content_translation: eng-GB, content_version: 1, contentobject_id: 45, language_id: 3, name: Setup, real_translation: eng-GB }
-  - { content_translation: eng-GB, content_version: 1, contentobject_id: 49, language_id: 3, name: Images, real_translation: eng-GB }
-  - { content_translation: eng-GB, content_version: 1, contentobject_id: 50, language_id: 3, name: Files, real_translation: eng-GB }
-  - { content_translation: eng-GB, content_version: 1, contentobject_id: 51, language_id: 3, name: Multimedia, real_translation: eng-GB }
+  - { content_translation: eng-GB, content_version: 1, contentobject_id: 4, language_id: 2, name: Users, real_translation: eng-GB }
+  - { content_translation: eng-GB, content_version: 2, contentobject_id: 10, language_id: 2, name: 'Anonymous User', real_translation: eng-GB }
+  - { content_translation: eng-GB, content_version: 1, contentobject_id: 11, language_id: 2, name: 'Guest accounts', real_translation: eng-GB }
+  - { content_translation: eng-GB, content_version: 2, contentobject_id: 11, language_id: 2, name: Members, real_translation: eng-GB }
+  - { content_translation: eng-GB, content_version: 1, contentobject_id: 12, language_id: 2, name: 'Administrator users', real_translation: eng-GB }
+  - { content_translation: eng-GB, content_version: 1, contentobject_id: 13, language_id: 2, name: Editors, real_translation: eng-GB }
+  - { content_translation: eng-GB, content_version: 3, contentobject_id: 14, language_id: 2, name: 'Administrator User', real_translation: eng-GB }
+  - { content_translation: eng-GB, content_version: 4, contentobject_id: 14, language_id: 2, name: 'Administrator User', real_translation: eng-GB }
+  - { content_translation: eng-GB, content_version: 1, contentobject_id: 41, language_id: 2, name: Media, real_translation: eng-GB }
+  - { content_translation: eng-GB, content_version: 1, contentobject_id: 42, language_id: 2, name: 'Anonymous users', real_translation: eng-GB }
+  - { content_translation: eng-GB, content_version: 1, contentobject_id: 45, language_id: 2, name: Setup, real_translation: eng-GB }
+  - { content_translation: eng-GB, content_version: 1, contentobject_id: 49, language_id: 2, name: Images, real_translation: eng-GB }
+  - { content_translation: eng-GB, content_version: 1, contentobject_id: 50, language_id: 2, name: Files, real_translation: eng-GB }
+  - { content_translation: eng-GB, content_version: 1, contentobject_id: 51, language_id: 2, name: Multimedia, real_translation: eng-GB }
   - { content_translation: eng-GB, content_version: 1, contentobject_id: 52, language_id: 2, name: 'Common INI settings', real_translation: eng-GB }
   - { content_translation: eng-GB, content_version: 2, contentobject_id: 54, language_id: 2, name: 'Ibexa Demo Design (without demo content)', real_translation: eng-GB }
-  - { content_translation: eng-GB, content_version: 1, contentobject_id: 56, language_id: 3, name: Design, real_translation: eng-GB }
-  - { content_translation: eng-US, content_version: 1, contentobject_id: 57, language_id: 9, name: Home, real_translation: eng-US }
+  - { content_translation: eng-GB, content_version: 1, contentobject_id: 56, language_id: 2, name: Design, real_translation: eng-GB }
+  - { content_translation: eng-US, content_version: 1, contentobject_id: 57, language_id: 8, name: Home, real_translation: eng-US }
   - { content_translation: eng-US, content_version: 1, contentobject_id: 58, language_id: 8, name: 'Contact Us', real_translation: eng-US }
-  - { content_translation: eng-GB, content_version: 1, contentobject_id: 59, language_id: 3, name: Partners, real_translation: eng-GB }
+  - { content_translation: eng-GB, content_version: 1, contentobject_id: 59, language_id: 2, name: Partners, real_translation: eng-GB }
 ibexa_content_trash: {  }
 ibexa_content_tree:
   - { contentobject_id: 0, contentobject_is_published: 1, contentobject_version: 1, depth: 0, is_hidden: 0, is_invisible: 0, main_node_id: 1, modified_subnode: 1343140542, node_id: 1, parent_node_id: 1, path_identification_string: '', path_string: /1/, priority: 0, remote_id: 629709ba256fe317c3ddcee35453a96a, sort_field: 1, sort_order: 1 }

@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Content\ObjectState;
 
@@ -11,29 +12,15 @@ use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Group;
 use Ibexa\Contracts\Core\Persistence\Content\ObjectState\InputStruct;
-use Ibexa\Core\Persistence\Legacy\Content\Language\Handler;
 
 /**
  * Mapper for ObjectState and object state Group objects.
  */
 class Mapper
 {
-    /**
-     * Language handler.
-     *
-     * @var Handler
-     */
-    protected $languageHandler;
-
-    /**
-     * Creates a new mapper.
-     *
-     * @param LanguageHandler $languageHandler
-     */
-    public function __construct(LanguageHandler $languageHandler)
-    {
-        $this->languageHandler = $languageHandler;
-    }
+    public function __construct(
+        protected LanguageHandler $languageHandler
+    ) {}
 
     /**
      * Creates ObjectState object from provided $data.
@@ -48,9 +35,9 @@ class Mapper
 
         $languageIds = [(int)$data[0]['ibexa_object_state_default_language_id']];
         foreach ($data as $stateTranslation) {
-            $languageIds[] = (int)$stateTranslation['ibexa_object_state_language_language_id'] & ~1;
+            $languageIds[] = (int)$stateTranslation['ibexa_object_state_language_language_id'];
         }
-        $languages = iterator_to_array($this->languageHandler->loadList($languageIds));
+        $languages = iterator_to_array($this->languageHandler->loadList(array_unique($languageIds)));
 
         $objectState->id = (int)$data[0]['ibexa_object_state_id'];
         $objectState->groupId = (int)$data[0]['ibexa_object_state_group_id'];
@@ -63,7 +50,7 @@ class Mapper
         $objectState->description = [];
 
         foreach ($data as $stateTranslation) {
-            $languageCode = $languages[$stateTranslation['ibexa_object_state_language_language_id'] & ~1]->languageCode;
+            $languageCode = $languages[(int)$stateTranslation['ibexa_object_state_language_language_id']]->languageCode;
             $objectState->languageCodes[] = $languageCode;
             $objectState->name[$languageCode] = $stateTranslation['ibexa_object_state_language_name'];
             $objectState->description[$languageCode] = $stateTranslation['ibexa_object_state_language_description'];

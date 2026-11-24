@@ -100,8 +100,6 @@ class DoctrineDatabaseTest extends TestCase
                 'language_ids' => [2],
                 'ibexa_url_alias_ml0_always_available' => '0',
                 'always_available' => '1',
-                'ibexa_url_alias_ml0_lang_mask' => '2',
-                'lang_mask' => '3',
             ],
             $row
         );
@@ -144,8 +142,6 @@ class DoctrineDatabaseTest extends TestCase
                 'language_ids' => [2, 4],
                 'ibexa_url_alias_ml0_always_available' => '1',
                 'always_available' => '0',
-                'ibexa_url_alias_ml0_lang_mask' => '3',
-                'lang_mask' => '6',
             ],
             $row
         );
@@ -383,7 +379,6 @@ class DoctrineDatabaseTest extends TestCase
 
         $reloadedRow = $gateway->loadRow($parentId, $textMD5);
         $languageIdsAfter = $gateway->loadTranslationLanguageIds($parentId, $textMD5);
-        $loadedRow['lang_mask'] = $loadedRow['lang_mask'] & ~$languageId;
         $loadedRow['language_ids'] = array_values(array_diff($loadedRow['language_ids'], [$languageId]));
 
         self::assertEquals($loadedRow, $reloadedRow);
@@ -425,7 +420,6 @@ class DoctrineDatabaseTest extends TestCase
                 'id' => '3',
                 'is_alias' => '0',
                 'is_original' => '1',
-                'lang_mask' => '3',
                 'link' => '3',
                 'parent' => '42',
                 'text' => 'dva',

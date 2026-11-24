@@ -4,6 +4,7 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\Search\Legacy\Content\WordIndexer\Repository;
 
@@ -186,10 +187,6 @@ class SearchIndex
                     ),
                     'integer_value' => $query->createPositionalParameter(
                         $integerValue,
-                        ParameterType::INTEGER
-                    ),
-                    'language_mask' => $query->createPositionalParameter(
-                        $languageId | ($isMainAndAlwaysAvailable ? 1 : 0),
                         ParameterType::INTEGER
                     ),
                     'language_id' => $query->createPositionalParameter(

@@ -165,9 +165,7 @@ abstract class Gateway
     ): array;
 
     /**
-     * Loads the language codes each of the given (Type id, status) pairs is translated into, from
-     * ibexa_content_type_name - the relational replacement for decoding
-     * ibexa_content_type.language_mask.
+     * Loads the language codes each of the given (Type id, status) pairs is translated into.
      *
      * @param array<array{id: int, status: int}> $typeIdStatusPairs
      *
