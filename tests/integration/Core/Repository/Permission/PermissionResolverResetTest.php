@@ -11,7 +11,10 @@ namespace Ibexa\Tests\Integration\Core\Repository\Permission;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ContentTypeIdentifier;
 use Ibexa\Contracts\Test\Core\IbexaTestCore;
+use Ibexa\Core\Repository\Permission\CachedPermissionService;
+use Ibexa\Core\Repository\Permission\PermissionResolver;
 use Ibexa\Tests\Integration\Core\RepositoryTestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Contracts\Service\ResetInterface;
 
 /**
@@ -19,10 +22,9 @@ use Symfony\Contracts\Service\ResetInterface;
  * before every request after the first one, a messenger worker after every message
  * (on Symfony 5.4 only with `framework.messenger.reset_on_message: true`).
  * The next one must not run as the previously authenticated user.
- *
- * @covers \Ibexa\Core\Repository\Permission\PermissionResolver::reset
- * @covers \Ibexa\Core\Repository\Permission\CachedPermissionService::reset
  */
+#[CoversClass(PermissionResolver::class)]
+#[CoversClass(CachedPermissionService::class)]
 final class PermissionResolverResetTest extends RepositoryTestCase
 {
     public function testServicesResetRestoresAnonymousUser(): void
