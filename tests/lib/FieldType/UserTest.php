@@ -8,6 +8,7 @@
 namespace Ibexa\Tests\Core\FieldType;
 
 use DateTimeImmutable;
+use Ibexa\Contracts\Core\FieldType\ValidationError as ValidationErrorInterface;
 use Ibexa\Contracts\Core\Persistence\Content\FieldValue;
 use Ibexa\Contracts\Core\Persistence\User;
 use Ibexa\Contracts\Core\Repository\PasswordHashService;
@@ -624,7 +625,7 @@ class UserTest extends FieldTypeTestCase
     }
 
     /**
-     * @return \Ibexa\Contracts\Core\FieldType\ValidationError[]
+     * @return ValidationErrorInterface[]
      *
      * @throws \Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException
      */
@@ -652,5 +653,18 @@ class UserTest extends FieldTypeTestCase
         $fieldDefinition = new CoreFieldDefinition(['fieldSettings' => $fieldSettings]);
 
         return $userType->validate($fieldDefinition, $validateUserValue);
+    }
+
+    public function testValidateValidatorConfigurationNamesUnknownValidator(): void
+    {
+        $validationErrors = $this->getFieldTypeUnderTest()->validateValidatorConfiguration(['FooValidator' => []]);
+
+        self::assertSame(
+            ["Validator 'FooValidator' is unknown"],
+            array_map(
+                static fn (ValidationErrorInterface $validationError): string => (string)$validationError->getTranslatableMessage(),
+                $validationErrors,
+            ),
+        );
     }
 }

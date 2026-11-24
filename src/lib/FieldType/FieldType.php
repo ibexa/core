@@ -162,7 +162,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
                 "Validator '%validator%' is unknown",
                 null,
                 [
-                    'validator' => $validatorIdentifier,
+                    '%validator%' => $validatorIdentifier,
                 ],
                 "[$validatorIdentifier]"
             );
@@ -220,7 +220,7 @@ abstract class FieldType extends SPIFieldType implements Comparable
                     "FieldType '%fieldType%' does not accept settings",
                     null,
                     [
-                        'fieldType' => $this->getFieldTypeIdentifier(),
+                        '%fieldType%' => $this->getFieldTypeIdentifier(),
                     ],
                     'fieldType'
                 ),
