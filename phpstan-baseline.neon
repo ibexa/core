@@ -16723,12 +16723,6 @@ parameters:
 			path: src/lib/Repository/Permission/PermissionResolver.php
 
 		-
-			message: '#^Property Ibexa\\Core\\Repository\\Permission\\PermissionResolver\:\:\$currentUserRef \(Ibexa\\Contracts\\Core\\Repository\\Values\\User\\UserReference\) in empty\(\) is not falsy\.$#'
-			identifier: empty.property
-			count: 1
-			path: src/lib/Repository/Permission/PermissionResolver.php
-
-		-
 			message: '#^Property Ibexa\\Core\\Repository\\Permission\\PermissionResolver\:\:\$policyMap type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
