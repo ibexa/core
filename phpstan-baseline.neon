@@ -24367,12 +24367,6 @@ parameters:
 			path: src/lib/Repository/Permission/CachedPermissionService.php
 
 		-
-			message: '#^Property Ibexa\\Core\\Repository\\Permission\\CachedPermissionService\:\:\$permissionCriterion \(bool\|Ibexa\\Contracts\\Core\\Repository\\Values\\Content\\Query\\Criterion\) does not accept null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/lib/Repository/Permission/CachedPermissionService.php
-
-		-
 			message: '#^Method Ibexa\\Core\\Repository\\Permission\\LimitationService\:\:__construct\(\) has parameter \$limitationTypes with no value type specified in iterable type Traversable\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -24465,12 +24459,6 @@ parameters:
 		-
 			message: '#^Parameter \#1 \$limitationValues of method Ibexa\\Contracts\\Core\\Limitation\\Type\:\:buildValue\(\) expects array\<int, mixed\>, array\<mixed\>\|null given\.$#'
 			identifier: argument.type
-			count: 1
-			path: src/lib/Repository/Permission/PermissionResolver.php
-
-		-
-			message: '#^Property Ibexa\\Core\\Repository\\Permission\\PermissionResolver\:\:\$currentUserRef \(Ibexa\\Contracts\\Core\\Repository\\Values\\User\\UserReference\) in empty\(\) is not falsy\.$#'
-			identifier: empty.property
 			count: 1
 			path: src/lib/Repository/Permission/PermissionResolver.php
 
