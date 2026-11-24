@@ -121,6 +121,7 @@ final class IbexaCoreBundle extends Bundle
                     new ConfigParser\UrlChecker(),
                     new ConfigParser\TwigVariablesParser(),
                     new ConfigParser\UserContentTypeIdentifier(),
+                    new ConfigParser\UserGroupContentTypeIdentifier(),
                     new ConfigParser\Embeddings(),
                 ],
                 [
