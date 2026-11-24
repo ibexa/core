@@ -1583,7 +1583,7 @@ class ContentService implements ContentServiceInterface
             return;
         }
 
-        $mainLanguageCode = $publishedContent->getVersionInfo()->getContentInfo()->getMainLanguageCode();
+        $mainLanguageCode = $publishedVersionInfo->getContentInfo()->getMainLanguageCode();
         // Non-translatable fields can only be edited in the main language, so a draft created in the main language
         // holds the authoritative values, even if it is older than the published version
         $sourceFieldsInMainLanguage = $versionInfo->initialLanguageCode === $mainLanguageCode

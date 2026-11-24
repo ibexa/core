@@ -167,6 +167,9 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
     }
 
     /**
+     * Publishing an older draft created in the main language overrides non-translatable fields
+     * of the newer published version in all translations ("last publish wins").
+     *
      * @throws Exception
      */
     public function testCopyNonTranslatableFieldsWhenPublishingOlderMainLanguageDraft(): void
@@ -180,10 +183,20 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
         $publishedContent = $contentService->publishVersion($contentDraft->getVersionInfo());
         $publishedContent = $this->publishGerTranslation($publishedContent);
 
-        // Creating two drafts in eng-GB language and publishing the newer one unchanged
+        // Creating two drafts in eng-GB language and publishing the newer one with a changed non-translatable field
         $olderEngDraft = $contentService->createContentDraft($publishedContent->contentInfo);
         $newerEngDraft = $contentService->createContentDraft($publishedContent->contentInfo);
-        $contentService->publishVersion($newerEngDraft->getVersionInfo());
+
+        $contentUpdateStruct = $contentService->newContentUpdateStruct();
+        $contentUpdateStruct->initialLanguageCode = self::ENG_GB;
+
+        $newerBodyValue = 'Newer non-translatable value';
+        $contentUpdateStruct->setField('body', $newerBodyValue, self::ENG_GB);
+
+        $newerEngContent = $contentService->updateContent($newerEngDraft->getVersionInfo(), $contentUpdateStruct);
+        $contentService->publishVersion($newerEngContent->getVersionInfo());
+
+        $this->assertBodyFieldValueInLanguages($newerEngContent->id, $newerBodyValue, [self::ENG_GB, self::GER_DE]);
 
         // Updating non-translatable field in the older eng-GB draft and publishing it
         $contentUpdateStruct = $contentService->newContentUpdateStruct();
@@ -199,6 +212,10 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
     }
 
     /**
+     * Regression guard for the non-main language path: values come from the published version. The initial
+     * language of the draft is updated as well, as the persistence layer propagates the main language value
+     * of a non-translatable field to all translations.
+     *
      * @throws Exception
      */
     public function testCopyNonTranslatableFieldsToInitialLanguageOfOlderNonMainLanguageDraft(): void
