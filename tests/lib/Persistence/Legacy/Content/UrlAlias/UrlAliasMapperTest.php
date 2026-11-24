@@ -8,7 +8,6 @@
 namespace Ibexa\Tests\Core\Persistence\Legacy\Content\UrlAlias;
 
 use Ibexa\Contracts\Core\Persistence\Content\UrlAlias;
-use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Mapper;
 use Ibexa\Tests\Core\Persistence\Legacy\Content\LanguageAwareTestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -26,22 +25,32 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
             'raw_path_data' => [
                 0 => [
                     [
+                        'parent' => '100',
+                        'text_md5' => 'path-root_us',
                         'lang_mask' => 2,
+                        'always_available' => false,
                         'text' => 'root_us',
                     ],
                     [
+                        'parent' => '100',
+                        'text_md5' => 'path-root_gb',
                         'lang_mask' => 4,
+                        'always_available' => false,
                         'text' => 'root_gb',
                     ],
                 ],
                 1 => [
                     [
+                        'parent' => '101',
+                        'text_md5' => 'path-one',
                         'lang_mask' => 4,
+                        'always_available' => false,
                         'text' => 'one',
                     ],
                 ],
             ],
             'lang_mask' => 5,
+            'always_available' => true,
             'is_original' => '1',
             'is_alias' => '1',
             'alias_redirects' => '0',
@@ -53,12 +62,16 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
             'raw_path_data' => [
                 0 => [
                     [
+                        'parent' => '102',
+                        'text_md5' => 'path-two',
                         'lang_mask' => 3,
+                        'always_available' => true,
                         'text' => 'two',
                     ],
                 ],
             ],
             'lang_mask' => 3,
+            'always_available' => true,
             'is_original' => '0',
             'is_alias' => '0',
             'alias_redirects' => '1',
@@ -70,12 +83,16 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
             'raw_path_data' => [
                 0 => [
                     [
+                        'parent' => '103',
+                        'text_md5' => 'path-three',
                         'lang_mask' => 6,
+                        'always_available' => false,
                         'text' => 'three',
                     ],
                 ],
             ],
             'lang_mask' => 6,
+            'always_available' => false,
             'is_original' => '1',
             'is_alias' => '1',
             'alias_redirects' => '1',
@@ -87,12 +104,16 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
             'raw_path_data' => [
                 0 => [
                     [
+                        'parent' => '104',
+                        'text_md5' => 'path-four',
                         'lang_mask' => 1,
+                        'always_available' => true,
                         'text' => 'four',
                     ],
                 ],
             ],
             'lang_mask' => 1,
+            'always_available' => true,
             'is_original' => '0',
             'is_alias' => '0',
             'alias_redirects' => '1',
@@ -104,12 +125,16 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
             'raw_path_data' => [
                 0 => [
                     [
+                        'parent' => '105',
+                        'text_md5' => 'path-drei',
                         'lang_mask' => 8,
+                        'always_available' => false,
                         'text' => 'drei',
                     ],
                 ],
             ],
             'lang_mask' => 8,
+            'always_available' => false,
             'is_original' => '0',
             'is_alias' => '0',
             'alias_redirects' => '1',
@@ -287,9 +312,30 @@ class UrlAliasMapperTest extends LanguageAwareTestCase
      */
     protected function getMapper()
     {
-        $languageHandler = $this->getLanguageHandler();
-        $languageMaskGenerator = new LanguageMaskGenerator($languageHandler);
+        foreach ($this->fixture as &$row) {
+            $row['language_ids'] = $this->extractLanguageIdsFromMask($row['lang_mask']);
+            foreach ($row['raw_path_data'] as &$pathLevel) {
+                foreach ($pathLevel as &$pathRow) {
+                    $pathRow['language_ids'] = $this->extractLanguageIdsFromMask($pathRow['lang_mask']);
+                }
+            }
+        }
 
-        return new Mapper($languageMaskGenerator);
+        return new Mapper($this->getLanguageHandler());
+    }
+
+    /**
+     * @return int[]
+     */
+    private function extractLanguageIdsFromMask(int $mask): array
+    {
+        $languageIds = [];
+        for ($languageId = 2; $languageId <= $mask; $languageId *= 2) {
+            if (($mask & $languageId) === $languageId) {
+                $languageIds[] = $languageId;
+            }
+        }
+
+        return $languageIds;
     }
 }

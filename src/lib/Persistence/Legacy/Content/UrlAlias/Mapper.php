@@ -4,32 +4,35 @@
  * @copyright Copyright (C) Ibexa AS. All rights reserved.
  * @license For full copyright and license information view LICENSE file distributed with this source code.
  */
+declare(strict_types=1);
 
 namespace Ibexa\Core\Persistence\Legacy\Content\UrlAlias;
 
+use Ibexa\Contracts\Core\Persistence\Content\Language\Handler as LanguageHandler;
 use Ibexa\Contracts\Core\Persistence\Content\UrlAlias;
-use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 
 /**
  * UrlAlias Mapper.
  */
 class Mapper
 {
-    /**
-     * Language mask generator.
-     *
-     * @var LanguageMaskGenerator
-     */
-    protected $languageMaskGenerator;
+    public function __construct(
+        private readonly LanguageHandler $languageHandler
+    ) {}
 
     /**
-     * Creates a new UrlWildcard Handler.
+     * @param int[] $languageIds
      *
-     * @param LanguageMaskGenerator $languageMaskGenerator
+     * @return string[]
      */
-    public function __construct(LanguageMaskGenerator $languageMaskGenerator)
+    private function loadLanguageCodes(array $languageIds): array
     {
-        $this->languageMaskGenerator = $languageMaskGenerator;
+        $languageCodes = [];
+        foreach ($this->languageHandler->loadList($languageIds) as $language) {
+            $languageCodes[] = $language->languageCode;
+        }
+
+        return $languageCodes;
     }
 
     /**
@@ -46,8 +49,8 @@ class Mapper
         list($type, $destination) = $this->matchTypeAndDestination($data['action']);
         $urlAlias->id = $this->generateIdentityKey((int)$data['parent'], $data['text_md5']);
         $urlAlias->pathData = $this->normalizePathData($data['raw_path_data']);
-        $urlAlias->languageCodes = $this->languageMaskGenerator->extractLanguageCodesFromMask($data['lang_mask']);
-        $urlAlias->alwaysAvailable = $this->languageMaskGenerator->isAlwaysAvailable($data['lang_mask']);
+        $urlAlias->languageCodes = $this->loadLanguageCodes($data['language_ids']);
+        $urlAlias->alwaysAvailable = (bool)$data['always_available'];
         $urlAlias->isHistory = isset($data['is_path_history']) ? $data['is_path_history'] : !$data['is_original'];
         $urlAlias->isCustom = (bool)$data['is_alias'];
         $urlAlias->forward = $data['is_alias'] && $data['alias_redirects'];
@@ -83,12 +86,12 @@ class Mapper
      */
     public function extractLanguageCodesFromData(array $rows): array
     {
-        $languageMask = 0;
+        $languageIds = [];
         foreach ($rows as $row) {
-            $languageMask |= $row['lang_mask'];
+            $languageIds[] = $row['language_ids'];
         }
 
-        return $this->languageMaskGenerator->extractLanguageCodesFromMask($languageMask);
+        return $this->loadLanguageCodes(array_unique(array_merge([], ...$languageIds)));
     }
 
     public function generateIdentityKey(
@@ -167,8 +170,8 @@ class Mapper
         array &$pathElementData,
         array $row
     ) {
-        $languageCodes = $this->languageMaskGenerator->extractLanguageCodesFromMask($row['lang_mask']);
-        $pathElementData['always-available'] = $this->languageMaskGenerator->isAlwaysAvailable($row['lang_mask']);
+        $languageCodes = $this->loadLanguageCodes($row['language_ids']);
+        $pathElementData['always-available'] = (bool)$row['always_available'];
         if (!empty($languageCodes)) {
             foreach ($languageCodes as $languageCode) {
                 $pathElementData['translations'][$languageCode] = $row['text'];

@@ -10,7 +10,6 @@ namespace Ibexa\Tests\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Gateway\DoctrineDatabase as LanguageGateway;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Handler as LanguageHandler;
 use Ibexa\Core\Persistence\Legacy\Content\Language\Mapper as LanguageMapper;
-use Ibexa\Core\Persistence\Legacy\Content\Language\MaskGenerator as LanguageMaskGenerator;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway;
 use Ibexa\Core\Persistence\Legacy\Content\UrlAlias\Gateway\DoctrineDatabase;
 use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
@@ -28,6 +27,30 @@ class DoctrineDatabaseTest extends TestCase
      * @var Gateway
      */
     protected $gateway;
+
+    /**
+     * "ibexa_content_language" is never seeded by these fixtures (this test suite predates the
+     * gateway needing real Language rows at all) - FixtureImporter's language-mask backfill (see
+     * Ibexa\Contracts\Core\Test\Persistence\Fixture\FixtureImporter) needs at least one row per
+     * language id/bit actually used across the fixtures' "lang_mask" values (1, 2, 4, 8 cover every
+     * fixture in this directory) or it silently backfills nothing - seed it before loading the
+     * fixture (not part of the fixture's own table list, so it survives import()'s truncation).
+     */
+    protected function insertDatabaseFixture(string $file): void
+    {
+        $connection = $this->getDatabaseConnection();
+        // Some tests call insertDatabaseFixture() more than once (e.g. to layer a second fixture) -
+        // reset first so re-seeding these fixed ids doesn't violate the primary key.
+        $connection->executeStatement('DELETE FROM ibexa_content_language');
+        foreach ([2, 4, 8, 16] as $languageId) {
+            $connection->executeStatement(
+                'INSERT INTO ibexa_content_language (id, locale, name, disabled) VALUES (:id, :locale, :name, 0)',
+                ['id' => $languageId, 'locale' => "lang-{$languageId}", 'name' => "Language {$languageId}"]
+            );
+        }
+
+        parent::insertDatabaseFixture($file);
+    }
 
     /**
      * Test for the loadUrlAliasData() method.
@@ -61,7 +84,6 @@ class DoctrineDatabaseTest extends TestCase
                 'ibexa_url_alias_ml0_is_original' => '1',
                 'ibexa_url_alias_ml0_action' => 'eznode:314',
                 'ibexa_url_alias_ml0_action_type' => 'eznode',
-                'ibexa_url_alias_ml0_lang_mask' => '2',
                 'ibexa_url_alias_ml0_text' => 'jedan',
                 'ibexa_url_alias_ml0_parent' => '0',
                 'ibexa_url_alias_ml0_text_md5' => '6896260129051a949051c3847c34466f',
@@ -72,10 +94,14 @@ class DoctrineDatabaseTest extends TestCase
                 'is_original' => '1',
                 'action' => 'eznode:315',
                 'action_type' => 'eznode',
-                'lang_mask' => '3',
                 'text' => 'dva',
                 'parent' => '2',
                 'text_md5' => 'c67ed9a09ab136fae610b6a087d82e21',
+                'language_ids' => [2],
+                'ibexa_url_alias_ml0_always_available' => '0',
+                'always_available' => '1',
+                'ibexa_url_alias_ml0_lang_mask' => '2',
+                'lang_mask' => '3',
             ],
             $row
         );
@@ -102,7 +128,6 @@ class DoctrineDatabaseTest extends TestCase
                 'ibexa_url_alias_ml0_is_original' => '1',
                 'ibexa_url_alias_ml0_action' => 'eznode:314',
                 'ibexa_url_alias_ml0_action_type' => 'eznode',
-                'ibexa_url_alias_ml0_lang_mask' => '3',
                 'ibexa_url_alias_ml0_text' => 'jedan',
                 'ibexa_url_alias_ml0_parent' => '0',
                 'ibexa_url_alias_ml0_text_md5' => '6896260129051a949051c3847c34466f',
@@ -113,10 +138,14 @@ class DoctrineDatabaseTest extends TestCase
                 'is_original' => '1',
                 'action' => 'eznode:315',
                 'action_type' => 'eznode',
-                'lang_mask' => '6',
                 'text' => 'dva',
                 'parent' => '2',
                 'text_md5' => 'c67ed9a09ab136fae610b6a087d82e21',
+                'language_ids' => [2, 4],
+                'ibexa_url_alias_ml0_always_available' => '1',
+                'always_available' => '0',
+                'ibexa_url_alias_ml0_lang_mask' => '3',
+                'lang_mask' => '6',
             ],
             $row
         );
@@ -132,7 +161,7 @@ class DoctrineDatabaseTest extends TestCase
                 2,
                 [
                     [
-                        ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
+                        ['parent' => '0', 'text_md5' => '6896260129051a949051c3847c34466f', 'always_available' => true, 'text' => 'jedan', 'language_ids' => [2]],
                     ],
                 ],
             ],
@@ -140,11 +169,11 @@ class DoctrineDatabaseTest extends TestCase
                 3,
                 [
                     [
-                        ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
+                        ['parent' => '0', 'text_md5' => '6896260129051a949051c3847c34466f', 'always_available' => true, 'text' => 'jedan', 'language_ids' => [2]],
                     ],
                     [
-                        ['parent' => '2', 'lang_mask' => '5', 'text' => 'two'],
-                        ['parent' => '2', 'lang_mask' => '3', 'text' => 'dva'],
+                        ['parent' => '2', 'text_md5' => 'b8a9f715dbb64fd5c56e7783c6820a61', 'always_available' => true, 'text' => 'two', 'language_ids' => [4]],
+                        ['parent' => '2', 'text_md5' => 'c67ed9a09ab136fae610b6a087d82e21', 'always_available' => true, 'text' => 'dva', 'language_ids' => [2]],
                     ],
                 ],
             ],
@@ -152,16 +181,16 @@ class DoctrineDatabaseTest extends TestCase
                 4,
                 [
                     [
-                        ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
+                        ['parent' => '0', 'text_md5' => '6896260129051a949051c3847c34466f', 'always_available' => true, 'text' => 'jedan', 'language_ids' => [2]],
                     ],
                     [
-                        ['parent' => '2', 'lang_mask' => '5', 'text' => 'two'],
-                        ['parent' => '2', 'lang_mask' => '3', 'text' => 'dva'],
+                        ['parent' => '2', 'text_md5' => 'b8a9f715dbb64fd5c56e7783c6820a61', 'always_available' => true, 'text' => 'two', 'language_ids' => [4]],
+                        ['parent' => '2', 'text_md5' => 'c67ed9a09ab136fae610b6a087d82e21', 'always_available' => true, 'text' => 'dva', 'language_ids' => [2]],
                     ],
                     [
-                        ['parent' => '3', 'lang_mask' => '9', 'text' => 'drei'],
-                        ['parent' => '3', 'lang_mask' => '5', 'text' => 'three'],
-                        ['parent' => '3', 'lang_mask' => '3', 'text' => 'tri'],
+                        ['parent' => '3', 'text_md5' => '1d8d2fd0a99802b89eb356a86e029d25', 'always_available' => true, 'text' => 'drei', 'language_ids' => [8]],
+                        ['parent' => '3', 'text_md5' => '35d6d33467aae9a2e3dccb4b6b027878', 'always_available' => true, 'text' => 'three', 'language_ids' => [4]],
+                        ['parent' => '3', 'text_md5' => 'd2cfe69af2d64330670e08efb2c86df7', 'always_available' => true, 'text' => 'tri', 'language_ids' => [2]],
                     ],
                 ],
             ],
@@ -197,7 +226,7 @@ class DoctrineDatabaseTest extends TestCase
                 2,
                 [
                     [
-                        ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
+                        ['parent' => '0', 'text_md5' => '6896260129051a949051c3847c34466f', 'always_available' => true, 'text' => 'jedan', 'language_ids' => [2]],
                     ],
                 ],
             ],
@@ -205,10 +234,10 @@ class DoctrineDatabaseTest extends TestCase
                 3,
                 [
                     [
-                        ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
+                        ['parent' => '0', 'text_md5' => '6896260129051a949051c3847c34466f', 'always_available' => true, 'text' => 'jedan', 'language_ids' => [2]],
                     ],
                     [
-                        ['parent' => '2', 'lang_mask' => '6', 'text' => 'dva'],
+                        ['parent' => '2', 'text_md5' => 'c67ed9a09ab136fae610b6a087d82e21', 'always_available' => false, 'text' => 'dva', 'language_ids' => [2, 4]],
                     ],
                 ],
             ],
@@ -216,14 +245,14 @@ class DoctrineDatabaseTest extends TestCase
                 4,
                 [
                     [
-                        ['parent' => '0', 'lang_mask' => '3', 'text' => 'jedan'],
+                        ['parent' => '0', 'text_md5' => '6896260129051a949051c3847c34466f', 'always_available' => true, 'text' => 'jedan', 'language_ids' => [2]],
                     ],
                     [
-                        ['parent' => '2', 'lang_mask' => '6', 'text' => 'dva'],
+                        ['parent' => '2', 'text_md5' => 'c67ed9a09ab136fae610b6a087d82e21', 'always_available' => false, 'text' => 'dva', 'language_ids' => [2, 4]],
                     ],
                     [
-                        ['parent' => '3', 'lang_mask' => '4', 'text' => 'three'],
-                        ['parent' => '3', 'lang_mask' => '2', 'text' => 'tri'],
+                        ['parent' => '3', 'text_md5' => '35d6d33467aae9a2e3dccb4b6b027878', 'always_available' => false, 'text' => 'three', 'language_ids' => [4]],
+                        ['parent' => '3', 'text_md5' => 'd2cfe69af2d64330670e08efb2c86df7', 'always_available' => false, 'text' => 'tri', 'language_ids' => [2]],
                     ],
                 ],
             ],
@@ -348,13 +377,20 @@ class DoctrineDatabaseTest extends TestCase
         $gateway = $this->getGateway();
 
         $loadedRow = $gateway->loadRow($parentId, $textMD5);
+        $languageIdsBefore = $gateway->loadTranslationLanguageIds($parentId, $textMD5);
 
         $gateway->cleanupAfterPublish($action, $languageId, 42, $parentId, 'jabberwocky');
 
         $reloadedRow = $gateway->loadRow($parentId, $textMD5);
+        $languageIdsAfter = $gateway->loadTranslationLanguageIds($parentId, $textMD5);
         $loadedRow['lang_mask'] = $loadedRow['lang_mask'] & ~$languageId;
+        $loadedRow['language_ids'] = array_values(array_diff($loadedRow['language_ids'], [$languageId]));
 
-        self::assertEquals($reloadedRow, $loadedRow);
+        self::assertEquals($loadedRow, $reloadedRow);
+        self::assertEquals(
+            array_values(array_diff($languageIdsBefore, [$languageId])),
+            array_values($languageIdsAfter)
+        );
     }
 
     /**
@@ -362,6 +398,18 @@ class DoctrineDatabaseTest extends TestCase
      *
      * @todo document
      */
+    public function testArchiveUrlAliasesForDeletedTranslationsHistorizesRowLosingAllLanguages(): void
+    {
+        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_multilang.php');
+        $gateway = $this->getGateway();
+
+        $gateway->archiveUrlAliasesForDeletedTranslations(315, 2, [2, 4]);
+
+        $row = $gateway->loadRow(2, 'c67ed9a09ab136fae610b6a087d82e21');
+        self::assertEquals(0, $row['is_original']);
+        self::assertEquals(3, $row['link']);
+    }
+
     public function testReparent(): void
     {
         $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_simple.php');
@@ -382,6 +430,8 @@ class DoctrineDatabaseTest extends TestCase
                 'parent' => '42',
                 'text' => 'dva',
                 'text_md5' => 'c67ed9a09ab136fae610b6a087d82e21',
+                'always_available' => '1',
+                'language_ids' => [2],
             ],
             $gateway->loadRow(42, 'c67ed9a09ab136fae610b6a087d82e21')
         );
@@ -453,6 +503,31 @@ class DoctrineDatabaseTest extends TestCase
         self::assertNotEmpty($gateway->loadRow(0, 'd5189de027922f81005951e6efe0efd5'));
     }
 
+    public function testRepairBrokenUrlAliasesForLocationRelinksHistoryToTheAutogeneratedAlias(): void
+    {
+        $this->insertDatabaseFixture(__DIR__ . '/_fixtures/urlaliases_simple.php');
+        $connection = $this->getDatabaseConnection();
+        foreach ([[0, 'promo', 4, 4, 1, 1], [2, 'old-name', 5, 99, 0, 0]] as [$parent, $text, $id, $link, $isAlias, $isOriginal]) {
+            $connection->insert(Gateway::TABLE, [
+                'action' => 'eznode:315',
+                'action_type' => 'eznode',
+                'alias_redirects' => 1,
+                'id' => $id,
+                'is_alias' => $isAlias,
+                'is_original' => $isOriginal,
+                'link' => $link,
+                'parent' => $parent,
+                'text' => $text,
+                'text_md5' => md5($text),
+            ]);
+            $connection->insert(Gateway::TRANSLATION_TABLE, ['parent' => $parent, 'text_md5' => md5($text), 'language_id' => 2]);
+        }
+
+        $this->getGateway()->repairBrokenUrlAliasesForLocation(315);
+
+        self::assertEquals(3, $this->getGateway()->loadRow(2, md5('old-name'))['link']);
+    }
+
     /**
      * Test for the getNextId() method.
      */
@@ -485,14 +560,10 @@ class DoctrineDatabaseTest extends TestCase
         }
 
         // check results
-        $languageMask = 0;
-        foreach ($removedLanguageIds as $languageId) {
-            $languageMask |= $languageId;
-        }
         foreach ($gateway->loadLocationEntries($locationId) as $row) {
-            self::assertNotEquals(0, (int) $row['lang_mask']);
-            self::assertNotEquals(1, (int) $row['lang_mask']);
-            self::assertEquals(0, (int) $row['lang_mask'] & $languageMask);
+            $languageIds = $gateway->loadTranslationLanguageIds((int) $row['parent'], $row['text_md5']);
+            self::assertNotEmpty($languageIds);
+            self::assertEmpty(array_intersect($languageIds, $removedLanguageIds));
         }
     }
 
@@ -508,7 +579,7 @@ class DoctrineDatabaseTest extends TestCase
             );
             $this->gateway = new DoctrineDatabase(
                 $this->getDatabaseConnection(),
-                new LanguageMaskGenerator($languageHandler)
+                $languageHandler
             );
         }
 

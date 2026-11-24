@@ -131,12 +131,9 @@ final class MaskTranslationGateway
      */
     public function countWrongAlwaysAvailableFlags(MaskedTable $table): int
     {
-        $condition = $this->buildWrongAlwaysAvailableCondition($table);
-        if ($condition === null) {
-            return 0;
-        }
-
-        return (int)$this->connection->fetchOne("SELECT COUNT(*) FROM {$table->sourceTable()} WHERE {$condition}");
+        return (int)$this->connection->fetchOne(
+            "SELECT COUNT(*) FROM {$table->sourceTable()} WHERE {$this->buildWrongAlwaysAvailableCondition($table)}"
+        );
     }
 
     /**
@@ -147,18 +144,13 @@ final class MaskTranslationGateway
         int $fromId,
         int $toId
     ): int {
-        $condition = $this->buildWrongAlwaysAvailableCondition($table);
-        if ($condition === null) {
-            return 0;
-        }
-
         return $this->executeForRange(
             sprintf(
                 'UPDATE %s SET %s = ((%s & 1) = 1) WHERE id BETWEEN :from AND :to AND %s',
                 $table->sourceTable(),
                 $table->alwaysAvailableColumn(),
                 $table->maskColumn(),
-                $condition
+                $this->buildWrongAlwaysAvailableCondition($table)
             ),
             $fromId,
             $toId
@@ -200,14 +192,9 @@ final class MaskTranslationGateway
         );
     }
 
-    private function buildWrongAlwaysAvailableCondition(MaskedTable $table): ?string
+    private function buildWrongAlwaysAvailableCondition(MaskedTable $table): string
     {
-        $alwaysAvailableColumn = $table->alwaysAvailableColumn();
-        if ($alwaysAvailableColumn === null) {
-            return null;
-        }
-
-        return "{$alwaysAvailableColumn} <> (({$table->maskColumn()} & 1) = 1)";
+        return "{$table->alwaysAvailableColumn()} <> (({$table->maskColumn()} & 1) = 1)";
     }
 
     private function getOwnerColumn(MaskedTable $table): string

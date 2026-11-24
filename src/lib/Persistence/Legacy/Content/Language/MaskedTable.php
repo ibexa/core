@@ -53,7 +53,7 @@ enum MaskedTable: string
         return match ($this) {
             self::Content => ContentGateway::CONTENT_TRANSLATION_TABLE,
             self::ContentVersion => ContentGateway::CONTENT_VERSION_TRANSLATION_TABLE,
-            self::UrlAlias => 'ibexa_url_alias_ml_translation',
+            self::UrlAlias => UrlAliasGateway::TRANSLATION_TABLE,
         };
     }
 
@@ -71,11 +71,11 @@ enum MaskedTable: string
         };
     }
 
-    public function alwaysAvailableColumn(): ?string
+    /**
+     * @return non-empty-string
+     */
+    public function alwaysAvailableColumn(): string
     {
-        return match ($this) {
-            self::Content, self::ContentVersion => 'always_available',
-            self::UrlAlias => null,
-        };
+        return 'always_available';
     }
 }
