@@ -443,7 +443,7 @@ class Type extends FieldType implements TranslationContainerInterface
                     "Validator '%validator%' is unknown",
                     null,
                     [
-                        'validator' => $validatorIdentifier,
+                        '%validator%' => $validatorIdentifier,
                     ],
                     "[$validatorIdentifier]"
                 );
