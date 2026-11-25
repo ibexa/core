@@ -89,6 +89,11 @@ class ContentTypeDomainMapper extends ProxyAwareDomainMapper
                 $prioritizedLanguages
             );
         }
+        // Persistence returns field definitions in database or input order, and leaves equal positions unordered
+        usort(
+            $fieldDefinitions,
+            static fn (APIFieldDefinition $a, APIFieldDefinition $b): int => [$a->getPosition(), $a->getIdentifier()] <=> [$b->getPosition(), $b->getIdentifier()],
+        );
 
         return new ContentType(
             [

@@ -347,6 +347,7 @@ interface ContentTypeService
      *
      * @throws InvalidArgumentException If the given field definition does not belong to the given type
      * @throws UnauthorizedException if the user is not allowed to edit a content type
+     * @throws NotFoundException If the content type draft does not exist (e.g. it was published or deleted in the meantime)
      *
      * @param ContentTypeDraft $contentTypeDraft
      * @param FieldDefinition $fieldDefinition
