@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Integration\Core\Repository\ContentTypeService;
 
 use Ibexa\Contracts\Core\Repository\Values\ContentType\ContentType;
+use Ibexa\Contracts\Core\Repository\Values\ContentType\FieldDefinition;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\ContentTypeQuery;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContainsFieldDefinitionId;
 use Ibexa\Contracts\Core\Repository\Values\ContentType\Query\Criterion\ContentTypeGroupId;
@@ -150,6 +151,35 @@ final class FindContentTypesTest extends RepositoryTestCase
         self::assertSame('folder', $contentTypes->getContentTypes()[0]->getIdentifier());
     }
 
+    public function testFindContentTypesReturnsFieldDefinitionsSortedByPosition(): void
+    {
+        $contentTypeService = $this->getIbexaTestCore()->getContentTypeService();
+
+        $createStruct = $contentTypeService->newContentTypeCreateStruct('field_definition_order');
+        $createStruct->mainLanguageCode = 'eng-GB';
+        $createStruct->names = ['eng-GB' => 'Field definition order'];
+        foreach (['image' => 30, 'title' => 10, 'body' => 20] as $identifier => $position) {
+            $fieldDefinitionCreateStruct = $contentTypeService->newFieldDefinitionCreateStruct($identifier, 'ibexa_string');
+            $fieldDefinitionCreateStruct->names = ['eng-GB' => ucfirst($identifier)];
+            $fieldDefinitionCreateStruct->position = $position;
+            $createStruct->addFieldDefinition($fieldDefinitionCreateStruct);
+        }
+
+        $contentTypeDraft = $contentTypeService->createContentType(
+            $createStruct,
+            [$contentTypeService->loadContentTypeGroupByIdentifier('Content')],
+        );
+        self::assertSame(['title', 'body', 'image'], self::getFieldDefinitionIdentifiers($contentTypeDraft));
+
+        $contentTypeService->publishContentTypeDraft($contentTypeDraft);
+
+        $contentTypes = $contentTypeService->findContentTypes(
+            new ContentTypeQuery(new ContentTypeIdentifier(['field_definition_order'])),
+        )->getContentTypes();
+        self::assertCount(1, $contentTypes);
+        self::assertSame(['title', 'body', 'image'], self::getFieldDefinitionIdentifiers($contentTypes[0]));
+    }
+
     /**
      * @return iterable<array{ContentTypeQuery, list<string>}>
      */
@@ -274,5 +304,16 @@ final class FindContentTypesTest extends RepositoryTestCase
             ),
             ['folder', 'article', 'user'],
         ];
+    }
+
+    /**
+     * @return string[]
+     */
+    private static function getFieldDefinitionIdentifiers(ContentType $contentType): array
+    {
+        return array_map(
+            static fn (FieldDefinition $fieldDefinition): string => $fieldDefinition->getIdentifier(),
+            $contentType->getFieldDefinitions()->toArray(),
+        );
     }
 }
