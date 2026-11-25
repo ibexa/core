@@ -7,6 +7,7 @@
 
 namespace Ibexa\Tests\Core\FieldType;
 
+use Ibexa\Contracts\Core\FieldType\ValidationError;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentException;
 use Ibexa\Core\FieldType\Checkbox\Type as Checkbox;
 use Ibexa\Core\FieldType\Checkbox\Value as CheckboxValue;
@@ -161,5 +162,31 @@ class CheckboxTest extends FieldTypeTestCase
     public function testEmptyValueIsEmpty(): void
     {
         self::markTestSkipped('Value of Checkbox fieldtype is never considered empty');
+    }
+
+    public function testValidateFieldSettingsNamesFieldType(): void
+    {
+        $validationErrors = $this->getFieldTypeUnderTest()->validateFieldSettings(['foo' => 'bar']);
+
+        self::assertSame(
+            ["FieldType 'ibexa_boolean' does not accept settings"],
+            array_map(
+                static fn (ValidationError $validationError): string => (string)$validationError->getTranslatableMessage(),
+                $validationErrors,
+            ),
+        );
+    }
+
+    public function testValidateValidatorConfigurationNamesUnknownValidator(): void
+    {
+        $validationErrors = $this->getFieldTypeUnderTest()->validateValidatorConfiguration(['FooValidator' => []]);
+
+        self::assertSame(
+            ["Validator 'FooValidator' is unknown"],
+            array_map(
+                static fn (ValidationError $validationError): string => (string)$validationError->getTranslatableMessage(),
+                $validationErrors,
+            ),
+        );
     }
 }

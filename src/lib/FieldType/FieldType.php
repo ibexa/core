@@ -161,7 +161,7 @@ abstract class FieldType extends SPIFieldType
                 "Validator '%validator%' is unknown",
                 null,
                 [
-                    'validator' => $validatorIdentifier,
+                    '%validator%' => $validatorIdentifier,
                 ],
                 "[$validatorIdentifier]"
             );
@@ -219,7 +219,7 @@ abstract class FieldType extends SPIFieldType
                     "FieldType '%fieldType%' does not accept settings",
                     null,
                     [
-                        'fieldType' => $this->getFieldTypeIdentifier(),
+                        '%fieldType%' => $this->getFieldTypeIdentifier(),
                     ],
                     'fieldType'
                 ),
