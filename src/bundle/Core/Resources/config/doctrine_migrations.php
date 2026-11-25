@@ -183,5 +183,6 @@ return static function (ContainerConfigurator $configurator): void {
 
     $services->set(RenumberLanguageIdsMigration::class)
         ->arg('$connection', service('ibexa.persistence.connection'))
+        ->arg('$cache', service('ibexa.cache_pool'))
         ->tag(IbexaMigrationTag::TAG);
 };

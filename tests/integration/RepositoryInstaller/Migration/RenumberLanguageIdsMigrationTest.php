@@ -23,6 +23,9 @@ use Ibexa\Tests\Core\Persistence\Legacy\TestCase;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Psr\Log\NullLogger;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
+use Symfony\Component\Cache\Adapter\TagAwareAdapter;
+use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
 
 #[CoversClass(RenumberLanguageIdsMigration::class)]
 final class RenumberLanguageIdsMigrationTest extends TestCase
@@ -31,9 +34,15 @@ final class RenumberLanguageIdsMigrationTest extends TestCase
 
     private const string REFERENCED_TABLE = 'ibexa_test_language_renumbering_referenced';
 
+    private const string CACHED_LANGUAGE_KEY = 'ibx-la-4';
+
+    private TagAwareAdapterInterface $cache;
+
     protected function setUp(): void
     {
         parent::setUp();
+
+        $this->cache = new TagAwareAdapter(new ArrayAdapter());
 
         $connection = $this->getDatabaseConnection();
         if ($connection->getDatabasePlatform() instanceof SQLitePlatform) {
@@ -73,11 +82,7 @@ final class RenumberLanguageIdsMigrationTest extends TestCase
         }
         $connection->insert('ibexa_search_object_word_link', ['id' => 1, 'language_id' => 8]);
 
-        $migration = $this->createMigration();
-        $migration->up(new Schema());
-        foreach ($migration->getSql() as $query) {
-            $connection->executeStatement($query->getStatement(), $query->getParameters(), $query->getTypes());
-        }
+        $this->executeMigration($this->createMigration());
 
         self::assertSame(
             ['eng-US' => 2, 'ger-DE' => 3, 'eng-GB' => 4],
@@ -138,14 +143,43 @@ final class RenumberLanguageIdsMigrationTest extends TestCase
         $connection->insert(self::REFERENCED_TABLE, ['id' => 8]);
         $connection->insert(self::TABLE, ['id' => 1, 'language_id' => 8]);
 
-        $migration = $this->createMigration();
-        $migration->up(new Schema());
-        foreach ($migration->getSql() as $query) {
-            $connection->executeStatement($query->getStatement(), $query->getParameters(), $query->getTypes());
-        }
+        $this->executeMigration($this->createMigration());
 
         self::assertSame(4, (int)$connection->fetchOne("SELECT id FROM ibexa_content_language WHERE locale = 'eng-GB'"));
         self::assertSame(8, (int)$connection->fetchOne('SELECT language_id FROM ' . self::TABLE . ' WHERE id = 1'));
+    }
+
+    public function testRenumberingClearsThePersistenceCache(): void
+    {
+        $this->cacheLanguage();
+
+        $this->executeMigration($this->createMigration());
+
+        self::assertFalse($this->cache->getItem(self::CACHED_LANGUAGE_KEY)->isHit());
+    }
+
+    public function testDryRunLeavesThePersistenceCacheAlone(): void
+    {
+        $this->cacheLanguage();
+        $migrationRunContext = new MigrationRunContext();
+        $migrationRunContext->setDryRun(true);
+
+        $migration = $this->createMigration($migrationRunContext);
+        $migration->up(new Schema());
+        $migration->postUp(new Schema());
+
+        self::assertNotSame([], $migration->getSql());
+        self::assertTrue($this->cache->getItem(self::CACHED_LANGUAGE_KEY)->isHit());
+    }
+
+    public function testRenumberedLanguagesLeaveThePersistenceCacheAlone(): void
+    {
+        $this->executeMigration($this->createMigration());
+        $this->cacheLanguage();
+
+        $this->executeMigration($this->createMigration());
+
+        self::assertTrue($this->cache->getItem(self::CACHED_LANGUAGE_KEY)->isHit());
     }
 
     /**
@@ -180,8 +214,30 @@ final class RenumberLanguageIdsMigrationTest extends TestCase
         $this->getDatabaseConnection()->createSchemaManager()->createTable($table->create());
     }
 
-    private function createMigration(): RenumberLanguageIdsMigration
+    private function createMigration(?MigrationRunContext $migrationRunContext = null): RenumberLanguageIdsMigration
     {
-        return new RenumberLanguageIdsMigration($this->getDatabaseConnection(), new NullLogger(), new MigrationRunContext());
+        return new RenumberLanguageIdsMigration(
+            $this->getDatabaseConnection(),
+            new NullLogger(),
+            $migrationRunContext ?? new MigrationRunContext(),
+            $this->cache
+        );
+    }
+
+    private function executeMigration(RenumberLanguageIdsMigration $migration): void
+    {
+        $migration->up(new Schema());
+
+        $connection = $this->getDatabaseConnection();
+        foreach ($migration->getSql() as $query) {
+            $connection->executeStatement($query->getStatement(), $query->getParameters(), $query->getTypes());
+        }
+
+        $migration->postUp(new Schema());
+    }
+
+    private function cacheLanguage(): void
+    {
+        $this->cache->save($this->cache->getItem(self::CACHED_LANGUAGE_KEY)->set('ger-DE'));
     }
 }

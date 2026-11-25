@@ -47,6 +47,8 @@ use Ibexa\Tests\Core\Repository\LegacySchemaImporter;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Psr\Log\NullLogger;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
+use Symfony\Component\Cache\Adapter\TagAwareAdapter;
 
 /**
  * End-to-end verification (Step 8 of the language bitmask migration) that the full migration
@@ -989,7 +991,12 @@ final class LanguageBitmaskUpgradeSequenceTest extends TestCase
 
     private function createRenumberingMigration(): RenumberLanguageIdsMigration
     {
-        return new RenumberLanguageIdsMigration($this->getDatabaseConnection(), new NullLogger(), new MigrationRunContext());
+        return new RenumberLanguageIdsMigration(
+            $this->getDatabaseConnection(),
+            new NullLogger(),
+            new MigrationRunContext(),
+            new TagAwareAdapter(new ArrayAdapter())
+        );
     }
 
     /**
