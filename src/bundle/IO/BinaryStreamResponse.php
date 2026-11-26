@@ -8,6 +8,7 @@
 namespace Ibexa\Bundle\IO;
 
 use DateTime;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\IO\IOServiceInterface;
 use Ibexa\Core\IO\RangeAwareIOServiceInterface;
 use Ibexa\Core\IO\Stream\StreamSeeker;
@@ -40,6 +41,9 @@ class BinaryStreamResponse extends Response
      * @var resource|null
      */
     private $inputStream;
+
+    /** @var array{int, int}|null offset and maxlen the input stream was opened for */
+    private ?array $inputStreamRange = null;
 
     /**
      * Constructor.
@@ -158,6 +162,8 @@ class BinaryStreamResponse extends Response
 
     /**
      * {@inheritdoc}
+     *
+     * @throws InvalidArgumentValue
      */
     public function prepare(Request $request)
     {
@@ -172,7 +178,7 @@ class BinaryStreamResponse extends Response
             );
         }
 
-        if ('HTTP/1.0' != $request->server->get('SERVER_PROTOCOL')) {
+        if ('HTTP/1.0' !== $request->server->get('SERVER_PROTOCOL')) {
             $this->setProtocolVersion('1.1');
         }
 
@@ -182,34 +188,58 @@ class BinaryStreamResponse extends Response
         $this->maxlen = -1;
 
         if ($this->isRangeRequested($request) && !$this->applyRange((string)$request->headers->get('Range'))) {
+            $this->closeInputStream();
+
+            return $this;
+        }
+
+        if (!$this->hasContentToStream()) {
+            $this->closeInputStream();
+
+            return $this;
+        }
+
+        // prepare() may run more than once per request (e.g. with HttpCache), don't reopen the same range
+        $range = [(int)$this->offset, (int)$this->maxlen];
+        if ($this->inputStream !== null && $this->inputStreamRange === $range) {
             return $this;
         }
 
         $this->closeInputStream();
-        if ($this->isSuccessful() && 0 !== $this->maxlen) {
-            $this->inputStream = $this->openInputStream();
-        }
+        $this->inputStream = $this->openInputStream();
+        $this->inputStreamRange = $range;
 
         return $this;
     }
 
+    public function __destruct()
+    {
+        $this->closeInputStream();
+    }
+
     /**
      * Sends the file.
+     *
+     * @throws InvalidArgumentValue
      */
     public function sendContent()
     {
         if (!$this->isSuccessful()) {
+            $this->closeInputStream();
             parent::sendContent();
 
             return;
         }
 
         if (0 === $this->maxlen) {
+            $this->closeInputStream();
+
             return;
         }
 
         $in = $this->inputStream ?? $this->openInputStream();
         $this->inputStream = null;
+        $this->inputStreamRange = null;
         $out = fopen('php://output', 'wb');
 
         stream_copy_to_stream($in, $out, $this->maxlen ?? -1);
@@ -231,7 +261,7 @@ class BinaryStreamResponse extends Response
     {
         $fileSize = $this->file->size;
 
-        list($start, $end) = explode('-', substr($range, 6), 2) + [0];
+        [$start, $end] = explode('-', substr($range, 6), 2) + [0];
 
         $end = ('' === $end) ? $fileSize - 1 : (int)$end;
 
@@ -248,6 +278,8 @@ class BinaryStreamResponse extends Response
 
         if ($start < 0 || $end > $fileSize - 1) {
             $this->setStatusCode(Response::HTTP_REQUESTED_RANGE_NOT_SATISFIABLE);
+            $this->headers->set('Content-Range', sprintf('bytes */%s', $fileSize));
+            $this->headers->set('Content-Length', '0');
 
             return false;
         }
@@ -262,16 +294,24 @@ class BinaryStreamResponse extends Response
         return true;
     }
 
+    private function hasContentToStream(): bool
+    {
+        return $this->isSuccessful() && 0 !== $this->maxlen;
+    }
+
     private function closeInputStream(): void
     {
         if ($this->inputStream !== null) {
             fclose($this->inputStream);
             $this->inputStream = null;
         }
+        $this->inputStreamRange = null;
     }
 
     /**
      * @return resource stream positioned at the requested offset
+     *
+     * @throws InvalidArgumentValue
      */
     private function openInputStream()
     {
@@ -283,7 +323,7 @@ class BinaryStreamResponse extends Response
         }
 
         $in = $this->ioService->getFileInputStream($this->file);
-        StreamSeeker::seek($in, $offset);
+        (new StreamSeeker())->seek($in, $offset);
 
         return $in;
     }

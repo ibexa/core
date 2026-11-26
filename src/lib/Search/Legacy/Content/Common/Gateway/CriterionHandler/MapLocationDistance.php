@@ -85,6 +85,24 @@ class MapLocationDistance extends FieldBase
         return $kilometers / self::DEGREE_KM;
     }
 
+    /**
+     * @return array{bool|float|int|string, bool|float|int|string}
+     *
+     * @throws InvalidArgumentException
+     */
+    private function getDistanceRange(Criterion $criterion): array
+    {
+        $value = $criterion->value;
+        if (!is_array($value) || !isset($value[0], $value[1])) {
+            throw new InvalidArgumentException(
+                '$criterion->value',
+                'BETWEEN operator requires an array of two distances'
+            );
+        }
+
+        return [$value[0], $value[1]];
+    }
+
     public function handle(
         CriteriaConverter $converter,
         QueryBuilder $queryBuilder,
@@ -131,8 +149,9 @@ class MapLocationDistance extends FieldBase
                 break;
 
             case Criterion\Operator::BETWEEN:
-                $distanceInDegrees1 = $this->kilometersToDegrees($criterion->value[0]) ** 2;
-                $distanceInDegrees2 = $this->kilometersToDegrees($criterion->value[1]) ** 2;
+                [$distance1, $distance2] = $this->getDistanceRange($criterion);
+                $distanceInDegrees1 = $this->kilometersToDegrees($distance1) ** 2;
+                $distanceInDegrees2 = $this->kilometersToDegrees($distance2) ** 2;
                 $distanceFilter = $this->dbPlatform->getBetweenExpression(
                     $distanceExpression,
                     $this->dbPlatform->getRoundExpression(
@@ -159,9 +178,7 @@ class MapLocationDistance extends FieldBase
                 $distanceUpper = $criterion->value;
                 break;
             case Criterion\Operator::BETWEEN:
-                $distanceUpper = $criterion->value[0] > $criterion->value[1] ?
-                    $criterion->value[0] :
-                    $criterion->value[1];
+                $distanceUpper = max($this->getDistanceRange($criterion));
                 break;
             default:
                 // Skip other operators

@@ -217,7 +217,7 @@ class IOService implements RangeAwareIOServiceInterface
         }
 
         $resource = $this->binarydataHandler->getResource($spiBinaryFileId);
-        StreamSeeker::seek($resource, $offset);
+        (new StreamSeeker())->seek($resource, $offset);
 
         return $resource;
     }

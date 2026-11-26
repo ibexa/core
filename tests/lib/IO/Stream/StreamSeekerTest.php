@@ -26,7 +26,7 @@ final class StreamSeekerTest extends TestCase
         int $offset,
         string $expectedRemainder
     ): void {
-        StreamSeeker::seek($stream, $offset);
+        (new StreamSeeker())->seek($stream, $offset);
 
         self::assertSame($expectedRemainder, stream_get_contents($stream));
     }
@@ -56,7 +56,7 @@ final class StreamSeekerTest extends TestCase
     public function testSeekBeyondEndOfStreamThrowsAndClosesStream($stream): void
     {
         try {
-            StreamSeeker::seek($stream, 11);
+            (new StreamSeeker())->seek($stream, 11);
             self::fail('Expected IOException');
         } catch (IOException $e) {
             self::assertSame('Unable to move stream to offset 11, stream ended after 10 bytes', $e->getMessage());

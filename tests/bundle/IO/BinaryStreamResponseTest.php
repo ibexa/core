@@ -144,6 +144,9 @@ final class BinaryStreamResponseTest extends TestCase
         $response = $this->createResponse($ioService, 'bytes=5-20');
 
         self::assertSame(Response::HTTP_REQUESTED_RANGE_NOT_SATISFIABLE, $response->getStatusCode());
+        self::assertSame('bytes */10', $response->headers->get('Content-Range'));
+        self::assertSame('0', $response->headers->get('Content-Length'));
+        self::assertSame('', $this->captureContent($response));
     }
 
     public function testSendContentOpensStreamWhenResponseWasNotPrepared(): void
@@ -160,13 +163,90 @@ final class BinaryStreamResponseTest extends TestCase
         self::assertSame(self::DATA, $this->captureContent($response));
     }
 
+    public function testRepeatedPrepareForSameRangeDoesNotReopenStream(): void
+    {
+        $ioService = $this->createMock(RangeAwareIOServiceInterface::class);
+        $ioService
+            ->expects(self::once())
+            ->method('getFileInputStreamRange')
+            ->with($this->file, 7, 3)
+            ->willReturn(NonSeekableStreamWrapper::open('789'));
+
+        $response = $this->createResponse($ioService, 'bytes=7-');
+        $response->prepare($this->createRequest('bytes=7-'));
+
+        self::assertSame('789', $this->captureContent($response));
+    }
+
+    public function testRepeatedPrepareForDifferentRangeReopensStream(): void
+    {
+        $firstStream = NonSeekableStreamWrapper::open('789');
+        $streams = [
+            7 => $firstStream,
+            2 => NonSeekableStreamWrapper::open('23456789'),
+        ];
+        $ioService = $this->createMock(RangeAwareIOServiceInterface::class);
+        $ioService
+            ->expects(self::exactly(2))
+            ->method('getFileInputStreamRange')
+            ->with($this->file, self::logicalOr(7, 2), 3)
+            ->willReturnCallback(
+                static fn (BinaryFile $file, int $offset) => $streams[$offset]
+            );
+
+        $response = $this->createResponse($ioService, 'bytes=7-');
+        $response->prepare($this->createRequest('bytes=2-4'));
+
+        self::assertFalse(is_resource($firstStream));
+        self::assertSame('234', $this->captureContent($response));
+    }
+
+    public function testSendContentClosesStreamWhenResponseBecameNotModified(): void
+    {
+        $stream = NonSeekableStreamWrapper::open(self::DATA);
+        $ioService = $this->createMock(IOServiceInterface::class);
+        $ioService
+            ->expects(self::once())
+            ->method('getFileInputStream')
+            ->with($this->file)
+            ->willReturn($stream);
+
+        $response = $this->createResponse($ioService, null);
+        $response->setNotModified();
+
+        self::assertSame('', $this->captureContent($response));
+        self::assertFalse(is_resource($stream));
+    }
+
+    public function testDestructClosesUnsentStream(): void
+    {
+        $stream = NonSeekableStreamWrapper::open(self::DATA);
+        $ioService = $this->createMock(IOServiceInterface::class);
+        $ioService
+            ->expects(self::once())
+            ->method('getFileInputStream')
+            ->with($this->file)
+            ->willReturn($stream);
+
+        $response = $this->createResponse($ioService, null);
+        unset($response);
+
+        self::assertFalse(is_resource($stream));
+    }
+
+    private function createRequest(?string $rangeHeader): Request
+    {
+        $server = $rangeHeader !== null ? ['HTTP_RANGE' => $rangeHeader] : [];
+
+        return Request::create('/', 'GET', [], [], [], $server);
+    }
+
     private function createResponse(
         IOServiceInterface $ioService,
         ?string $rangeHeader
     ): BinaryStreamResponse {
-        $server = $rangeHeader !== null ? ['HTTP_RANGE' => $rangeHeader] : [];
         $response = new BinaryStreamResponse($this->file, $ioService, 200, ['Content-Type' => 'video/mp4']);
-        $response->prepare(Request::create('/', 'GET', [], [], [], $server));
+        $response->prepare($this->createRequest($rangeHeader));
 
         return $response;
     }

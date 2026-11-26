@@ -236,7 +236,7 @@ class Legacy implements RangeAwareIOServiceInterface
         }
 
         $resource = $this->publishedIOService->getFileInputStream($binaryFile);
-        StreamSeeker::seek($resource, $offset);
+        (new StreamSeeker())->seek($resource, $offset);
 
         return $resource;
     }

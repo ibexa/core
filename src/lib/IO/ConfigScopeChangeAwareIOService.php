@@ -109,7 +109,7 @@ class ConfigScopeChangeAwareIOService implements RangeAwareIOServiceInterface, C
         }
 
         $resource = $this->innerIOService->getFileInputStream($binaryFile);
-        StreamSeeker::seek($resource, $offset);
+        (new StreamSeeker())->seek($resource, $offset);
 
         return $resource;
     }

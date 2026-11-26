@@ -24,7 +24,7 @@ final class StreamSeeker
      *
      * @throws IOException if the stream ends before reaching $offset
      */
-    public static function seek(
+    public function seek(
         $stream,
         int $offset
     ): void {
@@ -37,7 +37,7 @@ final class StreamSeeker
             if (fseek($stream, $offset) === 0) {
                 $size = fstat($stream)['size'] ?? null;
                 if ($size !== null && $offset > $size) {
-                    self::fail($stream, $offset, $size);
+                    $this->fail($stream, $offset, $size);
                 }
 
                 return;
@@ -53,7 +53,7 @@ final class StreamSeeker
         while ($remaining > 0) {
             $chunk = fread($stream, min(self::SKIP_CHUNK_SIZE, $remaining));
             if ($chunk === false || $chunk === '') {
-                self::fail($stream, $offset, $offset - $remaining);
+                $this->fail($stream, $offset, $offset - $remaining);
             }
 
             $remaining -= strlen($chunk);
@@ -65,7 +65,7 @@ final class StreamSeeker
      *
      * @return never
      */
-    private static function fail(
+    private function fail(
         $stream,
         int $offset,
         int $streamSize
