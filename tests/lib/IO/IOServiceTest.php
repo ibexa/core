@@ -13,11 +13,12 @@ use Ibexa\Contracts\Core\IO\MimeTypeDetector;
 use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
 use Ibexa\Core\Base\Exceptions\NotFoundException;
 use Ibexa\Core\IO\Exception\BinaryFileNotFoundException;
-use Ibexa\Core\IO\IOBinarydataHandler;
 use Ibexa\Core\IO\IOMetadataHandler;
 use Ibexa\Core\IO\IOService;
 use Ibexa\Core\IO\Values\BinaryFile;
 use Ibexa\Core\IO\Values\BinaryFileCreateStruct;
+use Ibexa\Tests\Core\IO\Stream\NonSeekableStreamWrapper;
+use Ibexa\Tests\Core\IO\Stub\RangeAwareBinarydataHandler;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -34,7 +35,7 @@ class IOServiceTest extends TestCase
     /** @var IOMetadataHandler|MockObject */
     protected $metadataHandlerMock;
 
-    /** @var IOBinarydataHandler|MockObject */
+    /** @var RangeAwareBinarydataHandler|MockObject */
     protected $binarydataHandlerMock;
 
     /** @var MimeTypeDetector|MockObject */
@@ -44,7 +45,7 @@ class IOServiceTest extends TestCase
     {
         parent::setUp();
 
-        $this->binarydataHandlerMock = $this->createMock(IOBinarydataHandler::class);
+        $this->binarydataHandlerMock = $this->createMock(RangeAwareBinarydataHandler::class);
         $this->metadataHandlerMock = $this->createMock(IOMetadataHandler::class);
         $this->mimeTypeDetectorMock = $this->createMock(MimeTypeDetector::class);
 
@@ -260,6 +261,90 @@ class IOServiceTest extends TestCase
     public function testGetFileInputStream(BinaryFile $binaryFile)
     {
         self::markTestSkipped('Not implemented');
+    }
+
+    public function testGetFileInputStreamRangeUsesNativeRangeOfHandler(): void
+    {
+        $binaryFile = new BinaryFile(['id' => 'my/path.mp4']);
+        $resource = fopen('php://memory', 'rb');
+
+        $this->binarydataHandlerMock
+            ->expects(self::once())
+            ->method('getResourceRange')
+            ->with($this->getPrefixedUri('my/path.mp4'), 100, 50)
+            ->willReturn($resource);
+        $this->binarydataHandlerMock
+            ->expects(self::never())
+            ->method('getResource');
+
+        self::assertSame($resource, $this->getIOService()->getFileInputStreamRange($binaryFile, 100, 50));
+    }
+
+    public function testGetFileInputStreamRangeFallsBackWhenHandlerReturnsNull(): void
+    {
+        $binaryFile = new BinaryFile(['id' => 'my/path.mp4']);
+
+        $this->binarydataHandlerMock
+            ->expects(self::once())
+            ->method('getResourceRange')
+            ->with($this->getPrefixedUri('my/path.mp4'), 4, null)
+            ->willReturn(null);
+        $this->binarydataHandlerMock
+            ->expects(self::once())
+            ->method('getResource')
+            ->with($this->getPrefixedUri('my/path.mp4'))
+            ->willReturn(NonSeekableStreamWrapper::open('0123456789'));
+
+        self::assertSame(
+            '456789',
+            stream_get_contents($this->getIOService()->getFileInputStreamRange($binaryFile, 4))
+        );
+    }
+
+    public function testGetFileInputStreamRangeWithoutRangeDoesNotAskHandlerForRange(): void
+    {
+        $binaryFile = new BinaryFile(['id' => 'my/path.mp4']);
+        $resource = fopen('php://memory', 'rb');
+
+        $this->binarydataHandlerMock
+            ->expects(self::never())
+            ->method('getResourceRange');
+        $this->binarydataHandlerMock
+            ->expects(self::once())
+            ->method('getResource')
+            ->with($this->getPrefixedUri('my/path.mp4'))
+            ->willReturn($resource);
+
+        self::assertSame($resource, $this->getIOService()->getFileInputStreamRange($binaryFile, 0));
+    }
+
+    /**
+     * @dataProvider provideInvalidRange
+     */
+    public function testGetFileInputStreamRangeThrowsOnInvalidRange(
+        int $offset,
+        ?int $length
+    ): void {
+        $this->binarydataHandlerMock
+            ->expects(self::never())
+            ->method('getResourceRange');
+        $this->binarydataHandlerMock
+            ->expects(self::never())
+            ->method('getResource');
+
+        $this->expectException(InvalidArgumentValue::class);
+
+        $this->getIOService()->getFileInputStreamRange(new BinaryFile(['id' => 'my/path.mp4']), $offset, $length);
+    }
+
+    /**
+     * @return iterable<string, array{int, ?int}>
+     */
+    public function provideInvalidRange(): iterable
+    {
+        yield 'negative offset' => [-1, null];
+        yield 'zero length' => [0, 0];
+        yield 'negative length' => [10, -5];
     }
 
     /**
