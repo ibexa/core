@@ -22,7 +22,8 @@ use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
  * json_valid() check. It's the same migration, so it doesn't run again on a 4.6 database upgraded
  * to 5.0. ibexa/installer's 4.6 to 5.0 upgrade script doesn't convert these columns either.
  *
- * The statements are in sql/convert-json-columns-mariadb.sql.
+ * The statements are in sql/convert-json-columns-mariadb.sql. Running them on columns already in
+ * that shape changes nothing, so there's no check first.
  */
 final class ConvertMariaDbJsonColumnsMigration extends AbstractSqlMigration implements IbexaMigrationInterface
 {
@@ -49,15 +50,6 @@ final class ConvertMariaDbJsonColumnsMigration extends AbstractSqlMigration impl
             return;
         }
 
-        // MariaDB stores a JSON column as LONGTEXT, with a json_valid() check named after the column.
-        // The statements run in order, so once the last column is converted, all are.
-        $isConverted = $this->connection->fetchOne(
-            'SELECT 1 FROM information_schema.CHECK_CONSTRAINTS WHERE CONSTRAINT_SCHEMA = DATABASE()'
-            . " AND TABLE_NAME = 'ibexa_setting'"
-            . " AND CONSTRAINT_NAME = 'value' AND CHECK_CLAUSE LIKE 'json_valid(%'"
-        ) !== false;
-        if (!$isConverted) {
-            $this->addSqlFile(__DIR__ . '/sql/convert-json-columns-mariadb.sql');
-        }
+        $this->addSqlFile(__DIR__ . '/sql/convert-json-columns-mariadb.sql');
     }
 }
