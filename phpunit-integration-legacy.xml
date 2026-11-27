@@ -51,6 +51,7 @@
       <exclude>tests/integration/Core/SchemaAlignmentTest.php</exclude>
       <exclude>tests/integration/Core/Repository/Permission/PermissionResolverResetTest.php</exclude>
       <exclude>tests/integration/Core/Doctrine/SchemaBuilderTablesSchemaListenerTest.php</exclude>
+      <exclude>tests/integration/Core/MVC/Symfony/SiteAccess/RouterResetTest.php</exclude>
     </testsuite>
     <testsuite name="integration_debug">
       <directory>tests/integration/Debug</directory>

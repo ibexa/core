@@ -13,8 +13,9 @@ use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\Matcher\CompoundInterface;
 use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
+use Symfony\Contracts\Service\ResetInterface;
 
-class Router implements SiteAccessRouterInterface, SiteAccessAware
+class Router implements SiteAccessRouterInterface, SiteAccessAware, ResetInterface
 {
     public const HEADER_SA_MATCHING_TYPE = 'header';
     public const ENV_SA_MATCHING_TYPE = 'env';
@@ -59,7 +60,7 @@ class Router implements SiteAccessRouterInterface, SiteAccessAware
     /** @var SiteAccessProviderInterface */
     protected $siteAccessProvider;
 
-    /** @var SiteAccess */
+    /** @var SiteAccess|null */
     protected $siteAccess;
 
     /** @var string */
@@ -131,8 +132,8 @@ class Router implements SiteAccessRouterInterface, SiteAccessAware
         // Request header always have precedence
         // Note: request headers are always lower case.
         $xSiteAccess = $request->getHeader('x-siteaccess');
-        if (!empty($xSiteAccess) && is_array($xSiteAccess)) {
-            $siteAccessName = $xSiteAccess[0];
+        if (!empty($xSiteAccess)) {
+            $siteAccessName = $xSiteAccess[0] ?? '';
             if (!$this->siteAccessProvider->isDefined($siteAccessName)) {
                 throw new InvalidSiteAccessException(
                     $siteAccessName,
@@ -267,5 +268,14 @@ class Router implements SiteAccessRouterInterface, SiteAccessAware
     public function setSiteAccess(?SiteAccess $siteAccess = null)
     {
         $this->siteAccess = $siteAccess;
+    }
+
+    /**
+     * Makes the next request handled by a reused kernel get matched again instead of getting the previous SiteAccess.
+     */
+    public function reset(): void
+    {
+        $this->siteAccess = null;
+        $this->request = new SimplifiedRequest();
     }
 }
