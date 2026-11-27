@@ -9,9 +9,11 @@ declare(strict_types=1);
 namespace Ibexa\Tests\Core\MVC\Symfony\EventListener;
 
 use Ibexa\Core\MVC\Symfony\Event\PostSiteAccessMatchEvent;
+use Ibexa\Core\MVC\Symfony\EventListener\SiteAccessMatchListener;
 use Ibexa\Core\MVC\Symfony\EventListener\SiteAccessRestoreListener;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
+use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -33,6 +35,8 @@ final class SiteAccessRestoreListenerTest extends TestCase
 
     private RequestStack $requestStack;
 
+    private SiteAccessServiceInterface & MockObject $siteAccessService;
+
     private SiteAccessRestoreListener $listener;
 
     protected function setUp(): void
@@ -41,9 +45,11 @@ final class SiteAccessRestoreListenerTest extends TestCase
         $this->kernel = self::createStub(HttpKernelInterface::class);
         $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
         $this->requestStack = new RequestStack();
+        $this->siteAccessService = $this->createMock(SiteAccessServiceInterface::class);
         $this->listener = new SiteAccessRestoreListener(
             $this->requestStack,
-            $this->eventDispatcher
+            $this->eventDispatcher,
+            $this->siteAccessService
         );
     }
 
@@ -59,7 +65,7 @@ final class SiteAccessRestoreListenerTest extends TestCase
     {
         $parentSiteAccess = new SiteAccess('site_fr', 'uri:element');
         $parentRequest = self::createRequestWithSiteAccess($parentSiteAccess);
-        $subRequest = self::createRequestWithSiteAccess(new SiteAccess('admin', 'uri:element'));
+        $subRequest = self::createSubRequestWithPushedSiteAccess(new SiteAccess('admin', 'uri:element'));
 
         $this->requestStack->push($parentRequest);
         $this->requestStack->push($subRequest);
@@ -77,6 +83,34 @@ final class SiteAccessRestoreListenerTest extends TestCase
                 ),
                 MVCEvents::SITEACCESS
             );
+
+        $this->siteAccessService
+            ->expects($this->once())
+            ->method('restoreSiteAccess');
+
+        $this->listener->onKernelFinishRequest(
+            new FinishRequestEvent($this->kernel, $subRequest, HttpKernelInterface::SUB_REQUEST)
+        );
+
+        self::assertFalse($subRequest->attributes->has(SiteAccessMatchListener::SITEACCESS_PUSHED_ATTRIBUTE));
+    }
+
+    public function testDoesNotRestoreSiteAccessServiceWhenNothingWasPushedForSubRequest(): void
+    {
+        $parentRequest = self::createRequestWithSiteAccess(new SiteAccess('site_fr', 'uri:element'));
+        $subRequest = self::createRequestWithSiteAccess(new SiteAccess('admin', 'uri:element'));
+
+        $this->requestStack->push($parentRequest);
+        $this->requestStack->push($subRequest);
+
+        $this->eventDispatcher
+            ->expects($this->once())
+            ->method('dispatch')
+            ->with(self::isInstanceOf(PostSiteAccessMatchEvent::class), MVCEvents::SITEACCESS);
+
+        $this->siteAccessService
+            ->expects($this->never())
+            ->method('restoreSiteAccess');
 
         $this->listener->onKernelFinishRequest(
             new FinishRequestEvent($this->kernel, $subRequest, HttpKernelInterface::SUB_REQUEST)
@@ -99,9 +133,23 @@ final class SiteAccessRestoreListenerTest extends TestCase
         self::assertNotNull($finishingRequest);
 
         $this->eventDispatcher->expects($this->never())->method('dispatch');
+        $this->siteAccessService->expects($this->never())->method('restoreSiteAccess');
 
         $this->listener->onKernelFinishRequest(
             new FinishRequestEvent($this->kernel, $finishingRequest, $requestType)
+        );
+    }
+
+    public function testRestoresSiteAccessServiceWithoutDispatchingWhenNoParentRequest(): void
+    {
+        $subRequest = self::createSubRequestWithPushedSiteAccess(new SiteAccess('admin', 'uri:element'));
+        $this->requestStack->push($subRequest);
+
+        $this->eventDispatcher->expects($this->never())->method('dispatch');
+        $this->siteAccessService->expects($this->once())->method('restoreSiteAccess');
+
+        $this->listener->onKernelFinishRequest(
+            new FinishRequestEvent($this->kernel, $subRequest, HttpKernelInterface::SUB_REQUEST)
         );
     }
 
@@ -130,6 +178,14 @@ final class SiteAccessRestoreListenerTest extends TestCase
     {
         $request = Request::create('/');
         $request->attributes->set('siteaccess', $siteAccess);
+
+        return $request;
+    }
+
+    private static function createSubRequestWithPushedSiteAccess(SiteAccess $siteAccess): Request
+    {
+        $request = self::createRequestWithSiteAccess($siteAccess);
+        $request->attributes->set(SiteAccessMatchListener::SITEACCESS_PUSHED_ATTRIBUTE, true);
 
         return $request;
     }

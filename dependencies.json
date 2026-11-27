@@ -1,0 +1,17 @@
+{
+    "recipesEndpoint": "",
+    "packages": [
+        {
+            "requirement": "dev-IBX-12204-siteaccessservice-scope-stack as 6.0.x-dev",
+            "repositoryUrl": "https://github.com/ibexa/behat.git",
+            "package": "ibexa/behat",
+            "shouldBeAddedAsVCS": false
+        },
+        {
+            "requirement": "dev-IBX-12204-templated-router-siteaccess-service as 6.0.x-dev",
+            "repositoryUrl": "https://github.com/ibexa/rest.git",
+            "package": "ibexa/rest",
+            "shouldBeAddedAsVCS": false
+        }
+    ]
+}
