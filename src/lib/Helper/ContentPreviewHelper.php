@@ -54,7 +54,9 @@ class ContentPreviewHelper implements SiteAccessAware, ResetInterface
     public function setSiteAccess(?SiteAccess $siteAccess = null)
     {
         $this->siteAccess = $siteAccess;
-        $this->originalSiteAccess = $siteAccess;
+        if ($siteAccess !== null) {
+            $this->originalSiteAccess = $siteAccess;
+        }
     }
 
     /**
@@ -62,7 +64,9 @@ class ContentPreviewHelper implements SiteAccessAware, ResetInterface
      */
     public function reset(): void
     {
-        $this->originalSiteAccess = $this->siteAccess;
+        if ($this->siteAccess !== null) {
+            $this->originalSiteAccess = $this->siteAccess;
+        }
         $this->previewActive = false;
         $this->previewedContent = null;
         $this->previewedLocation = null;
