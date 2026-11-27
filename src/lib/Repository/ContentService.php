@@ -1583,8 +1583,12 @@ class ContentService implements ContentServiceInterface
             return;
         }
 
-        $mainLanguageCode = $publishedContent->getVersionInfo()->getContentInfo()->getMainLanguageCode();
-        $publishedContentFieldsInMainLanguage = $publishedContent->getFieldsByLanguage($mainLanguageCode);
+        $mainLanguageCode = $publishedVersionInfo->getContentInfo()->getMainLanguageCode();
+        // Non-translatable fields can only be edited in the main language, so a draft created in the main language
+        // holds the authoritative values, even if it is older than the published version
+        $sourceFieldsInMainLanguage = $versionInfo->initialLanguageCode === $mainLanguageCode
+            ? $currentVersionContent->getFieldsByLanguage($mainLanguageCode)
+            : $publishedContent->getFieldsByLanguage($mainLanguageCode);
 
         $fieldValues = [];
         $persistenceFields = [];
@@ -1603,12 +1607,7 @@ class ContentService implements ContentServiceInterface
                 $fieldDefinition->fieldTypeIdentifier
             );
 
-            $newValue = (
-                $versionInfo->versionNo >= $publishedVersionInfo->versionNo
-                && $versionInfo->initialLanguageCode === $mainLanguageCode
-            )
-                ? $field->getValue()
-                : $publishedContentFieldsInMainLanguage[$field->fieldDefIdentifier]->getValue();
+            $newValue = $sourceFieldsInMainLanguage[$field->fieldDefIdentifier]->getValue();
             $fieldValues[$fieldDefinition->identifier][$field->languageCode] = $newValue;
 
             $persistenceFields[] = new SPIField(
