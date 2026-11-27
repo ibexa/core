@@ -29,8 +29,8 @@ class ContentPreviewHelper implements SiteAccessAware, ResetInterface
     protected $originalSiteAccess;
 
     /**
-     * The shared SiteAccess object, updated in place for every request. $originalSiteAccess is replaced
-     * with a snapshot of it while a preview is handled.
+     * The shared SiteAccess object, updated in place for every request. setPreviewActive() replaces
+     * $originalSiteAccess with a snapshot of it, which stays until the next reset().
      */
     private ?SiteAccess $siteAccess = null;
 
