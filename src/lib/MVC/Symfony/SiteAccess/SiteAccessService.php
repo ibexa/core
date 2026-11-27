@@ -15,10 +15,11 @@ use Ibexa\Core\MVC\Symfony\Event\ScopeChangeEvent;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
 use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Contracts\Service\ResetInterface;
 
 use function iterator_to_array;
 
-class SiteAccessService implements SiteAccessServiceInterface, SiteAccessAware, EventSubscriberInterface
+class SiteAccessService implements SiteAccessServiceInterface, SiteAccessAware, EventSubscriberInterface, ResetInterface
 {
     private SiteAccessProviderInterface $provider;
 
@@ -69,6 +70,15 @@ class SiteAccessService implements SiteAccessServiceInterface, SiteAccessAware, 
         }
 
         array_pop($this->siteAccessStack);
+    }
+
+    /**
+     * Drops scope changes a previous request/message left unrestored, keeping only the bottom-most entry:
+     * the shared SiteAccess object, which is updated in place when the next request is matched.
+     */
+    public function reset(): void
+    {
+        $this->siteAccessStack = array_slice($this->siteAccessStack, 0, 1);
     }
 
     public function exists(string $name): bool

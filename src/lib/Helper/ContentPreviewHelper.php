@@ -15,8 +15,9 @@ use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\Service\ResetInterface;
 
-class ContentPreviewHelper implements SiteAccessAware
+class ContentPreviewHelper implements SiteAccessAware, ResetInterface
 {
     /** @var EventDispatcherInterface */
     protected $eventDispatcher;
@@ -26,6 +27,12 @@ class ContentPreviewHelper implements SiteAccessAware
 
     /** @var SiteAccess */
     protected $originalSiteAccess;
+
+    /**
+     * The shared SiteAccess object, updated in place for every request. $originalSiteAccess is replaced
+     * with a snapshot of it while a preview is handled.
+     */
+    private ?SiteAccess $siteAccess = null;
 
     /** @var bool */
     private $previewActive = false;
@@ -46,7 +53,16 @@ class ContentPreviewHelper implements SiteAccessAware
 
     public function setSiteAccess(?SiteAccess $siteAccess = null)
     {
+        $this->siteAccess = $siteAccess;
         $this->originalSiteAccess = $siteAccess;
+    }
+
+    /**
+     * Makes the next request see its own SiteAccess instead of a snapshot taken by a previous preview.
+     */
+    public function reset(): void
+    {
+        $this->originalSiteAccess = $this->siteAccess;
     }
 
     /**

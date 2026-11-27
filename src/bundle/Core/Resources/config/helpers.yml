@@ -22,6 +22,8 @@ services:
         arguments: ["@event_dispatcher", '@Ibexa\Core\MVC\Symfony\SiteAccess\Router']
         calls:
             - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
+        tags:
+            - { name: 'kernel.reset', method: 'reset' }
 
     Ibexa\Bundle\Core\EventListener\ConfigScopeListener:
         class: Ibexa\Bundle\Core\EventListener\ConfigScopeListener

@@ -12495,7 +12495,7 @@ parameters:
 		-
 			message: '#^Property Ibexa\\Core\\Helper\\ContentPreviewHelper\:\:\$originalSiteAccess \(Ibexa\\Core\\MVC\\Symfony\\SiteAccess\) does not accept Ibexa\\Core\\MVC\\Symfony\\SiteAccess\|null\.$#'
 			identifier: assign.propertyType
-			count: 1
+			count: 2
 			path: src/lib/Helper/ContentPreviewHelper.php
 
 		-

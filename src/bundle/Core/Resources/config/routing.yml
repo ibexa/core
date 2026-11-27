@@ -103,6 +103,7 @@ services:
             - [setSiteAccess, ['@Ibexa\Core\MVC\Symfony\SiteAccess']]
         tags:
             - { name: kernel.event_subscriber }
+            - { name: 'kernel.reset', method: 'reset' }
 
     Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessServiceInterface:
         alias: 'Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessService'
