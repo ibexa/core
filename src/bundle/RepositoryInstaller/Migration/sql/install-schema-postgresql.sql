@@ -794,7 +794,7 @@ ALTER TABLE ezcontentbrowsebookmark
 -- ibexa:sql-statement-separator
 ALTER TABLE ezcontentclass_attribute_ml
     ADD CONSTRAINT ezcontentclass_attribute_ml_lang_fk FOREIGN KEY (language_id)
-        REFERENCES ezcontent_language (id) ON UPDATE CASCADE ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE;
+        REFERENCES ezcontent_language (id) ON UPDATE CASCADE ON DELETE RESTRICT NOT DEFERRABLE INITIALLY IMMEDIATE;
 -- ibexa:sql-statement-separator
 ALTER TABLE ibexa_token
     ADD CONSTRAINT ibexa_token_type_id_fk FOREIGN KEY (type_id)
