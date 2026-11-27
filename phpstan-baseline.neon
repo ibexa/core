@@ -8371,12 +8371,6 @@ parameters:
 			path: src/lib/MVC/Symfony/SiteAccess/Router.php
 
 		-
-			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Router\:\:doMatch\(\) is unused\.$#'
-			identifier: method.unused
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Router.php
-
-		-
 			message: '#^Method Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Router\:\:matchByName\(\) should return Ibexa\\Core\\MVC\\Symfony\\SiteAccess\|null but returns object\.$#'
 			identifier: return.type
 			count: 1
@@ -8389,26 +8383,8 @@ parameters:
 			path: src/lib/MVC/Symfony/SiteAccess/Router.php
 
 		-
-			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Router\:\:\$siteAccess \(Ibexa\\Core\\MVC\\Symfony\\SiteAccess\) does not accept Ibexa\\Core\\MVC\\Symfony\\SiteAccess\|null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Router.php
-
-		-
-			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Router\:\:\$siteAccess \(Ibexa\\Core\\MVC\\Symfony\\SiteAccess\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Router.php
-
-		-
 			message: '#^Property Ibexa\\Core\\MVC\\Symfony\\SiteAccess\\Router\:\:\$siteAccessesConfiguration type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
-			count: 1
-			path: src/lib/MVC/Symfony/SiteAccess/Router.php
-
-		-
-			message: '#^Unreachable statement \- code above always terminates\.$#'
-			identifier: deadCode.unreachable
 			count: 1
 			path: src/lib/MVC/Symfony/SiteAccess/Router.php
 
