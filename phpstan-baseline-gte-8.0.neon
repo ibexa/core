@@ -145,12 +145,6 @@ parameters:
 			path: src/lib/FieldType/BinaryBase/PathGenerator/LegacyPathGenerator.php
 
 		-
-			message: '#^Parameter \#1 \.\.\.\$arrays of function array_merge expects array, array\|bool\|float\|int\|string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/lib/FieldType/Image/ImageStorage.php
-
-		-
 			message: '#^Parameter \#1 \$array of function array_flip expects array\<int\|string\>, array\|bool\|float\|int\|string\|null given\.$#'
 			identifier: argument.type
 			count: 1

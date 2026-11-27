@@ -143,7 +143,9 @@ class ImageStorage extends GatewayBasedStorage
                 $this->gateway->storeImageReference($field->value->data['uri'], $field->id);
             }
         } else { // existing image from another version
-            if ($field->value->data === null) {
+            // Data holding only content meta data (no image ID) is an empty value as well,
+            // e.g. when a non-translatable field is copied to a new language
+            if ($field->value->data === null || !isset($field->value->data['id'])) {
                 // Store empty value only with content meta data
                 $field->value->data = $contentMetaData;
 
