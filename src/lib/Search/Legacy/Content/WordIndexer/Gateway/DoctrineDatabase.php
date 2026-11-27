@@ -152,15 +152,10 @@ class DoctrineDatabase extends Gateway
      * Ported from the legacy code
      *
      * @see https://github.com/ezsystems/ezpublish-legacy/blob/master/kernel/search/plugins/ezsearchengine/ezsearchengine.php#L386
-     *
-     * @param mixed $contentId
-     * @param mixed|null $versionId
-     *
-     * @return bool
      */
     public function remove(
-        $contentId,
-        $versionId = null
+        int $contentId,
+        ?int $versionId = null
     ): bool {
         $doDelete = false;
         $this->connection->beginTransaction();

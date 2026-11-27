@@ -24,14 +24,11 @@ abstract class Gateway
 
     /**
      * Remove whole content or a specific version from index.
-     *
-     * @param mixed      $contentId
-     * @param mixed|null $versionId
      */
     abstract public function remove(
-        $contentId,
-        $versionId = null
-    );
+        int $contentId,
+        ?int $versionId = null
+    ): bool;
 
     /**
      * Indexes an array of FullTextData objects.
