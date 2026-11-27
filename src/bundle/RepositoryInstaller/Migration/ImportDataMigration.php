@@ -35,7 +35,13 @@ final class ImportDataMigration extends AbstractSqlMigration implements IbexaMig
     {
         $this->abortIfUnsupportedPlatform(SqlPlatform::MYSQL, SqlPlatform::MARIADB, SqlPlatform::POSTGRESQL, SqlPlatform::SQLITE);
 
-        if (!$schema->hasTable('ezcontentobject') || $this->connection->fetchOne('SELECT 1 FROM ezcontentobject LIMIT 1') !== false) {
+        // In a dry run on an empty database, core's InstallSchemaMigration hasn't created "ezcontentobject" yet:
+        // neither name exists, which a legacy install never leaves, so the import is still to come.
+        $isEmptyDatabaseDryRun = $this->isDryRun()
+            && !$schema->hasTable('ezcontentobject')
+            && !$schema->hasTable('ibexa_content');
+        if (!$isEmptyDatabaseDryRun
+            && (!$schema->hasTable('ezcontentobject') || $this->connection->fetchOne('SELECT 1 FROM ezcontentobject LIMIT 1') !== false)) {
             return;
         }
 
