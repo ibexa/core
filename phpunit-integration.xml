@@ -40,6 +40,7 @@
             <file>tests/integration/Core/Repository/KeywordFieldCriterionTest.php</file>
             <file>tests/integration/Core/SchemaAlignmentTest.php</file>
             <file>tests/integration/Core/Repository/Permission/PermissionResolverResetTest.php</file>
+            <file>tests/integration/Core/MVC/Symfony/SiteAccess/RouterResetTest.php</file>
         </testsuite>
     </testsuites>
     <extensions>

@@ -48,6 +48,7 @@
             <exclude>tests/integration/Core/Repository/KeywordFieldCriterionTest.php</exclude>
             <exclude>tests/integration/Core/SchemaAlignmentTest.php</exclude>
             <exclude>tests/integration/Core/Repository/Permission/PermissionResolverResetTest.php</exclude>
+            <exclude>tests/integration/Core/MVC/Symfony/SiteAccess/RouterResetTest.php</exclude>
         </testsuite>
     </testsuites>
     <filter>
