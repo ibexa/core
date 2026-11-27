@@ -12493,12 +12493,6 @@ parameters:
 			path: src/lib/Helper/ContentPreviewHelper.php
 
 		-
-			message: '#^Property Ibexa\\Core\\Helper\\ContentPreviewHelper\:\:\$originalSiteAccess \(Ibexa\\Core\\MVC\\Symfony\\SiteAccess\) does not accept Ibexa\\Core\\MVC\\Symfony\\SiteAccess\|null\.$#'
-			identifier: assign.propertyType
-			count: 1
-			path: src/lib/Helper/ContentPreviewHelper.php
-
-		-
 			message: '#^Cannot access property \$fieldTypeIdentifier on Ibexa\\Contracts\\Core\\Repository\\Values\\ContentType\\FieldDefinition\|null\.$#'
 			identifier: property.nonObject
 			count: 1

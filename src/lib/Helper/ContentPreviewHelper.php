@@ -15,8 +15,9 @@ use Ibexa\Core\MVC\Symfony\SiteAccess;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessAware;
 use Ibexa\Core\MVC\Symfony\SiteAccess\SiteAccessRouterInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\Service\ResetInterface;
 
-class ContentPreviewHelper implements SiteAccessAware
+class ContentPreviewHelper implements SiteAccessAware, ResetInterface
 {
     /** @var EventDispatcherInterface */
     protected $eventDispatcher;
@@ -27,13 +28,19 @@ class ContentPreviewHelper implements SiteAccessAware
     /** @var SiteAccess */
     protected $originalSiteAccess;
 
+    /**
+     * The shared SiteAccess object, updated in place for every request. setPreviewActive() replaces
+     * $originalSiteAccess with a snapshot of it, which stays until the next reset().
+     */
+    private ?SiteAccess $siteAccess = null;
+
     /** @var bool */
     private $previewActive = false;
 
-    /** @var Content */
+    /** @var Content|null */
     private $previewedContent;
 
-    /** @var Location */
+    /** @var Location|null */
     private $previewedLocation;
 
     public function __construct(
@@ -46,7 +53,23 @@ class ContentPreviewHelper implements SiteAccessAware
 
     public function setSiteAccess(?SiteAccess $siteAccess = null)
     {
-        $this->originalSiteAccess = $siteAccess;
+        $this->siteAccess = $siteAccess;
+        if ($siteAccess !== null) {
+            $this->originalSiteAccess = $siteAccess;
+        }
+    }
+
+    /**
+     * Makes the next request see its own SiteAccess and no preview left active by a previous one.
+     */
+    public function reset(): void
+    {
+        if ($this->siteAccess !== null) {
+            $this->originalSiteAccess = $this->siteAccess;
+        }
+        $this->previewActive = false;
+        $this->previewedContent = null;
+        $this->previewedLocation = null;
     }
 
     /**
@@ -105,7 +128,7 @@ class ContentPreviewHelper implements SiteAccessAware
     }
 
     /**
-     * @return Content
+     * @return Content|null
      */
     public function getPreviewedContent()
     {
@@ -121,7 +144,7 @@ class ContentPreviewHelper implements SiteAccessAware
     }
 
     /**
-     * @return Location
+     * @return Location|null
      */
     public function getPreviewedLocation()
     {
