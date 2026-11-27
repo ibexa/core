@@ -9,12 +9,16 @@ declare(strict_types=1);
 namespace Ibexa\Bundle\RepositoryInstaller\Migration;
 
 use DateTimeImmutable;
+use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Schema\ForeignKeyConstraint\ReferentialAction;
 use Doctrine\DBAL\Schema\Schema;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\AbstractSqlMigration;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\IbexaMigrationInterface;
+use Ibexa\Contracts\DoctrineMigrations\Migrations\MigrationRunContext;
 use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
 
 /**
  * Renumbers the languages 2, 3, 4… in the order of their ids, as a fresh install numbers them.
@@ -24,6 +28,15 @@ final class RenumberLanguageIdsMigration extends AbstractSqlMigration implements
     private const string LANGUAGE_TABLE = 'ibexa_content_language';
 
     private const string LANGUAGE_ID_COLUMN_PATTERN = '/(?:^|_)language_id$/';
+
+    public function __construct(
+        Connection $connection,
+        LoggerInterface $logger,
+        MigrationRunContext $migrationRunContext,
+        private readonly TagAwareAdapterInterface $cache
+    ) {
+        parent::__construct($connection, $logger, $migrationRunContext);
+    }
 
     public function getDescription(): string
     {
@@ -97,6 +110,18 @@ final class RenumberLanguageIdsMigration extends AbstractSqlMigration implements
 
         if ($foreignKeysOff) {
             $this->addSqlFile(__DIR__ . '/sql/disable-foreign-keys-sqlite.sql');
+        }
+    }
+
+    /**
+     * Clears the persistence cache once the languages are renumbered.
+     */
+    public function postUp(Schema $schema): void
+    {
+        parent::postUp($schema);
+
+        if (!$this->isDryRun() && $this->getSql() !== []) {
+            $this->cache->clear();
         }
     }
 
