@@ -55,7 +55,11 @@ class DataAttributesExtension extends AbstractExtension
         $result = '';
         foreach ($dataAttributes as $attributeName => $attributeValue) {
             if (!\is_string($attributeValue)) {
-                $attributeValue = json_encode($attributeValue);
+                $attributeValue = json_encode($attributeValue, JSON_INVALID_UTF8_SUBSTITUTE);
+                // A value that still can't be encoded (e.g. NAN) is left out instead of breaking the page.
+                if ($attributeValue === false) {
+                    continue;
+                }
             }
 
             $result .= sprintf('data-%s="%s" ', $attributeName, htmlspecialchars($attributeValue));

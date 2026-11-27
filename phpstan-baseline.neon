@@ -15409,12 +15409,6 @@ parameters:
 			path: src/lib/MVC/Symfony/Templating/Twig/Extension/CoreExtension.php
 
 		-
-			message: '#^Parameter \#1 \$string of function htmlspecialchars expects string, string\|false given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/lib/MVC/Symfony/Templating/Twig/Extension/DataAttributesExtension.php
-
-		-
 			message: '#^Call to an undefined method Ibexa\\Core\\MVC\\Symfony\\Templating\\FieldBlockRendererInterface\:\:setTwig\(\)\.$#'
 			identifier: method.notFound
 			count: 2
