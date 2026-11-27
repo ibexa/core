@@ -37,10 +37,10 @@ class ContentPreviewHelper implements SiteAccessAware, ResetInterface
     /** @var bool */
     private $previewActive = false;
 
-    /** @var Content */
+    /** @var Content|null */
     private $previewedContent;
 
-    /** @var Location */
+    /** @var Location|null */
     private $previewedLocation;
 
     public function __construct(
@@ -58,11 +58,14 @@ class ContentPreviewHelper implements SiteAccessAware, ResetInterface
     }
 
     /**
-     * Makes the next request see its own SiteAccess instead of a snapshot taken by a previous preview.
+     * Makes the next request see its own SiteAccess and no preview left active by a previous one.
      */
     public function reset(): void
     {
         $this->originalSiteAccess = $this->siteAccess;
+        $this->previewActive = false;
+        $this->previewedContent = null;
+        $this->previewedLocation = null;
     }
 
     /**
@@ -121,7 +124,7 @@ class ContentPreviewHelper implements SiteAccessAware, ResetInterface
     }
 
     /**
-     * @return Content
+     * @return Content|null
      */
     public function getPreviewedContent()
     {
@@ -137,7 +140,7 @@ class ContentPreviewHelper implements SiteAccessAware, ResetInterface
     }
 
     /**
-     * @return Location
+     * @return Location|null
      */
     public function getPreviewedLocation()
     {

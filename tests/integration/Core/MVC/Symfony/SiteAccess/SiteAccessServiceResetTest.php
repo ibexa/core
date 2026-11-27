@@ -51,7 +51,7 @@ final class SiteAccessServiceResetTest extends IbexaKernelTestCase
         self::assertSame('__default_site_access__', $current->name);
     }
 
-    public function testServicesResetGivesPreviewHelperTheSharedSiteAccessBack(): void
+    public function testServicesResetEndsPreviewAndGivesPreviewHelperTheSharedSiteAccessBack(): void
     {
         $previewHelper = self::getContainer()->get(ContentPreviewHelper::class);
         self::assertInstanceOf(ContentPreviewHelper::class, $previewHelper);
@@ -63,6 +63,7 @@ final class SiteAccessServiceResetTest extends IbexaKernelTestCase
         $this->handleRequest('__second_site_access__');
 
         self::assertSame('__second_site_access__', $previewHelper->getOriginalSiteAccess()->name);
+        self::assertFalse($previewHelper->isPreviewActive());
     }
 
     /**
