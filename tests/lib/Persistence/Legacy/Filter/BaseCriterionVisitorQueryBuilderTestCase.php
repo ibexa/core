@@ -78,7 +78,7 @@ abstract class BaseCriterionVisitorQueryBuilderTestCase extends TestCase
         );
     }
 
-    private function getQueryBuilder(): FilteringQueryBuilder
+    protected function getQueryBuilder(): FilteringQueryBuilder
     {
         $connectionMock = $this->createMock(Connection::class);
         $connectionMock
