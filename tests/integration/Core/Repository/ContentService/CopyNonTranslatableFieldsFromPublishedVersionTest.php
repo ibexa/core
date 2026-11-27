@@ -76,6 +76,10 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
     }
 
     /**
+     * Publishing an older draft created in a non-main language takes non-translatable values from the published
+     * version. The initial language of the draft is updated as well, as the persistence layer propagates the main
+     * language value of a non-translatable field to all translations.
+     *
      * @throws Exception
      */
     public function testCopyNonTranslatableFieldsTwoParallelDrafts(): void
@@ -84,38 +88,35 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
 
         $contentService = $this->getIbexaTestCore()->getContentService();
 
-        // Creating start content in eng-GB language
+        // Creating start content in eng-GB language with a ger-DE translation
         $contentDraft = $this->createEngDraft();
         $publishedContent = $contentService->publishVersion($contentDraft->getVersionInfo());
+        $publishedContent = $this->publishGerTranslation($publishedContent);
 
         // Creating two drafts at the same time
-        $usDraft = $contentService->createContentDraft($publishedContent->contentInfo);
-        $gerDraft = $contentService->createContentDraft($publishedContent->contentInfo);
+        $usDraft = $contentService->createContentDraft($publishedContent->getContentInfo());
+        $gerDraft = $contentService->createContentDraft($publishedContent->getContentInfo());
 
         // Publishing the draft in eng-GB language
-        $contentUpdateStruct = new ContentUpdateStruct([
-            'initialLanguageCode' => self::ENG_GB,
-            'fields' => $usDraft->getFields(),
-        ]);
+        $contentUpdateStruct = $contentService->newContentUpdateStruct();
+        $contentUpdateStruct->initialLanguageCode = self::ENG_GB;
         $contentUpdateStruct->setField('title', 'Title v2', self::ENG_GB);
         $contentUpdateStruct->setField('body', 'Nontranslatable body v2', self::ENG_GB);
         $usContent = $contentService->updateContent($usDraft->getVersionInfo(), $contentUpdateStruct);
         $contentService->publishVersion($usContent->getVersionInfo());
 
         // Publishing the draft in ger-DE language
-        $contentUpdateStruct = new ContentUpdateStruct([
-            'initialLanguageCode' => self::GER_DE,
-            'fields' => $gerDraft->getFields(),
-        ]);
-        $contentUpdateStruct->setField('title', 'Title ger', self::GER_DE);
+        $contentUpdateStruct = $contentService->newContentUpdateStruct();
+        $contentUpdateStruct->initialLanguageCode = self::GER_DE;
+        $contentUpdateStruct->setField('title', 'Title ger v2', self::GER_DE);
         $gerContent = $contentService->updateContent($gerDraft->getVersionInfo(), $contentUpdateStruct);
         $contentService->publishVersion($gerContent->getVersionInfo());
 
-        // Loading main content
-        $mainPublishedContent = $contentService->loadContent($gerContent->id);
-        $bodyFieldValue = $mainPublishedContent->getField('body')->getValue();
-
-        self::assertSame('Nontranslatable body v2', $bodyFieldValue->text);
+        $this->assertBodyFieldValueInLanguages(
+            $gerContent->getId(),
+            'Nontranslatable body v2',
+            [self::ENG_GB, self::GER_DE]
+        );
     }
 
     /**
@@ -209,50 +210,6 @@ final class CopyNonTranslatableFieldsFromPublishedVersionTest extends Repository
         $contentService->publishVersion($olderEngContent->getVersionInfo());
 
         $this->assertBodyFieldValueInLanguages($olderEngContent->getId(), $expectedBodyValue, [self::ENG_GB, self::GER_DE]);
-    }
-
-    /**
-     * Regression guard for the non-main language path: values come from the published version. The initial
-     * language of the draft is updated as well, as the persistence layer propagates the main language value
-     * of a non-translatable field to all translations.
-     *
-     * @throws Exception
-     */
-    public function testCopyNonTranslatableFieldsToInitialLanguageOfOlderNonMainLanguageDraft(): void
-    {
-        $this->createNonTranslatableContentType();
-
-        $contentService = $this->getIbexaTestCore()->getContentService();
-
-        // Creating start content in eng-GB language with a ger-DE translation
-        $contentDraft = $this->createEngDraft();
-        $publishedContent = $contentService->publishVersion($contentDraft->getVersionInfo());
-        $publishedContent = $this->publishGerTranslation($publishedContent);
-
-        // Creating a draft in ger-DE language before the non-translatable field is changed
-        $gerDraft = $contentService->createContentDraft($publishedContent->getContentInfo());
-
-        // Updating non-translatable field in eng-GB language and publishing it
-        $engDraft = $contentService->createContentDraft($publishedContent->getContentInfo());
-
-        $contentUpdateStruct = $contentService->newContentUpdateStruct();
-        $contentUpdateStruct->initialLanguageCode = self::ENG_GB;
-
-        $expectedBodyValue = 'Non-translatable value';
-        $contentUpdateStruct->setField('body', $expectedBodyValue, self::ENG_GB);
-
-        $engContent = $contentService->updateContent($engDraft->getVersionInfo(), $contentUpdateStruct);
-        $contentService->publishVersion($engContent->getVersionInfo());
-
-        // Publishing the older ger-DE draft
-        $contentUpdateStruct = $contentService->newContentUpdateStruct();
-        $contentUpdateStruct->initialLanguageCode = self::GER_DE;
-        $contentUpdateStruct->setField('title', 'Title ger v2', self::GER_DE);
-
-        $gerContent = $contentService->updateContent($gerDraft->getVersionInfo(), $contentUpdateStruct);
-        $contentService->publishVersion($gerContent->getVersionInfo());
-
-        $this->assertBodyFieldValueInLanguages($gerContent->getId(), $expectedBodyValue, [self::ENG_GB, self::GER_DE]);
     }
 
     /**
