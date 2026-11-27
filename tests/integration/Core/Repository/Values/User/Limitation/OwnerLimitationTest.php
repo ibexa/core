@@ -9,11 +9,14 @@ namespace Ibexa\Tests\Integration\Core\Repository\Values\User\Limitation;
 
 use Ibexa\Contracts\Core\Repository\Exceptions\NotFoundException;
 use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\OwnerLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft;
+use Ibexa\Contracts\Core\Repository\Values\User\User;
 
 /**
  * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\OwnerLimitation
+ * @covers \Ibexa\Core\Limitation\OwnerLimitationType::evaluate
  *
  * @group integration
  * @group limitation
@@ -48,7 +51,7 @@ class OwnerLimitationTest extends BaseLimitationTest
         }
 
         if (null === $removePolicy) {
-            throw new \ErrorException('No content:remove policy found.');
+            self::fail('No content:remove policy found.');
         }
 
         // Only allow remove for the user's own content
@@ -115,7 +118,7 @@ class OwnerLimitationTest extends BaseLimitationTest
         }
 
         if (null === $removePolicy) {
-            throw new \ErrorException('No content:remove policy found.');
+            self::fail('No content:remove policy found.');
         }
 
         // Only allow remove for the user's own content
@@ -144,6 +147,158 @@ class OwnerLimitationTest extends BaseLimitationTest
             $contentService->loadContentInfo($content->id)
         );
         /* END: Use Case */
+    }
+
+    public function testOwnerLimitationAllowsVersionRemoveForOwnDraftOfContentOwnedByAnotherUser(): void
+    {
+        $repository = $this->getRepository();
+        $permissionResolver = $repository->getPermissionResolver();
+        $contentService = $repository->getContentService();
+
+        /* BEGIN: Use Case */
+        // Content is created (and owned) by the currently logged in admin user
+        $content = $this->createWikiPage();
+
+        $user = $this->createUserWithVersionRemoveOwnerLimitation();
+
+        $permissionResolver->setCurrentUserReference($user);
+
+        // $user creates their own draft of content that is still owned by the admin user
+        $draft = $contentService->createContentDraft($content->contentInfo);
+
+        // This must succeed, because $user is the creator of this particular version,
+        // even though they do not own the Content itself
+        $contentService->deleteVersion($draft->getVersionInfo());
+        /* END: Use Case */
+
+        $this->expectNotToPerformAssertions();
+    }
+
+    public function testOwnerLimitationForbidsVersionRemoveForDraftCreatedByAnotherUser(): void
+    {
+        $this->expectException(UnauthorizedException::class);
+
+        $repository = $this->getRepository();
+        $permissionResolver = $repository->getPermissionResolver();
+        $contentService = $repository->getContentService();
+
+        /* BEGIN: Use Case */
+        // Content and its draft are created (and owned) by the currently logged in admin user
+        $content = $this->createWikiPage();
+        $draft = $contentService->createContentDraft($content->contentInfo);
+
+        $user = $this->createUserWithVersionRemoveOwnerLimitation();
+
+        $permissionResolver->setCurrentUserReference($user);
+
+        // This call fails with an UnauthorizedException, because $user neither owns
+        // the Content nor created this particular draft/version
+        $contentService->deleteVersion($draft->getVersionInfo());
+        /* END: Use Case */
+    }
+
+    public function testOwnerLimitationForbidsVersionRemoveForOwnLastDraftOfContentOwnedByAnotherUser(): void
+    {
+        $this->expectException(UnauthorizedException::class);
+
+        $repository = $this->getRepository();
+        $permissionResolver = $repository->getPermissionResolver();
+        $contentService = $repository->getContentService();
+        $adminUser = $permissionResolver->getCurrentUserReference();
+
+        $user = $this->createUserWithVersionRemoveOwnerLimitation();
+
+        /* BEGIN: Use Case */
+        // $user creates a never published Content item
+        $permissionResolver->setCurrentUserReference($user);
+        $draft = $repository->sudo(function () use ($contentService): Content {
+            return $contentService->createContent(
+                $this->createWikiPageContentCreateStruct(),
+                [$this->createWikiPageLocationCreateStruct($this->generateId('location', 60))]
+            );
+        });
+
+        // Ownership of the Content item is transferred to the admin user
+        $permissionResolver->setCurrentUserReference($adminUser);
+        $metadataUpdate = $contentService->newContentMetadataUpdateStruct();
+        $metadataUpdate->ownerId = $adminUser->getUserId();
+        $contentService->updateContentMetadata($draft->contentInfo, $metadataUpdate);
+
+        $permissionResolver->setCurrentUserReference($user);
+        $versionInfo = $contentService->loadVersionInfo($draft->contentInfo, 1);
+        self::assertSame($user->id, $versionInfo->creatorId);
+
+        // This call fails with an UnauthorizedException, because removing the only version
+        // removes the whole Content item, which $user does not own
+        $contentService->deleteVersion($versionInfo);
+        /* END: Use Case */
+    }
+
+    public function testOwnerLimitationGrantsVersionCreatorOnlyForVersionRemoval(): void
+    {
+        $repository = $this->getRepository();
+        $permissionResolver = $repository->getPermissionResolver();
+        $contentService = $repository->getContentService();
+
+        $content = $this->createWikiPage();
+
+        $user = $this->createUserWithVersionRemoveOwnerLimitation();
+
+        $permissionResolver->setCurrentUserReference($user);
+
+        $draft = $contentService->createContentDraft($content->contentInfo);
+
+        // Without the version removal intent, being the version creator does not substitute ownership
+        self::assertFalse(
+            $permissionResolver->canUser('content', 'versionremove', $draft->getVersionInfo())
+        );
+    }
+
+    /**
+     * Creates a user assigned to the Editor role, restricted so that the
+     * content:versionremove policy only applies to versions the user created themselves.
+     */
+    private function createUserWithVersionRemoveOwnerLimitation(): User
+    {
+        $repository = $this->getRepository();
+        $roleService = $repository->getRoleService();
+
+        $user = $this->createUserVersion1();
+
+        $role = $roleService->loadRoleByIdentifier('Editor');
+        $roleDraft = $roleService->createRoleDraft($role);
+        // Search for the new policy instance
+        $versionRemovePolicy = null;
+        /** @var PolicyDraft $policy */
+        foreach ($roleDraft->getPolicies() as $policy) {
+            if ('content' != $policy->module || 'versionremove' != $policy->function) {
+                continue;
+            }
+            $versionRemovePolicy = $policy;
+            break;
+        }
+
+        if (null === $versionRemovePolicy) {
+            self::fail('No content:versionremove policy found.');
+        }
+
+        // Only allow version removal for versions the current user created themselves
+        $policyUpdate = $roleService->newPolicyUpdateStruct();
+        $policyUpdate->addLimitation(
+            new OwnerLimitation(
+                ['limitationValues' => [1]]
+            )
+        );
+        $roleService->updatePolicyByRoleDraft(
+            $roleDraft,
+            $versionRemovePolicy,
+            $policyUpdate
+        );
+        $roleService->publishRoleDraft($roleDraft);
+
+        $roleService->assignRoleToUser($role, $user);
+
+        return $user;
     }
 }
 
