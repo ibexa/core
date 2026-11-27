@@ -47,8 +47,10 @@ interface BookmarkService
     /**
      * List bookmarked locations.
      *
-     * @param int $offset the start offset for paging
-     * @param int $limit the number of bookmarked locations returned
+     * @param int $offset the start offset for paging, a negative value is deprecated
+     *        and will throw an InvalidArgumentException in 6.0
+     * @param int $limit the number of bookmarked locations returned, 0 means no limit,
+     *        a negative value is deprecated and will throw an InvalidArgumentException in 6.0
      *
      * @throws InvalidArgumentException
      *
