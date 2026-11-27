@@ -92,9 +92,11 @@ abstract class URLAliasServiceDecorator implements URLAliasService
         );
     }
 
-    public function load(string $id): URLAlias
-    {
-        return $this->innerService->load($id);
+    public function load(
+        string $id,
+        ?bool $showAllTranslations = null
+    ): URLAlias {
+        return $this->innerService->load($id, $showAllTranslations);
     }
 
     public function refreshSystemUrlAliasesForLocation(Location $location): void
