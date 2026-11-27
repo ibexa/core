@@ -55,7 +55,8 @@ class CoreInstaller extends DbBasedInstaller implements Installer
      * Imports the core database schema.
      *
      * By default, the schema is built by dispatching the legacy event-driven {@see SchemaBuilderEvent},
-     * allowing other packages to contribute their own tables via an event subscriber.
+     * allowing other packages to contribute their own tables via an event subscriber. This is deprecated
+     * since 5.0.12 and won't be possible in 6.0.
      *
      * When the "ibexa.installer.doctrine_migrations" setting is enabled, the schema is installed by
      * {@see TaggedMigrationsRunner} instead, which runs every not-yet-executed migration tagged with
@@ -70,6 +71,7 @@ class CoreInstaller extends DbBasedInstaller implements Installer
     public function importSchema()
     {
         if (!$this->doctrineMigrationsEnabled) {
+            $this->triggerSchemaBuilderEventInstallDeprecation();
             $this->executeQueries($this->getQueriesFromSchemaBuilderEvent());
 
             return;
@@ -84,6 +86,17 @@ class CoreInstaller extends DbBasedInstaller implements Installer
         }
 
         $this->reportExecutedQueries($this->taggedMigrationsRunner->run());
+    }
+
+    private function triggerSchemaBuilderEventInstallDeprecation(): void
+    {
+        $message = 'Running "ibexa:install" without the "ibexa.installer.doctrine_migrations" setting enabled ' .
+            'is deprecated and won\'t be possible in 6.0. Enable it to install the database schema and the ' .
+            'core bootstrap data by running the Doctrine Migrations provided by "ibexa/doctrine-migrations".';
+
+        trigger_deprecation('ibexa/core', '5.0.12', $message);
+
+        $this->output->writeln(sprintf('<comment>Deprecated since ibexa/core 5.0.12: %s</comment>', $message));
     }
 
     /**
@@ -163,7 +176,8 @@ class CoreInstaller extends DbBasedInstaller implements Installer
     /**
      * Imports the core bootstrap data.
      *
-     * By default, this imports the DBMS-specific "cleandata.sql" file directly.
+     * By default, this imports the DBMS-specific "cleandata.sql" file directly. This is deprecated since
+     * 5.0.12 and won't be possible in 6.0.
      *
      * When the "ibexa.installer.doctrine_migrations" setting is enabled, this is a no-op instead:
      * {@see ImportDataMigration} is tagged and already runs as part of {@see importSchema()}'s call to
@@ -180,6 +194,8 @@ class CoreInstaller extends DbBasedInstaller implements Installer
     }
 
     /**
+     * @deprecated 5.0.12 Will be removed in 6.0, together with installing without "ibexa.installer.doctrine_migrations" enabled.
+     *
      * @return list<string>
      */
     protected function getDropSqlStatementsForExistingSchema(
