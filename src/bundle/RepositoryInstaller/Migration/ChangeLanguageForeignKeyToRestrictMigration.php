@@ -21,7 +21,7 @@ use Ibexa\Contracts\DoctrineMigrations\Migrations\SqlPlatform;
  * too. Guarded on the foreign key's ON DELETE action -- a no-op on a fresh install, which creates it with
  * RESTRICT already, and once applied.
  *
- * SQLite can't alter a constraint, so there the table is rebuilt; no other table references it.
+ * Nothing changes on SQLite, which can only change a constraint by rebuilding the table.
  */
 final class ChangeLanguageForeignKeyToRestrictMigration extends AbstractSqlMigration implements IbexaMigrationInterface
 {
@@ -63,8 +63,6 @@ final class ChangeLanguageForeignKeyToRestrictMigration extends AbstractSqlMigra
             $this->addSqlFile(__DIR__ . '/sql/change-contentclass-attribute-ml-language-fk-to-restrict-mysql.sql');
         } elseif ($this->isPostgreSQL()) {
             $this->addSqlFile(__DIR__ . '/sql/change-contentclass-attribute-ml-language-fk-to-restrict-postgresql.sql');
-        } elseif ($this->isSqlite()) {
-            $this->addSqlFile(__DIR__ . '/sql/change-contentclass-attribute-ml-language-fk-to-restrict-sqlite.sql');
         }
     }
 }
