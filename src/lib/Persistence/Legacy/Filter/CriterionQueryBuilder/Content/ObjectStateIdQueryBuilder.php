@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Ibexa\Core\Persistence\Legacy\Filter\CriterionQueryBuilder\Content;
 
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Ibexa\Contracts\Core\Persistence\Filter\Doctrine\FilteringQueryBuilder;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion\ObjectStateId;
 use Ibexa\Contracts\Core\Repository\Values\Filter\CriterionQueryBuilder;
@@ -29,23 +30,21 @@ final class ObjectStateIdQueryBuilder implements CriterionQueryBuilder
         FilteringQueryBuilder $queryBuilder,
         FilteringCriterion $criterion
     ): ?string {
-        $tableAlias = uniqid('osl_');
-
         /** @var ObjectStateId $criterion */
-        $queryBuilder
-            ->join(
-                'content',
-                Gateway::OBJECT_STATE_LINK_TABLE,
-                $tableAlias,
-                'content.id = ' . $tableAlias . '.contentobject_id',
-            );
-
         $value = (array)$criterion->value;
 
-        return $queryBuilder->expr()->in(
-            $tableAlias . '.contentobject_state_id',
-            $queryBuilder->createNamedParameter($value, Connection::PARAM_INT_ARRAY)
-        );
+        $subQueryBuilder = new QueryBuilder($queryBuilder->getConnection());
+        $subQueryBuilder
+            ->select('osl.contentobject_id')
+            ->from(Gateway::OBJECT_STATE_LINK_TABLE, 'osl')
+            ->where(
+                $subQueryBuilder->expr()->in(
+                    'osl.contentobject_state_id',
+                    $queryBuilder->createNamedParameter($value, Connection::PARAM_INT_ARRAY)
+                )
+            );
+
+        return $queryBuilder->expr()->in('content.id', $subQueryBuilder->getSQL());
     }
 }
 
