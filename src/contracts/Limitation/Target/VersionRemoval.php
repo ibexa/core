@@ -14,6 +14,4 @@ use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 /**
  * Version removal Limitation target. Indicates an intent to remove a single, non-last Version of a Content item.
  */
-final class VersionRemoval extends ValueObject implements Target
-{
-}
+final class VersionRemoval extends ValueObject implements Target {}

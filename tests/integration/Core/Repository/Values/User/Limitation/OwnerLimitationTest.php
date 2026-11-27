@@ -12,6 +12,7 @@ use Ibexa\Contracts\Core\Repository\Exceptions\UnauthorizedException;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
 use Ibexa\Contracts\Core\Repository\Values\User\Limitation\OwnerLimitation;
 use Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft;
+use Ibexa\Contracts\Core\Repository\Values\User\User;
 
 /**
  * @covers \Ibexa\Contracts\Core\Repository\Values\User\Limitation\OwnerLimitation
@@ -50,7 +51,7 @@ class OwnerLimitationTest extends BaseLimitationTest
         }
 
         if (null === $removePolicy) {
-            throw new \ErrorException('No content:remove policy found.');
+            self::fail('No content:remove policy found.');
         }
 
         // Only allow remove for the user's own content
@@ -117,7 +118,7 @@ class OwnerLimitationTest extends BaseLimitationTest
         }
 
         if (null === $removePolicy) {
-            throw new \ErrorException('No content:remove policy found.');
+            self::fail('No content:remove policy found.');
         }
 
         // Only allow remove for the user's own content
@@ -257,7 +258,7 @@ class OwnerLimitationTest extends BaseLimitationTest
      * Creates a user assigned to the Editor role, restricted so that the
      * content:versionremove policy only applies to versions the user created themselves.
      */
-    private function createUserWithVersionRemoveOwnerLimitation(): \Ibexa\Contracts\Core\Repository\Values\User\User
+    private function createUserWithVersionRemoveOwnerLimitation(): User
     {
         $repository = $this->getRepository();
         $roleService = $repository->getRoleService();
@@ -268,7 +269,7 @@ class OwnerLimitationTest extends BaseLimitationTest
         $roleDraft = $roleService->createRoleDraft($role);
         // Search for the new policy instance
         $versionRemovePolicy = null;
-        /** @var \Ibexa\Contracts\Core\Repository\Values\User\PolicyDraft $policy */
+        /** @var PolicyDraft $policy */
         foreach ($roleDraft->getPolicies() as $policy) {
             if ('content' != $policy->module || 'versionremove' != $policy->function) {
                 continue;

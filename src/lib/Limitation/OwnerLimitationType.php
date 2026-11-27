@@ -161,7 +161,7 @@ class OwnerLimitationType extends AbstractPersistenceLimitationType implements T
     }
 
     /**
-     * @param \Ibexa\Contracts\Core\Limitation\Target[] $targets
+     * @param Target[] $targets
      */
     private function hasVersionRemovalTarget(array $targets): bool
     {
